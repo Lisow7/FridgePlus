@@ -4,7 +4,6 @@
 
 export const WELCOME_I18N = {
   fr: {
-    skipBtn:      'Passer',
     greet:        'Bienvenue en cuisine !',
     sub:          'Cuisine ce que tu as déjà, sans prise de tête.',
     bullets: [
@@ -19,7 +18,6 @@ export const WELCOME_I18N = {
     skipFootnote: 'Pas envie maintenant ? Tu pourras relancer la visite quand tu veux : bouton « ? » en haut, puis « Comment ça marche ».',
   },
   en: {
-    skipBtn:      'Skip',
     greet:        'Welcome to the kitchen!',
     sub:          'Cook what you already have, no fuss.',
     bullets: [

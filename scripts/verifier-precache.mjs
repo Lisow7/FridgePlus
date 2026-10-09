@@ -44,6 +44,7 @@ export const EXCLUS = [
   { motif: /(^|\/)(apple-touch-icon\.png|favicon\.ico)$/, raison: 'icône demandée par le système ou le navigateur, en ligne (l’application a favicon.svg)' },
   { motif: /(^|\/)screenshots\//, raison: 'captures du manifeste : stores et invite d’installation' },
   { motif: /(^|\/)emoji\//, raison: 'emoji hébergés : mis en cache à la demande' },
+  { motif: /(^|\/)fridge-logo-[^/]+\.webp$/, raison: 'logo de la bienvenue : affiché au premier passage, en ligne' },
   { motif: /(^|\/)vendor-sentry-[^/]+\.js$/, raison: 'Sentry : chargé seulement après consentement' },
   { motif: /(^|\/)admin-panel-[^/]+\.js$/, raison: 'panneau admin : réservé aux admins' },
   { motif: /(^|\/)vendor-recharts-[^/]+\.js$/, raison: 'graphiques : à la demande' },

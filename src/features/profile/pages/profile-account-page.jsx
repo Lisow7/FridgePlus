@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useOutletContext } from 'react-router-dom'
+import { useOutletContext, useLocation } from 'react-router-dom'
 import { LuStar, LuMail, LuCookie, LuDownload, LuCheck, LuEye, LuEyeOff, LuKeyRound } from 'react-icons/lu'
 import { useAuth } from '@shared/contexts/auth-provider'
 import { useSubscription } from '@shared/hooks/use-subscription'
@@ -126,6 +126,11 @@ function maskEmail(email) {
 
 export default function ProfileAccountPage() {
   const { lang = 'fr', darkMode = false, user, profile, isAdmin } = useOutletContext()
+  // Arrivée par « Régler les notifications » : la section s'ouvre et vient en vue.
+  const versConfidentialite = useLocation().hash === '#confidentialite'
+  useEffect(() => {
+    if (versConfidentialite) document.getElementById('confidentialite')?.scrollIntoView?.({ block: 'start' })
+  }, [versConfidentialite])
   const t = I18N[lang] ?? I18N.fr
   const { requestPasswordResetEmail, updateProfile, signInWithEmail, deleteAccount } = useAuth()
   const { hasPremiumAccess, isSpecialAccess } = useSubscription()
@@ -327,7 +332,13 @@ export default function ProfileAccountPage() {
         </ProfileSection>
 
         {/* ─── 3. Confidentialité & cookies (replié par défaut) ─────── */}
+        {/* Dépliée d'office quand on arrive par #confidentialite : c'est là
+            que mène « Régler les notifications » (notifications vides, UX-12). */}
+        {/* La clé remonte la section quand l'ancre arrive alors qu'on est déjà
+            sur la page : son état initial (déplié) rejoue. */}
         <ProfileSection
+          key={versConfidentialite ? 'confidentialite-ouverte' : 'confidentialite'}
+          id="confidentialite"
           Icon={LuCookie}
           title={t.privTitle}
           description={t.privDesc}
@@ -335,7 +346,7 @@ export default function ProfileAccountPage() {
           lang={lang}
           darkMode={darkMode}
           collapsible
-          defaultOpen={false}
+          defaultOpen={versConfidentialite}
         >
           <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
             <ConfidentialityPanel lang={lang} darkMode={darkMode} />

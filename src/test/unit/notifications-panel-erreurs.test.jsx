@@ -1,5 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { render, screen, fireEvent, waitFor } from '@testing-library/react'
+import { MemoryRouter } from 'react-router-dom'
 
 const etat = vi.hoisted(() => ({ valeur: null }))
 const signaler = vi.hoisted(() => vi.fn())
@@ -25,7 +26,8 @@ function notifications(surcharge = {}) {
     ...surcharge,
   }
 }
-const monter = () => render(<NotificationsPanel lang="fr" onClose={() => {}} />)
+// Le panneau vide mène à la Confidentialité du compte (lot 13d) : il navigue.
+const monter = () => render(<MemoryRouter><NotificationsPanel lang="fr" onClose={() => {}} /></MemoryRouter>)
 
 describe('NotificationsPanel — quand ça ne charge pas', () => {
   beforeEach(() => { signaler.mockReset() })

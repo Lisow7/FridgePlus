@@ -29,6 +29,7 @@ export default function ProfileSection({
   darkMode = false,
   collapsible = false,
   defaultOpen = true,
+  id,                  // ancre facultative (ex. /profile/compte#confidentialite)
   children,
 }) {
   const [open, setOpen] = useState(defaultOpen)
@@ -127,7 +128,7 @@ export default function ProfileSection({
   // ── Variante collapsible : header cliquable, contenu pliable ────────
   if (collapsible) {
     return (
-      <section style={containerStyle}>
+      <section id={id} style={containerStyle}>
         <header
           onClick={() => setOpen((v) => !v)}
           style={{
@@ -152,7 +153,7 @@ export default function ProfileSection({
 
   // ── Variante normale : toujours visible ─────────────────────────────
   return (
-    <section style={containerStyle}>
+    <section id={id} style={containerStyle}>
       <header style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
         {headerInner}
       </header>

@@ -11,6 +11,8 @@ vi.mock('@shared/contexts/data-provider', () => ({
   useCountries: () => ({}),
 }))
 vi.mock('@shared/api/community', () => ({ getMyCustomRecipesForResolution: () => Promise.resolve([]) }))
+// Le journal vide propose les recettes selon le frigo (lot 13d, UX-12).
+vi.mock('@shared/contexts/session-state-context', () => ({ useStockSession: () => ({ stock: new Set() }) }))
 vi.mock('@shared/contexts/auth-provider', () => ({ useAuth: () => ({ updateProfile: vi.fn() }) }))
 vi.mock('@features/profile/components/cooking-stats-section', () => ({
   default: ({ logs }) => <div data-testid="cooking-stats">{logs.length} log(s)</div>,

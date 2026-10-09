@@ -113,36 +113,18 @@ for (const taille of TAILLES) {
     ).toEqual([])
 
 
-    // B-bis — « PASSER » UNE FOIS LE CONTENU DÉFILÉ. Le bouton est épinglé
-    // (`fixed`) pour rester accessible pendant le défilement ; sans `zIndex`, le
-    // contenu qui passe dessous le recouvrirait. Ce cas-là n'existe QUE dans
-    // l'état défilé : sans cette vérification, le `zIndex` pourrait disparaître
-    // d'une prochaine édition sans qu'aucun test ne s'en aperçoive.
-    const passerApresDefilement = await page.evaluate(() => {
-      const f = document.querySelector('.fp-modal-backdrop')
-      f.scrollTop = f.scrollHeight // tout en bas
-      const b = [...f.querySelectorAll('button')].find(x => /Passer/i.test(x.getAttribute('aria-label') || x.innerText))
-      if (!b) return { absent: true }
-      const r = b.getBoundingClientRect()
-      const dessus = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2)
-      return {
-        defile: f.scrollTop > 0,
-        atteignable: !!dessus && (b === dessus || b.contains(dessus)),
-        recouvreur: dessus ? (dessus.className || dessus.tagName).toString().slice(0, 40) : 'rien',
-      }
-    })
-    expect(passerApresDefilement.absent, '« Passer » introuvable.').toBeUndefined()
-    if (passerApresDefilement.defile) {
-      expect(
-        passerApresDefilement.atteignable,
-        `Une fois le contenu défilé, « Passer » est recouvert par « ${passerApresDefilement.recouvreur} ». ` +
-        'Un bouton épinglé doit rester au-dessus du contenu qui passe sous lui.',
-      ).toBe(true)
-    }
+    // B-bis — PLUS DE « PASSER » (décision du 2026-10-08, `bienvenue_sortie =
+    // entrer`) : il faisait la même chose qu'« Entrer directement → ». Le bouton
+    // épinglé, et la bande de 62 px qu'il réservait en haut, ont disparu.
+    expect(
+      mesure.commandes.map(c => c.nom).filter(n => /Passer/i.test(n)),
+      '« Passer » est revenu : la bienvenue n’a qu’une sortie, « Entrer directement → ».',
+    ).toEqual([])
+
     // Garde-fou : un cliquet qui n'examine rien se lit comme une preuve et n'en est pas.
     expect(
       mesure.commandes.length,
       'Aucune commande examinée dans l\'écran de bienvenue — le test ne prouve rien.',
-    ).toBeGreaterThanOrEqual(3)
+    ).toBeGreaterThanOrEqual(2) // « Faire la visite guidée » et « Entrer directement → »
   })
 }

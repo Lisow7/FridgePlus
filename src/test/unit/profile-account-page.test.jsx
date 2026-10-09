@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { render, screen, fireEvent, waitFor } from '@testing-library/react'
-import { MemoryRouter } from 'react-router-dom'
+import { MemoryRouter, useNavigate } from 'react-router-dom'
 
 vi.mock('@features/admin/lib/audit', () => ({
   logAuditAction: vi.fn(),
@@ -112,6 +112,35 @@ describe('ProfileAccountPage (Sprint 11 S11.a.5)', () => {
     fireEvent.click(header)
     expect(screen.getByTestId('confidentiality-panel')).toBeInTheDocument()
     expect(screen.getByTestId('profiling-opt-out')).toBeInTheDocument()
+  })
+
+  // « Régler les notifications » (notifications vides, lot 13d) mène ici par
+  // l'ancre #confidentialite : la section doit s'ouvrir d'elle-même, sinon
+  // le bouton déposerait la personne devant une section repliée.
+  it('#confidentialite : la section Confidentialité arrive dépliée', () => {
+    render(<MemoryRouter initialEntries={['/profile/compte#confidentialite']}><ProfileAccountPage /></MemoryRouter>)
+    expect(screen.getByRole('button', { name: /confidentialité/i })).toHaveAttribute('aria-expanded', 'true')
+    expect(screen.getByTestId('confidentiality-panel')).toBeInTheDocument()
+    expect(document.getElementById('confidentialite')).not.toBeNull()
+  })
+
+  // Déjà sur la page (cloche ouverte depuis /profile/compte) : la page ne se
+  // remonte pas, l'état initial de la section ne rejoue pas.
+  it('déjà sur la page : l’ancre #confidentialite ouvre aussi la section', () => {
+    function VersLaConfidentialite() {
+      const naviguer = useNavigate()
+      return <button type="button" onClick={() => naviguer('/profile/compte#confidentialite')}>aller</button>
+    }
+    render(<MemoryRouter initialEntries={['/profile/compte']}><VersLaConfidentialite /><ProfileAccountPage /></MemoryRouter>)
+    expect(screen.getByRole('button', { name: /confidentialité/i })).toHaveAttribute('aria-expanded', 'false')
+    fireEvent.click(screen.getByRole('button', { name: 'aller' }))
+    expect(screen.getByRole('button', { name: /confidentialité/i })).toHaveAttribute('aria-expanded', 'true')
+  })
+
+  it('sans ancre, elle reste repliée (témoin)', () => {
+    render(<MemoryRouter initialEntries={['/profile/compte']}><ProfileAccountPage /></MemoryRouter>)
+    expect(screen.getByRole('button', { name: /confidentialité/i })).toHaveAttribute('aria-expanded', 'false')
+    expect(screen.queryByTestId('confidentiality-panel')).not.toBeInTheDocument()
   })
 
   it('monte les composants self-contained Erase + DangerZone', () => {

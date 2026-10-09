@@ -53,6 +53,7 @@ export default function RecipePanel({
 
   const panelRef         = useRef(null)
   const scrollRef        = useRef(null)
+  const champRechercheRef = useRef(null)
   const [showScrollTop,      setShowScrollTop]      = useState(false)
   // Restauration du scroll au retour depuis une page recette. Peek PUR
   // (sans effet de bord — StrictMode double-invoque l'initialiseur) :
@@ -121,7 +122,7 @@ export default function RecipePanel({
     budgetVisible: hasPremiumAccess,
   })
 
-  const { filtered, criteriaKey, counts, readyCount, searchQuery, filter, resetFilters } = filters
+  const { filtered, criteriaKey, counts, readyCount, searchQuery, filter, setFilter, resetFilters } = filters
 
   // Fix C — étape Aha : déclenche onSuggestionOpen dès que l'utilisateur voit
   // réellement une recette READY (pas simplement à l'ouverture du panneau).
@@ -328,6 +329,7 @@ export default function RecipePanel({
           t={t}
           stock={stock}
           setFiltersDrawerOpen={setFiltersDrawerOpen}
+          searchRef={champRechercheRef}
         />
 
         {/* ── Liste recettes ──────────────────────────────────────────────── */}
@@ -347,7 +349,13 @@ export default function RecipePanel({
           >
             {filtered.length === 0 ? (
               filter === 'favorites' ? (
-                <EmptyFavorites darkMode={darkMode} t={t} />
+                <EmptyFavorites
+                  darkMode={darkMode}
+                  t={t}
+                  stockSize={stock.size}
+                  onShowRecipes={setFilter}
+                  onSearch={() => champRechercheRef.current?.focus()}
+                />
               ) : filter === 'custom' ? (
                 <EmptyCustomRecipes
                   darkMode={darkMode}

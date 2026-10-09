@@ -10,6 +10,7 @@ import { useDropdownMenu } from '@shared/hooks/use-dropdown-menu'
 import { useFeatureFlag } from '@shared/contexts/feature-flags-provider'
 import MenuShell from '@shared/ui/menu-shell'
 import Button from '@shared/ui/button'
+import Tooltip from '@shared/ui/tooltip'
 import InventoryPanel from '@features/fridge/components/inventory-panel'
 import { getFabPrimaryAction } from '@features/fridge/lib/fab-primary-action'
 
@@ -218,25 +219,30 @@ export default function FridgeFAB({
         <div style={{ display: 'contents' }}>
           {isDesktop && sep}
           <div style={{ position: 'relative', display: 'inline-flex', alignItems: 'center' }}>
-            <button
-              ref={triggerRef}
-              onClick={() => setOpen(v => !v)}
-              aria-label={t.fab_label}
-              aria-expanded={open}
-              aria-haspopup="menu"
-              // Fermé, il luit comme les poignées du frigo (cf. .fp-luit-bouton)
-              className={open ? undefined : 'fp-luit-bouton'}
-              style={{
-                width: 44, height: 44, borderRadius: 12, border: 'none',
-                background: open ? (darkMode ? '#1A2535' : 'var(--color-bg-warm)') : 'var(--gradient-deep)',
-                color: open ? (darkMode ? '#8AACCA' : '#6B4030') : 'white',
-                boxShadow: open ? '0 2px 8px rgba(0,0,0,0.18)' : '0 4px 16px rgba(212,106,16,0.45)',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                cursor: 'pointer', transition: 'background 0.18s, box-shadow 0.18s',
-              }}
-            >
-              {open ? <LuX size={20} aria-hidden="true" /> : <LuGrid2X2 size={20} aria-hidden="true" />}
-            </button>
+            {/* Une icône seule : son nom se voit au survol, comme les autres
+                icônes de l'en-tête (UX-17 ; décision du 2026-10-08). Pas pendant que le
+                menu est ouvert : la bulle le recouvrirait. */}
+            <Tooltip text={t.fab_label} darkMode={darkMode} disabled={open}>
+              <button
+                ref={triggerRef}
+                onClick={() => setOpen(v => !v)}
+                aria-label={t.fab_label}
+                aria-expanded={open}
+                aria-haspopup="menu"
+                // Fermé, il luit comme les poignées du frigo (cf. .fp-luit-bouton)
+                className={open ? undefined : 'fp-luit-bouton'}
+                style={{
+                  width: 44, height: 44, borderRadius: 12, border: 'none',
+                  background: open ? (darkMode ? '#1A2535' : 'var(--color-bg-warm)') : 'var(--gradient-deep)',
+                  color: open ? (darkMode ? '#8AACCA' : '#6B4030') : 'white',
+                  boxShadow: open ? '0 2px 8px rgba(0,0,0,0.18)' : '0 4px 16px rgba(212,106,16,0.45)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  cursor: 'pointer', transition: 'background 0.18s, box-shadow 0.18s',
+                }}
+              >
+                {open ? <LuX size={20} aria-hidden="true" /> : <LuGrid2X2 size={20} aria-hidden="true" />}
+              </button>
+            </Tooltip>
             <MenuShell ref={menuRef} open={open} onClose={() => setOpen(false)} ariaLabel={t.fab_label} dropPos={dropPos} darkMode={darkMode}>
               <div style={{ padding: '6px' }}>
                 {/* Trois verbes, dans l'ordre où on les fait (spec 2026-09-11) :
