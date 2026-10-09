@@ -1,5 +1,6 @@
 import { useState, useRef, useCallback, useId } from 'react'
 import { useAnchoredPopover } from '@shared/hooks/use-anchored-popover'
+import { useFermetureDifferee } from '@shared/hooks/use-fermeture-differee'
 import { AnchoredBubble } from './anchored-popover'
 
 // Tooltip PASSIF : enrobe un contrôle déjà visible (bouton icône-seule,
@@ -29,8 +30,17 @@ export default function Tooltip({ text, children, darkMode = false, width = 200,
   const canHover = typeof window !== 'undefined'
     && window.matchMedia?.('(hover: hover) and (pointer: fine)').matches
 
-  const close = useCallback(() => setOpen(false), [])
-  const openNow = useCallback(() => { if (text && !disabled) setOpen(true) }, [text, disabled])
+  const fermer = useCallback(() => setOpen(false), [])
+  // Quitter l'ancre ou la bulle ferme après un court délai, le temps que le
+  // pointeur traverse l'espace entre les deux ; y entrer annule la fermeture
+  // (WCAG 1.4.13 ; audit du 2026-10-04, A11Y-22). Un clic, Échap et la perte
+  // du focus ferment tout de suite.
+  const { fermerBientot, annulerLaFermeture } = useFermetureDifferee(fermer)
+  const close = useCallback(() => { annulerLaFermeture(); fermer() }, [annulerLaFermeture, fermer])
+  const openNow = useCallback(() => {
+    annulerLaFermeture()
+    if (text && !disabled) setOpen(true)
+  }, [annulerLaFermeture, text, disabled])
 
   // Focus « visible » uniquement (Tab clavier) — PAS tout focus. Un clic
   // donne aussi le focus (Windows/Chrome notamment), et `useFocusTrap`
@@ -52,7 +62,7 @@ export default function Tooltip({ text, children, darkMode = false, width = 200,
       ref={anchorRef}
       style={{ display: 'inline-flex', alignItems: 'center' }}
       onMouseEnter={openNow}
-      onMouseLeave={close}
+      onMouseLeave={fermerBientot}
       onFocusCapture={openOnKeyboardFocus}
       onBlurCapture={close}
       // Un clic donne le focus au bouton enrobé (le mouseenter précédent ne
@@ -68,7 +78,9 @@ export default function Tooltip({ text, children, darkMode = false, width = 200,
         pos={pos}
         id={tipId}
         darkMode={darkMode}
-        style={{ textAlign: 'center', padding: '7px 11px', fontWeight: 600, pointerEvents: 'none' }}
+        onMouseEnter={annulerLaFermeture}
+        onMouseLeave={fermerBientot}
+        style={{ textAlign: 'center', padding: '7px 11px', fontWeight: 600 }}
       >
         {text}
       </AnchoredBubble>

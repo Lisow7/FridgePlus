@@ -1,4 +1,5 @@
 import { Z_INDEX } from '@shared/lib/z-index'
+import { CIBLE_MINIMALE } from '@shared/lib/cible-minimale'
 
 // Composant orchestrant les 3 bandeaux top-of-app : retour restore-
 // account (succès/erreur auto-dismiss 8s), activation abonnement
@@ -99,14 +100,14 @@ export default function TopBanners({
           <span>{(TRIAL_BANNER_I18N[lang] ?? TRIAL_BANNER_I18N.fr)(trialDaysLeft)}</span>
           <button
             onClick={onTrialActivate}
-            style={{ padding: '3px 10px', borderRadius: '20px', border: '1.5px solid rgba(255,255,255,0.7)', background: 'transparent', color: 'white', fontSize: '12px', fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit' }}
+            style={{ ...CIBLE_MINIMALE, padding: '3px 10px', borderRadius: '20px', border: '1.5px solid rgba(255,255,255,0.7)', background: 'transparent', color: 'white', fontSize: '12px', fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit' }}
           >
             {TRIAL_ACTIVATE_I18N[lang] ?? TRIAL_ACTIVATE_I18N.fr}
           </button>
           <button
             onClick={onTrialDismiss}
             aria-label={CLOSE_I18N[lang] ?? CLOSE_I18N.fr}
-            style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.8)', cursor: 'pointer', padding: '2px', display: 'flex', marginLeft: '2px' }}
+            style={{ ...CIBLE_MINIMALE, background: 'none', border: 'none', color: 'rgba(255,255,255,0.8)', cursor: 'pointer', padding: '2px', marginLeft: '2px' }}
           >
             ✕
           </button>

@@ -4,7 +4,9 @@ import { createPortal } from 'react-dom'
 // useAnchoredPopover de @shared/hooks/use-anchored-popover). Ne rend rien si !pos.
 // Rendu dans document.body → jamais rognée par un conteneur scrollable.
 
-export function AnchoredBubble({ pos, children, popRef, id, role = 'tooltip', darkMode = false, style }) {
+// `onMouseEnter` / `onMouseLeave` : la bulle se laisse survoler (WCAG 1.4.13 ;
+// audit du 2026-10-04, A11Y-22) — l'appelant y annule ou programme sa fermeture.
+export function AnchoredBubble({ pos, children, popRef, id, role = 'tooltip', darkMode = false, style, onMouseEnter, onMouseLeave }) {
   if (!pos) return null
   const bg = darkMode ? '#2A2A2A' : '#FFFFFF'
   const border = darkMode ? 'rgba(255,255,255,0.12)' : 'rgba(0,0,0,0.10)'
@@ -14,6 +16,8 @@ export function AnchoredBubble({ pos, children, popRef, id, role = 'tooltip', da
       ref={popRef}
       id={id}
       role={role}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
       style={{
         position: 'fixed',
         left: `${pos.left}px`,

@@ -98,6 +98,18 @@ describe('Button (v3.245.0)', () => {
     })
   })
 
+  describe('cibles de 24 px (WCAG 2.5.8 ; audit du 2026-10-04, A11Y-13)', () => {
+    it('porte une taille minimale de 24 px, même réduit à h-auto w-auto p-0', () => {
+      // Cinquante boutons icône-seule retirent la taille (`h-auto w-auto p-0`) et
+      // tombaient à 11 × 11 : la taille MINIMALE, elle, ne se retire pas.
+      render(<Button variant="ghost" size="icon" className="h-auto w-auto p-0">x</Button>)
+      const classes = screen.getByRole('button').className.split(/\s+/)
+      expect(classes).toContain('min-h-6')
+      expect(classes).toContain('min-w-6')
+      expect(classes).toContain('h-auto')
+    })
+  })
+
   describe('className override + props forwarding', () => {
     it('className user-override est mergé (tailwind-merge)', () => {
       render(<Button className="custom-class">x</Button>)

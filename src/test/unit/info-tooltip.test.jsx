@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { UIProvider } from '@shared/contexts/ui-provider'
 import InfoTooltip from '@shared/ui/info-tooltip'
@@ -47,6 +47,8 @@ describe('InfoTooltip', () => {
     await user.hover(btn)
     expect(screen.getByText('Explication détaillée')).toBeInTheDocument()
     await user.unhover(btn)
-    expect(screen.queryByText('Explication détaillée')).not.toBeInTheDocument()
+    // La bulle se laisse survoler : elle ne part qu'après un court délai
+    // (audit du 2026-10-04, A11Y-22 ; cf. infobulle-survolable.test.jsx).
+    await waitFor(() => expect(screen.queryByText('Explication détaillée')).not.toBeInTheDocument())
   })
 })

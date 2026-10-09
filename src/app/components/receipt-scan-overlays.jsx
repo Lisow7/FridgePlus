@@ -7,6 +7,7 @@
 import { Suspense, lazy, useRef } from 'react'
 import { ReceiptConsentScreen } from '@features/receipt-scan'
 import { Z_INDEX } from '@shared/lib/z-index'
+import { CIBLE_MINIMALE } from '@shared/lib/cible-minimale'
 import { useFocusTrap } from '@shared/hooks/use-focus-trap'
 import { useCloseOnBackButton } from '@shared/hooks/use-close-on-back-button'
 
@@ -65,7 +66,7 @@ function LoginRequiredOverlay({ lang, darkMode, onClose, onShowAuth }) {
         >
           {t.button}
         </button>
-        <button onClick={onClose} aria-label={t.close} style={{ background: 'none', border: 'none', color: darkMode ? '#7A90A8' : '#7A5F56', fontSize: '13px', cursor: 'pointer', textDecoration: 'underline' }}>
+        <button onClick={onClose} aria-label={t.close} style={{ ...CIBLE_MINIMALE, background: 'none', border: 'none', color: darkMode ? '#7A90A8' : '#7A5F56', fontSize: '13px', cursor: 'pointer', textDecoration: 'underline' }}>
           {t.close}
         </button>
       </div>
@@ -116,7 +117,7 @@ export default function ReceiptScanOverlays({
         return (
           <div style={{ position: 'fixed', bottom: '80px', left: '50%', transform: 'translateX(-50%)', zIndex: Z_INDEX.TOAST, background: darkMode ? 'var(--color-dark-surface)' : '#FFF3E0', border: '1.5px solid rgba(217,119,6,0.4)', borderRadius: '10px', padding: '12px 18px', boxShadow: '0 4px 20px rgba(0,0,0,0.15)', maxWidth: 'calc(100vw - 32px)', display: 'flex', alignItems: 'center', gap: '10px' }}>
             <span style={{ fontSize: '13px', fontWeight: 500, color: 'var(--color-charcoal)' }}>{msg}</span>
-            <button onClick={onDismissError} style={{ background: 'none', border: 'none', color: '#B85000', fontWeight: 700, fontSize: '13px', cursor: 'pointer' }}>✕</button>
+            <button onClick={onDismissError} style={{ ...CIBLE_MINIMALE, background: 'none', border: 'none', color: '#B85000', fontWeight: 700, fontSize: '13px', cursor: 'pointer' }}>✕</button>
           </div>
         )
       })()}

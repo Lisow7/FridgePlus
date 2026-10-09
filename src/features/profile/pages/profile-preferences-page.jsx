@@ -266,7 +266,9 @@ export default function ProfilePreferencesPage() {
                 <option value="en">English</option>
               </select>
             </label>
-            <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            {/* Le label entier reçoit le geste : 24 px de haut au moins (la case
+                native en fait 13) — WCAG 2.5.8, audit du 2026-10-04, A11Y-13. */}
+            <label style={{ display: 'flex', alignItems: 'center', gap: '8px', minHeight: '24px' }}>
               <input
                 type="checkbox"
                 checked={darkMode}
