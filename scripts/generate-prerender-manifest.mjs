@@ -35,9 +35,13 @@ import { readFileSync, writeFileSync, existsSync } from 'fs'
 import { createClient } from '@supabase/supabase-js'
 import { fileURLToPath } from 'url'
 import { dirname, join } from 'path'
+import { filtrerRecettesPubliables, contenuRecette, serialiserContenu } from './lib/prerender-page.mjs'
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..')
 const SORTIE = join(root, 'scripts', 'data', 'prerender-manifest.json')
+// Ingrédients et étapes, À PART et une ligne par recette (audit du 2026-10-04,
+// SEO-06) : le manifeste garde ses champs courts, lisibles.
+const SORTIE_CONTENU = join(root, 'scripts', 'data', 'prerender-contenu.json')
 
 // La langue du pré-rendu. Une URL unique dessert les 5 langues (choix assumé,
 // d'où l'absence de hreflang) : le HTML servi ne peut donc en porter qu'UNE.
@@ -75,12 +79,13 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_KEY, { auth: { persistSessi
 // Le filtre dit EXACTEMENT la même chose que `generate-sitemap.mjs` et que la
 // propriété `url` du JSON-LD : ne pré-rendre que des pages que `useRecipeById`
 // sait rendre. Pré-rendre une page « introuvable » serait le même défaut.
-const { data, error } = await supabase
-  .from('recipes_unified')
-  .select('id, name, description, image_url, updated_at, time_min, prep_time_min, cook_time_min, servings, type, country')
-  .is('deleted_at', null)
-  .eq('status', 'published')
-  .order('id')
+// `filtrerRecettesPubliables` écarte aussi les recettes communautaires : leur
+// nom et leur description sont écrits par leur auteur, pas par l'éditeur.
+const { data, error } = await filtrerRecettesPubliables(
+  supabase
+    .from('recipes_unified')
+    .select('id, name, description, image_url, updated_at, time_min, prep_time_min, cook_time_min, servings, type, country, ingredients, steps'),
+).order('id')
 
 if (error) {
   console.error('❌  Lecture Supabase échouée :', error.message)
@@ -99,6 +104,25 @@ if (erreurPays) console.warn(`⚠️  Pays non lus (${erreurPays.message}) — l
 const nomDuPays = new Map(
   (pays ?? []).map(p => [p.key, p.labels?.[LANG] ?? p.labels?.fr ?? null]),
 )
+
+// Les NOMS des ingrédients, pour écrire chaque ligne comme la fiche les
+// affiche (« 200 g de Spaghetti ») — la même table que lit l'app. Sans elle,
+// les lignes retomberaient sur un texte que la fiche ne montre pas : on
+// s'arrête plutôt que d'écrire un contenu faux.
+const { data: lignesIngredients, error: erreurIngredients } = await supabase
+  .from('ingredients')
+  .select('id, labels')
+if (erreurIngredients || !lignesIngredients?.length) {
+  console.error(`❌  Ingrédients non lus (${erreurIngredients?.message ?? '0 ligne'}) — rien n'a été écrit.`)
+  process.exit(1)
+}
+// PostgREST plafonne une lecture à 1 000 lignes : à ce compte, la table est
+// peut-être tronquée, et des noms manqueraient sans bruit.
+if (lignesIngredients.length >= 1000) {
+  console.error('❌  1 000 ingrédients lus : lecture peut-être tronquée (plafond PostgREST) — paginer avant de régénérer.')
+  process.exit(1)
+}
+const nomsDesIngredients = new Map(lignesIngredients.map(i => [i.id, { labels: i.labels }]))
 
 // Même garde-fou que le sitemap : ne JAMAIS écrire un manifeste vide. Une
 // requête qui ne rend rien (RLS, panne, filtre trop strict) doit laisser le
@@ -123,9 +147,9 @@ const entrees = data.map(r => {
   // injecté au montage, lui, était complet. Les robots qui n'exécutent pas
   // JavaScript — la plupart des robots d'IA — ne voyaient donc que le socle.
   //
-  // ⚠️ Volontairement COURTS. Les ingrédients et les étapes coûteraient environ
-  // 500 Ko versionnés, régénérés en bloc à chaque ajout de recette : décision
-  // séparée, cf. le commentaire de `corpsRecette` dans prerender-page.test.js.
+  // Volontairement COURTS : les ingrédients et les étapes vont dans
+  // `prerender-contenu.json` (SEO-06), une ligne par recette, pour que ce
+  // manifeste reste lisible.
   // Une entrée n'est écrite que si la donnée existe : `null` traverserait
   // jusqu'au balisage et y décrirait faux.
   const nombreOuNull = (v) => (Number.isFinite(v) && v > 0 ? v : null)
@@ -182,5 +206,11 @@ const manifeste = {
 }
 
 writeFileSync(SORTIE, JSON.stringify(manifeste, null, 2) + '\n', 'utf-8')
+
+const contenus = data.map(r => ({ id: r.id, ...contenuRecette(r, nomsDesIngredients, LANG) }))
+writeFileSync(SORTIE_CONTENU, serialiserContenu({ lang: LANG, genereLe: manifeste._genere_le, recettes: contenus }), 'utf-8')
 console.log(`✅  prerender-manifest.json écrit : ${entrees.length} recettes (${avecImage} avec photo, ${sansDescription} sans description).`)
 console.log(`   Dimensions mesurées : ${mesurees}/${aMesurer.length}${echecs ? ` — ⚠️ ${echecs} échec(s), repli carré pour celles-là` : ''}.`)
+const sansIngredient = contenus.filter(c => !c.ingredients.length).length
+const sansEtape = contenus.filter(c => !c.etapes.length).length
+console.log(`✅  prerender-contenu.json écrit : ${contenus.length} recettes (${sansIngredient} sans ingrédient, ${sansEtape} sans étape).`)

@@ -8,14 +8,18 @@ import {
 } from '@features/admin/api/community-admin'
 import { ConfirmDeleteModal } from '@shared/ui/confirm-dialog/confirm-modals'
 import FeedbackBanner from '../shared/feedback-banner'
+import ChargementRate from '../shared/chargement-rate'
 import SearchInput from '../shared/search-input'
 import BulkActionBar from '../shared/bulk-action-bar'
+import CaseDeSelection from '../shared/case-de-selection'
 import { appliquerEnLot, messageDeLot } from '@features/admin/lib/appliquer-en-lot'
 import { useSelection } from '@features/admin/hooks/use-selection'
 import Button from '@shared/ui/button'
+import { useDialogue } from '@shared/hooks/use-dialogue'
 import FilterPill from '@shared/ui/filter-pill'
 import EmptyState from '@shared/ui/empty-state'
 import { useReloader } from '@shared/hooks/use-reloader'
+import { useDebouncedValue } from '@shared/hooks/use-debounced-value'
 
 const STATUS_FILTERS = [
   { key: 'active',        label: 'Actifs' },
@@ -54,6 +58,8 @@ export default function CommunitySection({ darkMode = false }) {
   const [confirmHard,   setConfirmHard]   = useState(null)
   const [confirmBulkSoft, setConfirmBulkSoft] = useState(false)
   const sel = useSelection()
+  // Une vraie boîte de dialogue : rôle, nom, focus piégé, Échap (A11Y-01).
+  const dialogueAction = useDialogue({ onClose: () => setActionPost(null), actif: !!actionPost && !confirmHard })
 
   const fg      = darkMode ? 'var(--color-bg-warm)' : '#2C1A0E'
   const muted   = darkMode ? '#A0A8B8' : '#7A6A52'
@@ -63,15 +69,17 @@ export default function CommunitySection({ darkMode = false }) {
   // `useReloader` garantit le `finally` (sans lui, une erreur réseau laissait
   // le voyant allumé pour toujours) et périme les réponses en retard : sans ça,
   // enchaîner deux filtres laissait la plus ancienne écraser la plus récente.
-  const { loading, reload } = useReloader(async (estObsolete) => {
+  // Une requête quand on cesse de taper, pas une par frappe (audit ADM-09).
+  const rechercheStable = useDebouncedValue(search)
+  const { loading, error, reload } = useReloader(async (estObsolete) => {
     const [p, r] = await Promise.all([
-      adminListPosts({ status, search, limit: 100 }),
+      adminListPosts({ status, search: rechercheStable, limit: 100 }),
       adminListCommunityReports({ limit: 100 }),
     ])
     if (estObsolete()) return
     setPosts(p)
     setReports(r)
-  }, [status, search])
+  }, [status, rechercheStable])
 
   const reportsByPost = useMemo(() => reports.reduce((acc, r) => {
     if (r.target_type === 'community_post') {
@@ -120,7 +128,7 @@ export default function CommunitySection({ darkMode = false }) {
     const result = await adminMuteUser(post.user_id, reasonInput.trim() || 'admin_action', muteDays)
     if (result?.error) { showFeedback(result.error, 'error') }
     else {
-      const label = muteDays === null ? 'Utilisateur muté définitivement.' : `Utilisateur muté ${muteDays} jour${muteDays > 1 ? 's' : ''}.`
+      const label = muteDays === null ? 'Utilisateur mis en sourdine, sans fin.' : `Utilisateur mis en sourdine ${muteDays} jour${muteDays > 1 ? 's' : ''}.`
       showFeedback(label)
       reload()
     }
@@ -131,7 +139,7 @@ export default function CommunitySection({ darkMode = false }) {
   async function handleUnmute(post) {
     const result = await adminUnmuteUser(post.user_id, 'admin_unmute')
     if (result?.error) { showFeedback(result.error, 'error') }
-    else { showFeedback('Mute levé.'); reload() }
+    else { showFeedback('Sourdine levée.'); reload() }
   }
 
   async function handleAction() {
@@ -162,7 +170,7 @@ export default function CommunitySection({ darkMode = false }) {
           </FilterPill>
         ))}
         <div style={{ flex: 1 }} />
-        <SearchInput value={search} onChange={setSearch} placeholder="Rechercher titres…" darkMode={darkMode} width={190} />
+        <SearchInput value={search} onChange={setSearch} label="Rechercher un titre" darkMode={darkMode} width={190} />
         <Button
           variant="ghost"
           size="icon"
@@ -175,14 +183,11 @@ export default function CommunitySection({ darkMode = false }) {
         </Button>
       </div>
 
-      {status === 'active' && (
-        <BulkActionBar count={sel.count} lang="fr" darkMode={darkMode} onClear={sel.clear}
-          actions={[{ label: 'Masquer la sélection', onClick: () => setConfirmBulkSoft(true), danger: true }]} />
-      )}
-
       {/* Liste */}
       {loading ? (
         <p style={{ color: muted, fontStyle: 'italic' }}>Chargement…</p>
+      ) : error ? (
+        <ChargementRate error={error} onRetry={reload} />
       ) : posts.length === 0 ? (
         <EmptyState muted={muted}>Aucun post pour ce filtre.</EmptyState>
       ) : (
@@ -200,8 +205,7 @@ export default function CommunitySection({ darkMode = false }) {
                 {/* Ligne principale */}
                 <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', flexWrap: 'wrap' }}>
                   {status === 'active' && (
-                    <input type="checkbox" checked={sel.isSelected(post.id)} onChange={() => sel.toggle(post.id)}
-                      aria-label="Sélectionner ce post" style={{ flexShrink: 0, width: 15, height: 15, cursor: 'pointer', marginTop: 3 }} />
+                    <CaseDeSelection cochee={sel.isSelected(post.id)} onBasculer={() => sel.toggle(post.id)} nom="Sélectionner ce post" style={{ alignSelf: 'flex-start' }} />
                   )}
                   <div style={{ flex: 1, minWidth: 0 }}>
                     {/* Titre + badges */}
@@ -236,7 +240,7 @@ export default function CommunitySection({ darkMode = false }) {
                       <Button
                         variant="ghost"
                         onClick={() => setActionPost({ post, action: 'soft' })}
-                        title="Masquer (soft-delete)"
+                        title="Masquer (réversible)"
                         className="h-auto rounded-md border bg-transparent px-2 py-1 text-[11px] font-bold hover:bg-transparent"
                         style={{ gap: '4px', borderColor: border, color: '#D06060' }}
                       >
@@ -249,28 +253,28 @@ export default function CommunitySection({ darkMode = false }) {
                       className="h-auto rounded-md border px-2 py-1 text-[11px] font-bold"
                       style={{ gap: '4px', borderColor: '#D06060', background: 'rgba(208,96,96,0.08)', color: '#D06060' }}
                     >
-                      <LuTrash2 size={12} /> Supprimer
+                      <LuTrash2 size={12} /> Supprimer définitivement
                     </Button>
                     {post.user_id && (
                       isMuted ? (
                         <Button
                           variant="ghost"
                           onClick={() => handleUnmute(post)}
-                          title="Lever le mute"
+                          title="Lever la sourdine"
                           className="h-auto rounded-md border bg-transparent px-2 py-1 text-[11px] font-bold hover:bg-transparent"
                           style={{ gap: '4px', borderColor: border, color: 'var(--color-success)' }}
                         >
-                          <LuVolume2 size={12} /> Unmute
+                          <LuVolume2 size={12} /> Lever la sourdine
                         </Button>
                       ) : (
                         <Button
                           variant="ghost"
                           onClick={() => setActionPost({ post, action: 'mute' })}
-                          title="Muter l'auteur"
+                          title="Mettre l'auteur en sourdine"
                           className="h-auto rounded-md border bg-transparent px-2 py-1 text-[11px] font-bold hover:bg-transparent"
                           style={{ gap: '4px', borderColor: border, color: muted }}
                         >
-                          <LuVolumeX size={12} /> Mute
+                          <LuVolumeX size={12} /> Sourdine
                         </Button>
                       )
                     )}
@@ -289,16 +293,21 @@ export default function CommunitySection({ darkMode = false }) {
         </ul>
       )}
 
+      {status === 'active' && (
+        <BulkActionBar count={sel.count} lang="fr" darkMode={darkMode} onClear={sel.clear}
+          actions={[{ label: 'Masquer la sélection', onClick: () => setConfirmBulkSoft(true), danger: true }]} />
+      )}
+
       {/* Modale soft-delete / mute (raison + durée) */}
       {actionPost && !confirmHard && (
         <div onClick={() => setActionPost(null)}
           style={{ position: 'fixed', inset: 0, zIndex: 80, background: 'rgba(0,0,0,0.55)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '16px' }}>
-          <div onClick={e => e.stopPropagation()}
+          <div {...dialogueAction.proprietes} onClick={e => e.stopPropagation()}
             style={{ width: '100%', maxWidth: '440px', background: darkMode ? '#0F1925' : '#FDFAF6', color: fg, borderRadius: '14px', padding: '20px', display: 'flex', flexDirection: 'column', gap: '12px', boxShadow: '0 12px 40px rgba(0,0,0,0.40)' }}>
-            <h4 style={{ margin: 0, fontSize: '15px', fontWeight: 800 }}>
+            <h4 id={dialogueAction.titreId} style={{ margin: 0, fontSize: '15px', fontWeight: 800 }}>
               {actionPost.action === 'soft' && 'Masquer ce post'}
-              {actionPost.action === 'mute' && 'Muter l\'auteur'}
-              {actionPost.action === 'unmute' && 'Lever le mute'}
+              {actionPost.action === 'mute' && 'Mettre l\'auteur en sourdine'}
+              {actionPost.action === 'unmute' && 'Lever la sourdine'}
             </h4>
             <p style={{ margin: 0, fontSize: '12px', color: muted }}>
               <strong>« {actionPost.post.title} »</strong> par {actionPost.post.profile?.username ?? '—'}

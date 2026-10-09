@@ -324,7 +324,6 @@ export function RecipeDetailHeader({
           {recipe.isCustom && isApprovedCommunity && !isAdmin && (
             <span
               title={t.lockedTooltip}
-              aria-label={t.lockedRecipe}
               style={{
                 display: 'inline-flex', alignItems: 'center', gap: '4px',
                 fontSize: '11px', fontWeight: 700,

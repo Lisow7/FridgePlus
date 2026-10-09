@@ -226,7 +226,7 @@ export default function SubscriptionTab({ lang, darkMode }) {
           <div style={{
             borderRadius: '10px', padding: '12px', textAlign: 'center',
             background: 'rgba(212,106,16,0.08)', border: '1px dashed rgba(212,106,16,0.4)',
-            color: 'var(--color-brand-600)', fontWeight: 800, fontSize: '14px',
+            color: 'var(--color-warm-text)', fontWeight: 800, fontSize: '14px',
           }}>
             {cs.badge}
           </div>

@@ -1,6 +1,7 @@
-import { useState } from 'react'
+import { useState, useId } from 'react'
 import { LuTriangle, LuTrash2, LuLock, LuEye, LuEyeOff, LuChevronDown } from 'react-icons/lu'
 import Button from '@shared/ui/button'
+import { useDialogue } from '@shared/hooks/use-dialogue'
 
 // Phase 7 launch (refonte Profil) — sous-composant extrait de
 // ProfileModal lors de la PR 8.6.1.b. Pure presentational : reçoit l'état
@@ -20,6 +21,7 @@ export default function DangerZone({
   onTogglePasswordVisibility, // () => void
   isLoading,               // boolean
   onSubmit,                // (event) => Promise<void>
+  error = null,            // message à dire DANS la fenêtre (CPT-04 : il s'écrivait derrière le fond flouté)
   // i18n + styles partagés
   t,                       // i18n object (dangerTitle, dangerText, dangerBtn, dangerConfirm, cancelBtn, tabDanger)
   lang,
@@ -36,6 +38,9 @@ export default function DangerZone({
   defaultOpen = true,
 }) {
   const [open, setOpen] = useState(defaultOpen)
+  // Une vraie boîte de dialogue : rôle, nom, focus piégé, Échap (A11Y-01).
+  const dialogue = useDialogue({ onClose: onCloseDialog, actif: isDialogOpen })
+  const champMotDePasseId = useId()
   return (
     <>
       {/* ─── Section Zone de danger (visible dans l'onglet Confidentialité) ─── */}
@@ -46,14 +51,11 @@ export default function DangerZone({
         background: darkMode ? 'rgba(239,68,68,0.06)' : 'rgba(239,68,68,0.04)',
         display: 'flex', flexDirection: 'column', gap: '10px',
       }}>
+        {/* Dépliable : un VRAI bouton dans le titre, comme `ProfileSection`
+            (audit A11Y-19 : un `role="button"` contenait le titre, et ce
+            titre sautait du niveau 2 au niveau 4). */}
         <div
-          role={collapsible ? 'button' : undefined}
-          tabIndex={collapsible ? 0 : undefined}
-          aria-expanded={collapsible ? open : undefined}
           onClick={collapsible ? () => setOpen((v) => !v) : undefined}
-          onKeyDown={collapsible ? (e) => {
-            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setOpen((v) => !v) }
-          } : undefined}
           style={{
             display: 'flex', alignItems: 'center', gap: '10px',
             cursor: collapsible ? 'pointer' : undefined,
@@ -68,12 +70,21 @@ export default function DangerZone({
           }}>
             <LuTriangle size={15} />
           </span>
-          <h4 style={{
+          <h2 style={{
             margin: 0, fontSize: isMobile ? '14px' : '15px',
             fontWeight: 800, color: '#ef4444', flex: 1,
           }}>
-            {t.dangerTitle ?? t.tabDanger ?? 'Zone de danger'}
-          </h4>
+            {collapsible ? (
+              <button
+                type="button"
+                aria-expanded={open}
+                onClick={(e) => { e.stopPropagation(); setOpen((v) => !v) }}
+                style={{ background: 'none', border: 0, padding: 0, margin: 0, font: 'inherit', color: 'inherit', textAlign: 'left', cursor: 'pointer', width: '100%' }}
+              >
+                {t.dangerTitle ?? t.tabDanger ?? 'Zone de danger'}
+              </button>
+            ) : (t.dangerTitle ?? t.tabDanger ?? 'Zone de danger')}
+          </h2>
           {collapsible && (
             <span aria-hidden="true" style={{
               display: 'inline-flex',
@@ -126,6 +137,7 @@ export default function DangerZone({
           }}
         >
           <div
+            {...dialogue.proprietes}
             onClick={e => e.stopPropagation()}
             className="fp-modal-panel"
             style={{
@@ -146,16 +158,19 @@ export default function DangerZone({
               }}>
                 <LuTriangle size={18} />
               </span>
-              <h3 style={{ fontSize: '17px', fontWeight: 800, color: '#ef4444', margin: 0 }}>{t.dangerTitle}</h3>
+              <h3 id={dialogue.titreId} style={{ fontSize: '17px', fontWeight: 800, color: '#ef4444', margin: 0 }}>{t.dangerTitle}</h3>
             </div>
             <p style={{ fontSize: '14px', color: mutedColor, lineHeight: 1.6, margin: 0 }}>{t.dangerText}</p>
             <form onSubmit={onSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              {/* Un libellé visible (décision du 2026-10-06) ; pas d'exemple
+                  pour un mot de passe. */}
+              <label htmlFor={champMotDePasseId} style={{ fontSize: '12px', fontWeight: 700, color: mutedColor, marginBottom: '-4px' }}>{t.dangerConfirm}</label>
               <div style={{ position: 'relative' }}>
                 <LuLock size={15} style={iconStyle} />
                 <input
+                  id={champMotDePasseId}
                   type={showPassword ? 'text' : 'password'} required
                   value={password} onChange={e => onPasswordChange(e.target.value)}
-                  placeholder={t.dangerConfirm}
                   autoFocus
                   style={{ ...inputStyle, paddingRight: '36px', borderColor: 'rgba(239,68,68,0.35)' }}
                 />
@@ -172,6 +187,9 @@ export default function DangerZone({
                   {showPassword ? <LuEyeOff size={15} /> : <LuEye size={15} />}
                 </Button>
               </div>
+              {error && (
+                <p role="alert" style={{ margin: 0, fontSize: '13px', fontWeight: 600, color: darkMode ? '#F59B9B' : '#B42318' }}>{error}</p>
+              )}
               <div style={{ display: 'flex', gap: '8px', marginTop: '4px' }}>
                 <Button
                   variant="secondary"

@@ -25,6 +25,11 @@
      Équivaut exactement à linear-gradient(135deg, #F7A85E 0%, #D46A10 100%).
      Pas d'override dark : les --color-brand-* sont identiques dans les 2 thèmes. */
   --gradient-warm: linear-gradient(135deg, var(--color-brand-400) 0%, var(--color-brand-600) 100%);
+  /* Sous du texte ou une icône BLANCS (boutons, badges) : le blanc tombait à
+     2-3:1 sur --gradient-warm. Ici 4,68:1 au plus clair (#BF5500), 6,28:1 au
+     plus foncé — décision du 2026-10-06, « couleurs = profond ». Le même en
+     sombre : c'est le contraste du bouton avec son propre texte. */
+  --gradient-deep: linear-gradient(135deg, #BF5500 0%, #A04500 100%);
 
   /* Surfaces & bordures chaudes (mode clair) */
   --color-bg-warm:     #F0E8DC;
@@ -45,6 +50,12 @@
   --color-cream: #e3d9cf;
   --color-charcoal: #2d1b00;
   --color-muted: #6A4F45;
+  /* Part d'une couleur d'accent employée comme TEXTE, mêlée au charbon du
+     thème (`texteLisible`, src/shared/lib/couleurs/texte-lisible.js). 50 % en
+     clair : 4,97:1 au pire (orange de marque sur #F2D4C6), contre 2,6 à 3,3
+     pour l'orange, le vert et l'ambre purs relevés par axe dans l'admin
+     (2026-10-08). */
+  --part-accent-texte: 50%;
 }
 
 /* Semantic tokens — adaptatifs light/dark, utilisables en inline style */
@@ -86,6 +97,21 @@
      ⛔ Ne PAS corriger `--color-success` en place — cela repeindrait tous les
      badges de l'app pour un seul titre. */
   --color-success-text: #007A21;
+
+  /* Texte des pastilles et badges TEINTÉS (fond = leur couleur à 10-16 %) et
+     du texte orange sur fond clair. La teinte pleine plafonnait sous 4,5:1 sur
+     son propre fond (décision du 2026-10-06, « couleurs = profond » ;
+     A11Y-03). Chaque valeur est la plus proche de l'originale qui passe 4,6:1 sur
+     la surface la plus défavorable : ici la carte claire #F5EDD8 teintée, plus
+     bas la surface sombre #243650 teintée. */
+  --badge-free-text:    #196E3D;
+  --badge-account-text: #27619E;
+  --badge-premium-text: #895406;
+  --badge-info-text:    #2158D0;
+  --badge-neutral-text: #475569;
+  --badge-danger-text:  #B82020;
+  --color-warm-text:    #99480D;
+  --color-danger-text:  #C81E1E;
 }
 
 [data-theme="dark"] {
@@ -106,6 +132,9 @@
      1440×900, et ces onglets-là n'existent qu'en dessous de 1280 px. Il balaie
      désormais aussi une largeur mobile. */
   --color-muted:    #8FA5BC;
+  /* En sombre, le charbon est clair : 35 % d'accent suffisent, 4,71:1 au pire
+     (rouge sur le gris #3C4543). Voir `--part-accent-texte` du thème clair. */
+  --part-accent-texte: 35%;
 
   --panel-bg:       #0F1923;
   --panel-border:   #1A2A3D;
@@ -120,6 +149,17 @@
      le versant qui echoue. */
   --link-accent:    #D8901E;
   --color-success-text: #16A34A;
+
+  /* Les mêmes, éclaircis : en sombre, la teinte pleine tombait entre 1,4 et
+     2,5:1 sur son fond teinté (« N'oublie pas qu'il y a aussi le darkmode »). */
+  --badge-free-text:    #78B592;
+  --badge-account-text: #86ABD2;
+  --badge-premium-text: #C8A26D;
+  --badge-info-text:    #89ABF4;
+  --badge-neutral-text: #A3AAB4;
+  --badge-danger-text:  #EB8383;
+  --color-warm-text:    #D99A6D;
+  --color-danger-text:  #EB8383;
 }
 
 @keyframes fridge-light {
@@ -187,15 +227,6 @@
   background-clip: padding-box;
 }
 
-@keyframes fab-pulse {
-  0%, 100% { box-shadow: 0 4px 20px rgba(212,106,16,0.40); }
-  50%       { box-shadow: 0 6px 36px rgba(212,106,16,0.65), 0 0 0 10px rgba(212,106,16,0.10); }
-}
-
-.fab-pulse {
-  animation: fab-pulse 2.4s ease-in-out infinite;
-}
-
 @keyframes soft-blink {
   0%, 100% { opacity: 1; }
   50%       { opacity: 0.68; }
@@ -203,6 +234,58 @@
 
 .soft-blink {
   animation: soft-blink 1.8s ease-in-out infinite;
+}
+
+/* On voit toujours où l'on est au clavier (audit du 2026-10-04, A11Y-02 et
+   A11Y-18). Avant : aucune règle de focus ici, et 63 `outline: none` posés en
+   ligne — on ne savait pas dans quel champ on écrivait, connexion comprise.
+   `!important` le temps de retirer ces `outline: none`, qu'aucune règle
+   ordinaire ne bat. Un contour et non une ombre : le mode « contraste élevé »
+   de Windows efface les ombres (les anneaux `ring` de Tailwind). */
+:where(a, button, input, select, textarea, summary, [tabindex]:not([tabindex="-1"]), [role="button"], [role="switch"], [contenteditable="true"]):focus-visible {
+  outline: 2px solid var(--link-accent) !important;
+  outline-offset: 2px;
+}
+
+/* Poignées qui luisent (retour d'Antoine du 2026-10-04, variante C retenue
+   parmi quatre essayées en vrai) : toutes les poignées des portes FERMÉES et
+   des placards du garde-manger ont un halo orange lent — ce qui se touche
+   s'ouvre, sans un mot de texte. Toujours visible, frigo vide ou rempli
+   (remplace « Touche pour ouvrir », qui n'était que sur une porte et
+   disparaissait au premier aliment). Pas de mouvement de mise en page. En
+   mouvement réduit, le halo reste, fixe.
+   La lueur est FIXE, dans un pseudo-élément, et seule son opacité s'anime
+   (audit du 2026-10-04, PERF-09) : animer `box-shadow` faisait repeindre les
+   cinq éléments 60 fois par seconde sur le fil principal, sans repos ; l'opacité
+   passe par le compositeur. Même lueur, même rythme. Le bouton orange de
+   l'en-tête (menu fermé) luit pareil et garde son ombre portée. */
+.fp-poignee::after,
+.fp-luit-bouton::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+}
+.fp-poignee::after { box-shadow: 0 0 12px 4px rgba(224, 120, 32, 0.55); animation: fp-luit 2.4s ease-in-out infinite; }
+.fp-luit-bouton { position: relative; }
+.fp-luit-bouton::after { box-shadow: 0 0 14px 5px rgba(224, 120, 32, 0.55); animation: fp-luit-bouton 2.4s ease-in-out infinite; }
+@keyframes fp-luit {
+  0%, 100% { opacity: 0; }
+  50%      { opacity: 1; }
+}
+@keyframes fp-luit-bouton {
+  0%, 100% { opacity: 0; }
+  50%      { opacity: 1; }
+}
+/* Sous une fenêtre modale, la lueur s'arrête : cachée, elle obligeait encore à
+   refaire le flou de l'arrière-plan à chaque image. */
+body:has([aria-modal="true"]) .fp-poignee::after,
+body:has([aria-modal="true"]) .fp-luit-bouton::after { animation-play-state: paused; }
+@media (prefers-reduced-motion: reduce) {
+  .fp-poignee::after,
+  .fp-luit-bouton::after { animation: none; opacity: 1; box-shadow: 0 0 10px 3px rgba(224, 120, 32, 0.45); }
 }
 
 /* Confirmation d'ajout d'un ingrédient au frigo (fiche recette) :
@@ -416,5 +499,110 @@ html[data-transition] *::after {
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
     min-height: 100vh;
+  }
+}
+
+/* ── Impression (fiche recette, liste de courses) ──────────────────────────
+   `printReactElement` rend la fiche dans `.fp-print-root`, posée sur <body> à
+   côté de `#root`, et marque <html> de `.fp-printing` le temps de l'impression.
+   À l'écran cette racine est invisible ; à l'impression, c'est l'app qui l'est.
+   La règle dépend de `.fp-printing` : la page du panier partagé s'imprime
+   elle-même (`window.print()`) et ne doit pas sortir vide. */
+.fp-print-root { display: none; }
+
+@media print {
+  html.fp-printing,
+  html.fp-printing body {
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+    background: #fff !important;
+  }
+  html.fp-printing body > :not(.fp-print-root) { display: none !important; }
+  html.fp-printing .fp-print-root { display: block; }
+  @page { margin: 1.4cm; }
+}
+
+.fp-print-sheet {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 28px 24px;
+  font-family: system-ui, -apple-system, sans-serif;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #1a0e00;
+  background: #fff;
+}
+.fp-print-sheet h1 { margin: 0 0 6px; font-size: 24px; font-weight: 800; }
+.fp-print-sheet h2 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 18px 0 8px;
+  padding-bottom: 5px;
+  border-bottom: 1.5px solid #c66312;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  color: #8a4310;
+}
+.fp-print-sheet ul,
+.fp-print-sheet ol { list-style: none; }
+.fp-print-meta { display: flex; flex-wrap: wrap; gap: 14px; margin: 0 0 18px; font-size: 13px; color: #5c4a40; }
+.fp-print-list li { display: flex; align-items: center; gap: 10px; padding: 5px 2px; border-bottom: 1px solid #ddd; }
+.fp-print-list li:last-child { border-bottom: none; }
+.fp-print-box { flex-shrink: 0; width: 13px; height: 13px; border: 1.5px solid #777; border-radius: 3px; }
+.fp-print-name { flex: 1; }
+.fp-print-qty { color: #555; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.fp-print-count { font-size: 13px; }
+.fp-print-steps li { display: flex; align-items: flex-start; gap: 10px; padding: 7px 0; }
+/* Cercle au trait, pas plein : les navigateurs n'impriment pas les fonds par
+   défaut — un numéro blanc sur pastille orange sortait invisible. */
+.fp-print-num {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border: 1.5px solid #c66312;
+  border-radius: 50%;
+  font-size: 12px;
+  font-weight: 700;
+  color: #8a4310;
+}
+.fp-print-aisle { margin-top: 16px; break-inside: avoid; }
+.fp-print-total {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 22px;
+  padding-top: 12px;
+  border-top: 2px solid #1a0e00;
+  font-size: 15px;
+}
+.fp-print-total strong { font-size: 18px; }
+
+/* Mouvement réduit, PARTOUT (audit du 2026-10-04, A11Y-11, WCAG 2.3.3) : les
+   animations en boucle — pulsations, clignotements, miroitements, anneaux —
+   ne jouent plus qu'une fois, presque instantanément. `!important` : beaucoup
+   sont écrites en ligne (`style={{ animation: '… infinite' }}`), qu'une règle
+   ordinaire ne bat pas. Les cas traités plus haut gardent leur état final.
+   EXCEPTION : les toupies de chargement continuent de tourner (plus lentement)
+   — figées, elles feraient croire que l'application est bloquée. */
+@media (prefers-reduced-motion: reduce) {
+  /* Les TRANSITIONS aussi (2026-10-08) : fondus, glissements et agrandissements
+     continuaient de jouer pour qui demande moins de mouvement — la règle ne
+     visait que les animations. */
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .animate-spin, [style*="spin 1s"] {
+    animation-duration: 1.5s !important;
+    animation-iteration-count: infinite !important;
   }
 }

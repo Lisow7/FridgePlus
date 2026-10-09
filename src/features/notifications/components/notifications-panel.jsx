@@ -5,6 +5,7 @@ import { NOTIF_I18N, formatRelativeTime, localizeNotifText } from '@shared/lib/i
 import { useWindowWidth } from '@shared/hooks/use-window-width'
 import { useCloseOnBackButton } from '@shared/hooks/use-close-on-back-button'
 import Button from '@shared/ui/button'
+import { useSaveErrorToast } from '@shared/hooks/use-save-error-toast'
 
 // Heuristique : on considère le body « long » à partir de ~110 caractères
 // (≈ 2 lignes en 12px sur 360px de largeur). Au-delà, on tronque par défaut
@@ -84,7 +85,7 @@ function CategoryHeader({ label, darkMode }) {
       padding: '10px 14px 6px',
       display: 'flex', alignItems: 'center', gap: '8px',
       fontSize: '11px', fontWeight: 700,
-      color: darkMode ? 'rgba(247,168,94,0.95)' : 'rgba(212,106,16,0.85)',
+      color: darkMode ? 'rgba(247,168,94,0.95)' : '#B85000',
       textTransform: 'uppercase', letterSpacing: '0.08em',
       background: darkMode ? 'rgba(247,168,94,0.04)' : 'rgba(212,106,16,0.03)',
     }}>
@@ -109,8 +110,11 @@ export function NotifItem({ n, lang, darkMode, fg, muted, border, t, onClick, on
   const clickable = CLICKABLE_TYPES.has(n.type)
 
   const handleClick = clickable ? () => onClick(n) : undefined
+  // Seulement les touches venues de la ligne elle-même : celles de « Marquer
+  // comme lu » ou « Supprimer » remontaient ici, et la ligne partait à la place
+  // de l'action (audit du 2026-10-04, A11Y-04).
   const handleKey = clickable ? (e) => {
-    if (e.key === 'Enter' || e.key === ' ') {
+    if (e.target === e.currentTarget && (e.key === 'Enter' || e.key === ' ')) {
       e.preventDefault()
       onClick(n)
     }
@@ -207,8 +211,8 @@ export function NotifItem({ n, lang, darkMode, fg, muted, border, t, onClick, on
               variant="ghost"
               size="icon"
               onClick={(e) => { e.stopPropagation(); onMarkRead(n.id) }}
-              title={t.markAllRead}
-              aria-label={t.markAllRead}
+              title={t.markOneRead}
+              aria-label={t.markOneRead}
               className="h-auto w-auto rounded-none p-0 text-[11px] hover:bg-transparent"
               style={{ color: 'var(--color-success)', gap: '3px' }}
             >
@@ -236,8 +240,21 @@ export default function NotificationsPanel({ lang = 'fr', darkMode = false, onCl
   const windowWidth = useWindowWidth()
   const isMobile = windowWidth < 640
   const t = NOTIF_I18N[lang] ?? NOTIF_I18N.fr
-  const { notifications, markRead, markAllRead, deleteNotif, deleteAllRead } = useNotifications()
+  const notifs = useNotifications()
+  const { notifications, loading, loadError, refresh } = notifs
   useCloseOnBackButton(true, onClose)
+
+  // Une action refusée par la base ne change rien à l'écran : on le dit, au
+  // lieu de laisser le clic sans effet (audit du 2026-10-04, UX-02).
+  const signalerEchec = useSaveErrorToast()
+  const avecMessage = (action) => async (...args) => {
+    const resultat = await action(...args)
+    if (resultat?.error) signalerEchec()
+  }
+  const markRead = avecMessage(notifs.markRead)
+  const markAllRead = avecMessage(notifs.markAllRead)
+  const deleteNotif = avecMessage(notifs.deleteNotif)
+  const deleteAllRead = avecMessage(notifs.deleteAllRead)
 
   const handleNotifClick = (n) => {
     if (!n.read_at) markRead(n.id)
@@ -275,7 +292,7 @@ export default function NotificationsPanel({ lang = 'fr', darkMode = false, onCl
         border: `1px solid ${border}`, borderRadius: 12,
         boxShadow: '0 12px 40px rgba(0,0,0,0.18)',
         zIndex: 100,
-        maxHeight: isMobile ? 'calc(100vh - 92px)' : '70vh',
+        maxHeight: isMobile ? 'calc(100dvh - 92px)' : '70dvh',
         display: 'flex', flexDirection: 'column',
         overflow: 'hidden',
         animation: 'notifs-fade-in 0.18s ease-out',
@@ -294,7 +311,7 @@ export default function NotificationsPanel({ lang = 'fr', darkMode = false, onCl
         {hasUnread && (
           <Button
             variant="ghost"
-            onClick={markAllRead}
+            onClick={() => markAllRead()}
             className="h-auto rounded-none p-1 text-[11px] font-semibold hover:bg-transparent"
             style={{ color: 'var(--color-brand-500)', gap: '4px' }}
           >
@@ -306,7 +323,15 @@ export default function NotificationsPanel({ lang = 'fr', darkMode = false, onCl
 
       {/* Liste groupée */}
       <div style={{ overflowY: 'auto', flex: 1 }}>
-        {notifications.length === 0 ? (
+        {notifications.length === 0 && loadError ? (
+          // Chargement raté : ce n'est pas « aucune notification ».
+          <div role="alert" style={{ padding: '32px 18px', textAlign: 'center' }}>
+            <div aria-hidden="true" style={{ fontSize: 28, opacity: 0.6, marginBottom: 8 }}>⚠️</div>
+            <div style={{ fontSize: 13, fontWeight: 600, color: fg, marginBottom: 12 }}>{t.loadError}</div>
+            {/* Inactif pendant la nouvelle tentative : le clic a été pris. */}
+            <Button variant="secondary" size="sm" disabled={loading} onClick={() => refresh()}>{t.retry}</Button>
+          </div>
+        ) : notifications.length === 0 ? (
           <div style={{ padding: '32px 18px', textAlign: 'center' }}>
             <div aria-hidden="true" style={{ fontSize: 28, opacity: 0.5, marginBottom: 8 }}>🔕</div>
             <div style={{ fontSize: 13, fontWeight: 600, color: fg, marginBottom: 4 }}>{t.empty}</div>
@@ -345,7 +370,7 @@ export default function NotificationsPanel({ lang = 'fr', darkMode = false, onCl
         }}>
           <Button
             variant="ghost"
-            onClick={deleteAllRead}
+            onClick={() => deleteAllRead()}
             className="h-auto rounded-none px-0 py-0 text-xs font-semibold hover:bg-transparent"
             style={{ color: muted }}
           >

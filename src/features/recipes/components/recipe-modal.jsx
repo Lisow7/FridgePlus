@@ -9,6 +9,7 @@ import { RecipeWithdrawHeader, RecipeWithdrawBody } from './recipe-withdraw-view
 import { RecipeDetailBody } from './recipe-detail-body'
 import { RecipeDetailHeader } from './recipe-detail-header'
 import useRecipeModal from '@features/recipes/hooks/use-recipe-modal'
+import { useStepsSeenRef } from '@features/recipes/hooks/use-steps-seen-ref'
 
 // Détection frigo/garde-manger via préfixe d'ID :
 //   fr-, frz-, vg-, jp- → frigo (frais, congélateur, légumes, frais japonais)
@@ -47,7 +48,7 @@ export default function RecipeModal({ recipe, stock, onClose, onAllRecipes, favo
     setStepTwoState, setSubstituteIndex, setWithdrawFeedback, shareOpen, shareUrl,
     showDeleteConfirm, step, stepTwoState, substituteIndex, t, theme, titleRef, user, withdrawFeedback,
   } = useRecipeModal({ recipe, stock, onClose, lang, darkMode, onToggleIngredient, allergenPrefs, basketRecipeIds, variant, lockedServings })
-
+  const stepsSeenRef = useStepsSeenRef(recipe?.id)
 
   return (
     <div
@@ -61,7 +62,10 @@ export default function RecipeModal({ recipe, stock, onClose, onAllRecipes, favo
       }
       onClick={isPage ? undefined : onClose}
     >
-      <RecipeJsonLd data={schemaData} />
+      {/* Le balisage SERVI (pré-rendu, étapes comprises) n'est remplacé que par
+          une version au moins aussi complète : une fiche officielle sans sa clé
+          `steps` est encore la version mince du catalogue (SEO-06). */}
+      {(recipe.isCustom || 'steps' in recipe) && <RecipeJsonLd data={schemaData} />}
       <div
         ref={dialogRef}
         role={isPage ? undefined : 'dialog'}
@@ -93,7 +97,7 @@ export default function RecipeModal({ recipe, stock, onClose, onAllRecipes, favo
           // prévue et devenait inatteignable (le scroll interne de la
           // carte ne chaîne pas vers <main>, cf. overscrollBehavior
           // 'contain' ci-dessous). 100% élimine ce nombre magique fragile.
-          maxHeight: isPage ? '100%' : (isMobile ? '92svh' : '92vh'),
+          maxHeight: isPage ? '100%' : (isMobile ? '92svh' : '92dvh'),
           minHeight: isPage ? '100%' : undefined,
           borderRadius: isPage ? 0 : (isMobile ? '20px 20px 0 0' : '24px'),
           animation: isPage
@@ -251,6 +255,7 @@ export default function RecipeModal({ recipe, stock, onClose, onAllRecipes, favo
             recipeNutrition={recipeNutrition}
             recipeCost={recipeCost}
             recipeSteps={recipeSteps}
+            stepsSeenRef={stepsSeenRef}
             recipeName={recipeName}
             hasStockIngredients={hasStockIngredients}
             hasPremiumAccess={hasPremiumAccess}
@@ -323,6 +328,8 @@ export default function RecipeModal({ recipe, stock, onClose, onAllRecipes, favo
           darkMode={darkMode}
           onClose={() => setShareOpen(false)}
           recipe={recipe}
+          recipeName={recipeName}
+          recipeSteps={recipeSteps}
           shareUrl={shareUrl}
           isShareable={isPubliclyShareable}
         />

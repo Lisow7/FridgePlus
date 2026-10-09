@@ -14,9 +14,28 @@ npm run e2e        # tests E2E (Playwright)
 npm run build      # build de prod → dist/
 ```
 
-Environnement : créer `.env.local` avec les clés publiques `VITE_SUPABASE_URL` et
-`VITE_SUPABASE_ANON_KEY`. **Ne jamais commiter de secret.** `.env.test` (versionné)
-ne contient que des placeholders de test.
+**Prérequis du poste**
+- **Node 24** (`.nvmrc`) — la même version que la CI et que le build Vercel (cf. l'en-tête de
+  `.github/workflows/ci.yml` : on ne déclare PAS `engines`, que Vercel lirait).
+- **`gitleaks`**, un binaire à installer (pas un paquet npm) : le hook `.husky/pre-commit` l'appelle
+  à chaque commit, et le premier commit d'un poste neuf échoue sans lui.
+  Installation : https://github.com/gitleaks/gitleaks#installing
+
+**Environnement** : créer `.env.local` (ignoré par git). **Ne jamais commiter de secret.**
+`.env.test` (versionné) ne contient que des placeholders de test. Les variables lues par l'app :
+
+| Variable | Rôle | Sans elle |
+|---|---|---|
+| `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY` | base et authentification (clés publiques) | l'app tourne sur ses données statiques, sans compte |
+| `VITE_SENTRY_DSN` | rapports d'erreurs (après consentement) | pas de rapports |
+| `VITE_VAPID_PUBLIC_KEY` | notifications push | push indisponible |
+| `VITE_STRIPE_PUBLISHABLE_KEY` | paiement Premium | sans effet tant que le Premium est fermé |
+| `VITE_PREMIUM_ENABLED` | `true` rouvre le Premium (cf. `premium-config.js`) | Premium fermé (défaut) |
+
+Les secrets des fonctions edge (`service_role`, Stripe, OpenAI…) ne vont PAS dans le front.
+
+`supabase/SCHEMA.md` est un fichier LOCAL (ignoré par git) : un clone neuf ne l’a pas. Le schéma se
+lit dans `supabase/migrations/` et son `README`.
 
 ### Partager le projet (audit, prestataire, outil externe)
 
@@ -71,7 +90,7 @@ Types : `feat`, `fix`, `ui`, `perf`, `refactor`, `chore`, `docs`, `test`, `build
 
 ## 4. Versioning & changelog
 
-- Version affichée : `src/shared/lib/version.js` (`CURRENT_VERSION`) — **source unique**.
+- Version affichée : `src/shared/lib/version.js` (`CURRENT_VERSION`) — **source unique**. Le badge du pied de page y lit aussi le nom de la version (`CURRENT_RELEASE_NAME`, en français et en anglais) : à la release, les deux changent avec l'entrée du journal (`nom-de-la-version.test.js` les tient égaux). Le journal complet ne part plus au démarrage.
 - Journal : `src/features/changelog/data/changelog.js` (tableau `CHANGELOG`).
 - **Le bump de version + l'entrée changelog n'arrivent QU'au moment d'une release `dev→main`** (pas à chaque PR de feature sur `dev` — le badge du footer doit refléter ce qui est réellement en prod, pas la cadence interne de `dev`). Une release consolide potentiellement plusieurs PR `dev` en **une seule entrée** groupée par thème.
 - À une release `dev→main` : si le lot ne contient **que des `fix`** (rien de nouveau visible), **ne pas bumper par défaut** → label `skip-release-guard`. Ne bumper (`fix`→patch, `feat`→minor) que si le lot contient au moins un `feat` réellement visible en prod (pas derrière un flag OFF), ou sur demande explicite.
@@ -94,7 +113,7 @@ Types : `feat`, `fix`, `ui`, `perf`, `refactor`, `chore`, `docs`, `test`, `build
 
 SOLID · Clean Code · DDD · sécurité **OWASP** · **RGPD** · accessibilité **WCAG/EAA** · **SEO** ·
 performance · scalabilité. Architecture & décisions : `docs/ARCHITECTURE.md` + `docs/adr/`.
-Chaque feature a son `src/features/<x>/README.md`.
+Chaque feature a son `src/features/<x>/README.md` (gardé par `src/test/unit/modules-documentes.test.js`).
 
 ## 8. Carte du repo
 

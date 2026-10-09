@@ -3,8 +3,10 @@ import { render as rtlRender, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import userEvent from '@testing-library/user-event'
 
-// Wrap render avec MemoryRouter — BasketPopover (rendu par Header) consomme
-// useNavigate() depuis v3.419.0 et exige un Router context dans les tests.
+// Wrap render avec MemoryRouter — des éléments du Header consomment
+// useNavigate() et exigent un Router context dans les tests. (BasketPopover,
+// qui l'exigeait le premier, n'était plus rendu depuis la v0.40 ; supprimé
+// le 2026-10-08.)
 const render = (ui, options) => rtlRender(<MemoryRouter>{ui}</MemoryRouter>, options)
 
 // HelpGuide (rendu par HeaderActions) consomme useRecipeForm + useFeatureFlag — mock (pas de provider en test).

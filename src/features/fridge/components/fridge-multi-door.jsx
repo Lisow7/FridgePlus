@@ -172,7 +172,7 @@ export default function FridgeMultiDoor({ layout, lang = 'fr', onSubcategoryClic
                         <span style={{ fontSize: '13px', fontWeight: 700, color: darkMode ? '#8AACCA' : '#1C2830' }}>Fridge</span>
                         <span style={{ fontSize: '13px', fontWeight: 700, color: 'var(--color-brand-500)' }}>+</span>
                       </div>
-                      <div style={{
+                      <div className="fp-poignee" style={{
                         position: 'absolute', right: '6px', top: '50%', transform: 'translateY(-50%)',
                         width: '6px', height: '72px', borderRadius: '3px',
                         background: 'linear-gradient(180deg, #F5A45A 0%, #E07820 100%)',
@@ -201,7 +201,7 @@ export default function FridgeMultiDoor({ layout, lang = 'fr', onSubcategoryClic
                         <span style={{ fontSize: '13px', fontWeight: 700, color: darkMode ? '#8AACCA' : '#1C2830' }}>Fridge</span>
                         <span style={{ fontSize: '13px', fontWeight: 700, color: 'var(--color-brand-500)' }}>+</span>
                       </div>
-                      <div style={{
+                      <div className="fp-poignee" style={{
                         position: 'absolute', left: '6px', top: '50%', transform: 'translateY(-50%)',
                         width: '6px', height: '72px', borderRadius: '3px',
                         background: 'linear-gradient(180deg, #F5A45A 0%, #E07820 100%)',

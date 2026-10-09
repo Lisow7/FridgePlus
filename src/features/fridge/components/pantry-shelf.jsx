@@ -5,6 +5,7 @@ import { useWindowWidth } from '@shared/hooks/use-window-width'
 import FoodIcon from '@shared/ui/food-icon'
 import { LuX } from 'react-icons/lu'
 import Button from '@shared/ui/button'
+import { compterEnStock } from '@features/fridge/lib/compter-en-stock'
 
 const SECTION_COLORS = {
   dry:    { bg: '#FEF8E8', text: '#936614' },
@@ -101,7 +102,7 @@ export default function PantryShelf({ sections, onSubcategoryClick, stock = new 
                   </Button>
                   <div className="flex flex-col gap-1 p-1.5 flex-1">
                     {section.subcategories.map((sub, idx) => {
-                      const subCount = (INGREDIENTS[sub.id] ?? []).filter(i => stock.has(i.id)).length
+                      const subCount = compterEnStock(INGREDIENTS, sub.id, stock)
                       const subColors = SUBCATEGORY_COLORS[sub.id] ?? colors
                       return (
                         <Button
@@ -164,7 +165,7 @@ export default function PantryShelf({ sections, onSubcategoryClick, stock = new 
                   <span className="text-sm text-[var(--color-muted)] text-center leading-tight px-2">
                     {section.desc}
                   </span>
-                  <div style={{
+                  <div className="fp-poignee" style={{
                     position: 'absolute', bottom: '10px', left: '50%', transform: 'translateX(-50%)',
                     width: '44px', height: '5px', borderRadius: '3px',
                     background: `linear-gradient(90deg, ${colors.text}44 0%, ${colors.text}99 35%, ${colors.text}bb 50%, ${colors.text}99 65%, ${colors.text}44 100%)`,

@@ -24,9 +24,12 @@ import { test, expect } from '@playwright/test'
 // C'est pourquoi ce test parcourt la MATRICE des états qui coexistent, et non
 // la liste des constantes.
 
+// Daté d'aujourd'hui : un choix de plus de 6 mois expire (RGPD-05) — avec
+// `timestamp: 1`, l'état « donné » montrait en fait le bandeau. Version 2 :
+// les deux cases de la décision du 2026-10-06.
 const CONSENTEMENT = JSON.stringify({
-  version: 1, timestamp: 1, bannerDismissed: true,
-  essential: true, functional: false, audience: false, voice: false, receiptScan: false,
+  version: 2, timestamp: Date.now(), bannerDismissed: true,
+  essential: true, errors: false, usage: false, voice: false, receiptScan: false,
 })
 
 const TAILLES = [
@@ -147,7 +150,7 @@ for (const taille of TAILLES) {
     await page.addInitScript(() => {
       localStorage.setItem('fridge-lang', 'fr')
       localStorage.setItem('fridge-consent-v1', JSON.stringify({
-        version: 1, essential: true, audience: false, bannerDismissed: true,
+        version: 2, essential: true, errors: false, usage: false, bannerDismissed: true,
         decidedAt: '2026-09-12T00:00:00.000Z',
       }))
       localStorage.setItem('fridge-welcome-seen-v1', '1')

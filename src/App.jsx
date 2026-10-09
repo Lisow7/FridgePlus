@@ -1,8 +1,8 @@
-import { useState, useEffect, useCallback, useMemo } from 'react'
+import { useState, useEffect, useCallback, useMemo, lazy, Suspense } from 'react'
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 import { isRecipesPanelOpen, withRecipesPanel } from '@shared/lib/recipes/recipes-panel-param'
 import { parentIdsInStock } from '@shared/lib/fridge/parent-stock'
-import { useRestoreAccount } from '@shared/hooks/use-restore-account'
+import { useEmailLinkBanner } from '@shared/hooks/use-email-link-banner'
 import { useSharedBasketId, useSubscriptionActivated } from '@shared/hooks/use-url-boot-effects'
 import { useSeoMeta } from '@shared/hooks/use-seo-meta'
 import { useAppModals } from '@app/hooks/use-app-modals'
@@ -27,7 +27,6 @@ import { useIngredients, useFridgeLayouts, useIngredientsById, useGroupMaps } fr
 import { SEO_META } from '@shared/static/seo-meta'
 import { useWindowWidth } from '@shared/hooks/use-window-width'
 import { useAuth } from '@shared/contexts/auth-provider'
-import ChooseUsernamePage from '@features/auth/pages/choose-username-page'
 import { needsUsername } from '@features/auth/lib/needs-username'
 // Sprint 11 S11.c.2 — useFridgeStock + useFavorites désormais
 // consommés via SessionStateProvider (cf. main.jsx). Les hooks sont
@@ -35,8 +34,8 @@ import { needsUsername } from '@features/auth/lib/needs-username'
 // pour que les routes (RecipePage cold-load) y aient accès.
 import { useStockSession, useFavoritesSession, useCartSession } from '@shared/contexts/session-state-context'
 import { useDeletingRecipe } from '@shared/contexts/deleting-recipe-context'
-import { getPublicRecipes } from '@features/recipes/lib/custom-recipes'
-import { logError } from '@shared/lib/observability/sentry'
+import { usePublicRecipesOnDemand } from '@app/hooks/use-public-recipes-on-demand'
+import PageSkeleton from '@routes/page-skeleton'
 import { useLang, useDarkMode } from '@shared/contexts/ui-provider'
 // Sprint 6 PR S6.c — ToastProvider monté dans main.jsx,
 // `useToast()` accessible depuis n'importe quel composant descendant.
@@ -49,6 +48,9 @@ import { SubscriptionModalProvider, useUpgradeModal } from '@shared/contexts/sub
 import { useSubscription } from '@shared/hooks/use-subscription'
 
 // ── Code splitting : lazy-loaded au premier affichage
+// L'écran du premier pseudo (et sa liste de gros mots) ne sert qu'une fois par
+// compte (audit du 2026-10-04, PERF-03).
+const ChooseUsernamePage = lazy(() => import('@features/auth/pages/choose-username-page'))
 // Réduit le bundle initial de ~30% et améliore le FCP/LCP.
 // AdminPanel (2030 lignes) chargé seulement pour les admins.
 // Modales rares (Auth, Profile, Voice, Cart, Leftovers) chargées au clic.
@@ -67,7 +69,7 @@ function AppInner() {
  if (import.meta.env.DEV && new URLSearchParams(window.location.search).has('crash')) {
  throw new Error('Dev crash trigger: app-level (ErrorBoundary global)')
  }
- const { user, profile, signOut, recoveryMode, isAdmin, allergenPrefs, restoreAccount, refreshProfile } = useAuth()
+ const { user, profile, loading: authLoading, signOut, recoveryMode, isAdmin, allergenPrefs, restoreAccount, refreshProfile } = useAuth()
  const { isTrialing, trialDaysLeft, isPremium } = useSubscription()
  const { isUpgradeOpen, openUpgradeModal, closeUpgradeModal } = useUpgradeModal()
 
@@ -101,13 +103,10 @@ function AppInner() {
  // garde « FR-only au lancement » est désormais dans UIProvider).
  const handleLangChange = setLangContext
 
- // Détection du lien email ?restore-account=TOKEN — appelle l'edge
- // function restore-account, nettoie l'URL, affiche un banner avec le
- // résultat. Le user est invité à se reconnecter ensuite. Auto-dismiss
- // après 8 secondes.
- // Bannière de restauration de compte (lien email "?restore-account=<token>").
- // Auto-dismiss après 8s. Cf. shared/hooks/use-restore-account.js.
- const [restoreBanner, dismissRestoreBanner] = useRestoreAccount({ lang, restoreAccount })
+ // Bandeau du haut pour un lien reçu par e-mail : restauration de compte
+ // ("?restore-account=<token>", fermé seul après 8 s) ou lien de connexion qui
+ // n'aboutit pas (expiré, ouvert ailleurs). Cf. shared/hooks/use-email-link-banner.js.
+ const [restoreBanner, dismissRestoreBanner] = useEmailLinkBanner({ lang, restoreAccount })
 
  // URL boot effects : panier partagé public (?shared=<uuid>),
  // retour Stripe Checkout (?subscription=activated), deep link mobile
@@ -157,7 +156,6 @@ function AppInner() {
  stock, setStock,
  setStockMeta,
  toggleIngredient,
- resetStock,
  emptyFridgeOptimistic,
  emptyFridgeConfirm,
  emptyFridgeUndo,
@@ -168,7 +166,9 @@ function AppInner() {
  const [customRecipes, setCustomRecipes] = useState(() => {
  try { return JSON.parse(localStorage.getItem('fridge-custom-recipes') ?? '[]') } catch { return [] }
  })
- const [publicRecipes, setPublicRecipes] = useState([])
+ // Lues à la première ouverture du panneau de recettes ou des restes, les
+ // seuls à s'en servir — plus à chaque démarrage (PERF-07).
+ const publicRecipes = usePublicRecipesOnDemand(showRecipes || ['today', 'thisweek'].includes(activeSubcat?.sub?.id))
  // Sprint 11 S11.e.2 — deletingRecipe lifté dans DeletingRecipeProvider
  // pour que RecipePage en overlay puisse demander une suppression. App.jsx
  // consume le state via le hook context, expose les setters via les
@@ -215,12 +215,6 @@ function AppInner() {
  // version tracking + load post-login déplacés dans useBasket.
  // App.jsx orchestre désormais les operations qui touchent plusieurs
  // features (handleAddToCart, handleClearBasket, etc.).
-
- useEffect(() => {
- getPublicRecipes()
- .then(setPublicRecipes)
- .catch(err => logError(err, { tag: 'App.getPublicRecipes' }))
- }, [])
 
  // Garde-fou : un id « catégorie » (parent de groupe) n'est jamais
  // sélectionnable côté frigo, il ne doit donc jamais figurer dans le stock.
@@ -347,7 +341,7 @@ function AppInner() {
  })
  const layout = resolveFridgeLayout({ layouts: FRIDGE_LAYOUTS, lang, shape: profile?.fridge_shape ?? null })
 
- // toggleIngredient / resetStock / emptyFridgeOptimistic /
+ // toggleIngredient / emptyFridgeOptimistic /
  // emptyFridgeConfirm / emptyFridgeUndo viennent du hook useFridgeStock
  // (cf. déclaration au-dessus).
 
@@ -400,7 +394,7 @@ function AppInner() {
  })
 
  // expiredLeftoversCount vient du hook useLeftovers (memo interne).
-
+ const accueilCouvert = showRecipes || modals.cart.isOpen || modals.support.isOpen || modals.admin.isOpen || !!activeSubcat // un panneau recouvre l'accueil : carte, bouton orange ET fusée s'effacent
  const windowWidth = useWindowWidth()
  const fridgeBase = layout.type === 'side-by-side' ? 500 : 400
 
@@ -434,13 +428,13 @@ function AppInner() {
  // navigation parasite). needsUsername exige profile non null → pas de flash.
  // Affiché AVANT le welcome/tour onboarding.
  if (needsUsername(user, profile)) {
- return <ChooseUsernamePage lang={lang} darkMode={darkMode} />
+ return <Suspense fallback={<PageSkeleton lang={lang} darkMode={darkMode} />}><ChooseUsernamePage lang={lang} darkMode={darkMode} /></Suspense>
  }
 
  return (
  <NotificationsProvider>
  <UndoProvider lang={lang} darkMode={darkMode}>
- <div className="min-h-screen bg-[var(--color-cream)] flex flex-col overflow-hidden" style={{ height: '100dvh' }}>
+ <div className="min-h-dvh bg-[var(--color-cream)] flex flex-col overflow-hidden" style={{ height: '100dvh' }}>
  <TopBanners
  restoreBanner={restoreBanner}
  onRestoreBannerDismiss={dismissRestoreBanner}
@@ -463,7 +457,7 @@ function AppInner() {
  onShowProfile={() => navigate('/profile')}
  onShowAdmin={() => modals.admin.open()}
  onShowCommunity={() => navigate('/community')}
- onShowSupport={() => modals.support.open()}
+ onShowSupport={user ? () => modals.support.open() : undefined}
  onSignOut={handleSignOut}
  pendingCount={adminPendingCount + adminSupportCount}
  supportUnread={supportUnread}
@@ -492,7 +486,7 @@ function AppInner() {
  onQuickRemove: (ids) => removeStockBatch(ids),
  onOpenRecipe: (id) => navigate(`/recipe/${id}`),
  onSuggestionOpen: () => markSuggestionOpened(user?.id ?? 'guest'),
- stapleIds: ahaStapleIds, coachCovered: showRecipes || modals.cart.isOpen || modals.support.isOpen || modals.admin.isOpen || !!activeSubcat,
+ stapleIds: ahaStapleIds, coachCovered: accueilCouvert,
  }}
  stock={stock}
  stockCount={stock.size}
@@ -507,7 +501,7 @@ function AppInner() {
  onEmptyOptimistic={emptyFridgeOptimistic}
  onEmptyConfirm={emptyFridgeConfirm}
  onEmptyUndo={emptyFridgeUndo}
- isHomeForFab={isHome && !showRecipes && !modals.cart.isOpen && !modals.support.isOpen && !modals.admin.isOpen && !activeSubcat}
+ isHomeForFab={isHome && !accueilCouvert}
  fabAnchorTop={fabAnchorTop}
  fabActiveTab={mobileTab}
  fabDoorOpen={anyDoorOpen}
@@ -518,7 +512,7 @@ function AppInner() {
  />
 
  <AppFooter
- isHome={isHome}
+ isHome={isHome && !accueilCouvert}
  windowWidth={windowWidth}
  footerExpanded={footerExpanded}
  setFooterExpanded={setFooterExpanded}
@@ -542,7 +536,7 @@ function AppInner() {
  onWelcomeClose: () => modals.welcome.close(),
  onSignUp: goSignUp,
  onShowCommunity: () => navigate('/community'),
- user, isPremium,
+ user, profile, authLoading, isPremium,
  isUpgradeOpen, onUpgradeClose: closeUpgradeModal, onShowUpgrade: openUpgradeModal,
  lang, darkMode,
  }}
@@ -556,7 +550,7 @@ function AppInner() {
  basketRecipeIds, allergenPrefs,
  onToggleFavorite: toggleFavorite,
  onToggleIngredient: toggleIngredient,
- onResetStock: resetStock,
+ onEmptyOptimistic: emptyFridgeOptimistic, onEmptyConfirm: emptyFridgeConfirm, onEmptyUndo: emptyFridgeUndo,
  // Sprint 11 S11.e.1 — onSaveCustomRecipe retiré : RecipeFormModal est
  // désormais rendu via RecipeFormOverlay au top-level d'App.jsx, qui
  // passe handleSaveCustomRecipe directement.

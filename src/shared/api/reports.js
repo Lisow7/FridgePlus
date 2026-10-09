@@ -17,14 +17,28 @@ import {
   findOfficialRecipeNamesByIds,
 } from '@shared/lib/recipes/recipes-repository'
 import {
-  MAX_OPEN_TICKETS,
+  MAX_OPEN_REPORTS,
   OPEN_TICKET_STATUSES,
   estRefusDePlafond,
 } from '@shared/lib/support/open-tickets-cap'
 
 // ─── Whitelists (cohérence avec les CHECK constraints SQL) ───────────────────
 
-export const REPORT_TARGET_TYPES = ['recipe', 'user', 'comment', 'ingredient']
+// Toutes les cibles qu'accepte la contrainte `chk_support_tickets_target_type`.
+// Les quatre dernières étaient signalées par des fonctions à part, qui
+// n'aboutissaient JAMAIS (colonne `body` inexistante, `title` oublié — prouvé
+// le 2026-10-05) : elles passent maintenant toutes par `createReport`.
+export const REPORT_TARGET_TYPES = [
+  'recipe', 'user', 'comment', 'ingredient',
+  'community_post', 'community_reply', 'community_profile', 'recipe_review',
+]
+
+// Le titre d'un signalement, quand l'écran n'en donne pas : lu par l'admin.
+const LIBELLES_CIBLE = {
+  recipe: 'recette', user: 'utilisateur', comment: 'commentaire', ingredient: 'ingrédient',
+  community_post: 'post de la communauté', community_reply: 'réponse de la communauté',
+  community_profile: 'profil de la communauté', recipe_review: 'avis sur une recette',
+}
 export const REPORT_REASON_KEYS  = [
   'spam',
   'inappropriate',
@@ -38,8 +52,15 @@ export const REPORT_STATUSES = ['open', 'in_progress', 'resolved']
 
 // ─── Côté user : créer un signalement ────────────────────────────────────────
 //
-// Crée un ticket support type='report' avec les 3 colonnes structurées.
-// Le titre est généré automatiquement à partir du target_type + reason.
+// Crée un ticket support type='report' avec les 3 colonnes structurées, et y
+// joint le détail du motif — D'UN SEUL COUP, par la fonction `ouvrir_ticket`
+// de la base (migration `20261005_signalements_et_tickets_qui_aboutissent`) :
+// si le détail ne peut pas être joint, rien n'est créé. Avant le 2026-10-05,
+// le détail était inséré après coup sans regarder le résultat : un refus
+// laissait un signalement sans son texte, annoncé « envoyé ».
+//
+// Rend `{ error: null, data: { id } }`, ou `{ error }` dont le `message` vaut
+// `max_tickets_reached` ou `account_restricted` quand l'écran sait le dire.
 
 export async function createReport({ targetType, targetId, reasonKey, reasonDetails, userTitle }) {
   if (!REPORT_TARGET_TYPES.includes(targetType)) return { error: { message: 'Invalid target_type' } }
@@ -48,44 +69,42 @@ export async function createReport({ targetType, targetId, reasonKey, reasonDeta
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return { error: { message: 'Not authenticated' } }
 
+  // Les signalements ont leur propre plafond : les questions au support ne
+  // comptent pas ici (CPT-17).
   const { count } = await supabase
     .from('support_tickets')
     .select('id', { count: 'exact', head: true })
     .eq('user_id', user.id)
+    .eq('type', 'report')
     .in('status', OPEN_TICKET_STATUSES)
-  if ((count ?? 0) >= MAX_OPEN_TICKETS) return { error: { message: 'max_tickets_reached' } }
+  if ((count ?? 0) >= MAX_OPEN_REPORTS) return { error: { message: 'max_reports_reached' } }
 
-  const title = userTitle?.trim() || `Signalement ${targetType} (${reasonKey})`
+  const title = userTitle?.trim() || `Signalement : ${LIBELLES_CIBLE[targetType]} (${reasonKey})`
+  return ouvrirTicket({
+    p_type:        'report',
+    p_title:       title,
+    p_message:     reasonDetails?.trim() || null,
+    p_target_type: targetType,
+    p_target_id:   String(targetId),
+    p_reason_key:  reasonKey,
+  })
+}
 
-  // 1. Créer le ticket support type='report'
-  const { data: ticket, error } = await supabase.from('support_tickets').insert({
-    user_id:     user.id,
-    type:        'report',
-    title,
-    status:      'open',
-    target_type: targetType,
-    target_id:   String(targetId),
-    reason_key:  reasonKey,
-    has_unread_admin: true,
-  }).select('id').single()
-
-  // Le compteur ci-dessus a laissé passer, mais la policy RLS a refusé : deux
-  // signalements envoyés en même temps. On rend le message que l'UI sait
-  // afficher plutôt que l'erreur Postgres brute.
-  if (estRefusDePlafond(error)) return { error: { message: 'max_tickets_reached' } }
-  if (error) return { error }
-
-  // 2. Si l'utilisateur a fourni des détails, les poser comme premier message du fil
-  if (reasonDetails?.trim()) {
-    await supabase.from('support_messages').insert({
-      ticket_id: ticket.id,
-      sender_id: user.id,
-      is_admin:  false,
-      content:   reasonDetails.trim(),
-    })
+// Appelle `ouvrir_ticket` et traduit ses refus en messages que les écrans
+// savent afficher. Partagé avec `createTicket` (features/support).
+//   • 42501 : une règle d'accès a refusé — le plafond de tickets ouverts,
+//     franchi par deux envois simultanés (le compteur client passe d'abord) ;
+//   • `account_restricted` (compte banni ou supprimé) est le message même de
+//     l'erreur que lève la fonction : il passe tel quel.
+export async function ouvrirTicket(args) {
+  let data, error
+  try { ({ data, error } = await supabase.rpc('ouvrir_ticket', args)) }
+  catch (err) { error = err ?? new Error('unknown') }
+  if (estRefusDePlafond(error)) {
+    return { error: { message: args.p_type === 'report' ? 'max_reports_reached' : 'max_tickets_reached' }, data: null }
   }
-
-  return { error: null, data: ticket }
+  if (error || !data) return { error: error ?? { message: 'no_ticket' }, data: null }
+  return { error: null, data: { id: data } }
 }
 
 // ─── Côté admin : liste + count ──────────────────────────────────────────────

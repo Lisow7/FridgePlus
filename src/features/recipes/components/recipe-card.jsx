@@ -14,6 +14,7 @@ import { UpgradeGate } from '@shared/ui/upgrade-gate'
 import { useUpgradeModal } from '@shared/contexts/subscription-modal-provider'
 import { useAuth } from '@shared/contexts/auth-provider'
 import { useWindowWidth } from '@shared/hooks/use-window-width'
+import { useDialogue } from '@shared/hooks/use-dialogue'
 
 function matchColor(pct) {
   if (pct === 100) return '#4CAF7D'
@@ -71,18 +72,20 @@ function RecipeCard({
     cartNoticeRef.current = setTimeout(() => setCartNotice(null), 2500)
   }
 
+  // Une vraie boîte de dialogue : rôle, nom, focus piégé, Échap (A11Y-01).
+  const dialoguePanier = useDialogue({ onClose: () => setUpgradeCartOpen(false), actif: upgradeCartOpen, nom: t.addToCart })
+
   function handleOpen() {
     onOpen(recipe)
     if (recipe.admin_modified && !recipe._isCommunity) onMarkAdminModifiedRead?.(recipe.id)
   }
 
   return (
+    // Un conteneur, plus un `role="button"` : le NOM est un vrai lien vers la
+    // fiche, étiré sur toute la carte (audit SEO-02 — aucun lien ne menait aux
+    // fiches ; et ce faux bouton contenait le favori et le panier).
     <div
-      role="button"
-      tabIndex={0}
       data-recipe-id={recipe.id}
-      onClick={handleOpen}
-      onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && handleOpen()}
       className="w-full text-left rounded-2xl cursor-pointer transition-all duration-150 hover:shadow-lg"
       style={{
         padding: '14px 16px',
@@ -106,8 +109,12 @@ function RecipeCard({
         <Emoji char={recipe.emoji} size={36} style={{ flexShrink: 0 }} imageUrl={recipe.image_url} />
 
         <div className="flex-1 min-w-0 flex items-center gap-2 flex-wrap">
-          <span
-            className="font-bold"
+          {/* Clic simple : la fiche s'ouvre DANS l'app (le panneau garde son
+              défilement). Ctrl/Cmd/Maj+clic, bouton du milieu : le navigateur. */}
+          <a
+            href={`${import.meta.env.BASE_URL}recipe/${encodeURIComponent(recipe.id)}`}
+            onClick={e => { if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return; e.preventDefault(); handleOpen() }}
+            className="font-bold no-underline after:absolute after:inset-0 after:rounded-2xl after:content-[''] focus-visible:outline-none focus-visible:after:outline-2 focus-visible:after:-outline-offset-2 focus-visible:after:outline-[var(--color-brand-500)]"
             style={{
               fontSize: '18px', color: 'var(--color-charcoal)',
               display: '-webkit-box',
@@ -118,7 +125,7 @@ function RecipeCard({
             }}
           >
             {name}
-          </span>
+          </a>
           {country && countries[country] && (
             <Emoji char={countries[country].flag} size={18} style={{ flexShrink: 0 }} />
           )}
@@ -171,7 +178,8 @@ function RecipeCard({
           </span>
 
           {/* Favori (gauche) + Panier (droite, connecté uniquement) */}
-          <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '4px' }}>
+          {/* Au-dessus du lien étiré, sinon il prendrait leurs clics. */}
+          <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '4px', position: 'relative', zIndex: 1 }}>
             {/* Favori */}
             <Button
               variant="ghost"
@@ -473,7 +481,7 @@ function RecipeCard({
           onClick={() => setUpgradeCartOpen(false)}
           style={{ position: 'fixed', inset: 0, zIndex: 1200, background: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}
         >
-          <div onClick={e => e.stopPropagation()} style={{ maxWidth: '360px', width: '100%' }}>
+          <div {...dialoguePanier.proprietes} onClick={e => e.stopPropagation()} style={{ maxWidth: '360px', width: '100%' }}>
             <UpgradeGate
               feature="basket"
               variant="hard"

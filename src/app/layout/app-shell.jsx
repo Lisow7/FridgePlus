@@ -1,6 +1,7 @@
 import Header from '@app/layout/header'
 import AppRoutes from '@routes/index'
 import FridgeHomeView from '@app/components/fridge-home-view'
+import ErrorBoundary from '@app/error/error-boundary'
 import FridgeFAB from '@features/fridge/components/fridge-fab'
 import { Z_INDEX } from '@shared/lib/z-index'
 import { SHELL_I18N } from '@shared/lib/i18n/app-shell-i18n'
@@ -182,16 +183,21 @@ export default function AppShell({
         // Historique : jusqu'au 2026-09-11 la réservation était un style en
         // ligne, qui écrasait `pb-6`/`pb-12` en silence — la valeur effective
         // sans bandeau était donc 0, et c'est ce que les classes conservent.
+        // `scroll-pt-24` / `scroll-pb-…` (audit A11Y-15, WCAG 2.4.11) : un élément
+        // qui reçoit le focus en remontant (Maj+Tab) défilait jusqu'au bord du
+        // conteneur, SOUS l'en-tête fixe — ou sous le bandeau cookies en bas.
         className={isHome
-          ? 'flex-1 overflow-y-auto xl:overflow-hidden xl:flex xl:items-center xl:justify-center pt-24 pb-[var(--fp-bottom-inset,0px)] min-[1600px]:pb-0 px-4 md:px-6'
-          : 'flex-1 pt-24 pb-[var(--fp-bottom-inset,0px)] px-4 md:px-6 overflow-y-auto'
+          ? 'flex-1 overflow-y-auto xl:overflow-hidden xl:flex xl:items-center xl:justify-center pt-24 pb-[var(--fp-bottom-inset,0px)] min-[1600px]:pb-0 px-4 md:px-6 scroll-pt-24 scroll-pb-[var(--fp-bottom-inset,0px)]'
+          : 'flex-1 pt-24 pb-[var(--fp-bottom-inset,0px)] px-4 md:px-6 overflow-y-auto scroll-pt-24 scroll-pb-[var(--fp-bottom-inset,0px)]'
         }
         style={!isHome && !darkMode ? { background: '#F5F0E8' } : undefined}
       >
         {!isHome ? (
           <AppRoutes lang={lang} darkMode={darkMode} />
         ) : (
-          <FridgeHomeView {...fridgeHomeViewProps} />
+          <ErrorBoundary level="page" lang={lang}>
+            <FridgeHomeView {...fridgeHomeViewProps} />
+          </ErrorBoundary>
         )}
       </main>
 

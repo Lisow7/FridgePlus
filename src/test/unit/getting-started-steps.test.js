@@ -56,6 +56,29 @@ describe('computeSteps', () => {
     expect(s.completed).toBe(true) // step2 && step3, indépendant de step1
     expect(deriveCoachState({ steps: s, isGuest: false, hasReadyRecipe: false })).toBe('fin')
   })
+  // Audit du 2026-10-04, P-08. La découverte (step2) n'est notée que dans le
+  // navigateur ; « a cuisiné » (step3) vient du serveur. Un compte qui a déjà
+  // cuisiné a forcément fait la découverte — sur un autre appareil. Sans cette
+  // règle, il retrouvait « On cuisine ? » sur chaque nouvel appareil.
+  it('CONNECTÉ sur un nouvel appareil : a cuisiné, découverte jamais notée ICI → completed', () => {
+    const s = computeSteps({ hasStock: true, suggestionOpened: false, hasCooked: true, isGuest: false })
+    expect(s.step2).toBe(true)
+    expect(s.doneCount).toBe(3)
+    expect(s.completed).toBe(true)
+    expect(deriveCoachState({ steps: s, isGuest: false, hasReadyRecipe: true })).toBe('fin')
+  })
+  it('CONNECTÉ qui n\'a jamais cuisiné : la découverte reste à faire', () => {
+    const s = computeSteps({ hasStock: true, suggestionOpened: false, hasCooked: false, isGuest: false })
+    expect(s.step2).toBe(false)
+    expect(s.completed).toBe(false)
+  })
+  it('CONNECTÉ, réponse du serveur pas encore arrivée (null) : rien n\'est supposé', () => {
+    const s = computeSteps({ hasStock: true, suggestionOpened: false, hasCooked: null, isGuest: false })
+    expect(s.step2).toBe(false)
+    expect(s.step3).toBe(false)
+    expect(s.completed).toBe(false)
+  })
+
   it('INVITÉ cas-limite : a découvert MAIS frigo vidé → completed reste true', () => {
     const s = computeSteps({ hasStock: false, suggestionOpened: true, hasCooked: false, isGuest: true })
     expect(s.completed).toBe(true)

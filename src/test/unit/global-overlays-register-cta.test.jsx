@@ -13,22 +13,19 @@ vi.mock('@shared/hooks/use-consent', () => ({
   }),
 }))
 
-vi.mock('@features/onboarding', async (imp) => {
-  const actual = await imp()
-  return {
-    ...actual,
-    WelcomeScreen: ({ onAction }) => (
-      <button onClick={() => onAction.showRegister()}>register</button>
-    ),
-  }
-})
+// La bienvenue est chargée à la demande, à son propre chemin.
+vi.mock('@features/onboarding/components/welcome-screen', () => ({
+  default: ({ onAction }) => (
+    <button onClick={() => onAction.showRegister()}>register</button>
+  ),
+}))
 
 import GlobalOverlays from '@app/components/global-overlays'
 
 beforeEach(() => { vi.clearAllMocks() })
 
 describe('GlobalOverlays — CTA register (Fix D)', () => {
-  it('le CTA register du welcome/tour appelle onSignUp', () => {
+  it('le CTA register du welcome/tour appelle onSignUp', async () => {
     const onSignUp = vi.fn()
     render(
       <GlobalOverlays
@@ -38,7 +35,7 @@ describe('GlobalOverlays — CTA register (Fix D)', () => {
         onSignUp={onSignUp}
       />
     )
-    fireEvent.click(screen.getByRole('button', { name: 'register' }))
+    fireEvent.click(await screen.findByRole('button', { name: 'register' }))
     expect(onSignUp).toHaveBeenCalledOnce()
   })
 })

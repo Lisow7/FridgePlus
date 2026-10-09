@@ -22,4 +22,13 @@ describe('SearchInput — primitive', () => {
     const { queryByLabelText } = render(<SearchInput value="" onChange={() => {}} />)
     expect(queryByLabelText('Effacer la recherche')).toBeNull()
   })
+  // Décision du 2026-10-06 (« libellés = visibles ») : le nom du champ se
+  // lit à l'écran, il ne s'efface pas quand on tape.
+  it('le libellé se voit et nomme le champ', () => {
+    const { getByLabelText, getByText } = render(<SearchInput value="lisa" onChange={() => {}} label="Rechercher un pseudo" />)
+    expect(getByLabelText('Rechercher un pseudo')).toHaveValue('lisa')
+    const libelle = getByText('Rechercher un pseudo')
+    expect(libelle.tagName).toBe('LABEL')
+    expect(libelle).not.toHaveClass('sr-only')
+  })
 })

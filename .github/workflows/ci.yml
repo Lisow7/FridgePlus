@@ -6,10 +6,13 @@ name: CI (lint + test + build)
 # Le lint Vitest et le build n'étaient validés qu'au mérite des reviewers
 # (souvent : pas du tout). Cette PR ajoute trois jobs parallèles qui
 # bloquent le merge dès qu'un PR casse les tests ou le build :
-#   • lint  — eslint . (continue-on-error: baseline imparfait, à durcir
-#             en S5.d une fois le baseline nettoyé)
-#   • test  — vitest run (497 tests, bloquant)
-#   • build — npm run build (bloquant, vérifie aussi PWA + bundle)
+#   • lint  — eslint . + plafond d'avertissements au cran exact
+#             (`lintWarningsPlafond`, package.json), bloquant
+#   • test  — vitest run, bloquant (dont les cliquets : budgets de taille,
+#             appels qui jettent leur erreur, documentation)
+#   • build — npm run build, bloquant (PWA, pré-rendu, poids du démarrage)
+# Les compteurs ne s'écrivent pas ici : ils dérivent (ce commentaire a dit
+# « 497 tests » et « continue-on-error » bien après que ce soit faux).
 #
 # Skipped pour push main : deploy.yml + e2e.yml couvrent déjà.
 #
@@ -75,7 +78,11 @@ jobs:
   test:
     name: Vitest
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    # 15 et non 10 (2026-10-06) : la suite compte ~3 760 tests et prend 9 à
+    # 10 min sur un runner standard ; la PR #1275 a été annulée à 10 min pile,
+    # sans aucun test rouge. Une limite atteinte doit signaler un blocage, pas
+    # un runner un peu lent.
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v7
 
@@ -155,3 +162,14 @@ jobs:
           # elles fonctionneront sans autre changement.
           VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
           VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
+      # Plafond du poids de démarrage (audit du 2026-10-04, PERF-18) : ce que
+      # chaque visiteur charge avant le premier affichage ne grossit pas sans
+      # qu'on le décide. Voir scripts/verifier-poids-demarrage.mjs.
+      - name: Poids du démarrage
+        run: node scripts/verifier-poids-demarrage.mjs
+      # Précache du service worker (audit du 2026-10-04, SEO-11) : ce que chaque
+      # nouveau visiteur télécharge en arrière-plan. Aucun fichier exclu exprès
+      # n'y revient, et son poids ne grossit pas sans qu'on le décide. Voir
+      # scripts/verifier-precache.mjs.
+      - name: Précache du service worker
+        run: node scripts/verifier-precache.mjs

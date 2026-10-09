@@ -1,3 +1,8 @@
+// « 60 % » est écrit en clair : ce fichier part au démarrage, et y importer
+// `recipe-thresholds` ajoutait un fichier au démarrage (plafond de poids
+// dépassé). L'accord avec SEUIL_PRESQUE est vérifié par
+// src/test/unit/aide-qui-dit-vrai.test.js.
+
 // i18n des étapes du TourWizard (refonte « visite courte » — PR onboarding tour).
 //
 // Modèle : 5 étapes CONSTANTES pour tous les profils (4 communes + 1 finale
@@ -54,7 +59,7 @@ export const TOUR_STEPS_I18N = {
       subtitle: 'OUVRE LES RECETTES',
       desc: 'L\'app te montre d\'abord les recettes que tu peux faire avec ce que tu as. Une petite jauge indique à quel point chacune est à ta portée.',
       tips: [
-        { i: '✅', t: '« Prêt » = faisable tout de suite. « Presque » = il te manque juste un ou deux ingrédients.' },
+        { i: '✅', t: '« Prêt » = faisable tout de suite. « Presque » = tu as déjà au moins 60 % des ingrédients.' },
         { icon: 'recipes', t: 'Une fois le plat fait, touche « J\'ai cuisiné » : les ingrédients utilisés sortent du frigo, et le plat entre dans tes restes.' },
         { i: '🔎', t: 'Tu peux aussi choisir par régime, temps ou type de plat.' },
       ],
@@ -62,12 +67,12 @@ export const TOUR_STEPS_I18N = {
     final_guest: {
       title: 'Aller plus loin',
       subtitle: 'TU AS LES BASES',
-      desc: 'Un compte garde tes recettes préférées, ouvre la communauté et ton espace. Le premium ? Pas encore : aujourd\'hui, tout est gratuit.',
+      desc: 'Un compte retrouve tes favoris sur tous tes appareils, ouvre la communauté et ton espace. Le premium ? Pas encore : aujourd\'hui, tout est gratuit.',
       ctaLabel: 'Créer un compte →',
       secondaryLabel: 'Continuer sans compte',
       tips: [
         { i: '💾', t: 'Même sans compte, ton frigo et tes favoris restent sur cet appareil.' },
-        { i: '❓', t: 'Besoin d\'aide plus tard ? Le bouton « ? » en haut rouvre ce guide et toutes les fonctionnalités.' },
+        { i: '❓', t: 'Besoin d\'aide plus tard ? Le bouton « ? » en haut regroupe l\'aide et toutes les fonctionnalités ; la visite se relance depuis « Comment ça marche ».' },
       ],
     },
     final_free: {
@@ -132,7 +137,7 @@ export const TOUR_STEPS_I18N = {
       subtitle: 'OPEN THE RECIPES',
       desc: 'The app shows you first the recipes you can make with what you have. A small gauge tells how close each one is.',
       tips: [
-        { i: '✅', t: '"Ready" = doable right now. "Almost" = you\'re just one or two ingredients short.' },
+        { i: '✅', t: '"Ready" = doable right now. "Almost" = you already have at least 60% of the ingredients.' },
         { icon: 'recipes', t: 'Once the dish is done, tap "I cooked this": the ingredients you used leave the fridge, and the dish joins your leftovers.' },
         { i: '🔎', t: 'You can also pick by diet, time or type of dish.' },
       ],
@@ -140,12 +145,12 @@ export const TOUR_STEPS_I18N = {
     final_guest: {
       title: 'Going further',
       subtitle: 'YOU\'VE GOT THE BASICS',
-      desc: 'An account keeps your favorite recipes, opens the community and your space. Premium? Not yet: today, everything is free.',
+      desc: 'An account brings your favorites to all your devices, opens the community and your space. Premium? Not yet: today, everything is free.',
       ctaLabel: 'Create an account →',
       secondaryLabel: 'Continue without an account',
       tips: [
         { i: '💾', t: 'Even without an account, your fridge and favorites stay on this device.' },
-        { i: '❓', t: 'Need help later? The "?" button at the top reopens this guide and every feature.' },
+        { i: '❓', t: 'Need help later? The "?" button at the top gathers help and every feature; restart the tour from "How it works".' },
       ],
     },
     final_free: {

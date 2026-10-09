@@ -1,5 +1,5 @@
 import ModerationReasonModal from './moderation-reason-modal'
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useId } from 'react'
 import { createPortal } from 'react-dom'
 import { LuCheck, LuBan, LuPencil, LuTrash2, LuSparkles, LuClock } from 'react-icons/lu'
 import { TYPE_OPTIONS as RECIPE_TYPE_OPTIONS, DIFFICULTY_LABELS as RECIPE_DIFF_LABELS } from '@shared/static/recipe-constants'
@@ -17,12 +17,18 @@ import RecipeFormModal from '@features/recipes/components/recipe-form-modal'
 import HoverIconButton from '../shared/hover-icon-button'
 import { ConfirmDeleteModal, ConfirmActionModal } from '@shared/ui/confirm-dialog/confirm-modals'
 import FeedbackBanner from '../shared/feedback-banner'
+import ChargementRate from '../shared/chargement-rate'
 import BulkActionBar from '../shared/bulk-action-bar'
+import CaseDeSelection from '../shared/case-de-selection'
 import { appliquerEnLot, messageDeLot } from '@features/admin/lib/appliquer-en-lot'
 import { useSelection } from '@features/admin/hooks/use-selection'
 import Button from '@shared/ui/button'
 import { formatDate } from '@shared/lib/format-date'
 import { useReloader } from '@shared/hooks/use-reloader'
+import { leverSiErreur } from '@shared/lib/supabase/lever-si-erreur'
+import { useFeedback } from '@features/admin/hooks/use-feedback'
+import { supprimerAvecAnnulation, messageErreurAdmin } from '@features/admin/lib/ecritures-admin'
+import { texteLisible, fondTeinte } from '@shared/lib/couleurs/texte-lisible'
 
 const STATUS_COLORS = {
   pending:  { bg:'rgba(251,191,36,0.15)', color:'var(--color-warning)' },
@@ -38,7 +44,7 @@ const I18N = {
     pending:'En attente', approved:'Approuvées', rejected:'Rejetées',
     approve:'Approuver', reject:'Rejeter', pendingAction:'Corrections', editCommunity:'Modifier',
     noRecipes:'Aucune recette dans cette catégorie.',
-    filterAll:'Tous', search:'Rechercher…',
+    filterAll:'Tous', search:'Rechercher une recette',
     timeQuick:'≤ 20 min', timeMedium:'21–45 min', timeLong:'> 45 min',
     confirmDeleteRecipeTitle:'Supprimer cette recette ?',
     confirmDeleteRecipeBody:'La recette sera retirée. Tu auras 10 secondes pour annuler.',
@@ -54,17 +60,19 @@ const I18N = {
       approved: 'Message pour l\'auteur (optionnel)',
     },
     moderationModalConfirm: 'Confirmer',
-    moderationModalPlaceholders: {
-      rejected: 'Précisions supplémentaires…',
-      pending:  'Détails des corrections attendues…',
-      approved: 'Message de félicitations ou note (optionnel)…',
+    // Libellé écrit au-dessus du champ (décision du 2026-10-06) ; la note
+    // est toujours facultative : « Confirmer » part même sans elle.
+    moderationModalNoteLabels: {
+      rejected: 'Précisions supplémentaires (facultatif)',
+      pending:  'Détails des corrections attendues (facultatif)',
+      approved: 'Message de félicitations ou note (facultatif)',
     },
   },
   en: {
     pending:'Pending', approved:'Approved', rejected:'Rejected',
     approve:'Approve', reject:'Reject', pendingAction:'Corrections', editCommunity:'Edit',
     noRecipes:'No recipes.',
-    filterAll:'All', search:'Search…',
+    filterAll:'All', search:'Search a recipe',
     timeQuick:'≤ 20 min', timeMedium:'21–45 min', timeLong:'> 45 min',
     confirmDeleteRecipeTitle:'Delete this recipe?',
     confirmDeleteRecipeBody:'The recipe will be removed. You will have 10 seconds to undo.',
@@ -80,10 +88,10 @@ const I18N = {
       approved: 'Message for the author (optional)',
     },
     moderationModalConfirm: 'Confirm',
-    moderationModalPlaceholders: {
-      rejected: 'Additional details…',
-      pending:  'Details about expected corrections…',
-      approved: 'Congratulations message or note (optional)…',
+    moderationModalNoteLabels: {
+      rejected: 'Additional details (optional)',
+      pending:  'Details about expected corrections (optional)',
+      approved: 'Congratulations message or note (optional)',
     },
   },
 }
@@ -99,6 +107,7 @@ export default function CustomRecipesSection({ lang = 'fr', darkMode = false }) 
   const { trigger } = useUndo()
   const { pendingCount, setPendingCount, refreshStats } = useAdmin()
   const sel = useSelection()
+  const rechercheId = useId()
 
   const border    = darkMode ? '#2A3A50' : '#D9CCBA'
   const textColor = darkMode ? '#C8D8E8' : '#1A0F00'
@@ -107,7 +116,6 @@ export default function CustomRecipesSection({ lang = 'fr', darkMode = false }) 
 
   const [recipes,             setRecipes]             = useState([])
   const [recipeFilter,        setRecipeFilter]        = useState('pending')
-  const [recipeError,         setRecipeError]         = useState(false)
   const [recipeSearch,        setRecipeSearch]        = useState('')
   const [recipeTypeFilter,    setRecipeTypeFilter]    = useState('')
   const [recipeDiffFilter,    setRecipeDiffFilter]    = useState('')
@@ -117,25 +125,19 @@ export default function CustomRecipesSection({ lang = 'fr', darkMode = false }) 
   const [hiddenRecipeIds,     setHiddenRecipeIds]     = useState(() => new Set())
   const [confirmDeleteRecipe, setConfirmDeleteRecipe] = useState(null)
   const [confirmBulkDelete,   setConfirmBulkDelete]   = useState(false)
+  const [confirmBulkApprove,  setConfirmBulkApprove]  = useState(false)
   const [confirmPromoteRecipe,setConfirmPromoteRecipe]= useState(null)
   const [moderationTarget,    setModerationTarget]    = useState(null)
   const [bulkRejectOpen,      setBulkRejectOpen]      = useState(false)
   const [showOnlyMissing,     setShowOnlyMissing]     = useState(false)
-  const [feedback,            setFeedback]            = useState(null)
-
-  function showFeedback(ok, msg) {
-    setFeedback({ ok, msg })
-    setTimeout(() => setFeedback(null), 3500)
-  }
+  const [feedback,            showFeedback]           = useFeedback()
 
   // `useReloader` garantit le `finally` (sans lui, une erreur réseau laissait
   // le voyant allumé pour toujours) et périme les réponses en retard : sans ça,
   // enchaîner deux filtres laissait la plus ancienne écraser la plus récente.
-  const { loading, reload: loadRecipes } = useReloader(async (estObsolete) => {
-    setRecipeError(false)
-    const { data, error } = await adminGetRecipesByStatus(recipeFilter)
+  const { loading, error: erreurChargement, reload: loadRecipes } = useReloader(async (estObsolete) => {
+    const { data } = leverSiErreur(await adminGetRecipesByStatus(recipeFilter))
     if (estObsolete()) return
-    if (error) setRecipeError(true)
     setRecipes(data ?? [])
   }, [recipeFilter])
 
@@ -173,19 +175,22 @@ export default function CustomRecipesSection({ lang = 'fr', darkMode = false }) 
   async function handleConfirmStatusWithReason(reason) {
     const { id, status } = moderationTarget
     setModerationTarget(null)
-    await adminSetRecipeStatus(id, status, reason)
+    const { error } = await adminSetRecipeStatus(id, status, reason)
+    // Refusée : la recette reste dans la file et le badge ne bouge pas (audit ADM-02).
+    if (error) { showFeedback(false, messageErreurAdmin(error, lang)); return }
     setRecipes(r => r.filter(x => x.id !== id))
     if (recipeFilter === 'pending') setPendingCount(c => Math.max(0, c - 1))
     if (status === 'pending') setPendingCount(c => c + 1)
   }
 
-  async function handleBulkApprove() {
+  // Les trois actions groupées suivent un seul chemin.
+  // 🔴 Retirer les lignes SANS CONDITION faisait disparaitre de la file des
+  // recettes restees en attente en base : l'administrateur croyait avoir
+  // modere. On ne purge donc que sur succes complet, sinon on recharge.
+  async function appliquerALaSelection(action, libelle) {
     const ids = sel.ids
     if (!ids.length) return
-    const bilan = await appliquerEnLot(ids, id => adminSetRecipeStatus(id, 'approved'))
-    // 🔴 Retirer les lignes SANS CONDITION faisait disparaitre de la file des
-    // recettes restees en attente en base : l'administrateur croyait avoir
-    // modere. On ne purge donc que sur succes complet, sinon on recharge.
+    const bilan = await appliquerEnLot(ids, action)
     if (bilan.toutReussi) {
       setRecipes(r => r.filter(x => !sel.selected.has(x.id)))
       if (recipeFilter === 'pending') setPendingCount(c => Math.max(0, c - bilan.reussis))
@@ -193,22 +198,20 @@ export default function CustomRecipesSection({ lang = 'fr', darkMode = false }) 
       loadRecipes()
     }
     sel.clear()
-    showFeedback(bilan.toutReussi, messageDeLot(bilan, n => lang === 'fr' ? `recette${n > 1 ? 's' : ''} approuvée${n > 1 ? 's' : ''}` : `recipe(s) approved`))
+    showFeedback(bilan.toutReussi, messageDeLot(bilan, libelle))
+  }
+  const libelleDeLot = (fr, en) => n => lang === 'fr' ? `recette${n > 1 ? 's' : ''} ${fr}${n > 1 ? 's' : ''}` : `recipe(s) ${en}`
+
+  // Approuver rend les recettes publiques (`is_public`) : la sélection passe
+  // par une confirmation, comme sa suppression (audit du 2026-10-04, ADM-23).
+  function handleBulkApprove() {
+    setConfirmBulkApprove(false)
+    return appliquerALaSelection(id => adminSetRecipeStatus(id, 'approved'), libelleDeLot('approuvée', 'approved'))
   }
 
-  async function handleBulkReject(reason) {
-    const ids = sel.ids
+  function handleBulkReject(reason) {
     setBulkRejectOpen(false)
-    if (!ids.length) return
-    const bilan = await appliquerEnLot(ids, id => adminSetRecipeStatus(id, 'rejected', reason))
-    if (bilan.toutReussi) {
-      setRecipes(r => r.filter(x => !sel.selected.has(x.id)))
-      if (recipeFilter === 'pending') setPendingCount(c => Math.max(0, c - bilan.reussis))
-    } else {
-      loadRecipes()
-    }
-    sel.clear()
-    showFeedback(bilan.toutReussi, messageDeLot(bilan, n => lang === 'fr' ? `recette${n > 1 ? 's' : ''} rejetée${n > 1 ? 's' : ''}` : `recipe(s) rejected`))
+    return appliquerALaSelection(id => adminSetRecipeStatus(id, 'rejected', reason), libelleDeLot('rejetée', 'rejected'))
   }
 
   function handleDeleteRecipe(id) { setConfirmDeleteRecipe(id) }
@@ -216,27 +219,17 @@ export default function CustomRecipesSection({ lang = 'fr', darkMode = false }) 
     const id = confirmDeleteRecipe
     setConfirmDeleteRecipe(null)
     if (!id) return
-    setHiddenRecipeIds(prev => { const next = new Set(prev); next.add(id); return next })
-    trigger({
-      label: t.undoRecipeRemoved,
-      onConfirm: async () => { await adminDeleteRecipe(id); setRecipes(r => r.filter(x => x.id !== id)) },
-      onUndo: () => setHiddenRecipeIds(prev => { const next = new Set(prev); next.delete(id); return next }),
+    supprimerAvecAnnulation(trigger, {
+      label: t.undoRecipeRemoved, id, setMasques: setHiddenRecipeIds,
+      supprimer: () => adminDeleteRecipe(id),
+      retirer: () => setRecipes(r => r.filter(x => x.id !== id)),
+      siEchec: (e) => showFeedback(false, messageErreurAdmin(e, lang)),
     })
   }
 
-  async function handleConfirmBulkDelete() {
-    const ids = sel.ids
+  function handleConfirmBulkDelete() {
     setConfirmBulkDelete(false)
-    if (!ids.length) return
-    const bilan = await appliquerEnLot(ids, id => adminDeleteRecipe(id))
-    if (bilan.toutReussi) {
-      setRecipes(r => r.filter(x => !sel.selected.has(x.id)))
-      if (recipeFilter === 'pending') setPendingCount(c => Math.max(0, c - bilan.reussis))
-    } else {
-      loadRecipes()
-    }
-    sel.clear()
-    showFeedback(bilan.toutReussi, messageDeLot(bilan, n => lang === 'fr' ? `recette${n > 1 ? 's' : ''} supprimée${n > 1 ? 's' : ''}` : `recipe(s) deleted`))
+    return appliquerALaSelection(id => adminDeleteRecipe(id), libelleDeLot('supprimée', 'deleted'))
   }
 
   function handlePromoteRecipe(id, name) { setConfirmPromoteRecipe({ id, name }) }
@@ -272,7 +265,7 @@ export default function CustomRecipesSection({ lang = 'fr', darkMode = false }) 
       style={{
         fontWeight: active ? 700 : 500,
         background: active ? STATUS_COLORS[color]?.bg ?? 'rgba(224,120,32,0.12)' : (darkMode ? '#141F2E' : 'var(--color-bg-warm)'),
-        color: active ? STATUS_COLORS[color]?.color ?? 'var(--color-brand-500)' : muted,
+        color: active ? texteLisible(STATUS_COLORS[color]?.color ?? 'var(--color-brand-500)') : muted,
         transition: 'all 0.15s',
       }}
     >
@@ -286,11 +279,11 @@ export default function CustomRecipesSection({ lang = 'fr', darkMode = false }) 
       variant="ghost"
       aria-pressed={active}
       onClick={onClick}
-      className="h-auto rounded-lg border px-2.5 py-0.5 text-xs hover:bg-transparent"
+      className="h-auto min-h-6 rounded-lg border px-2.5 py-0.5 text-xs hover:bg-transparent"
       style={{
         borderColor: active ? color : border,
-        background: active ? `${color}1A` : 'transparent',
-        color: active ? color : muted,
+        background: active ? fondTeinte(color, 10) : 'transparent',
+        color: active ? texteLisible(color) : muted,
       }}
     >
       {label}
@@ -299,12 +292,6 @@ export default function CustomRecipesSection({ lang = 'fr', darkMode = false }) 
 
   return (
     <div>
-      {recipeError && (
-        <div style={{ marginBottom:14, padding:'12px 14px', borderRadius:10, background:'rgba(239,68,68,0.08)', border:'1px solid rgba(239,68,68,0.2)', fontSize:12, color:'var(--color-danger)' }}>
-          <strong>Accès refusé.</strong> Vérifiez les policies RLS dans Supabase.
-        </div>
-      )}
-
       <FeedbackBanner feedback={feedback} />
 
       {/* Filtre statut */}
@@ -314,8 +301,9 @@ export default function CustomRecipesSection({ lang = 'fr', darkMode = false }) 
         )}
       </div>
 
-      {/* Recherche */}
-      <input value={recipeSearch} onChange={e => setRecipeSearch(e.target.value)} placeholder={t.search}
+      {/* Recherche — libellé visible (décision du 2026-10-06) */}
+      <label htmlFor={rechercheId} style={{ display:'block', fontSize:11, fontWeight:700, color:'var(--color-muted)', marginBottom:4 }}>{t.search}</label>
+      <input id={rechercheId} value={recipeSearch} onChange={e => setRecipeSearch(e.target.value)}
         style={{ width:'100%', padding:'7px 12px', borderRadius:10, border:`1px solid ${border}`, background: darkMode ? '#141F2E' : '#FFF', color:textColor, fontSize:13, outline:'none', fontFamily:'inherit', boxSizing:'border-box', marginBottom:8 }} />
 
       {/* Filtres secondaires */}
@@ -347,20 +335,11 @@ export default function CustomRecipesSection({ lang = 'fr', darkMode = false }) 
         <MissingImageControls count={missingCount} active={showOnlyMissing} onToggle={() => setShowOnlyMissing(v => !v)} lang={lang} />
       </div>
 
-      {recipeFilter === 'pending' && (
-        <BulkActionBar
-          count={sel.count} lang={lang} darkMode={darkMode} onClear={sel.clear}
-          actions={[
-            { label: lang === 'fr' ? 'Approuver la sélection' : 'Approve selection', onClick: handleBulkApprove },
-            { label: lang === 'fr' ? 'Rejeter la sélection' : 'Reject selection', onClick: () => setBulkRejectOpen(true), danger: true },
-            { label: lang === 'fr' ? 'Supprimer la sélection' : 'Delete selection', onClick: () => setConfirmBulkDelete(true), danger: true },
-          ]}
-        />
-      )}
-
       {/* Liste */}
       {loading
         ? <div style={{ textAlign:'center', padding:'40px', color:muted, fontSize:13 }}>Chargement…</div>
+        : erreurChargement
+        ? <ChargementRate error={erreurChargement} onRetry={loadRecipes} lang={lang} />
         : displayedRecipes.length === 0
         ? <p style={{ textAlign:'center', padding:'36px 0', color:muted, fontSize:13, opacity:0.7 }}>{t.noRecipes}</p>
         : (
@@ -371,11 +350,12 @@ export default function CustomRecipesSection({ lang = 'fr', darkMode = false }) 
               return (
                 <div key={recipe.id} style={{ padding:'14px 16px', borderRadius:12, background:rowBg, border:`1px solid ${border}`, display:'flex', alignItems:'center', gap:10, flexWrap:'wrap' }}>
                   {recipeFilter === 'pending' && (
-                    <input type="checkbox" checked={sel.isSelected(recipe.id)} onChange={() => sel.toggle(recipe.id)}
-                      aria-label={lang === 'fr' ? 'Sélectionner cette recette' : 'Select this recipe'} style={{ flexShrink:0, width:16, height:16, cursor:'pointer' }} />
+                    <CaseDeSelection cochee={sel.isSelected(recipe.id)} onBasculer={() => sel.toggle(recipe.id)} nom={lang === 'fr' ? 'Sélectionner cette recette' : 'Select this recipe'} />
                   )}
                   <span style={{ fontSize:22, flexShrink:0 }}>{recipe.data?.emoji ?? '🍽️'}</span>
-                  <div style={{ flex:1, minWidth:0 }}>
+                  {/* Le titre garde 160 px : sans ce plancher, pastilles et actions
+                      l'écrasaient à ZÉRO au téléphone (mesuré le 2026-10-08). */}
+                  <div style={{ flex:'1 1 160px', minWidth:0 }}>
                     <div style={{ fontSize:15, fontWeight:700, color:textColor, overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap', display:'flex', alignItems:'center', gap:6 }}>
                       <span style={{ overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>{recipe.title}</span>
                       {hasNoImage(recipe) && <MissingImageBadge lang={lang} />}
@@ -385,10 +365,10 @@ export default function CustomRecipesSection({ lang = 'fr', darkMode = false }) 
                   {recipe.data?.ai_moderation_status === 'error' && (
                     <span
                       title={lang === 'fr' ? 'La modération IA a échoué — à examiner manuellement en priorité.' : 'AI moderation failed — manual review required in priority.'}
-                      aria-label={lang === 'fr' ? 'Modération IA en erreur' : 'AI moderation error'}
                       style={{ fontSize:12, fontWeight:600, padding:'3px 8px', borderRadius:6, background:'rgba(245,158,11,0.18)', color:'#92400E', flexShrink:0, display:'inline-flex', alignItems:'center', gap:4 }}
                     >
-                      ⚠️ {lang === 'fr' ? 'IA' : 'AI'}
+                      <span aria-hidden="true">⚠️ {lang === 'fr' ? 'IA' : 'AI'}</span>
+                      <span className="sr-only">{lang === 'fr' ? 'Modération IA en erreur' : 'AI moderation error'}</span>
                     </span>
                   )}
                   {/* R-09 — signal de complétude (re-calculé à l'affichage, pas de stockage).
@@ -399,17 +379,17 @@ export default function CustomRecipesSection({ lang = 'fr', darkMode = false }) 
                     return (
                       <span
                         title={lang === 'fr' ? `${n} problème(s) de complétude détecté(s) — à examiner.` : `${n} completeness issue(s) detected — please review.`}
-                        aria-label={lang === 'fr' ? 'Problèmes de complétude' : 'Completeness issues'}
                         style={{ fontSize:12, fontWeight:600, padding:'3px 8px', borderRadius:6, background:'rgba(239,68,68,0.14)', color:'#B91C1C', flexShrink:0, display:'inline-flex', alignItems:'center', gap:4 }}
                       >
-                        ⚠️ {n}
+                        <span aria-hidden="true">⚠️ {n}</span>
+                        <span className="sr-only">{lang === 'fr' ? `${n} problème(s) de complétude` : `${n} completeness issue(s)`}</span>
                       </span>
                     )
                   })()}
                   {status !== 'pending' && (
                     <span style={{ fontSize:12, fontWeight:600, padding:'3px 8px', borderRadius:6, background:sc.bg, color:sc.color, flexShrink:0 }}>{t[status] ?? status}</span>
                   )}
-                  <div style={{ display:'flex', gap:5, flexShrink:0 }}>
+                  <div style={{ display:'flex', gap:5, flexWrap:'wrap', marginLeft:'auto' }}>
                     <HoverIconButton onClick={() => setEditingRecipe({ id:recipe.id, ...recipe.data, moderation_status:recipe.moderation_status, isCustom:true })} icon={<LuPencil size={13} />} label={t.editCommunity} bg='rgba(99,179,237,0.15)' color='#2B6CB0' />
                     {status === 'pending' && <>
                       <HoverIconButton onClick={() => handleSetStatus(recipe.id, 'approved', recipe.title)} icon={<LuCheck size={13} />} label={t.approve} bg='rgba(34,197,94,0.15)' color='var(--color-success)' />
@@ -427,7 +407,7 @@ export default function CustomRecipesSection({ lang = 'fr', darkMode = false }) 
                     {(status === 'approved' || status === 'rejected') && (
                       <HoverIconButton onClick={() => handleSetStatus(recipe.id, 'pending', recipe.title)} icon={<LuClock size={13} />} label={t.pendingAction} bg='rgba(251,191,36,0.15)' color='var(--color-warning)' />
                     )}
-                    <HoverIconButton onClick={() => handleDeleteRecipe(recipe.id)} icon={<LuTrash2 size={13} />} label='' bg='rgba(239,68,68,0.10)' color='var(--color-danger)' />
+                    <HoverIconButton onClick={() => handleDeleteRecipe(recipe.id)} icon={<LuTrash2 size={13} />} label={t.confirmDeleteAction} bg='rgba(239,68,68,0.10)' color='var(--color-danger)' />
                   </div>
                 </div>
               )
@@ -436,10 +416,25 @@ export default function CustomRecipesSection({ lang = 'fr', darkMode = false }) 
         )
       }
 
+      {recipeFilter === 'pending' && (
+        <BulkActionBar
+          count={sel.count} lang={lang} darkMode={darkMode} onClear={sel.clear}
+          actions={[
+            { label: lang === 'fr' ? 'Approuver la sélection' : 'Approve selection', onClick: () => setConfirmBulkApprove(true) },
+            { label: lang === 'fr' ? 'Rejeter la sélection' : 'Reject selection', onClick: () => setBulkRejectOpen(true), danger: true },
+            { label: lang === 'fr' ? 'Supprimer la sélection' : 'Delete selection', onClick: () => setConfirmBulkDelete(true), danger: true },
+          ]}
+        />
+      )}
+
       {editingRecipe && (
         <RecipeFormModal
           initialRecipe={editingRecipe}
-          onSave={async (recipe) => { await adminUpdateCommunityRecipe(editingRecipe.id, recipe); setEditingRecipe(null); loadRecipes() }}
+          onSave={async (recipe) => {
+            const resultat = await adminUpdateCommunityRecipe(editingRecipe.id, recipe)
+            if (!resultat.error) loadRecipes()
+            return resultat // refusée : le formulaire reste ouvert, la saisie gardée
+          }}
           onClose={() => setEditingRecipe(null)}
           lang={lang} darkMode={darkMode} hidePublishOption
         />
@@ -479,6 +474,15 @@ export default function CustomRecipesSection({ lang = 'fr', darkMode = false }) 
           darkMode={darkMode}
           onConfirm={handleBulkReject}
           onCancel={() => setBulkRejectOpen(false)}
+        />, document.body
+      )}
+      {confirmBulkApprove && createPortal(
+        <ConfirmActionModal
+          title={lang === 'fr' ? `Approuver ${sel.count} recette${sel.count > 1 ? 's' : ''} ?` : `Approve ${sel.count} recipe(s)?`}
+          body={lang === 'fr' ? (sel.count > 1 ? 'Elles deviennent publiques, visibles par tous.' : 'Elle devient publique, visible par tous.') : 'They become public, visible to everyone.'}
+          confirmLabel={t.approve} cancelLabel={t.confirmCancel}
+          onConfirm={handleBulkApprove} onCancel={() => setConfirmBulkApprove(false)}
+          darkMode={darkMode}
         />, document.body
       )}
       {confirmBulkDelete && createPortal(

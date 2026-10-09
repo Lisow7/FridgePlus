@@ -226,8 +226,11 @@ describe('Vues de modération — les trois statuts doivent rester DISTINCTS', (
     expect(c.ilike).toHaveBeenCalledWith('title', '%arnaque%')
   })
 
-  it('un échec de listage rend une liste vide plutôt que de casser la page admin', async () => {
-    mockFrom.mockReturnValue(chaine({ data: null, error: { message: 'boum' } }))
-    expect(await adminListPosts({})).toEqual([])
+  // Inversé le 2026-10-05 (audit ADM-08) : la liste vide se lisait « Aucun post »
+  // — « rien à modérer ». L'échec LÈVE ; la section (useReloader) l'attrape et
+  // dit « Le chargement a échoué », la page admin ne casse pas.
+  it('un échec de listage lève, au lieu de passer pour une liste vide', async () => {
+    mockFrom.mockReturnValue(chaine({ data: null, error: { message: 'boum', code: 'XX000' } }))
+    await expect(adminListPosts({})).rejects.toMatchObject({ message: 'boum', code: 'XX000' })
   })
 })

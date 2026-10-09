@@ -6,15 +6,22 @@
 // Minimal : logo Fridge+ en haut + card centrée + lien switch
 // login↔signup en bas. Pas de Header complet de l'app (l'user est en
 // flow d'auth, on retire les distractions).
+//
+// 2026-10-04 : une ligne d'aide sous la carte. Le support intégré à l'app
+// demande d'être connecté — c'est justement ici qu'on ne l'est pas.
+import { SUPPORT_EMAIL } from '@shared/lib/contact'
 
 const I18N = {
   // brand = 'Fridge' seul : le « + » coloré est rendu séparément dans le <h1>
   // (sinon on obtient « Fridge++ »).
-  fr: { brand: 'Fridge', tagline: 'Cuisine mieux, sans limites.' },
-  en: { brand: 'Fridge', tagline: 'Cook better, no limits.' },
+  fr: { brand: 'Fridge', tagline: 'Cuisine mieux, sans limites.', help: 'Un souci pour te connecter ? Écris-nous :' },
+  en: { brand: 'Fridge', tagline: 'Cook better, no limits.', help: 'Trouble signing in? Write to us:' },
 }
 
-export default function AuthLayout({ lang = 'fr', darkMode = false, title, children, footer }) {
+// `standalone` : l'écran est affiché SEUL, sans l'en-tête de l'app (c'est le
+// cas de « Choisis ton pseudo », rendu avant tout le reste). Il occupe alors
+// toute la fenêtre ; sinon il laisse à l'en-tête ses 96 px.
+export default function AuthLayout({ lang = 'fr', darkMode = false, title, children, footer, standalone = false }) {
   const t = I18N[lang] ?? I18N.fr
   const bgColor   = darkMode ? '#0F1923' : '#FDFAF6'
   const textColor = darkMode ? '#EBE4D8' : '#2d1b00'
@@ -24,7 +31,7 @@ export default function AuthLayout({ lang = 'fr', darkMode = false, title, child
 
   return (
     <div style={{
-      minHeight: 'calc(100dvh - 96px)',
+      minHeight: standalone ? '100dvh' : 'calc(100dvh - 96px)',
       display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
       padding: '24px 16px',
       background: bgColor,
@@ -77,6 +84,12 @@ export default function AuthLayout({ lang = 'fr', darkMode = false, title, child
           {footer}
         </footer>
       )}
+
+      {/* ─── Aide : toujours là, quelle que soit la page ───────────── */}
+      <p style={{ margin: '14px 0 0', fontSize: '12px', color: mutedColor, textAlign: 'center' }}>
+        {t.help}{' '}
+        <a href={`mailto:${SUPPORT_EMAIL}`} style={{ color: 'var(--color-warm-600)', fontWeight: 700 }}>{SUPPORT_EMAIL}</a>
+      </p>
     </div>
   )
 }

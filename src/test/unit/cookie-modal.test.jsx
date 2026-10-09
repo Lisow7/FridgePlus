@@ -9,21 +9,60 @@ import userEvent from '@testing-library/user-event'
 
 const mockState = vi.hoisted(() => ({
   flag: false,
-  consent: { functional: false, audience: false, voice: false, receiptScan: false },
+  consent: { errors: false, usage: false, voice: false, receiptScan: false },
   push: { available: false },
+  save: null,
 }))
 vi.mock('@shared/contexts/feature-flags-provider', () => ({ useFeatureFlag: () => mockState.flag }))
 vi.mock('@features/push-notifications', () => ({ usePushSubscription: () => mockState.push }))
 vi.mock('@shared/hooks/use-consent', () => ({
-  useConsent: () => ({ consent: mockState.consent, save: vi.fn() }),
+  useConsent: () => ({ consent: mockState.consent, save: mockState.save }),
 }))
 
 import CookieModal from '@features/legal/components/cookie-modal'
 
 beforeEach(() => {
   mockState.flag = false
-  mockState.consent = { functional: false, audience: false, voice: false, receiptScan: false }
+  mockState.consent = { errors: false, usage: false, voice: false, receiptScan: false }
   mockState.push = { available: false }
+  mockState.save = vi.fn()
+})
+
+// Décision du 2026-10-06, choix d'Antoine (« bandeau = deux_cases ») : la
+// case « Mesure d'audience » se disait anonyme et couvrait deux outils ; elle
+// se dédouble. « Fonctionnels », qui ne commandait rien, disparaît.
+describe('CookieModal — deux cases, qui disent vrai', () => {
+  it('« Rapports d’erreurs » et « Statistiques d’usage » ; plus de « Fonctionnels » ni de « Mesure d’audience »', () => {
+    render(<CookieModal lang="fr" onClose={vi.fn()} />)
+    expect(screen.getByRole('switch', { name: /Rapports d'erreurs/ })).toBeInTheDocument()
+    expect(screen.getByRole('switch', { name: /Statistiques d'usage/ })).toBeInTheDocument()
+    expect(screen.queryByText(/Fonctionnels/)).not.toBeInTheDocument()
+    expect(screen.queryByText(/Mesure d'audience/)).not.toBeInTheDocument()
+    expect(screen.queryByText(/[Aa]nonymis/)).not.toBeInTheDocument()
+  })
+
+  it('chaque case dit ce qui part, à qui, et combien de temps', async () => {
+    const user = userEvent.setup()
+    render(<CookieModal lang="fr" onClose={vi.fn()} />)
+    await user.click(screen.getByText("🔵 Rapports d'erreurs"))
+    expect(screen.getByText(/rattachées à l'identifiant de ton compte, jamais à ton adresse e-mail/)).toBeInTheDocument()
+    await user.click(screen.getByText("🟣 Statistiques d'usage"))
+    expect(screen.getByText('⏱ 13 mois')).toBeInTheDocument()
+  })
+
+  it('« Enregistrer mes choix » écrit les deux cases, et rien d’autre que les quatre choix', async () => {
+    const user = userEvent.setup()
+    render(<CookieModal lang="fr" onClose={vi.fn()} />)
+    await user.click(screen.getByRole('switch', { name: /Rapports d'erreurs/ }))
+    await user.click(screen.getByRole('button', { name: 'Enregistrer mes choix' }))
+    expect(mockState.save).toHaveBeenCalledWith({ errors: true, usage: false, voice: false, receiptScan: false })
+  })
+
+  it('en anglais aussi', () => {
+    render(<CookieModal lang="en" onClose={vi.fn()} />)
+    expect(screen.getByRole('switch', { name: /Error reports/ })).toBeInTheDocument()
+    expect(screen.getByRole('switch', { name: /Usage statistics/ })).toBeInTheDocument()
+  })
 })
 
 describe('CookieModal — catégorie scan ticket de caisse', () => {

@@ -1,10 +1,11 @@
-import { useRef, useState, useMemo } from 'react'
+import { useRef, useState, useMemo, useId } from 'react'
 import { createPortal } from 'react-dom'
 import { LuX, LuSearch, LuBookOpen, LuArrowRight, LuChevronRight } from 'react-icons/lu'
 import { ADMIN_HELP } from '../data/admin-help-content'
 import { useFocusTrap } from '@shared/hooks/use-focus-trap'
 import { useCloseOnBackButton } from '@shared/hooks/use-close-on-back-button'
 import Button from '@shared/ui/button'
+import { texteLisible } from '@shared/lib/couleurs/texte-lisible'
 
 // Guide admin 2 colonnes.
 // Sidebar groupée + recherche + légende risque. Contenu riche avec
@@ -38,13 +39,15 @@ function sectionWorstRisk(sections = []) {
 export default function AdminHelpModal({ tabKey, darkMode = false, onClose }) {
   const [activeTab, setActiveTab] = useState(tabKey ?? 'dashboard')
   const [search, setSearch]       = useState('')
+  const rechercheId = useId()
 
   const dialogRef = useRef(null)
   useFocusTrap(dialogRef, { active: true, onEscape: onClose })
   useCloseOnBackButton(true, onClose)
 
   const fg        = darkMode ? 'var(--color-bg-warm)' : '#2C1A0E'
-  const muted     = darkMode ? '#8A9AB0' : '#7A6A52'
+  // Le jeton atténué commun : #7A6A52 faisait 4,42:1 sur le fond du guide (A11Y-03).
+  const muted     = 'var(--color-muted)'
   const bg        = darkMode ? '#0F1925' : '#FDFAF6'
   const border    = darkMode ? 'var(--color-dark-surface)' : 'var(--color-border-warm)'
   const cardBg    = darkMode ? '#131E2C' : '#FFFFFF'
@@ -133,6 +136,8 @@ export default function AdminHelpModal({ tabKey, darkMode = false, onClose }) {
 
             {/* Recherche */}
             <div style={{ padding: '10px 10px 8px', flexShrink: 0 }}>
+              {/* Libellé visible (décision du 2026-10-06), le texte grisé en exemple. */}
+              <label htmlFor={rechercheId} style={{ display: 'block', fontSize: 11, fontWeight: 700, color: 'var(--color-muted)', marginBottom: 4 }}>Rechercher dans le guide</label>
               <div style={{
                 display: 'flex', alignItems: 'center', gap: 6,
                 padding: '6px 9px', borderRadius: 8,
@@ -140,10 +145,10 @@ export default function AdminHelpModal({ tabKey, darkMode = false, onClose }) {
               }}>
                 <LuSearch size={11} style={{ color: muted, flexShrink: 0 }} />
                 <input
+                  id={rechercheId}
                   value={search}
                   onChange={e => setSearch(e.target.value)}
-                  placeholder="Rechercher un onglet…"
-                  aria-label="Rechercher dans le guide"
+                  placeholder="ex. : Recettes"
                   style={{
                     background: 'transparent', border: 'none', outline: 'none',
                     color: fg, fontSize: 12, width: '100%', fontFamily: 'inherit',
@@ -152,8 +157,9 @@ export default function AdminHelpModal({ tabKey, darkMode = false, onClose }) {
               </div>
             </div>
 
-            {/* Navigation groupée */}
-            <nav style={{ flex: '1 1 auto', overflowY: 'auto', paddingBottom: 8 }}>
+            {/* Navigation groupée : le sujet ouvert est la « page courante » (A11Y-10 :
+                des onglets ARIA sans liste d'onglets, ni panneau, ni flèches). */}
+            <nav aria-label="Sujets du guide" style={{ flex: '1 1 auto', overflowY: 'auto', paddingBottom: 8 }}>
               {filteredGroups.map(group => (
                 <div key={group.key}>
                   <p style={{
@@ -172,8 +178,7 @@ export default function AdminHelpModal({ tabKey, darkMode = false, onClose }) {
                       <Button
                         key={k}
                         variant="ghost"
-                        role="tab"
-                        aria-selected={isActive}
+                        aria-current={isActive ? 'page' : undefined}
                         onClick={() => { setActiveTab(k); setSearch('') }}
                         type="button"
                         className="h-auto w-full justify-start rounded-none px-3 py-1.5 text-left hover:bg-transparent"
@@ -184,14 +189,14 @@ export default function AdminHelpModal({ tabKey, darkMode = false, onClose }) {
                             ? (darkMode ? 'rgba(224,120,32,0.14)' : 'rgba(224,120,32,0.09)')
                             : 'transparent',
                           borderLeft: `3px solid ${isActive ? 'var(--color-brand-500)' : 'transparent'}`,
-                          color: isActive ? 'var(--color-brand-500)' : fg,
+                          color: isActive ? texteLisible('var(--color-brand-500)') : fg,
                         }}
                       >
                         <span style={{ fontSize: 14, lineHeight: 1, flexShrink: 0 }}>{h.icon}</span>
                         <span style={{
                           fontSize: 12, fontWeight: isActive ? 700 : 500,
                           flex: 1, lineHeight: 1.25,
-                          color: isActive ? 'var(--color-brand-500)' : fg,
+                          color: isActive ? texteLisible('var(--color-brand-500)') : fg,
                         }}>
                           {h.title}
                         </span>
@@ -250,7 +255,7 @@ export default function AdminHelpModal({ tabKey, darkMode = false, onClose }) {
                   <span style={{
                     padding: '2px 7px', borderRadius: 4,
                     background: darkMode ? 'rgba(224,120,32,0.15)' : 'rgba(224,120,32,0.10)',
-                    color: 'var(--color-brand-500)', fontSize: 9, fontWeight: 800,
+                    color: texteLisible('var(--color-brand-500)'), fontSize: 9, fontWeight: 800,
                     textTransform: 'uppercase', letterSpacing: '0.07em',
                   }}>
                     {content.badge}
@@ -268,7 +273,7 @@ export default function AdminHelpModal({ tabKey, darkMode = false, onClose }) {
                 {hasDanger && (
                   <span style={{
                     padding: '4px 10px', borderRadius: 6, fontSize: 11, fontWeight: 700,
-                    background: RISK.danger.bg, color: RISK.danger.color,
+                    background: RISK.danger.bg, color: texteLisible(RISK.danger.color),
                   }}>
                     🔴 Actions irréversibles dans cet onglet
                   </span>
@@ -276,7 +281,7 @@ export default function AdminHelpModal({ tabKey, darkMode = false, onClose }) {
                 {hasCaution && (
                   <span style={{
                     padding: '4px 10px', borderRadius: 6, fontSize: 11, fontWeight: 700,
-                    background: RISK.caution.bg, color: RISK.caution.color,
+                    background: RISK.caution.bg, color: texteLisible(RISK.caution.color),
                   }}>
                     🟡 Actions à confirmer avant d'exécuter
                   </span>
@@ -318,7 +323,7 @@ export default function AdminHelpModal({ tabKey, darkMode = false, onClose }) {
                           <span style={{
                             padding: '1px 7px', borderRadius: 4,
                             fontSize: 10, fontWeight: 700,
-                            background: r.bg, color: r.color,
+                            background: r.bg, color: texteLisible(r.color),
                           }}>
                             {r.label}
                           </span>
@@ -340,7 +345,7 @@ export default function AdminHelpModal({ tabKey, darkMode = false, onClose }) {
               }}>
                 <p style={{
                   margin: '0 0 8px', fontSize: 10, fontWeight: 800,
-                  color: '#15803D', textTransform: 'uppercase', letterSpacing: '0.08em',
+                  color: texteLisible('#15803D'), textTransform: 'uppercase', letterSpacing: '0.08em',
                   display: 'flex', alignItems: 'center', gap: 5,
                 }}>
                   <LuArrowRight size={11} /> Workflow recommandé
@@ -363,7 +368,7 @@ export default function AdminHelpModal({ tabKey, darkMode = false, onClose }) {
               }}>
                 <p style={{
                   margin: '0 0 6px', fontSize: 10, fontWeight: 800,
-                  color: 'var(--color-brand-500)', textTransform: 'uppercase', letterSpacing: '0.08em',
+                  color: texteLisible('var(--color-brand-500)'), textTransform: 'uppercase', letterSpacing: '0.08em',
                 }}>
                   💡 Astuces
                 </p>
@@ -385,7 +390,7 @@ export default function AdminHelpModal({ tabKey, darkMode = false, onClose }) {
               }}>
                 <p style={{
                   margin: '0 0 6px', fontSize: 10, fontWeight: 800,
-                  color: '#B91C1C', textTransform: 'uppercase', letterSpacing: '0.08em',
+                  color: texteLisible('#B91C1C'), textTransform: 'uppercase', letterSpacing: '0.08em',
                 }}>
                   ⚠️ Points d'attention
                 </p>
@@ -451,7 +456,7 @@ export default function AdminHelpModal({ tabKey, darkMode = false, onClose }) {
           <Button
             onClick={onClose}
             type="button"
-            className="h-auto rounded-lg bg-[#E07820] px-[18px] py-1.5 text-[13px] font-bold text-white"
+            className="h-auto rounded-lg bg-[#B85000] px-[18px] py-1.5 text-[13px] font-bold text-white"
           >
             Fermer le guide
           </Button>

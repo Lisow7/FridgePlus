@@ -26,7 +26,7 @@ import { logError } from '@shared/lib/observability/sentry'
 // vraie cause (retour utilisateur 2026-07-11 : erreur réelle rencontrée sur
 // un vrai ticket, impossible à diagnostiquer car réduite à ce message générique).
 const ERROR_CODES = new Set([
-  'quota_exceeded', 'rate_limited', 'unauthorized', 'invalid_token', 'vision_error', 'scan_failed',
+  'quota_exceeded', 'user_quota_exceeded', 'rate_limited', 'unauthorized', 'invalid_token', 'vision_error', 'scan_failed',
   'vision_key_missing', 'vision_unreachable', 'image_too_large', 'image_base64_required',
   'quota_check_failed', 'invalid_json', 'method_not_allowed',
 ])

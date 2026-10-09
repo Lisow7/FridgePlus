@@ -35,3 +35,25 @@ export function markWelcomeSeen() {
 export function shouldOpenWelcome(pathname) {
   return pathname === '/' && !hasSeenWelcome()
 }
+
+const UN_JOUR_MS = 24 * 60 * 60 * 1000
+
+// À qui montrer l'écran de bienvenue ?
+//
+// Le drapeau « déjà vu » ne vit que dans le navigateur. Vu en direct le
+// 2026-10-04 : en se connectant dans un navigateur neuf, un compte créé en juin
+// retrouvait « Bienvenue en cuisine ! » par-dessus son frigo (audit P-08).
+//
+//   'wait' — on ne sait pas encore qui est là (session ou profil en cours de
+//            chargement) : ne rien montrer, ne rien décider ;
+//   'show' — un visiteur, ou un compte créé depuis moins d'un jour (une
+//            inscription arrivée directement sur /signup n'a jamais vu l'écran) ;
+//   'skip' — un compte plus ancien : ce n'est pas un nouveau venu.
+export function welcomeAudience({ authLoading, user, profile, now = Date.now() }) {
+  if (authLoading) return 'wait'
+  if (!user) return 'show'
+  if (!profile) return 'wait'
+  const createdAt = Date.parse(profile.created_at)
+  if (!Number.isFinite(createdAt)) return 'show'
+  return now - createdAt > UN_JOUR_MS ? 'skip' : 'show'
+}

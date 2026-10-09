@@ -24,6 +24,7 @@ import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.112.3'
 import { getCorsHeaders } from '../_shared/cors.ts'
 import { applyRateLimit } from '../_shared/rate-limit.ts'
 import { sendEmail } from '../_shared/email.ts'
+import { reserverUnEmail } from '../_shared/email-quota.ts'
 
 type ChangeType = 'pseudo' | 'email' | 'password'
 type Lang       = 'fr' | 'en' | 'es' | 'de' | 'ja'
@@ -284,7 +285,12 @@ Deno.serve(async (req: Request) => {
   } catch {
     return new Response(JSON.stringify({ error: 'invalid_json' }), { status: 400, headers: CORS })
   }
-  const { type, lang, oldValue, newValue } = payload
+  const { type, lang } = payload
+  // Recopiées dans l'e-mail (échappées) : bornées à la longueur d'une adresse
+  // e-mail (254), au-delà de tout pseudo ou adresse légitime (BDD-08).
+  const borner = (v: unknown) => (typeof v === 'string' ? v.slice(0, 254) : undefined)
+  const oldValue = borner(payload.oldValue)
+  const newValue = borner(payload.newValue)
   if (!type || !['pseudo', 'email', 'password'].includes(type)) {
     return new Response(JSON.stringify({ error: 'invalid_type' }), { status: 400, headers: CORS })
   }
@@ -308,6 +314,23 @@ Deno.serve(async (req: Request) => {
     return new Response(
       JSON.stringify({ error: 'resend_not_configured' }),
       { status: 500, headers: { 'Content-Type': 'application/json', ...CORS } }
+    )
+  }
+
+  // ── Plafond quotidien d'e-mails par compte (BDD-08) ─────────
+  // Réservé en base avant l'envoi : le limiteur en mémoire ne survit pas à un
+  // démarrage à froid et ne voit pas les autres instances.
+  const reservation = await reserverUnEmail(supabaseAdmin, user.id, 'profile_change')
+  if (reservation === 'erreur') {
+    return new Response(
+      JSON.stringify({ error: 'email_quota_check_failed' }),
+      { status: 500, headers: { 'Content-Type': 'application/json', ...CORS } }
+    )
+  }
+  if (reservation === 'plafond') {
+    return new Response(
+      JSON.stringify({ error: 'email_quota_exceeded' }),
+      { status: 429, headers: { 'Content-Type': 'application/json', ...CORS } }
     )
   }
 

@@ -27,6 +27,7 @@ export default function AllergenPicker({
   inputBg,
   textColor,
   mutedColor,
+  disabled = false, // boolean — pas d'accord aux allergènes : rien ne répond
 }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: isMobile ? '10px' : '14px' }}>
@@ -42,6 +43,7 @@ export default function AllergenPicker({
               variant="ghost"
               onClick={() => onToggle(key)}
               aria-pressed={checked}
+              disabled={disabled}
               className="h-full justify-start rounded-[10px] border-[1.5px] text-left hover:bg-transparent"
               style={{
                 gap: isMobile ? '8px' : '10px',
@@ -71,7 +73,7 @@ export default function AllergenPicker({
       </div>
 
       {selectedKeys.length === 0 && (
-        <p style={{ fontSize: '12px', color: mutedColor, opacity: 0.7, textAlign: 'center', margin: '4px 0 0' }}>
+        <p style={{ fontSize: '12px', color: mutedColor, textAlign: 'center', margin: '4px 0 0' }}>
           {t.allergenNone}
         </p>
       )}
@@ -90,7 +92,7 @@ export default function AllergenPicker({
         <Button
           onClick={onSave}
           loading={isLoading}
-          disabled={isLoading}
+          disabled={isLoading || disabled}
           className="h-auto rounded-[10px] bg-none bg-[#B85000] px-4 py-2.5 text-[13px] font-bold text-white"
           style={{ gap: '6px' }}
         >

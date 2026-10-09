@@ -8,6 +8,7 @@ import { useCloseOnBackButton } from '@shared/hooks/use-close-on-back-button'
 import Button from '@shared/ui/button'
 import { ToggleRow, RangeFilterRow } from './filter-drawer-rows'
 import AllergenPrefsChips from './allergen-prefs-chips'
+import { compterLesFiltresActifs } from '@features/recipes/lib/recipe-active-filters'
 
 // Labels propres au drawer (5 langues), en complément des labels
 // existants dans PANEL_I18N transmis via la prop `i18n`. Permet d'éviter
@@ -54,6 +55,8 @@ export default function RecipeFiltersDrawer({
   minProtein,    setMinProtein,
   maxCalories,   setMaxCalories,
   maxBudget,     setMaxBudget,
+  // Le curseur de budget, pour qui voit les coûts seulement (audit UX-07).
+  budgetVisible = false,
   resetFilters,
   counts,                 // { byType, byDifficulty, byCountry, byDiet, seasonal, healthy, noCook, antiWaste, freezer, kids, batch }
   // Données pour les options
@@ -82,18 +85,12 @@ export default function RecipeFiltersDrawer({
 
   const local = DRAWER_LOCAL_I18N[lang] ?? DRAWER_LOCAL_I18N.fr
 
-  const activeCount = typeSet.size + difficultySet.size + dietSet.size + countrySet.size
-                    + (sortMode !== 'match' ? 1 : 0)
-                    + (seasonalOnly ? 1 : 0)
-                    + (healthyOnly ? 1 : 0)
-                    + (noCookOnly ? 1 : 0)
-                    + (antiWasteOnly ? 1 : 0)
-                    + (freezerFriendlyOnly ? 1 : 0)
-                    + (kidsFriendlyOnly ? 1 : 0)
-                    + (batchCookingOnly ? 1 : 0)
-                    + (minProtein != null ? 1 : 0)
-                    + (maxCalories != null ? 1 : 0)
-                    + (maxBudget != null ? 1 : 0)
+  // Le même compte que le badge de la barre (une seule fonction, UX-07).
+  const activeCount = compterLesFiltresActifs({
+    typeSet, difficultySet, dietSet, countrySet, sortMode,
+    seasonalOnly, healthyOnly, noCookOnly, antiWasteOnly, freezerFriendlyOnly, kidsFriendlyOnly, batchCookingOnly,
+    minProtein, maxCalories, maxBudget, budgetVisible,
+  })
 
   const panelBg     = darkMode ? '#1C2535' : '#FDFAF6'
   const border      = darkMode ? '#2A3A50' : 'var(--color-border-warm)'
@@ -123,8 +120,8 @@ export default function RecipeFiltersDrawer({
         style={{
           width: isMobile ? '100%' : '420px',
           maxWidth: '100%',
-          height: isMobile ? 'auto' : '100vh',
-          maxHeight: isMobile ? '85vh' : '100vh',
+          height: isMobile ? 'auto' : '100dvh',
+          maxHeight: isMobile ? '85dvh' : '100dvh',
           background: panelBg,
           borderTopLeftRadius: isMobile ? '20px' : 0,
           borderTopRightRadius: isMobile ? '20px' : 0,
@@ -413,7 +410,7 @@ export default function RecipeFiltersDrawer({
                 fontSize: '12px', fontWeight: 800, textTransform: 'uppercase',
                 letterSpacing: '0.10em', color: 'rgba(224,120,32,0.75)',
               }}>
-                {i18n.nutritionBudgetLabel}
+                {budgetVisible ? i18n.nutritionBudgetLabel : i18n.nutritionLabel}
               </span>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
@@ -439,7 +436,7 @@ export default function RecipeFiltersDrawer({
                 darkMode={darkMode} border={border} textColor={textColor} sectionBg={sectionBg}
                 clearLabel={local.clearLabel}
               />
-              <RangeFilterRow
+              {budgetVisible && <RangeFilterRow
                 label={i18n.maxBudget}
                 description={i18n.maxBudgetDesc}
                 icon={<LuWallet size={15} />}
@@ -449,7 +446,7 @@ export default function RecipeFiltersDrawer({
                 min={1} max={20} step={1} unit="€"
                 darkMode={darkMode} border={border} textColor={textColor} sectionBg={sectionBg}
                 clearLabel={local.clearLabel}
-              />
+              />}
             </div>
           </div>
         </div>

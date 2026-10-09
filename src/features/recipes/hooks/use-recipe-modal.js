@@ -13,6 +13,7 @@ import { calcRecipeCost, calcMissingCost, toGrams as sharedToGrams } from '@shar
 import { logCooking } from '@shared/api/cooking-logs'
 import { useBadgeCelebration } from '@shared/hooks/use-badge-celebration'
 import { useQuickRatePrompt } from '@features/recipes/hooks/use-quick-rate-prompt'
+import { useSaveErrorToast } from '@shared/hooks/use-save-error-toast'
 import { listReviews, aggregateReviews } from '@features/recipes/api/recipe-reviews'
 import { recipeToSchemaOrg } from '@features/recipes/lib/recipe-to-schema-org'
 import { pickLocalizedName } from '@shared/lib/recipes/recipe-i18n'
@@ -59,7 +60,8 @@ export default function useRecipeModal({ recipe, stock, onClose, lang, darkMode,
   }, [recipe.id])
   const { user, isAdmin } = useAuth()
   const celebrate = useBadgeCelebration()
-  const promptQuickRate = useQuickRatePrompt()
+  const promptQuickRate = useQuickRatePrompt(recipe?.id)
+  const signalerEchec = useSaveErrorToast()
   // v3.418 — Lock édition recette communauté validée par admin.
   // Une fois approved (moderation_status='approved'), l'auteur ne peut plus
   // modifier le contenu pour préserver l'intégrité de la modération. Seuls
@@ -435,6 +437,18 @@ export default function useRecipeModal({ recipe, stock, onClose, lang, darkMode,
   const resolveCookCountry = (recipeId, source) =>
     source === 'custom' ? null : (baseRecipes?.find(r => r.id === recipeId)?.country ?? null)
 
+  // Note la recette au journal de cuisine. La célébration du badge et
+  // l'invite à noter ne partent QUE si c'est fait ; sinon on le dit. Rend
+  // `true` si le plat est noté. (Jusqu'au 2026-10-05 la suite partait quoi
+  // qu'il arrive : `logCooking` ne rendait rien.)
+  async function noterAuJournal() {
+    const resultat = await logCooking(user.id, { recipeId: recipe.id, recipeSource, servings: Math.round(selectedServings) })
+    if (resultat?.error) { signalerEchec('cooking'); return false }
+    celebrate(user.id, { resolveCountry: resolveCookCountry, lang })
+    promptQuickRate(user.id, { recipeId: recipe.id, recipeSource, lang })
+    return true
+  }
+
   // ── Confirm withdrawal ────────────────────────────────────────────────────
   function confirmWithdraw() {
     track('cook_completed', { recipeId: recipe.id })
@@ -443,13 +457,7 @@ export default function useRecipeModal({ recipe, stock, onClose, lang, darkMode,
       .map(s => s.resolved)
     toRemove.forEach(id => onToggleIngredient(id))
     // Journal de cuisine (connecté seulement)
-    if (user?.id) {
-      logCooking(user.id, { recipeId: recipe.id, recipeSource, servings: Math.round(selectedServings) })
-        .then(() => {
-          celebrate(user.id, { resolveCountry: resolveCookCountry, lang })
-          promptQuickRate(user.id, { recipeId: recipe.id, recipeSource, lang })
-        })
-    }
+    if (user?.id) noterAuJournal()
     // Ventilation frigo vs garde-manger pour le feedback
     const fridge = toRemove.filter(id => !isPantryId(id)).length
     const pantry = toRemove.filter(id =>  isPantryId(id)).length
@@ -465,14 +473,13 @@ export default function useRecipeModal({ recipe, stock, onClose, lang, darkMode,
   function logCookedWithoutWithdraw() {
     if (!user?.id) return
     track('cook_completed', { recipeId: recipe.id })
-    logCooking(user.id, { recipeId: recipe.id, recipeSource, servings: Math.round(selectedServings) })
-      .then(() => {
-        celebrate(user.id, { resolveCountry: resolveCookCountry, lang })
-        promptQuickRate(user.id, { recipeId: recipe.id, recipeSource, lang })
-      })
-    setWithdrawFeedback(t.feedbackCookedLogged)
-    clearTimeout(feedbackTimerRef.current)
-    feedbackTimerRef.current = setTimeout(() => setWithdrawFeedback(null), 3500)
+    // « Ajoutée à ton journal de cuisine » ne s'affiche qu'une fois que c'est vrai.
+    noterAuJournal().then((notee) => {
+      if (!notee) return
+      setWithdrawFeedback(t.feedbackCookedLogged)
+      clearTimeout(feedbackTimerRef.current)
+      feedbackTimerRef.current = setTimeout(() => setWithdrawFeedback(null), 3500)
+    })
   }
 
   const canConfirm = Object.values(stepTwoState).every(s => s.resolved !== null)

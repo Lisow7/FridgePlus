@@ -23,6 +23,15 @@ const SUB_ACTIVATED_I18N = {
 
 const CLOSE_I18N = { fr: 'Fermer', en: 'Close' }
 
+// Centrage d'un bandeau fixe SANS `transform`. L'ancien `left: 50%` +
+// `translateX(-50%)` était écrasé par l'animation d'entrée
+// (`menu-slide-down` anime `transform` et le garde) : le bandeau partait du
+// milieu de l'écran vers la droite — une colonne de 180 px sur un téléphone.
+const CENTRE_EN_HAUT = {
+  position: 'fixed', top: '12px', left: '12px', right: '12px',
+  margin: '0 auto', width: 'fit-content', maxWidth: 'min(560px, calc(100vw - 24px))',
+}
+
 export default function TopBanners({
   restoreBanner,
   onRestoreBannerDismiss,
@@ -35,12 +44,14 @@ export default function TopBanners({
 }) {
   return (
     <>
-      {/* Banner suite à un retour de lien restore-account. Auto-dismiss
-          après 8 s ou clic sur la croix. Affichée par-dessus tout. */}
+      {/* Bandeau d'un lien reçu par e-mail : restauration de compte (fermé
+          seul après 8 s) ou lien de connexion qui n'aboutit pas (reste jusqu'au
+          clic sur la croix). Affiché par-dessus tout, et annoncé aux lecteurs
+          d'écran : c'est la seule réponse que reçoit la personne. */}
       {restoreBanner && (
-        <div style={{
-          position: 'fixed', top: '12px', left: '50%', transform: 'translateX(-50%)',
-          zIndex: Z_INDEX.TOAST, maxWidth: '92%',
+        <div role={restoreBanner.ok ? 'status' : 'alert'} style={{
+          ...CENTRE_EN_HAUT,
+          zIndex: Z_INDEX.TOAST,
           padding: '12px 18px', borderRadius: '12px',
           background: restoreBanner.ok ? '#10b981' : '#ef4444',
           color: 'white', fontWeight: 700, fontSize: '14px',
@@ -48,11 +59,11 @@ export default function TopBanners({
           boxShadow: '0 6px 18px rgba(0,0,0,0.18)',
           animation: 'menu-slide-down 0.25s ease both',
         }}>
-          <span>{restoreBanner.msg}</span>
+          <span style={{ lineHeight: 1.45 }}>{restoreBanner.msg}</span>
           <button
             onClick={onRestoreBannerDismiss}
             aria-label={CLOSE_I18N[lang] ?? CLOSE_I18N.fr}
-            style={{ background: 'none', border: 'none', color: 'white', cursor: 'pointer', padding: '2px 4px', display: 'flex', opacity: 0.85 }}
+            style={{ background: 'none', border: 'none', color: 'white', cursor: 'pointer', padding: '8px', margin: '-4px -6px -4px 0', display: 'flex', flexShrink: 0, opacity: 0.85 }}
           >
             ✕
           </button>
@@ -62,10 +73,10 @@ export default function TopBanners({
       {/* v3.130.0 — Toast activation abonnement */}
       {subscriptionActivatedToast && (
         <div style={{
-          position: 'fixed', top: '12px', left: '50%', transform: 'translateX(-50%)',
-          zIndex: Z_INDEX.TOAST_HIGH, maxWidth: '92%',
+          ...CENTRE_EN_HAUT,
+          zIndex: Z_INDEX.TOAST_HIGH,
           padding: '12px 20px', borderRadius: '12px',
-          background: 'var(--gradient-warm)',
+          background: 'var(--gradient-deep)',
           color: 'white', fontWeight: 700, fontSize: '14px',
           boxShadow: '0 6px 20px rgba(212,106,16,0.45)',
           animation: 'menu-slide-down 0.25s ease both',

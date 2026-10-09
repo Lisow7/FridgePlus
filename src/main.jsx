@@ -3,7 +3,12 @@ import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
 import './index.css'
 import App from './App.jsx'
-import { AuthProvider } from '@features/auth'
+import AccountSync from '@app/components/account-sync'
+// Directement, et non par le baril `@features/auth` : il réexportait les deux
+// modales MFA et `useMFA`, qui entraient au démarrage de chaque visiteur (~4 Ko).
+import { AuthProvider } from '@shared/contexts/auth-provider'
+import PorteDoubleAuthentification from '@features/auth/components/porte-double-authentification'
+import PorteDuCompteSupprime from '@features/auth/components/porte-du-compte-supprime'
 import { DataProvider } from '@shared/contexts/data-provider'
 import { FeatureFlagsProvider } from '@shared/contexts/feature-flags-provider'
 import { UIProvider } from '@shared/contexts/ui-provider'
@@ -14,6 +19,13 @@ import { RecipeFormProvider } from '@app/contexts/recipe-form-provider'
 import { DeletingRecipeProvider } from '@app/contexts/deleting-recipe-provider'
 import ErrorBoundary from '@app/error/error-boundary'
 import { initSentry } from '@shared/lib/observability/sentry'
+import { ROUTES } from '@routes/routes-config'
+import { prechargerLaRoute } from '@routes/precharger-la-route'
+import { installerLaRecuperation } from '@features/pwa/lib/version-perimee'
+
+// Avant tout chargement paresseux : un fichier disparu après un déploiement
+// active la version neuve au lieu de laisser l'ancienne coincée (SEO-08).
+installerLaRecuperation()
 
 // Phase 11 PR P11.c.5 — Différer initSentry() après idle.
 // Avant (v3.225.0) : initSentry() appelé immédiatement → l'import
@@ -56,14 +68,27 @@ const basename = import.meta.env.BASE_URL.replace(/\/$/, '') || '/'
 // boundary local, on affiche un fallback propre au lieu d'un écran blanc.
 // La langue est hardcodée à 'fr' ici car on n'a pas encore accès au lang
 // prop avant le rendu de App ; au pire l'écran d'erreur reste en FR.
-createRoot(document.getElementById('root')).render(
+//
+// La page de la route courante est chargée AVANT le premier rendu (audit du
+// 2026-10-04, PERF-05) : sur une page pré-rendue, React remplace le HTML servi
+// par la page directement — avant, il posait un squelette le temps de la
+// télécharger (texte, squelette, texte). Jamais plus de 3 s d'attente, et
+// rien à attendre pour l'accueil.
+prechargerLaRoute(window.location.pathname, ROUTES, import.meta.env.BASE_URL).then(() => createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <ErrorBoundary level="app" lang="fr">
+    {/* Sans `lang` : le filet lit la langue du visiteur (il est au-dessus du fournisseur). */}
+    <ErrorBoundary level="app">
       <BrowserRouter basename={basename}>
         <UIProvider>
           <ToastProvider>
             <ConfirmProvider>
             <AuthProvider>
+              {/* Double authentification (audit du 2026-10-04, CPT-01) : tant
+                  que le code est dû, rien d'autre ne se monte. */}
+              <PorteDoubleAuthentification>
+              {/* Suppression de compte (audit du 2026-10-04, lot 4) : « compte
+                  désactivé », puis le choix explicite à la reconnexion. */}
+              <PorteDuCompteSupprime>
               <DataProvider>
                 {/* Vague 0 — FeatureFlagsProvider : charge les feature flags
                     (lecture publique) et les expose via useFeatureFlag. */}
@@ -80,12 +105,15 @@ createRoot(document.getElementById('root')).render(
                     {/* Sprint 11 S11.e.2 — DeletingRecipeProvider :
                         state du dialog confirm suppression custom recipe. */}
                     <DeletingRecipeProvider>
+                      <AccountSync />
                       <App />
                     </DeletingRecipeProvider>
                   </RecipeFormProvider>
                 </SessionStateProvider>
                 </FeatureFlagsProvider>
               </DataProvider>
+              </PorteDuCompteSupprime>
+              </PorteDoubleAuthentification>
             </AuthProvider>
             </ConfirmProvider>
           </ToastProvider>
@@ -93,4 +121,4 @@ createRoot(document.getElementById('root')).render(
       </BrowserRouter>
     </ErrorBoundary>
   </StrictMode>,
-)
+))

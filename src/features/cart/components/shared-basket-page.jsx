@@ -219,7 +219,8 @@ export default function SharedBasketPage({ sharedId, onClose, lang = 'fr', darkM
         </header>
 
         {/* ── Contenu principal ── */}
-        <main style={{ maxWidth: '640px', margin: '0 auto', padding: '24px 16px 40px' }}>
+        {/* <div> et non <main> : le shell fournit déjà le repère main (A11Y-14). */}
+        <div style={{ maxWidth: '640px', margin: '0 auto', padding: '24px 16px 40px' }}>
 
           {/* État chargement */}
           {status === 'loading' && (
@@ -436,7 +437,7 @@ export default function SharedBasketPage({ sharedId, onClose, lang = 'fr', darkM
               </div>
             </>
           )}
-        </main>
+        </div>
       </div>
     </>
   )

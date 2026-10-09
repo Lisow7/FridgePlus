@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useAuth } from '@shared/contexts/auth-provider'
-import { listRecentCookingLogs, countCookingLogs, listAllCookingLogs } from '@shared/api/cooking-logs'
+import { loadRecentCookingLogs, loadCookingLogsCount, loadAllCookingLogs } from '@shared/api/cooking-logs'
 import { getCommunityTermsAcceptedAt } from '@shared/api/community'
 
 // State partagé entre les sous-pages Profile. Centralise le lazy-loading
@@ -17,6 +17,15 @@ import { getCommunityTermsAcceptedAt } from '@shared/api/community'
 //   /profile/activity    → useProfileState({ enableJournal: true, enableStats: true })
 //   /profile/preferences → useProfileState({ enableCommunityTerms: true })
 //   /profile/account     → useProfileState()                       (no-op)
+//
+// 2026-10-04 (audit CPT-11) — trois états, plus deux :
+//   `null`            en cours de chargement (ou pas chargé du tout) ;
+//   une liste         chargée, éventuellement vide ;
+//   `…Error = true`   le chargement a échoué — la liste reste `null`.
+// Avant, un échec rendait une liste vide : « pas chargé » et « jamais cuisiné »
+// donnaient le même écran. `reloadCookingLogs()` relance le chargement — et
+// efface l'erreur le temps de la nouvelle tentative : si elle revient, c'est
+// que la tentative a échoué aussi, pas que le bouton n'a rien fait.
 
 export function useProfileState({
   enableJournal = false,
@@ -28,31 +37,39 @@ export function useProfileState({
   const [journalLogs, setJournalLogs] = useState(null)
   const [journalCount, setJournalCount] = useState(0)
   const [statsLogs, setStatsLogs] = useState(null)
+  const [journalError, setJournalError] = useState(false)
+  const [statsError, setStatsError] = useState(false)
   const [communityTermsAt, setCommunityTermsAt] = useState(null)
+  // « Réessayer » relance les deux chargements.
+  const [tentative, setTentative] = useState(0)
 
   useEffect(() => {
     if (!enableJournal || !user?.id) return
     let cancelled = false
     Promise.all([
-      listRecentCookingLogs(user.id, 20),
-      countCookingLogs(user.id),
-    ]).then(([logs, count]) => {
+      loadRecentCookingLogs(user.id, 20),
+      loadCookingLogsCount(user.id),
+    ]).then(([recents, total]) => {
       if (cancelled) return
-      setJournalLogs(logs)
-      setJournalCount(count)
-    })
+      if (recents.error) { setJournalError(true); return }
+      setJournalLogs(recents.logs)
+      setJournalCount(total.count)
+      setJournalError(false)
+    }).catch(() => { if (!cancelled) setJournalError(true) })
     return () => { cancelled = true }
-  }, [enableJournal, user?.id])
+  }, [enableJournal, user?.id, tentative])
 
   useEffect(() => {
     if (!enableStats || !user?.id) return
     let cancelled = false
-    listAllCookingLogs(user.id, 1000).then((logs) => {
+    loadAllCookingLogs(user.id, 1000).then(({ logs, error }) => {
       if (cancelled) return
+      if (error) { setStatsError(true); return }
       setStatsLogs(logs)
-    })
+      setStatsError(false)
+    }).catch(() => { if (!cancelled) setStatsError(true) })
     return () => { cancelled = true }
-  }, [enableStats, user?.id])
+  }, [enableStats, user?.id, tentative])
 
   useEffect(() => {
     if (!enableCommunityTerms || !user?.id) return
@@ -68,6 +85,13 @@ export function useProfileState({
     journalLogs,
     journalCount,
     statsLogs,
+    journalError,
+    statsError,
+    reloadCookingLogs: () => {
+      setJournalError(false)
+      setStatsError(false)
+      setTentative((n) => n + 1)
+    },
     communityTermsAt,
     setCommunityTermsAt,
   }

@@ -18,11 +18,29 @@ import {
 //
 // Cette version migre tout en Context : 1 seule source de vérité, 1 seule
 // subscription realtime Supabase, état synchronisé partout.
+//
+// 2026-10-04 (audit UX-02) — les échecs ne se taisent plus :
+//   - un chargement raté pose `loadError` au lieu d'afficher une liste vide
+//     (« Aucune notification » était alors un mensonge), garde la liste déjà là,
+//     et ne laisse plus `loading` bloqué quand l'appel lève ;
+//   - chaque action rend `{ error }` : l'appelant peut dire « Pas enregistré ».
+
+// Une action de l'API ; un appel qui lève (réseau coupé) rend une erreur comme
+// les autres au lieu de remonter en exception non gérée.
+async function tenter(action) {
+  try {
+    const { error } = await action()
+    return { error: error ?? null }
+  } catch (err) {
+    return { error: err ?? new Error('unknown') }
+  }
+}
 
 const NotificationsContext = createContext({
   notifications: [],
   unreadCount: 0,
   loading: false,
+  loadError: false,
   refresh: () => {},
   markRead: () => {},
   markAllRead: () => {},
@@ -35,6 +53,7 @@ export function NotificationsProvider({ children }) {
   const [notifications, setNotifications] = useState([])
   const [unreadCount,   setUnreadCount]   = useState(0)
   const [loading,       setLoading]       = useState(false)
+  const [loadError,     setLoadError]     = useState(false)
   const channelRef = useRef(null)
   // Miroir de `notifications`, synchronisé APRÈS commit (pas pendant le rendu).
   // Sert aux callbacks asynchrones qui ont besoin de la liste sans la prendre
@@ -46,16 +65,25 @@ export function NotificationsProvider({ children }) {
     if (!user?.id) {
       setNotifications([])
       setUnreadCount(0)
+      setLoadError(false)
       return
     }
     setLoading(true)
-    const [{ data }, count] = await Promise.all([
-      getMyNotifications({ page: 0 }),
-      countUnreadNotifications(),
-    ])
-    setNotifications(data)
-    setUnreadCount(count)
-    setLoading(false)
+    try {
+      const [{ data, error }, count] = await Promise.all([
+        getMyNotifications({ page: 0 }),
+        countUnreadNotifications(),
+      ])
+      // Chargement refusé : on garde ce qui est affiché, et on le dit.
+      if (error) { setLoadError(true); return }
+      setNotifications(data)
+      setUnreadCount(count)
+      setLoadError(false)
+    } catch {
+      setLoadError(true)
+    } finally {
+      setLoading(false)
+    }
   }, [user?.id])
 
   // Charge initial + à chaque changement d'utilisateur
@@ -106,25 +134,27 @@ export function NotificationsProvider({ children }) {
   }, [user?.id])
 
   const markRead = useCallback(async (id) => {
-    const { error } = await markNotificationRead(id)
+    const { error } = await tenter(() => markNotificationRead(id))
     if (!error) {
       setNotifications((prev) => prev.map(n => n.id === id ? { ...n, read_at: new Date().toISOString() } : n))
       setUnreadCount((c) => Math.max(0, c - 1))
     }
+    return { error }
   }, [])
 
   const markAllRead = useCallback(async () => {
-    const { error } = await markAllNotificationsRead()
+    const { error } = await tenter(() => markAllNotificationsRead())
     if (!error) {
       const now = new Date().toISOString()
       setNotifications((prev) => prev.map(n => n.read_at ? n : { ...n, read_at: now }))
       setUnreadCount(0)
     }
+    return { error }
   }, [])
 
   const deleteNotif = useCallback(async (id) => {
-    const { error } = await deleteNotification(id)
-    if (error) return
+    const { error } = await tenter(() => deleteNotification(id))
+    if (error) return { error }
     // Le décrément était fait DANS l'updater de `setNotifications`. Un updater
     // doit être pur : React l'invoque deux fois en StrictMode, et `c - 1` n'est
     // PAS idempotent — le badge perdait DEUX non-lus par suppression (mesuré le
@@ -137,13 +167,15 @@ export function NotificationsProvider({ children }) {
     const supprimee = notificationsRef.current.find(n => n.id === id)
     setNotifications((prev) => prev.filter(n => n.id !== id))
     if (supprimee && !supprimee.read_at) setUnreadCount((c) => Math.max(0, c - 1))
+    return { error: null }
   }, [])
 
   const deleteAllRead = useCallback(async () => {
-    const { error } = await deleteAllReadNotifications()
+    const { error } = await tenter(() => deleteAllReadNotifications())
     if (!error) {
       setNotifications((prev) => prev.filter(n => !n.read_at))
     }
+    return { error }
   }, [])
 
   // Mémoïsation du value Provider (cf. PR S3.b).
@@ -151,12 +183,13 @@ export function NotificationsProvider({ children }) {
     notifications,
     unreadCount,
     loading,
+    loadError,
     refresh,
     markRead,
     markAllRead,
     deleteNotif,
     deleteAllRead,
-  }), [notifications, unreadCount, loading, refresh, markRead, markAllRead, deleteNotif, deleteAllRead])
+  }), [notifications, unreadCount, loading, loadError, refresh, markRead, markAllRead, deleteNotif, deleteAllRead])
 
   return (
     <NotificationsContext.Provider value={value}>

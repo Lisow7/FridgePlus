@@ -8,7 +8,7 @@ import { getAnonId } from '@shared/lib/observability/anon-id'
 describe('getAnonId', () => {
   beforeEach(() => { vi.clearAllMocks(); localStorage.clear() })
 
-  it('null + aucun write si pas de consentement audience', () => {
+  it('null + aucun write si pas de consentement aux statistiques d’usage', () => {
     mockHasConsented.mockReturnValue(false)
     expect(getAnonId()).toBeNull()
     expect(localStorage.getItem('fridge-anon-id')).toBeNull()

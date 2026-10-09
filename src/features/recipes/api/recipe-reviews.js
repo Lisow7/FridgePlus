@@ -1,4 +1,6 @@
 import { supabase } from '@shared/lib/supabase/client'
+import { signalerContenu } from '@shared/api/community'
+import { withAuthorProfiles } from '@shared/api/public-profiles'
 
 // Avis sur recettes (notes 1-5 + commentaire optionnel).
 //
@@ -16,7 +18,10 @@ import { supabase } from '@shared/lib/supabase/client'
 // recipe_reviews ; les sync triggers (PR-DB-15) répliquent vers engagement.
 // `recipe_source` est passé en argument et juste re-retourné pour préserver
 // le shape consumer (10 fichiers consommateurs n'ont pas besoin de changer).
-const REVIEW_SELECT_ENGAGEMENT = 'id, user_id, target_recipe_id, rating, body, created_at, updated_at, profile:profiles!user_id(username, avatar_id)'
+// Sans l'auteur : il est joint ensuite par `withAuthorProfiles`. La jointure
+// `profile:profiles!user_id(...)` rendait l'auteur vide pour tout lecteur non
+// admin (la table ne se lit que pour sa propre ligne) → « Anonyme » (BDD-13).
+const REVIEW_SELECT_ENGAGEMENT = 'id, user_id, target_recipe_id, rating, body, created_at, updated_at'
 
 
 const VALID_SOURCES = ['base', 'community']
@@ -29,13 +34,17 @@ function mapEngagementRow(row, recipeSource) {
 }
 
 /**
- * Liste les avis publics d'une recette, triés par date desc.
+ * Les avis publics d'une recette, triés par date desc : `{ reviews, error }`.
+ *
+ * Rend l'ERREUR : la section des avis doit pouvoir dire « pas chargés » au
+ * lieu de « Pas encore d'avis. Sois le premier à noter ! » (jusqu'au
+ * 2026-10-05 il n'y avait que `listReviews`, vide sur erreur).
  * @param {string} recipeId
  * @param {'base'|'community'} recipeSource
  * @param {number=} limit
  */
-export async function listReviews(recipeId, recipeSource, limit = 50) {
-  if (!recipeId || !VALID_SOURCES.includes(recipeSource)) return []
+export async function loadReviews(recipeId, recipeSource, limit = 50) {
+  if (!recipeId || !VALID_SOURCES.includes(recipeSource)) return { reviews: [], error: null }
   const { data, error } = await supabase
     .from('engagement')
     .select(REVIEW_SELECT_ENGAGEMENT)
@@ -46,9 +55,20 @@ export async function listReviews(recipeId, recipeSource, limit = 50) {
     .limit(limit)
   if (error) {
     if (import.meta.env.DEV) console.error('[recipeReviews] list:', error.message)
-    return []
+    return { reviews: [], error }
   }
-  return (data ?? []).map(r => mapEngagementRow(r, recipeSource))
+  const avis = await withAuthorProfiles(data ?? [])
+  return { reviews: avis.map(r => mapEngagementRow(r, recipeSource)), error: null }
+}
+
+/**
+ * Comme `loadReviews`, mais rend une liste vide sur erreur.
+ * ⚠️ Réservé au badge ⭐ de l'en-tête de la fiche : il n'affiche RIEN quand il
+ * n'y a pas d'avis, donc rien non plus quand ils n'ont pas pu être lus — pas de
+ * mensonge possible. Tout écran qui affiche un état vide doit lire `loadReviews`.
+ */
+export async function listReviews(recipeId, recipeSource, limit = 50) {
+  return (await loadReviews(recipeId, recipeSource, limit)).reviews
 }
 
 /**
@@ -66,7 +86,7 @@ export async function getMyReview(userId, recipeId, recipeSource) {
     .is('deleted_at', null)
     .maybeSingle()
   if (error) return null
-  return data ? mapEngagementRow(data, recipeSource) : null
+  return data ? mapEngagementRow((await withAuthorProfiles([data]))[0], recipeSource) : null
 }
 
 /**
@@ -108,7 +128,7 @@ export async function upsertReview(userId, { recipeId, recipeSource, rating, bod
     .select(REVIEW_SELECT_ENGAGEMENT)
     .single()
   if (error) return { error: error.message }
-  return { data: mapEngagementRow(data, recipeSource) }
+  return { data: mapEngagementRow((await withAuthorProfiles([data]))[0], recipeSource) }
 }
 
 /** Soft-delete (auteur uniquement). */
@@ -193,23 +213,11 @@ export function aggregateReviews(reviews) {
 }
 
 /**
- * Signalement d'un avis (réutilise support_tickets, target_type='recipe_review').
+ * Signalement d'un avis (cible `recipe_review`). Même chemin que les
+ * signalements de la communauté — voir `signalerContenu`. Jusqu'au 2026-10-05
+ * il n'aboutissait jamais (colonne inexistante, `title` oublié, et la base
+ * refusait la cible), et la fenêtre affichait quand même « Signalement envoyé ».
  */
-const VALID_REPORT_REASONS = ['spam', 'inappropriate', 'harassment', 'plagiarism', 'wrong_info', 'other']
-
 export async function reportReview(userId, reviewId, reasonKey, contextBody) {
-  if (!userId || !reviewId || !VALID_REPORT_REASONS.includes(reasonKey)) {
-    return { error: 'invalid' }
-  }
-  const { error } = await supabase.from('support_tickets').insert({
-    user_id: userId,
-    type: 'report',
-    target_type: 'recipe_review',
-    target_id: reviewId,
-    reason_key: reasonKey,
-    body: contextBody?.trim() || null,
-    status: 'open',
-  })
-  if (error) return { error: error.message }
-  return { ok: true }
+  return signalerContenu('recipe_review', userId, reviewId, reasonKey, contextBody)
 }

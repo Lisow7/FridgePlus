@@ -91,9 +91,12 @@ export default function FridgeHomeView({
           garde-manger (scalé) s'empile avec la carte d'activation
           onboarding rendue en dessous dans ce même conteneur flex-col. */}
       <div className="hidden xl:flex flex-col items-center justify-center" style={{ alignSelf: 'stretch' }}>
-        {/* Scale dynamique pour remplir l'espace vertical */}
+        {/* Échelle dynamique : la rangée grandit sur un grand écran et rétrécit
+            sur un portable pour tenir entre l'en-tête et le pied
+            (`computeDesktopFridgeScale`). */}
         <div
           ref={desktopFridgeRef}
+          data-desktop-fridge-row
           className="flex items-start gap-6"
           style={{
             transform: desktopScale !== 1 ? `scale(${desktopScale})` : 'none',

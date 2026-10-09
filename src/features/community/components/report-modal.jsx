@@ -4,6 +4,7 @@ import { LuFlag } from 'react-icons/lu'
 import { reportPost, reportReply, reportProfile } from '@shared/api/community'
 import { COMMUNITY_I18N, REPORT_REASONS, reportReasonLabel } from '@shared/lib/i18n/community-i18n'
 import Button from '@shared/ui/button'
+import { useDialogue } from '@shared/hooks/use-dialogue'
 
 // Modale de signalement réutilisable post + reply. Partagée entre usage
 // autonome (community-page.jsx) et usage imbriqué (community-profile-modal.jsx,
@@ -15,6 +16,12 @@ import Button from '@shared/ui/button'
 // place — cf. community-page.jsx et community-profile-modal.jsx.
 // Insère un ticket dans support_tickets via lib/db/community.
 
+// Les codes que rend `signalerContenu` (shared/api/community), en texte.
+const MESSAGES_ERREUR = {
+  max_reports_reached: (t) => t.reportMaxReports,
+  account_restricted: (t) => t.reportRestricted,
+}
+
 export default function ReportModal({ targetType, targetId, userId, lang = 'fr', darkMode = false, onClose, zIndex = 70 }) {
   const t = COMMUNITY_I18N[lang] ?? COMMUNITY_I18N.fr
   const [reason, setReason] = useState('spam')
@@ -22,25 +29,24 @@ export default function ReportModal({ targetType, targetId, userId, lang = 'fr',
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState(null)
   const [done, setDone] = useState(false)
+  // Une vraie boîte de dialogue : rôle, nom, focus piégé, Échap (A11Y-01).
+  const dialogue = useDialogue({ onClose })
 
   const handleSubmit = async () => {
     if (!userId) { setError(t.loginToPost); return }
     setSubmitting(true)
     setError(null)
+    const signaler = { community_post: reportPost, community_reply: reportReply, community_profile: reportProfile }[targetType]
     let result
-    if (targetType === 'community_post') {
-      result = await reportPost(userId, targetId, reason, context)
-    } else if (targetType === 'community_reply') {
-      result = await reportReply(userId, targetId, reason, context)
-    } else if (targetType === 'community_profile') {
-      result = await reportProfile(userId, targetId, reason, context)
-    } else {
-      setSubmitting(false)
-      setError('invalid_target')
-      return
+    try {
+      result = signaler ? await signaler(userId, targetId, reason, context) : { error: 'failed' }
+    } catch {
+      result = { error: 'failed' }
     }
     setSubmitting(false)
-    if (result.error) { setError(result.error); return }
+    // Un message lisible : jusqu'au 2026-10-05 la fenêtre affichait le texte
+    // brut de la base (« Could not find the 'body' column… »).
+    if (result?.error) { setError(MESSAGES_ERREUR[result.error]?.(t) ?? t.reportFailed); return }
     setDone(true)
     setTimeout(onClose, 1500)
   }
@@ -58,18 +64,21 @@ export default function ReportModal({ targetType, targetId, userId, lang = 'fr',
     <div onClick={onClose}
       className="fp-modal-backdrop"
       style={{ position: 'fixed', inset: 0, zIndex, background: 'rgba(0,0,0,0.55)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '16px' }}>
-      <div onClick={e => e.stopPropagation()}
+      <div {...dialogue.proprietes} onClick={e => e.stopPropagation()}
         style={{ width: '100%', maxWidth: '460px', background: bg, color: fg, borderRadius: '16px', padding: '20px', display: 'flex', flexDirection: 'column', gap: '12px', boxShadow: '0 12px 40px rgba(0,0,0,0.40)' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <LuFlag size={18} style={{ color: '#D06060' }} />
-          <h3 style={{ margin: 0, fontSize: '16px', fontWeight: 800 }}>{t.reportTitle}</h3>
+          <h3 id={dialogue.titreId} style={{ margin: 0, fontSize: '16px', fontWeight: 800 }}>{t.reportTitle}</h3>
         </div>
         <p style={{ margin: 0, fontSize: '12px', color: muted, lineHeight: 1.4 }}>{t.reportSub}</p>
 
         {!done ? (
           <>
-            <label style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-              <span style={{ fontSize: '12px', fontWeight: 700, color: muted, textTransform: 'uppercase', letterSpacing: '0.04em' }}>{t.reportReason}</span>
+            {/* Un groupe de boutons radio, nommé par sa légende — pas un <label>
+                qui en contient d'autres (HTML invalide : un lecteur d'écran
+                annonçait le premier motif avec le texte de tous). */}
+            <fieldset style={{ display: 'flex', flexDirection: 'column', gap: '6px', border: 0, padding: 0, margin: 0, minInlineSize: 0 }}>
+              <legend style={{ padding: 0, marginBottom: '6px', fontSize: '12px', fontWeight: 700, color: muted, textTransform: 'uppercase', letterSpacing: '0.04em' }}>{t.reportReason}</legend>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                 {REPORT_REASONS.map(r => (
                   <label key={r} style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '6px 10px', borderRadius: '8px', border: `1px solid ${reason === r ? 'var(--color-brand-500)' : border}`, background: reason === r ? 'rgba(224,120,32,0.08)' : 'transparent', cursor: 'pointer', fontSize: '13px', fontWeight: 500 }}>
@@ -78,7 +87,7 @@ export default function ReportModal({ targetType, targetId, userId, lang = 'fr',
                   </label>
                 ))}
               </div>
-            </label>
+            </fieldset>
 
             <label style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
               <span style={{ fontSize: '12px', fontWeight: 700, color: muted, textTransform: 'uppercase', letterSpacing: '0.04em' }}>{t.reportContext}</span>
@@ -86,7 +95,7 @@ export default function ReportModal({ targetType, targetId, userId, lang = 'fr',
                 style={{ padding: '10px 12px', borderRadius: '8px', border: `1.5px solid ${border}`, background: inputBg, color: fg, fontSize: '13px', fontFamily: 'inherit', outline: 'none', resize: 'vertical' }} />
             </label>
 
-            {error && <div style={{ fontSize: '12px', color: '#D06060', padding: '6px 10px', borderRadius: '6px', background: 'rgba(208,96,96,0.10)' }}>{error}</div>}
+            {error && <div role="alert" style={{ fontSize: '12px', color: '#D06060', padding: '6px 10px', borderRadius: '6px', background: 'rgba(208,96,96,0.10)' }}>{error}</div>}
 
             <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px' }}>
               <Button

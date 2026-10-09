@@ -1,18 +1,27 @@
-// Écran affiché au 1er login OAuth (gate App.jsx via needsUsername).
-// Pré-rempli avec une suggestion (prénom Google → Chef-xxxx), vérif unicité
-// live (ilike, comme signup) + profanité (leo-profanity), puis confirme.
+// Écran affiché tant que le pseudo n'est pas confirmé (gate App.jsx via
+// needsUsername) : première connexion Google, ou pseudo refusé à l'inscription.
+// Pré-rempli avec une suggestion (prénom Google → Chef-xxxx). Règle du pseudo,
+// « est-il libre ? » et lecture des refus : `username-rules.js`, comme les
+// deux autres écrans.
 //
 // A4-OAuth (2026-06-22) : point d'étranglement universel pour tout nouveau
 // compte OAuth (quelle que soit l'entrée login/signup). On y collecte le
 // clickwrap CGU + Politique de confidentialité + âge 16+ — sans quoi un
 // utilisateur créé via « Continuer avec Google » depuis la page de connexion
 // n'accepterait jamais les CGU ni ne confirmerait son âge.
+//
+// 2026-10-04 : cette acceptation est enfin DATÉE, par la base
+// (`recordSignupConsent`), avant que le pseudo soit confirmé. Jusque-là la
+// case ne faisait qu'autoriser le bouton. Si la date existe déjà (inscription
+// par e-mail), la case n'est pas redemandée.
 import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import leoProfanity from 'leo-profanity'
 import { useAuth } from '@shared/contexts/auth-provider'
-import { supabase } from '@shared/lib/supabase/client'
 import { suggestUsername } from '@features/auth/lib/username-suggestion'
+import {
+  isValidUsername, isUsernameAvailable, usernameWriteProblem, USERNAME_MESSAGES,
+} from '@shared/lib/auth/username-rules'
 import Button from '@shared/ui/button'
 import AuthLayout from '@features/auth/components/auth-layout'
 
@@ -21,8 +30,6 @@ const I18N = {
     title: 'Choisis ton pseudo',
     intro: 'Ton pseudo est public dans la communauté. Tu pourras le changer plus tard.',
     label: 'Pseudo', submit: 'Continuer',
-    taken: 'Ce pseudo est déjà pris.',
-    tooShort: 'Le pseudo doit faire 3 à 20 caractères.',
     profane: 'Ce pseudo contient des termes non autorisés.',
     error: 'Impossible d\'enregistrer. Réessaie.',
     acceptPrefix: 'J\'ai au moins 16 ans et j\'accepte les ',
@@ -36,8 +43,6 @@ const I18N = {
     title: 'Choose your username',
     intro: 'Your username is public in the community. You can change it later.',
     label: 'Username', submit: 'Continue',
-    taken: 'This username is already taken.',
-    tooShort: 'Username must be 3 to 20 characters.',
     profane: 'This username contains forbidden words.',
     error: 'Could not save. Try again.',
     acceptPrefix: 'I am at least 16 years old and I accept the ',
@@ -51,8 +56,6 @@ const I18N = {
     title: 'Elige tu nombre de usuario',
     intro: 'Tu nombre de usuario es público en la comunidad. Podrás cambiarlo más tarde.',
     label: 'Nombre de usuario', submit: 'Continuar',
-    taken: 'Este nombre de usuario ya está en uso.',
-    tooShort: 'El nombre de usuario debe tener entre 3 y 20 caracteres.',
     profane: 'Este nombre de usuario contiene términos no permitidos.',
     error: 'No se pudo guardar. Inténtalo de nuevo.',
     acceptPrefix: 'Tengo al menos 16 años y acepto las ',
@@ -66,8 +69,6 @@ const I18N = {
     title: 'Wähle deinen Benutzernamen',
     intro: 'Dein Benutzername ist in der Community öffentlich. Du kannst ihn später ändern.',
     label: 'Benutzername', submit: 'Weiter',
-    taken: 'Dieser Benutzername ist bereits vergeben.',
-    tooShort: 'Der Benutzername muss 3 bis 20 Zeichen lang sein.',
     profane: 'Dieser Benutzername enthält unzulässige Begriffe.',
     error: 'Speichern fehlgeschlagen. Bitte versuche es erneut.',
     acceptPrefix: 'Ich bin mindestens 16 Jahre alt und akzeptiere die ',
@@ -81,8 +82,6 @@ const I18N = {
     title: 'ユーザー名を選択',
     intro: 'ユーザー名はコミュニティで公開されます。後で変更できます。',
     label: 'ユーザー名', submit: '続ける',
-    taken: 'このユーザー名はすでに使われています。',
-    tooShort: 'ユーザー名は3〜20文字で入力してください。',
     profane: 'このユーザー名には使用できない語句が含まれています。',
     error: '保存できませんでした。もう一度お試しください。',
     acceptPrefix: '私は16歳以上であり、',
@@ -96,26 +95,38 @@ const I18N = {
 
 export default function ChooseUsernamePage({ lang = 'fr', darkMode = false }) {
   const t = I18N[lang] ?? I18N.fr
-  const { user, profile, updateProfile } = useAuth()
+  const regles = USERNAME_MESSAGES[lang] ?? USERNAME_MESSAGES.fr
+  const { user, profile, updateProfile, recordSignupConsent } = useAuth()
   const navigate = useNavigate()
   const [value, setValue] = useState(() => suggestUsername(user?.user_metadata ?? {}, user?.id ?? ''))
   const [accepted, setAccepted] = useState(false)
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(false)
+  // Acceptation déjà datée (case cochée à l'inscription par e-mail) : on ne la
+  // redemande pas.
+  const dejaAccepte = !!profile?.consent_terms_accepted_at
 
   async function handleSubmit(e) {
     e.preventDefault()
     setError(null)
-    if (!accepted) { setError(t.errorAccept); return }
+    if (!dejaAccepte && !accepted) { setError(t.errorAccept); return }
     const u = value.trim()
-    if (u.length < 3 || u.length > 20) { setError(t.tooShort); return }
+    if (!isValidUsername(u)) { setError(regles.invalid); return }
     if (leoProfanity.check(u)) { setError(t.profane); return }
     setLoading(true)
     try {
-      const { data: taken } = await supabase.from('profiles').select('id').ilike('username', u).maybeSingle()
-      if (taken && taken.id !== user?.id) { setError(t.taken); setLoading(false); return }
+      // `null` = on n'a pas pu le savoir : l'écriture tranchera.
+      if (await isUsernameAvailable(u) === false) { setError(regles.taken); setLoading(false); return }
+      // La preuve d'acceptation d'abord : on n'entre pas sans elle.
+      if (!dejaAccepte) {
+        const { error: consentErr } = await recordSignupConsent()
+        if (consentErr) { setError(t.error); setLoading(false); return }
+      }
       const { error: upErr } = await updateProfile({ username: u, username_confirmed: true })
-      if (upErr) { setError(t.error); setLoading(false); return }
+      if (upErr) {
+        const probleme = usernameWriteProblem(upErr)
+        setError(probleme ? regles[probleme] : t.error); setLoading(false); return
+      }
       navigate('/')
     } catch {
       setError(t.error); setLoading(false)
@@ -129,7 +140,7 @@ export default function ChooseUsernamePage({ lang = 'fr', darkMode = false }) {
   const mutedColor = darkMode ? '#7A90A8' : '#6A4F45'
 
   return (
-    <AuthLayout lang={lang} darkMode={darkMode} title={t.title}>
+    <AuthLayout lang={lang} darkMode={darkMode} title={t.title} standalone>
       <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
         <p style={{ fontSize: '13px', color: mutedColor, margin: 0, lineHeight: 1.55 }}>{t.intro}</p>
         <label style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
@@ -142,24 +153,28 @@ export default function ChooseUsernamePage({ lang = 'fr', darkMode = false }) {
               border: '1.5px solid var(--color-border-warm)', fontFamily: 'inherit', fontSize: '14px',
             }}
           />
+          {/* La règle est dite avant l'erreur, comme à l'inscription. */}
+          <span style={{ fontSize: '11px', color: mutedColor }}>{regles.hint}</span>
         </label>
 
         {/* A4-OAuth — acceptation explicite CGU + Politique de confidentialité + âge 16+ (clickwrap). */}
-        <label style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', fontSize: '12.5px', color: mutedColor, lineHeight: 1.5, cursor: 'pointer' }}>
-          <input
-            type="checkbox"
-            checked={accepted}
-            onChange={(e) => setAccepted(e.target.checked)}
-            style={{ marginTop: '2px', flexShrink: 0, accentColor: 'var(--color-warm-600)', width: 15, height: 15, cursor: 'pointer' }}
-          />
-          <span>
-            {t.acceptPrefix}
-            <Link to="/legal#terms" target="_blank" rel="noopener" style={{ color: 'var(--color-warm-600)', fontWeight: 700, textDecoration: 'underline' }}>{t.acceptTerms}</Link>
-            {t.acceptMiddle}
-            <Link to="/legal#privacy" target="_blank" rel="noopener" style={{ color: 'var(--color-warm-600)', fontWeight: 700, textDecoration: 'underline' }}>{t.acceptPrivacy}</Link>
-            {t.acceptSuffix}
-          </span>
-        </label>
+        {!dejaAccepte && (
+          <label style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', fontSize: '12.5px', color: mutedColor, lineHeight: 1.5, cursor: 'pointer' }}>
+            <input
+              type="checkbox"
+              checked={accepted}
+              onChange={(e) => setAccepted(e.target.checked)}
+              style={{ marginTop: '2px', flexShrink: 0, accentColor: 'var(--color-warm-600)', width: 15, height: 15, cursor: 'pointer' }}
+            />
+            <span>
+              {t.acceptPrefix}
+              <Link to="/legal#terms" target="_blank" rel="noopener" style={{ color: 'var(--color-warm-600)', fontWeight: 700, textDecoration: 'underline' }}>{t.acceptTerms}</Link>
+              {t.acceptMiddle}
+              <Link to="/legal#privacy" target="_blank" rel="noopener" style={{ color: 'var(--color-warm-600)', fontWeight: 700, textDecoration: 'underline' }}>{t.acceptPrivacy}</Link>
+              {t.acceptSuffix}
+            </span>
+          </label>
+        )}
 
         {error && (
           <p role="alert" style={{

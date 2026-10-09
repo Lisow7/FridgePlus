@@ -1,9 +1,6 @@
-import { useState, useEffect, useRef, useMemo } from 'react'
+import { useState, useEffect, useRef, useMemo, useId } from 'react'
 import { createPortal } from 'react-dom'
-import {
-  LuChevronLeft, LuChevronRight, LuTrash2, LuSend,
-  LuSearch, LuRefreshCw, LuCheck,
-} from 'react-icons/lu'
+import { LuSearch, LuRefreshCw } from 'react-icons/lu'
 import { useUndo } from '@shared/contexts/undo-provider'
 import { useAdmin } from '../../providers/admin-provider'
 import {
@@ -13,9 +10,15 @@ import {
 } from '@features/support/api/support'
 import { ConfirmDeleteModal } from '@shared/ui/confirm-dialog/confirm-modals'
 import Button from '@shared/ui/button'
-import { SUPPORT_QUICK_REPLIES, quickReplyText } from '@features/admin/data/support-quick-replies'
 import { formatDate, formatDateTime } from '@shared/lib/format-date'
 import { useReloader } from '@shared/hooks/use-reloader'
+import FeedbackBanner from '../shared/feedback-banner'
+import ChargementRate from '../shared/chargement-rate'
+import SupportTicketDetail from './support-ticket-detail'
+import SupportTicketRow from './support-ticket-row'
+import { useFeedback } from '@features/admin/hooks/use-feedback'
+import { supprimerAvecAnnulation, messageErreurAdmin } from '@features/admin/lib/ecritures-admin'
+import { texteLisible, fondTeinte } from '@shared/lib/couleurs/texte-lisible'
 
 const STATUS_CFG = {
   open:        { label: 'Ouvert',   color: 'var(--color-warning)', bg: 'rgba(251,191,36,0.15)' },
@@ -38,6 +41,7 @@ function fmtShort(str, lang = 'fr') { return str ? formatDate(str, lang) : '' }
 export default function SupportSection({ lang = 'fr', darkMode = false }) {
   const { trigger } = useUndo()
   const { setSupportBadge } = useAdmin()
+  const [feedback, showFeedback] = useFeedback()
 
   const border = darkMode ? '#2A3A50' : '#D9CCBA'
   const fg     = darkMode ? 'var(--color-bg-warm)' : '#2C1A0E'
@@ -49,6 +53,7 @@ export default function SupportSection({ lang = 'fr', darkMode = false }) {
   const [statusFilter,    setStatusFilter]    = useState('all')
   const [typeFilter,      setTypeFilter]      = useState('all')
   const [search,          setSearch]          = useState('')
+  const rechercheId = useId()
   const [unreadOnly,      setUnreadOnly]      = useState(false)
   const [hiddenTicketIds, setHiddenTicketIds] = useState(() => new Set())
   const [confirmDelete,   setConfirmDelete]   = useState(null)
@@ -59,14 +64,14 @@ export default function SupportSection({ lang = 'fr', darkMode = false }) {
   const [reply,        setReply]        = useState('')
   const [sending,      setSending]      = useState(false)
   const [replyError,   setReplyError]   = useState(null)
-  const [hoveredMsgId, setHoveredMsgId] = useState(null)
   const [hiddenMsgIds, setHiddenMsgIds] = useState(() => new Set())
+  const [messagesError, setMessagesError] = useState(null)
   const bottomRef = useRef(null)
 
   // `useReloader` garantit le `finally` (sans lui, une erreur réseau laissait
   // le voyant allumé pour toujours) et périme les réponses en retard : sans ça,
   // enchaîner deux rechargements laissait le plus ancien écraser le plus récent.
-  const { loading, reload: loadTickets } = useReloader(async (estObsolete) => {
+  const { loading, error: erreurChargement, reload: loadTickets } = useReloader(async (estObsolete) => {
     const data = await adminGetAllTickets()
     if (estObsolete()) return
     setTickets(data ?? [])
@@ -112,10 +117,11 @@ export default function SupportSection({ lang = 'fr', darkMode = false }) {
     setDetail(ticket)
     setReplyError(null)
     setReply('')
-    const msgs = await getTicketMessages(ticket.id)
-    setMessages(msgs ?? [])
-    if (ticket.has_unread_admin) {
-      await markTicketReadByAdmin(ticket.id)
+    const { messages: msgs, error: errMessages } = await getTicketMessages(ticket.id)
+    setMessages(msgs)
+    setMessagesError(errMessages)
+    // La pastille ne baisse que si la base a marqué le ticket « lu » (audit ADM-02).
+    if (ticket.has_unread_admin && !(await markTicketReadByAdmin(ticket.id))?.error) {
       setTickets(prev => prev.map(tk => tk.id === ticket.id ? { ...tk, has_unread_admin: false } : tk))
       setSupportBadge(prev => Math.max(0, prev - 1))
     }
@@ -128,9 +134,11 @@ export default function SupportSection({ lang = 'fr', darkMode = false }) {
     setTickets(prev => prev.map(tk => tk.id === detail.id ? { ...tk, status } : tk))
   }
 
-  async function handleQuickResolve(ticketId, e) {
-    e.stopPropagation()
-    if ((await adminSetTicketStatus(ticketId, 'resolved'))?.error) return
+  // Un refus de la base est DIT (il ne se passait rien : on pouvait croire le
+  // clic perdu, et recliquer).
+  async function handleQuickResolve(ticketId) {
+    const { error } = (await adminSetTicketStatus(ticketId, 'resolved')) ?? {}
+    if (error) { showFeedback(false, messageErreurAdmin(error, lang)); return }
     setTickets(prev => prev.map(tk => tk.id === ticketId ? { ...tk, status: 'resolved' } : tk))
   }
 
@@ -143,8 +151,9 @@ export default function SupportSection({ lang = 'fr', darkMode = false }) {
       setReplyError('Erreur lors de l\'envoi.')
     } else {
       setReply('')
-      const msgs = await getTicketMessages(detail.id)
-      setMessages(msgs ?? [])
+      const { messages: msgs, error: errMessages } = await getTicketMessages(detail.id)
+      if (!errMessages) setMessages(msgs)
+      setMessagesError(errMessages)
       const now = new Date().toISOString()
       setTickets(prev => prev.map(tk =>
         tk.id === detail.id ? { ...tk, has_unread_user: true, status: 'in_progress', updated_at: now } : tk
@@ -154,33 +163,27 @@ export default function SupportSection({ lang = 'fr', darkMode = false }) {
     setSending(false)
   }
 
-  function requestDeleteTicket(ticketId, e) {
-    if (e) e.stopPropagation()
-    setConfirmDelete(ticketId)
-  }
+  function requestDeleteTicket(ticketId) { setConfirmDelete(ticketId) }
 
   function confirmDeleteTicket() {
     const id = confirmDelete
     setConfirmDelete(null)
     if (!id) return
-    setHiddenTicketIds(prev => { const s = new Set(prev); s.add(id); return s })
-    trigger({
-      label: 'Ticket supprimé',
-      onConfirm: async () => { await adminDeleteTicket(id); setTickets(r => r.filter(x => x.id !== id)) },
-      onUndo: () => setHiddenTicketIds(prev => { const s = new Set(prev); s.delete(id); return s }),
+    supprimerAvecAnnulation(trigger, {
+      label: 'Ticket supprimé', id, setMasques: setHiddenTicketIds,
+      supprimer: () => adminDeleteTicket(id),
+      retirer: () => setTickets(r => r.filter(x => x.id !== id)),
+      siEchec: (e) => showFeedback(false, messageErreurAdmin(e, lang)),
     })
     if (detail?.id === id) { setDetail(null); setMessages([]) }
   }
 
   function handleDeleteMessage(msg) {
-    setHiddenMsgIds(prev => { const s = new Set(prev); s.add(msg.id); return s })
-    const delFn = msg.is_admin
-      ? () => adminDeleteMessage(msg.id)
-      : () => adminDeleteAnyMessage(msg.id)
-    trigger({
-      label: 'Message supprimé',
-      onConfirm: async () => { await delFn(); setMessages(prev => prev.filter(m => m.id !== msg.id)) },
-      onUndo: () => setHiddenMsgIds(prev => { const s = new Set(prev); s.delete(msg.id); return s }),
+    supprimerAvecAnnulation(trigger, {
+      label: 'Message supprimé', id: msg.id, setMasques: setHiddenMsgIds,
+      supprimer: () => (msg.is_admin ? adminDeleteMessage(msg.id) : adminDeleteAnyMessage(msg.id)),
+      retirer: () => setMessages(prev => prev.filter(m => m.id !== msg.id)),
+      siEchec: (e) => showFeedback(false, messageErreurAdmin(e, lang)),
     })
   }
 
@@ -188,179 +191,44 @@ export default function SupportSection({ lang = 'fr', darkMode = false }) {
   function pillStyle(active, accent = 'var(--color-brand-500)') {
     return {
       borderColor: active ? accent : border,
-      background: active ? `${accent}18` : 'transparent',
-      color: active ? accent : muted,
+      background: active ? fondTeinte(accent, 10) : 'transparent',
+      color: active ? texteLisible(accent) : muted,
       fontWeight: active ? 700 : 500,
       transition: 'all 0.12s',
     }
   }
 
+  // Dans les DEUX vues : rendue seulement dans la liste, « Supprimer le ticket » n'ouvrait rien en détail.
+  const modaleSuppression = confirmDelete && createPortal(
+    <ConfirmDeleteModal
+      title="Supprimer ce ticket ?"
+      body="Le ticket et tous ses messages seront supprimés définitivement. Tu as 10 secondes pour annuler."
+      confirmLabel="Supprimer"
+      cancelLabel="Annuler"
+      onConfirm={confirmDeleteTicket}
+      onCancel={() => setConfirmDelete(null)}
+      darkMode={darkMode}
+    />, document.body
+  )
   // ── Vue détail ─────────────────────────────────────────────────────────
   if (detail) {
-    const sc = STATUS_CFG[detail.status] ?? STATUS_CFG.open
-    const tc = TYPE_CFG[detail.type] ?? { icon: '📩', label: detail.type ?? 'Ticket' }
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', height: '100%', minHeight: 300 }}>
-
-        {/* Header */}
-        <div style={{ display: 'flex', alignItems: 'flex-start', gap: 10, marginBottom: 14, flexWrap: 'wrap' }}>
-          <Button
-            variant="ghost"
-            onClick={() => { setDetail(null); setMessages([]) }}
-            className="h-auto flex-shrink-0 rounded-none bg-transparent py-1 pl-0 pr-2.5 text-[13px] hover:bg-transparent"
-            style={{ gap: 4, color: muted }}
-          >
-            <LuChevronLeft size={13} /> Retour
-          </Button>
-
-          <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 7, marginBottom: 4, flexWrap: 'wrap' }}>
-              <span style={{ fontSize: 16 }}>{tc.icon}</span>
-              <span style={{ fontSize: 14, fontWeight: 700, color: fg, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                {detail.title}
-              </span>
-              <span style={{ fontSize: 11, fontWeight: 700, padding: '2px 8px', borderRadius: 4, background: sc.bg, color: sc.color, flexShrink: 0 }}>
-                {sc.label}
-              </span>
-            </div>
-            <div style={{ fontSize: 11, color: muted }}>
-              <strong>{detail.username ?? '—'}</strong> · {tc.label} · {fmtDate(detail.created_at)}
-            </div>
-          </div>
-
-          {/* Sélecteurs statut */}
-          <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap', flexShrink: 0 }}>
-            {Object.entries(STATUS_CFG).map(([s, cfg]) => (
-              <Button
-                key={s}
-                variant="ghost"
-                aria-pressed={detail.status === s}
-                onClick={() => handleSetStatus(s)}
-                className="h-auto rounded-md border-[1.5px] px-2.5 py-1 text-[11px] hover:bg-transparent"
-                style={{
-                  borderColor: detail.status === s ? cfg.color : border,
-                  background: detail.status === s ? cfg.bg : 'transparent',
-                  color: detail.status === s ? cfg.color : muted,
-                  fontWeight: detail.status === s ? 700 : 500,
-                }}
-              >
-                {cfg.label}
-              </Button>
-            ))}
-          </div>
-
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={e => requestDeleteTicket(detail.id, e)}
-            title="Supprimer le ticket"
-            aria-label="Supprimer le ticket"
-            className="h-auto w-auto flex-shrink-0 rounded-md bg-transparent p-1.5 hover:bg-transparent"
-            style={{ color: 'var(--color-danger)' }}
-          >
-            <LuTrash2 size={14} />
-          </Button>
-        </div>
-
-        {/* Thread */}
-        <div style={{ flex: 1, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 12, minHeight: 150 }}>
-          {visibleMessages.length === 0 && (
-            <p style={{ fontSize: 13, color: muted, fontStyle: 'italic', textAlign: 'center', padding: '24px 0' }}>
-              Aucun message dans ce ticket.
-            </p>
-          )}
-          {visibleMessages.map(msg => (
-            <div key={msg.id}
-              onMouseEnter={() => setHoveredMsgId(msg.id)}
-              onMouseLeave={() => setHoveredMsgId(null)}
-              style={{ display: 'flex', flexDirection: 'column', alignItems: msg.is_admin ? 'flex-end' : 'flex-start' }}>
-              <span style={{ fontSize: 10, color: muted, marginBottom: 3 }}>
-                {msg.is_admin ? 'Admin' : (detail.username ?? 'Utilisateur')} · {fmtDate(msg.created_at)}
-              </span>
-              <div style={{ display: 'flex', alignItems: 'flex-end', gap: 5, flexDirection: msg.is_admin ? 'row-reverse' : 'row', width: '100%' }}>
-                <div style={{ maxWidth: '80%', padding: '9px 13px', borderRadius: msg.is_admin ? '14px 4px 14px 14px' : '4px 14px 14px 14px', background: msg.is_admin ? 'linear-gradient(135deg, #2E4A6A 0%, #1A2F48 100%)' : (darkMode ? '#253545' : 'var(--color-bg-warm)'), color: msg.is_admin ? 'white' : fg, fontSize: 13, lineHeight: 1.55, whiteSpace: 'pre-wrap', overflowWrap: 'break-word' }}>
-                  {msg.content}
-                </div>
-                {/* Suppression disponible sur tous les messages (admin + user) pour RGPD */}
-                {hoveredMsgId === msg.id && (
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => handleDeleteMessage(msg)}
-                    title="Supprimer (RGPD)"
-                    aria-label="Supprimer le message"
-                    className="h-auto w-auto flex-shrink-0 bg-transparent p-0.5 opacity-65 hover:bg-transparent"
-                    style={{ color: 'var(--color-danger)' }}
-                  >
-                    <LuTrash2 size={12} />
-                  </Button>
-                )}
-              </div>
-            </div>
-          ))}
-          <div ref={bottomRef} />
-        </div>
-
-        {/* Répondre / Résolu */}
-        {detail.status === 'resolved' ? (
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 14px', borderRadius: 10, background: 'rgba(34,197,94,0.07)', border: '1px solid rgba(34,197,94,0.2)' }}>
-            <span style={{ fontSize: 12, color: 'var(--color-success)', flex: 1 }}>Ticket résolu.</span>
-            <Button
-              variant="ghost"
-              onClick={() => handleSetStatus('open')}
-              className="h-auto rounded-lg border bg-transparent px-3 py-1 text-xs font-semibold hover:bg-transparent"
-              style={{ borderColor: border, color: muted }}
-            >
-              Rouvrir
-            </Button>
-          </div>
-        ) : (
-          <div>
-            {replyError && <p style={{ fontSize: 12, color: 'var(--color-danger)', margin: '0 0 8px' }}>{replyError}</p>}
-            {/* Réponses rapides (#5) — un clic insère un template, éditable ensuite */}
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 8 }}>
-              {SUPPORT_QUICK_REPLIES.map(q => (
-                <button
-                  key={q.id}
-                  type="button"
-                  onClick={() => setReply(prev => prev.trim() ? `${prev.trimEnd()}\n${quickReplyText(q.id, lang)}` : quickReplyText(q.id, lang))}
-                  style={{ fontSize: 11, fontWeight: 600, padding: '3px 9px', borderRadius: 999, border: `1px solid ${border}`, background: 'transparent', color: muted, cursor: 'pointer', whiteSpace: 'nowrap' }}
-                >
-                  {q.label[lang] ?? q.label.fr}
-                </button>
-              ))}
-            </div>
-            <div style={{ display: 'flex', gap: 8, alignItems: 'flex-end' }}>
-              <textarea value={reply} onChange={e => setReply(e.target.value)} placeholder="Votre réponse…" rows={2}
-                style={{ flex: 1, borderRadius: 10, border: `1.5px solid ${border}`, background: darkMode ? '#141F2E' : '#FFF', color: fg, fontSize: 13, padding: '8px 12px', resize: 'none', outline: 'none', fontFamily: 'inherit' }}
-                onFocus={e => e.target.style.borderColor = 'var(--color-brand-500)'}
-                onBlur={e => e.target.style.borderColor = border}
-                onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleReply() } }}
-              />
-              <Button
-                onClick={handleReply}
-                loading={sending}
-                disabled={!reply.trim() || sending}
-                aria-label="Envoyer"
-                className="h-10 w-10 flex-shrink-0 rounded-[10px]"
-                style={{
-                  background: reply.trim() ? 'linear-gradient(135deg, #2E4A6A 0%, #1A2F48 100%)' : (darkMode ? 'var(--color-dark-surface)' : 'var(--color-border-warm)'),
-                  color: reply.trim() ? 'white' : muted,
-                }}
-              >
-                {!sending && <LuSend size={15} />}
-              </Button>
-            </div>
-          </div>
-        )}
-      </div>
+      <SupportTicketDetail
+        detail={detail} statusCfg={STATUS_CFG} typeCfg={TYPE_CFG} fmtDate={fmtDate}
+        messages={visibleMessages} messagesError={messagesError} onRetryMessages={() => openTicket(detail)}
+        bottomRef={bottomRef}
+        reply={reply} setReply={setReply} sending={sending} replyError={replyError}
+        onBack={() => { setDetail(null); setMessages([]); setMessagesError(null) }} onSetStatus={handleSetStatus}
+        onRequestDelete={() => requestDeleteTicket(detail.id)} onDeleteMessage={handleDeleteMessage} onReply={handleReply}
+        feedback={feedback} modaleSuppression={modaleSuppression} lang={lang} darkMode={darkMode} fg={fg} muted={muted} border={border}
+      />
     )
   }
 
   // ── Vue liste ──────────────────────────────────────────────────────────
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-
+      <FeedbackBanner feedback={feedback} />
       {/* Filtres statut */}
       <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap', alignItems: 'center' }}>
         {[
@@ -379,7 +247,7 @@ export default function SupportSection({ lang = 'fr', darkMode = false }) {
           >
             {label}
             {counts[key] > 0 && (
-              <span style={{ marginLeft: 5, padding: '1px 5px', borderRadius: 3, background: statusFilter === key ? `${accent}28` : (darkMode ? '#2A4060' : 'var(--color-bg-warm)'), fontSize: 11 }}>
+              <span style={{ marginLeft: 5, padding: '1px 5px', borderRadius: 3, background: statusFilter === key ? fondTeinte(accent, 16) : (darkMode ? '#2A4060' : 'var(--color-bg-warm)'), fontSize: 11 }}>
                 {counts[key]}
               </span>
             )}
@@ -403,8 +271,7 @@ export default function SupportSection({ lang = 'fr', darkMode = false }) {
           className="ml-auto h-auto rounded-md border px-2.5 py-1 text-xs hover:bg-transparent"
           style={{ ...pillStyle(false), gap: 4 }}
         >
-          <LuRefreshCw size={12} style={{ animation: loading ? 'spin 1s linear infinite' : 'none' }} />
-          <style>{`@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}`}</style>
+          <LuRefreshCw size={12} className={loading ? 'animate-spin' : undefined} />
           Recharger
         </Button>
       </div>
@@ -434,105 +301,41 @@ export default function SupportSection({ lang = 'fr', darkMode = false }) {
             </Button>
           ))}
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '6px 10px', borderRadius: 8, border: `1px solid ${border}`, background: darkMode ? '#141F2E' : '#FFF', marginLeft: 'auto' }}>
-          <LuSearch size={13} style={{ color: muted, flexShrink: 0 }} />
-          <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Titre, utilisateur…"
-            style={{ background: 'transparent', border: 'none', outline: 'none', color: fg, fontSize: 12, width: 160 }} />
+        {/* Libellé visible à gauche, à la hauteur des pastilles (décision du 2026-10-06). */}
+        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '4px 6px', marginLeft: 'auto' }}>
+          <label htmlFor={rechercheId} style={{ fontSize: 12, fontWeight: 700, color: 'var(--color-muted)', whiteSpace: 'nowrap' }}>Rechercher une demande</label>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '0 10px', borderRadius: 8, border: `1px solid ${border}`, background: darkMode ? '#141F2E' : '#FFF' }}>
+            <LuSearch size={13} style={{ color: muted, flexShrink: 0 }} />
+            <input id={rechercheId} value={search} onChange={e => setSearch(e.target.value)} placeholder="titre ou utilisateur"
+              style={{ background: 'transparent', border: 'none', outline: 'none', color: fg, fontSize: 12, width: 160, padding: '9px 0' }} />
+          </div>
         </div>
       </div>
 
       {/* Liste */}
       {loading ? (
         <div style={{ textAlign: 'center', padding: '40px', color: muted, fontSize: 13 }}>Chargement…</div>
+      ) : erreurChargement ? (
+        <ChargementRate error={erreurChargement} onRetry={loadTickets} lang={lang} />
       ) : filtered.length === 0 ? (
         <p style={{ textAlign: 'center', padding: '36px 0', color: muted, fontSize: 13, fontStyle: 'italic' }}>
           Aucun ticket{search ? ` pour « ${search} »` : ''}.
         </p>
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
-          {filtered.map(ticket => {
-            const sc = STATUS_CFG[ticket.status] ?? STATUS_CFG.open
-            const tc = TYPE_CFG[ticket.type] ?? { icon: '📩', label: ticket.type ?? 'Ticket' }
-            return (
-              <Button
-                key={ticket.id}
-                variant="ghost"
-                onClick={() => openTicket(ticket)}
-                onMouseEnter={e => e.currentTarget.style.background = darkMode ? 'var(--color-dark-surface)' : 'var(--color-border-warm)'}
-                onMouseLeave={e => e.currentTarget.style.background = rowBg}
-                className="h-auto w-full justify-start rounded-[10px] border px-3.5 py-2.5 text-left hover:bg-transparent"
-                style={{
-                  gap: 10,
-                  background: rowBg,
-                  borderColor: ticket.has_unread_admin ? 'var(--color-info)' : border,
-                  transition: 'background 0.15s',
-                }}
-              >
-                <span title={tc.label} style={{ fontSize: 16, flexShrink: 0 }}>{tc.icon}</span>
-
-                <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 7, marginBottom: 3 }}>
-                    <span style={{ fontSize: 13, fontWeight: ticket.has_unread_admin ? 700 : 600, color: fg, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', flex: 1 }}>
-                      {ticket.title}
-                    </span>
-                    {ticket.has_unread_admin && (
-                      <span style={{ width: 8, height: 8, borderRadius: '50%', background: 'var(--color-info)', flexShrink: 0 }} title="Nouveau message" />
-                    )}
-                    {ticket.has_unread_user && (
-                      <span style={{ fontSize: 10, fontWeight: 700, padding: '1px 6px', borderRadius: 4, background: 'rgba(212,106,16,0.15)', color: 'var(--color-brand-600)', flexShrink: 0, whiteSpace: 'nowrap' }}>
-                        Rép. utilisateur
-                      </span>
-                    )}
-                  </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                    <span style={{ fontSize: 11, fontWeight: 600, padding: '1px 7px', borderRadius: 4, background: sc.bg, color: sc.color }}>{sc.label}</span>
-                    <span style={{ fontSize: 11, color: muted }}>{ticket.username ?? '—'}</span>
-                    <span style={{ fontSize: 11, color: muted }}>{fmtShort(ticket.updated_at ?? ticket.created_at)}</span>
-                  </div>
-                </div>
-
-                {/* Résoudre en un clic */}
-                {ticket.status !== 'resolved' && (
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={e => handleQuickResolve(ticket.id, e)}
-                    title="Marquer résolu"
-                    aria-label="Marquer résolu"
-                    className="h-auto w-auto flex-shrink-0 rounded-[7px] border px-2 py-1 hover:bg-transparent"
-                    style={{
-                      borderColor: 'rgba(22,163,74,0.35)',
-                      background: 'rgba(22,163,74,0.08)',
-                      color: 'var(--color-success)',
-                    }}
-                  >
-                    <LuCheck size={12} />
-                  </Button>
-                )}
-
-                <LuChevronRight size={13} style={{ color: muted, flexShrink: 0 }} />
-
-                <span onClick={e => requestDeleteTicket(ticket.id, e)} title="Supprimer"
-                  style={{ color: 'var(--color-danger)', opacity: 0.65, cursor: 'pointer', display: 'flex', alignItems: 'center', flexShrink: 0, padding: 2 }}>
-                  <LuTrash2 size={13} />
-                </span>
-              </Button>
-            )
-          })}
+          {filtered.map(ticket => (
+            <SupportTicketRow
+              key={ticket.id}
+              ticket={ticket} statusCfg={STATUS_CFG} typeCfg={TYPE_CFG}
+              date={fmtShort(ticket.updated_at ?? ticket.created_at, lang)}
+              onOpen={openTicket} onQuickResolve={handleQuickResolve} onRequestDelete={requestDeleteTicket}
+              darkMode={darkMode} rowBg={rowBg} fg={fg} muted={muted} border={border}
+            />
+          ))}
         </div>
       )}
 
-      {confirmDelete && createPortal(
-        <ConfirmDeleteModal
-          title="Supprimer ce ticket ?"
-          body="Le ticket et tous ses messages seront supprimés définitivement. Tu as 10 secondes pour annuler."
-          confirmLabel="Supprimer"
-          cancelLabel="Annuler"
-          onConfirm={confirmDeleteTicket}
-          onCancel={() => setConfirmDelete(null)}
-          darkMode={darkMode}
-        />, document.body
-      )}
+      {modaleSuppression}
     </div>
   )
 }

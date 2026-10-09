@@ -58,6 +58,8 @@ const I18N = {
     suggestionsHintDefault: 'Sélection de démarrage. Tes propositions s\'adapteront à mesure que tu sauvegardes des listes.',
     suggestionsHintPersonal: 'Selon tes listes sauvegardées.',
     addToCart: 'Ajouter au panier',
+    listeEchec: 'La liste n’a pas pu être chargée. Réessaie.',
+    ajoutEchec: 'L’ingrédient n’a pas pu être ajouté. Réessaie.',
     added: 'Ajouté',
     ctaCreateList: 'Créer une liste',
     ctaSeeMyLists: 'Voir mes listes',
@@ -83,6 +85,8 @@ const I18N = {
     suggestionsHintDefault: 'Starter selection. Suggestions will adapt as you save lists.',
     suggestionsHintPersonal: 'Based on your saved lists.',
     addToCart: 'Add to basket',
+    listeEchec: 'The list could not be loaded. Try again.',
+    ajoutEchec: 'The ingredient could not be added. Try again.',
     added: 'Added',
     ctaCreateList: 'Create a list',
     ctaSeeMyLists: 'See my lists',
@@ -131,6 +135,9 @@ export default function EmptyBasketState({
   const [ingPage, setIngPage]         = useState(0)
   const [pendingId, setPendingId] = useState(null)
   const [addedId, setAddedId]     = useState(null)
+  // Un geste qui a échoué ('liste' ou 'ajout') : c'est dit, au lieu de rien
+  // (relevé le 2026-10-08 — les deux résultats étaient jetés).
+  const [echec, setEchec]         = useState(null)
   const addedTimerRef = useRef(null)
   useEffect(() => () => {
     if (addedTimerRef.current) clearTimeout(addedTimerRef.current)
@@ -210,12 +217,15 @@ export default function EmptyBasketState({
         price:  pack?.price ?? null,
       }
       const result = await onManualAdd(item)
-      if (timedOut || result?.error) return
+      if (timedOut) return
+      if (result?.error) { setEchec('ajout'); return }
+      setEchec(null)
       setAddedId(ing.id)
       if (addedTimerRef.current) clearTimeout(addedTimerRef.current)
       addedTimerRef.current = setTimeout(() => setAddedId(null), 1200)
     } catch (err) {
       if (import.meta.env.DEV) console.error('[empty-basket] add failed:', err)
+      setEchec('ajout')
     } finally {
       clearTimeout(safetyTimer)
       if (!timedOut) setPendingId(null)
@@ -227,7 +237,10 @@ export default function EmptyBasketState({
     setLoadingId(list.id)
     try {
       // passe { id, name } pour tracker la liste chargée
-      await onLoadList(list.items ?? [], { id: list.id, name: list.name })
+      const resultat = await onLoadList(list.items ?? [], { id: list.id, name: list.name })
+      setEchec(resultat?.error ? 'liste' : null)
+    } catch {
+      setEchec('liste')
     } finally {
       setLoadingId(null)
     }
@@ -265,6 +278,11 @@ export default function EmptyBasketState({
         }}>
           {isActiveListMode ? t.activeListHint : t.emptyHint}
         </p>
+        {echec && (
+          <p role="alert" style={{ margin: 0, fontSize: '13px', fontWeight: 600, color: 'var(--color-danger)', maxWidth: '320px' }}>
+            {echec === 'liste' ? t.listeEchec : t.ajoutEchec}
+          </p>
+        )}
         {isActiveListMode && onShowRecipes && (
           <Button
             variant="ghost"

@@ -5,6 +5,12 @@ import { skipOnboardingOverlays } from './support/supabase-mock.js'
 // (signalé le 2026-10-02 : 1 512 px avant, 20 033 px au retour, aussi en prod).
 // Une position en pixels ne tient pas : la liste se reconstruit, se retrie et
 // les cartes changent de hauteur quand les notes arrivent.
+//
+// 2026-10-07 : sans base (la CI, un réseau coupé), aucune note n'arrive pour
+// relancer la restauration. Or elle se jouait pendant que le panneau glisse
+// depuis le bas : la liste hors écran, ses cartes (`content-visibility: auto`)
+// n'ont pas leur vraie hauteur, et la carte retrouvée était la mauvaise
+// (« Salade Niçoise » au lieu de « Quiche Lorraine », 5 fois sur 5).
 
 test.use({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true })
 
@@ -20,8 +26,23 @@ test('revenir d\'une recette retrouve la même carte en haut de la liste', async
   await page.waitForLoadState('networkidle')
 
   const liste = page.locator('div.absolute.inset-0.overflow-y-auto').first()
+  // Le repère du panneau : la recherche des recettes, par son libellé visible.
+  // On le voit présent ici, pour que son absence plus bas prouve quelque chose
+  // (le 07/10, repéré par un texte grisé qui avait changé, il ne trouvait plus
+  // rien et la garde passait d'office — le retour arrière partait trop tôt).
+  const recherche = page.getByLabel('Chercher une recette')
+  await expect(recherche).toBeVisible()
   await liste.locator('button[aria-pressed]').nth(20).waitFor({ timeout: 15000 })
-  await liste.evaluate(el => { el.scrollTop = 1500 })
+  // Au milieu de la liste, une carte coupée à mi-hauteur en haut : aucune
+  // frontière de carte près du seuil de lecture (10 px), et loin du bas de la
+  // liste déjà rendue, où le navigateur rabote le défilement.
+  await liste.evaluate(el => {
+    el.scrollTop = 800
+    const top = el.getBoundingClientRect().top
+    const carte = [...el.children].find(c => c.getBoundingClientRect().bottom > top + 10)
+    const r = carte.getBoundingClientRect()
+    el.scrollTop += (r.top - top) + r.height / 2
+  })
   await page.waitForTimeout(500)
   const avant = await premiereCarteVisible(liste)
 
@@ -36,7 +57,7 @@ test('revenir d\'une recette retrouve la même carte en haut de la liste', async
   // La fiche est vraiment affichée : son titre est là ET le panneau est parti
   // (l'URL /recipe/ et le h1 de l'accueil existent avant que la route ne bascule).
   await expect(page.getByRole('heading', { name: cible.titre }).first()).toBeVisible({ timeout: 10000 })
-  await expect(page.locator('input[placeholder*="recette" i]')).toHaveCount(0)
+  await expect(recherche).toHaveCount(0)
   await page.goBack()
   await liste.waitFor()
 

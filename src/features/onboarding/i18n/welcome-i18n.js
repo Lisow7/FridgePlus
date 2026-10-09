@@ -16,7 +16,7 @@ export const WELCOME_I18N = {
     cta:          'Faire la visite guidée',
     ctaSub:       '≈ 2 min · 5 étapes · à ton rythme',
     later:        'Entrer directement →',
-    skipFootnote: 'Pas envie maintenant ? Tu pourras relancer le guide quand tu veux depuis le bouton « ? » en haut.',
+    skipFootnote: 'Pas envie maintenant ? Tu pourras relancer la visite quand tu veux : bouton « ? » en haut, puis « Comment ça marche ».',
   },
   en: {
     skipBtn:      'Skip',
@@ -31,6 +31,6 @@ export const WELCOME_I18N = {
     cta:          'Take the guided tour',
     ctaSub:       '≈ 2 min · 5 steps · at your pace',
     later:        'Go straight in →',
-    skipFootnote: 'Not now? You can relaunch the guide anytime from the "?" button at the top.',
+    skipFootnote: 'Not now? You can restart the tour anytime: the "?" button at the top, then "How it works".',
   },
 }

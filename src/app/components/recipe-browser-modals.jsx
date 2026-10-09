@@ -1,4 +1,5 @@
 import { Suspense, lazy } from 'react'
+import { useViderLeFrigo } from '@features/fridge/hooks/use-vider-le-frigo'
 
 const RecipeDeleteConfirmModal = lazy(() => import('@features/recipes/components/recipe-delete-confirm-modal'))
 const RecipePanel              = lazy(() => import('@features/recipes/components/recipe-panel'))
@@ -41,7 +42,11 @@ export default function RecipeBrowserModals({
   allergenPrefs,
   onToggleFavorite,
   onToggleIngredient,
-  onResetStock,
+  // Vider le frigo depuis le panneau : la même porte que le bouton orange,
+  // avec 10 secondes pour annuler (audit UX-06 — elle supprimait tout d'un coup).
+  onEmptyOptimistic,
+  onEmptyConfirm,
+  onEmptyUndo,
   // Sprint 11 S11.e.1 — onSaveCustomRecipe retiré (RecipeFormModal
   // rendu au top-level d'App.jsx via RecipeFormOverlay).
   onDeleteCustomRecipe,
@@ -55,6 +60,7 @@ export default function RecipeBrowserModals({
   lang,
   darkMode,
 }) {
+  const viderLeFrigo = useViderLeFrigo({ stock, lang, onEmptyOptimistic, onEmptyConfirm, onEmptyUndo })
   return (
     <>
       {deletingRecipe && (
@@ -79,7 +85,7 @@ export default function RecipeBrowserModals({
           <RecipePanel
             stock={stock}
             onClose={onShowRecipesClose}
-            onReset={onResetStock}
+            onReset={viderLeFrigo}
             favorites={favorites}
             onToggleFavorite={onToggleFavorite}
             lang={lang}

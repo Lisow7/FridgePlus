@@ -46,7 +46,16 @@
         },
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self'; script-src 'self' https://cdn.jsdelivr.net https://browser.sentry-cdn.com https://vercel.live; style-src 'self' 'unsafe-inline' https://vercel.live; img-src 'self' data: blob: https:; font-src 'self' data: https://vercel.live; frame-src 'self' https://vercel.live; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://*.sentry.io https://api.openfoodfacts.org https://prices.openfoodfacts.org https://vercel.live wss://ws-us3.pusher.com; media-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests"
+          "value": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://vercel.live; img-src 'self' data: blob: https://bymuvgjghtupfzwjbice.supabase.co; font-src 'self' data: https://vercel.live; frame-src 'self' https://vercel.live; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://*.sentry.io https://api.openfoodfacts.org https://prices.openfoodfacts.org https://vercel.live wss://ws-us3.pusher.com; media-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests"
+        }
+      ]
+    },
+    {
+      "source": "/(login|signup|cart|profile|cook|auth)(/.*)?",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex"
         }
       ]
     },

@@ -96,3 +96,42 @@ describe('HelpGuide — hub Aide & infos', () => {
     expect(screen.queryByText('Faut-il un compte ?')).not.toBeInTheDocument()
   })
 })
+
+// Audit du 2026-10-04 (UX-01). Pour un visiteur sans compte, « Contacter le
+// support » fermait la fenêtre et n'ouvrait rien : le panneau de support
+// n'est rendu que pour un compte. L'état « support ouvert » restait pourtant
+// vrai, et faisait disparaître le bouton orange de l'accueil. Un visiteur a
+// désormais un vrai moyen d'écrire : un lien vers l'adresse du support.
+describe('HelpGuide — écrire au support', () => {
+  it('connecté : le bouton ouvre le panneau de support et ferme la fenêtre', async () => {
+    const user = userEvent.setup()
+    const onShowSupport = vi.fn()
+    renderHelp({ onShowSupport })
+
+    await user.click(screen.getByRole('button', { name: 'Aide & infos' }))
+    await user.click(screen.getByRole('button', { name: /Contacter le support/ }))
+
+    expect(onShowSupport).toHaveBeenCalledOnce()
+  })
+
+  it('sans compte : pas de bouton mort, un lien qui écrit à support@fridgeplus.app', async () => {
+    const user = userEvent.setup()
+    renderHelp()
+
+    await user.click(screen.getByRole('button', { name: 'Aide & infos' }))
+
+    expect(screen.queryByRole('button', { name: /Contacter le support/ })).not.toBeInTheDocument()
+    const lien = screen.getByRole('link', { name: /Écrire au support/ })
+    expect(lien).toHaveAttribute('href', 'mailto:support@fridgeplus.app')
+    expect(lien).toHaveTextContent('support@fridgeplus.app')
+  })
+
+  it('sans compte, en anglais : le lien est traduit', async () => {
+    const user = userEvent.setup()
+    render(<MemoryRouter><HelpGuide lang="en" /></MemoryRouter>)
+
+    await user.click(screen.getByRole('button', { name: 'Help & info' }))
+
+    expect(screen.getByRole('link', { name: /Email support/ })).toHaveAttribute('href', 'mailto:support@fridgeplus.app')
+  })
+})

@@ -1,16 +1,22 @@
 # Feature `pwa`
 
 > Progressive Web App : invite à **installer l'app** (A2HS) et **bandeau de mise à jour** quand un
-> nouveau service worker est prêt. (Code lu sur `dev` le 2026-06-23.)
+> nouveau service worker est prêt. (Code lu sur `dev` le 2026-06-23 ; mise à jour le 2026-10-05.)
 
 ## `components/update-prompt.jsx` — mise à jour du service worker
-- **Stratégie `registerType: 'autoUpdate'`** (`vite.config.js`) : le SW s'auto-active à chaque deploy
-  (skipWaiting + clientsClaim), sans attendre un clic utilisateur. Avant : stratégie « prompt » (ce
-  composant affichait un toast « Recharger » et attendait l'OK, pour ne pas perdre une saisie en
-  cours) — abandonnée car le toast ne se déclenchait pas chez des users en prod, qui restaient
-  bloqués sur un vieux bundle SW (champs profil vides après hard refresh post-deploy, etc. — cf.
-  session 2026-05-15, ~45 min de diag). `<UpdatePrompt>` reste utilisé aujourd'hui uniquement pour
-  le message `offlineReady` (« prêt à fonctionner hors-ligne »), plus pour proposer un rechargement.
+- **Stratégie `registerType: 'prompt'`** (`vite.config.js`, depuis le 2026-07-09 ; ce README a affirmé
+  `autoUpdate` jusqu'au 2026-10-05) : après un déploiement, le SW neuf **attend** l'OK de l'utilisateur,
+  pour ne pas perdre une saisie en cours. La bannière « Nouvelle version disponible » propose de recharger.
+  Une vérification active (toutes les heures, et au retour sur l'onglet) détecte une nouvelle version dans
+  un onglet resté ouvert.
+- **Au retour sur l'onglet** (`lib/au-retour-d-onglet.js`) : tant qu'une version attend, la bannière revient
+  — « Plus tard » ne la cache plus pour toute la vie de l'onglet.
+- **Fichier disparu après un déploiement** (`lib/version-perimee.js`, installé par `src/main.jsx`) : qui garde
+  l'ancienne version charge à la demande des morceaux dont le nom a changé (dont les trois hors précache :
+  vendor-sentry, admin-panel, vendor-recharts). Sur `vite:preloadError`, la version neuve est activée puis la
+  page recharge — **seulement** sur la preuve d'une version plus récente (SW neuf, ou adresse d'entrée changée
+  sans SW), une fois par session, jamais hors ligne. Un morceau bloqué par un bloqueur de publicité ne recharge
+  rien. Le bouton « Recharger la page » de l'écran d'erreur active lui aussi la version en attente.
 - L'API `useRegisterSW` vient du **module virtuel `virtual:pwa-register/react`**, qui **n'existe qu'au
   build** → import **dynamique à l'exécution** (try/catch) pour ne pas casser le dev/les tests.
   Chargé en **lazy** par `app/components/global-overlays.jsx`.

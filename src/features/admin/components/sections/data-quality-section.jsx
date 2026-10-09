@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, useRef } from 'react'
+import { useEffect, useMemo, useState, useRef, useId } from 'react'
 import { LuRefreshCw, LuExternalLink, LuSearch, LuX, LuDownload, LuShieldCheck, LuShieldAlert } from 'react-icons/lu'
 import { adminGetHealthChecks } from '@features/admin/api/admin'
 import Button from '@shared/ui/button'
@@ -7,6 +7,7 @@ import EmptyState from '@shared/ui/empty-state'
 import ImportQueueTab from './import-queue-tab'
 import { formatDate } from '@shared/lib/format-date'
 import { useReloader } from '@shared/hooks/use-reloader'
+import { texteLisible, fondTeinte } from '@shared/lib/couleurs/texte-lisible'
 
 // Catalog des issues Data Quality v2 (Sprint 8). Couvre 5 dimensions :
 // Completeness / Accuracy / Validity / Consistency / Uniqueness.
@@ -118,6 +119,21 @@ function getItemSeverity(item) {
 
 function fmtDate(str, lang = 'fr') { return str ? formatDate(str, lang) : '' }
 
+// Une ligne : un vrai bouton quand elle ouvre un éditeur (audit du 2026-10-04,
+// ADM-19 d : c'était une `div` cliquable, hors de l'ordre de tabulation, dont
+// le curseur promettait un clic même sans éditeur à ouvrir) ; un bloc sinon.
+function LigneDeQualite({ ouvrir, style, bordure, children }) {
+  if (!ouvrir) return <div style={style}>{children}</div>
+  return (
+    <Button variant="ghost" onClick={ouvrir}
+      onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--color-brand-500)' }}
+      onMouseLeave={e => { e.currentTarget.style.borderColor = bordure }}
+      className="h-auto w-full items-stretch justify-start text-left font-normal hover:bg-transparent" style={style}>
+      {children}
+    </Button>
+  )
+}
+
 function fmtTime(date) {
   if (!date) return '—'
   return date.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })
@@ -159,6 +175,7 @@ export default function DataQualitySection({
   const [totalRecipes,     setTotalRecipes]     = useState(0)
   const [totalIngredients, setTotalIngredients] = useState(0)
   const [search,           setSearch]           = useState('')
+  const rechercheId = useId()
   const [severityFilter,   setSeverityFilter]   = useState('all')
   const [lastChecked,      setLastChecked]       = useState(null)
   // `adminGetHealthChecks` remonte l'erreur Supabase ; sans elle, une requête en
@@ -176,7 +193,7 @@ export default function DataQualitySection({
   // enchaîner deux rechargements laissait le plus ancien écraser le plus récent.
   // Il lance aussi le premier chargement — l'effet ci-dessous n'arme plus que
   // le rafraîchissement automatique.
-  const { loading, reload } = useReloader(async (estObsolete) => {
+  const { loading, error: erreurChargement, reload } = useReloader(async (estObsolete) => {
     const { recipes: r, ingredients: i, totalRecipes: tr, totalIngredients: ti, error } = await adminGetHealthChecks()
     if (estObsolete()) return
     setLoadError(error ?? null)
@@ -221,7 +238,9 @@ export default function DataQualitySection({
   const ingScore    = totalIngredients > 0 ? Math.round((1 - ingredients.length / totalIngredients) * 100) : 100
   // En cas d'échec, les listes sont vides pour une raison qui n'a rien à voir
   // avec la qualité des données : ne jamais en déduire un score.
-  const globalOk    = !loadError && recipeScore === 100 && ingScore === 100
+  // Une lecture qui LÈVE (un comptage, depuis le 2026-10-05) rejoint le même bandeau.
+  const erreurAnalyse = loadError ?? erreurChargement
+  const globalOk    = !erreurAnalyse && recipeScore === 100 && ingScore === 100
 
   const SEVERITY_FILTERS = [
     { key: 'all',      label: `Tous (${counts.all})` },
@@ -235,8 +254,8 @@ export default function DataQualitySection({
 
       {/* ── Échec de l'analyse ──────────────────────────────────────────
           Prioritaire sur le score : listes vides ≠ données saines. */}
-      {activeTab !== 'imports' && loadError && (
-        <div style={{
+      {activeTab !== 'imports' && erreurAnalyse && (
+        <div role="alert" style={{
           display: 'flex', gap: 10, padding: '12px 14px', borderRadius: 12,
           background: darkMode ? 'rgba(220,38,38,0.10)' : 'rgba(220,38,38,0.06)',
           border: `1px solid ${darkMode ? 'rgba(220,38,38,0.35)' : 'rgba(220,38,38,0.20)'}`,
@@ -249,14 +268,14 @@ export default function DataQualitySection({
             </span>
             <span style={{ fontSize: 12, color: muted }}>
               Les indicateurs ci-dessous ne reflètent pas l’état réel des données.
-              {loadError.message ? ` (${loadError.message})` : ''}
+              {erreurAnalyse.message ? ` (${erreurAnalyse.message})` : ''}
             </span>
           </div>
         </div>
       )}
 
       {/* ── Score de santé global ───────────────────────────────────── */}
-      {activeTab !== 'imports' && !loadError && (
+      {activeTab !== 'imports' && !erreurAnalyse && (
         <div style={{
           display: 'flex', gap: 10, padding: '12px 14px',
           borderRadius: 12,
@@ -274,7 +293,7 @@ export default function DataQualitySection({
               ? <LuShieldCheck size={20} color="var(--color-success)" />
               : <LuShieldAlert  size={20} color="var(--color-danger)" />
             }
-            <span style={{ fontSize: 13, fontWeight: 700, color: globalOk ? 'var(--color-success)' : 'var(--color-danger)' }}>
+            <span style={{ fontSize: 13, fontWeight: 700, color: texteLisible(globalOk ? 'var(--color-success)' : 'var(--color-danger)') }}>
               {globalOk ? 'Qualité parfaite' : 'Problèmes détectés'}
             </span>
           </div>
@@ -293,13 +312,13 @@ export default function DataQualitySection({
               }}>
                 <span style={{ fontSize: 12, color: muted }}>{label}</span>
                 <span style={{
-                  fontSize: 13, fontWeight: 800, color: scoreColor(score),
+                  fontSize: 13, fontWeight: 800, color: texteLisible(scoreColor(score)),
                   fontVariantNumeric: 'tabular-nums',
                 }}>
                   {score}%
                 </span>
                 {issues > 0 && (
-                  <span style={{ fontSize: 11, color: 'var(--color-warning)' }}>({issues} ⚠)</span>
+                  <span style={{ fontSize: 11, color: texteLisible('var(--color-warning)') }}>({issues} ⚠)</span>
                 )}
               </div>
             ))}
@@ -322,14 +341,15 @@ export default function DataQualitySection({
           <Button
             key={key}
             variant="ghost"
-            role="tab"
-            aria-selected={activeTab === key}
+            aria-pressed={activeTab === key}
             onClick={() => { setActiveTab(key); setSeverityFilter('all'); setSearch('') }}
             className="h-auto rounded-lg border px-3 py-1.5 text-[13px] hover:bg-transparent"
             style={{
               gap: 7,
               borderColor: activeTab === key ? 'var(--color-brand-500)' : border,
-              background: activeTab === key ? 'var(--color-brand-500)' : 'transparent',
+              // Texte blanc : l'orange profond (`--gradient-deep`, décision du 2026-10-06) —
+              // sur l'orange de marque, le blanc tombait à 3,05:1 (A11Y-03).
+              background: activeTab === key ? 'var(--gradient-deep)' : 'transparent',
               color: activeTab === key ? '#FFF' : muted,
               fontWeight: activeTab === key ? 700 : 500,
             }}
@@ -361,8 +381,7 @@ export default function DataQualitySection({
           className="ml-auto h-auto rounded-lg border bg-transparent px-3 py-1.5 text-xs hover:bg-transparent"
           style={{ gap: 6, borderColor: border, color: muted }}
         >
-          <LuRefreshCw size={13} style={{ animation: loading ? 'spin 1s linear infinite' : 'none' }} />
-          <style>{`@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}`}</style>
+          <LuRefreshCw size={13} className={loading ? 'animate-spin' : undefined} />
           Recharger
         </Button>
       </div>
@@ -387,25 +406,28 @@ export default function DataQualitySection({
 
       {/* ── Recherche ─────────────────────────────────────────────── */}
       {activeTab !== 'imports' && (
-        <div style={{ position: 'relative' }}>
-          <LuSearch size={13} style={{ position: 'absolute', left: 10, top: '50%', transform: 'translateY(-50%)', color: muted, pointerEvents: 'none' }} />
-          <input
-            value={search} onChange={e => setSearch(e.target.value)}
-            placeholder="Filtrer par nom ou type de problème…"
-            style={{ width: '100%', padding: '7px 32px 7px 30px', borderRadius: 8, border: `1px solid ${border}`, background: darkMode ? '#141F2E' : '#FFF', color: fg, fontSize: 13, outline: 'none', fontFamily: 'inherit', boxSizing: 'border-box' }}
-          />
-          {search && (
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setSearch('')}
-              aria-label="Clear search"
-              className="absolute right-2 top-1/2 h-auto w-auto -translate-y-1/2 bg-transparent p-0.5 hover:bg-transparent"
-              style={{ color: muted }}
-            >
-              <LuX size={13} />
-            </Button>
-          )}
+        <div>
+          <label htmlFor={rechercheId} style={{ display: 'block', fontSize: 11, fontWeight: 700, color: 'var(--color-muted)', marginBottom: 4 }}>Filtrer par nom ou type de problème</label>
+          <div style={{ position: 'relative' }}>
+            <LuSearch size={13} style={{ position: 'absolute', left: 10, top: '50%', transform: 'translateY(-50%)', color: muted, pointerEvents: 'none' }} />
+            <input
+              id={rechercheId}
+              value={search} onChange={e => setSearch(e.target.value)}
+              style={{ width: '100%', padding: '7px 32px 7px 30px', borderRadius: 8, border: `1px solid ${border}`, background: darkMode ? '#141F2E' : '#FFF', color: fg, fontSize: 13, outline: 'none', fontFamily: 'inherit', boxSizing: 'border-box' }}
+            />
+            {search && (
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setSearch('')}
+                aria-label="Effacer la recherche"
+                className="absolute right-2 top-1/2 h-auto w-auto -translate-y-1/2 bg-transparent p-0.5 hover:bg-transparent"
+                style={{ color: muted }}
+              >
+                <LuX size={13} />
+              </Button>
+            )}
+          </div>
         </div>
       )}
 
@@ -423,19 +445,16 @@ export default function DataQualitySection({
           {filtered.map(item => {
             const severity = getItemSeverity(item)
             const sev = SEVERITY_CFG[severity]
+            const ouvrir = activeTab === 'recipes' && onEditRecipe ? () => onEditRecipe(item.id, item.origin)
+              : activeTab === 'ingredients' && onEditIngredient ? () => onEditIngredient(item.id)
+              : null
             return (
-              <div key={item.id}
-                onClick={() => {
-                  if (activeTab === 'recipes'     && onEditRecipe)     onEditRecipe(item.id, item.origin)
-                  if (activeTab === 'ingredients' && onEditIngredient) onEditIngredient(item.id)
-                }}
-                style={{ display: 'flex', flexDirection: 'column', gap: 6, padding: '10px 12px', borderRadius: 10, background: rowBg, border: `1px solid ${border}`, cursor: (onEditRecipe || onEditIngredient) ? 'pointer' : 'default', transition: 'border-color 0.15s' }}
-                onMouseEnter={e => e.currentTarget.style.borderColor = 'var(--color-brand-500)'}
-                onMouseLeave={e => e.currentTarget.style.borderColor = border}
+              <LigneDeQualite key={item.id} ouvrir={ouvrir} bordure={border}
+                style={{ display: 'flex', flexDirection: 'column', gap: 6, padding: '10px 12px', borderRadius: 10, background: rowBg, border: `1px solid ${border}`, transition: 'border-color 0.15s' }}
               >
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8, justifyContent: 'space-between' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, flex: 1, minWidth: 0 }}>
-                    <span style={{ padding: '2px 8px', borderRadius: 8, background: sev.bg, color: sev.color, fontSize: 11, fontWeight: 700, flexShrink: 0 }}>{sev.label}</span>
+                <span style={{ display: 'flex', alignItems: 'center', gap: 8, justifyContent: 'space-between' }}>
+                  <span style={{ display: 'flex', alignItems: 'center', gap: 8, flex: 1, minWidth: 0 }}>
+                    <span style={{ padding: '2px 8px', borderRadius: 8, background: sev.bg, color: texteLisible(sev.color), fontSize: 11, fontWeight: 700, flexShrink: 0 }}>{sev.label}</span>
                     {/* Badge origine recette (community = jaune, official = neutre).
                         Sprint 8 Qualité v2 : permet à l'admin de distinguer
                         en un coup d'œil les recettes user-published. */}
@@ -443,7 +462,7 @@ export default function DataQualitySection({
                       <span style={{
                         padding: '2px 6px', borderRadius: 6, fontSize: 10, fontWeight: 700,
                         background: darkMode ? 'rgba(217,119,6,0.18)' : 'rgba(217,119,6,0.12)',
-                        color: 'var(--color-warning)', flexShrink: 0,
+                        color: texteLisible('var(--color-warning)'), flexShrink: 0,
                       }} title="Recette publiée par un utilisateur">
                         👤 COMMUNAUTÉ
                       </span>
@@ -452,21 +471,21 @@ export default function DataQualitySection({
                       {item.name_fr ?? item.label_fr ?? '(sans nom)'}
                     </span>
                     <span style={{ fontFamily: 'monospace', fontSize: 11, color: muted, flexShrink: 0 }}>{item.id}</span>
-                  </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexShrink: 0 }}>
+                  </span>
+                  <span style={{ display: 'flex', alignItems: 'center', gap: 6, flexShrink: 0 }}>
                     {item.subcategory && <span style={{ fontSize: 11, color: muted, padding: '2px 6px', borderRadius: 6, background: darkMode ? '#0E1828' : '#F5F0E8' }}>{item.subcategory}</span>}
                     <span style={{ fontSize: 11, color: muted }}>{fmtDate(item.updated_at)}</span>
-                    {(onEditRecipe || onEditIngredient) && <LuExternalLink size={13} color={muted} />}
-                  </div>
-                </div>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
+                    {ouvrir && <LuExternalLink size={13} color={muted} aria-hidden="true" />}
+                  </span>
+                </span>
+                <span style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
                   {(item.issues ?? []).map(key => (
-                    <span key={key} style={{ padding: '2px 8px', borderRadius: 10, background: `${ISSUE_COLORS[key] ?? ISSUE_COLORS.default}22`, color: ISSUE_COLORS[key] ?? ISSUE_COLORS.default, fontSize: 12, fontWeight: 500 }}>
+                    <span key={key} style={{ padding: '2px 8px', borderRadius: 10, background: fondTeinte(ISSUE_COLORS[key] ?? ISSUE_COLORS.default, 13), color: texteLisible(ISSUE_COLORS[key] ?? ISSUE_COLORS.default), fontSize: 12, fontWeight: 500 }}>
                       {ISSUE_LABELS[key] ?? key}
                     </span>
                   ))}
-                </div>
-              </div>
+                </span>
+              </LigneDeQualite>
             )
           })}
         </div>

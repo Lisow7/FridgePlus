@@ -28,10 +28,10 @@ test('la carte d’accueil s’efface sous le panneau Recettes et revient après
 
   await page.goto('/?recettes=1')
   await page.waitForLoadState('networkidle')
-  await expect(page.getByPlaceholder('Chercher une recette…')).toBeVisible()
+  await expect(page.getByLabel('Chercher une recette')).toBeVisible()
   await expect(carte).toBeHidden()
 
   await page.getByRole('button', { name: 'Fermer' }).first().click()
-  await expect(page.getByPlaceholder('Chercher une recette…')).toBeHidden()
+  await expect(page.getByLabel('Chercher une recette')).toBeHidden()
   await expect(carte).toBeVisible()
 })

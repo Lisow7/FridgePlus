@@ -10,7 +10,7 @@
 //
 // A11y : focus trap, aria-modal, ESC ferme.
 
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, useId } from 'react'
 import { LuX, LuCheck, LuListPlus } from 'react-icons/lu'
 import Button from '@shared/ui/button'
 import { useFocusTrap } from '@shared/hooks/use-focus-trap'
@@ -21,7 +21,8 @@ const I18N = {
   fr: {
     title: 'Sauvegarder ma liste',
     titleCreate: 'Créer une nouvelle liste',
-    placeholder: 'Nom de la liste (ex : Courses semaine)',
+    nameLabel: 'Nom de la liste',
+    placeholder: 'ex. : courses de la semaine',
     cancel: 'Annuler',
     save: 'Sauvegarder',
     create: 'Créer la liste',
@@ -36,7 +37,8 @@ const I18N = {
   en: {
     title: 'Save my list',
     titleCreate: 'Create a new list',
-    placeholder: 'List name (e.g. Weekly groceries)',
+    nameLabel: 'List name',
+    placeholder: 'e.g. weekly groceries',
     cancel: 'Cancel',
     save: 'Save',
     create: 'Create list',
@@ -62,6 +64,7 @@ export default function SaveShoppingListModal({ itemsCount, onConfirm, onClose, 
   const t = I18N[lang] ?? I18N.fr
   const containerRef = useRef(null)
   const inputRef = useRef(null)
+  const champId = useId()
   useFocusTrap(containerRef, { active: true, onEscape: onClose })
   useCloseOnBackButton(true, onClose)
 
@@ -168,7 +171,11 @@ export default function SaveShoppingListModal({ itemsCount, onConfirm, onClose, 
           </p>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+            {/* Un libellé visible, le texte grisé en exemple (décision du
+                2026-10-06, « libellés = visibles »). */}
+            <label htmlFor={champId} style={{ fontSize: '12px', fontWeight: 700, color: muted }}>{t.nameLabel}</label>
             <input
+              id={champId}
               ref={inputRef}
               type="text"
               value={name}
@@ -176,7 +183,6 @@ export default function SaveShoppingListModal({ itemsCount, onConfirm, onClose, 
               placeholder={t.placeholder}
               maxLength={SHOPPING_LIST_NAME_MAX + 5}  // un peu de marge pour montrer "trop long"
               disabled={saving}
-              aria-label={t.placeholder}
               aria-invalid={tooLong || (error ? true : false)}
               aria-describedby="save-list-error"
               style={{

@@ -18,6 +18,7 @@ const T = {
   formBodyPh: 'Partage ton expérience…', formSubmit: 'Publier', formSubmitEdit: 'Mettre à jour',
   cancel: 'Annuler', bodyTooLong: (n) => `trop long (${n})`, profanityWarning: 'profanité',
   contentBlocked: 'Bloqué par la modération.', moderationError: 'Vérification impossible, réessaie.',
+  saveError: 'Pas enregistré : ton avis n\'a pas pu être publié. Réessaie.',
   starsLabel: (n) => n === 1 ? '1 étoile' : `${n} étoiles`,
 }
 
@@ -30,6 +31,21 @@ const baseProps = {
 beforeEach(() => {
   mockUpsert.mockReset()
   mockModerate.mockReset()
+})
+
+describe('ReviewForm — publication refusée par la base', () => {
+  // Le message d'erreur de la base était affiché tel quel (« new row violates
+  // row-level security policy… »).
+  it('affiche un message lisible, pas le texte brut de la base — et le formulaire reste ouvert', async () => {
+    const onSaved = vi.fn()
+    mockUpsert.mockResolvedValue({ error: 'new row violates row-level security policy for table "engagement"' })
+    render(<ReviewForm {...baseProps} onSaved={onSaved} />)
+    fireEvent.click(screen.getByLabelText('5/5'))
+    fireEvent.click(screen.getByText('Publier'))
+    expect(await screen.findByText(T.saveError)).toBeInTheDocument()
+    expect(screen.queryByText(/row-level security/)).toBeNull()
+    expect(onSaved).not.toHaveBeenCalled()
+  })
 })
 
 describe('ReviewForm — modération avant publication', () => {

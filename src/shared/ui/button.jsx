@@ -49,7 +49,9 @@ const BASE = [
   'cursor-pointer select-none',
   'transition-[opacity,transform,background-color] duration-150',
   'disabled:opacity-50 disabled:pointer-events-none',
-  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-warm-600)] focus-visible:ring-offset-2',
+  // Focus : la règle `:focus-visible` d'index.css (un contour, qui reste
+  // visible en contraste élevé, contrairement à l'anneau `ring` — audit du
+  // 2026-10-04, A11Y-02 et A11Y-18).
   'font-[inherit]',
 ].join(' ')
 

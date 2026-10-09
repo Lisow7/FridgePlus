@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo } from 'react'
+import { useState, useCallback, useMemo, useId } from 'react'
 import { createPortal } from 'react-dom'
 import { LuX, LuFeather, LuUtensils } from 'react-icons/lu'
 import { moderateContent } from '@shared/hooks/use-moderation'
@@ -6,15 +6,19 @@ import { CATEGORIES, categoryLabel } from '@shared/lib/i18n/community-i18n'
 import { canPost, createPost, updatePost } from '@shared/api/community'
 import leoProfanity from 'leo-profanity'
 import Button from '@shared/ui/button'
+import { useDialogue } from '@shared/hooks/use-dialogue'
 import { getC, catColor } from './community-theme'
 import { CategoryIcon } from './community-category-icon'
 
 export function ComposeModal({ initialPost, initialCategory, user, t, lang, darkMode, baseRecipes, recipeNames, attachableRecipes = [], onClose, onSaved }) {
   const C = getC(darkMode)
+  const champRecetteId = useId()
   const isEdit = !!initialPost
   const [category, setCategory] = useState(initialPost?.category ?? initialCategory ?? 'general')
   const [title, setTitle] = useState(initialPost?.title ?? '')
   const [body, setBody] = useState(initialPost?.body ?? '')
+  // Une vraie boîte de dialogue : rôle, nom, focus piégé, Échap (A11Y-01).
+  const dialogue = useDialogue({ onClose })
   const [recipeId, setRecipeId] = useState(initialPost?.recipe_id ?? null)
   const [pickerOpen, setPickerOpen] = useState(false)
   const [pickerSearch, setPickerSearch] = useState('')
@@ -94,7 +98,7 @@ export function ComposeModal({ initialPost, initialCategory, user, t, lang, dark
       background: 'rgba(0,0,0,0.55)', backdropFilter: 'blur(8px)',
       display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '16px',
     }} onClick={onClose}>
-      <div onClick={e => e.stopPropagation()} style={{
+      <div {...dialogue.proprietes} onClick={e => e.stopPropagation()} style={{
         width: '100%', maxWidth: '520px', maxHeight: '92dvh',
         background: C.surface,
         border: `1.5px solid ${C.border}`,
@@ -104,7 +108,7 @@ export function ComposeModal({ initialPost, initialCategory, user, t, lang, dark
         overflow: 'hidden',
       }}>
         <div style={{ flexShrink: 0, padding: '18px 20px 14px', borderBottom: `1px solid ${C.border}`, display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <div style={{
+          <div id={dialogue.titreId} style={{
             fontSize: '19px', fontWeight: 900, letterSpacing: '0.04em', flex: 1,
             backgroundImage: `linear-gradient(90deg, ${C.orange}, ${C.cyan})`,
             WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text',
@@ -221,10 +225,13 @@ export function ComposeModal({ initialPost, initialCategory, user, t, lang, dark
                 background: C.surface2, overflow: 'hidden',
               }}>
                 <div style={{ padding: '8px 10px', borderBottom: `1px solid ${C.border}` }}>
+                  {/* Un libellé visible, le texte grisé en exemple. */}
+                  <label htmlFor={champRecetteId} style={{ display: 'block', fontSize: '12px', fontWeight: 700, color: C.mid, marginBottom: '6px' }}>{t.recipePickerAria}</label>
                   <input
+                    id={champRecetteId}
                     value={pickerSearch}
                     onChange={e => setPickerSearch(e.target.value)}
-                    placeholder={t.recipePickerPh ?? 'Rechercher une recette…'}
+                    placeholder={t.recipePickerPh}
                     style={{
                       width: '100%', padding: '6px 10px', borderRadius: '6px',
                       border: `1.5px solid ${C.border}`,

@@ -11,8 +11,8 @@ async function skipOnboardingOverlays(page) {
   await page.addInitScript(() => {
     localStorage.setItem('fridge-welcome-seen-v1', '1')
     localStorage.setItem('fridge-consent-v1', JSON.stringify({
-      version: 1, timestamp: Date.now(), bannerDismissed: true,
-      essential: true, functional: true, audience: false, voice: false, receiptScan: false,
+      version: 2, timestamp: Date.now(), bannerDismissed: true,
+      essential: true, errors: false, usage: false, voice: false, receiptScan: false,
     }))
   })
 }

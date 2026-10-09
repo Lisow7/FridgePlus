@@ -200,7 +200,10 @@ export function corpsGuide(lang = 'fr') {
       morceaux.push(`<p><small>${echapper(t.retenir)}</small></p>`)
       morceaux.push(`<ul>${etape.tips.map(tip => `<li>${echapper(tip.t)}</li>`).join('')}</ul>`)
     }
-    return `<section>${morceaux.join('')}</section>`
+    // Même ancre que `guide-page.jsx` : les renvois « Voir l'étape N » du /faq
+    // servi (`/guide#etape-N`) doivent aboutir AVANT que l'application monte
+    // (audit du 2026-10-04, SEO-13).
+    return `<section id="etape-${i + 1}">${morceaux.join('')}</section>`
   }).join('')
 
   const fin = blocFinal(lang, { versChemin: '/faq', versLibelle: getContentCta(lang).faqLink })

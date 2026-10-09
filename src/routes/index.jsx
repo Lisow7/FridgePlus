@@ -2,6 +2,7 @@ import { Suspense } from 'react'
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import { ROUTES } from '@routes/routes-config'
 import PageSkeleton from '@routes/page-skeleton'
+import ErrorBoundary from '@app/error/error-boundary'
 
 // AppRoutes — Sprint 10 S10.b + Sprint 11.
 //
@@ -61,11 +62,15 @@ function renderRoute(route, lang, darkMode) {
 
 export default function AppRoutes({ lang, darkMode }) {
   const location = useLocation()
+  // Un filet par page (audit ARCH-06) : une erreur reste dans sa page, et
+  // changer de page la remet à neuf (resetKey : sans remonter la page).
   return (
-    <Suspense fallback={<PageSkeleton lang={lang} darkMode={darkMode} />}>
-      <Routes location={location}>
-        {ROUTES.map((route) => renderRoute(route, lang, darkMode))}
-      </Routes>
-    </Suspense>
+    <ErrorBoundary level="page" lang={lang} resetKey={location.pathname}>
+      <Suspense fallback={<PageSkeleton lang={lang} darkMode={darkMode} />}>
+        <Routes location={location}>
+          {ROUTES.map((route) => renderRoute(route, lang, darkMode))}
+        </Routes>
+      </Suspense>
+    </ErrorBoundary>
   )
 }

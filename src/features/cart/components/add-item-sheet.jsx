@@ -92,7 +92,7 @@ export default function AddItemSheet({
           // la production deux fois en deux jours.
           bottom: 'var(--fp-bottom-inset, 0px)',
           background: darkMode ? '#0F1923' : '#FDFAF6',
-          maxHeight: '85vh',
+          maxHeight: '85dvh',
         }}
       >
         {/* Handle */}
@@ -130,7 +130,7 @@ export default function AddItemSheet({
         </div>
 
         {/* Content */}
-        <div className="overflow-y-auto px-4 pb-6" style={{ maxHeight: 'calc(85vh - 130px)' }}>
+        <div className="overflow-y-auto px-4 pb-6" style={{ maxHeight: 'calc(85dvh - 130px)' }}>
           {tab === 'search' && (
             <CartManualAdd
               lang={lang}

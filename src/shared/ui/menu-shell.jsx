@@ -50,7 +50,7 @@ const MenuShell = forwardRef(function MenuShell(
       ? '0 12px 36px rgba(0,0,0,0.5), 0 0 0 1px rgba(247,168,94,0.08)'
       : '0 12px 32px rgba(212,106,16,0.18), 0 0 0 1px rgba(212,106,16,0.04)',
     display: 'flex', flexDirection: 'column', zIndex: 1200,
-    maxHeight: 'calc(100vh - 90px)', overflowY: 'auto',
+    maxHeight: 'calc(100dvh - 90px)', overflowY: 'auto',
   }
 
   return createPortal(
@@ -63,7 +63,12 @@ const MenuShell = forwardRef(function MenuShell(
       )}
       <div ref={ref} role={resolvedRole} aria-modal={isMobile ? 'true' : undefined} aria-label={ariaLabel}
         style={isMobile ? sheetStyle : dropdownStyle}>
-        {children}
+        {/* Sur mobile, la feuille est une fenêtre modale : le MENU est dedans.
+            Sans lui, chaque entrée `menuitem` n'avait pas de parent `menu`
+            (axe, aria-required-parent — audit A11Y-19). */}
+        {isMobile && !role
+          ? <div role="menu" aria-label={ariaLabel} style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>{children}</div>
+          : children}
       </div>
     </>,
     document.body,

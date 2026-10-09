@@ -59,7 +59,7 @@ const I18N = {
     paywallDesc: 'Visualize your history, monthly trends and get personalized advice to optimize your budget.',
     paywallCta: 'Discover Premium',
     chartTitle: 'Last 12 months',
-    chartEmpty: 'No spending recorded yet. Your shopping trips will appear here as soon as you tap "I did my shopping" from the cart.',
+    chartEmpty: 'No spending recorded yet. Your shopping trips will appear here as soon as you tap "I\'m done shopping" from the cart.',
     recoTitle: 'Recommendations',
     viewDay:    'Day',
     viewWeek:   'Week',

@@ -54,7 +54,9 @@ export default function LangThemePrefs({
         <LuGlobe size={15} aria-hidden="true" />
         <span>{t.lang}</span>
       </div>
-      <div role="radiogroup" aria-label={t.lang} style={{ display: 'flex', gap: '6px', marginBottom: '12px' }}>
+      {/* `group` et non `radiogroup` : des `menuitemradio` n'admettent que
+          menu, menubar ou group pour parent (axe, aria-required-parent — A11Y-19). */}
+      <div role="group" aria-label={t.lang} style={{ display: 'flex', gap: '6px', marginBottom: '12px' }}>
         {LANGUAGES.map(({ code, label }) => {
           const isActive = lang === code
           // Launch bilingue FR+EN : EN accessible à tous (2026-06-16).

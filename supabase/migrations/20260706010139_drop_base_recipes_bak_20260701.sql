@@ -1,0 +1,11 @@
+-- Reconstitué le 2026-10-08 depuis le registre de la base
+-- (supabase_migrations.schema_migrations, version 20260706010139) : appliquée
+-- sans fichier homonyme dans le dépôt (audit du 2026-10-04, BDD-19 / ARCH-10).
+-- Elle est en base : ne pas la rejouer.
+-- ── SQL du registre, recopié tel quel (md5 1b4f761d2a6963a34bc3785de73c258f) ──
+-- Supprime la table de sauvegarde temporaire base_recipes_bak_20260701.
+-- Snapshot du 2026-07-01 (501 lignes id+ingredients), 100% redondant avec
+-- recipes_unified (0 id absent), aucune dépendance (vue/FK/fonction). Clôt 3
+-- advisors (RLS sans policy, pas de PK) + une TODO post-launch. Filet : backup
+-- chiffré hebdo en place.
+drop table if exists public.base_recipes_bak_20260701;

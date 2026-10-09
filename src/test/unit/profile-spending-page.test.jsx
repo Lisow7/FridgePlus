@@ -56,6 +56,7 @@ describe('ProfileSpendingPage (PR-E v3.412)', () => {
   it('affiche le badge Premium sur la section si pas Premium', () => {
     isPremium = false
     render(<MemoryRouter><ProfileSpendingPage /></MemoryRouter>)
-    expect(screen.getAllByLabelText('Premium').length).toBeGreaterThanOrEqual(1)
+    // Le badge est nommé par son texte visible (l'aria-label en double était interdit, A11Y-19).
+    expect(screen.getAllByText('Premium').length).toBeGreaterThanOrEqual(1)
   })
 })

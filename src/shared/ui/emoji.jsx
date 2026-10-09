@@ -1,15 +1,20 @@
 import { useState } from 'react'
 import { getFluentEmojiUrl } from '@shared/static/fluent-emoji-map'
 import { optimizeStorageImage } from '@shared/lib/images/optimize-storage-image'
+import { isProjectStorageUrl } from '@shared/lib/images/trusted-image-url'
 
-const TWEMOJI_CDN = 'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg'
+// Images HÉBERGÉES PAR LE SITE (public/emoji/twemoji/, Twemoji 14.0.2, CC-BY
+// 4.0) : elles étaient demandées au CDN de jsDelivr, qui recevait l'adresse IP
+// de chaque visiteur (décision du 2026-10-06, « emoji = sur_le_site »).
+// Un emoji sans fichier ici retombe sur l'emoji du système, sans autre requête.
+const TWEMOJI = `${import.meta.env.BASE_URL}emoji/twemoji`
 
 function toTwemojiUrl(char) {
   const cp = [...char]
     .map(c => c.codePointAt(0).toString(16))
     .filter(c => c !== 'fe0f' && c !== 'fe0e')
     .join('-')
-  return `${TWEMOJI_CDN}/${cp}.svg`
+  return `${TWEMOJI}/${cp}.svg`
 }
 
 // A11y fix critique (Sprint 2 PR S2.a).
@@ -32,8 +37,8 @@ function toTwemojiUrl(char) {
 // entre imageUrl custom et Twemoji. Cohérence visuelle avec nos images IA
 // gpt-image-1 (style "flat 3D-soft"). Cascade complète :
 //   1. imageUrl custom BDD (123 items générés)
-//   2. Fluent Emoji 3D via Iconify CDN (~100 emojis communs mappés)
-//   3. Twemoji CDN (fallback pour les emojis non mappés)
+//   2. Fluent Emoji (~100 emojis communs mappés), hébergés par le site
+//   3. Twemoji (fallback pour les emojis non mappés), hébergés par le site
 //   4. Texte natif OS (ultime)
 
 export default function Emoji({ char, size = 24, style, className, label, imageUrl }) {
@@ -47,7 +52,10 @@ export default function Emoji({ char, size = 24, style, className, label, imageU
 
   const fluentUrl = char ? getFluentEmojiUrl(char) : null
 
-  const useCustom  = imageUrl && !customFailed
+  // Une image qui ne vient pas du stockage public du projet est ignorée : le
+  // navigateur ne contacte jamais l'hôte choisi par l'auteur d'une recette
+  // (audit 2026-10-04, SEC-15). Repli normal sur l'emoji.
+  const useCustom  = isProjectStorageUrl(imageUrl) && !customFailed
   const useFluent  = !useCustom && fluentUrl && !fluentFailed
   const useTwemoji = !useCustom && !useFluent && char && !twemojiFailed
 

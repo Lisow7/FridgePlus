@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect, useMemo, useCallback, useRef } from 'react'
+import { SUPPORTED_LANGS, langueDuVisiteur } from '@shared/lib/i18n/langues'
 
 // Sprint 6 PR S6.a — Refactor App.jsx (Piste D).
 //
@@ -30,7 +31,7 @@ const UIContext = createContext(null)
 // navigator.language renvoie un code non supporté (es/de/ja/it/etc.),
 // on fallback sur EN (jamais sur FR pour ne pas imposer la langue
 // d'origine du projet à un user qui parle clairement autre chose).
-const SUPPORTED_LANGS = new Set(['fr', 'en'])
+// La liste elle-même vit dans `@shared/lib/i18n/langues` (elle y FAIT FOI).
 
 // 🔴 Doit rester ÉGAL à la durée déclarée dans `index.css` pour
 // `html[data-transition] *`. Si les deux divergent, soit la transition est
@@ -38,22 +39,13 @@ const SUPPORTED_LANGS = new Set(['fr', 'en'])
 export const DUREE_BASCULE_THEME_MS = 260
 
 function detectLang() {
+  const langue = langueDuVisiteur()
+  // L'ancien réglage non proposé est migré vers EN une fois pour toutes.
   try {
     const saved = localStorage.getItem('fridge-lang')
-    if (saved && SUPPORTED_LANGS.has(saved)) return saved
-    // Si un user avait 'es'/'de'/'ja' en localStorage, on
-    // bascule sur EN (international). Pas FR car le user a explicitement
-    // exprimé une préférence non-francophone.
-    if (saved && !SUPPORTED_LANGS.has(saved)) {
-      try { localStorage.setItem('fridge-lang', 'en') } catch {}
-      return 'en'
-    }
-    const browser = (navigator.language ?? 'fr').slice(0, 2)
-    if (SUPPORTED_LANGS.has(browser)) return browser
-    // Non supporté → EN par défaut (couverture internationale plus large
-    // que FR).
-    return 'en'
-  } catch { return 'fr' }
+    if (saved && !SUPPORTED_LANGS.has(saved)) localStorage.setItem('fridge-lang', 'en')
+  } catch { /* stockage indisponible */ }
+  return langue
 }
 
 function detectDarkMode() {

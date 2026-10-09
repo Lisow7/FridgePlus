@@ -22,8 +22,9 @@ import { isHealthyRecipe } from '@features/recipes/lib/health-score'
 import { HIDDEN_DIETS } from '@shared/static/recipe-constants'
 import { serializeFiltersToParams, deserializeFiltersFromParams } from '@features/recipes/lib/recipe-filters-url'
 import { computeRecipeNutrition } from '@shared/lib/recipes/recipe-nutrition'
-import { calcRecipeCost } from '@shared/lib/recipes/recipe-utils'
+import { respecteLeBudget, budgetQuiFiltre } from '@features/recipes/lib/recipe-budget'
 import { getIngredientItemsFlat, getIngredientIds } from '@shared/lib/recipes/recipe-ingredients'
+import { estPresque } from '@shared/lib/recipes/recipe-thresholds'
 
 const FILTER_KEY    = 'fridge-recipe-filter'
 const VALID_FILTERS = ['all', 'ready', 'almost', 'priority', 'favorites', 'custom']
@@ -55,6 +56,8 @@ export function useRecipeFilters({
   publicRecipes,
   leftovers,
   RECIPE_NAMES,
+  // Accès aux coûts (Premium) : sans lui, le budget ne filtre pas (UX-07).
+  budgetVisible = false,
 }) {
   const groupMaps       = useGroupMaps()
   const ingredientsById = useIngredientsById()
@@ -90,6 +93,7 @@ export function useRecipeFilters({
   const [minProtein, setMinProtein]   = useState(initialFromUrl.minProtein   ?? null)
   const [maxCalories, setMaxCalories] = useState(initialFromUrl.maxCalories  ?? null)
   const [maxBudget, setMaxBudget]     = useState(initialFromUrl.maxBudget    ?? null)
+  const budgetEffectif = budgetQuiFiltre(maxBudget, budgetVisible)
 
   // Wrapped setter that persists to localStorage
   const setFilter = useCallback((v) => {
@@ -171,7 +175,7 @@ export function useRecipeFilters({
   // `filtered` untouched and avoid changing its dependency array.
   const matchesPrimary    = (r) => {
     if (effectiveFilter === 'ready')     return r.matchPercent === 1
-    if (effectiveFilter === 'almost')    return r.matchPercent >= 0.6 && r.matchPercent < 1
+    if (effectiveFilter === 'almost')    return estPresque(r.matchPercent)
     if (effectiveFilter === 'favorites') return favorites.has(r.id)
     if (effectiveFilter === 'custom')    return r.isCustom && !r._isCommunity
     if (effectiveFilter === 'priority') {
@@ -206,16 +210,12 @@ export function useRecipeFilters({
     const n = computeRecipeNutrition(r, ingredientsById)
     return n?.kcal != null && n.kcal <= max
   }
-  const matchesMaxBudget   = (r, max) => {
-    if (max == null) return true
-    const cost = calcRecipeCost(r, lang, 1, ingredientsById)
-    return cost != null && cost <= max
-  }
+  const matchesMaxBudget   = (r, max) => respecteLeBudget(r, max, { lang, ingredientsById })
 
   const filtered = useMemo(() => scored
     .filter(r => {
       if (effectiveFilter === 'ready')     return r.matchPercent === 1
-      if (effectiveFilter === 'almost')    return r.matchPercent >= 0.6 && r.matchPercent < 1
+      if (effectiveFilter === 'almost')    return estPresque(r.matchPercent)
       if (effectiveFilter === 'favorites') return favorites.has(r.id)
       if (effectiveFilter === 'custom')    return r.isCustom && !r._isCommunity
       if (effectiveFilter === 'priority') {
@@ -237,7 +237,7 @@ export function useRecipeFilters({
     .filter(r => !batchCookingOnly     || (r.functional_tags ?? []).includes('batch_cooking'))
     .filter(r => matchesMinProtein(r, minProtein))
     .filter(r => matchesMaxCalories(r, maxCalories))
-    .filter(r => matchesMaxBudget(r, maxBudget))
+    .filter(r => matchesMaxBudget(r, budgetEffectif))
     .filter(r => matchesSearch(r, searchQuery))
     .sort((a, b) => {
       if (sortMode === 'alpha') return getRecipeName(a).localeCompare(getRecipeName(b), lang)
@@ -245,7 +245,7 @@ export function useRecipeFilters({
       return 0
     }),
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  [scored, effectiveFilter, difficultySet, typeSet, countrySet, dietSet, seasonalOnly, healthyOnly, noCookOnly, antiWasteOnly, freezerFriendlyOnly, kidsFriendlyOnly, batchCookingOnly, minProtein, maxCalories, maxBudget, searchQuery, sortMode, favorites, priorityIds, ingredientsById, lang])
+  [scored, effectiveFilter, difficultySet, typeSet, countrySet, dietSet, seasonalOnly, healthyOnly, noCookOnly, antiWasteOnly, freezerFriendlyOnly, kidsFriendlyOnly, batchCookingOnly, minProtein, maxCalories, budgetEffectif, searchQuery, sortMode, favorites, priorityIds, ingredientsById, lang])
 
   // ── Facetted counts (D16) ─────────────────────────────────────────────────
   // For each filter dimension, compute how many recipes match IF that option
@@ -270,7 +270,7 @@ export function useRecipeFilters({
         // Sliders — appliqués inconditionnellement (pas de facetted counts pour eux)
         if (!matchesMinProtein(r, minProtein))   return false
         if (!matchesMaxCalories(r, maxCalories)) return false
-        if (!matchesMaxBudget(r, maxBudget))     return false
+        if (!matchesMaxBudget(r, budgetEffectif)) return false
         if (!matchesSearch(r, searchQuery))                                        return false
         return true
       })
@@ -324,7 +324,7 @@ export function useRecipeFilters({
     const byPrimary = {
       all:       primaryBase.length,
       ready:     primaryBase.filter(r => r.matchPercent === 1).length,
-      almost:    primaryBase.filter(r => r.matchPercent >= 0.6 && r.matchPercent < 1).length,
+      almost:    primaryBase.filter(r => estPresque(r.matchPercent)).length,
       favorites: primaryBase.filter(r => favorites.has(r.id)).length,
     }
 
@@ -343,10 +343,10 @@ export function useRecipeFilters({
       batch:     batchBase.filter(r     => matchesBatch(r, true)).length,
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [scored, effectiveFilter, difficultySet, typeSet, countrySet, dietSet, seasonalOnly, healthyOnly, noCookOnly, antiWasteOnly, freezerFriendlyOnly, kidsFriendlyOnly, batchCookingOnly, minProtein, maxCalories, maxBudget, searchQuery, favorites, priorityIds, ingredientsById, lang])
+  }, [scored, effectiveFilter, difficultySet, typeSet, countrySet, dietSet, seasonalOnly, healthyOnly, noCookOnly, antiWasteOnly, freezerFriendlyOnly, kidsFriendlyOnly, batchCookingOnly, minProtein, maxCalories, budgetEffectif, searchQuery, favorites, priorityIds, ingredientsById, lang])
 
   const readyCount    = useMemo(() => scored.filter(r => r.matchPercent === 1).length,                                                                              [scored])
-  const almostCount   = useMemo(() => scored.filter(r => r.matchPercent >= 0.6 && r.matchPercent < 1).length,                                                       [scored])
+  const almostCount   = useMemo(() => scored.filter(r => estPresque(r.matchPercent)).length,                                                       [scored])
   const favCount      = useMemo(() => scored.filter(r => favorites.has(r.id)).length,                                                                               [scored, favorites])
   const priorityCount = useMemo(() => priorityIds.size === 0 ? 0 : scored.filter(r => getIngredientItemsFlat(r).some(ing => getIngredientIds(ing).some(id => priorityIds.has(id)))).length,  [priorityIds, scored])
   const customCount   = customRecipes.length
@@ -361,8 +361,8 @@ export function useRecipeFilters({
     effectiveFilter, searchQuery, sortMode,
     [...difficultySet], [...typeSet], [...countrySet], [...dietSet],
     seasonalOnly, healthyOnly, noCookOnly, antiWasteOnly, freezerFriendlyOnly, kidsFriendlyOnly, batchCookingOnly,
-    minProtein, maxCalories, maxBudget,
-  ]), [effectiveFilter, searchQuery, sortMode, difficultySet, typeSet, countrySet, dietSet, seasonalOnly, healthyOnly, noCookOnly, antiWasteOnly, freezerFriendlyOnly, kidsFriendlyOnly, batchCookingOnly, minProtein, maxCalories, maxBudget])
+    minProtein, maxCalories, budgetEffectif,
+  ]), [effectiveFilter, searchQuery, sortMode, difficultySet, typeSet, countrySet, dietSet, seasonalOnly, healthyOnly, noCookOnly, antiWasteOnly, freezerFriendlyOnly, kidsFriendlyOnly, batchCookingOnly, minProtein, maxCalories, budgetEffectif])
 
   function resetFilters() {
     setFilterRaw('all')
@@ -410,7 +410,7 @@ export function useRecipeFilters({
     batchCookingOnly, setBatchCookingOnly,
     minProtein, setMinProtein,
     maxCalories, setMaxCalories,
-    maxBudget, setMaxBudget,
+    maxBudget, setMaxBudget, budgetVisible,
     filtered,
     criteriaKey,
     counts,

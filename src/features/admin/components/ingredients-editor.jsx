@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect, useMemo, useId } from 'react'
 import { DndContext, closestCenter, PointerSensor, KeyboardSensor, useSensor, useSensors } from '@dnd-kit/core'
 import { SortableContext, verticalListSortingStrategy, sortableKeyboardCoordinates, arrayMove, useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
@@ -19,11 +19,11 @@ const DATALIST_ID = 'admin-ingredient-catalog'
 
 const I18N = {
   fr: { paste: 'Coller des ingrédients', pasteDo: 'Importer', add: 'Ajouter un ingrédient',
-        ph: 'Colle ta liste (« 2 oignons, 200 g de farine… »)', search: 'Ingrédient', amt: 'Qté', unit: 'Unité',
-        label: 'Libellé affiché', req: 'Requis', del: 'Supprimer', drag: 'Déplacer', toCreate: 'à créer', empty: 'Aucun ingrédient.' },
+        ph: 'ex. : 2 oignons, 200 g de farine', search: 'Ingrédient', searchEx: 'ex. : oignon', amt: 'Qté', unit: 'Unité',
+        label: 'Libellé affiché', labelEx: 'ex. : 2 oignons émincés', req: 'Requis', del: 'Supprimer', drag: 'Déplacer', toCreate: 'à créer', empty: 'Aucun ingrédient.' },
   en: { paste: 'Paste ingredients', pasteDo: 'Import', add: 'Add ingredient',
-        ph: 'Paste your list ("2 onions, 200 g flour…")', search: 'Ingredient', amt: 'Qty', unit: 'Unit',
-        label: 'Display label', req: 'Required', del: 'Delete', drag: 'Move', toCreate: 'to create', empty: 'No ingredients.' },
+        ph: 'e.g. 2 onions, 200 g flour', search: 'Ingredient', searchEx: 'e.g. onion', amt: 'Qty', unit: 'Unit',
+        label: 'Display label', labelEx: 'e.g. 2 sliced onions', req: 'Required', del: 'Delete', drag: 'Move', toCreate: 'to create', empty: 'No ingredients.' },
 }
 
 let _iid = 0
@@ -48,7 +48,10 @@ function IngredientRow({ id, slot, lang, catalog, catalogById, t, darkMode, onUp
   const matched = !!primaryId && !!catalogById[primaryId]
   const [pick, setPick] = useState(() => catalogById[primaryId]?.labels?.[lang] ?? catalogById[primaryId]?.labels?.fr ?? '')
 
-  const inp = { border: `1px solid ${darkMode ? '#2A3A50' : '#D9CCBA'}`, borderRadius: 7, padding: '5px 7px', background: darkMode ? '#141F2E' : '#FFF', color: darkMode ? '#C8D8E8' : '#1A0F00', fontSize: 13, outline: 'none', fontFamily: 'inherit', boxSizing: 'border-box' }
+  const inp = { border: `1px solid ${darkMode ? '#2A3A50' : '#D9CCBA'}`, borderRadius: 7, padding: '5px 7px', background: darkMode ? '#141F2E' : '#FFF', color: darkMode ? '#C8D8E8' : '#1A0F00', fontSize: 13, fontWeight: 400, outline: 'none', fontFamily: 'inherit', boxSizing: 'border-box' }
+  // Chaque champ sous son libellé (décision du 2026-10-06, « libellés =
+  // visibles ») : une fois rempli, « 200 » et « g » gardent leur nom.
+  const legende = { display: 'flex', flexDirection: 'column', gap: 2, fontSize: 11, fontWeight: 700, color: 'var(--color-muted)' }
 
   const resolvePick = (txt) => {
     setPick(txt)
@@ -68,15 +71,21 @@ function IngredientRow({ id, slot, lang, catalog, catalogById, t, darkMode, onUp
           <LuGripVertical size={15} />
         </Button>
         <span title={matched ? 'catalogue' : t.toCreate} style={{ width: 8, height: 8, borderRadius: '50%', flexShrink: 0, background: matched ? '#2e9e5b' : '#E07820' }} />
-        <input aria-label={t.search} list={DATALIST_ID} value={pick} placeholder={t.search}
-          onChange={(e) => resolvePick(e.target.value)} onBlur={resolveBlur}
-          style={{ ...inp, flex: '2 1 150px' }} />
-        <input aria-label={t.amt} type="number" step="any" min="0" value={slot.qty?.amount ?? ''} placeholder={t.amt}
-          onChange={(e) => onUpdate(id, { qty: { ...slot.qty, amount: e.target.value === '' ? null : parseFloat(e.target.value) } })}
-          style={{ ...inp, width: 60 }} />
-        <input aria-label={t.unit} value={slot.qty?.unit ?? ''} placeholder={t.unit}
-          onChange={(e) => onUpdate(id, { qty: { ...slot.qty, unit: e.target.value } })}
-          style={{ ...inp, width: 70 }} />
+        <label style={{ ...legende, flex: '2 1 150px' }}>{t.search}
+          <input list={DATALIST_ID} value={pick} placeholder={t.searchEx}
+            onChange={(e) => resolvePick(e.target.value)} onBlur={resolveBlur}
+            style={{ ...inp, width: '100%' }} />
+        </label>
+        <label style={legende}>{t.amt}
+          <input type="number" step="any" min="0" value={slot.qty?.amount ?? ''}
+            onChange={(e) => onUpdate(id, { qty: { ...slot.qty, amount: e.target.value === '' ? null : parseFloat(e.target.value) } })}
+            style={{ ...inp, width: 60 }} />
+        </label>
+        <label style={legende}>{t.unit}
+          <input value={slot.qty?.unit ?? ''}
+            onChange={(e) => onUpdate(id, { qty: { ...slot.qty, unit: e.target.value } })}
+            style={{ ...inp, width: 70 }} />
+        </label>
         <label style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 12, color: 'var(--color-muted)' }}>
           <input type="checkbox" checked={slot.required !== false} onChange={(e) => onUpdate(id, { required: e.target.checked })} /> {t.req}
         </label>
@@ -84,9 +93,11 @@ function IngredientRow({ id, slot, lang, catalog, catalogById, t, darkMode, onUp
           <LuTrash2 size={14} />
         </Button>
       </div>
-      <input aria-label={t.label} value={slot.labels?.[lang] ?? ''} placeholder={t.label}
-        onChange={(e) => onUpdate(id, { labels: { ...slot.labels, [lang]: e.target.value } })}
-        style={{ ...inp, width: '100%', marginTop: 5, fontSize: 12, color: 'var(--color-muted)' }} />
+      <label style={{ ...legende, marginTop: 5 }}>{t.label}
+        <input value={slot.labels?.[lang] ?? ''} placeholder={t.labelEx}
+          onChange={(e) => onUpdate(id, { labels: { ...slot.labels, [lang]: e.target.value } })}
+          style={{ ...inp, width: '100%', fontSize: 12, color: 'var(--color-muted)' }} />
+      </label>
     </div>
   )
 }
@@ -99,6 +110,7 @@ export default function IngredientsEditor({ ingredients = [], lang = 'fr', onCha
 
   const [ids, setIds] = useState(() => ingredients.map(newId))
   const [paste, setPaste] = useState('')
+  const collerId = useId()
 
   useEffect(() => {
     setIds((prev) => {
@@ -152,10 +164,11 @@ export default function IngredientsEditor({ ingredients = [], lang = 'fr', onCha
   return (
     <div>
       {/* Zone coller */}
+      <label htmlFor={collerId} style={{ display: 'block', fontSize: 11, fontWeight: 700, color: 'var(--color-muted)', marginBottom: 4 }}>{t.paste}</label>
       <div style={{ display: 'flex', gap: 6, marginBottom: 8, alignItems: 'flex-start' }}>
-        <textarea value={paste} onChange={(e) => setPaste(e.target.value)} placeholder={t.ph} rows={2}
+        <textarea id={collerId} value={paste} onChange={(e) => setPaste(e.target.value)} placeholder={t.ph} rows={2}
           style={{ flex: 1, border: `1px dashed ${darkMode ? '#3A5070' : '#cdbfa8'}`, borderRadius: 8, padding: 8, background: darkMode ? '#11202F' : '#FCF7EF', color: darkMode ? '#C8D8E8' : '#5a4030', fontSize: 12, outline: 'none', fontFamily: 'inherit', resize: 'vertical', boxSizing: 'border-box' }} />
-        <Button onClick={handleImport} disabled={!paste.trim()} className="h-auto rounded-lg bg-[#E07820] px-3 py-2 text-xs font-bold text-white" style={{ gap: 5, flexShrink: 0 }}>
+        <Button onClick={handleImport} disabled={!paste.trim()} className="h-auto rounded-lg bg-[#B85000] px-3 py-2 text-xs font-bold text-white" style={{ gap: 5, flexShrink: 0 }}>
           <LuClipboardPaste size={14} /> {t.pasteDo}
         </Button>
       </div>

@@ -6,11 +6,13 @@ import {
   construirePageStatique,
   corpsRecette,
   jsonLdRecette,
-  TYPE_TO_CATEGORY_PRERENDU,
   temoinsManquants,
   idValide,
   echapper,
   remplacerMeta,
+  remplacerLitteral,
+  baliseJsonLd,
+  filtrerRecettesPubliables,
   PAGES_STATIQUES,
 } from '../../../scripts/lib/prerender-page.mjs'
 import { ROUTES } from '@routes/routes-config'
@@ -55,6 +57,29 @@ function contenuDe(html, cle) {
   const m = html.match(new RegExp(`<meta\\s+(?:name|property)="${cle}"\\s+content="([^"]*)"`))
   return m?.[1] ?? null
 }
+
+describe('pré-rendu — l’image de partage par défaut est celle du gabarit, telle quelle (SEO-13)', () => {
+  // Les pages statiques (et une recette sans photo) recopiaient l'adresse de
+  // l'image SANS le `?v=3` d'`index.html`, qui purge le cache des réseaux :
+  // un ancien aperçu pouvait y survivre. Et l'image était décrite « Fridge+ ».
+  // Le vrai gabarit, pas une copie : c'est sa valeur qui doit traverser.
+  const INDEX = readFileSync(resolve(__dirname, '../../../index.html'), 'utf8')
+  const CLES = ['og:image', 'og:image:width', 'og:image:height', 'og:image:alt', 'twitter:image']
+
+  it('le gabarit porte bien une image versionnée (sinon ce test ne prouverait rien)', () => {
+    expect(contenuDe(INDEX, 'og:image')).toMatch(/\?v=\d+$/)
+  })
+
+  it('page statique : adresse, dimensions et texte alternatif du gabarit', () => {
+    const html = construirePageStatique(INDEX, PAGES_STATIQUES[0])
+    for (const cle of CLES) expect(contenuDe(html, cle), cle).toBe(contenuDe(INDEX, cle))
+  })
+
+  it('recette sans photo : de même', () => {
+    const html = construirePage(INDEX, SANS_PHOTO)
+    for (const cle of CLES) expect(contenuDe(html, cle), cle).toBe(contenuDe(INDEX, cle))
+  })
+})
 
 describe('pré-rendu — métadonnées de partage', () => {
   it('remplace titre, description et image par ceux de la recette', () => {
@@ -266,9 +291,10 @@ describe('corps des pages recette — 515 fichiers qui ne servaient qu’un titr
   // et voyait tout ; GPTBot, ClaudeBot et PerplexityBot lisent le HTML brut.
   //
   // ⚠️ Volontairement limité à ce que le manifeste porte DÉJÀ : nom,
-  // description, image. Mesuré en base le 2026-08-20, y ajouter ingrédients et
-  // étapes coûterait ~500 Ko versionnés, régénérés en bloc à chaque ajout de
-  // recette. Cette question se tranchera séparément.
+  // description, image. Les ingrédients et les étapes sont servis dans le
+  // BALISAGE depuis le 2026-10-05 (SEO-06, `fiche-complete-pour-les-robots`) ;
+  // les montrer dans ce corps changerait le premier affichage de chaque
+  // visiteur — décision d'écran, à part.
 
   it('rend le nom en titre et la description en paragraphe', () => {
     const html = corpsRecette({ nom: 'Affogato', description: 'Une boule de glace sous un espresso.', image: null })
@@ -382,9 +408,12 @@ describe('balisage Recipe servi — le seul que Google utilise encore', () => {
     // 🔑 `RecipeJsonLd` monte `<JsonLd id="recipe-jsonld">` : il retrouve le
     // nœud servi par son identifiant et le REMPLACE par sa version complète.
     // Un identifiant différent produirait deux balisages Recipe sur la page.
+    // Le script passe l'identifiant à `baliseJsonLd`, qui écrit la balise : on
+    // vérifie les DEUX maillons, l'appel et ce qu'il produit.
     const script = readFileSync(resolve(process.cwd(), 'scripts/prerender.mjs'), 'utf8')
     const sansCommentaires = script.replace(/^\s*\/\/.*$/gm, '')
-    expect(sansCommentaires).toContain('id="recipe-jsonld"')
+    expect(sansCommentaires).toContain("baliseJsonLd('recipe-jsonld', balisage)")
+    expect(baliseJsonLd('recipe-jsonld', {})).toContain('id="recipe-jsonld"')
   })
 })
 
@@ -399,9 +428,8 @@ describe('balisage Recipe servi — le seul que Google utilise encore', () => {
 // Les crawlers qui n'exécutent pas JavaScript — la plupart des robots d'IA —
 // ne voyaient donc que le socle.
 //
-// ⚠️ Périmètre volontaire : seulement les champs COURTS. Les ingrédients et les
-// étapes dans le manifeste versionné coûtent ~500 Ko (mesure ci-dessus, ligne
-// « Volontairement limité ») et restent une décision séparée.
+// Les champs COURTS sont testés ici ; les ingrédients et les étapes (SEO-06,
+// fichier `prerender-contenu.json`) dans `fiche-complete-pour-les-robots.test.js`.
 describe('pré-rendu — balisage Recipe enrichi', () => {
   const RICHE = {
     id: 'carbonara',
@@ -448,23 +476,26 @@ describe('pré-rendu — balisage Recipe enrichi', () => {
   })
 })
 
-describe('pré-rendu — la table des catégories ne diverge pas de celle du client', () => {
+describe('pré-rendu — une seule table des catégories, partagée avec le client', () => {
   // 🥇 Classe de défaut dominante de ce dépôt : une garantie qui existe à un
-  // endroit et que sa copie a perdue. Ici, DEUX tables type → catégorie
-  // Schema.org coexistent (client et pré-rendu). Ce test les compare.
-  it('mêmes clés, mêmes valeurs que `recipe-to-schema-org.js`', () => {
+  // endroit et que sa copie a perdue. Il y avait DEUX tables type → catégorie
+  // Schema.org (client et pré-rendu), et ce test les comparait — elles se sont
+  // trompées ensemble (`drink` et `sauce-base` absents des deux, SEO-13).
+  // Depuis le 2026-10-08, une seule : `balisage-recette.js`. Ce que chacun
+  // ÉCRIT est vérifié par `balisage-recette.test.js` ; ici, qu'aucune copie
+  // ne revienne.
+  it('ni le pré-rendu ni le client ne réécrivent leur propre table', () => {
     // `readFileSync` + `resolve` comme le reste du fichier : sous vitest, la
     // base d'`import.meta.url` n'est pas un chemin de fichier.
-    const source = readFileSync(
-      resolve(__dirname, '../../features/recipes/lib/recipe-to-schema-org.js'),
-      'utf8',
-    )
-    const bloc = source.match(/const TYPE_TO_CATEGORY = \{([\s\S]*?)^\}/m)
-    expect(bloc, 'TYPE_TO_CATEGORY introuvable côté client').not.toBeNull()
-    const duClient = Object.fromEntries(
-      [...bloc[1].matchAll(/^\s*'?([^':\r\n]+?)'?:\s*'([^']+)'/gm)].map(m => [m[1], m[2]]),
-    )
-    expect(TYPE_TO_CATEGORY_PRERENDU).toEqual(duClient)
+    const sources = {
+      'prerender-page.mjs': readFileSync(resolve(__dirname, '../../../scripts/lib/prerender-page.mjs'), 'utf8'),
+      'recipe-to-schema-org.js': readFileSync(resolve(__dirname, '../../features/recipes/lib/recipe-to-schema-org.js'), 'utf8'),
+    }
+    for (const [fichier, source] of Object.entries(sources)) {
+      expect(source, `${fichier} n'importe plus balisage-recette`).toMatch(/import \{[^}]*\bcategorieSchemaOrg\b[^}]*\} from '[^']*balisage-recette(\.js)?'/)
+      // Une table de catégories se reconnaît à ses valeurs Schema.org.
+      expect(source, `${fichier} réécrit une table de catégories`).not.toMatch(/'Main Course'|'Side Dish'|'Appetizer'/)
+    }
   })
 })
 
@@ -505,5 +536,105 @@ describe('pré-rendu — aucune description servie ne ment sur le nombre d’ét
       'Une description SERVIE contredit le nombre réel d’étapes du guide. C’est le texte ' +
       'que Google affiche sous le titre : il ment à tous ceux qui n’ont pas encore ouvert l’app.',
     ).toEqual([])
+  })
+})
+
+describe('pré-rendu — une donnée ne devient jamais du code (audit 2026-10-04, SEC-03)', () => {
+  // `JSON.stringify` n'échappe ni `<` ni `>` : un nom « Tarte</script><script
+  // src=…> » fermait le bloc JSON-LD et injectait une balise dans la page
+  // servie à tous les robots et aux premières visites.
+  const PIEGE = 'Tarte</script><script src="https://cdn.exemple/x.js"></script><img src=x onerror=alert(1)>'
+
+  it('baliseJsonLd ne laisse aucun « < » sortir des données', () => {
+    const balise = baliseJsonLd('recipe-jsonld', { '@type': 'Recipe', name: PIEGE })
+    const interieur = balise.slice(balise.indexOf('>') + 1, balise.lastIndexOf('</script>'))
+    expect(interieur).not.toContain('<')
+    expect(balise.match(/<script/g)).toHaveLength(1)
+    expect(balise.match(/<\/script>/g)).toHaveLength(1)
+  })
+
+  it('baliseJsonLd reste du JSON fidèle : les données se relisent à l’identique', () => {
+    const donnees = { '@type': 'Recipe', name: PIEGE, description: 'Prix < 5 € & > 2 €' }
+    const balise = baliseJsonLd('recipe-jsonld', donnees)
+    const interieur = balise.slice(balise.indexOf('>') + 1, balise.lastIndexOf('</script>'))
+    expect(JSON.parse(interieur)).toEqual(donnees)
+  })
+
+  it('baliseJsonLd pose l’identifiant demandé, échappé', () => {
+    expect(baliseJsonLd('faq-jsonld', {})).toContain('id="faq-jsonld"')
+    expect(baliseJsonLd('x" onload="y', {})).not.toContain('onload="y"')
+  })
+
+  // `String.replace(re, chaîne)` lit `$&`, `$'`, `$1` dans la CHAÎNE de
+  // remplacement : une description « à 5 $' » recopiait tout le reste du
+  // document dans l'attribut.
+  it('remplacerMeta écrit « $ » tel quel, sans l’interpréter comme un motif', () => {
+    const html = '<meta name="description" content="ancien"><p>suite</p>'
+    const sortie = remplacerMeta(html, 'name', 'description', "Une tarte à 5 $' et $& et $1")
+    expect(sortie).toBe('<meta name="description" content="Une tarte à 5 $\' et $&amp; et $1"><p>suite</p>')
+  })
+
+  it('construirePage écrit « $ » tel quel dans le titre', () => {
+    const html = construirePage(GABARIT, { id: 'tarte', nom: "Tarte à 5 $' pièce", description: 'x', image: null })
+    expect(html).toContain("<title>Tarte à 5 $' pièce — Fridge+</title>")
+  })
+})
+
+describe('recettes publiables — seules les recettes OFFICIELLES sont pré-rendues et listées', () => {
+  // Le manifeste du pré-rendu et le plan du site lisaient `recipes_unified`
+  // sans filtrer `origin` : toute recette communautaire « publiée » y serait
+  // entrée avec le nom et la description choisis par son auteur. Les deux
+  // scripts passent désormais par CE filtre, testé ici parce qu'eux ne peuvent
+  // pas l'être (ils interrogent Supabase dès l'import).
+  function fausseRequete() {
+    const appels = []
+    const requete = {
+      is: (...a) => { appels.push(['is', ...a]); return requete },
+      eq: (...a) => { appels.push(['eq', ...a]); return requete },
+    }
+    return { requete, appels }
+  }
+
+  it('ne garde que les recettes officielles, publiées et non supprimées', () => {
+    const { requete, appels } = fausseRequete()
+    expect(filtrerRecettesPubliables(requete)).toBe(requete)
+    expect(appels).toContainEqual(['eq', 'origin', 'official'])
+    expect(appels).toContainEqual(['eq', 'status', 'published'])
+    expect(appels).toContainEqual(['is', 'deleted_at', null])
+  })
+
+  it.each([
+    'scripts/generate-prerender-manifest.mjs',
+    'scripts/generate-sitemap.mjs',
+  ])('%s passe par ce filtre et ne refait pas le sien', (chemin) => {
+    const source = readFileSync(resolve(process.cwd(), chemin), 'utf8')
+    const code = source.replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '')
+    expect(code).toMatch(/filtrerRecettesPubliables\(/)
+    expect(code).not.toMatch(/\.eq\('status'/)
+  })
+
+  it('le pré-rendu ne sérialise plus de JSON-LD lui-même', () => {
+    const source = readFileSync(resolve(process.cwd(), 'scripts/prerender.mjs'), 'utf8')
+    const code = source.replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '')
+    expect(code).not.toContain('JSON.stringify')
+    expect(code.match(/baliseJsonLd\(/g)?.length).toBe(2)
+  })
+
+  it('le plan du site écarte tout identifiant qui n’est pas un slug', () => {
+    const source = readFileSync(resolve(process.cwd(), 'scripts/generate-sitemap.mjs'), 'utf8')
+    const code = source.replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '')
+    expect(code).toMatch(/idValide\(/)
+  })
+})
+
+describe('pré-rendu — un contenu inséré est pris tel quel', () => {
+  it('remplacerLitteral ne lit pas les « $ » du contenu comme des motifs', () => {
+    const sortie = remplacerLitteral('<a><div id="root"></div><b>', '<div id="root"></div>', "<p>5 $' et $& et $1</p>")
+    expect(sortie).toBe("<a><p>5 $' et $& et $1</p><b>")
+  })
+
+  it('le script de pré-rendu ne fait plus aucun remplacement par chaîne dans le HTML', () => {
+    const source = readFileSync(resolve(process.cwd(), 'scripts/prerender.mjs'), 'utf8')
+    expect(source).not.toMatch(/html\.replace\(/)
   })
 })

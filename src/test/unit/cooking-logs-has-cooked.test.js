@@ -21,8 +21,10 @@ describe('hasCookedAtLeastOnce', () => {
     state.count = 1
     expect(await hasCookedAtLeastOnce('u1')).toBe(true)
   })
-  it('false si erreur', async () => {
+  // « On ne sait pas » n'est pas « jamais cuisiné » : rendre false sur erreur
+  // montrait la carte du débutant à un compte ancien dès que la lecture échouait.
+  it('null (on ne sait pas) si la lecture échoue — pas false', async () => {
     state.error = { message: 'x' }
-    expect(await hasCookedAtLeastOnce('u1')).toBe(false)
+    expect(await hasCookedAtLeastOnce('u1')).toBeNull()
   })
 })

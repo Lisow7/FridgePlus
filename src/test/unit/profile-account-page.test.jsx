@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { render, screen, fireEvent } from '@testing-library/react'
+import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 
 vi.mock('@features/admin/lib/audit', () => ({
@@ -124,7 +124,8 @@ describe('ProfileAccountPage (Sprint 11 S11.a.5)', () => {
 
   it('affiche le badge Premium sur la section Abonnement', () => {
     render(<MemoryRouter><ProfileAccountPage /></MemoryRouter>)
-    expect(screen.getAllByLabelText('Premium').length).toBeGreaterThanOrEqual(1)
+    // Le badge est nommé par son texte visible (l'aria-label en double était interdit, A11Y-19).
+    expect(screen.getAllByText('Premium').length).toBeGreaterThanOrEqual(1)
   })
 
   it('masque l\'e-mail par défaut (RGPD) et propose un bouton Afficher', () => {
@@ -160,5 +161,45 @@ describe('ProfileAccountPage (Sprint 11 S11.a.5)', () => {
     expect(mockTriggerJsonDownload).toHaveBeenCalledTimes(1)
     const [, filename] = mockTriggerJsonDownload.mock.calls[0]
     expect(filename).not.toMatch(/\.json$/)
+  })
+
+  // Audit du 2026-10-04, CPT-08. Un export incomplet ne télécharge rien — et
+  // le dit dans une alerte, pas dans le libellé du bouton : une phrase de
+  // cinquante caractères n'y tient pas sur un téléphone, et un libellé qui
+  // change n'est pas annoncé par un lecteur d'écran.
+  describe('export refusé', () => {
+    const ouvrirEtCliquer = () => {
+      render(<MemoryRouter><ProfileAccountPage /></MemoryRouter>)
+      fireEvent.click(screen.getByRole('button', { name: /mes données/i }))
+      fireEvent.click(screen.getByRole('button', { name: /^Télécharger$/ }))
+    }
+
+    it('lecture incomplète : rien n’est téléchargé, une alerte le dit, et le bouton reste « Télécharger »', async () => {
+      mockExportUserData.mockReset().mockResolvedValue({ ok: false, incomplete: ['cooking_logs'] })
+      mockTriggerJsonDownload.mockReset()
+      ouvrirEtCliquer()
+      const alerte = await screen.findByRole('alert')
+      expect(alerte).toHaveTextContent(/rien n'a été téléchargé/i)
+      expect(mockTriggerJsonDownload).not.toHaveBeenCalled()
+      expect(screen.getByRole('button', { name: /^Télécharger$/ })).toBeEnabled()
+    })
+
+    it('un export qui lève : même alerte', async () => {
+      mockExportUserData.mockReset().mockRejectedValue(new TypeError('Failed to fetch'))
+      ouvrirEtCliquer()
+      expect(await screen.findByRole('alert')).toHaveTextContent(/rien n'a été téléchargé/i)
+    })
+
+    it('un nouvel essai réussi retire l’alerte', async () => {
+      mockExportUserData.mockReset()
+        .mockResolvedValueOnce({ ok: false, incomplete: ['cooking_logs'] })
+        .mockResolvedValueOnce({ ok: true, data: {}, size: 42 })
+      mockTriggerJsonDownload.mockReset()
+      ouvrirEtCliquer()
+      await screen.findByRole('alert')
+      fireEvent.click(screen.getByRole('button', { name: /^Télécharger$/ }))
+      await waitFor(() => expect(mockTriggerJsonDownload).toHaveBeenCalledTimes(1))
+      expect(screen.queryByRole('alert')).toBeNull()
+    })
   })
 })

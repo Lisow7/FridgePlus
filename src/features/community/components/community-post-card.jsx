@@ -7,6 +7,7 @@ import { getC, catColor } from './community-theme'
 import { CategoryIcon } from './community-category-icon'
 import { RecipePreviewCard } from './community-recipe-preview-card'
 import { EmojiReactionBar } from './community-emoji-reaction-bar'
+import { authorName } from '@shared/lib/author-name'
 
 // Carte d'un post dans le feed communauté — extraite de community-page.jsx
 // (2026-07-25, audit front §2). Composeur : rend les feuilles déjà extraites
@@ -17,7 +18,7 @@ const GRAIN_SVG = "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='
 export function PostCard({ post, idx, myReaction, onOpen, onReact, onEdit, onDelete, onReport, isOwn, canLike, reactDisabledReason, canReport, t, lang, isMobile, darkMode, recipeNames, onShowRecipe, onShowProfile }) {
   const C = getC(darkMode)
   const cc = catColor(post.category, darkMode)
-  const author = post.profile?.username ?? t.deletedAuthor
+  const author = authorName(post, t)
   const stop = (handler) => (e) => { e.stopPropagation(); handler() }
   const canShowProfile = !!(post.user_id && post.profile?.username && onShowProfile)
 
@@ -40,7 +41,10 @@ export function PostCard({ post, idx, myReaction, onOpen, onReact, onEdit, onDel
     <article
       role="button" tabIndex={0}
       onClick={onOpen}
-      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onOpen() } }}
+      // Seulement les touches venues du post lui-même : celles d'un bouton
+      // interne remontaient ici, et Entrée sur « Supprimer » ouvrait le post à
+      // la place (audit du 2026-10-04, A11Y-04).
+      onKeyDown={(e) => { if (e.target === e.currentTarget && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); onOpen() } }}
       className="cp-card"
       style={{
         '--cat-glow': cc.dim,

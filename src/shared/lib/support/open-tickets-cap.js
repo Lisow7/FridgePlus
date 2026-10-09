@@ -16,6 +16,12 @@
 // deux se contredisent.
 export const MAX_OPEN_TICKETS = 3
 
+// Plafond des SIGNALEMENTS en attente, compté à part (audit du 2026-10-04,
+// CPT-17) : avant, les deux partageaient les 3 places — trois signalements
+// empêchaient d'écrire au support, et trois questions de signaler un contenu.
+// Même règle de cohérence avec la base (`compte_signalements_ouverts() < 10`).
+export const MAX_OPEN_REPORTS = 10
+
 // Les statuts qui comptent comme « ouvert ». Doivent correspondre à ceux de la
 // policy : un désaccord bloquerait des utilisateurs légitimes, ou laisserait
 // passer ce que la base refuse ensuite.
@@ -30,9 +36,11 @@ export const OPEN_TICKET_STATUSES = ['open', 'in_progress']
 // compteur client et se font arrêter par la base.
 //
 // ⚠️ 42501 signale une violation de policy, pas spécifiquement le plafond. Sur
-// `support_tickets` l'autre cause possible serait d'insérer au nom d'un autre
-// utilisateur — ce que le code appelant ne fait jamais (il passe l'id de la
-// session). Si cette table gagne d'autres règles d'insertion, revoir ce point.
+// `support_tickets` les autres causes possibles : insérer au nom d'un autre
+// utilisateur (le code ne le fait jamais), et — depuis le 2026-10-04 — la
+// règle des sanctions (`sanctions_insert`, compte banni ou supprimé). Cette
+// dernière n'arrive plus jusqu'ici : la fonction `ouvrir_ticket` la reconnaît
+// avant d'insérer et lève `account_restricted` (2026-10-05).
 export function estRefusDePlafond(error) {
   return error?.code === '42501'
 }

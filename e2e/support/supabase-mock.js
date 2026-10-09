@@ -27,7 +27,7 @@ import { expect } from '@playwright/test'
 // Les 6 endpoints REST interroges au seul chargement de l'app.
 // Mesure le 2026-08-06 sur les traces reseau. Si un 7e apparait, le test
 // canari de signup-funnel.spec.js tombera — c'est exactement son role.
-const BOOT_TABLES = [
+export const BOOT_TABLES = [
   'custom_recipes',
   'feature_flags',
   'fridge_layouts',
@@ -125,8 +125,8 @@ export async function skipOnboardingOverlays(page) {
   await page.addInitScript(() => {
     localStorage.setItem('fridge-welcome-seen-v1', '1')
     localStorage.setItem('fridge-consent-v1', JSON.stringify({
-      version: 1, timestamp: Date.now(), bannerDismissed: true,
-      essential: true, functional: true, audience: false, voice: false, receiptScan: false,
+      version: 2, timestamp: Date.now(), bannerDismissed: true,
+      essential: true, errors: false, usage: false, voice: false, receiptScan: false,
     }))
   })
 }
@@ -136,29 +136,45 @@ export async function skipOnboardingOverlays(page) {
 // evalues en premier et masquent donc le socle.
 
 const signupCounter = new Map()
+const rpcCallLog = new Map()
 
-// GET rest/v1/profiles — verification d'unicite du pseudo
-// (signup-page.jsx:138, via .ilike(...).maybeSingle()).
-// `.maybeSingle()` envoie Accept: application/vnd.pgrst.object+json et attend
-// donc UN objet, pas un tableau.
-async function routeProfiles(page, row) {
-  await page.route('**/rest/v1/profiles**', (route) =>
-    route.fulfill({
-      status: 200,
-      contentType: 'application/json',
-      body: JSON.stringify(row),
-    }),
-  )
+/**
+ * POST rest/v1/rpc/<nom> — une fonction de la base.
+ *
+ * `reponse` est le corps JSON rendu (un scalaire pour une fonction qui rend
+ * un booleen ou une date). `status` >= 400 simule un refus de la base.
+ * Les appels sont gardes, dans l'ordre, pour `rpcCalls()`.
+ */
+export async function mockRpc(page, nom, reponse, { status = 200 } = {}) {
+  if (!rpcCallLog.has(page)) rpcCallLog.set(page, [])
+  await page.route(`**/rest/v1/rpc/${nom}**`, (route) => {
+    let args = null
+    try { args = JSON.parse(route.request().postData() ?? 'null') } catch { /* corps illisible */ }
+    rpcCallLog.get(page)?.push({ nom, args })
+    return route.fulfill({ status, contentType: 'application/json', body: JSON.stringify(reponse) })
+  })
 }
+
+/** Appels captures par mockRpc(), dans l'ordre ; filtrables par nom de fonction. */
+export function rpcCalls(page, nom = null) {
+  const tous = rpcCallLog.get(page) ?? []
+  return nom ? tous.filter((appel) => appel.nom === nom) : tous
+}
+
+// « Ce pseudo est-il libre ? » — depuis le 2026-10-04 la question est posee a
+// la fonction `username_available` (rest/v1/rpc), plus a la table `profiles`,
+// qu'un visiteur ne peut pas lire : l'ancien mock rendait ici une ligne de
+// profil que la vraie base n'aurait jamais rendue, et le test passait sur une
+// reponse impossible (audit CPT-09).
 
 /** Le pseudo est libre : la creation doit pouvoir continuer. */
 export async function mockUsernameAvailable(page) {
-  await routeProfiles(page, null)
+  await mockRpc(page, 'username_available', true)
 }
 
-/** Le pseudo est deja pris : la creation doit s'arreter avant signUp. */
+/** Le pseudo est pris ou reserve : la creation doit s'arreter avant signUp. */
 export async function mockUsernameTaken(page) {
-  await routeProfiles(page, { id: '00000000-0000-0000-0000-000000000001' })
+  await mockRpc(page, 'username_available', false)
 }
 
 /**
@@ -169,8 +185,10 @@ export async function mockUsernameTaken(page) {
  */
 export async function mockSignupSuccess(page) {
   signupCounter.set(page, 0)
+  signupBodyLog.set(page, [])
   await page.route('**/auth/v1/signup**', (route) => {
     signupCounter.set(page, (signupCounter.get(page) ?? 0) + 1)
+    try { signupBodyLog.get(page)?.push(JSON.parse(route.request().postData() ?? '{}')) } catch { /* corps illisible */ }
     return route.fulfill({
       status: 200,
       contentType: 'application/json',
@@ -182,6 +200,31 @@ export async function mockSignupSuccess(page) {
       }),
     })
   })
+}
+
+/**
+ * Inscription refusée par la base : ce que le service d'authentification rend
+ * quand un déclencheur de `auth.users` lève (adresse effacée pendant un
+ * bannissement, migration 20261006_bannis_ne_se_reinscrivent_pas.sql) — un
+ * 500 générique, sans le motif.
+ */
+export async function mockSignupRefusedByDatabase(page) {
+  signupCounter.set(page, 0)
+  await page.route('**/auth/v1/signup**', (route) => {
+    signupCounter.set(page, (signupCounter.get(page) ?? 0) + 1)
+    return route.fulfill({
+      status: 500,
+      contentType: 'application/json',
+      body: JSON.stringify({ code: 500, error_code: 'unexpected_failure', msg: 'Database error saving new user' }),
+    })
+  })
+}
+
+const signupBodyLog = new Map()
+
+/** Corps envoyes a auth/v1/signup depuis mockSignupSuccess() (`data` = les metadonnees). */
+export function signupBodies(page) {
+  return signupBodyLog.get(page) ?? []
 }
 
 /** Nombre d'appels a auth/v1/signup depuis mockSignupSuccess(). */
@@ -219,11 +262,11 @@ function b64url(obj) {
  * l'exception disparait et AUCUNE requete reseau supplementaire n'apparait
  * (`listFactors` et `getAAL` lisent la session locale).
  */
-function fakeJwt(sub, email) {
+export function fakeJwt(sub, email, aal) {
   const exp = Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 365
   return [
     b64url({ alg: 'HS256', typ: 'JWT' }),
-    b64url({ sub, email, exp, role: 'authenticated', aud: 'authenticated' }),
+    b64url({ sub, email, exp, role: 'authenticated', aud: 'authenticated', ...(aal && { aal }) }),
     'signature-inerte-non-verifiee-cote-client-0',
   ].join('.')
 }
@@ -243,10 +286,19 @@ function fakeJwt(sub, email) {
  * On intercepte donc la LECTURE : toute cle finissant par `-auth-token`
  * renvoie la session, quelle que soit la ref du projet.
  */
+const profileWriteLog = new Map()
+
 export async function signedInAs(page, {
   id = '00000000-0000-0000-0000-000000000002',
   email = 'a@b.co',
   username = 'Foodie_42',
+  // Colonnes de profil en plus de `id` et `username` (ex. un pseudo pas
+  // encore confirme : { username_confirmed: false }).
+  profile = {},
+  // Double authentification : le niveau de la session ('aal1' | 'aal2') et
+  // les facteurs du compte (ex. [{ id, factor_type: 'totp', status: 'verified' }]).
+  aal,
+  factors,
 } = {}) {
   // ⚠️ `expires_at` DOIT rester dans le futur. Verifie par mutation : avec une
   // valeur passee, l'app retombe en mode invite, l'ajout part dans
@@ -260,7 +312,7 @@ export async function signedInAs(page, {
   const expiresAt = Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 365
 
   const session = {
-    access_token: fakeJwt(id, email),
+    access_token: fakeJwt(id, email, aal),
     refresh_token: 'refresh-inerte-non-utilise',
     expires_at: expiresAt,
     expires_in: 60 * 60 * 24 * 365,
@@ -269,6 +321,7 @@ export async function signedInAs(page, {
       id, email, aud: 'authenticated', role: 'authenticated',
       user_metadata: { username },
       app_metadata: { provider: 'email' },
+      ...(factors && { factors }),
     },
   }
 
@@ -279,13 +332,38 @@ export async function signedInAs(page, {
       (typeof key === 'string' && key.endsWith('-auth-token')) ? raw : original(key)
   }, session)
 
-  await page.route('**/rest/v1/profiles**', (route) =>
-    route.fulfill({
+  // Le frigo, les favoris et les recettes du compte : VIDES, mais lus. Laissés
+  // au socle, ces appels seraient abandonnés ; depuis le 2026-10-04 l'app le dit
+  // alors (« Ton frigo, tes favoris et tes recettes n'ont pas pu être
+  // chargés », avec un bouton), environ 8 s après le chargement, le temps des
+  // nouvelles tentatives de la bibliothèque. Ce message est juste — la base ne
+  // répond pas — mais il n'a rien à faire dans un parcours qui teste autre
+  // chose. Un mock de scénario posé après celui-ci (`mockStockUpsert`, par
+  // exemple) le masque.
+  for (const table of ['user_stock', 'user_favorites', 'custom_recipes']) {
+    await page.route(`**/rest/v1/${table}**`, (route) =>
+      route.fulfill({ status: route.request().method() === 'GET' ? 200 : 201, contentType: 'application/json', body: '[]' }))
+  }
+
+  profileWriteLog.set(page, [])
+  await page.route('**/rest/v1/profiles**', (route) => {
+    const req = route.request()
+    // Les ecritures (PATCH) sont gardees pour `profileWrites()` : horodatage
+    // de connexion, choix du pseudo…
+    if (req.method() === 'PATCH') {
+      try { profileWriteLog.get(page)?.push(JSON.parse(req.postData() ?? '{}')) } catch { /* corps illisible */ }
+    }
+    return route.fulfill({
       status: 200,
       contentType: 'application/json',
-      body: JSON.stringify({ id, username }),
-    }),
-  )
+      body: JSON.stringify({ id, username, ...profile }),
+    })
+  })
+}
+
+/** Corps des ecritures (PATCH) vers `profiles` depuis signedInAs(), dans l'ordre. */
+export function profileWrites(page) {
+  return profileWriteLog.get(page) ?? []
 }
 
 /** Capture les upserts vers user_stock sans jamais les envoyer. */

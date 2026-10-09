@@ -7,8 +7,10 @@ import { useUndo } from '@shared/contexts/undo-provider'
 import { useFocusTrap } from '@shared/hooks/use-focus-trap'
 import { useWindowWidth } from '@shared/hooks/use-window-width'
 import { searchIngredients } from '@shared/lib/matching/ingredient-search'
+import { useTrackIngredientSearch } from '@features/fridge/hooks/use-track-ingredient-search'
 import { LuTrash2, LuPlus } from 'react-icons/lu'
 import Button from '@shared/ui/button'
+import Field from '@shared/ui/field'
 
 // Panneau « Mon frigo en un coup d'œil » — bottom sheet listant TOUT le stock,
 // groupé par zone, avec recherche + ajout/retrait. Déclenché depuis le footer.
@@ -28,7 +30,8 @@ import Button from '@shared/ui/button'
 const I18N = {
   fr: {
     title: (n) => `Mon frigo — ${n} aliment${n > 1 ? 's' : ''}`,
-    search: 'Rechercher un aliment…',
+    searchLabel: 'Rechercher un aliment',
+    search: 'ex. : yaourt',
     empty: 'Ton frigo est vide. Cherche un aliment ci-dessus pour l\'ajouter.',
     noMatch: (q) => `Aucun aliment ne correspond à « ${q} ».`,
     resultsCount: (n) => (n === 0 ? 'Aucun résultat' : n === 1 ? '1 résultat' : `${n} résultats`),
@@ -40,7 +43,8 @@ const I18N = {
   },
   en: {
     title: (n) => `My fridge — ${n} item${n > 1 ? 's' : ''}`,
-    search: 'Search an item…',
+    searchLabel: 'Search an item',
+    search: 'e.g. yogurt',
     empty: 'Your fridge is empty. Search an item above to add it.',
     noMatch: (q) => `No item matches "${q}".`,
     resultsCount: (n) => (n === 0 ? 'No results' : n === 1 ? '1 result' : `${n} results`),
@@ -197,6 +201,8 @@ export default function InventoryPanel({ lang = 'fr', darkMode = false, onClose,
       }))
   }, [q, ingredientsById, lang, stock, activeSubcats, lookup])
 
+  useTrackIngredientSearch(q, searchMatches.length)
+
   const total = stock?.size ?? 0
   const isSearching = q.trim().length > 0
 
@@ -248,7 +254,7 @@ export default function InventoryPanel({ lang = 'fr', darkMode = false, onClose,
   )
 
   const panelStyle = isDesktop ? {
-    position: 'fixed', top: 0, left: 0, width: 460, height: '100vh', zIndex: 91,
+    position: 'fixed', top: 0, left: 0, width: 460, height: '100dvh', zIndex: 91,
     background: surface, color: text,
     borderRight: `1px solid ${BORDER}`,
     boxShadow: '4px 0 32px rgba(150,95,30,0.20)',
@@ -259,7 +265,7 @@ export default function InventoryPanel({ lang = 'fr', darkMode = false, onClose,
     background: surface, color: text,
     borderTopLeftRadius: 18, borderTopRightRadius: 18,
     boxShadow: '0 -14px 44px rgba(150,95,30,0.26)',
-    maxHeight: '82vh',
+    maxHeight: '82dvh',
     display: 'flex', flexDirection: 'column',
   }
 
@@ -273,11 +279,13 @@ export default function InventoryPanel({ lang = 'fr', darkMode = false, onClose,
             <strong style={{ color: darkMode ? '#F7A85E' : '#8A5A18', fontSize: 16 }}>🧊 {t.title(total)}</strong>
             <button onClick={onClose} aria-label={t.close} style={{ background: 'none', border: 'none', fontSize: 18, cursor: 'pointer', color: muted, width: 40, height: 40, margin: -8, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>✕</button>
           </div>
+          <Field label={t.searchLabel} labelStyle={{ display: 'block', fontSize: '12px', fontWeight: 700, color: muted, marginBottom: '6px' }}>
           <input
-            value={q} onChange={(e) => handleSearchChange(e.target.value)} placeholder={t.search} aria-label={t.search}
+            value={q} onChange={(e) => handleSearchChange(e.target.value)} placeholder={t.search}
             ref={searchInputRef}
             style={{ width: '100%', padding: '9px 12px', borderRadius: 10, border: `1px solid ${BORDER}`, background: inputBg, color: text, fontSize: 14 }}
           />
+          </Field>
           {isSearching && (
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginTop: 10 }}>
               {CATEGORY_FILTERS.map((c) => {

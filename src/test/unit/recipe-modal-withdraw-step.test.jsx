@@ -24,6 +24,7 @@ vi.mock('@shared/lib/pricing/open-prices', () => ({ refreshPrices: vi.fn().mockR
 const logCookingMock = vi.fn().mockResolvedValue({})
 vi.mock('@shared/api/cooking-logs', () => ({ logCooking: (...args) => logCookingMock(...args) }))
 vi.mock('@features/recipes/hooks/use-quick-rate-prompt', () => ({ useQuickRatePrompt: () => vi.fn() }))
+vi.mock('@shared/hooks/use-save-error-toast', () => ({ useSaveErrorToast: () => vi.fn() }))
 vi.mock('@features/recipes/components/recipe-reviews-section', () => ({ default: () => null }))
 vi.mock('@features/recipes/components/recipe-allergens-banners', () => ({ RecipeAllergenWarning: () => null, RecipeAllergenStrip: () => null }))
 vi.mock('@features/recipes/components/recipe-delete-dialog', () => ({ default: () => null }))

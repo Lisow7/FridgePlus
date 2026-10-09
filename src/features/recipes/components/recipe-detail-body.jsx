@@ -52,7 +52,7 @@ export function RecipeDetailBody({
   ingredientsById,
   recipeNutrition,
   recipeCost,
-  recipeSteps,
+  recipeSteps, stepsSeenRef,
   recipeName,
   hasStockIngredients,
   hasPremiumAccess,
@@ -171,9 +171,9 @@ export function RecipeDetailBody({
                     faire un role="button" imbriquait le bouton « Substituts IA »
                     dans un interactif (nested-interactive, attrapé par le
                     garde-fou). Pas de onClick propre : l'activation clavier
-                    synthétise un click qui REMONTE au div parent. */}
+                    synthétise un click qui REMONTE au div parent. Son nom dit le statut en mots, que ✓ ✗ ○ ne disaient qu'aux yeux (audit du 2026-10-04, A11Y-06). */}
                 <button
-                  type="button" disabled={!interactive} aria-label={ingName} aria-expanded={interactive ? isPickOpen : undefined}
+                  type="button" disabled={!interactive} aria-label={`${ingName} — ${has ? t.inFridge : ingRequired ? t.missing : t.optional}`} aria-expanded={interactive ? isPickOpen : undefined}
                   className={`shrink-0 flex items-center justify-center rounded-full text-white font-bold border-0${addedFlashIndex === i ? ' fp-badge-pop' : ''}`}
                   style={{ width: '24px', height: '24px', fontSize: '11px', padding: 0, cursor: 'inherit', background: has ? '#7BB078' : ingRequired ? '#D07070' : '#C4A555' }}
                 >
@@ -191,7 +191,7 @@ export function RecipeDetailBody({
                     </span>
                   )}
                   {isSeasonal && (
-                    <span title={t.inSeason} aria-label={t.inSeason}
+                    <span role="img" title={t.inSeason} aria-label={t.inSeason}
                       style={{ marginLeft: '6px', fontSize: '16px', verticalAlign: 'baseline' }}>
                       🌱
                     </span>
@@ -443,7 +443,7 @@ export function RecipeDetailBody({
           {/* Onglet Étapes */}
           {activeTab === 'steps' && (
             <>
-              <p className="text-[13px] font-bold uppercase tracking-widest text-[var(--color-muted)]" style={{ margin: 0 }}>{t.preparationLabel}</p>
+              <p ref={stepsSeenRef} className="text-[13px] font-bold uppercase tracking-widest text-[var(--color-muted)]" style={{ margin: 0 }}>{t.preparationLabel}</p>
               {recipeSteps.length === 0 ? (
                 <p style={{ fontSize: '14px', color: 'var(--color-muted)', fontStyle: 'italic' }}>—</p>
               ) : (

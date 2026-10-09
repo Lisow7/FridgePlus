@@ -8,6 +8,10 @@
  * Ici, les tests appellent la vraie fonction et lisent le vrai HTML produit.
  */
 
+// Module sans import : lu tel quel par Node au build, et par l'app.
+import { getIngredientItemsFlat, ligneIngredient } from '../../src/shared/lib/recipes/recipe-ingredients.js'
+import { categorieSchemaOrg, cuisineSchemaOrg } from '../../src/shared/lib/recipes/balisage-recette.js'
+
 export const SITE = 'https://fridgeplus.app'
 
 // Dimensions déclarées dans `index.html` pour l'image de partage par défaut.
@@ -82,7 +86,46 @@ export function echapper(texte) {
 export function remplacerMeta(html, attribut, cle, valeur) {
   const re = new RegExp(`(<meta\\s+${attribut}="${cle}"\\s+content=")[^"]*(")`)
   if (!re.test(html)) return null
-  return html.replace(re, `$1${echapper(valeur)}$2`)
+  // Une FONCTION, pas une chaîne : dans une chaîne de remplacement, `$&`, `$'`
+  // ou `$1` venus des données sont lus comme des motifs — une description
+  // « à 5 $' » recopiait tout le reste du document dans l'attribut.
+  return html.replace(re, (_tout, debut, fin) => debut + echapper(valeur) + fin)
+}
+
+/**
+ * Remplace la première occurrence de `cible` par `contenu`, pris TEL QUEL.
+ * `String.replace(cible, chaîne)` interprète les `$` de la chaîne même quand la
+ * cible est littérale : tout contenu venu des données passe donc par ici.
+ */
+export function remplacerLitteral(html, cible, contenu) {
+  return html.replace(cible, () => contenu)
+}
+
+/**
+ * Bloc JSON-LD prêt à poser dans le `<head>`.
+ *
+ * `JSON.stringify` n'échappe pas `<` : un nom « Tarte</script><script src=…> »
+ * fermait le bloc et injectait une balise dans la page servie à tous (audit du
+ * 2026-10-04, SEC-03). La séquence `\u003c` est du JSON valide : les données
+ * se relisent à l'identique.
+ */
+export function baliseJsonLd(id, donnees) {
+  const json = JSON.stringify(donnees).replace(/</g, '\\u003c')
+  return `<script type="application/ld+json" id="${echapper(id)}">${json}</scr` + `ipt>`
+}
+
+/**
+ * Les recettes qui ont une page publique : officielles, publiées, non
+ * supprimées. Le manifeste du pré-rendu et le plan du site passent TOUS LES
+ * DEUX par ce filtre — ils lisaient `recipes_unified` sans regarder `origin`,
+ * si bien qu'une recette communautaire « publiée » y serait entrée avec le nom
+ * et la description choisis par son auteur.
+ */
+export function filtrerRecettesPubliables(requete) {
+  return requete
+    .is('deleted_at', null)
+    .eq('status', 'published')
+    .eq('origin', 'official')
 }
 
 /**
@@ -97,19 +140,25 @@ export function remplacerMeta(html, attribut, cle, valeur) {
  * finirait par diverger, et c'est celle qu'on ne relit plus qui se tromperait.
  */
 function appliquerMetadonnees(gabarit, { titre, description, urlPage, image, dims, imageAlt, ogType }) {
-  let html = gabarit.replace(/<title>[\s\S]*?<\/title>/, `<title>${echapper(titre)}</title>`)
+  let html = gabarit.replace(/<title>[\s\S]*?<\/title>/, () => `<title>${echapper(titre)}</title>`)
 
   const substitutions = [
     ['name', 'description', description],
     ['property', 'og:title', titre],
     ['property', 'og:description', description],
-    ['property', 'og:image', image],
-    ['property', 'og:image:width', dims.largeur],
-    ['property', 'og:image:height', dims.hauteur],
-    ['property', 'og:image:alt', imageAlt],
     ['name', 'twitter:title', titre],
     ['name', 'twitter:description', description],
-    ['name', 'twitter:image', image],
+    // Sans image PROPRE, la page garde celle du gabarit — adresse, dimensions,
+    // texte alternatif — au lieu d'en recopier une : la copie avait perdu le
+    // `?v=3` qui purge le cache des réseaux, et décrivait l'image « Fridge+ »
+    // (audit du 2026-10-04, SEO-13).
+    ...(image ? [
+      ['property', 'og:image', image],
+      ['property', 'og:image:width', dims.largeur],
+      ['property', 'og:image:height', dims.hauteur],
+      ['property', 'og:image:alt', imageAlt],
+      ['name', 'twitter:image', image],
+    ] : []),
   ]
   for (const [attribut, cle, valeur] of substitutions) {
     const suivant = remplacerMeta(html, attribut, cle, valeur)
@@ -126,7 +175,7 @@ function appliquerMetadonnees(gabarit, { titre, description, urlPage, image, dim
   // servi, sans divergence avec un rendu JS. C'est ce que Google demande.
   return html.replace(
     /<\/head>/,
-    `  <link rel="canonical" href="${urlPage}" />\n` +
+    () => `  <link rel="canonical" href="${urlPage}" />\n` +
     `    <meta property="og:url" content="${urlPage}" />\n` +
     '  </head>',
   )
@@ -139,7 +188,8 @@ export function construirePage(gabarit, { id, nom, description, image, largeur, 
     description: description
       || `Découvre la recette « ${nom} » sur Fridge+ : ingrédients, étapes et valeurs nutritionnelles.`,
     urlPage: `${SITE}/recipe/${id}`,
-    image: image || `${SITE}/og-image.png`,
+    // Sans photo : l'image du gabarit, intacte (voir `appliquerMetadonnees`).
+    image: image || null,
     dims: dimsImageRecette({ image, largeur, hauteur }),
     imageAlt: `${nom} — recette Fridge+`,
     // Une page recette est un contenu, pas le site : `article` décrit mieux
@@ -151,8 +201,9 @@ export function construirePage(gabarit, { id, nom, description, image, largeur, 
 /**
  * Construit le HTML d'une page STATIQUE (`/faq`, `/guide`, `/legal`…).
  *
- * Elles partagent l'image de partage par défaut : aucune n'a d'illustration
- * propre, et en inventer une par page serait du travail sans lecteur.
+ * Elles gardent l'image de partage du gabarit, intacte : aucune n'a
+ * d'illustration propre, et en inventer une par page serait du travail sans
+ * lecteur.
  *
  * `og:type` reste `website` : ce sont des pages du site, pas des contenus
  * éditoriaux datés — le distinguo qui justifie `article` pour une recette ne
@@ -163,9 +214,7 @@ export function construirePageStatique(gabarit, { chemin, titre, description }) 
     titre,
     description,
     urlPage: `${SITE}${chemin}`,
-    image: `${SITE}/og-image.png`,
-    dims: OG_DEFAUT,
-    imageAlt: 'Fridge+',
+    image: null,
     ogType: 'website',
   })
 }
@@ -184,8 +233,10 @@ export function construirePageStatique(gabarit, { chemin, titre, description }) 
  * une image » pour les robots qui n'exécutent pas JavaScript — les mêmes qui
  * ne voyaient rien des pages statiques avant hier.
  *
- * Les ingrédients restent une question ouverte, à trancher séparément et avec
- * ses propres preuves.
+ * Le balisage `Recipe` porte désormais ingrédients et étapes (SEO-06,
+ * `prerender-contenu.json`). Le CORPS visible, lui, reste à ces trois champs :
+ * il s'affiche avant le premier rendu de React, et l'allonger changerait ce que
+ * voit chaque visiteur — une décision d'écran, à part.
  */
 export function corpsRecette({ nom, description, image, largeur, hauteur }) {
   const morceaux = [`<h1>${echapper(nom)}</h1>`]
@@ -222,43 +273,21 @@ export function corpsRecette({ nom, description, image, largeur, hauteur }) {
  * dans la Search Console. D'où le `null` : mieux vaut pas de balisage qu'un
  * balisage qui ne peut pas aboutir.
  *
- * ⚠️ Volontairement MINIMAL : ni ingrédients ni étapes, qui ne sont pas dans le
- * manifeste (les y mettre coûterait ~500 Ko versionnés, cf. `corpsRecette`).
- * Ils ne sont requis que pour les « recettes guidées » de l'Assistant, pas pour
- * le résultat enrichi. Le composant client, lui, pose la version complète.
+ * Ingrédients et étapes : servis depuis le 2026-10-05 (audit, SEO-06), lus dans
+ * `prerender-contenu.json` — un fichier À PART, une ligne par recette
+ * (~255 Ko). Google les « recommande » pour le résultat enrichi, et c'est la
+ * seule façon pour un robot sans JavaScript de lire la recette. La décision
+ * « ~500 Ko versionnés » (2026-08-20) est tranchée : le français seul pèse
+ * ~210 Ko, et une recette modifiée ne change qu'une ligne du diff. Le composant
+ * client pose ensuite sa version, nutrition comprise.
  *
  * 🔑 L'identifiant du script doit rester `recipe-jsonld` — celui que cherche
  * `RecipeJsonLd`. Le composant retrouve alors CE nœud et le remplace par sa
  * version complète au montage, au lieu d'en ajouter un second.
- */
-/**
- * Type de plat → `recipeCategory` Schema.org.
  *
- * 🔴 Cette table a une JUMELLE : `TYPE_TO_CATEGORY` dans
- * `src/features/recipes/lib/recipe-to-schema-org.js`, qui produit le balisage
- * injecté au montage côté client. Deux copies d'une même règle finissent
- * toujours par diverger — `prerender-page.test.js` les compare, clé par clé.
- * Elle est exportée pour ce test, pas pour l'usage.
+ * Catégorie et cuisine viennent de `balisage-recette.js`, le module que lit
+ * aussi le balisage client : il n'existe plus de table jumelle à comparer.
  */
-export const TYPE_TO_CATEGORY_PRERENDU = {
-  entree: 'Appetizer',
-  plat: 'Main Course',
-  dessert: 'Dessert',
-  apero: 'Snack',
-  brunch: 'Brunch',
-  petitdej: 'Breakfast',
-  sauce: 'Sauce',
-  boisson: 'Beverage',
-  soupe: 'Soup',
-  accompagnement: 'Side Dish',
-  main: 'Main Course',
-  starter: 'Appetizer',
-  salad: 'Salad',
-  side: 'Side Dish',
-  'Plat principal': 'Main Course',
-  'Entrée & Soupe': 'Appetizer',
-  'Accompagnement': 'Side Dish',
-}
 
 /** Minutes → durée ISO 8601 (`PT1H30M`). `undefined` plutôt que zéro : une clé
  *  absente est honnête, une durée nulle est un mensonge. */
@@ -274,12 +303,15 @@ function minutesEnIso(minutes) {
 export function jsonLdRecette({
   id, nom, description, image,
   dureeTotaleMin, preparationMin, cuissonMin, portions, categorie, cuisine,
+  ingredients, etapes,
 }) {
   if (!image || !nom) return null
   const totalTime = minutesEnIso(dureeTotaleMin)
   const prepTime = minutesEnIso(preparationMin)
   const cookTime = minutesEnIso(cuissonMin)
-  const recipeCategory = categorie ? TYPE_TO_CATEGORY_PRERENDU[categorie] : undefined
+  const recipeCategory = categorieSchemaOrg(categorie)
+  // Le manifeste ne garde que le NOM du pays, déjà résolu.
+  const recipeCuisine = cuisineSchemaOrg({ nom: cuisine })
   return {
     '@context': 'https://schema.org',
     '@type': 'Recipe',
@@ -299,9 +331,57 @@ export function jsonLdRecette({
     ...(cookTime && { cookTime }),
     ...(portions > 0 && { recipeYield: `${portions} portions` }),
     ...(recipeCategory && { recipeCategory }),
-    ...(cuisine && { recipeCuisine: cuisine }),
+    ...(recipeCuisine && { recipeCuisine }),
+    // ── Ingrédients et étapes (audit du 2026-10-04, SEO-06) ─────────────────
+    // Lus dans `prerender-contenu.json`. Mêmes formes que le balisage client
+    // (`recipe-to-schema-org.js`), qui remplace ce nœud au montage.
+    ...(ingredients?.length > 0 && { recipeIngredient: ingredients }),
+    ...(etapes?.length > 0 && { recipeInstructions: etapes.map((text) => ({ '@type': 'HowToStep', text })) }),
     inLanguage: 'fr',
   }
+}
+
+/**
+ * Le contenu d'une fiche — ingrédients et étapes — à partir de sa ligne en
+ * base (`{ ingredients, steps }`), pour `generate-prerender-manifest.mjs`.
+ *
+ * Les ingrédients s'écrivent avec la règle du balisage client
+ * (`ligneIngredient`), les étapes sont celles de `lang`, sans les vides —
+ * exactement ce que `recipe-to-schema-org.js` pose au montage.
+ */
+export function contenuRecette(ligne, ingredientsById, lang = 'fr') {
+  const ingredients = getIngredientItemsFlat({ ingredients: ligne?.ingredients })
+    .map((item) => ligneIngredient(item, ingredientsById, lang))
+    .filter(Boolean)
+  const steps = ligne?.steps
+  const brutes = Array.isArray(steps) ? steps : (steps?.[lang] ?? steps?.fr ?? [])
+  const etapes = (Array.isArray(brutes) ? brutes : [])
+    .map((s) => (typeof s === 'string' ? s : (s?.text ?? '')))
+    .filter(Boolean)
+  return { ingredients, etapes }
+}
+
+/**
+ * Le fichier `prerender-contenu.json`, une ligne par recette.
+ *
+ * Pourquoi pas `JSON.stringify(…, null, 2)` : chaque étape y prendrait sa
+ * ligne, et le fichier ~15 000 lignes. Ici, modifier ou ajouter une recette
+ * change UNE ligne du diff — l'objection « un diff qui noierait toute PR »
+ * (décision du 2026-08-20) ne tient plus.
+ */
+export function serialiserContenu({ lang, genereLe, recettes }) {
+  const lignes = recettes.map(({ id, ingredients, etapes }) => `    ${JSON.stringify(id)}: ${JSON.stringify({ ingredients, etapes })}`)
+  return [
+    '{',
+    `  "_commentaire": ${JSON.stringify('FICHIER GÉNÉRÉ par `npm run prerender:data` — ne pas éditer à la main. Une ligne par recette.')},`,
+    `  "_genere_le": ${JSON.stringify(genereLe)},`,
+    `  "lang": ${JSON.stringify(lang)},`,
+    '  "recettes": {',
+    lignes.join(',\n'),
+    '  }',
+    '}',
+    '',
+  ].join('\n')
 }
 
 /**
@@ -363,3 +443,66 @@ export const PAGES_STATIQUES = [
     description: 'Mentions légales, conditions d\'utilisation et politique de confidentialité de Fridge+.',
   },
 ]
+
+/**
+ * Les pages statiques que le plan du site ANNONCE.
+ *
+ * Toutes, sauf `/community` tant que son fil n'a aucun message visible : sa
+ * page servie est vide, et l'annoncer revient à signaler une page mince
+ * (audit du 2026-10-04, SEO-10 — 0 message visible sur 4 au 2026-10-08).
+ * Elle reste pré-rendue : seule l'annonce attend du contenu.
+ *
+ * `messagesCommunaute` est le compte lu par `npm run sitemap` ; `null` (lecture
+ * en échec) vaut « pas vu » : on n'annonce que ce qu'on a vu.
+ */
+export function pagesAuPlanDuSite({ messagesCommunaute }) {
+  return PAGES_STATIQUES.filter(p => p.chemin !== '/community' || messagesCommunaute > 0)
+}
+
+// ── Le fichier de la page, annoncé dans le HTML (audit du 2026-10-04, PERF-05) ──
+// Sans cette annonce, le navigateur ne découvrait le fichier d'une page (par ex.
+// `faq-page-*.js`) qu'après avoir exécuté le fichier d'entrée : un aller-retour
+// de plus sur le chemin critique (demandé à 593 ms dans la trace, 280 ms après
+// la fin de l'entrée). Les noms sont ceux que le build donne aux fichiers des
+// pages paresseuses de `src/routes/routes-config.js`.
+export const MORCEAUX_PAR_CHEMIN = {
+  '/faq': ['faq-page'],
+  '/guide': ['guide-page'],
+  '/legal': ['legal-page'],
+  '/changelog': ['changelog-page'],
+  '/suppression-compte': ['account-deletion-page'],
+  '/community': ['community-page-route'],
+  // Les fiches : la page, et avec ses imports la modale qui affiche la recette.
+  '/recipe': ['recipe-page'],
+}
+
+// Le fichier `<nom>-<empreinte de 8 caractères>.js`, et lui seul. Échec BRUYANT
+// s'il manque ou s'il y en a plusieurs : un renommage casserait le
+// préchargement en silence.
+export function trouverLeMorceau(fichiers, nom) {
+  const nomEchappe = nom.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+  const motif = new RegExp(`^${nomEchappe}-[A-Za-z0-9_-]{8}\\.js$`)
+  const trouves = fichiers.filter((f) => motif.test(f))
+  if (trouves.length !== 1) {
+    throw new Error(`fichier « ${nom}-<empreinte>.js » : ${trouves.length} trouvé(s) dans dist/assets`)
+  }
+  return trouves[0]
+}
+
+// Les imports statiques d'un fichier minifié du build (`from"./x.js"`).
+export function dependancesDirectes(contenu) {
+  return [...contenu.matchAll(/(?:from|import)\s*"\.\/([A-Za-z0-9_.-]+\.js)"/g)].map((m) => m[1])
+}
+
+// Une balise par fichier, sans doublon ni ce que le gabarit précharge déjà.
+export function balisesDePrechargement(prefixe, fichiers, gabarit) {
+  const vus = new Set()
+  return fichiers
+    .filter((f) => {
+      if (vus.has(f)) return false
+      vus.add(f)
+      return !gabarit.includes(`${prefixe}${f}"`)
+    })
+    .map((f) => `<link rel="modulepreload" crossorigin href="${prefixe}${f}">`)
+    .join('\n    ')
+}

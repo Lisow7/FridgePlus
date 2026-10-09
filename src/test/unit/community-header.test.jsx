@@ -89,7 +89,8 @@ describe('CPHeader', () => {
 
     expect(screen.getByRole('button', { name: 'Search' })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Dark mode' })).toBeInTheDocument()
-    expect(screen.getByPlaceholderText('Search a post…')).toBeInTheDocument()
+    // Libellé visible + exemple grisé (décision du 2026-10-06).
+    expect(screen.getByLabelText('Search posts')).toHaveAttribute('placeholder', 'e.g. risotto, pancake batter')
 
     rerender(<CPHeader {...base} t={en} onToggleDarkMode={vi.fn()} showSearch darkMode />)
     expect(screen.getByRole('button', { name: 'Light mode' })).toBeInTheDocument()

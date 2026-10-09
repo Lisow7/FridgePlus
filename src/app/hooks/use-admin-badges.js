@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react'
-import { adminCountRecipesByStatus } from '@features/admin/api/admin'
+// Le dépôt des recettes, pas l'API admin : importée ici, celle-ci (600 lignes,
+// partagée avec le panneau chargé à la demande) entrait TOUT ENTIÈRE dans le
+// morceau de démarrage de chaque visiteur (mesuré le 2026-10-08).
+import { adminCountCommunityRecipesByStatus } from '@shared/lib/recipes/recipes-repository'
 import { countUnreadTickets, adminCountOpenTickets } from '@features/support/api/support'
 import { logError } from '@shared/lib/observability/sentry'
 
@@ -32,7 +35,7 @@ export function useAdminBadges({ isAdmin, adminPanelOpen, userId }) {
   useEffect(() => {
     if (!isAdmin || adminPanelOpen) return
     Promise.all([
-      adminCountRecipesByStatus('pending'),
+      adminCountCommunityRecipesByStatus('pending'),
       adminCountOpenTickets(),
     ])
       .then(([recipes, tickets]) => {

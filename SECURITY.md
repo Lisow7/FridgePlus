@@ -116,6 +116,22 @@ and is enforced by [`src/test/unit/csp-policy.test.js`](./src/test/unit/csp-poli
   hash or nonce is required — verified by serving the built app under the hardened
   policy. A nonce would not be an option here anyway: `vercel.json` serves **static**
   headers, and a nonce must be unique per request.
+- **`script-src` is exactly `'self'`** (since 2026-10-04). It used to also list
+  `cdn.jsdelivr.net`, `browser.sentry-cdn.com` and `vercel.live`. None was needed —
+  jsDelivr only serves the app *images* (covered by `img-src`), Sentry is the npm
+  package — and jsDelivr serves any file of any npm package or public GitHub repo as
+  JavaScript: anyone obtaining an HTML injection could run their own script, which
+  undid most of the `'unsafe-inline'` removal. Consequence: the Vercel preview toolbar
+  no longer loads on previews. Do not add a host without a real `<script src>` for it.
+- **`img-src` is `'self' data: blob:` plus the project's Supabase storage host** (since
+  2026-10-07). It used to allow any `https:` image: an injected page or badly filtered
+  content could make every visitor's browser fetch an image from any server, handing
+  over their IP address, browser and current page. App images now come from the site
+  itself (emoji included, no longer from Iconify or jsDelivr), `data:` (QR codes, card
+  pattern, 2FA QR code), `blob:`, and the project's public storage — the only external
+  origin `isProjectStorageUrl` lets through (`src/shared/lib/images/trusted-image-url.js`).
+  Guarded by `src/test/unit/csp-policy.test.js` and `e2e/images-sous-la-csp.spec.js`.
+  Do not add a host without a real image for it.
 - **`style-src` keeps `'unsafe-inline'`** — assumed, not overlooked. React applies
   styling through the `style=` attribute, and *style attributes* are blocked without
   it; neither nonces nor hashes cover them (only `'unsafe-hashes'`, case by case).

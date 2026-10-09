@@ -135,15 +135,19 @@ function ToastContainer({ toasts }) {
       style={{
         position: 'fixed',
         bottom: 'calc(24px + var(--fp-bottom-inset, 0px))',
-        left: '50%',
-        transform: 'translateX(-50%)',
+        // Ancré aux deux bords et centré par flexbox — PAS `left: 50%` +
+        // `translateX(-50%)` : placé ainsi, le contenu ne dispose que d'une
+        // demi-fenêtre, et sur téléphone un message d'une phrase s'écrivait
+        // dans une colonne de 60 px (vu le 2026-10-05). Les clics traversent
+        // toujours la zone vide (`pointerEvents: 'none'`).
+        left: '16px',
+        right: '16px',
         zIndex: Z_INDEX.TOAST,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         gap: '8px',
         pointerEvents: 'none',
-        maxWidth: 'calc(100vw - 32px)',
       }}
     >
       {/* ⚠️ `aria-live` SANS `role="status"`/`role="alert"` : une région vive

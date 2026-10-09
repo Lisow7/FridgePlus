@@ -1,73 +1,22 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState } from 'react'
 import {
   LuUsers, LuChefHat, LuMessageSquare, LuCarrot, LuRefreshCw,
   LuDatabase, LuBan, LuShield, LuActivity, LuArrowRight, LuTriangleAlert, } from 'react-icons/lu'
 import { useAdmin } from '../providers/admin-provider'
 import { ADMIN_I18N } from '../i18n/admin-i18n'
 import { adminGetLogs } from '@features/admin/api/admin'
+import { useReloader } from '@shared/hooks/use-reloader'
+import { leverSiErreur } from '@shared/lib/supabase/lever-si-erreur'
+import ChargementRate from './shared/chargement-rate'
+import { LIBELLES_DU_JOURNAL } from '@features/admin/lib/libelles-du-journal'
 import StatCard from './shared/stat-card'
 import AnalyticsChart from './shared/analytics-chart'
 import Button from '@shared/ui/button'
+import { texteLisible, fondTeinte } from '@shared/lib/couleurs/texte-lisible'
 
-// ── Action labels pour le mini-journal ───────────────────────────────────────
-
-const ACTION_COLORS = {
-  recipe_approved:     'var(--color-success)',
-  recipe_rejected:     'var(--color-danger)',
-  recipe_pending:      'var(--color-warning)',
-  recipe_submitted:    'var(--color-warning)',
-  recipe_deleted:      'var(--color-danger)',
-  recipe_edited:       'var(--color-info)',
-  user_banned:         'var(--color-danger)',
-  user_unbanned:       'var(--color-success)',
-  account_deleted:     '#EF4444',
-  ingredient_added:    'var(--color-success)',
-  ingredient_updated:  'var(--color-info)',
-  ingredient_deleted:  'var(--color-danger)',
-  base_recipe_added:   'var(--color-success)',
-  base_recipe_updated: 'var(--color-info)',
-  base_recipe_deleted: 'var(--color-danger)',
-}
-
-const ACTION_LABELS_FR = {
-  recipe_approved:        'Recette approuvée',
-  recipe_rejected:        'Recette rejetée',
-  recipe_pending:         'Recette remise en attente',
-  recipe_submitted:       'Recette soumise',
-  recipe_deleted:         'Recette supprimée',
-  recipe_edited:          'Recette modifiée',
-  user_banned:            'Utilisateur banni',
-  user_unbanned:          'Utilisateur débanni',
-  account_deleted:        'Compte supprimé',
-  account_soft_deleted:   'Compte supprimé',
-  account_restored:       'Compte restauré',
-  account_anonymized:     'Compte anonymisé',
-  recipe_promoted:        'Recette promue au catalogue',
-  ingredient_added:       'Ingrédient ajouté',
-  ingredient_updated:     'Ingrédient modifié',
-  ingredient_deleted:     'Ingrédient supprimé',
-  base_recipe_added:      'Recette catalogue ajoutée',
-  base_recipe_updated:    'Recette catalogue modifiée',
-  base_recipe_deleted:    'Recette catalogue supprimée',
-  sensitive_data_accessed:'Données sensibles consultées',
-  ticket_replied:         'Ticket — réponse envoyée',
-  ticket_deleted:         'Ticket supprimé',
-  ticket_message_deleted: 'Message de ticket supprimé',
-  report_resolved:        'Signalement résolu',
-  report_rejected:        'Signalement rejeté',
-  user_role_updated:      'Rôle utilisateur mis à jour',
-  user_promoted:          'Utilisateur promu',
-  community_post_deleted:  'Post communauté supprimé',
-  community_post_purged:   'Post communauté purgé',
-  community_reply_deleted: 'Réponse communauté supprimée',
-  community_reply_purged:  'Réponse communauté purgée',
-  community_user_muted:    'Utilisateur réduit au silence',
-  community_user_unmuted:  'Utilisateur réactivé',
-  recipe_review_deleted:   'Avis supprimé',
-  recipe_review_purged:    'Avis purgé',
-  profile_data_viewed:     'Données de profil consultées',
-  profile_data_exported:   'Données de profil exportées',
-}
+// ── Noms et couleurs du mini-journal : le module partagé avec l'onglet
+// Journal (audit du 2026-10-04, ADM-06 — chaque écran avait sa table, et
+// elles se contredisaient).
 
 function fmtDate(str) {
   if (!str) return ''
@@ -85,13 +34,16 @@ function fmtDate(str) {
 // ── Quick Action card ─────────────────────────────────────────────────────────
 
 function QuickAction({ icon, label, count, color, onClick, darkMode }) {
-  const bg     = darkMode ? `${color}18` : `${color}12`
-  const border = `${color}33`
+  // Les couleurs arrivent en variables CSS : `${color}18` donnait une valeur
+  // invalide, et ni le fond ni la bordure n'apparaissaient (relevé avec la
+  // palette de l'admin, 2026-10-08).
+  const bg     = fondTeinte(color, darkMode ? 9 : 7)
+  const border = fondTeinte(color, 20)
   return (
     <Button
       variant="ghost"
       onClick={onClick}
-      onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-1px)'; e.currentTarget.style.boxShadow = `0 4px 12px ${color}22` }}
+      onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-1px)'; e.currentTarget.style.boxShadow = `0 4px 12px ${fondTeinte(color, 13)}` }}
       onMouseLeave={e => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = 'none' }}
       className="h-auto justify-start rounded-[10px] border-[1.5px] px-3.5 py-2.5 text-left hover:bg-transparent"
       style={{
@@ -102,11 +54,11 @@ function QuickAction({ icon, label, count, color, onClick, darkMode }) {
         transition: 'transform 0.12s, box-shadow 0.12s',
       }}
     >
-      <span style={{ width:32, height:32, borderRadius:8, background:`${color}22`, color, display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
+      <span style={{ width:32, height:32, borderRadius:8, background: fondTeinte(color, 13), color, display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
         {icon}
       </span>
       <div style={{ flex:1, minWidth:0 }}>
-        <div style={{ fontSize:13, fontWeight:700, color }}>{count} {label}</div>
+        <div style={{ fontSize:13, fontWeight:700, color: texteLisible(color) }}>{count} {label}</div>
       </div>
       <LuArrowRight size={14} style={{ color, flexShrink:0, opacity:0.7 }} />
     </Button>
@@ -117,21 +69,18 @@ function QuickAction({ icon, label, count, color, onClick, darkMode }) {
 
 export default function Dashboard({ lang = 'fr', darkMode = false }) {
   const t = ADMIN_I18N[lang] ?? ADMIN_I18N.fr
-  const { stats, statsLoading, refreshStats, setSection, pendingCount, supportBadge, healthCount, reportsCount } = useAdmin()
+  const { stats, statsLoading, statsError, refreshStats, setSection, pendingCount, supportBadge, healthCount, reportsCount } = useAdmin()
 
   const [recentLogs,    setRecentLogs]    = useState([])
-  const [logsLoading,   setLogsLoading]   = useState(false)
   const [refreshKey,    setRefreshKey]    = useState(0)
 
-  const loadLogs = useCallback(async () => {
-    setLogsLoading(true)
-    const { data } = await adminGetLogs(0)
+  // `useReloader` : un `finally` (un chargement bloqué grisait aussi « Actualiser »)
+  // et l'échec dit, au lieu d'« Aucune activité » (audit ADM-08, ADM-09).
+  const { loading: logsLoading, error: logsError, reload: loadLogs } = useReloader(async (estObsolete) => {
+    const { data } = leverSiErreur(await adminGetLogs(0))
+    if (estObsolete()) return
     setRecentLogs((data ?? []).slice(0, 10))
-    setLogsLoading(false)
   }, [])
-
-  // eslint-disable-next-line react-hooks/set-state-in-effect
-  useEffect(() => { loadLogs() }, [loadLogs])
 
   function handleRefresh() {
     refreshStats()
@@ -143,7 +92,9 @@ export default function Dashboard({ lang = 'fr', darkMode = false }) {
   const fg       = darkMode ? 'var(--color-bg-warm)' : '#2C1A0E'
   const border   = darkMode ? 'var(--color-dark-border)' : 'var(--color-border-warm)'
   const cardBg   = darkMode ? '#1A2F48' : '#FFFFFF'
-  const groupLbl = darkMode ? '#4A6080' : '#9A8070'
+  // Titres de groupe : le jeton atténué, lisible dans les deux thèmes (audit
+  // A11Y-03 : #9A8070 à 3,5:1 en clair, #4A6080 à 2,1-2,6:1 en sombre).
+  const groupLbl = 'var(--color-muted)'
 
   const isFr = lang === 'fr'
 
@@ -171,8 +122,7 @@ export default function Dashboard({ lang = 'fr', darkMode = false }) {
           className="h-auto flex-shrink-0 rounded-lg border bg-transparent px-3 py-1.5 text-xs font-semibold hover:bg-transparent"
           style={{ gap: 6, borderColor: border, color: fg }}
         >
-          <LuRefreshCw size={13} style={{ animation: (statsLoading || logsLoading) ? 'spin 1s linear infinite' : 'none' }} />
-          <style>{`@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}`}</style>
+          <LuRefreshCw size={13} className={(statsLoading || logsLoading) ? 'animate-spin' : undefined} />
           {t.refresh}
         </Button>
       </div>
@@ -195,13 +145,18 @@ export default function Dashboard({ lang = 'fr', darkMode = false }) {
       )}
 
       {/* ── KPI Grid ── */}
-      <div style={{ display:'grid', gap:10, gridTemplateColumns:'repeat(3, 1fr)' }}>
+      {statsError && (
+        <ChargementRate message={isFr ? 'Les compteurs n\'ont pas pu être chargés.' : 'The counters could not be loaded.'} error={statsError} onRetry={refreshStats} lang={lang} />
+      )}
+      {/* Deux colonnes sous 640 px : à trois, une carte faisait 99 px et ses
+          libellés débordaient (« UTILISATEURS » : 82 px pour 29). */}
+      <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3">
         <StatCard icon={<LuUsers size={15}/>}       label={t.kpiUsers}          value={stats.usersCount ?? '—'}       accent="#5A7AAA" loading={statsLoading} darkMode={darkMode} onClick={() => setSection('users')} />
         <StatCard icon={<LuChefHat size={15}/>}     label={t.kpiRecipesPending} value={stats.recipesPending ?? '—'}   accent="var(--color-brand-500)" loading={statsLoading} darkMode={darkMode} onClick={() => setSection('recipes')} />
         <StatCard icon={<LuMessageSquare size={15}/>} label={t.kpiTicketsOpen}  value={stats.ticketsOpen ?? '—'}      accent="var(--color-info)" loading={statsLoading} darkMode={darkMode} onClick={() => setSection('support')} />
         <StatCard icon={<LuCarrot size={15}/>}      label={t.kpiIngredients}    value={stats.ingredientsCount ?? '—'} accent="#5A8A4A" loading={statsLoading} darkMode={darkMode} onClick={() => setSection('ingredients')} />
         <StatCard icon={<LuDatabase size={15}/>}    label={t.kpiBaseRecipes}    value={stats.baseRecipesCount ?? '—'} accent="#7C5CAF" loading={statsLoading} darkMode={darkMode} onClick={() => setSection('base')} />
-        <StatCard icon={<LuBan size={15}/>}         label={isFr ? 'Signalements' : 'Reports'} value={reportsCount ?? '—'} accent="var(--color-danger)" loading={statsLoading} darkMode={darkMode} onClick={() => setSection('reports')} />
+        <StatCard icon={<LuBan size={15}/>}         label={isFr ? 'Signalements' : 'Reports'} value={statsError ? '—' : (reportsCount ?? '—')} accent="var(--color-danger)" loading={statsLoading} darkMode={darkMode} onClick={() => setSection('reports')} />
       </div>
 
       {/* ── Activité récente ── */}
@@ -222,7 +177,7 @@ export default function Dashboard({ lang = 'fr', darkMode = false }) {
                 onClick={() => setSection('journal')}
                 onMouseEnter={e => e.currentTarget.style.color = 'var(--color-brand-500)'}
                 onMouseLeave={e => e.currentTarget.style.color = muted}
-                className="h-auto rounded-none bg-transparent p-0 text-[10px] hover:bg-transparent"
+                className="h-auto min-h-6 rounded-none bg-transparent px-1 py-0 text-[10px] hover:bg-transparent"
                 style={{ gap: 3, color: muted }}
               >
                 {isFr ? 'Tout voir' : 'See all'} <LuArrowRight size={10} />
@@ -233,6 +188,8 @@ export default function Dashboard({ lang = 'fr', darkMode = false }) {
           <div style={{ background:cardBg, border:`1px solid ${border}`, borderRadius:10, overflowY:'auto', flex:1 }}>
             {logsLoading ? (
               <div style={{ padding:'12px', textAlign:'center', color:muted, fontSize:12 }}>…</div>
+            ) : logsError ? (
+              <div style={{ padding:'0 12px' }}><ChargementRate error={logsError} onRetry={loadLogs} lang={lang} /></div>
             ) : recentLogs.length === 0 ? (
               <div style={{ padding:'12px', textAlign:'center', color:muted, fontSize:12, fontStyle:'italic' }}>
                 {isFr ? 'Aucune activité' : 'No activity'}
@@ -240,13 +197,14 @@ export default function Dashboard({ lang = 'fr', darkMode = false }) {
             ) : (
               <div>
                 {recentLogs.map((log, i) => {
-                  const color = ACTION_COLORS[log.action] ?? muted
-                  const label = ACTION_LABELS_FR[log.action] ?? log.action
+                  const fiche = LIBELLES_DU_JOURNAL[log.action]
+                  const color = fiche?.color ?? muted
+                  const label = fiche?.label ?? log.action
                   return (
                     <div key={log.id}
                       style={{ display:'flex', alignItems:'center', gap:7, padding:'6px 10px', borderBottom: i < recentLogs.length - 1 ? `1px solid ${border}` : 'none' }}>
                       <span style={{ width:5, height:5, borderRadius:'50%', background:color, flexShrink:0 }} />
-                      <div style={{ flex:1, minWidth:0, overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap', fontSize:11, fontWeight:600, color }}>{label}</div>
+                      <div style={{ flex:1, minWidth:0, overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap', fontSize:11, fontWeight:600, color: texteLisible(color) }}>{label}</div>
                       <div style={{ fontSize:10, color:muted, flexShrink:0 }}>{fmtDate(log.created_at)}</div>
                     </div>
                   )

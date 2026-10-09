@@ -17,7 +17,7 @@
 // admin actif, workflow JSON déjà bien documenté. La BDD ajouterait migration
 // SQL + RLS + sync sans bénéfice notable.
 
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState, useId } from 'react'
 import { createPortal } from 'react-dom'
 import { LuSearch, LuPackage, LuLanguages, LuCheck, LuMinus, LuPencil, LuDownload, LuRotateCcw } from 'react-icons/lu'
 import { useIngredients } from '@shared/contexts/data-provider'
@@ -32,7 +32,7 @@ import Button from '@shared/ui/button'
 const I18N = {
   fr: {
     title: 'Pricing — vue d\'ensemble',
-    searchPlaceholder: 'Rechercher un ingrédient…',
+    searchLabel: 'Rechercher un ingrédient',
     allSubcats: 'Toutes les sous-catégories',
     metaYear: 'Année',
     metaUpdated: 'Dernière mise à jour',
@@ -51,14 +51,14 @@ const I18N = {
     download: 'Télécharger pricing.json',
     reset: 'Réinitialiser',
     confirmReset: 'Annuler toutes les modifications non sauvegardées ?',
-    workflowHint: 'Après téléchargement, remplace `src/data/pricing/2026.json` dans le repo et commit pour appliquer les modifications.',
+    workflowHint: 'Après téléchargement, remplace `src/shared/static/pricing/2026.json` dans le repo et commit pour appliquer les modifications.',
     srSaved: 'Modifications enregistrées pour {{label}}.',
     srReset: 'Toutes les modifications ont été annulées.',
     srDownloaded: 'Fichier {{filename}} téléchargé.',
   },
   en: {
     title: 'Pricing — overview',
-    searchPlaceholder: 'Search an ingredient…',
+    searchLabel: 'Search an ingredient',
     allSubcats: 'All subcategories',
     metaYear: 'Year',
     metaUpdated: 'Last updated',
@@ -77,7 +77,7 @@ const I18N = {
     download: 'Download pricing.json',
     reset: 'Reset',
     confirmReset: 'Discard all unsaved changes?',
-    workflowHint: 'After download, replace `src/data/pricing/2026.json` in the repo and commit to apply changes.',
+    workflowHint: 'After download, replace `src/shared/static/pricing/2026.json` in the repo and commit to apply changes.',
     srSaved: 'Changes saved for {{label}}.',
     srReset: 'All changes have been reset.',
     srDownloaded: 'File {{filename}} downloaded.',
@@ -91,6 +91,7 @@ export default function PricingSection({ lang = 'fr', darkMode = false }) {
   const ingredientsByCat = useIngredients()
 
   const [query, setQuery] = useState('')
+  const rechercheId = useId()
   const [subcatFilter, setSubcatFilter] = useState('all')
 
   // Édition en mémoire. `edits` est un Map { id: newPacksByLang }
@@ -237,7 +238,9 @@ export default function PricingSection({ lang = 'fr', darkMode = false }) {
   // Couleurs adaptatives.
   const bg     = darkMode ? '#0E1420' : '#FFFFFF'
   const fg     = darkMode ? 'var(--color-bg-warm)' : '#2C1A0E'
-  const muted  = darkMode ? 'rgba(240,232,220,0.6)' : 'rgba(44,26,14,0.55)'
+  // Le jeton atténué commun : rgba(44,26,14,0.55) donnait #8B817A sur blanc,
+  // 3,8:1 — 31 cellules du tableau sous le seuil (audit A11Y-03, 2026-10-08).
+  const muted  = 'var(--color-muted)'
   const border = darkMode ? 'rgba(247,168,94,0.20)' : 'rgba(212,106,16,0.18)'
   const hover  = darkMode ? 'rgba(247,168,94,0.06)' : 'rgba(212,106,16,0.04)'
   const inputBg= darkMode ? '#1A2535' : '#FAF6EE'
@@ -289,23 +292,26 @@ export default function PricingSection({ lang = 'fr', darkMode = false }) {
 
       {/* ─── Filtres ─── */}
       <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
-        <div style={{
-          display: 'flex', alignItems: 'center', gap: '8px',
-          flex: '1 1 280px', minWidth: 0,
-          padding: '8px 12px', background: inputBg,
-          border: `1px solid ${border}`, borderRadius: '8px',
-        }}>
-          <LuSearch size={14} aria-hidden="true" style={{ color: muted, flexShrink: 0 }} />
-          <input
-            value={query}
-            onChange={e => setQuery(e.target.value)}
-            placeholder={t.searchPlaceholder}
-            aria-label={t.searchPlaceholder}
-            style={{
-              flex: 1, minWidth: 0, background: 'transparent', border: 'none', outline: 'none',
-              fontSize: '13px', color: fg, fontFamily: 'inherit',
-            }}
-          />
+        {/* Libellé visible à gauche du cadre (décision du 2026-10-06). */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flex: '1 1 280px', minWidth: 0 }}>
+          <label htmlFor={rechercheId} style={{ fontSize: '12px', fontWeight: 700, color: 'var(--color-muted)', whiteSpace: 'nowrap' }}>{t.searchLabel}</label>
+          <div style={{
+            display: 'flex', alignItems: 'center', gap: '8px',
+            flex: 1, minWidth: 0,
+            padding: '8px 12px', background: inputBg,
+            border: `1px solid ${border}`, borderRadius: '8px',
+          }}>
+            <LuSearch size={14} aria-hidden="true" style={{ color: muted, flexShrink: 0 }} />
+            <input
+              id={rechercheId}
+              value={query}
+              onChange={e => setQuery(e.target.value)}
+              style={{
+                flex: 1, minWidth: 0, background: 'transparent', border: 'none', outline: 'none',
+                fontSize: '13px', color: fg, fontFamily: 'inherit',
+              }}
+            />
+          </div>
         </div>
         <select
           value={subcatFilter}

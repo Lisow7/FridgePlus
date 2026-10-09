@@ -2,9 +2,10 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 
 // vi.hoisted évite le problème de hoisting de vi.mock
 const mockFrom = vi.hoisted(() => vi.fn())
+const mockRpc = vi.hoisted(() => vi.fn())
 
 vi.mock('@shared/lib/supabase/client', () => ({
-  supabase: { from: mockFrom },
+  supabase: { from: mockFrom, rpc: mockRpc },
 }))
 
 import {
@@ -20,6 +21,7 @@ function chain(returnValue) {
     insert:  vi.fn().mockReturnThis(),
     update:  vi.fn().mockReturnThis(),
     eq:      vi.fn().mockReturnThis(),
+    neq:     vi.fn().mockReturnThis(),
     in:      vi.fn().mockReturnThis(),
     order:   vi.fn().mockReturnThis(),
     single:  vi.fn().mockResolvedValue(returnValue),
@@ -31,7 +33,7 @@ function chain(returnValue) {
 }
 
 describe('Backend — support.js', () => {
-  beforeEach(() => mockFrom.mockReset())
+  beforeEach(() => { mockFrom.mockReset(); mockRpc.mockReset() })
 
   // ─── getUserTickets ──────────────────────────────────────────────────────
   describe('getUserTickets', () => {
@@ -60,27 +62,26 @@ describe('Backend — support.js', () => {
         { id: 'm2', is_admin: true,  content: 'Réponse', created_at: '2026-01-02' },
       ]
       mockFrom.mockReturnValue(chain({ data: msgs, error: null }))
-      const result = await getTicketMessages('ticket-1')
-      expect(result).toHaveLength(2)
-      expect(result[1].is_admin).toBe(true)
+      // `{ messages, error }` depuis le 2026-10-05 : un échec ne se confond plus
+      // avec un ticket sans message (audit ADM-08).
+      const { messages, error } = await getTicketMessages('ticket-1')
+      expect(error).toBeNull()
+      expect(messages).toHaveLength(2)
+      expect(messages[1].is_admin).toBe(true)
     })
 
-    it('retourne [] si aucun message', async () => {
+    it('aucun message : une liste vide, sans erreur', async () => {
       mockFrom.mockReturnValue(chain({ data: [], error: null }))
-      expect(await getTicketMessages('ticket-vide')).toEqual([])
+      expect(await getTicketMessages('ticket-vide')).toEqual({ messages: [], error: null })
     })
   })
 
   // ─── createTicket ────────────────────────────────────────────────────────
   describe('createTicket', () => {
+    // Depuis le 2026-10-05 : ticket + question d'un seul coup (`ouvrir_ticket`).
     it('crée un ticket et retourne son id', async () => {
-      const countChain  = chain({ count: 0, error: null })
-      const insertChain = { ...chain(null), single: vi.fn().mockResolvedValue({ data: { id: 'new-t' }, error: null }) }
-      const msgChain    = chain({ data: null, error: null })
-      mockFrom
-        .mockReturnValueOnce(countChain)
-        .mockReturnValueOnce(insertChain)
-        .mockReturnValueOnce(msgChain)
+      mockFrom.mockReturnValue(chain({ count: 0, error: null }))
+      mockRpc.mockResolvedValue({ data: 'new-t', error: null })
       const result = await createTicket('user-1', { type: 'question', title: 'T', message: 'M' })
       expect(result.error).toBeNull()
       expect(result.data?.id).toBe('new-t')
@@ -104,20 +105,15 @@ describe('Backend — support.js', () => {
     // cette traduction, l'UI — qui teste `message === 'max_tickets_reached'` —
     // afficherait « new row violates row-level security policy » à l'utilisateur.
     it('traduit le refus 42501 de la policy RLS en max_tickets_reached', async () => {
-      const countChain  = chain({ count: 2, error: null })
-      const insertChain = {
-        ...chain(null),
-        single: vi.fn().mockResolvedValue({ data: null, error: { code: '42501', message: 'new row violates row-level security policy' } }),
-      }
-      mockFrom.mockReturnValueOnce(countChain).mockReturnValueOnce(insertChain)
+      mockFrom.mockReturnValue(chain({ count: 2, error: null }))
+      mockRpc.mockResolvedValue({ data: null, error: { code: '42501', message: 'new row violates row-level security policy' } })
       const { error } = await createTicket('user-1', { type: 'question', title: 'T', message: 'M' })
       expect(error?.message).toBe('max_tickets_reached')
     })
 
-    it('retourne error si insert échoue', async () => {
-      const countChain  = chain({ count: 1, error: null })
-      const insertChain = { ...chain(null), single: vi.fn().mockResolvedValue({ data: null, error: { message: 'DB error' } }) }
-      mockFrom.mockReturnValueOnce(countChain).mockReturnValueOnce(insertChain)
+    it('retourne error si la création échoue', async () => {
+      mockFrom.mockReturnValue(chain({ count: 1, error: null }))
+      mockRpc.mockResolvedValue({ data: null, error: { message: 'DB error' } })
       const result = await createTicket('user-1', { type: 'report', title: 'B', message: 'M' })
       expect(result.error).toBeTruthy()
     })
@@ -143,10 +139,10 @@ describe('Backend — support.js', () => {
 
   // ─── markTicketReadByUser ────────────────────────────────────────────────
   describe('markTicketReadByUser', () => {
-    it('appelle update({ has_unread_user: false })', async () => {
+    it('appelle update({ has_unread_user: false }) et rend son erreur', async () => {
       const c = chain({ error: null })
       mockFrom.mockReturnValue(c)
-      await markTicketReadByUser('ticket-1')
+      expect(await markTicketReadByUser('ticket-1')).toEqual({ error: null })
       expect(c.update).toHaveBeenCalledWith({ has_unread_user: false })
       expect(c.eq).toHaveBeenCalledWith('id', 'ticket-1')
     })
@@ -177,15 +173,16 @@ describe('Backend — support.js', () => {
 
   // ─── adminReplyTicket ────────────────────────────────────────────────────
   describe('adminReplyTicket', () => {
-    it('insère le message admin et met le ticket en in_progress + has_unread_user', async () => {
+    // Depuis le 2026-10-05, le ticket (« en cours », « non lu par l'utilisateur »)
+    // est mis à jour par la base dans la même transaction que le message
+    // (déclencheur `trg_ticket_repondu`) : le navigateur n'écrit que le message.
+    it('insère le message admin, et rien d’autre : la base met le ticket à jour', async () => {
       const insertChain = chain({ error: null })
-      const updateChain = chain({ error: null })
-      mockFrom.mockReturnValueOnce(insertChain).mockReturnValueOnce(updateChain)
+      mockFrom.mockReturnValueOnce(insertChain)
       const { error } = await adminReplyTicket('ticket-1', 'admin-1', 'Réponse')
       expect(error).toBeNull()
-      expect(updateChain.update).toHaveBeenCalledWith(
-        expect.objectContaining({ has_unread_user: true, status: 'in_progress' })
-      )
+      expect(mockFrom).toHaveBeenCalledTimes(1)
+      expect(mockFrom).toHaveBeenCalledWith('support_messages')
     })
 
     it('is_admin = true pour un message admin', async () => {
@@ -201,8 +198,9 @@ describe('Backend — support.js', () => {
 
   // ─── adminSetTicketStatus ────────────────────────────────────────────────
   describe('adminSetTicketStatus', () => {
+    // L'écriture demande la ligne touchée (audit ADM-26) : `.select('id')` rend une ligne.
     it.each(['open', 'in_progress'])('accepte le statut "%s"', async (status) => {
-      const c = chain({ error: null })
+      const c = chain({ data: [{ id: 'ticket-1' }], error: null })
       mockFrom.mockReturnValue(c)
       const { error } = await adminSetTicketStatus('ticket-1', status)
       expect(error).toBeNull()
@@ -210,7 +208,7 @@ describe('Backend — support.js', () => {
     })
 
     it('accepte le statut "resolved" et efface has_unread_admin', async () => {
-      const c = chain({ error: null })
+      const c = chain({ data: [{ id: 'ticket-1' }], error: null })
       mockFrom.mockReturnValue(c)
       const { error } = await adminSetTicketStatus('ticket-1', 'resolved')
       expect(error).toBeNull()

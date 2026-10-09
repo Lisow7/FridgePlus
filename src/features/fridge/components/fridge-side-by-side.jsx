@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import DoorOpenHint from './door-open-hint'
 import { useIngredients } from '@shared/contexts/data-provider'
 import { SUBCATEGORY_COLORS } from '@shared/static/subcategory-colors'
 import FoodIcon from '@shared/ui/food-icon'
@@ -7,6 +6,7 @@ import { LuX } from 'react-icons/lu'
 import { useWindowWidth } from '@shared/hooks/use-window-width'
 import { isLeftoverExpired } from '@features/fridge/api/leftovers'
 import Button from '@shared/ui/button'
+import { compterEnStock } from '@features/fridge/lib/compter-en-stock'
 
 const COLORS = {
   freezer:   { bg: '#E8F4F8', text: '#5B9AAE' },
@@ -70,7 +70,7 @@ function CompartmentInterior({ c, openCompartmentId, setOpenCompartmentId, onSub
   const totalStock = isLeftovers
     ? leftovers.filter(l => !isLeftoverExpired(l.expires_at)).length
     : c.subcategories.reduce(
-        (sum, sub) => sum + (INGREDIENTS[sub.id] ?? []).filter(i => stock.has(i.id)).length, 0
+        (sum, sub) => sum + compterEnStock(INGREDIENTS, sub.id, stock), 0
       )
   const showExpiredBadge = isLeftovers && expiredLeftoversCount > 0
 
@@ -99,7 +99,7 @@ function CompartmentInterior({ c, openCompartmentId, setOpenCompartmentId, onSub
               {c.subcategories.map((sub, idx) => {
                 const subCount = (sub.id === 'today' || sub.id === 'thisweek')
                   ? getActiveCount(leftovers, sub.id)
-                  : (INGREDIENTS[sub.id] ?? []).filter(i => stock.has(i.id)).length
+                  : compterEnStock(INGREDIENTS, sub.id, stock)
                 const subColors = SUBCATEGORY_COLORS[sub.id] ?? colors
                 return (
                   <Button
@@ -139,7 +139,7 @@ function CompartmentInterior({ c, openCompartmentId, setOpenCompartmentId, onSub
               {c.subcategories.map((sub, idx) => {
                 const subCount = (sub.id === 'today' || sub.id === 'thisweek')
                   ? getActiveCount(leftovers, sub.id)
-                  : (INGREDIENTS[sub.id] ?? []).filter(i => stock.has(i.id)).length
+                  : compterEnStock(INGREDIENTS, sub.id, stock)
                 const subColors = SUBCATEGORY_COLORS[sub.id] ?? colors
                 return (
                   <Button
@@ -378,7 +378,7 @@ export default function FridgeSideBySide({ layout, lang = 'fr', onSubcategoryCli
                   {/* Libellé + logo du compartiment retirés de la porte FERMÉE :
                       ils réapparaissent à l'ouverture → doublon (la marque « Fridge+ »
                       + la poignée suffisent côté fermé). cf. audit i18n bilingue. */}
-                  <div style={{ position: 'absolute', right: '8px', top: '50%', transform: 'translateY(-50%)', width: '6px', height: '96px', borderRadius: '3px', background: 'linear-gradient(180deg, #F5A45A 0%, #E07820 100%)', boxShadow: '1px 0 4px rgba(0,0,0,0.18)' }} />
+                  <div className="fp-poignee" style={{ position: 'absolute', right: '8px', top: '50%', transform: 'translateY(-50%)', width: '6px', height: '96px', borderRadius: '3px', background: 'linear-gradient(180deg, #F5A45A 0%, #E07820 100%)', boxShadow: '1px 0 4px rgba(0,0,0,0.18)' }} />
                 </div>
               </div>
 
@@ -405,8 +405,7 @@ export default function FridgeSideBySide({ layout, lang = 'fr', onSubcategoryCli
                     <span style={{ fontSize: '16px', fontWeight: 700, color: 'var(--color-brand-500)' }}>+</span>
                   </div>
                   {/* Libellé + logo retirés de la porte FERMÉE (doublon à l'ouverture). */}
-                  <DoorOpenHint lang={lang} darkMode={darkMode} show={stock.size === 0} />
-                  <div style={{ position: 'absolute', left: '8px', top: '50%', transform: 'translateY(-50%)', width: '6px', height: '96px', borderRadius: '3px', background: 'linear-gradient(180deg, #F5A45A 0%, #E07820 100%)', boxShadow: '-1px 0 4px rgba(0,0,0,0.18)' }} />
+                  <div className="fp-poignee" style={{ position: 'absolute', left: '8px', top: '50%', transform: 'translateY(-50%)', width: '6px', height: '96px', borderRadius: '3px', background: 'linear-gradient(180deg, #F5A45A 0%, #E07820 100%)', boxShadow: '-1px 0 4px rgba(0,0,0,0.18)' }} />
                 </div>
               </div>
 

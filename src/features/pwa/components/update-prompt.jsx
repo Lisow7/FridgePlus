@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { LuRefreshCw, LuX } from 'react-icons/lu'
 import Button from '@shared/ui/button'
 import { Z_INDEX } from '@shared/lib/z-index'
-import { shouldCheckForUpdate } from '../lib/should-check-for-update'
+import { creerRetourDOnglet } from '../lib/au-retour-d-onglet'
 
 // Bandeau qui s'affiche quand vite-plugin-pwa détecte un service worker
 // avec une nouvelle version en attente. L'utilisateur clique pour
@@ -85,14 +85,13 @@ export default function UpdatePrompt({ lang = 'fr', darkMode = false }) {
 
             intervalId = setInterval(checkForUpdate, UPDATE_CHECK_INTERVAL_MS)
 
-            let lastVisibilityCheck = null
-            onVisibilityChange = () => {
-              if (document.visibilityState !== 'visible') return
-              const now = Date.now()
-              if (!shouldCheckForUpdate(lastVisibilityCheck, now, VISIBILITY_CHECK_THROTTLE_MS)) return
-              lastVisibilityCheck = now
-              checkForUpdate()
-            }
+            onVisibilityChange = creerRetourDOnglet({
+              registration,
+              verifier: checkForUpdate,
+              onVersionEnAttente: () => setNeedRefresh(true),
+              document,
+              delaiMs: VISIBILITY_CHECK_THROTTLE_MS,
+            })
             document.addEventListener('visibilitychange', onVisibilityChange)
           },
         })
@@ -170,7 +169,7 @@ export default function UpdatePrompt({ lang = 'fr', darkMode = false }) {
             // timer ne s'exécute jamais).
             setTimeout(() => window.location.reload(), 1500)
           }}
-          className="h-auto self-start rounded-lg bg-[#E07820] px-3.5 py-2 text-[13px] font-bold text-white"
+          className="h-auto self-start rounded-lg bg-[#B85000] px-3.5 py-2 text-[13px] font-bold text-white"
           style={{ gap: '6px' }}
         >
           <LuRefreshCw size={14} />

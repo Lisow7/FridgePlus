@@ -121,7 +121,7 @@ export default function RecipeSubstitutePopover({
             <span style={{
               display: 'inline-flex', alignItems: 'center', gap: '4px',
               padding: '3px 9px', borderRadius: '999px',
-              background: 'var(--gradient-warm)', color: '#fff',
+              background: 'var(--gradient-deep)', color: '#fff',
               fontSize: '10px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.06em',
             }}>
               <LuStar size={10} fill="#fff" color="#fff" />
@@ -146,7 +146,7 @@ export default function RecipeSubstitutePopover({
                 padding: '8px', borderRadius: '9px', textAlign: 'center',
                 background: 'rgba(212,106,16,0.10)',
                 border: '1px dashed rgba(212,106,16,0.4)',
-                color: 'var(--color-brand-600)', fontWeight: 800, fontSize: '13px',
+                color: 'var(--color-warm-text)', fontWeight: 800, fontSize: '13px',
               }}>
                 {t.comingSoon}
               </span>

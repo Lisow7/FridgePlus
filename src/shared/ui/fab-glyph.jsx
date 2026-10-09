@@ -17,7 +17,7 @@ export default function FabGlyph({ size = 16, className = '', style }) {
       style={{
         display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
         width: `${size}px`, height: `${size}px`, borderRadius: `${Math.round(size * 0.27)}px`,
-        background: 'var(--gradient-warm)', color: '#fff', verticalAlign: '-0.15em',
+        background: 'var(--gradient-deep)', color: '#fff', verticalAlign: '-0.15em',
         flexShrink: 0,
         ...style,
       }}

@@ -10,7 +10,7 @@
 //
 // RGPD : aucune donnée perso impliquée — c'est de la donnée de référence.
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useId } from 'react'
 import { LuX, LuCheck, LuPackage } from 'react-icons/lu'
 import { useFocusTrap } from '@shared/hooks/use-focus-trap'
 import { useCloseOnBackButton } from '@shared/hooks/use-close-on-back-button'
@@ -22,7 +22,6 @@ const I18N = {
     cancel: 'Annuler',
     save: 'Enregistrer',
     noPacks: 'Aucun pack défini pour cet ingrédient.',
-    pricePlaceholder: 'Prix',
     helpHint: 'Tu modifies uniquement les prix. Les tailles et unités ne sont pas éditables ici (rare, à faire dans le code source).',
     invalidPrice: 'Prix invalide',
   },
@@ -31,7 +30,6 @@ const I18N = {
     cancel: 'Cancel',
     save: 'Save',
     noPacks: 'No packs defined for this ingredient.',
-    pricePlaceholder: 'Price',
     helpHint: 'You can only edit prices. Sizes and units are not editable here (rare changes, made in source code).',
     invalidPrice: 'Invalid price',
   },
@@ -51,6 +49,10 @@ const CURRENCY = { fr: '€', en: '£', }
 export default function PricingEditModal({ ingredient, currentPacks, onSave, onClose, lang = 'fr', darkMode = false }) {
   const t = I18N[lang] ?? I18N.fr
   const containerRef = useRef(null)
+  // Noms des champs de prix = ce que l'écran montre (décision du
+  // 2026-10-06) : l'en-tête de la langue nomme le groupe, le format écrit à
+  // gauche nomme le champ.
+  const baseId = useId()
   useFocusTrap(containerRef, { active: true, onEscape: onClose })
   useCloseOnBackButton(true, onClose)
 
@@ -119,7 +121,7 @@ export default function PricingEditModal({ ingredient, currentPacks, onSave, onC
         style={{
           background: bg, color: fg,
           border: `1px solid ${border}`, borderRadius: '12px',
-          maxWidth: '720px', width: '100%', maxHeight: '90vh',
+          maxWidth: '720px', width: '100%', maxHeight: '90dvh',
           display: 'flex', flexDirection: 'column',
           boxShadow: '0 20px 60px rgba(0,0,0,0.4)',
         }}
@@ -166,10 +168,10 @@ export default function PricingEditModal({ ingredient, currentPacks, onSave, onC
             <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
               {LANGS.map(l => (
                 (packs[l]?.length > 0) && (
-                  <div key={l} style={{
+                  <div key={l} role="group" aria-labelledby={`${baseId}-${l}`} style={{
                     border: `1px solid ${border}`, borderRadius: '8px', padding: '10px 12px',
                   }}>
-                    <div style={{
+                    <div id={`${baseId}-${l}`} style={{
                       fontSize: '11px', fontWeight: 700, marginBottom: '8px',
                       color: 'var(--color-warm-600)', letterSpacing: '0.04em',
                     }}>
@@ -184,19 +186,18 @@ export default function PricingEditModal({ ingredient, currentPacks, onSave, onC
                             padding: '6px 8px',
                           }}>
                             <LuPackage size={12} aria-hidden="true" style={{ color: muted, flexShrink: 0 }} />
-                            <span style={{
+                            <label htmlFor={`${baseId}-${l}-${idx}`} style={{
                               minWidth: '70px', fontSize: '13px', fontWeight: 600,
                               fontFamily: 'monospace',
                             }}>
                               {p.size} {p.unit}
-                            </span>
+                            </label>
                             <input
+                              id={`${baseId}-${l}-${idx}`}
                               type="text"
                               inputMode="decimal"
                               value={Number.isFinite(p.price) ? p.price : ''}
                               onChange={e => handlePriceChange(l, idx, e.target.value)}
-                              aria-label={`${t.pricePlaceholder} ${p.size}${p.unit} ${l}`}
-                              placeholder={t.pricePlaceholder}
                               style={{
                                 flex: 1, maxWidth: '120px',
                                 padding: '6px 10px',

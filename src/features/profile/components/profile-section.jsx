@@ -42,6 +42,24 @@ export default function ProfileSection({
     ? (darkMode ? 'rgba(220,38,38,0.04)' : 'rgba(220,38,38,0.03)')
     : (darkMode ? 'rgba(255,255,255,0.02)' : 'rgba(255,255,255,0.40)')
 
+  // Dépliable : le titre porte un VRAI bouton (`<h2><button aria-expanded>`),
+  // et non un `<header role="button">` qui contenait le titre — rôle interdit
+  // sur `header`, et un bouton aplatit le titre qu'il contient (audit A11Y-19).
+  // Le clic n'importe où sur l'en-tête déplie aussi (souris) : le bouton
+  // arrête la propagation pour ne pas déplier deux fois.
+  const titre = collapsible
+    ? (
+      <button
+        type="button"
+        aria-expanded={open}
+        onClick={(e) => { e.stopPropagation(); setOpen((v) => !v) }}
+        style={{ background: 'none', border: 0, padding: 0, margin: 0, font: 'inherit', color: 'inherit', textAlign: 'left', cursor: 'pointer', width: '100%' }}
+      >
+        {title}
+      </button>
+    )
+    : title
+
   const headerInner = (
     <>
       <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
@@ -50,7 +68,7 @@ export default function ProfileSection({
             width: '32px', height: '32px', borderRadius: '8px',
             background: tone === 'danger'
               ? 'linear-gradient(135deg, #EF4444 0%, #B91C1C 100%)'
-              : 'var(--gradient-warm)',
+              : 'var(--gradient-deep)',
             color: '#FFFFFF',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             flexShrink: 0,
@@ -65,7 +83,7 @@ export default function ProfileSection({
           color: tone === 'danger' ? '#DC2626' : textColor,
           flex: 1,
         }}>
-          {title}
+          {titre}
         </h2>
         {badge && <ProfileSectionBadge variant={badge} lang={lang} />}
         {collapsible && (
@@ -111,20 +129,10 @@ export default function ProfileSection({
     return (
       <section style={containerStyle}>
         <header
-          role="button"
-          tabIndex={0}
-          aria-expanded={open}
           onClick={() => setOpen((v) => !v)}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
-              e.preventDefault()
-              setOpen((v) => !v)
-            }
-          }}
           style={{
             display: 'flex', flexDirection: 'column', gap: '6px',
             cursor: 'pointer',
-            outline: 'none',
             userSelect: 'none',
           }}
         >

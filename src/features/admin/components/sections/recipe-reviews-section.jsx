@@ -7,14 +7,19 @@ import {
 } from '@features/admin/api/recipe-reviews-admin'
 import { ConfirmDeleteModal } from '@shared/ui/confirm-dialog/confirm-modals'
 import FeedbackBanner from '../shared/feedback-banner'
+import ChargementRate from '../shared/chargement-rate'
 import SearchInput from '../shared/search-input'
 import BulkActionBar from '../shared/bulk-action-bar'
+import CaseDeSelection from '../shared/case-de-selection'
 import { appliquerEnLot, messageDeLot } from '@features/admin/lib/appliquer-en-lot'
 import { useSelection } from '@features/admin/hooks/use-selection'
 import Button from '@shared/ui/button'
+import { useDialogue } from '@shared/hooks/use-dialogue'
 import FilterPill from '@shared/ui/filter-pill'
 import EmptyState from '@shared/ui/empty-state'
 import { useReloader } from '@shared/hooks/use-reloader'
+import { useDebouncedValue } from '@shared/hooks/use-debounced-value'
+import { texteLisible } from '@shared/lib/couleurs/texte-lisible'
 
 const STATUS_FILTERS = [
   { key: 'active',        label: 'Actifs' },
@@ -34,7 +39,7 @@ function StarFilter({ value, onChange }) {
         style={{
           borderColor: value === 0 ? 'var(--color-brand-500)' : 'var(--color-border-warm)',
           background: value === 0 ? 'rgba(224,120,32,0.1)' : 'transparent',
-          color: value === 0 ? 'var(--color-brand-500)' : '#7A6A52',
+          color: value === 0 ? texteLisible('var(--color-brand-500)') : '#7A6A52',
         }}
       >
         Toutes
@@ -50,7 +55,7 @@ function StarFilter({ value, onChange }) {
             gap: 2,
             borderColor: value === n ? 'var(--color-brand-500)' : 'var(--color-border-warm)',
             background: value === n ? 'rgba(224,120,32,0.1)' : 'transparent',
-            color: value === n ? 'var(--color-brand-500)' : '#7A6A52',
+            color: value === n ? texteLisible('var(--color-brand-500)') : '#7A6A52',
           }}
         >
           {n} <LuStar size={10} fill={value === n ? 'var(--color-brand-500)' : 'none'} stroke="currentColor" />
@@ -74,6 +79,8 @@ export default function RecipeReviewsAdminSection({ darkMode = false }) {
   const [confirmHard,  setConfirmHard]  = useState(null)
   const [confirmBulkSoft, setConfirmBulkSoft] = useState(false)
   const sel = useSelection()
+  // Une vraie boîte de dialogue : rôle, nom, focus piégé, Échap (A11Y-01).
+  const dialogueAction = useDialogue({ onClose: () => setActionReview(null), actif: !!actionReview && !confirmHard })
 
   const fg      = darkMode ? 'var(--color-bg-warm)' : '#2C1A0E'
   const muted   = darkMode ? '#A0A8B8' : '#7A6A52'
@@ -83,14 +90,16 @@ export default function RecipeReviewsAdminSection({ darkMode = false }) {
   // `useReloader` garantit le `finally` (sans lui, une erreur réseau laissait
   // le voyant allumé pour toujours) et périme les réponses en retard : sans ça,
   // enchaîner deux filtres laissait la plus ancienne écraser la plus récente.
-  const { loading, reload } = useReloader(async (estObsolete) => {
+  // Une requête quand on cesse de taper, pas une par frappe (audit ADM-09).
+  const rechercheStable = useDebouncedValue(search)
+  const { loading, error, reload } = useReloader(async (estObsolete) => {
     const [r, t] = await Promise.all([
-      adminListReviews({ status, search, limit: 100 }),
+      adminListReviews({ status, search: rechercheStable, limit: 100 }),
       adminListReviewReports({ limit: 100 }),
     ])
     if (estObsolete()) return
     setReviews(r); setReports(t)
-  }, [status, search])
+  }, [status, rechercheStable])
 
   const reportsByReview = useMemo(() => reports.reduce((acc, r) => {
     acc[r.target_id] = (acc[r.target_id] ?? 0) + 1
@@ -142,13 +151,8 @@ export default function RecipeReviewsAdminSection({ darkMode = false }) {
 
       <FeedbackBanner feedback={feedback} />
 
-      {status === 'active' && (
-        <BulkActionBar count={sel.count} lang="fr" darkMode={darkMode} onClear={sel.clear}
-          actions={[{ label: 'Masquer la sélection', onClick: () => setConfirmBulkSoft(true), danger: true }]} />
-      )}
-
       {reports.length > 0 && (
-        <div style={{ padding: '8px 12px', borderRadius: 8, background: 'rgba(208,96,96,0.08)', color: '#D06060', fontSize: 12, fontWeight: 600 }}>
+        <div style={{ padding: '8px 12px', borderRadius: 8, background: 'rgba(208,96,96,0.08)', color: texteLisible('#D06060'), fontSize: 12, fontWeight: 600 }}>
           🚩 {reports.length} signalement{reports.length > 1 ? 's' : ''} ouvert{reports.length > 1 ? 's' : ''} sur des avis
         </div>
       )}
@@ -168,7 +172,7 @@ export default function RecipeReviewsAdminSection({ darkMode = false }) {
           </FilterPill>
         ))}
         <div style={{ flex: 1 }} />
-        <SearchInput value={search} onChange={setSearch} placeholder="Rechercher commentaires…" darkMode={darkMode} width={200} />
+        <SearchInput value={search} onChange={setSearch} label="Rechercher un commentaire" darkMode={darkMode} width={200} />
         <Button
           variant="ghost"
           size="icon"
@@ -187,6 +191,8 @@ export default function RecipeReviewsAdminSection({ darkMode = false }) {
       {/* Liste */}
       {loading ? (
         <p style={{ color: muted, fontStyle: 'italic' }}>Chargement…</p>
+      ) : error ? (
+        <ChargementRate error={error} onRetry={reload} />
       ) : filteredReviews.length === 0 ? (
         <EmptyState muted={muted}>Aucun avis pour ce filtre.</EmptyState>
       ) : (
@@ -201,8 +207,7 @@ export default function RecipeReviewsAdminSection({ darkMode = false }) {
                 {/* Ligne méta */}
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
                   {status === 'active' && (
-                    <input type="checkbox" checked={sel.isSelected(r.id)} onChange={() => sel.toggle(r.id)}
-                      aria-label="Sélectionner cet avis" style={{ flexShrink: 0, width: 15, height: 15, cursor: 'pointer' }} />
+                    <CaseDeSelection cochee={sel.isSelected(r.id)} onBasculer={() => sel.toggle(r.id)} nom="Sélectionner cet avis" />
                   )}
                   <span style={{ display: 'inline-flex', gap: '1px', color: 'var(--color-brand-500)' }}>
                     {[1, 2, 3, 4, 5].map(n => (
@@ -263,13 +268,18 @@ export default function RecipeReviewsAdminSection({ darkMode = false }) {
         </ul>
       )}
 
+      {status === 'active' && (
+        <BulkActionBar count={sel.count} lang="fr" darkMode={darkMode} onClear={sel.clear}
+          actions={[{ label: 'Masquer la sélection', onClick: () => setConfirmBulkSoft(true), danger: true }]} />
+      )}
+
       {/* Modale raison (masquage) */}
       {actionReview && !confirmHard && (
         <div onClick={() => setActionReview(null)}
           style={{ position: 'fixed', inset: 0, zIndex: 80, background: 'rgba(0,0,0,0.55)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '16px' }}>
-          <div onClick={e => e.stopPropagation()}
+          <div {...dialogueAction.proprietes} onClick={e => e.stopPropagation()}
             style={{ width: '100%', maxWidth: '440px', background: darkMode ? '#0F1925' : '#FDFAF6', color: fg, borderRadius: '14px', padding: '20px', display: 'flex', flexDirection: 'column', gap: '12px', boxShadow: '0 12px 40px rgba(0,0,0,0.40)' }}>
-            <h4 style={{ margin: 0, fontSize: '15px', fontWeight: 800 }}>Masquer cet avis</h4>
+            <h4 id={dialogueAction.titreId} style={{ margin: 0, fontSize: '15px', fontWeight: 800 }}>Masquer cet avis</h4>
             <p style={{ margin: 0, fontSize: '12px', color: muted }}>
               <strong>{actionReview.review.rating}/5</strong> par {actionReview.review.profile?.username ?? '—'} — {actionReview.review.recipe_id}
             </p>

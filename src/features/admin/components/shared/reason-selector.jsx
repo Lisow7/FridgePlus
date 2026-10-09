@@ -14,6 +14,9 @@
 //
 // Chaque clé = sous-clé i18n traduite côté composant appelant.
 
+import { RAISON_DETAILS_MAX } from '@shared/lib/longueurs-maximales'
+import Field from '@shared/ui/field'
+
 const REASONS = {
   'recipe-moderation': [
     'spam',
@@ -132,12 +135,11 @@ export default function ReasonSelector({
   const border = darkMode ? 'var(--color-dark-border)' : '#D4C8B5'
   const inputBg = darkMode ? '#1A2F48' : '#FFFFFF'
 
+  const libelle = { fontSize: 12, fontWeight: 700, color: muted, display: 'block', marginBottom: 5, textTransform: 'uppercase', letterSpacing: '0.04em' }
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-      <div>
-        <label style={{ fontSize: 12, fontWeight: 700, color: muted, display: 'block', marginBottom: 5, textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-          {lang === 'fr' ? 'Raison' : 'Reason'} {required && '*'}
-        </label>
+      <Field label={<>{lang === 'fr' ? 'Raison' : 'Reason'} {required && '*'}</>} labelStyle={libelle}>
         <select
           value={value ?? ''}
           onChange={e => onChange?.(e.target.value)}
@@ -152,26 +154,24 @@ export default function ReasonSelector({
             <option key={key} value={key}>{getLabel(key, lang)}</option>
           ))}
         </select>
-      </div>
+      </Field>
 
       {/* Champ détails — apparaît si raison choisie ou « Autre » sélectionné */}
       {value && (
-        <div>
-          <label style={{ fontSize: 12, fontWeight: 700, color: muted, display: 'block', marginBottom: 5, textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-            {lang === 'fr' ? 'Détails' : 'Details'} {value === 'other' && '*'}
-          </label>
+        <Field label={<>{lang === 'fr' ? 'Détails' : 'Details'} {value === 'other' && '*'}</>} labelStyle={libelle}>
           <textarea
             value={details}
             onChange={e => onDetailsChange?.(e.target.value)}
             placeholder={lang === 'fr' ? 'Précisions (optionnel sauf si « Autre »)' : 'Details (optional unless « Other »)'}
             rows={2}
+            maxLength={RAISON_DETAILS_MAX}
             style={{
               width: '100%', padding: '10px 12px', borderRadius: 8,
               border: `1.5px solid ${border}`, background: inputBg, color: fg,
               fontSize: 13, fontFamily: 'inherit', resize: 'vertical',
             }}
           />
-        </div>
+        </Field>
       )}
     </div>
   )

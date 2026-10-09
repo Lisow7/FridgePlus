@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 import {
   installSupabaseMocks, assertNoUnmockedCalls,
-  mockUsernameAvailable, mockUsernameTaken, mockSignupSuccess, signupCalls,
+  mockUsernameAvailable, mockUsernameTaken, mockSignupSuccess, mockSignupRefusedByDatabase, signupCalls, signupBodies, rpcCalls,
   skipOnboardingOverlays, signedInAs, mockStockUpsert, stockUpserts,
 } from './support/supabase-mock.js'
 
@@ -69,8 +69,10 @@ test.describe('Funnel d\'activation', () => {
     await page.getByRole('checkbox').check()
     await page.getByRole('button', { name: /Creer mon compte|Créer mon compte/i }).click()
 
-    await expect(page.getByRole('alert')).toContainText(/deja pris|déjà pris/i)
+    await expect(page.getByRole('alert')).toContainText(/pas disponible/i)
     expect(signupCalls(page), 'le pseudo est verifie AVANT signUp').toBe(0)
+    // La question est posee a la fonction de la base, avec le pseudo saisi.
+    expect(rpcCalls(page, 'username_available').map((appel) => appel.args)).toEqual([{ p_username: 'Foodie_42' }])
   })
 
   test('une inscription valide invite a confirmer l\'e-mail', async ({ page }) => {
@@ -82,7 +84,38 @@ test.describe('Funnel d\'activation', () => {
     await page.getByRole('checkbox').check()
     await page.getByRole('button', { name: /Creer mon compte|Créer mon compte/i }).click()
 
-    await expect(page.getByRole('status')).toContainText(/boite de reception|boîte de réception/i)
+    // Le service repond la meme chose pour une adresse neuve et pour une
+    // adresse deja inscrite : l'ecran ne dit donc plus « Compte cree ! », il
+    // dit quoi faire dans les deux cas.
+    const reponse = page.getByRole('status')
+    await expect(reponse).toContainText(/ouvre l'e-mail/i)
+    await expect(reponse).not.toContainText(/compte cr[eé][eé]/i)
+    await expect(reponse).toContainText(/d[eé]j[aà] un compte/i)
+    // Un e-mail vient de partir : le renvoi attend une minute.
+    await expect(page.getByRole('button', { name: /renvoi possible dans/i })).toBeDisabled()
+    expect(signupCalls(page)).toBe(1)
+    // La case cochee part avec l'inscription : la base la date (preuve RGPD).
+    expect(signupBodies(page)[0]?.data).toMatchObject({ username: 'Foodie_42', consent_accepted: true })
+    assertNoUnmockedCalls(page)
+  })
+
+  // Lot 3c-3b : une adresse effacee pendant un bannissement est refusee par la
+  // base, et le service ne rend qu'un echec generique (500). « Reessaie plus
+  // tard » ferait reessayer sans fin : l'ecran mene au support.
+  test('une inscription refusee par le serveur mene au support', async ({ page }) => {
+    await mockUsernameAvailable(page)
+    await mockSignupRefusedByDatabase(page)
+    await page.goto('/FridgePlus/signup')
+
+    await fillSignupForm(page, { username: 'Foodie_42', email: 'a@b.co' })
+    await page.getByRole('checkbox').check()
+    await page.getByRole('button', { name: /Creer mon compte|Créer mon compte/i }).click()
+
+    const alerte = page.getByRole('alert')
+    await expect(alerte).toContainText('Ce compte n’a pas pu être créé.')
+    await expect(alerte).toContainText('support@fridgeplus.app')
+    await expect(alerte).not.toContainText(/plus tard/i)
+    await expect(page.getByRole('status')).toHaveCount(0)
     expect(signupCalls(page)).toBe(1)
     assertNoUnmockedCalls(page)
   })

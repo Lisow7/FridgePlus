@@ -1,7 +1,7 @@
 // Tests pour le composant <Emoji>.
 // Icons Overhaul P1 — extension prop `imageUrl` rétro-compat.
 
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, vi } from 'vitest'
 import { render } from '@testing-library/react'
 import Emoji from '../../shared/ui/emoji'
 
@@ -10,9 +10,9 @@ describe('<Emoji>', () => {
     render(<Emoji char="🍅" />)
     const img = document.querySelector('img')
     expect(img).toBeTruthy()
-    // Tomate est mappé dans FLUENT_EMOJI_MAP → URL Iconify
-    expect(img.src).toContain('iconify')
-    expect(img.src).toContain('tomato')
+    // Tomate est mappé dans FLUENT_EMOJI_MAP → image hébergée par le site
+    // (Iconify, avant le 2026-10-06 : voir emoji-sur-le-site.test.jsx)
+    expect(img.src).toContain('/emoji/fluent/tomato.svg')
   })
 
   it('fallback Twemoji pour les emojis non mappés dans Fluent', () => {
@@ -23,12 +23,17 @@ describe('<Emoji>', () => {
   })
 
   it('prop imageUrl prioritaire sur Fluent et Twemoji', () => {
-    const customUrl = 'https://example.com/custom-tomato.webp'
+    // L'image doit venir du stockage public du projet : un autre hôte est
+    // ignoré (voir trusted-image-url.test.jsx). Ce test utilisait
+    // `https://example.com/…` et figeait donc le défaut SEC-15.
+    vi.stubEnv('VITE_SUPABASE_URL', 'https://projet.supabase.co')
+    const customUrl = 'https://projet.supabase.co/storage/v1/object/public/avatars/custom-tomato.webp'
     render(<Emoji char="🍅" imageUrl={customUrl} />)
     const img = document.querySelector('img')
     expect(img.src).toBe(customUrl)
     expect(img.src).not.toContain('twemoji')
     expect(img.src).not.toContain('iconify')
+    vi.unstubAllEnvs()
   })
 
   it('lazy loading attribute présent pour perf', () => {

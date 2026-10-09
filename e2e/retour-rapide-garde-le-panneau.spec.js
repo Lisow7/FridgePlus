@@ -22,7 +22,7 @@ test('un retour immédiat depuis une recette garde le panneau Recettes ouvert', 
   await page.goBack()
 
   await expect(page).toHaveURL(/recettes=1/)
-  await expect(page.getByPlaceholder('Chercher une recette…')).toBeVisible()
+  await expect(page.getByLabel('Chercher une recette')).toBeVisible()
   await page.waitForTimeout(800)
   await expect(page).toHaveURL(/recettes=1/)
 })

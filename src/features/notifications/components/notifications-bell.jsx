@@ -52,7 +52,9 @@ export default function NotificationsBell({ lang = 'fr', darkMode = false, onNot
         <Button
           variant="ghost"
           onClick={() => setOpen(o => !o)}
-          aria-label={t.bellLabel}
+          // Le nombre de non lues est dans le nom du bouton : posé sur la
+          // pastille (un <span>), il n'était jamais annoncé (lot 9e).
+          aria-label={unreadCount > 0 ? `${t.bellLabel}, ${t.bellUnread(unreadCount)}` : t.bellLabel}
           aria-expanded={open}
           aria-haspopup="dialog"
           className="relative h-11 w-11 rounded-[11px] p-0 hover:bg-transparent"
@@ -75,7 +77,7 @@ export default function NotificationsBell({ lang = 'fr', darkMode = false, onNot
           <LuBell size={20} aria-hidden="true" />
           {unreadCount > 0 && (
             <span
-              aria-label={t.bellUnread(unreadCount)}
+              aria-hidden="true"
               style={{
                 position: 'absolute', top: '4px', right: '4px',
                 width: 9, height: 9, borderRadius: '50%',

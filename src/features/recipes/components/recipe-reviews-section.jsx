@@ -6,13 +6,18 @@ import AvatarImg from '@shared/ui/avatar-img'
 import Button from '@shared/ui/button'
 import { formatRelativeTime } from '@shared/lib/i18n/notifications-i18n'
 import {
-  listReviews, getMyReview, upsertReview, deleteReview, aggregateReviews, reportReview,
+  loadReviews, getMyReview, upsertReview, deleteReview, aggregateReviews,
 } from '@features/recipes/api/recipe-reviews'
+import ReviewReportModal from './recipe-review-report-modal'
+import LoadErrorNotice from '@shared/ui/load-error-notice'
+import { useSaveErrorToast } from '@shared/hooks/use-save-error-toast'
 import { getCommunityTermsAcceptedAt } from '@shared/api/community'
 import { moderateContent, submitPhotoPost } from '@shared/hooks/use-moderation'
 import { compressImageToBase64 } from '@shared/lib/media/compress-image'
 import leoProfanity from 'leo-profanity'
 import { useConfirm } from '@shared/ui/confirm-dialog/confirm-provider'
+import { authorName } from '@shared/lib/author-name'
+import Field from '@shared/ui/field'
 
 // Section « Avis » dans la modale recette.
 //
@@ -25,7 +30,7 @@ import { useConfirm } from '@shared/ui/confirm-dialog/confirm-provider'
 
 // ─── Composant Stars affiche / saisie ──────────────────────────────────
 
-function Stars({ value = 0, size = 16, onChange = null, color = 'var(--color-brand-500)', mutedColor = '#C0C0C0' }) {
+export function Stars({ value = 0, size = 16, onChange = null, color = 'var(--color-brand-500)', mutedColor = '#C0C0C0' }) {
   const [hover, setHover] = useState(0)
   const display = hover || value
   const interactive = !!onChange
@@ -35,7 +40,7 @@ function Stars({ value = 0, size = 16, onChange = null, color = 'var(--color-bra
   // parent, ex. header accordéon des avis) qui ne sert à rien sans onChange.
   if (!interactive) {
     return (
-      <div style={{ display: 'inline-flex', gap: '2px' }} aria-label={`${value}/5`}>
+      <div role="img" style={{ display: 'inline-flex', gap: '2px' }} aria-label={`${value}/5`}>
         {[1, 2, 3, 4, 5].map(n => (
           <span key={n} aria-hidden="true" style={{ color: n <= display ? color : mutedColor, display: 'inline-flex' }}>
             <LuStar size={size} fill={n <= display ? 'currentColor' : 'none'} strokeWidth={2.2} />
@@ -83,7 +88,13 @@ const RecipeReviewsSection = forwardRef(function RecipeReviewsSection(
   const { user } = useAuth()
   const confirm = useConfirm()
 
+  const signalerEchec = useSaveErrorToast()
+
+  // Trois états : `reviews === null` en cours, une liste (chargée), ou
+  // `loadError` — pas chargés, ce qui n'est PAS « pas encore d'avis ».
   const [reviews, setReviews] = useState(null)
+  const [loadError, setLoadError] = useState(false)
+  const [tentative, setTentative] = useState(0)
   const [myReview, setMyReview] = useState(null)
   const [termsAcceptedAt, setTermsAcceptedAt] = useState(null)
   const [showForm, setShowForm] = useState(false)
@@ -108,15 +119,16 @@ const RecipeReviewsSection = forwardRef(function RecipeReviewsSection(
     if (!recipeId || !recipeSource) return
     let cancelled = false
     Promise.all([
-      listReviews(recipeId, recipeSource),
+      loadReviews(recipeId, recipeSource),
       user?.id ? getMyReview(user.id, recipeId, recipeSource) : Promise.resolve(null),
       user?.id ? getCommunityTermsAcceptedAt(user.id) : Promise.resolve(null),
-    ]).then(([list, mine, termsAt]) => {
+    ]).then(([lus, mine, termsAt]) => {
       if (cancelled) return
-      setReviews(list); setMyReview(mine); setTermsAcceptedAt(termsAt)
-    })
+      if (lus.error) { setLoadError(true); return }
+      setReviews(lus.reviews); setMyReview(mine); setTermsAcceptedAt(termsAt); setLoadError(false)
+    }).catch(() => { if (!cancelled) setLoadError(true) })
     return () => { cancelled = true }
-  }, [recipeId, recipeSource, user?.id])
+  }, [recipeId, recipeSource, user?.id, tentative])
 
   const aggregate = aggregateReviews(reviews ?? [])
 
@@ -142,7 +154,11 @@ const RecipeReviewsSection = forwardRef(function RecipeReviewsSection(
   const handleDelete = async () => {
     if (!myReview) return
     if (!(await confirm({ title: t.deleteConfirm, danger: true }))) return
-    await deleteReview(myReview.id)
+    // L'avis ne quitte l'écran que si la base l'a retiré : retiré sur un
+    // refus, il serait revenu au rechargement.
+    let refusee
+    try { refusee = !!(await deleteReview(myReview.id))?.error } catch { refusee = true }
+    if (refusee) { signalerEchec('removal'); return }
     setMyReview(null)
     setReviews(prev => prev?.filter(r => r.id !== myReview.id))
   }
@@ -152,6 +168,16 @@ const RecipeReviewsSection = forwardRef(function RecipeReviewsSection(
   const border = darkMode ? 'var(--color-dark-surface)' : 'var(--color-border-warm)'
   const cardBg = darkMode ? '#131E2C' : '#FFFFFF'
 
+  if (loadError) {
+    return (
+      <LoadErrorNotice
+        message={t.loadError} retryLabel={t.retry} textColor={fg} mutedColor={muted}
+        // L'erreur s'efface le temps de la nouvelle tentative : si elle
+        // revient, c'est que la tentative a échoué aussi.
+        onRetry={() => { setLoadError(false); setTentative(n => n + 1) }}
+      />
+    )
+  }
   if (reviews === null) {
     return <p style={{ fontSize: '13px', color: muted, fontStyle: 'italic' }}>…</p>
   }
@@ -220,7 +246,7 @@ const RecipeReviewsSection = forwardRef(function RecipeReviewsSection(
             <Button
               onClick={() => setShowForm(true)}
               type="button"
-              className="h-auto self-start rounded-lg bg-[#E07820] px-3.5 py-2 text-sm font-bold text-white"
+              className="h-auto self-start rounded-lg bg-[#B85000] px-3.5 py-2 text-sm font-bold text-white"
               style={{ boxShadow: '0 2px 10px rgba(224,120,32,0.30)' }}>
               ⭐ {t.rateBtn}
             </Button>
@@ -246,7 +272,7 @@ const RecipeReviewsSection = forwardRef(function RecipeReviewsSection(
             <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '8px' }}>
               {reviews.map(r => {
                 const isOwn = user?.id && r.user_id === user.id
-                const author = r.profile?.username ?? t.deletedAuthor
+                const author = authorName(r, t)
                 return (
                   <li key={r.id} style={{
                     padding: '10px 12px', borderRadius: '10px',
@@ -353,7 +379,9 @@ export function ReviewForm({ initial, recipeId, recipeSource, userId, t, darkMod
     }
     const result = await upsertReview(userId, { recipeId, recipeSource, rating, body: body || null })
     setSubmitting(false)
-    if (result.error) { setError(result.error); return }
+    // Un message lisible — pas le texte de la base, que la personne ne peut ni
+    // comprendre ni corriger (« new row violates row-level security policy… »).
+    if (result.error) { setError(t.saveError ?? result.error); return }
     onSaved(result.data)
   }
 
@@ -371,11 +399,10 @@ export function ReviewForm({ initial, recipeId, recipeSource, userId, t, darkMod
         {rating > 0 && <span style={{ fontSize: '12px', color: muted }}>{t.starsLabel(rating)}</span>}
       </div>
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-        <span style={{ fontSize: '13px', fontWeight: 700, color: muted, textTransform: 'uppercase', letterSpacing: '0.04em' }}>{t.formBody}</span>
+      <Field label={t.formBody} style={{ display: 'flex', flexDirection: 'column', gap: '4px' }} labelStyle={{ fontSize: '13px', fontWeight: 700, color: muted, textTransform: 'uppercase', letterSpacing: '0.04em' }}>
         <textarea value={body} onChange={e => setBody(e.target.value)} placeholder={t.formBodyPh} maxLength={2000} rows={3}
           style={{ padding: '8px 10px', borderRadius: '8px', border: `1.5px solid ${border}`, background: darkMode ? '#0F1925' : '#FDFAF6', color: fg, fontSize: '13px', fontFamily: 'inherit', outline: 'none', resize: 'vertical' }} />
-      </div>
+      </Field>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
         <label style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px', color: fg, cursor: 'pointer' }}>
@@ -412,82 +439,6 @@ export function ReviewForm({ initial, recipeId, recipeSource, userId, t, darkMod
           style={{ background: rating >= 1 ? 'var(--color-brand-500)' : (darkMode ? '#2A3A50' : '#D0C0A0') }}>
           {initial ? t.formSubmitEdit : t.formSubmit}
         </Button>
-      </div>
-    </div>
-  )
-}
-
-// ─── Modale de signalement (variante locale, simple) ───────────────────
-
-function ReviewReportModal({ reviewId, userId, t, darkMode, onClose }) {
-  const [reason, setReason] = useState('spam')
-  const [submitting, setSubmitting] = useState(false)
-  const [done, setDone] = useState(false)
-
-  const reasons = [
-    { key: 'spam', label: t.reportReasonSpam },
-    { key: 'inappropriate', label: t.reportReasonInappropriate },
-    { key: 'harassment', label: t.reportReasonHarassment },
-    { key: 'wrong_info', label: t.reportReasonWrong },
-    { key: 'other', label: t.reportReasonOther },
-  ]
-
-  const handleSubmit = async () => {
-    setSubmitting(true)
-    await reportReview(userId, reviewId, reason)
-    setSubmitting(false)
-    setDone(true)
-    setTimeout(onClose, 1500)
-  }
-
-  const fg = darkMode ? 'var(--color-bg-warm)' : '#2C1A0E'
-  const muted = darkMode ? '#A0A8B8' : '#7A6A52'
-  const bg = darkMode ? '#0F1925' : '#FDFAF6'
-  const border = darkMode ? 'var(--color-dark-surface)' : 'var(--color-border-warm)'
-
-  return (
-    <div onClick={onClose}
-      style={{ position: 'fixed', inset: 0, zIndex: 80, background: 'rgba(0,0,0,0.55)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '16px' }}>
-      <div onClick={e => e.stopPropagation()}
-        style={{ width: '100%', maxWidth: '420px', background: bg, color: fg, borderRadius: '14px', padding: '18px', display: 'flex', flexDirection: 'column', gap: '12px', boxShadow: '0 12px 40px rgba(0,0,0,0.40)' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <LuFlag size={18} style={{ color: '#D06060' }} />
-          <h3 style={{ margin: 0, fontSize: '15px', fontWeight: 800 }}>{t.reportTitle}</h3>
-        </div>
-        {done ? (
-          <div style={{ padding: '14px', borderRadius: '8px', background: 'rgba(123,176,120,0.12)', color: '#5A8A58', fontSize: '13px', fontWeight: 600, textAlign: 'center' }}>
-            ✓ {t.reportSent}
-          </div>
-        ) : (
-          <>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-              {reasons.map(r => (
-                <label key={r.key} style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '6px 10px', borderRadius: '8px', border: `1px solid ${reason === r.key ? 'var(--color-brand-500)' : border}`, background: reason === r.key ? 'rgba(224,120,32,0.08)' : 'transparent', cursor: 'pointer', fontSize: '13px' }}>
-                  <input type="radio" name="reason" value={r.key} checked={reason === r.key} onChange={() => setReason(r.key)} style={{ accentColor: 'var(--color-brand-500)' }} />
-                  {r.label}
-                </label>
-              ))}
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px' }}>
-              <Button
-                variant="secondary"
-                onClick={onClose}
-                type="button"
-                className="h-auto rounded-lg border-[1.5px] bg-transparent px-3.5 py-1.5 text-xs font-semibold"
-                style={{ borderColor: border, color: muted }}>
-                {t.cancel}
-              </Button>
-              <Button
-                onClick={handleSubmit}
-                type="button"
-                loading={submitting}
-                disabled={submitting}
-                className="h-auto rounded-lg bg-[#D06060] px-3.5 py-1.5 text-xs font-bold text-white">
-                {t.reportSubmit}
-              </Button>
-            </div>
-          </>
-        )}
       </div>
     </div>
   )

@@ -118,9 +118,15 @@ export default function useRecipeFormModal({ initialRecipe, onSave, onClose, lan
 
   // R-02 — Autosave brouillon, debounce 500 ms. Création uniquement, jamais
   // en édition. saveDraft() est défensif (skip si form vide, swallow quota).
+  //
+  // `enregistreeRef` : une fois la recette enregistrée, plus aucun minuteur en
+  // attente n'écrit. Sans lui, un minuteur parti entre la purge du brouillon
+  // et la fermeture de la fenêtre le RÉÉCRIVAIT — « Brouillon restauré »
+  // reproposait une recette déjà enregistrée (vu par la fumée, 2026-10-08).
+  const enregistreeRef = useRef(false)
   useEffect(() => {
     if (initialRecipe) return
-    const timer = setTimeout(() => { saveDraft(form) }, 500)
+    const timer = setTimeout(() => { if (!enregistreeRef.current) saveDraft(form) }, 500)
     return () => clearTimeout(timer)
   }, [form, initialRecipe])
 
@@ -342,6 +348,35 @@ export default function useRecipeFormModal({ initialRecipe, onSave, onClose, lan
   // côté caller (App.jsx → BDD) ; sans guard, un double-clic créait
   // potentiellement 2 recettes / 2 publications en attente de modération.
   const { submitting, guard } = useSubmitGuard()
+
+  // L'enregistrement a été refusé : 'locked' (recette validée par la
+  // modération) ou 'failed' (tout le reste : réseau, session expirée…).
+  const [saveError, setSaveError] = useState(null)
+
+  // Enregistre, et ne ferme QUE si c'est fait.
+  //
+  // 🔴 Jusqu'au 2026-10-05 le résultat de `onSave` n'était pas lu : sur un
+  // refus de la base le brouillon était purgé et le formulaire fermé — une
+  // recette tapée en entier, perdue sans un mot. Sur un refus, maintenant : le
+  // formulaire reste ouvert avec tout ce qui est tapé, le brouillon reste sur
+  // l'appareil, et une alerte le dit en haut du formulaire.
+  async function enregistrer(recipe) {
+    setSaveError(null)
+    let erreur
+    try { erreur = (await onSave(recipe))?.error } catch (err) { erreur = err ?? new Error('unknown') }
+    if (erreur) {
+      setSaveError(erreur.code === 'approved_recipe_locked' ? 'locked' : 'failed')
+      scrollRef.current?.scrollTo?.({ top: 0, behavior: 'smooth' })
+      return
+    }
+    // R-02 — soumission OK → on purge le brouillon, le contenu est désormais
+    // persisté en stock (custom_recipes / localStorage). En édition c'est un
+    // no-op (le draft n'a pas été touché). `enregistreeRef` D'ABORD : un
+    // minuteur d'enregistrement automatique en attente ne réécrira rien.
+    enregistreeRef.current = true
+    clearDraft()
+    onClose()
+  }
   // Modération IA OpenAI — appelée uniquement pour les publications publiques
   // (en plus de leo-profanity statique côté sync). Couvre les contournements
   // texte que leo-profanity rate (haine implicite, harcèlement, etc.).
@@ -385,28 +420,24 @@ export default function useRecipeFormModal({ initialRecipe, onSave, onClose, lan
       setShowPublishConfirm(true)
       return
     }
-    await onSave(buildRecipe())
-    // R-02 — soumission OK → on purge le brouillon, le contenu est désormais
-    // persisté en stock (custom_recipes / localStorage). En édition c'est un
-    // no-op (le draft n'a pas été touché).
-    clearDraft()
-    onClose()
+    await enregistrer(buildRecipe())
   })
 
   // Idem handleSubmit : guard pour éviter une double publication
-  // si l'user double-clique pendant le round-trip BDD.
+  // si l'user double-clique pendant le round-trip BDD. Même faux positif de
+  // `react-hooks/refs` : `guard()` est appelé au rendu, mais son rappel — qui
+  // touche `enregistreeRef` par `enregistrer` — ne s'exécute qu'au clic.
+  // eslint-disable-next-line react-hooks/refs
   const handleConfirmPublish = guard(async () => {
     setShowPublishConfirm(false)
     // consentJustGiven = true : l'utilisateur vient de cocher la case de
     // consentement et de confirmer → horodatage frais de la preuve (R-03).
-    await onSave(buildRecipe(true))
-    clearDraft()
-    onClose()
+    await enregistrer(buildRecipe(true))
   })
 
   return {
     t, user, ingredients, fridgeLayouts, countries, dietTypes, allergenTypes,
-    form, setForm, errors, draftBanner, setDraftBanner,
+    form, setForm, errors, saveError, draftBanner, setDraftBanner,
     showEmojiPicker, setShowEmojiPicker, showCloseConfirm, setShowCloseConfirm,
     showPublishConfirm, setShowPublishConfirm, publishAcknowledged, setPublishAcknowledged,
     publishConsent, setPublishConsent, proposePublic, setProposePublic,

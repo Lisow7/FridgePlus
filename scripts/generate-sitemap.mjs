@@ -28,7 +28,7 @@ import { readFileSync, writeFileSync, existsSync } from 'fs'
 import { createClient } from '@supabase/supabase-js'
 import { fileURLToPath } from 'url'
 import { dirname, join } from 'path'
-import { PAGES_STATIQUES } from './lib/prerender-page.mjs'
+import { PAGES_STATIQUES, pagesAuPlanDuSite, filtrerRecettesPubliables, idValide } from './lib/prerender-page.mjs'
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..')
 const SITE = 'https://fridgeplus.app'
@@ -63,12 +63,17 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_KEY, { auth: { persistSessi
 // JSON-LD (`recipe-to-schema-org.js`) : ne lister que des pages que
 // `useRecipeById` sait rendre. Un sitemap qui pointe vers une page rendue
 // « introuvable » est le defaut qu'on vient d'eviter dans le JSON-LD.
-const { data, error } = await supabase
-  .from('recipes_unified')
-  .select('id, updated_at')
-  .is('deleted_at', null)
-  .eq('status', 'published')
-  .order('id')
+const { data: lignes, error } = await filtrerRecettesPubliables(
+  supabase.from('recipes_unified').select('id, updated_at'),
+).order('id')
+
+// Un identifiant finit dans une balise `<loc>` : tout ce qui n'est pas un slug
+// est écarté, comme le fait le pré-rendu (un `&` ou un `<` invaliderait le
+// fichier entier).
+const data = (lignes ?? []).filter(r => idValide(r.id))
+if (lignes && data.length !== lignes.length) {
+  console.warn(`⚠️  ${lignes.length - data.length} identifiant(s) écarté(s) : pas des slugs.`)
+}
 
 if (error) {
   console.error('❌  Lecture Supabase échouée :', error.message)
@@ -83,8 +88,24 @@ if (!data?.length) {
   process.exit(1)
 }
 
-const aujourdhui = new Date().toISOString().slice(0, 10)
-const jour = (v) => (v ? String(v).slice(0, 10) : aujourdhui)
+// `/community` n'est annoncée que si son fil a des messages visibles
+// (`pagesAuPlanDuSite`). La clé publiable voit ce que voit un visiteur.
+const { count: messagesCommunaute, error: erreurCommunaute } = await supabase
+  .from('community_posts')
+  .select('id', { count: 'exact', head: true })
+  .is('deleted_at', null)
+if (erreurCommunaute) {
+  console.warn(`⚠️  Fil de la communauté non compté (${erreurCommunaute.message}) — /community n'est pas annoncée.`)
+}
+const pages = pagesAuPlanDuSite({ messagesCommunaute: erreurCommunaute ? null : messagesCommunaute })
+
+// Seule une recette a une VRAIE date de modification (`updated_at`).
+// L'accueil et les pages statiques portaient la date du jour de GÉNÉRATION :
+// Google ignore un `lastmod` qu'il juge peu fiable, et pas seulement sur ces
+// pages-là (audit du 2026-10-04, SEO-10). Pas de date vaut mieux qu'une
+// fausse. `changefreq` et `priority` sont retirés : Google les ignore, et
+// ils ne disaient rien de vrai.
+const date = (v) => (v ? `\n    <lastmod>${String(v).slice(0, 10)}</lastmod>` : '')
 
 // Les pages statiques viennent de la MÊME liste que le pré-rendu
 // (`PAGES_STATIQUES`), pas d'une copie locale. Une page déclarée au sitemap
@@ -94,21 +115,12 @@ const jour = (v) => (v ? String(v).slice(0, 10) : aujourdhui)
 const urls = [
   `  <url>
     <loc>${SITE}/</loc>
-    <lastmod>${aujourdhui}</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>1.0</priority>
   </url>`,
-  ...PAGES_STATIQUES.map(p => `  <url>
+  ...pages.map(p => `  <url>
     <loc>${SITE}${p.chemin}</loc>
-    <lastmod>${aujourdhui}</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
   </url>`),
   ...data.map(r => `  <url>
-    <loc>${SITE}/recipe/${r.id}</loc>
-    <lastmod>${jour(r.updated_at)}</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <loc>${SITE}/recipe/${r.id}</loc>${date(r.updated_at)}
   </url>`),
 ]
 
@@ -128,4 +140,4 @@ ${urls.join('\n')}
 `
 
 writeFileSync(SORTIE, xml, 'utf-8')
-console.log(`✅  sitemap.xml écrit : ${data.length} recettes + l'accueil + ${PAGES_STATIQUES.length} pages statiques (${urls.length} URLs).`)
+console.log(`✅  sitemap.xml écrit : ${data.length} recettes + l'accueil + ${pages.length} pages statiques sur ${PAGES_STATIQUES.length} (${urls.length} URLs ; ${messagesCommunaute ?? '?'} message(s) visible(s) dans la communauté).`)

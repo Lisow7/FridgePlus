@@ -95,7 +95,7 @@ export default function MfaCard({ lang, darkMode, isMobile, border, textColor, m
         <span style={{
           fontSize: 11, fontWeight: 700, padding: '2px 8px', borderRadius: 12,
           background: hasVerifiedFactor ? 'rgba(34,197,94,0.15)' : 'rgba(247,168,94,0.15)',
-          color: hasVerifiedFactor ? 'var(--color-success)' : 'var(--color-warm-600)',
+          color: hasVerifiedFactor ? 'var(--color-success)' : 'var(--color-warm-text)',
         }}>
           {hasVerifiedFactor ? t.activeBadge : t.inactiveBadge}
         </span>
@@ -111,7 +111,7 @@ export default function MfaCard({ lang, darkMode, isMobile, border, textColor, m
             onClick={handleActivate}
             loading={activating}
             disabled={activating}
-            className="h-auto rounded-lg bg-[#E07820] px-4 py-2.5 text-[13px] font-bold text-white"
+            className="h-auto rounded-lg bg-[#B85000] px-4 py-2.5 text-[13px] font-bold text-white"
             style={{ gap: 6 }}
           >
             {!activating && <LuShieldCheck size={14} />}

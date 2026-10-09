@@ -7,7 +7,6 @@ import {
   searchBaseRecipes, searchCommunityRecipes, searchIngredients, searchUsersForReport,
 } from '@features/support/api/support'
 import { createReport } from '@shared/api/reports'
-import { moderateContent } from '@shared/hooks/use-moderation'
 import { getSelfHelp } from '@features/support/data/support-self-help'
 import { useConfirm } from '@shared/ui/confirm-dialog/confirm-provider'
 
@@ -69,12 +68,13 @@ export default function useSupportPanel({ userId, lang = 'fr', onUnreadChange })
 
   async function openTicket(ticket) {
     setSelectedTicket(ticket)
-    const msgs = await getTicketMessages(ticket.id)
+    const { messages: msgs, error: errMessages } = await getTicketMessages(ticket.id)
     setMessages(msgs)
     setView('detail')
-    setError(null)
-    if (ticket.has_unread_user) {
-      await markTicketReadByUser(ticket.id)
+    // Pas lus : le dire — le fil vide ne disait rien (audit ADM-08, côté utilisateur).
+    setError(errMessages ? t.errorLoadMessages : null)
+    // La pastille ne baisse que si la base a bien marqué le ticket « lu ».
+    if (ticket.has_unread_user && !(await markTicketReadByUser(ticket.id))?.error) {
       setTickets(prev => prev.map(tk => tk.id === ticket.id ? { ...tk, has_unread_user:false } : tk))
       onUnreadChange?.()
     }
@@ -87,8 +87,9 @@ export default function useSupportPanel({ userId, lang = 'fr', onUnreadChange })
     if (err) { setError(t.errorSend) }
     else {
       setReplyContent('')
-      const msgs = await getTicketMessages(selectedTicket.id)
-      setMessages(msgs)
+      const { messages: msgs, error: errMessages } = await getTicketMessages(selectedTicket.id)
+      if (errMessages) setError(t.errorLoadMessages)
+      else setMessages(msgs)
     }
     setSending(false)
   }
@@ -149,30 +150,14 @@ export default function useSupportPanel({ userId, lang = 'fr', onUnreadChange })
     const { category, target, reasonKey, details, freeTitle } = newFlow
     setSending(true); setError(null)
 
-    // Validation locale d'abord (champs requis), AVANT la modération IA async.
-    // Ainsi : (1) un user qui oublie un champ voit immédiatement l'erreur sans
-    // attendre l'appel API, (2) on n'appelle pas OpenAI pour des soumissions
-    // invalides qui ne seront jamais persistées.
     if (category.flow !== 'report' && !details.trim()) {
       setError(t.messageRequired); setSending(false); return
     }
 
-    // Modération IA OpenAI sur le contenu texte saisi (details + freeTitle).
-    // On ne modère PAS target.label (nom déjà en BDD, modéré en amont).
-    // Fail-open en cas de panne API : on continue, leo-profanity reste actif.
-    const userText = [details, freeTitle].filter(Boolean).map(s => s.trim()).filter(Boolean).join('\n')
-    if (userText.length > 0) {
-      try {
-        const result = await moderateContent(userText, 'ticket')
-        if (result?.flagged) {
-          setError(t.moderationFlagged)
-          setSending(false)
-          return
-        }
-      } catch (err) {
-        console.warn('[moderation] ticket check failed', err)
-      }
-    }
+    // Pas de modération du texte : une demande est privée, elle ne part plus
+    // chez OpenAI (audit du 2026-10-04, RGPD-02). Et pas de filtre de mots à la
+    // place : un signalement cite l'abus qu'il signale. Les plafonds (3
+    // demandes, 10 signalements) et le bannissement tiennent les abus.
 
     let ticketId = null
 
@@ -186,7 +171,8 @@ export default function useSupportPanel({ userId, lang = 'fr', onUnreadChange })
         reasonDetails: details.trim() || null,
         userTitle,
       })
-      if (err?.message === 'max_tickets_reached') { setError(t.maxTickets); setSending(false); return }
+      if (err?.message === 'max_reports_reached') { setError(t.maxReports); setSending(false); return }
+      if (err?.message === 'account_restricted') { setError(t.accountRestricted); setSending(false); return }
       if (err || !data) { setError(t.errorSend); setSending(false); return }
       ticketId = data.id
     } else {
@@ -197,6 +183,7 @@ export default function useSupportPanel({ userId, lang = 'fr', onUnreadChange })
         message: details.trim(),
       })
       if (err?.message === 'max_tickets_reached') { setError(t.maxTickets); setSending(false); return }
+      if (err?.message === 'account_restricted') { setError(t.accountRestricted); setSending(false); return }
       if (err || !data) { setError(t.errorSend); setSending(false); return }
       ticketId = data.id
     }

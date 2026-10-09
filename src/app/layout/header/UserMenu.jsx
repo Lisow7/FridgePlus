@@ -54,7 +54,7 @@ function SectionLabel({ children, darkMode }) {
  return (
  <p style={{
  fontSize: '12px', fontWeight: 700,
- color: darkMode ? 'rgba(247,168,94,0.95)' : 'rgba(212,106,16,0.85)',
+ color: darkMode ? 'rgba(247,168,94,0.95)' : '#B85000',
  textTransform: 'uppercase', letterSpacing: '0.08em',
  padding: '8px 12px 6px',
  margin: 0,
@@ -336,7 +336,7 @@ export default function UserMenu({
  onClick={handleClick(onSignOut)}
  style={{
  ...itemStyle,
- color: 'var(--color-danger)',
+ color: 'var(--color-danger-text)',
  }}
  onMouseEnter={e => {
  e.currentTarget.style.background = darkMode
@@ -345,7 +345,7 @@ export default function UserMenu({
  }}
  onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
  >
- <LuLogOut size={15} aria-hidden="true" style={{ color: 'var(--color-danger)', flexShrink: 0 }} />
+ <LuLogOut size={15} aria-hidden="true" style={{ color: 'var(--color-danger-text)', flexShrink: 0 }} />
  <span>{SIGN_OUT_LABEL[lang] ?? SIGN_OUT_LABEL.fr}</span>
  </button>
  </div>

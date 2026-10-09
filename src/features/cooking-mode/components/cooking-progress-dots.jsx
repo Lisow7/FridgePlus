@@ -16,7 +16,7 @@ export default function CookingProgressDots({ current, total }) {
   }
 
   return (
-    <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }} aria-label={`${current} / ${total}`}>
+    <div role="img" style={{ display: 'flex', gap: '8px', alignItems: 'center' }} aria-label={`${current} / ${total}`}>
       {Array.from({ length: total }, (_, i) => {
         const filled = i < current
         return (

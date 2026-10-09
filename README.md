@@ -14,19 +14,28 @@
 ## ✨ Fonctionnalités
 
 - **Frigo & garde-manger** — inventaire visuel par compartiments, ajout rapide (clic ou **voix**).
-- **Recettes adaptées** — classées par taux de correspondance avec ton stock ; filtres riches (temps, difficulté, régime, budget, zéro-déchet…).
-- **Anti-gaspi** — fraîcheur des ingrédients 🟢🟡🔴, score d'économies (€ + carbone), alertes de péremption, « que cuisiner d'abord ».
-- **Communauté** — création et partage de recettes, avec modération.
-- **Compte** — favoris, recettes perso, quêtes & badges, profil personnalisable.
-- **Premium** *(à venir)* — panier de courses chiffré, mode cuisine vocal, analyse des dépenses.
+- **Recettes adaptées** — classées selon ce que tu as ; filtres (temps, difficulté, régime, nutrition…).
+- **Restes** — les garder sous la main pour les cuisiner, avec un compteur « restes sauvés ».
+- **Avec un compte gratuit** — favoris, recettes perso, communauté (avec modération), récompenses.
+- **Premium** *(fermé, « Prochainement » dans l'app)* — panier chiffré, mode cuisine, listes, partage.
+
+> Ce qui est gratuit, avec compte ou Premium : `src/features/onboarding/lib/feature-tiers.js` fait foi.
+> (Cette liste annonçait jusqu'au 2026-10-05 un score anti-gaspi €/carbone et des alertes de péremption,
+> retirés avec la DLC des ingrédients.)
 
 ## 🛠️ Stack
 
 React 19 · Vite · Tailwind CSS v4 · Supabase (Auth + Postgres + RLS + Edge Functions) · PWA (Workbox) · Vitest + Playwright · Sentry · déploiement Vercel.
 
-> SPA sans router lourd ; l'état (`stock`, `favorites`) est géré dans `App.jsx` et descendu en props. i18n maison (objets `I18N` par composant, 5 langues).
+> Routage : React Router v7 (`src/routes/`). Stock et favoris : `SessionStateProvider`
+> (`src/app/contexts/session-state-provider.jsx`). Langues : `fr` et `en` (`SUPPORTED_LANGS`,
+> `src/shared/lib/i18n/langues.js`), traductions par composant (ADR 0002 et 0005).
+> La carte complète : [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
 
 ## 🚀 Démarrage
+
+Prérequis : **Node 24** (`.nvmrc`) et le binaire **`gitleaks`** (le hook de pré-commit l'exige).
+Le détail, et les variables d'environnement : [`CONTRIBUTING.md` §1](CONTRIBUTING.md#1-démarrage).
 
 ```bash
 npm install
@@ -35,12 +44,7 @@ npm run build      # build de production → dist/
 npm run preview    # prévisualiser le build
 ```
 
-Variables d'environnement requises (`.env`) :
-
-```
-VITE_SUPABASE_URL=...
-VITE_SUPABASE_ANON_KEY=...
-```
+Variables d'environnement : dans `.env.local` (jamais commité), voir CONTRIBUTING §1.
 
 ## 🧪 Qualité
 

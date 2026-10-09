@@ -1,4 +1,10 @@
--- ⚠️ MIGRATION ÉCRITE MAIS **NON APPLIQUÉE**. Écrite le 2026-08-08,
+-- ✅ APPLIQUÉE le 2026-08-13, sous le nom `guard_profiles_consentements` :
+-- son corps est celui de la fonction en base. Le SQL exact inscrit au registre
+-- est dans 20260813111101_guard_profiles_consentements.sql (reconstitué le
+-- 2026-10-08, audit BDD-19). Ne pas la rejouer. Ce fichier garde l'historique
+-- ci-dessous, qui reste vrai pour la période du 8 au 13 août.
+--
+-- (Jusqu'au 2026-08-13) MIGRATION ÉCRITE MAIS NON APPLIQUÉE. Écrite le 2026-08-08,
 -- **CORRIGÉE le 2026-08-12 après avoir été prouvée FAUSSE** (voir ci-dessous).
 --
 -- Motif du report : il n'existe qu'un seul projet Supabase (la production, pas

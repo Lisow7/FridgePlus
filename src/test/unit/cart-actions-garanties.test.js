@@ -282,6 +282,18 @@ describe('Chargement d\'une liste enregistrée', () => {
     expect(rafraichir).not.toHaveBeenCalled()
   })
 
+  it('le vidage est refusé : rien n’est ajouté, l’erreur est rendue', async () => {
+    // Le résultat du vidage était jeté : la liste s'ajoutait PAR-DESSUS l'ancien
+    // panier, et l'écran annonçait la liste chargée (relevé au lot 14c,
+    // 2026-10-08).
+    mockClear.mockResolvedValue({ error: { message: 'réseau' }, deletedCount: 0 })
+    const r = monter()
+    const res = await act(async () => r.current.handleLoadList([{ ingredient_id: 'fr-tomate' }]))
+    expect(res.error).toEqual({ message: 'réseau' })
+    expect(mockAdd).not.toHaveBeenCalled()
+    expect(rafraichir).not.toHaveBeenCalled()
+  })
+
   it('une liste vide vide le panier sans insérer', async () => {
     const r = monter()
     const res = await act(async () => r.current.handleLoadList([]))
@@ -356,6 +368,9 @@ describe('Le filtre du frigo est-il branché ?', () => {
   const APPELANTS = [
     'src/features/recipes/pages/recipe-page.jsx',
     'src/features/cart/pages/cart-page.jsx',
+    // L'accueil délègue désormais au panier unique (audit ARCH-07, lot 14c) :
+    // il doit donc, lui aussi, passer le stock à ce hook.
+    'src/app/hooks/use-basket-actions.js',
   ]
 
   // ⚠️ Chemin construit depuis `process.cwd()`, PAS depuis `import.meta.url` :

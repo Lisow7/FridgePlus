@@ -1,5 +1,8 @@
 import { supabase } from '@shared/lib/supabase/client'
 import { logAuditAction, AUDIT_ACTIONS, AUDIT_TARGET_TYPES } from '../lib/audit'
+import { versErreur } from '@shared/lib/supabase/lever-si-erreur'
+import { motifContient } from '@shared/lib/supabase/motif-de-recherche'
+import { OPEN_TICKET_STATUSES } from '@shared/lib/support/open-tickets-cap'
 
 // Modération admin de la communauté.
 //
@@ -35,12 +38,14 @@ export async function adminListPosts({ status = 'active', search, limit = 50 } =
   else if (status === 'deleted')  q = q.not('deleted_at', 'is', null).eq('deleted_by_admin', false)
   else if (status === 'admin_deleted') q = q.eq('deleted_by_admin', true)
   // 'all' = pas de filtre
-  if (search?.trim()) q = q.ilike('title', `%${search.trim()}%`)
+  if (search?.trim()) q = q.ilike('title', motifContient(search))
   q = q.order('created_at', { ascending: false }).limit(limit)
   const { data, error } = await q
+  // Un échec LÈVE : rendu vide, il s'affichait « Aucun post » — « rien à
+  // modérer » (audit ADM-08). L'écran (`useReloader`) dit « pas chargé ».
   if (error) {
     if (import.meta.env.DEV) console.error('[communityAdmin] listPosts:', error.message)
-    return []
+    throw versErreur(error)
   }
   return data ?? []
 }
@@ -56,12 +61,14 @@ export async function adminListCommunityReports({ limit = 50 } = {}) {
     .select('id, user_id, type, status, target_type, target_id, reason_key, created_at')
     .eq('type', 'report')
     .in('target_type', ['community_post', 'community_reply'])
-    .neq('status', 'closed')
+    // Les statuts d'un ticket : open, in_progress, resolved. `neq('closed')` ne
+    // retirait rien — un signalement résolu restait « à traiter ».
+    .in('status', OPEN_TICKET_STATUSES)
     .order('created_at', { ascending: false })
     .limit(limit)
   if (error) {
     if (import.meta.env.DEV) console.error('[communityAdmin] listReports:', error.message)
-    return []
+    throw versErreur(error)
   }
   return data ?? []
 }

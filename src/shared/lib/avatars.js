@@ -11,7 +11,8 @@ export const AVATAR_CATALOG = [
   { id: 'burger',     code: '1f354', bg: '#F3E5F5' },
 ]
 
-const TWEMOJI = 'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg'
+// Hébergées par le site, comme les autres emoji (décision du 2026-10-06).
+const TWEMOJI = `${import.meta.env.BASE_URL}emoji/twemoji`
 
 export function getAvatarData(avatarId) {
   return AVATAR_CATALOG.find(a => a.id === avatarId) ?? AVATAR_CATALOG[0]

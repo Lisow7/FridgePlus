@@ -10,15 +10,15 @@
 // Phase 11 PR P11.c.2 — Import dynamique de `@sentry/react`.
 // Avant : `import * as Sentry` au top → le SDK (27,6 KiB compressed)
 // était embarqué dans le bundle init même si l'user n'a pas donné le
-// consent audience. Après : import dynamique uniquement dans initSentry()
+// consentement aux rapports d'erreurs. Après : import dynamique uniquement dans initSentry()
 // si DSN + consent OK. Pour les call-sites pré-init (logError, setSentryUser),
 // no-op silencieux tant que le module n'est pas chargé.
 
-import { hasConsentedSync } from '@shared/hooks/use-consent'
+import { hasConsentedSync, abonnerAuConsentement } from '@shared/hooks/use-consent'
 import { CURRENT_VERSION } from '@shared/lib/version'
 
 // Référence partagée vers le module Sentry une fois importé.
-// Reste null si DSN absent, consent audience non donné, ou import échoué.
+// Reste null si DSN absent, rapports d'erreurs refusés, ou import échoué.
 let SentryRef = null
 
 export async function initSentry() {
@@ -28,11 +28,11 @@ export async function initSentry() {
     return
   }
 
-  // RGPD : Sentry = catégorie « Mesure d'audience ». Activation uniquement
-  // si l'user a explicitement consenti. Si l'user accepte plus tard, l'init
+  // RGPD : Sentry = case « Rapports d'erreurs » (consentement v2, planche
+  // n° 2 du 2026-10-06). Activation uniquement si l'user a explicitement consenti. Si l'user accepte plus tard, l'init
   // se relancera au prochain reload (déclenché par le bandeau / panel).
-  if (!hasConsentedSync('audience')) {
-    if (import.meta.env.DEV) console.info('[sentry] consentement audience non donné — monitoring inactif')
+  if (!hasConsentedSync('errors')) {
+    if (import.meta.env.DEV) console.info('[sentry] rapports d\'erreurs non consentis — monitoring inactif')
     return
   }
 
@@ -75,6 +75,9 @@ export async function initSentry() {
   })
 
   SentryRef = SentryModule
+  // Retrait des rapports d'erreurs : Sentry se ferme pour la session, et plus
+  // rien ne part (audit RGPD-05 — le retrait ne coupait rien).
+  abonnerAuConsentement((consentement) => { if (!consentement.errors) fermerSentry() })
 
   // En dev, exposer Sentry sur window pour permettre des tests manuels
   // depuis la console (window.Sentry.captureException(new Error('test'))).
@@ -84,6 +87,12 @@ export async function initSentry() {
     window.Sentry = SentryModule
     console.info('[sentry] initialisé en dev — window.Sentry disponible pour tests')
   }
+}
+
+export function fermerSentry() {
+  if (!SentryRef) return
+  try { SentryRef.close?.() } catch {}
+  SentryRef = null
 }
 
 // Helpers RGPD-friendly pour attacher / détacher le user context
@@ -116,7 +125,7 @@ export function clearSentryUser() {
 // Comportement :
 //   - Toujours `console.error` (debug local + Vercel logs).
 //   - Toujours `Sentry.captureException` (no-op silencieux si Sentry non
-//     initialisé : DSN manquant ou consent audience refusé).
+//     initialisé : DSN manquant ou rapports d'erreurs refusés).
 //   - `context` accepte un objet libre : `{ tag: 'auth.deleteAccount',
 //     userId: 'xxx', endpoint: '/functions/v1/...' }`. Le tag part en
 //     `tags` Sentry (groupable), le reste en `extra` (debug payload).

@@ -1,14 +1,23 @@
 import { useEffect, useState, useCallback } from 'react'
-import { LuRefreshCw, LuPlus, LuTrash2, LuX, LuSend, LuCircleCheck } from 'react-icons/lu'
+import { LuRefreshCw, LuPlus, LuTrash2, LuX, LuSend } from 'react-icons/lu'
 import { getAdminFeed, adminDeleteNotification, adminSendNotification, sendAnnouncementPush, getAdminFeedCounts } from '@features/notifications/api/notifications'
 import { NotifItem } from '@features/notifications/components/notifications-panel'
 import { NOTIF_I18N, formatRelativeTime, localizeNotifText } from '@shared/lib/i18n/notifications-i18n'
 import { useFeatureFlag } from '@shared/contexts/feature-flags-provider'
 import { useAdmin } from '../../providers/admin-provider'
 import Button from '@shared/ui/button'
+import { useDialogue } from '@shared/hooks/use-dialogue'
 import FilterPill from '@shared/ui/filter-pill'
 import Pagination from '@shared/ui/pagination'
 import { useReloader } from '@shared/hooks/use-reloader'
+import { leverSiErreur } from '@shared/lib/supabase/lever-si-erreur'
+import ChargementRate from '../shared/chargement-rate'
+import Field from '@shared/ui/field'
+import { useConfirm } from '@shared/ui/confirm-dialog/confirm-provider'
+import { useFermetureGardee } from '@shared/hooks/use-fermeture-gardee'
+import { useFeedback } from '@features/admin/hooks/use-feedback'
+import FeedbackBanner from '../shared/feedback-banner'
+import { messageErreurAdmin } from '@features/admin/lib/ecritures-admin'
 
 const PER_PAGE = 30
 
@@ -47,7 +56,10 @@ const EXPIRE_OPTIONS = [
 ]
 
 function ComposeModal({ darkMode, onClose, onSent }) {
-  const [type,       setType]       = useState('announcement')
+  const confirm = useConfirm()
+  // Aucun type d'avance : « Annonce » l'était, et une annonce va à TOUS les
+  // comptes (audit du 2026-10-04, ADM-03).
+  const [type,       setType]       = useState('')
   const [titleFr,    setTitleFr]    = useState('')
   const [titleEn,    setTitleEn]    = useState('')
   const [bodyFr,     setBodyFr]     = useState('')
@@ -56,24 +68,41 @@ function ComposeModal({ darkMode, onClose, onSent }) {
   const [expireDays, setExpireDays] = useState(30)
   const [sending,    setSending]    = useState(false)
   const [error,      setError]      = useState(null)
+  // Un brouillon ne se perd plus sur un clic (fond, croix, « Annuler », Échap),
+  // ni sur un cliquer-glisser relâché hors de la carte (ADM-18).
+  const brouillon = [titleFr, titleEn, bodyFr, bodyEn, targetUser].some((v) => v.trim() !== '')
+  const { fermer, fond } = useFermetureGardee({ onClose, brouillon })
+  // Une vraie boîte de dialogue : rôle, nom, focus piégé, Échap (A11Y-01).
+  const dialogue = useDialogue({ onClose: fermer })
 
   const fg     = darkMode ? 'var(--color-bg-warm)' : '#2C1A0E'
   const muted  = darkMode ? '#A0A8B8' : '#7A6A52'
   const border = darkMode ? 'var(--color-dark-border)' : 'var(--color-border-warm)'
   const bg     = darkMode ? '#1A2F48' : '#FFFFFF'
+  const libelleNotif = { fontSize:11, fontWeight:700, color:muted, textTransform:'uppercase', letterSpacing:'0.06em' }
   const inp    = { width:'100%', padding:'8px 11px', borderRadius:8, border:`1px solid ${border}`, background: darkMode ? '#141F2E' : '#FBF8F3', color:fg, fontSize:13, outline:'none', fontFamily:'inherit', boxSizing:'border-box' }
 
   const isTargeted = type === 'admin_message'
   const pushEnabled = useFeatureFlag('push_notifications', false)
 
   async function handleSend() {
+    if (!type) { setError('Choisis le type de notification.'); return }
     if (!titleFr.trim()) { setError('Le titre (FR) est obligatoire.'); return }
     if (isTargeted && !targetUser.trim()) { setError('Saisir un user_id pour le message ciblé.'); return }
-    setSending(true); setError(null)
+    const pourTous     = !isTargeted
     const finalTitleFr = titleFr.trim()
     const finalTitleEn = titleEn.trim() || finalTitleFr
     const finalBodyFr  = bodyFr.trim() || null
     const finalBodyEn  = bodyEn.trim() || null
+    // Une annonce arrive dans la cloche de TOUS les comptes : le dire, et
+    // attendre un oui (ADM-03). Un message ciblé a un seul destinataire, nommé.
+    if (pourTous && !(await confirm({
+      title: 'Envoyer à tous les comptes ?',
+      body: `« ${finalTitleFr} » arrivera dans la cloche de chaque compte${pushEnabled ? ', et sur les téléphones qui ont accepté les notifications' : ''}.`,
+      confirmLabel: 'Envoyer à tous',
+      cancelLabel: 'Revenir au message',
+    }))) return
+    setSending(true); setError(null)
     const { error: err } = await adminSendNotification({
       type,
       titleFr:     finalTitleFr,
@@ -83,26 +112,35 @@ function ComposeModal({ darkMode, onClose, onSent }) {
       recipientId: isTargeted ? targetUser.trim() : null,
       expiresDays: expireDays,
     })
-    setSending(false)
-    if (err) { setError(err.message); return }
-    if (pushEnabled && (type === 'announcement' || type === 'maintenance')) {
-      sendAnnouncementPush({ type, titleFr: finalTitleFr, titleEn: finalTitleEn, bodyFr: finalBodyFr, bodyEn: finalBodyEn })
-        .catch(pushErr => console.warn('[ComposeModal] sendAnnouncementPush a échoué (in-app déjà envoyé, non bloquant) :', pushErr))
+    if (err) { setSending(false); setError(err.message); return }
+    // L'envoi sur les téléphones passe par une fonction serveur, qui REND son
+    // erreur au lieu de la lever : le `.catch` d'avant ne la voyait jamais, et
+    // le bandeau disait « envoyée » quoi qu'il arrive (ADM-03).
+    let push = null
+    if (pourTous && !pushEnabled) push = 'desactive'
+    else if (pourTous) {
+      try {
+        const { error: pushErr } = await sendAnnouncementPush({ type, titleFr: finalTitleFr, titleEn: finalTitleEn, bodyFr: finalBodyFr, bodyEn: finalBodyEn })
+        push = pushErr ? { echec: pushErr.message ?? String(pushErr) } : 'ok'
+      } catch (e) {
+        push = { echec: e?.message ?? String(e) }
+      }
     }
-    onSent()
+    setSending(false)
+    onSent({ pourTous, push })
   }
 
   return (
     <div style={{ position:'fixed', inset:0, background:'rgba(0,0,0,0.48)', display:'flex', alignItems:'center', justifyContent:'center', zIndex:9999, padding:20 }}
-      onClick={e => { if (e.target === e.currentTarget) onClose() }}>
-      <div style={{ width:'100%', maxWidth:500, background:bg, borderRadius:16, border:`1px solid ${border}`, padding:'22px 24px', display:'flex', flexDirection:'column', gap:14, boxShadow:'0 8px 40px rgba(0,0,0,0.2)', maxHeight:'90vh', overflowY:'auto' }}>
+      {...fond}>
+      <div {...dialogue.proprietes} style={{ width:'100%', maxWidth:500, background:bg, borderRadius:16, border:`1px solid ${border}`, padding:'22px 24px', display:'flex', flexDirection:'column', gap:14, boxShadow:'0 8px 40px rgba(0,0,0,0.2)', maxHeight:'90dvh', overflowY:'auto' }}>
 
         <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between' }}>
-          <span style={{ fontSize:15, fontWeight:800, color:fg }}>Envoyer une notification</span>
+          <span id={dialogue.titreId} style={{ fontSize:15, fontWeight:800, color:fg }}>Envoyer une notification</span>
           <Button
             variant="ghost"
             size="icon"
-            onClick={onClose}
+            onClick={fermer}
             aria-label="Fermer"
             className="h-auto w-auto bg-transparent p-1 hover:bg-transparent"
             style={{ color: muted }}
@@ -139,42 +177,34 @@ function ComposeModal({ darkMode, onClose, onSent }) {
 
         {/* Cible */}
         {isTargeted && (
-          <div style={{ display:'flex', flexDirection:'column', gap:5 }}>
-            <label style={{ fontSize:11, fontWeight:700, color:muted, textTransform:'uppercase', letterSpacing:'0.06em' }}>User ID (UUID)</label>
+          <Field label="User ID (UUID)" hint="Copie depuis la section Utilisateurs." hintStyle={{ fontSize:11, color:muted }} style={{ display:'flex', flexDirection:'column', gap:5 }} labelStyle={libelleNotif}>
             <input value={targetUser} onChange={e => setTargetUser(e.target.value)}
               placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" style={inp} />
-            <span style={{ fontSize:11, color:muted }}>Copie depuis la section Utilisateurs.</span>
-          </div>
+          </Field>
         )}
 
         {/* Titres */}
-        <div style={{ display:'flex', flexDirection:'column', gap:5 }}>
-          <label style={{ fontSize:11, fontWeight:700, color:muted, textTransform:'uppercase', letterSpacing:'0.06em' }}>Titre (FR) *</label>
+        <Field label="Titre (FR) *" style={{ display:'flex', flexDirection:'column', gap:5 }} labelStyle={libelleNotif}>
           <input value={titleFr} onChange={e => setTitleFr(e.target.value)}
             placeholder="Ex : Maintenance prévue le 8 mai à 22h" style={inp} maxLength={120} />
-        </div>
-        <div style={{ display:'flex', flexDirection:'column', gap:5 }}>
-          <label style={{ fontSize:11, fontWeight:700, color:muted, textTransform:'uppercase', letterSpacing:'0.06em' }}>Titre (EN) — optionnel</label>
+        </Field>
+        <Field label="Titre (EN) — optionnel" hint="Si vide, le titre FR est utilisé pour toutes les langues." hintStyle={{ fontSize:11, color:muted }} style={{ display:'flex', flexDirection:'column', gap:5 }} labelStyle={libelleNotif}>
           <input value={titleEn} onChange={e => setTitleEn(e.target.value)}
             placeholder="Ex : Scheduled maintenance on May 8 at 10pm" style={inp} maxLength={120} />
-          <span style={{ fontSize:11, color:muted }}>Si vide, le titre FR est utilisé pour toutes les langues.</span>
-        </div>
+        </Field>
 
         {/* Corps FR + EN */}
-        <div style={{ display:'flex', flexDirection:'column', gap:5 }}>
-          <label style={{ fontSize:11, fontWeight:700, color:muted, textTransform:'uppercase', letterSpacing:'0.06em' }}>Corps (FR) — optionnel</label>
+        <Field label="Corps (FR) — optionnel" style={{ display:'flex', flexDirection:'column', gap:5 }} labelStyle={libelleNotif}>
           <textarea value={bodyFr} onChange={e => setBodyFr(e.target.value)}
             placeholder={'Détails supplémentaires…\n\nAstuce : une idée par ligne (emoji + phrase courte) — les retours à la ligne sont conservés à l\'affichage.'}
             rows={4} maxLength={400}
             style={{ ...inp, resize:'vertical', lineHeight:1.5, fontFamily:'inherit' }} />
-        </div>
-        <div style={{ display:'flex', flexDirection:'column', gap:5 }}>
-          <label style={{ fontSize:11, fontWeight:700, color:muted, textTransform:'uppercase', letterSpacing:'0.06em' }}>Corps (EN) — optionnel</label>
+        </Field>
+        <Field label="Corps (EN) — optionnel" hint="Si vide, le corps FR est utilisé pour toutes les langues." hintStyle={{ fontSize:11, color:muted }} style={{ display:'flex', flexDirection:'column', gap:5 }} labelStyle={libelleNotif}>
           <textarea value={bodyEn} onChange={e => setBodyEn(e.target.value)}
             placeholder="Additional details…" rows={3} maxLength={400}
             style={{ ...inp, resize:'vertical', lineHeight:1.5, fontFamily:'inherit' }} />
-          <span style={{ fontSize:11, color:muted }}>Si vide, le corps FR est utilisé pour toutes les langues.</span>
-        </div>
+        </Field>
 
         {/* Aperçu live — rendu EXACT (mêmes composant/styles) que ce que
             verra le destinataire dans sa cloche. Se met à jour à la frappe. */}
@@ -231,7 +261,7 @@ function ComposeModal({ darkMode, onClose, onSent }) {
         <div style={{ display:'flex', gap:8, justifyContent:'flex-end', paddingTop:4 }}>
           <Button
             variant="ghost"
-            onClick={onClose}
+            onClick={fermer}
             className="h-auto rounded-[9px] border bg-transparent px-4 py-2 text-[13px] hover:bg-transparent"
             style={{ borderColor: border, color: muted }}
           >
@@ -241,7 +271,7 @@ function ComposeModal({ darkMode, onClose, onSent }) {
             onClick={handleSend}
             loading={sending}
             disabled={sending}
-            className="h-auto rounded-[9px] bg-[#E07820] px-[18px] py-2 text-[13px] font-bold text-white"
+            className="h-auto rounded-[9px] bg-[#B85000] px-[18px] py-2 text-[13px] font-bold text-white"
             style={{ gap: 7 }}
           >
             {!sending && <LuSend size={13} />}{sending ? 'Envoi…' : 'Envoyer'}
@@ -262,7 +292,8 @@ export default function NotificationsSection({ lang = 'fr', darkMode = false }) 
   const [page,        setPage]        = useState(0)
   const [typeFilter,  setTypeFilter]  = useState('')
   const [showCompose, setShowCompose] = useState(false)
-  const [sentBanner,  setSentBanner]  = useState(false)
+  const [feedback, showFeedback] = useFeedback(6000)
+  const confirm = useConfirm()
 
   const fg     = darkMode ? 'var(--color-bg-warm)' : '#2C1A0E'
   const muted  = darkMode ? '#A0A8B8' : '#7A6A52'
@@ -272,8 +303,8 @@ export default function NotificationsSection({ lang = 'fr', darkMode = false }) 
   // `useReloader` garantit le `finally` (sans lui, une erreur réseau laissait
   // le voyant allumé pour toujours) et périme les réponses en retard : sans ça,
   // enchaîner deux filtres laissait la plus ancienne écraser la plus récente.
-  const { loading, reload: loadFeed } = useReloader(async (estObsolete) => {
-    const { data, count: c } = await getAdminFeed({ page, type: typeFilter || null })
+  const { loading, error, reload: loadFeed } = useReloader(async (estObsolete) => {
+    const { data, count: c } = leverSiErreur(await getAdminFeed({ page, type: typeFilter || null }))
     if (estObsolete()) return
     setItems(data ?? [])
     setCount(c ?? 0)
@@ -287,20 +318,33 @@ export default function NotificationsSection({ lang = 'fr', darkMode = false }) 
   // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => { loadCounts() }, [loadCounts])
 
-  function handleSent() {
+  // Le bandeau dit ce qui s'est vraiment passé, téléphones compris (ADM-03).
+  function handleSent({ pourTous, push }) {
     setShowCompose(false)
-    setSentBanner(true)
-    setTimeout(() => setSentBanner(false), 4000)
+    if (!pourTous) showFeedback(true, 'Message envoyé.')
+    else if (push === 'desactive') showFeedback(true, 'Notification envoyée dans l\'app. L\'envoi sur les téléphones est désactivé.')
+    else if (push === 'ok') showFeedback(true, 'Notification envoyée, dans l\'app et sur les téléphones qui l\'acceptent.')
+    else showFeedback(false, `Notification envoyée dans l'app, mais pas sur les téléphones : ${push.echec}.`)
     loadFeed()
     loadCounts()
   }
 
-  async function handleDelete(id) {
-    const { error } = await adminDeleteNotification(id)
-    if (!error) {
-      setItems(its => its.filter(i => i.id !== id))
-      loadCounts()
-    }
+  // Retirer une DIFFUSION la retire chez tous ses destinataires : la base
+  // supprime tout le lot (`admin_delete_notification_batch`). Le dire, attendre
+  // un oui, et dire un refus — la ligne restait sans un mot (ADM-03).
+  async function handleDelete(n) {
+    const diffusion = !!n.batch_id
+    if (!(await confirm({
+      title: diffusion ? 'Retirer cette notification pour tous ses destinataires ?' : 'Retirer cette ligne du fil ?',
+      body: diffusion ? 'Elle disparaît de la cloche de chaque compte qui l\'a reçue, et de cette liste.' : 'Elle disparaît de cette liste ; rien d\'autre n\'est touché.',
+      confirmLabel: diffusion ? 'Retirer pour tous' : 'Retirer',
+      cancelLabel: 'Garder',
+      danger: true,
+    }))) return
+    const { error } = await adminDeleteNotification(n.id)
+    if (error) { showFeedback(false, messageErreurAdmin(error, lang)); return }
+    setItems(its => its.filter(i => i.id !== n.id))
+    loadCounts()
   }
 
   function handleDeepLink(n) {
@@ -322,13 +366,7 @@ export default function NotificationsSection({ lang = 'fr', darkMode = false }) 
 
       <div style={{ display:'flex', flexDirection:'column', gap:14 }}>
 
-        {/* Bannière succès */}
-        {sentBanner && (
-          <div style={{ display:'flex', alignItems:'center', gap:8, padding:'10px 14px', borderRadius:10, background:'rgba(22,163,74,0.12)', border:'1px solid rgba(22,163,74,0.3)', color:'var(--color-success)', fontSize:13, fontWeight:600 }}>
-            <LuCircleCheck size={15} />
-            Notification envoyée avec succès.
-          </div>
-        )}
+        <FeedbackBanner feedback={feedback} />
 
         {/* Actions */}
         <div style={{ display:'flex', gap:7, justifyContent:'flex-end' }}>
@@ -339,13 +377,12 @@ export default function NotificationsSection({ lang = 'fr', darkMode = false }) 
             className="h-auto rounded-lg border bg-transparent px-3 py-2 text-xs font-semibold hover:bg-transparent"
             style={{ gap: 6, borderColor: border, color: fg }}
           >
-            <LuRefreshCw size={13} style={{ animation: loading ? 'spin 1s linear infinite' : 'none' }} />
-            <style>{`@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}`}</style>
+            <LuRefreshCw size={13} className={loading ? 'animate-spin' : undefined} />
             {t.refresh}
           </Button>
           <Button
             onClick={() => setShowCompose(true)}
-            className="h-auto rounded-lg bg-[#E07820] px-3.5 py-2 text-xs font-bold text-white"
+            className="h-auto rounded-lg bg-[#B85000] px-3.5 py-2 text-xs font-bold text-white"
             style={{ gap: 6 }}
           >
             <LuPlus size={13} /> Envoyer
@@ -378,6 +415,8 @@ export default function NotificationsSection({ lang = 'fr', darkMode = false }) 
         {/* Feed */}
         {loading ? (
           <div style={{ padding:'28px', textAlign:'center', color:muted, fontSize:13 }}>Chargement…</div>
+        ) : error ? (
+          <ChargementRate error={error} onRetry={loadFeed} lang={lang} />
         ) : items.length === 0 ? (
           <div style={{ padding:'36px 18px', textAlign:'center' }}>
             <div style={{ fontSize:28, opacity:0.4, marginBottom:8 }}>🔕</div>
@@ -421,7 +460,7 @@ export default function NotificationsSection({ lang = 'fr', darkMode = false }) 
                     <Button
                       variant="ghost"
                       size="icon"
-                      onClick={() => handleDelete(n.id)}
+                      onClick={() => handleDelete(n)}
                       title="Supprimer du feed"
                       aria-label="Supprimer du feed"
                       className="h-auto w-auto flex-shrink-0 self-start bg-transparent p-1 opacity-60 hover:bg-transparent"

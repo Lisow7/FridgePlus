@@ -7,6 +7,7 @@ import { PREMIUM_ENABLED } from '@shared/lib/premium-config'
 import { useFocusTrap } from '@shared/hooks/use-focus-trap'
 import { useCloseOnBackButton } from '@shared/hooks/use-close-on-back-button'
 import Button from '@shared/ui/button'
+import { TAGLINES } from '@shared/static/taglines'
 
 // Économie annuelle : (4.99×12 − 34.99) / (4.99×12) = 41.6 % → 42 %
 const MONTHLY_PRICE = 4.99
@@ -23,33 +24,8 @@ const FEATURES = [
   { icon: <LuWallet       size={17} />, key: 'budget'  },
 ]
 
-// Phrases rotatives dans le header (une toutes les 3,5 s)
-const TAGLINES = {
-  fr: [
-    'Cuisine mieux, sans limites.',
-    'Ton assistant cuisine personnel.',
-    'Planifie tes repas, simplifie tes courses.',
-    'La liste de courses qui se fait toute seule.',
-    "Plus d'idées, moins de stress en cuisine.",
-    'Transforme tes restes en plats savoureux.',
-    'Des recettes sur mesure, chaque soir.',
-    'Moins de gaspillage, plus de créativité.',
-    'La cuisine du quotidien, enfin inspirante.',
-    "Ouvre ton frigo. Trouve l'inspiration.",
-  ],
-  en: [
-    'Cook better, without limits.',
-    'Your personal kitchen assistant.',
-    'Plan your meals, simplify your shopping.',
-    'The shopping list that builds itself.',
-    'More ideas, less kitchen stress.',
-    'Turn your leftovers into delicious dishes.',
-    'Tailored recipes, every evening.',
-    'Less waste, more creativity.',
-    'Everyday cooking, finally inspiring.',
-    'Open your fridge. Find your inspiration.',
-  ],
-}
+// Phrases rotatives dans le header (une toutes les 3,5 s) : `@shared/static/taglines`
+// (une seule liste avec l'en-tête, UX-10).
 
 const I18N = {
   fr: {
@@ -247,7 +223,7 @@ export default function UpgradeModal({ isOpen, onClose, lang = 'fr', darkMode = 
       >
         {/* ── Header ── */}
         <div style={{
-          background: 'var(--gradient-warm)',
+          background: 'var(--gradient-deep)',
           padding: '26px 26px 22px',
           position: 'relative',
         }}>
@@ -321,7 +297,7 @@ export default function UpgradeModal({ isOpen, onClose, lang = 'fr', darkMode = 
                 borderRadius: '12px', padding: '14px 16px', textAlign: 'center',
                 background: 'rgba(212,106,16,0.08)',
                 border: '1px dashed rgba(212,106,16,0.4)',
-                color: 'var(--color-brand-600)', fontSize: '14px', fontWeight: 700,
+                color: 'var(--color-warm-text)', fontSize: '14px', fontWeight: 700,
               }}>
                 {t.comingSoon}
               </div>
@@ -362,7 +338,7 @@ export default function UpgradeModal({ isOpen, onClose, lang = 'fr', darkMode = 
                 style={{
                   gap: '3px',
                   background: plan === p
-                    ? 'var(--gradient-warm)'
+                    ? 'var(--gradient-deep)'
                     : 'transparent',
                   color: plan === p ? '#fff' : muted,
                   boxShadow: plan === p ? '0 2px 10px rgba(212,106,16,0.3)' : 'none',
@@ -459,7 +435,7 @@ export default function UpgradeModal({ isOpen, onClose, lang = 'fr', darkMode = 
               gap: '8px',
               background: loading
                 ? 'rgba(212,106,16,0.5)'
-                : 'var(--gradient-warm)',
+                : 'var(--gradient-deep)',
               boxShadow: loading ? 'none' : '0 4px 18px rgba(212,106,16,0.4)',
               transition: 'all 0.2s',
             }}

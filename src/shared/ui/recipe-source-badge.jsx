@@ -24,7 +24,7 @@ const I18N = {
 
 const STYLES = {
   community: {
-    background: 'var(--gradient-warm)',
+    background: 'var(--gradient-deep)',
     color: '#FFFFFF',
     shadow: '0 1px 4px rgba(212,106,16,0.30)',
   },

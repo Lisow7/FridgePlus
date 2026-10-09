@@ -1,8 +1,15 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { LuToggleLeft, LuToggleRight } from 'react-icons/lu'
-import { fetchFeatureFlags, setFeatureFlag } from '@shared/api/feature-flags'
+import { loadFeatureFlags, setFeatureFlag } from '@shared/api/feature-flags'
+import { useReloader } from '@shared/hooks/use-reloader'
+import { leverSiErreur } from '@shared/lib/supabase/lever-si-erreur'
+import { useFeedback } from '@features/admin/hooks/use-feedback'
+import FeedbackBanner from '../shared/feedback-banner'
+import ChargementRate from '../shared/chargement-rate'
+import { messageErreurAdmin } from '@features/admin/lib/ecritures-admin'
 import { useFeatureFlags } from '@shared/contexts/feature-flags-provider'
 import Button from '@shared/ui/button'
+import { useConfirm } from '@shared/ui/confirm-dialog/confirm-provider'
 
 // Flags dont une vraie fonctionnalité consomme la clé quelque part dans le code
 // (grep exhaustif sur useFeatureFlag('<key>')). Un flag absent de cette liste
@@ -18,6 +25,8 @@ const I18N = {
     groupLive: 'En production',
     groupPlanned: 'Prévues — pas encore développées',
     plannedWarning: 'Aucun code ne lit ce flag pour l\'instant — l\'activer n\'aura aucun effet visible.',
+    activer: 'Activer', desactiver: 'Désactiver',
+    effet: 'Le changement est immédiat, pour tous les visiteurs.', cle: 'Clé :',
   },
   en: {
     intro: 'Turn a feature on or off in production, without redeploy.',
@@ -26,6 +35,8 @@ const I18N = {
     groupLive: 'Live',
     groupPlanned: 'Planned — not built yet',
     plannedWarning: 'No code reads this flag yet — turning it on has no visible effect.',
+    activer: 'Turn on', desactiver: 'Turn off',
+    effet: 'The change is immediate, for every visitor.', cle: 'Key:',
   },
 }
 
@@ -34,18 +45,34 @@ export default function FeaturesSection({ lang = 'fr', darkMode = false }) {
   const { reload } = useFeatureFlags()
   const [rows, setRows] = useState([])
   const [busy, setBusy] = useState(null)
+  const [feedback, showFeedback] = useFeedback()
+  const confirm = useConfirm()
 
-  useEffect(() => { fetchFeatureFlags().then(setRows) }, [])
+  // Pas lus : le dire, pas « Aucune fonctionnalité configurée » (audit ADM-08, ADM-09).
+  const { error, reload: relire } = useReloader(async (estObsolete) => {
+    const { data } = leverSiErreur(await loadFeatureFlags())
+    if (!estObsolete()) setRows(data)
+  }, [])
 
   const fg    = darkMode ? '#C8D8E8' : '#2C1A0E'
   const muted = darkMode ? '#7A90A8' : '#5C4033'
   const border = darkMode ? '#1E3048' : '#DDD0C0'
 
+  // Basculer agit en production, tout de suite, pour tout le monde : nommer la
+  // fonctionnalité et l'effet, attendre un oui (audit du 2026-10-04, ADM-04).
+  // La base écrit ensuite la bascule au journal (`feature_flag_toggled`).
   async function toggle(row) {
-    setBusy(row.key)
     const next = !row.enabled
-    const { error } = await setFeatureFlag(row.key, next)
-    if (!error) {
+    const verbe = next ? t.activer : t.desactiver
+    if (!(await confirm({
+      title: `${verbe} « ${row.label} » ?`,
+      body: `${t.effet} ${t.cle} ${row.key}.`,
+      confirmLabel: verbe,
+    }))) return
+    setBusy(row.key)
+    const { error: refus } = await setFeatureFlag(row.key, next)
+    if (refus) showFeedback(false, messageErreurAdmin(refus, lang)) // l'interrupteur ne bouge pas : le dire
+    else {
       setRows(rs => rs.map(r => r.key === row.key ? { ...r, enabled: next } : r))
       reload() // rafraîchit le contexte global pour que les hooks useFeatureFlag suivent
     }
@@ -113,7 +140,10 @@ export default function FeaturesSection({ lang = 'fr', darkMode = false }) {
   return (
     <div>
       <p style={{ margin: '0 0 14px', fontSize: 13, color: muted }}>{t.intro}</p>
-      {rows.length === 0 ? (
+      <FeedbackBanner feedback={feedback} />
+      {error ? (
+        <ChargementRate error={error} onRetry={relire} lang={lang} />
+      ) : rows.length === 0 ? (
         <p style={{ fontSize: 13, color: muted }}>{t.empty}</p>
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>

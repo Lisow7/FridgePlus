@@ -22,6 +22,13 @@ vi.mock('@shared/lib/observability/track', () => ({ trackOnce: (...a) => trackOn
 
 import GettingStartedContainer from '@features/onboarding/components/getting-started-container'
 
+// 🔴 La carte est rendue dans un PORTAIL (document.body) : le `container` rendu
+// par `render()` est donc TOUJOURS vide, carte affichée ou non. Six assertions
+// `expect(container).toBeEmptyDOMElement()` passaient ainsi quoi qu'il arrive
+// (constaté le 2026-10-05 en écrivant un test qui aurait dû échouer). On cherche
+// la carte là où elle est : une <section> nommée, c'est-à-dire une « region ».
+const carte = () => screen.queryByRole('region')
+
 describe('GettingStartedContainer (coach)', () => {
   beforeEach(() => {
     localStorage.clear()
@@ -33,10 +40,17 @@ describe('GettingStartedContainer (coach)', () => {
     markWelcomeSeen()
   })
 
+  it('témoin : une carte affichée est bien vue par `carte()` — et pas par le conteneur', () => {
+    const { container } = render(<GettingStartedContainer lang="fr" user={null} onQuickAdd={() => {}} />)
+    expect(carte()).not.toBeNull()
+    expect(carte()).toHaveTextContent('On cuisine ?')
+    expect(container).toBeEmptyDOMElement()
+  })
+
   it('flag off → rien', () => {
     mockState.flag = false
-    const { container } = render(<GettingStartedContainer lang="fr" user={null} />)
-    expect(container).toBeEmptyDOMElement()
+    render(<GettingStartedContainer lang="fr" user={null} />)
+    expect(carte()).toBeNull()
   })
 
   it('masqué (dismissed) → rien ; reopenGuide (footer) le ré-affiche sans reload', () => {
@@ -112,12 +126,48 @@ describe('GettingStartedContainer (coach)', () => {
     expect(screen.getByText('Plus qu\'à cuisiner !')).toBeInTheDocument()
   })
 
+  // Audit du 2026-10-04, P-08 : un compte ancien retrouvait la carte du
+  // débutant sur chaque nouvel appareil (la découverte n'est notée que dans le
+  // navigateur). Il a cuisiné : le parcours est fini — et il n'y a rien à fêter
+  // ICI, où il ne s'est rien passé.
+  it('CONNECTÉ, compte ancien sur un NOUVEL appareil (a cuisiné, aucune trace ici) → ni « On cuisine ? » ni « Bravo », noté terminé', () => {
+    mockState.stock = new Set(['fr-oeuf'])
+    mockHasCooked.value = true
+    render(
+      <StrictMode>
+        <GettingStartedContainer lang="fr" user={{ id: 'u1' }} onOpenRewards={() => {}} />
+      </StrictMode>,
+    )
+    expect(carte()).toBeNull()
+    expect(isCompleted('u1')).toBe(true)
+  })
+
+  it('CONNECTÉ, on ne sait pas encore s\'il a déjà cuisiné → la carte attend, puis apparaît s\'il n\'a jamais cuisiné', () => {
+    mockState.stock = new Set(['fr-oeuf'])
+    mockPick.value = { recipe: { id: 'x', labels: { fr: 'X' } }, status: 'ALMOST' }
+    const props = { lang: 'fr', user: { id: 'u1' }, onOpenRecipes: () => {}, stapleIds: new Set() }
+    mockHasCooked.value = null
+    const { rerender } = render(<GettingStartedContainer {...props} />)
+    // Pas de carte du débutant qui clignote le temps que le serveur réponde.
+    expect(carte()).toBeNull()
+    expect(isCompleted('u1')).toBe(false)
+    mockHasCooked.value = false
+    rerender(<GettingStartedContainer {...props} />)
+    expect(carte()).toHaveTextContent('Presque !')
+  })
+
+  it('INVITÉ : la carte n\'attend aucune réponse du serveur', () => {
+    mockHasCooked.value = null
+    render(<GettingStartedContainer lang="fr" user={null} onOpenRecipes={() => {}} />)
+    expect(screen.getByText('On cuisine ?')).toBeInTheDocument()
+  })
+
   it('CONNECTÉ complété session ANTÉRIEURE → carte retirée (null)', () => {
     localStorage.setItem('fridge-getting-started-v1:u1', JSON.stringify({ completed_v3: true, step2_opened: true }))
     mockState.stock = new Set(['fr-oeuf'])
     mockHasCooked.value = true
-    const { container } = render(<GettingStartedContainer lang="fr" user={{ id: 'u1' }} onOpenRewards={() => {}} />)
-    expect(container).toBeEmptyDOMElement()
+    render(<GettingStartedContainer lang="fr" user={{ id: 'u1' }} onOpenRewards={() => {}} />)
+    expect(carte()).toBeNull()
   })
 
   it('INVITÉ complété (frigo+Aha) → fin inscription + markCompleted(guest) [retrait]', () => {
@@ -132,14 +182,14 @@ describe('GettingStartedContainer (coach)', () => {
   it('INVITÉ complété session ANTÉRIEURE → carte retirée (null)', () => {
     localStorage.setItem('fridge-getting-started-v1:guest', JSON.stringify({ completed_v3: true, step2_opened: true }))
     mockState.stock = new Set(['fr-oeuf'])
-    const { container } = render(<GettingStartedContainer lang="fr" user={null} />)
-    expect(container).toBeEmptyDOMElement()
+    render(<GettingStartedContainer lang="fr" user={null} />)
+    expect(carte()).toBeNull()
   })
 
   it('réduite (dismissed) → guide masqué (le point d\'entrée vit dans le footer)', () => {
     markDismissed('u1')
-    const { container } = render(<GettingStartedContainer lang="fr" user={{ id: 'u1' }} />)
-    expect(container).toBeEmptyDOMElement()
+    render(<GettingStartedContainer lang="fr" user={{ id: 'u1' }} />)
+    expect(carte()).toBeNull()
     expect(screen.queryByText('On cuisine ?')).not.toBeInTheDocument()
   })
 })

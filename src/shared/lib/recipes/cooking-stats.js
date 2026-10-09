@@ -1,7 +1,7 @@
 // Agrégations sur le journal de cuisine (`cooking_logs`).
 //
 // Toutes les fonctions sont pures et synchrones. Elles prennent en entrée
-// un tableau de logs (récupéré via `listAllCookingLogs`) et retournent
+// un tableau de logs (récupéré via `loadAllCookingLogs`) et retournent
 // des objets sérialisables — pas d'effet de bord, pas de PII supplémentaire.
 //
 // Hypothèses sur la forme des logs :

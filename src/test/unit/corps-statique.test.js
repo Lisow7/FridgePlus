@@ -109,6 +109,27 @@ describe('/faq — le corps servi', () => {
   })
 })
 
+describe('/faq → /guide — chaque renvoi « Voir l’étape N » mène quelque part', () => {
+  // Les 12 liens `/guide#etape-N` du /faq servi visaient des ancres que le
+  // /guide servi ne posait pas (`<section>` sans `id`) : seule l'application
+  // les posait, après coup (audit du 2026-10-04, SEO-13). Le test précédent
+  // vérifiait que les liens EXISTENT, pas qu'ils ABOUTISSENT.
+  for (const lang of ['fr', 'en']) {
+    it(`en ${lang} : toute cible existe dans le guide servi`, () => {
+      const cibles = [...corpsFaq(lang).matchAll(/href="\/guide#([^"]+)"/g)].map(m => m[1])
+      expect(cibles.length).toBeGreaterThan(0)
+      const guide = corpsGuide(lang)
+      const orphelines = [...new Set(cibles)].filter(id => !guide.includes(`id="${id}"`))
+      expect(orphelines).toEqual([])
+    })
+  }
+
+  it('les ancres sont numérotées comme dans l’application (etape-1 … etape-5)', () => {
+    const ancres = [...corpsGuide('fr').matchAll(/<section id="(etape-\d)">/g)].map(m => m[1])
+    expect(ancres).toEqual(['etape-1', 'etape-2', 'etape-3', 'etape-4', 'etape-5'])
+  })
+})
+
 describe('balisage FAQPage', () => {
   it('déclare autant de questions que la page en affiche', () => {
     const donnees = jsonLdFaq('fr')

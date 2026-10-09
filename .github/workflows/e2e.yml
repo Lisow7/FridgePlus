@@ -41,7 +41,12 @@ jobs:
   e2e:
     name: Smoke tests
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    # 25 et non 15 (2026-10-07) : les ~230 tests prennent 10 min, et
+    # l'installation de Chromium avec ses dépendances système varie de 22 s à
+    # 5 min 38 s selon les dépôts apt (mesuré sur les PR #1277, #1278, #1279).
+    # La PR #1279 a été coupée à 15 min avec 215 tests verts sur 227 et aucun
+    # rouge. Une limite atteinte doit signaler un blocage, pas un runner lent.
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v7
 

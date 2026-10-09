@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from 'vitest'
+import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 
@@ -19,7 +19,10 @@ vi.mock('@shared/ui/pricing-test-banner', () => ({ default: () => null }))
 vi.mock('@shared/ui/upgrade-gate', () => ({ UpgradeGate: ({ children }) => children }))
 vi.mock('@shared/ui/emoji', () => ({ default: ({ char }) => char }))
 vi.mock('@shared/ui/info-tooltip', () => ({ default: () => null }))
-vi.mock('@shared/hooks/use-badge-celebration', () => ({ useBadgeCelebration: () => vi.fn() }))
+const celebrateMock = vi.fn()
+vi.mock('@shared/hooks/use-badge-celebration', () => ({ useBadgeCelebration: () => celebrateMock }))
+const signalerMock = vi.fn()
+vi.mock('@shared/hooks/use-save-error-toast', () => ({ useSaveErrorToast: () => signalerMock }))
 vi.mock('@shared/lib/pricing/open-prices', () => ({ refreshPrices: vi.fn().mockResolvedValue({}), clearPriceCache: vi.fn() }))
 const logCookingMock = vi.fn().mockResolvedValue({})
 vi.mock('@shared/api/cooking-logs', () => ({ logCooking: (...args) => logCookingMock(...args) }))
@@ -55,7 +58,46 @@ function renderModal() {
   )
 }
 
+// Ce que la fiche affirme une fois le plat noté (écrit par le pied de fiche).
+const CONFIRMATION = /Ajoutée à ton journal de cuisine/
+
 describe('RecipeModal — notation rapide post-cuisson', () => {
+  beforeEach(() => {
+    logCookingMock.mockReset(); logCookingMock.mockResolvedValue({ error: null })
+    promptQuickRateMock.mockReset(); celebrateMock.mockReset(); signalerMock.mockReset()
+  })
+
+  // Hors audit, trouvé le 2026-10-05 : `logCooking` ne rendait rien, et la
+  // suite partait quoi qu'il arrive.
+  it('le journal refuse : pas de célébration, pas d’invite à noter, pas de « Ajoutée à ton journal » — et c’est dit', async () => {
+    logCookingMock.mockResolvedValue({ error: { message: 'Failed to fetch' } })
+    renderModal()
+    fireEvent.click(screen.getByText("J'ai cuisiné cette recette"))
+    await waitFor(() => expect(signalerMock).toHaveBeenCalledWith('cooking'))
+    expect(celebrateMock).not.toHaveBeenCalled()
+    expect(promptQuickRateMock).not.toHaveBeenCalled()
+    expect(screen.queryByText(CONFIRMATION)).toBeNull()
+  })
+
+  it('le journal accepte : la confirmation s’affiche, la célébration part, rien d’autre n’est dit (témoin)', async () => {
+    renderModal()
+    fireEvent.click(screen.getByText("J'ai cuisiné cette recette"))
+    expect(await screen.findByText(CONFIRMATION)).toBeInTheDocument()
+    expect(celebrateMock).toHaveBeenCalledTimes(1)
+    expect(signalerMock).not.toHaveBeenCalled()
+  })
+
+  it('la confirmation n’est pas affichée AVANT la réponse de la base', async () => {
+    let trancher
+    logCookingMock.mockReturnValue(new Promise((resolve) => { trancher = resolve }))
+    renderModal()
+    fireEvent.click(screen.getByText("J'ai cuisiné cette recette"))
+    await waitFor(() => expect(logCookingMock).toHaveBeenCalled())
+    expect(screen.queryByText(CONFIRMATION)).toBeNull()
+    trancher({ error: null })
+    expect(await screen.findByText(CONFIRMATION)).toBeInTheDocument()
+  })
+
   it('clic sur "J\'ai cuisiné cette recette" (aucun ingrédient en stock) : appelle useQuickRatePrompt après logCooking', async () => {
     renderModal()
     fireEvent.click(screen.getByText("J'ai cuisiné cette recette"))

@@ -2,10 +2,15 @@
 // 2 étapes (invité : remplis le frigo → découvre une recette cuisinable) ou 3
 // (connecté : + cuisine ton premier plat). Le favori est SORTI du fil (geste
 // secondaire). step2 = Aha = a vu une recette READY (cf. Fix C).
+//
+// 2026-10-04 (audit P-08) : la découverte (step2) n'est notée que dans le
+// navigateur, alors que « a cuisiné » (step3) vient du serveur. Un compte qui a
+// déjà cuisiné a forcément fait la découverte — sur un autre appareil. Sans
+// cette règle il retrouvait la carte du débutant sur chaque nouvel appareil.
 export function computeSteps({ hasStock, suggestionOpened, hasCooked, isGuest }) {
   const step1 = !!hasStock
-  const step2 = !!suggestionOpened
   const step3 = !!hasCooked
+  const step2 = !!suggestionOpened || (!isGuest && step3)
   const total = isGuest ? 2 : 3
   const doneCount = [step1, step2, step3].slice(0, total).filter(Boolean).length
   // `completed` ne dépend PAS de step1 : step1 (hasStock) est LIVE et volatil —

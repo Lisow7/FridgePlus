@@ -1,7 +1,7 @@
 import { useId, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { LuX, LuMic, LuDoorOpen, LuDoorClosed, LuChefHat, LuGrid2X2, LuCookingPot, LuCamera, LuClipboardList, LuSearch } from 'react-icons/lu'
-import { useUndo } from '@shared/contexts/undo-provider'
+import { useViderLeFrigo } from '@features/fridge/hooks/use-vider-le-frigo'
 import { useFocusTrap } from '@shared/hooks/use-focus-trap'
 import { useCloseOnBackButton } from '@shared/hooks/use-close-on-back-button'
 import { useWindowWidth } from '@shared/hooks/use-window-width'
@@ -40,7 +40,7 @@ const I18N = {
     empty: 'Vider',
     confirm_title: 'Vider ton frigo ?',
     confirm_body: 'Tous les ingrédients seront retirés. Tu auras 10 secondes pour annuler.',
-    confirm_ok: 'Vider', confirm_cancel: 'Annuler', empty_toast: 'Frigo vidé',
+    confirm_ok: 'Vider', confirm_cancel: 'Annuler',
     close: 'Fermer',
     mic_add: 'À la voix',
     photo_receipt: 'Photo du ticket',
@@ -66,7 +66,7 @@ const I18N = {
     empty: 'Empty',
     confirm_title: 'Empty your fridge?',
     confirm_body: "All ingredients will be removed. You'll have 10 seconds to undo.",
-    confirm_ok: 'Empty', confirm_cancel: 'Cancel', empty_toast: 'Fridge emptied',
+    confirm_ok: 'Empty', confirm_cancel: 'Cancel',
     close: 'Close',
     mic_add: 'By voice',
     photo_receipt: 'Receipt photo',
@@ -81,7 +81,7 @@ function SectionLabel({ label, darkMode }) {
     <div aria-hidden="true" style={{
       padding: '8px 14px 3px', fontSize: '10.5px', fontWeight: 700,
       letterSpacing: '0.07em', textTransform: 'uppercase',
-      color: darkMode ? '#7A90A8' : '#9A7B60',
+      color: darkMode ? '#7A90A8' : '#886C54',
       userSelect: 'none',
     }}>{label}</div>
   )
@@ -89,7 +89,7 @@ function SectionLabel({ label, darkMode }) {
 
 function MenuItem({ icon, label, hint, onClick, danger, disabled, darkMode, badge = 0 }) {
   const fg = danger ? 'var(--color-danger)' : (darkMode ? 'var(--color-bg-warm)' : 'var(--color-charcoal)')
-  const muted = darkMode ? '#8FA3B8' : '#8A7560'
+  const muted = darkMode ? '#8FA3B8' : '#826E5A'
   const hover = darkMode ? 'rgba(247,168,94,0.10)' : 'rgba(212,106,16,0.07)'
   const labelId = useId()
   const hintId = useId()
@@ -174,7 +174,7 @@ export default function FridgeFAB({
   const [showInventory, setShowInventory] = useState(false)
   // Ouvert par « Chercher un aliment » : même panneau, curseur déjà dans le champ
   const [inventorySearchFirst, setInventorySearchFirst] = useState(false)
-  const { trigger: triggerUndo } = useUndo()
+  const viderLeFrigo = useViderLeFrigo({ stock, lang, onEmptyOptimistic, onEmptyConfirm, onEmptyUndo })
   const windowWidth = useWindowWidth()
   const isDesktop = windowWidth >= 1280
   const stockCount = stock?.size ?? 0
@@ -202,10 +202,7 @@ export default function FridgeFAB({
   const handleReceiptScan = run(onReceiptScanStart)
   const handleEmptyConfirm = () => {
     setConfirmOpen(false)
-    if (!hasStock) return
-    const stashed = new Set(stock)
-    onEmptyOptimistic?.()
-    triggerUndo({ label: t.empty_toast, onConfirm: () => onEmptyConfirm?.(stashed), onUndo: () => onEmptyUndo?.(stashed) })
+    viderLeFrigo()
   }
 
   const sepColor = darkMode ? '#1E2E42' : 'var(--color-border-warm)'
@@ -227,9 +224,11 @@ export default function FridgeFAB({
               aria-label={t.fab_label}
               aria-expanded={open}
               aria-haspopup="menu"
+              // Fermé, il luit comme les poignées du frigo (cf. .fp-luit-bouton)
+              className={open ? undefined : 'fp-luit-bouton'}
               style={{
                 width: 44, height: 44, borderRadius: 12, border: 'none',
-                background: open ? (darkMode ? '#1A2535' : 'var(--color-bg-warm)') : 'var(--gradient-warm)',
+                background: open ? (darkMode ? '#1A2535' : 'var(--color-bg-warm)') : 'var(--gradient-deep)',
                 color: open ? (darkMode ? '#8AACCA' : '#6B4030') : 'white',
                 boxShadow: open ? '0 2px 8px rgba(0,0,0,0.18)' : '0 4px 16px rgba(212,106,16,0.45)',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',

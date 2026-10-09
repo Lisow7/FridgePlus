@@ -58,9 +58,10 @@ describe('/suppression-compte — l’exigence Google Play tient dans les trois 
       expect(html.length, `corps ${lang} suspicieusement court`).toBeGreaterThan(600)
       expect(html, `corps ${lang} : adresse de recours absente`).toContain(EMAIL_SUPPRESSION)
       expect(html, `corps ${lang} : délai absent`).toContain(String(DELAI_EFFACEMENT_JOURS))
-      // Le chemin est ÉCHAPPÉ dans le HTML (« → » et les guillemets) : on
-      // cherche donc un fragment stable, pas la chaîne brute.
-      const repere = lang === 'fr' ? 'Confidentialit' : 'Privacy'
+      // Le chemin est ÉCHAPPÉ dans le HTML (« → », les guillemets, le « & ») :
+      // on cherche donc un fragment stable, pas la chaîne brute. (Le repère
+      // était « Confidentialit » : l'onglet n'existait plus — CPT-07.)
+      const repere = lang === 'fr' ? 'Zone de danger' : 'Danger zone'
       expect(html, `corps ${lang} : chemin dans l’app absent`).toContain(repere)
       expect(CHEMIN_DANS_APP[lang], `chemin ${lang} non défini`).toBeTruthy()
     }

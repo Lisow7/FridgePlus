@@ -21,6 +21,21 @@
 // Ce module ne « corrige » pas les échecs — il les rend visibles, ce qui est
 // la seule chose honnête à faire ici.
 
+const EN_MEME_TEMPS = 5
+
+// Lance `tache(element, position)` sur chaque élément, jamais plus de `n` à la
+// fois : `n` ouvriers prennent tour à tour l'élément suivant de la liste.
+function lancerAuPlus(n, liste, tache) {
+  let suivant = 0
+  const ouvrier = async () => {
+    while (suivant < liste.length) {
+      const i = suivant++
+      await tache(liste[i], i)
+    }
+  }
+  return Promise.all(Array.from({ length: Math.min(n, liste.length) }, ouvrier))
+}
+
 /**
  * @param {string[]} ids
  * @param {(id: string) => Promise<{error?: unknown}|void>} action
@@ -32,16 +47,22 @@ export async function appliquerEnLot(ids, action) {
     return { total: 0, reussis: 0, echecs: 0, toutReussi: true, premiereErreur: null }
   }
 
-  const resultats = await Promise.all(liste.map(async (id) => {
+  // Au plus EN_MEME_TEMPS écritures à la fois (audit du 2026-10-04, ADM-23 :
+  // une sélection de 80 recettes partait en 80 requêtes simultanées). Chaque
+  // résultat est rangé à la position de son identifiant : la « première
+  // erreur » reste celle du premier identifiant en échec, quel que soit
+  // l'ordre d'arrivée des réponses.
+  const resultats = new Array(liste.length)
+  await lancerAuPlus(EN_MEME_TEMPS, liste, async (id, i) => {
     try {
-      return await action(id)
+      resultats[i] = await action(id)
     } catch (e) {
       // Une action qui LÈVE compte comme un échec au même titre qu'une qui
-      // rend `{ error }` : sans ce filet, `Promise.all` rejetterait et le
-      // reste du lot resterait dans un état inconnu.
-      return { error: e?.message ?? String(e) }
+      // rend `{ error }` : sans ce filet, le lot s'arrêterait et son reste
+      // resterait dans un état inconnu.
+      resultats[i] = { error: e?.message ?? String(e) }
     }
-  }))
+  })
 
   // Les API d'administration ne sont pas homogènes : certaines rendent
   // `{ error: 'texte' }`, d'autres `{ error: objetSupabase }`.

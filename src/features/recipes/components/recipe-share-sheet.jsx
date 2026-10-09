@@ -3,9 +3,9 @@ import { LuPrinter, LuLink, LuShare2, LuCheck } from 'react-icons/lu'
 import { useQrCode } from '@shared/hooks/use-qr-code'
 import { useCloseOnBackButton } from '@shared/hooks/use-close-on-back-button'
 import { useFocusTrap } from '@shared/hooks/use-focus-trap'
-import { buildRecipePrintHtml } from '@features/recipes/lib/recipe-print'
-import { printHtmlDocument } from '@shared/lib/print/print-document'
+import { printReactElement } from '@shared/lib/print/print-element'
 import BottomSheet from '@shared/ui/bottom-sheet'
+import RecipePrintSheet from './recipe-print-sheet'
 
 const I18N = {
   fr: {
@@ -25,7 +25,9 @@ const I18N = {
 // RecipeShareSheet — bottom-sheet de partage d'une recette.
 // Imprimer (fiche technique) toujours présent ; Copier le lien / Partage natif /
 // QR uniquement si la recette est publiquement accessible (`isShareable`).
-export default function RecipeShareSheet({ open, lang = 'fr', darkMode = false, onClose, recipe, shareUrl, isShareable }) {
+// `recipeName` et `recipeSteps` sont ceux que la fenêtre affiche : la fiche
+// imprimée reprend exactement ce que la personne a sous les yeux.
+export default function RecipeShareSheet({ open, lang = 'fr', darkMode = false, onClose, recipe, recipeName, recipeSteps, shareUrl, isShareable }) {
   const t = I18N[lang] ?? I18N.fr
   const [copied, setCopied] = useState(false)
   const qrSrc = useQrCode(isShareable ? shareUrl : null, {
@@ -43,7 +45,10 @@ export default function RecipeShareSheet({ open, lang = 'fr', darkMode = false, 
   const muted = darkMode ? '#7A90A8' : '#8A6A60'
   const fg = darkMode ? '#E8EEF5' : '#1a0e00'
 
-  const handlePrint = () => { printHtmlDocument(buildRecipePrintHtml(recipe, lang)); onClose() }
+  const handlePrint = () => {
+    printReactElement(<RecipePrintSheet recipe={recipe} name={recipeName} steps={recipeSteps} lang={lang} />)
+    onClose()
+  }
   const handleCopy = async () => {
     let ok = false
     if (navigator.clipboard?.writeText) {

@@ -18,7 +18,8 @@
 //   nutrition NutritionInformation par portion.
 
 import { computeRecipeNutrition } from '@shared/lib/recipes/recipe-nutrition'
-import { getIngredientItemsFlat, getIngredientIds, getIngredientQty } from '@shared/lib/recipes/recipe-ingredients'
+import { getIngredientItemsFlat, ligneIngredient } from '@shared/lib/recipes/recipe-ingredients'
+import { categorieSchemaOrg, cuisineSchemaOrg } from '@shared/lib/recipes/balisage-recette'
 
 // Domaine de production, en dur et volontairement PAS `window.location.origin` :
 //   - garde ce module pur et testable sans DOM ;
@@ -65,29 +66,8 @@ function minutesToIso(mins) {
 // Logique déplacée dans @shared/lib/recipes/recipe-nutrition (Phase 10b.3).
 // La fonction computeRecipeNutrition y est importée ci-dessus.
 
-// ── Map type Fridge+ → recipeCategory Schema.org ──────────────────────────────
-const TYPE_TO_CATEGORY = {
-  // Anciens codes (fichiers JS statiques)
-  entree:    'Appetizer',
-  plat:      'Main Course',
-  dessert:   'Dessert',
-  apero:     'Snack',
-  brunch:    'Brunch',
-  petitdej:  'Breakfast',
-  sauce:     'Sauce',
-  boisson:   'Beverage',
-  soupe:     'Soup',
-  accompagnement: 'Side Dish',
-  // Codes BDD (recipes_unified)
-  main:      'Main Course',
-  starter:   'Appetizer',
-  salad:     'Salad',
-  side:      'Side Dish',
-  // Labels FR (recipes_unified, valeurs héritées)
-  'Plat principal':   'Main Course',
-  'Entrée & Soupe':   'Appetizer',
-  'Accompagnement':   'Side Dish',
-}
+// Type → `recipeCategory` et pays → `recipeCuisine` : `balisage-recette.js`,
+// le module que lit aussi le pré-rendu (audit du 2026-10-04, SEO-13).
 
 // ── Mapper principal ──────────────────────────────────────────────────────────
 
@@ -95,19 +75,10 @@ export function recipeToSchemaOrg({ recipe, recipeName, lang = 'fr', countries =
   if (!recipe) return null
 
   // ── Ingrédients : "200 g de pâtes" / "2 tomates" ─────────────────────────
-  const recipeIngredient = getIngredientItemsFlat(recipe).map(ing => {
-    const baseId = getIngredientIds(ing)[0]
-    const baseInfo = ingredientsById?.get?.(baseId)
-    const baseName = baseInfo?.labels?.[lang] ?? baseInfo?.labels?.fr
-                  ?? ing.labels?.[lang] ?? ing.label ?? baseId ?? ''
-    const qty = getIngredientQty(ing)
-    if (qty?.amount != null) {
-      const unit = qty.unit && qty.unit !== 'pcs' ? ` ${qty.unit}` : ''
-      const sep = qty.unit === 'pcs' ? ' ' : ' de '
-      return `${qty.amount}${unit}${sep}${baseName}`.trim()
-    }
-    return baseName
-  }).filter(Boolean)
+  // Règle partagée avec le HTML pré-rendu (`ligneIngredient`, SEO-06).
+  const recipeIngredient = getIngredientItemsFlat(recipe)
+    .map(ing => ligneIngredient(ing, ingredientsById, lang))
+    .filter(Boolean)
 
   // ── Instructions ──────────────────────────────────────────────────────────
   // custom recipes ont `steps[]` (array d'objets `{id, text}`).
@@ -134,10 +105,11 @@ export function recipeToSchemaOrg({ recipe, recipeName, lang = 'fr', countries =
   const cookTime  = minutesToIso(recipe.cook_time_min)
 
   // ── Autres champs de base ─────────────────────────────────────────────────
-  const cuisine = recipe.country && countries[recipe.country]
-    ? (countries[recipe.country].names?.[lang] ?? countries[recipe.country].names?.fr ?? recipe.country)
+  const pays = recipe.country ? countries[recipe.country] : undefined
+  const cuisine = pays
+    ? cuisineSchemaOrg({ code: recipe.country, nom: pays.names?.[lang] ?? pays.names?.fr ?? recipe.country })
     : undefined
-  const category = TYPE_TO_CATEGORY[recipe.type]
+  const category = categorieSchemaOrg(recipe.type)
   const servings = recipe.servings
     ? `${recipe.servings} portions`
     : undefined

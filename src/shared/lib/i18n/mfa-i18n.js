@@ -23,7 +23,7 @@ export const MFA_I18N = {
 
     invalidCode:    'Code invalide. Réessaie.',
     successTitle:   '✅ Activée',
-    successDesc:    'Ton compte est désormais protégé par double authentification. Au prochain login, on te demandera un code après ton mot de passe.',
+    successDesc:    'Ton compte est désormais protégé par double authentification. À chaque connexion, on te demandera un code après ton mot de passe.',
     closeBtn:       'Fermer',
 
     profileSection:    "Authentification à deux facteurs (2FA)",
@@ -33,6 +33,18 @@ export const MFA_I18N = {
     activateBtn:       'Activer la 2FA',
     deactivateBtn:     'Désactiver',
     deactivateConfirm: 'Désactiver la double authentification ? Ton compte sera moins sécurisé.',
+
+    // La porte « Vérification en 2 étapes » (audit du 2026-10-04, CPT-01).
+    gateTitle:       'Vérification en 2 étapes',
+    gateIntro:       'Entre le code à 6 chiffres affiché par ton application d’authentification.',
+    gateIncomplete:  'Entre les 6 chiffres du code.',
+    gateInvalid:     'Code incorrect. Vérifie que l’heure de ton téléphone est juste, puis réessaie.',
+    gateTooMany:     'Trop d’essais. Attends une minute avant de réessayer.',
+    gateFailed:      'La vérification n’a pas abouti. Vérifie ta connexion, puis réessaie.',
+    gateLost:        'Je n’ai plus accès à mon application',
+    gateLostHelp:    'Écris au support depuis l’adresse e-mail de ton compte : on vérifie que c’est bien toi avant de retirer la double authentification.',
+    gateLostSubject: 'Double authentification : je n’ai plus accès à mon application',
+    gateSignOut:     'Me déconnecter',
   },
   en: {
     noActiveFactor: 'No active MFA factor found.',
@@ -56,7 +68,7 @@ export const MFA_I18N = {
 
     invalidCode:    'Invalid code. Try again.',
     successTitle:   '✅ Enabled',
-    successDesc:    "Your account is now protected by two-factor authentication. On your next login, you'll be asked for a code after your password.",
+    successDesc:    "Your account is now protected by two-factor authentication. At every sign-in, you'll be asked for a code after your password.",
     closeBtn:       'Close',
 
     profileSection:    'Two-factor authentication (2FA)',
@@ -66,5 +78,16 @@ export const MFA_I18N = {
     activateBtn:       'Enable 2FA',
     deactivateBtn:     'Disable',
     deactivateConfirm: 'Disable two-factor authentication? Your account will be less secure.',
+
+    gateTitle:       '2-step verification',
+    gateIntro:       'Enter the 6-digit code shown in your authenticator app.',
+    gateIncomplete:  'Enter all 6 digits of the code.',
+    gateInvalid:     'Wrong code. Check that your phone’s clock is right, then try again.',
+    gateTooMany:     'Too many attempts. Wait a minute before trying again.',
+    gateFailed:      'The verification did not go through. Check your connection, then try again.',
+    gateLost:        'I no longer have access to my app',
+    gateLostHelp:    'Write to support from your account’s email address: we check that it’s really you before removing two-factor authentication.',
+    gateLostSubject: 'Two-factor authentication: I no longer have access to my app',
+    gateSignOut:     'Sign out',
   },
 }

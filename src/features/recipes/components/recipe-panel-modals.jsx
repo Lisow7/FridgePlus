@@ -1,5 +1,6 @@
 import { LuRotateCcw } from 'react-icons/lu'
 import Button from '@shared/ui/button'
+import { useDialogue } from '@shared/hooks/use-dialogue'
 import { useBaseRecipes, useCountries, useDietTypes } from '@shared/contexts/data-provider'
 import { TYPE_COLORS, DIFFICULTY_COLOR } from '@shared/static/recipe-constants'
 import RecipeFiltersDrawer from './filters/recipe-filters-drawer'
@@ -22,6 +23,9 @@ export default function RecipePanelModals({ filters, ui, t, lang, darkMode, isMo
     showRouletteAlert, setShowRouletteAlert,
     filtersDrawerOpen, setFiltersDrawerOpen,
   } = ui
+  // De vraies boîtes de dialogue : rôle, nom, focus piégé, Échap (A11Y-01).
+  const dialogueVider = useDialogue({ onClose: () => setShowResetConfirm(false), actif: showResetConfirm })
+  const dialogueRoulette = useDialogue({ onClose: () => setShowRouletteAlert(false), actif: showRouletteAlert })
   const {
     sortMode, setSortMode, difficultySet, toggleDifficulty, typeSet, toggleType,
     countrySet, toggleCountry, clearCountry, dietSet, toggleDiet,
@@ -29,7 +33,7 @@ export default function RecipePanelModals({ filters, ui, t, lang, darkMode, isMo
     noCookOnly, setNoCookOnly, antiWasteOnly, setAntiWasteOnly,
     freezerFriendlyOnly, setFreezerFriendlyOnly, kidsFriendlyOnly, setKidsFriendlyOnly,
     batchCookingOnly, setBatchCookingOnly,
-    minProtein, setMinProtein, maxCalories, setMaxCalories, maxBudget, setMaxBudget,
+    minProtein, setMinProtein, maxCalories, setMaxCalories, maxBudget, setMaxBudget, budgetVisible,
     resetFilters,
   } = filters
 
@@ -71,6 +75,7 @@ export default function RecipePanelModals({ filters, ui, t, lang, darkMode, isMo
     >
       <div
         onClick={e => e.stopPropagation()}
+        {...dialogueVider.proprietes}
         className="max-w-[380px] w-full p-7 rounded-2xl text-center"
         style={{
           background:  darkMode ? '#1A2535' : '#FFFAF3',
@@ -84,7 +89,7 @@ export default function RecipePanelModals({ filters, ui, t, lang, darkMode, isMo
         >
           <LuRotateCcw size={26} style={{ color: '#C05050' }} />
         </div>
-        <div className="text-lg font-bold mb-2" style={{ color: darkMode ? 'var(--color-bg-warm)' : '#2C1A0E' }}>
+        <div id={dialogueVider.titreId} className="text-lg font-bold mb-2" style={{ color: darkMode ? 'var(--color-bg-warm)' : '#2C1A0E' }}>
           {t.resetConfirmTitle}
         </div>
         <p className="text-sm leading-relaxed mb-6" style={{ color: darkMode ? 'rgba(255,255,255,0.65)' : '#7A6A52' }}>
@@ -118,6 +123,7 @@ export default function RecipePanelModals({ filters, ui, t, lang, darkMode, isMo
     >
       <div
         onClick={e => e.stopPropagation()}
+        {...dialogueRoulette.proprietes}
         className="max-w-[420px] w-full p-7 rounded-2xl text-center"
         style={{
           background: darkMode ? '#1A2535' : '#FFFAF3',
@@ -126,7 +132,7 @@ export default function RecipePanelModals({ filters, ui, t, lang, darkMode, isMo
         }}
       >
         <div className="text-5xl mb-3">🎲</div>
-        <div className="text-lg font-bold mb-2.5" style={{ color: darkMode ? 'var(--color-bg-warm)' : '#2C1A0E' }}>
+        <div id={dialogueRoulette.titreId} className="text-lg font-bold mb-2.5" style={{ color: darkMode ? 'var(--color-bg-warm)' : '#2C1A0E' }}>
           {t.rouletteLabel}
         </div>
         <p className="text-sm leading-relaxed mb-5" style={{ color: darkMode ? 'rgba(255,255,255,0.70)' : '#7A6A52' }}>
@@ -134,7 +140,7 @@ export default function RecipePanelModals({ filters, ui, t, lang, darkMode, isMo
         </p>
         <Button
           onClick={() => setShowRouletteAlert(false)}
-          className="h-auto rounded-xl bg-[#E07820] px-7 py-2.5 text-sm font-bold text-white shadow-[0_3px_12px_rgba(224,120,32,0.35)]"
+          className="h-auto rounded-xl bg-[#B85000] px-7 py-2.5 text-sm font-bold text-white shadow-[0_3px_12px_rgba(184,80,0,0.30)]"
         >
           OK
         </Button>
@@ -165,6 +171,7 @@ export default function RecipePanelModals({ filters, ui, t, lang, darkMode, isMo
     minProtein={minProtein}       setMinProtein={setMinProtein}
     maxCalories={maxCalories}     setMaxCalories={setMaxCalories}
     maxBudget={maxBudget}         setMaxBudget={setMaxBudget}
+    budgetVisible={budgetVisible}
     resetFilters={resetFilters}
     typeOptions={t.typeOptions.filter(o => o.value !== 'all')}
     difficultyOptions={difficultyOptions}
@@ -200,6 +207,7 @@ export default function RecipePanelModals({ filters, ui, t, lang, darkMode, isMo
       batchCookingDesc:    t.batchCookingDesc,
       // Phase 10b.3 — sliders nutrition + budget
       nutritionBudgetLabel: t.nutritionBudgetLabel,
+      nutritionLabel:       t.nutritionLabel,
       minProtein:           t.minProtein,
       minProteinDesc:       t.minProteinDesc,
       maxCalories:          t.maxCalories,

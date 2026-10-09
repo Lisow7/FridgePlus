@@ -1,4 +1,5 @@
 import { useBaseRecipes } from '@shared/contexts/data-provider'
+import { useRecipeById } from '@features/recipes/hooks/use-recipe-by-id'
 import { useCloseOnBackButton } from '@shared/hooks/use-close-on-back-button'
 import { pickLocalizedName } from '@shared/lib/recipes/recipe-i18n'
 import { computeLockedServings } from '@features/recipes/lib/base-recipe-servings-lock'
@@ -29,8 +30,10 @@ export default function BaseRecipeOverlay({
   stock, favorites, onToggleFavorite, onToggleIngredient, allergenPrefs,
   onAddToCart, basketRecipeIds,
 }) {
-  const { recipesById, recipeNames } = useBaseRecipes()
-  const recipe = recipesById.get(recipeId)
+  const { recipeNames } = useBaseRecipes()
+  // La fiche complète, comme sur la page d'une recette : le catalogue n'a plus
+  // les étapes (audit du 2026-10-04, PERF-01).
+  const { recipe } = useRecipeById(recipeId)
 
   useCloseOnBackButton(true, onClose)
 

@@ -165,8 +165,8 @@ export default function SubcategoryModal({ compartment, subcategory, ingredients
  className={`relative overflow-hidden ${!isMobile ? 'fp-modal-panel' : ''}`}
  style={{
  ...(isMobile
- ? { width: '100%', height: '88vh', borderRadius: '22px 22px 0 0', boxShadow: '0 -6px 36px rgba(0,0,0,0.16)' }
- : { width: '500px', maxHeight: '78vh', borderRadius: '24px', boxShadow: '0 8px 48px rgba(0,0,0,0.22)' }
+ ? { width: '100%', height: '88dvh', borderRadius: '22px 22px 0 0', boxShadow: '0 -6px 36px rgba(0,0,0,0.16)' }
+ : { width: '500px', maxHeight: '78dvh', borderRadius: '24px', boxShadow: '0 8px 48px rgba(0,0,0,0.22)' }
  ),
  background: darkMode ? '#131E2C' : '#FDFAF6',
  animation: isMobile
@@ -431,7 +431,7 @@ export default function SubcategoryModal({ compartment, subcategory, ingredients
  style={{
  position: 'absolute', bottom: '20px', left: '50%',
  width: '56px', height: '56px', borderRadius: '50%',
- background: 'var(--gradient-warm)',
+ background: 'var(--gradient-deep)',
  boxShadow: '0 4px 16px rgba(200,100,16,0.32)',
  border: 'none', cursor: 'pointer',
  display: 'flex', alignItems: 'center', justifyContent: 'center',

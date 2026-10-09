@@ -15,7 +15,7 @@ test('« Chercher un aliment » : champ prêt, « oeuf » donne des œufs, « p�
   await page.getByRole('button', { name: 'Actions rapides' }).click()
   await page.getByRole('menuitem', { name: /Chercher un aliment/ }).or(page.getByRole('button', { name: /Chercher un aliment/ })).first().click()
 
-  const champ = page.getByRole('textbox', { name: 'Rechercher un aliment…' })
+  const champ = page.getByRole('textbox', { name: 'Rechercher un aliment' })
   await expect(champ).toBeFocused()
 
   await champ.fill('oeuf')

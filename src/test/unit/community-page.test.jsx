@@ -27,6 +27,10 @@ vi.mock('@shared/contexts/data-provider', () => ({
   useBaseRecipes: () => ({ recipes: [], recipeNames: {} }),
 }))
 
+vi.mock('@shared/hooks/use-save-error-toast', () => ({
+  useSaveErrorToast: () => vi.fn(),
+}))
+
 const { mockPost, mockReply } = vi.hoisted(() => ({
   mockPost: {
     id: 'p1',

@@ -31,7 +31,10 @@ export function useCartActions({ user, basket, stock, lang, ingredientsById, ref
 
   const handleLoadList = useCallback(async (items) => {
     if (!user?.id || !Array.isArray(items)) return { error: { message: 'invalid_args' } }
-    await clearBasket(user.id)
+    // Un vidage refusé arrête tout : sinon la liste s'ajoutait PAR-DESSUS
+    // l'ancien panier, et l'écran la disait chargée (relevé le 2026-10-08).
+    const { error: erreurVidage } = await clearBasket(user.id)
+    if (erreurVidage) return { error: erreurVidage }
     const rows = items.map(it => ({
       recipe_id: it.recipe_id ?? null,
       recipe_name: it.recipe_name ?? null,

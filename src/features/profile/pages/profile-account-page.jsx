@@ -44,14 +44,14 @@ const I18N = {
     idResetSent:  '✓ E-mail envoyé. Vérifie ta boîte de réception.',
     idResetError: 'Impossible d\'envoyer l\'e-mail. Réessaie plus tard.',
     privTitle:    'Confidentialité & cookies',
-    privDesc:     'Préférences cookies et opt-out profilage.',
+    privDesc:     'Tes choix de cookies, et ton droit de refuser le profilage.',
     dataTitle:    'Télécharger mes données',
-    dataDesc:     'Export JSON complet de ton compte (RGPD Art. 15/20).',
-    exportText:   'Profil, stock, recettes, favoris, panier, restes, tickets.',
+    dataDesc:     'Un fichier avec tout ce que contient ton compte.',
+    exportText:   'Profil, frigo, recettes, favoris, panier, restes, journal de cuisine, dépenses, messages et avis de la communauté, notifications, tickets.',
     exportBtn:    'Télécharger',
     exportLoad:   'Préparation…',
     exportOk:     'Téléchargement démarré.',
-    exportErr:    'Erreur. Réessaie plus tard.',
+    exportErr:    'Export incomplet : rien n\'a été téléchargé. Réessaie.',
     dangerTitle:  'Zone de danger',
     dangerDesc:   'Supprimer ton compte.',
     dangerText:   'Tes données sont conservées 30 jours. Tu peux annuler la suppression à tout moment en te reconnectant. Passé ce délai, tout est effacé définitivement.',
@@ -77,14 +77,14 @@ const I18N = {
     idResetSent:  '✓ E-mail sent. Check your inbox.',
     idResetError: 'Could not send e-mail. Try again later.',
     privTitle:    'Privacy & cookies',
-    privDesc:     'Cookie preferences and profiling opt-out.',
+    privDesc:     'Your cookie choices, and your right to refuse profiling.',
     dataTitle:    'Download my data',
-    dataDesc:     'Full JSON export of your account (GDPR Art. 15/20).',
-    exportText:   'Profile, stock, recipes, favorites, basket, leftovers, tickets.',
+    dataDesc:     'One file with everything your account holds.',
+    exportText:   'Profile, fridge, recipes, favourites, basket, leftovers, cooking log, spending, community posts and reviews, notifications, tickets.',
     exportBtn:    'Download',
     exportLoad:   'Preparing…',
     exportOk:     'Download started.',
-    exportErr:    'Error. Try again later.',
+    exportErr:    'Incomplete export: nothing was downloaded. Try again.',
     dangerTitle:  'Danger zone',
     dangerDesc:   'Delete your account.',
     dangerText:   'Your data is kept for 30 days. You can cancel the deletion any time by signing back in. After that, everything is permanently erased.',
@@ -135,6 +135,10 @@ export default function ProfileAccountPage() {
   const textColor  = darkMode ? '#EBE4D8' : '#2d1b00'
   const mutedColor = darkMode ? '#7A90A8' : '#6A4F45'
   const border     = darkMode ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)'
+  // Texte d'une alerte sur son fond rosé. Le rouge `#DC2626` n'y tenait pas le
+  // contraste AA (3,9 en clair, 3,5 en sombre, pour 4,5 exigés) ; ces deux-là
+  // le tiennent (5,2 et 8,8).
+  const alertColor = darkMode ? '#FCA5A5' : '#B91C1C'
   const modalBg    = darkMode ? '#0F1622' : '#FDFAF6'
   const inputBg    = darkMode ? 'rgba(255,255,255,0.04)' : 'rgba(255,255,255,0.60)'
   const iconStyle  = { color: mutedColor, flexShrink: 0 }
@@ -287,7 +291,7 @@ export default function ProfileAccountPage() {
               onClick={handleSendReset}
               loading={resetLoading}
               disabled={resetLoading}
-              className="h-auto self-start rounded-lg bg-[#E07820] px-4 py-2.5 text-[13px] font-bold text-white"
+              className="h-auto self-start rounded-lg bg-[#B85000] px-4 py-2.5 text-[13px] font-bold text-white"
               style={{ gap: 6 }}
             >
               {!resetLoading && <LuKeyRound size={14} />}
@@ -304,7 +308,7 @@ export default function ProfileAccountPage() {
             )}
             {resetError && (
               <p role="alert" style={{
-                fontSize: '12px', color: '#DC2626', margin: 0,
+                fontSize: '12px', color: alertColor, margin: 0,
                 padding: '8px 10px', borderRadius: '8px',
                 background: darkMode ? 'rgba(220,38,38,0.06)' : 'rgba(220,38,38,0.08)',
               }}>
@@ -373,9 +377,20 @@ export default function ProfileAccountPage() {
               {exportStatus === 'success' && <LuCheck size={14} />}
               {exportStatus === 'loading' ? t.exportLoad
                 : exportStatus === 'success' ? t.exportOk
-                : exportStatus === 'error'   ? t.exportErr
                 : t.exportBtn}
             </Button>
+            {/* L'échec se lit À CÔTÉ du bouton, pas dedans : la phrase n'y
+                tient pas sur un téléphone, et un libellé qui change n'est pas
+                annoncé. Le bouton reste « Télécharger » : on peut réessayer. */}
+            {exportStatus === 'error' && (
+              <p role="alert" style={{
+                fontSize: '12px', color: alertColor, margin: '10px 0 0',
+                padding: '8px 10px', borderRadius: '8px',
+                background: darkMode ? 'rgba(220,38,38,0.06)' : 'rgba(220,38,38,0.08)',
+              }}>
+                {t.exportErr}
+              </p>
+            )}
           </div>
         </ProfileSection>
 
@@ -398,10 +413,9 @@ export default function ProfileAccountPage() {
           />
         )}
 
-        {/* ─── 6. Zone de danger (replié par défaut, action critique) ── */}
-        {deleteError && (
-          <p style={{ color: '#DC2626', fontSize: '13px', margin: 0 }}>{deleteError}</p>
-        )}
+        {/* ─── 6. Zone de danger (replié par défaut, action critique) ──
+            L'erreur s'affiche DANS la fenêtre (CPT-04 : elle s'écrivait ici,
+            sous le fond flouté). */}
         <DangerZone
           isDialogOpen={dangerDialogOpen}
           onOpenDialog={() => { setDangerDialogOpen(true); setDeleteError(null); setDeletePassword('') }}
@@ -412,6 +426,7 @@ export default function ProfileAccountPage() {
           onTogglePasswordVisibility={() => setShowDeletePwd((v) => !v)}
           isLoading={deleteLoading}
           onSubmit={handleDeleteAccount}
+          error={deleteError}
           t={dangerT}
           lang={lang}
           isMobile={isMobile}

@@ -77,7 +77,7 @@ export default function BadgesGrid({
                     {b.id === nextRewardId && (
                       <span style={{
                         fontSize: 9, fontWeight: 800, padding: '2px 6px', borderRadius: 20,
-                        background: 'var(--gradient-warm)', color: '#fff', letterSpacing: '0.02em',
+                        background: 'var(--gradient-deep)', color: '#fff', letterSpacing: '0.02em',
                       }}>
                         {t.nextRewardLabel}
                       </span>

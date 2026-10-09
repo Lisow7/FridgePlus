@@ -299,7 +299,7 @@ export default function ShoppingListsModal({
         style={{
           background: bg, color: fg,
           border: `1px solid ${border}`, borderRadius: '12px',
-          maxWidth: '600px', width: '100%', maxHeight: '85vh',
+          maxWidth: '600px', width: '100%', maxHeight: '85dvh',
           display: 'flex', flexDirection: 'column',
           boxShadow: '0 20px 60px rgba(0,0,0,0.4)',
         }}

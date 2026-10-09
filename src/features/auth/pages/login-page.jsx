@@ -5,8 +5,10 @@ import { useAuth } from '@shared/contexts/auth-provider'
 import Button from '@shared/ui/button'
 import GoogleButton from '@shared/ui/google-button'
 import AuthLayout from '@features/auth/components/auth-layout'
+import ResendConfirmation from '@features/auth/components/resend-confirmation'
 import { useDocumentTitle } from '@shared/hooks/use-document-title'
 import { titreDeRoute } from '@routes/route-title'
+import { SUPPORT_EMAIL } from '@shared/lib/contact'
 
 // LoginPage — page d'authentification complète.
 // Sprint 11 S11.b.2.
@@ -36,7 +38,7 @@ const I18N = {
     submitBtn: 'Se connecter',
     loadingLabel: 'Connexion…',
     errorGeneric: 'Connexion impossible. Vérifie tes identifiants.',
-    errorBanned: 'Ce compte a été suspendu.',
+    errorBanned: `Ce compte est suspendu. Pour contester, ou demander l'effacement de tes données, écris à ${SUPPORT_EMAIL}.`,
     errorNotConfirmed: 'E-mail non confirmé. Vérifie ta boîte de réception.',
     noAccount: 'Pas encore de compte ?',
     signupLink: 'Créer un compte',
@@ -44,7 +46,9 @@ const I18N = {
     forgotTitle: 'Réinitialiser le mot de passe',
     forgotIntro: 'Saisis ton e-mail. Si un compte existe, tu recevras un lien pour définir un nouveau mot de passe.',
     forgotSubmit: 'Envoyer le lien par e-mail',
-    forgotSent: '✓ E-mail envoyé. Vérifie ta boîte de réception (et ton dossier spam). Le lien est valide environ 24 h.',
+    // Durée et usage unique : ce que dit l'e-mail lui-même (reset-password.html).
+    // « Dans ce navigateur » : le lien ne peut ouvrir de session qu'ici.
+    forgotSent: '✓ E-mail envoyé. Regarde aussi dans les indésirables. Le lien est valable une heure, une seule fois : ouvre-le dans ce navigateur.',
     forgotError: 'Impossible d\'envoyer l\'e-mail. Réessaie plus tard.',
     backToLogin: 'Retour à la connexion',
     continueWithGoogle: 'Continuer avec Google',
@@ -64,14 +68,14 @@ const I18N = {
     submitBtn: 'Sign in',
     loadingLabel: 'Signing in…',
     errorGeneric: 'Sign-in failed. Check your credentials.',
-    errorBanned: 'This account has been suspended.',
+    errorBanned: `This account is suspended. To appeal, or to request the deletion of your data, write to ${SUPPORT_EMAIL}.`,
     errorNotConfirmed: 'E-mail not confirmed. Check your inbox.',
     noAccount: 'No account yet?',
     signupLink: 'Create an account',
     forgotTitle: 'Reset password',
     forgotIntro: 'Enter your e-mail. If an account exists, you\'ll receive a link to set a new password.',
     forgotSubmit: 'Send the reset link',
-    forgotSent: '✓ E-mail sent. Check your inbox (and spam folder). The link is valid ~24h.',
+    forgotSent: '✓ E-mail sent. Check your spam folder too. The link is valid for one hour, once: open it in this browser.',
     forgotError: 'Could not send e-mail. Try again later.',
     backToLogin: 'Back to sign in',
     continueWithGoogle: 'Continue with Google',
@@ -100,6 +104,8 @@ export default function LoginPage({ lang = 'fr', darkMode = false }) {
   const [rememberMe, setRememberMe] = useState(!!initialEmail)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
+  // Adresse jamais confirmée : on propose de renvoyer l'e-mail de confirmation.
+  const [notConfirmed, setNotConfirmed] = useState(false)
 
   // Forgot form
   const [forgotEmail, setForgotEmail] = useState('')
@@ -117,12 +123,15 @@ export default function LoginPage({ lang = 'fr', darkMode = false }) {
   async function handleSubmit(e) {
     e.preventDefault()
     setError(null)
+    setNotConfirmed(false)
     setLoading(true)
     try {
       const { error: signInError } = await signInWithEmail(email, password)
       if (signInError) {
-        if (signInError.message === 'banned') setError(t.errorBanned)
-        else if (signInError.message?.toLowerCase().includes('confirm')) setError(t.errorNotConfirmed)
+        // Le service d'authentification refuse un compte banni avec le code
+        // « user_banned » (audit CPT-17 : avant, ce texte n'était jamais affiché).
+        if (signInError.code === 'user_banned' || /banned/i.test(signInError.message ?? '')) setError(t.errorBanned)
+        else if (signInError.message?.toLowerCase().includes('confirm')) { setError(t.errorNotConfirmed); setNotConfirmed(true) }
         else setError(t.errorGeneric)
       } else {
         // Mémorise ou efface l'e-mail (jamais le password — confort uniquement).
@@ -337,6 +346,7 @@ export default function LoginPage({ lang = 'fr', darkMode = false }) {
             {error}
           </p>
         )}
+        {notConfirmed && <ResendConfirmation email={email} lang={lang} />}
 
         <Button type="submit" loading={loading} disabled={loading} className="w-full">
           {loading ? t.loadingLabel : t.submitBtn}

@@ -1,4 +1,4 @@
-// Guide admin complet. 13 sections documentées.
+// Guide admin complet. 14 sections documentées.
 // Structure par section :
 //   title, icon, badge (groupe), description,
 //   sections[]  — { icon, title, body, risk: 'safe'|'caution'|'danger' }
@@ -313,7 +313,7 @@ export const ADMIN_HELP = {
       {
         icon: '🔍',
         title: 'Recherche et liste',
-        body: 'Recherche par username ou email. Affiche statut (actif / banni / soft-deleted), date d\'inscription, nombre de recettes et dernière activité.',
+        body: 'Recherche par pseudo. Chaque ligne montre le pseudo, les badges Admin, accès spécial et Banni, et la date d\'inscription. L\'e-mail se révèle à la demande (données sensibles, ci-dessous).',
         risk: 'safe',
       },
       {
@@ -325,25 +325,26 @@ export const ADMIN_HELP = {
       {
         icon: '🚫',
         title: 'Bannir un compte',
-        body: 'Bloque la connexion. L\'utilisateur voit un écran "Compte banni" avec la raison. Son contenu reste en ligne (modère séparément si besoin). Raison obligatoire. Réversible.',
+        body: 'Une fenêtre demande un motif (une catégorie et des précisions, montrés à la personne) et une durée : 1 jour, 7 jours, 30 jours ou sans fin. La base coupe alors la session dans l\'heure et refuse la reconnexion jusqu\'à l\'échéance — reconnexion refusée, plus rien publié ni écrit au support. D\'ici là, la personne voit l\'écran « Compte suspendu » avec le motif et la date de fin. Son contenu reste en ligne (modère séparément si besoin). Réversible (« Débannir »). Dans l\'onglet Signalements, le bouton vise la personne qui a signalé, pas l\'auteur du contenu.',
         risk: 'caution',
       },
       {
         icon: '♻️',
-        title: 'Restaurer un compte supprimé',
-        body: 'Un utilisateur peut supprimer son compte (soft-delete). Pendant 30 jours, l\'admin peut restaurer. Après 30 jours, la purge automatique (pg_cron) anonymise toutes les données.',
+        title: 'Compte supprimé par son propriétaire',
+        body: 'Pendant 30 jours, c\'est la personne qui peut revenir : à sa prochaine connexion, elle choisit de récupérer son compte ou de confirmer la suppression. Passé ce délai, la tâche de nuit l\'anonymise (pseudo « suppr-… », bio, pays, allergènes, budgets et bannière vidés). L\'admin ne restaure pas un compte.',
         risk: 'caution',
       },
     ],
     workflow: [
-      'Rechercher l\'utilisateur par username ou email',
+      'Rechercher l\'utilisateur par son pseudo',
       'Consulter l\'historique (recettes, activité) pour contextualiser la situation',
       'Si données sensibles nécessaires → saisir une raison précise avant de les révéler',
       'Appliquer la sanction proportionnée au motif',
       'Documenter clairement dans la raison (servira en cas de contestation)',
     ],
     tips: [
-      'Avant de bannir, vérifie si un Mute communauté suffit pour des infractions légères.',
+      'Accès spécial : « Accorder » donne le Premium offert, sans échéance, jusqu\'au retrait (un abonnement Stripe actif est rendu au retrait). « Modifier le rôle ou la note » change sans révoquer ; une note vide l\'efface. Attribution et retrait s\'écrivent au journal.',
+      'Avant de bannir, vérifie si une sourdine dans la communauté suffit pour des infractions légères.',
       'La date d\'inscription et le volume d\'activité aident à distinguer un troll d\'un utilisateur ayant fait une erreur.',
     ],
     warnings: [
@@ -518,7 +519,7 @@ export const ADMIN_HELP = {
       {
         icon: '⬇️',
         title: 'Télécharger pricing.json',
-        body: 'Génère le fichier JSON consolidé avec toutes les modifications. L\'admin doit ensuite remplacer `src/data/pricing/<year>.json` dans le repo et commiter.',
+        body: 'Génère le fichier JSON consolidé avec toutes les modifications. L\'admin doit ensuite remplacer `src/shared/static/pricing/<year>.json` dans le repo et commiter.',
         risk: 'caution',
       },
       {
@@ -533,7 +534,7 @@ export const ADMIN_HELP = {
       'Cliquer Éditer → modifier les prix par langue × conditionnement',
       'Répéter pour tous les ingrédients à modifier (modifications restent en mémoire)',
       'Cliquer "Télécharger pricing.json" → enregistrer le fichier localement',
-      'Remplacer `src/data/pricing/<year>.json` dans le repo',
+      'Remplacer `src/shared/static/pricing/<year>.json` dans le repo',
       'Commit + PR standard → les nouveaux prix sont en prod après merge',
     ],
     tips: [
@@ -558,13 +559,13 @@ export const ADMIN_HELP = {
       {
         icon: '📋',
         title: 'Actions tracées',
-        body: 'Modération de contenu, ban/restore, mute, consultation données sensibles, anonymisation, accès admin, promotion de recette, modifications BDD. Vocabulaire fermé (whitelist côté code) pour lisibilité garantie.',
+        body: 'Modération des recettes, de la communauté et des avis, bannissements, accès spécial, consultations de données sensibles, modifications du catalogue, notifications envoyées ou retirées, bascules de fonctionnalités, anonymisations et effacements des tâches de nuit (et leurs échecs). Chaque action a un nom, vérifié par un test ; une action inconnue se range sous « Autres ».',
         risk: 'safe',
       },
       {
         icon: '🔍',
-        title: 'Filtres avancés',
-        body: 'Filtre par type d\'action, par admin acteur, par cible (user_id, recipe_id…) et par période. Utile pour retrouver une action précise lors d\'un audit ou d\'une demande RGPD.',
+        title: 'Filtres',
+        body: 'Par catégorie d\'action (Recettes, Utilisateurs, Données, Communauté, Modération, RGPD, Panneau, Autres) et par pseudo de l\'auteur (« contient »), sur tout le journal : le compte et les pages suivent le filtre. Pas de filtre par cible ni par date : pour une action ancienne, parcourir les pages.',
         risk: 'safe',
       },
       {
@@ -581,7 +582,7 @@ export const ADMIN_HELP = {
       'En cas de contestation, utiliser la trace comme preuve documentaire',
     ],
     tips: [
-      'Pour répondre à une demande RGPD d\'accès (Art. 15), filtre sur l\'user_id — toutes les actions admin sur ce compte sont visibles.',
+      'La recherche porte sur le pseudo de l\'AUTEUR de l\'action : pour les actions faites sur un compte, ouvre la ligne et lis sa cible.',
       'Si un admin n\'a pas documenté sa raison, le log existe mais est moins exploitable. Encourage à toujours remplir les champs.',
     ],
     rgpd: 'Le journal ne contient pas de PII (pas d\'email, pas d\'IP). Uniquement IDs internes, actions et raisons. Conservé 12 mois conformément à l\'obligation de traçabilité RGPD.',
@@ -602,36 +603,72 @@ export const ADMIN_HELP = {
       {
         icon: '📣',
         title: 'Annonce broadcast',
-        body: 'Message envoyé à TOUS les utilisateurs actifs, visible dans la cloche in-app. Types : Annonce (news) ou Maintenance (alerte temporaire). Expiration paramétrable (7j / 30j / 90j). Champs FR + EN obligatoires.',
+        body: 'Message envoyé à TOUS les utilisateurs actifs, visible dans la cloche in-app. Types : Annonce (news) ou Maintenance (alerte temporaire). Expiration paramétrable (7j / 30j / 90j). Seul le titre français est obligatoire (sans anglais, le français s\'affiche à tous). L\'envoi demande une confirmation, et le bandeau dit si l\'envoi sur les téléphones a réussi, échoué ou est désactivé.',
         risk: 'caution',
       },
       {
         icon: '✉️',
         title: 'Message ciblé',
-        body: 'Notification envoyée à un seul utilisateur via son UUID. Utile pour notifier de l\'approbation d\'une recette, d\'une modération ou d\'un suivi de support. Raison obligatoire.',
+        body: 'Notification envoyée à un seul utilisateur via son UUID. Utile pour notifier de l\'approbation d\'une recette, d\'une modération ou d\'un suivi de support. Part sans confirmation : un seul destinataire, nommé.',
         risk: 'caution',
       },
       {
         icon: '🗑️',
         title: 'Supprimer une notification',
-        body: 'Supprime une notification du feed système. Si déjà lue par les destinataires, la suppression ne la retire pas de leur historique côté app. Irréversible.',
+        body: 'Retirer une diffusion la retire de la cloche de TOUS ses destinataires (la base supprime tout le lot) ; retirer une alerte système ne retire que cette ligne. Une confirmation dit lequel des deux. Irréversible.',
         risk: 'danger',
       },
     ],
     workflow: [
       'Scanner le feed pour les alertes non traitées (recettes en attente, signalements)',
-      'Pour une annonce : ComposeModal → type Annonce → remplir FR + EN → choisir expiration',
+      'Pour une annonce : Envoyer → type Annonce → titre français (et anglais si possible) → expiration → confirmer l\'envoi à tous',
       'Pour un message ciblé : type Message ciblé → saisir UUID → rédiger le message',
-      'Vérifier l\'aperçu avant envoi — un broadcast ne peut pas être annulé',
+      'Vérifier l\'aperçu avant envoi — une annonce partie ne se rattrape qu\'en la retirant pour tous',
     ],
     tips: [
-      'Toujours remplir FR et EN au minimum — les utilisateurs peuvent avoir n\'importe quelle langue.',
+      'Remplis aussi l\'anglais : sans lui, le titre français s\'affiche aux comptes en anglais.',
       'Expiration courte (7j) pour les alertes de maintenance, longue (90j) pour les annonces de nouveauté.',
     ],
     warnings: [
       'Un broadcast est envoyé instantanément à TOUS les utilisateurs actifs. Relis 2 fois avant d\'envoyer.',
       'Les UUID des utilisateurs se trouvent dans l\'onglet Utilisateurs (données sensibles) — trace l\'accès avant d\'envoyer un message ciblé.',
     ],
-    rgpd: 'Les notifications ne contiennent pas de PII mais sont associées à des user_id. Le message ciblé implique de traiter l\'UUID de l\'utilisateur — la raison saisie est tracée dans le journal.',
+    rgpd: 'Les notifications ne contiennent pas de PII mais sont associées à des user_id. Chaque envoi et chaque retrait s\'écrivent au journal (« Notification envoyée », « Notification retirée »).',
+  },
+
+  features: {
+    title: 'Fonctionnalités',
+    icon: '⚙️',
+    badge: 'Système',
+    description: 'Interrupteurs de fonctionnalités : ils agissent en production, tout de suite, pour tous les visiteurs, sans redéploiement.',
+    sections: [
+      {
+        icon: '🟢',
+        title: 'En production',
+        body: 'Les drapeaux qu\'un code lit vraiment : la carte « Bien démarrer » (onboarding_activation), l\'envoi sur les téléphones (push_notifications), la photo du ticket (receipt_scan). Basculer demande une confirmation qui nomme la fonctionnalité et l\'effet.',
+        risk: 'danger',
+      },
+      {
+        icon: '⏳',
+        title: 'Prévues',
+        body: 'Les drapeaux qu\'aucun code ne lit encore : les activer n\'a aucun effet visible, l\'onglet le signale.',
+        risk: 'safe',
+      },
+      {
+        icon: '📜',
+        title: 'Trace',
+        body: 'Chaque bascule s\'écrit au journal (« Fonctionnalité basculée ») par la base elle-même : le compte, la clé et le nouvel état — y compris depuis l\'éditeur SQL.',
+        risk: 'safe',
+      },
+    ],
+    workflow: [
+      'Vérifier que la fonctionnalité est « En production » (sinon la bascule ne change rien)',
+      'Basculer, lire la confirmation, confirmer',
+      'Vérifier l\'effet sur le site dans une fenêtre privée ; en cas de souci, rebasculer',
+    ],
+    warnings: [
+      'Couper receipt_scan retire l\'entrée du menu, mais la fonction serveur ne lit pas le drapeau : elle reste appelable.',
+    ],
+    rgpd: 'Les drapeaux ne contiennent aucune donnée personnelle ; la trace au journal porte l\'identifiant du compte qui a basculé.',
   },
 }

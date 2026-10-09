@@ -86,7 +86,7 @@ export const RELEASE_NAMES_EN = {
   "Séries & badges de cuisine": "Cooking streaks & badges",
   "Changement de mot de passe plus clair": "Clearer password change",
   "Bouton d'actions plus stable": "More stable action button",
-  "Aide & infos : ne soyez jamais perdu": "Help & info: never get lost",
+  "Aide & infos : ne sois jamais perdu": "Help & info: never get lost",
   "Barre allégée, menu plus pratique": "Leaner bar, handier menu",
   "Un guide plus clair": "A clearer guide",
   "Moins de doublons": "Fewer duplicates",

@@ -12,7 +12,7 @@ import { computeWeeklyStreak, computeBadges } from '@shared/lib/recipes/achievem
 export function useCookingLogs(userId) {
   const { recipes: baseRecipes, recipeNames } = useBaseRecipes()
   const countries = useCountries()
-  const { journalLogs, statsLogs } = useProfileState({ enableJournal: true, enableStats: true })
+  const { journalLogs, statsLogs, journalError, statsError, reloadCookingLogs } = useProfileState({ enableJournal: true, enableStats: true })
 
   // Recettes communauté de l'utilisateur (pour résoudre noms/pays de SES recettes).
   const [customRecipes, setCustomRecipes] = useState([])
@@ -53,6 +53,9 @@ export function useCookingLogs(userId) {
   return {
     baseRecipes, recipeNames, countries, customRecipes,
     journalLogs, statsLogs, cleanJournalLogs, cleanStatsLogs,
+    // `journalLogs`/`statsLogs` valent `null` tant que ce n'est pas chargé ;
+    // `…Error` dit que le chargement a échoué — ce n'est pas un journal vide.
+    journalError, statsError, reloadCookingLogs,
     resolveCountry, streak, badges,
   }
 }

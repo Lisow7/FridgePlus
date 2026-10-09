@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import leoProfanity from 'leo-profanity'
 import { useConfirm } from '@shared/ui/confirm-dialog/confirm-provider'
+import { useSaveErrorToast } from '@shared/hooks/use-save-error-toast'
 import {
   getPost, listReplies, listMyLikedReplyIds,
   likeReply, unlikeReply, createReply, deleteReply, canReply,
@@ -23,6 +24,7 @@ import {
 // dans la vue, comme pour useRecipeCost.
 export function usePostDetail({ postId, user, t, canInteract, reactionsMap, onReact }) {
   const confirm = useConfirm()
+  const signalerEchec = useSaveErrorToast()
   const [post, setPost] = useState(null)
   const [replies, setReplies] = useState(null)
   const [replyBody, setReplyBody] = useState('')
@@ -46,21 +48,30 @@ export function usePostDetail({ postId, user, t, canInteract, reactionsMap, onRe
     return () => { cancelled = true }
   }, [postId, user?.id])
 
+  // « J'aime » et réactions : affichés tout de suite, annulés si l'écriture
+  // est refusée, et dits (audit du 2026-10-04, ARCH-05).
   const handleToggleReplyLike = async (replyId) => {
     if (!user?.id || !canInteract) return
     const liked = likedReplyIds.has(replyId)
-    setLikedReplyIds(prev => { const next = new Set(prev); if (liked) next.delete(replyId); else next.add(replyId); return next })
-    setReplies(prev => prev?.map(r => r.id === replyId ? { ...r, likes_count: Math.max(0, (r.likes_count ?? 0) + (liked ? -1 : 1)) } : r))
-    if (liked) await unlikeReply(user.id, replyId)
-    else       await likeReply(user.id, replyId)
+    const poser = (aime) => {
+      setLikedReplyIds(prev => { const next = new Set(prev); if (aime) next.add(replyId); else next.delete(replyId); return next })
+      setReplies(prev => prev?.map(r => r.id === replyId ? { ...r, likes_count: Math.max(0, (r.likes_count ?? 0) + (aime ? 1 : -1)) } : r))
+    }
+    poser(!liked)
+    const { error } = (liked ? await unlikeReply(user.id, replyId) : await likeReply(user.id, replyId)) ?? {}
+    if (!error) return
+    poser(liked)
+    signalerEchec('reaction')
   }
 
-  const handleReactPost = (emoji) => {
+  const handleReactPost = async (emoji) => {
     if (!canInteract || !post) return
     const current = reactionsMap.get(post.id)
     const delta = current === emoji ? -1 : current ? 0 : 1
-    setPost(prev => prev ? { ...prev, likes_count: Math.max(0, prev.likes_count + delta) } : prev)
-    onReact(post.id, emoji)
+    const compter = (d) => setPost(prev => prev ? { ...prev, likes_count: Math.max(0, prev.likes_count + d) } : prev)
+    compter(delta)
+    // La page annule sa réaction et le dit ; le compteur du détail suit.
+    if (await onReact(post.id, emoji) === false) compter(-delta)
   }
 
   const handleReplySubmit = async () => {
@@ -77,7 +88,10 @@ export function usePostDetail({ postId, user, t, canInteract, reactionsMap, onRe
 
   const handleDeleteReply = async (replyId) => {
     if (!(await confirm({ title: t.deleteConfirmTitle, danger: true }))) return
-    await deleteReply(replyId)
+    // Retirée de l'écran SEULEMENT si la suppression a eu lieu (même règle
+    // que la suppression d'un post).
+    const { error } = await deleteReply(replyId) ?? {}
+    if (error) { signalerEchec('removal'); return }
     setReplies(prev => prev?.filter(r => r.id !== replyId))
   }
 

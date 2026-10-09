@@ -1,4 +1,4 @@
-import { useState, useMemo, useRef, useEffect } from 'react'
+import { useState, useMemo, useRef, useEffect, useId } from 'react'
 import { LuSearch, LuPlus, LuX, LuPackage } from 'react-icons/lu'
 import Button from '@shared/ui/button'
 import { useIngredients } from '@shared/contexts/data-provider'
@@ -27,7 +27,8 @@ import { getPacksForIngredient } from '@features/cart/lib/cart-helpers'
 
 const I18N = {
   fr: {
-    searchPlaceholder: 'Ajouter un ingrédient…',
+    searchLabel: 'Ajouter un ingrédient',
+    searchExample: 'ex. : lait, pâtes',
     suggestionsTitle: 'Suggestions',
     noResults: 'Aucun ingrédient trouvé.',
     alreadyAdded: 'Déjà dans le panier',
@@ -36,7 +37,8 @@ const I18N = {
     addError: 'Erreur réseau, réessaie',
   },
   en: {
-    searchPlaceholder: 'Add an ingredient…',
+    searchLabel: 'Add an ingredient',
+    searchExample: 'e.g. milk, pasta',
     suggestionsTitle: 'Suggestions',
     noResults: 'No ingredient found.',
     alreadyAdded: 'Already in cart',
@@ -208,6 +210,8 @@ export default function CartManualAdd({ lang = 'fr', darkMode = false, basket = 
     }
   }
 
+  const champId = useId()
+
   // Couleurs adaptatives mode clair/sombre, alignées avec le reste de l'app.
   const bg     = darkMode ? '#131E2C' : '#FFFFFF'
   const fg     = darkMode ? 'var(--color-bg-warm)' : '#2C1A0E'
@@ -218,6 +222,11 @@ export default function CartManualAdd({ lang = 'fr', darkMode = false, basket = 
 
   return (
     <div ref={containerRef} style={{ position: 'relative', width: '100%' }}>
+      {/* Un libellé visible, le texte grisé en exemple (décision du
+          2026-10-06, « libellés = visibles »). */}
+      <label htmlFor={champId} style={{ display: 'block', fontSize: '12px', fontWeight: 700, color: muted, marginBottom: '6px' }}>
+        {t.searchLabel}
+      </label>
       {/* ─── Search input ─── */}
       <div style={{
         display: 'flex', alignItems: 'center', gap: '8px',
@@ -233,8 +242,8 @@ export default function CartManualAdd({ lang = 'fr', darkMode = false, basket = 
           value={query}
           onChange={e => setQuery(e.target.value)}
           onFocus={() => setFocused(true)}
-          placeholder={t.searchPlaceholder}
-          aria-label={t.searchPlaceholder}
+          id={champId}
+          placeholder={t.searchExample}
           style={{
             flex: 1, minWidth: 0,
             background: 'transparent', border: 'none', outline: 'none',
@@ -340,7 +349,7 @@ export default function CartManualAdd({ lang = 'fr', darkMode = false, basket = 
                         <span aria-hidden="true" style={{
                           width: '24px', height: '24px',
                           borderRadius: '50%',
-                          background: 'var(--gradient-warm)',
+                          background: 'var(--gradient-deep)',
                           display: 'flex', alignItems: 'center', justifyContent: 'center',
                           color: 'white',
                           flexShrink: 0,

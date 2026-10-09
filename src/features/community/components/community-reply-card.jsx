@@ -3,6 +3,7 @@ import AvatarImg from '@shared/ui/avatar-img'
 import Button from '@shared/ui/button'
 import { formatRelativeTime } from '@shared/lib/i18n/notifications-i18n'
 import { getC } from './community-theme'
+import { authorName } from '@shared/lib/author-name'
 
 // Carte d'une réponse dans le détail d'un post — extraite de community-page.jsx
 // (2026-07-25, audit front §2). Feuille : aucune dépendance vers un autre
@@ -10,7 +11,7 @@ import { getC } from './community-theme'
 // depuis DetailView.
 export function ReplyCard({ reply, isOwn, canReport, canLike, canReplyTo, liked, replyToUsername, onDelete, onReport, onToggleLike, onReplyTo, onShowProfile, t, lang, darkMode }) {
   const C = getC(darkMode)
-  const author = reply.profile?.username ?? t.deletedAuthor
+  const author = authorName(reply, t)
   const canShowProfile = !!(reply.user_id && reply.profile?.username && onShowProfile)
   return (
     <div style={{
@@ -76,6 +77,9 @@ export function ReplyCard({ reply, isOwn, canReport, canLike, canReplyTo, liked,
           onClick={onToggleLike}
           disabled={!canLike}
           aria-pressed={liked}
+          // Sans nom, le bouton s'annonçait « 0, bouton bascule » : le compteur
+          // seul ne dit pas ce que fait le bouton.
+          aria-label={t.likeReplyBtn}
           className="h-auto rounded-md px-1 py-0.5 text-sm font-semibold disabled:opacity-50 hover:bg-transparent"
           style={{ gap: '4px', color: liked ? C.magenta : C.mid }}>
           <LuHeart size={12} fill={liked ? 'currentColor' : 'none'} strokeWidth={2.5} />

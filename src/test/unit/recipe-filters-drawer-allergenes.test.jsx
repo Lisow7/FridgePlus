@@ -10,6 +10,9 @@ import userEvent from '@testing-library/user-event'
 
 const mockAuth = vi.hoisted(() => ({ current: { user: null, allergenPrefs: [], updateAllergenPrefs: vi.fn() } }))
 vi.mock('@shared/contexts/auth-provider', () => ({ useAuth: () => mockAuth.current }))
+// Le message « Pas enregistré » a ses propres tests (allergen-prefs-chips-ecriture-refusee).
+vi.mock('@shared/hooks/use-save-error-toast', () => ({ useSaveErrorToast: () => vi.fn() }))
+vi.mock('@shared/ui/confirm-dialog/confirm-provider', () => ({ useConfirm: () => vi.fn() }))
 vi.mock('@shared/contexts/data-provider', () => ({
   useAllergenTypes: () => ({
     gluten: { icon: '🌾', labels: { fr: 'Gluten', en: 'Gluten' } },
@@ -60,6 +63,7 @@ describe('tiroir des filtres — mes allergènes, pour tous', () => {
 
   it('un compte lit « enregistrés dans ton profil »', () => {
     mockAuth.current.user = { id: 'u1' }
+    mockAuth.current.allergenConsentAt = '2026-10-06T12:00:00Z' // accord donné (décision du 2026-10-06)
     render(<RecipeFiltersDrawer {...props} />)
     expect(screen.getByText(/enregistrés dans ton profil/)).toBeInTheDocument()
   })

@@ -3,26 +3,29 @@ import { useConsent } from '@shared/hooks/use-consent'
 import { useAuth } from '@shared/contexts/auth-provider'
 import { revokeCommunityTerms } from '@shared/api/community'
 import { I18N } from '../i18n/consent-i18n'
+import { CATEGORIES } from '../i18n/consent-categories-i18n'
 import CookieModal from './cookie-modal'
 import Button from '@shared/ui/button'
 import { usePushSubscription } from '@features/push-notifications'
+import { useSaveErrorToast } from '@shared/hooks/use-save-error-toast'
 
 // drapeau localStorage UX pour la modale charte communauté
 // (cohérent avec CommunityPanel)
 const COMMUNITY_TERMS_SEEN_KEY = 'fridge-community-terms-seen'
 
-// Panel intégré dans la modale Profil → onglet « Confidentialité ».
+// Panneau de la page Profil → « Compte & sécurité ».
 // Affiche les choix actuels + permet de les modifier ou de tout réinitialiser.
 //
 // Réutilise CookieModal pour l'édition détaillée — un seul endroit où on
 // définit l'UI de chaque catégorie.
 
 export default function ConfidentialityPanel({ lang = 'fr', darkMode = false, onShowLegal }) {
-  const t = I18N[lang] ?? I18N.fr
+  const t = { ...(I18N[lang] ?? I18N.fr), ...(CATEGORIES[lang] ?? CATEGORIES.fr) }
   const { consent, hasDecided, reset } = useConsent()
   const { user } = useAuth()
   const [showEdit, setShowEdit] = useState(false)
   const push = usePushSubscription()
+  const signalerEchec = useSaveErrorToast()
 
   // Le reset complet englobe aussi l'acceptation de la charte
   // communauté (consentement révoqué côté BDD + drapeau localStorage UX
@@ -30,8 +33,12 @@ export default function ConfidentialityPanel({ lang = 'fr', darkMode = false, on
   const handleResetAll = async () => {
     reset()
     try { localStorage.removeItem(COMMUNITY_TERMS_SEEN_KEY) } catch { /* ignore */ }
+    // Le retrait EN BASE peut être refusé : la charte resterait acceptée côté
+    // serveur alors que la personne croit l'avoir retirée. On le dit, pour
+    // qu'elle réessaie (audit du 2026-10-04, ARCH-05).
     if (user?.id) {
-      await revokeCommunityTerms(user.id)
+      const { error } = await revokeCommunityTerms(user.id) ?? {}
+      if (error) signalerEchec('setting')
     }
   }
 
@@ -58,10 +65,10 @@ export default function ConfidentialityPanel({ lang = 'fr', darkMode = false, on
           display: 'flex', flexDirection: 'column', gap: 10,
         }}>
           <Row label={t.catEssTitle} status={t.statusAlways} fg={fg} muted={muted} statusColor="#5A8A4A" />
-          <Row label={t.catFuncTitle} status={consent.functional ? t.statusAccepted : t.statusRefused} fg={fg} muted={muted}
-               statusColor={consent.functional ? '#5A8A4A' : '#A05A20'} />
-          <Row label={t.catAudTitle} status={consent.audience ? t.statusAccepted : t.statusRefused} fg={fg} muted={muted}
-               statusColor={consent.audience ? '#5A8A4A' : '#A05A20'} />
+          <Row label={t.catErrTitle} status={consent.errors ? t.statusAccepted : t.statusRefused} fg={fg} muted={muted}
+               statusColor={consent.errors ? '#5A8A4A' : '#A05A20'} />
+          <Row label={t.catUsageTitle} status={consent.usage ? t.statusAccepted : t.statusRefused} fg={fg} muted={muted}
+               statusColor={consent.usage ? '#5A8A4A' : '#A05A20'} />
           {push.available && (
             <Row label={t.catPushTitle} status={push.enabled ? t.catPushStatusOn : t.catPushStatusOff} fg={fg} muted={muted}
                  statusColor={push.enabled ? '#5A8A4A' : '#A05A20'} />
@@ -75,7 +82,7 @@ export default function ConfidentialityPanel({ lang = 'fr', darkMode = false, on
         <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
           <Button
             onClick={() => setShowEdit(true)}
-            className="h-auto rounded-lg bg-[#E07820] px-4 py-2.5 text-[13px] font-bold text-white">
+            className="h-auto rounded-lg bg-[#B85000] px-4 py-2.5 text-[13px] font-bold text-white">
             {t.btnCustomize}
           </Button>
           {onShowLegal && (
@@ -104,7 +111,7 @@ export default function ConfidentialityPanel({ lang = 'fr', darkMode = false, on
             className="h-auto rounded-lg border bg-transparent px-3.5 py-2 text-xs font-semibold"
             style={{
               borderColor: darkMode ? '#9C3B1F' : 'var(--color-brand-600)',
-              color: darkMode ? 'var(--color-brand-400)' : '#C05A10',
+              color: darkMode ? 'var(--color-brand-400)' : '#B85000',
             }}>
             {t.btnReset}
           </Button>

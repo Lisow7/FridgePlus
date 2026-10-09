@@ -1,11 +1,14 @@
-import { useRef, useState } from 'react'
+import { lazy, Suspense, useRef, useState } from 'react'
 import { useConsent } from '@shared/hooks/use-consent'
 import { useBottomInsetPublisher } from '@shared/hooks/use-bottom-inset'
 import { useWindowWidth } from '@shared/hooks/use-window-width'
 import { Z_INDEX } from '@shared/lib/z-index'
 import { I18N } from '../i18n/consent-i18n'
-import CookieModal from './cookie-modal'
 import Button from '@shared/ui/button'
+
+// La fenêtre des cookies se charge au clic sur « Personnaliser » : le bandeau
+// est au démarrage, elle et ses textes n'ont pas à y être (2026-10-06).
+const CookieModal = lazy(() => import('./cookie-modal'))
 
 // Bandeau qui apparaît au premier accès tant que l'user n'a pas pris de
 // décision sur les cookies/données. L'app reste utilisable en mode essentiels
@@ -109,7 +112,7 @@ export default function CookieBanner({ lang = 'fr', darkMode = false, onShowLega
                 variant="ghost"
                 onClick={onShowLegal}
                 className="mt-1.5 h-auto rounded-none bg-transparent p-0 text-xs font-semibold underline hover:bg-transparent"
-                style={{ color: darkMode ? 'var(--color-brand-400)' : '#C05A10' }}
+                style={{ color: darkMode ? 'var(--color-brand-400)' : '#B85000' }}
               >
                 {t.bannerSeeMore} →
               </Button>
@@ -185,12 +188,14 @@ export default function CookieBanner({ lang = 'fr', darkMode = false, onShowLega
       </div>
 
       {showCustom && (
-        <CookieModal
-          lang={lang}
-          darkMode={darkMode}
-          onClose={() => setShowCustom(false)}
-          onShowLegal={onShowLegal}
-        />
+        <Suspense fallback={null}>
+          <CookieModal
+            lang={lang}
+            darkMode={darkMode}
+            onClose={() => setShowCustom(false)}
+            onShowLegal={onShowLegal}
+          />
+        </Suspense>
       )}
     </>
   )

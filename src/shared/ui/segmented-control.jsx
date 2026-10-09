@@ -1,4 +1,5 @@
 import Button from '@shared/ui/button'
+import { texteLisible, fondTeinte } from '@shared/lib/couleurs/texte-lisible'
 
 // Primitive `SegmentedControl` — Sprint 9 S9.b.5.
 //
@@ -57,8 +58,10 @@ export default function SegmentedControl({
             className="h-auto flex-1 rounded-lg border px-1 py-2 text-xs hover:bg-transparent"
             style={{
               borderColor: isActive ? color : border,
-              background: isActive ? `${color}26` : 'transparent',
-              color: isActive ? color : muted,
+              // Même correctif que FilterPill : `${color}26` était invalide avec une
+              // variable CSS, et l'accent pur illisible comme texte (A11Y-03).
+              background: isActive ? fondTeinte(color, 15) : 'transparent',
+              color: isActive ? texteLisible(color) : muted,
               fontWeight: isActive ? 700 : 400,
               transition: 'all 0.15s',
             }}

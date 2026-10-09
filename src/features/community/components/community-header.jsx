@@ -1,3 +1,4 @@
+import { useId } from 'react'
 import { LuArrowLeft, LuSearch, LuX, LuSun, LuMoon, LuScroll, LuFeather } from 'react-icons/lu'
 import Button from '@shared/ui/button'
 import { getC } from './community-theme'
@@ -8,6 +9,7 @@ import { getC } from './community-theme'
 // Présentationnel : état et handlers arrivent en props depuis CommunityPage.
 export function CPHeader({ view, onBack, onCompose, showSearch, setShowSearch, search, setSearch, canInteract, muteStatus, user, t, isMobile, darkMode, onToggleDarkMode, onShowCharter }) {
   const C = getC(darkMode)
+  const champRechercheId = useId()
   return (
     <div style={{ flexShrink: 0, background: C.surface, borderBottom: `1px solid ${C.border}`, display: 'flex', flexDirection: 'column' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: isMobile ? '12px 14px' : '14px 20px', minHeight: 56 }}>
@@ -155,9 +157,12 @@ export function CPHeader({ view, onBack, onCompose, showSearch, setShowSearch, s
 
       {showSearch && view === 'feed' && (
         <div style={{ padding: '0 14px 12px' }}>
+          {/* Un libellé visible au-dessus du cadre (la loupe vit dedans). */}
+          <label htmlFor={champRechercheId} style={{ display: 'block', fontSize: '12px', fontWeight: 700, color: C.mid, marginBottom: '6px' }}>{t.searchInputAria}</label>
           <div style={{ position: 'relative' }}>
             <LuSearch size={14} style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', color: C.mid, pointerEvents: 'none' }} />
             <input
+              id={champRechercheId}
               className="cp-input"
               autoFocus
               value={search}

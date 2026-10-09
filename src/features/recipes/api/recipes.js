@@ -1,6 +1,7 @@
 import { supabase } from '@shared/lib/supabase/client'
+import { OFFICIAL_RECIPE_FULL_COLUMNS, rowToOfficialRecipe } from '@shared/lib/recipes/official-recipe-rows'
 import {
-  findCommunityRecipesByUser,
+  loadCommunityRecipesByUser,
   findPublicCommunityRecipes,
   findCommunityRecipeById,
   saveCommunityRecipe as repoSaveCommunityRecipe,
@@ -24,32 +25,41 @@ async function logUserAction(userId, action, targetId) {
 function lsLoad() {
   try { return JSON.parse(localStorage.getItem(LS_KEY) ?? '[]') } catch { return [] }
 }
+// Rend `true` si l'appareil a bien écrit (stockage plein, navigation privée…).
 function lsSave(recipes) {
-  try { localStorage.setItem(LS_KEY, JSON.stringify(recipes)) } catch {}
+  try { localStorage.setItem(LS_KEY, JSON.stringify(recipes)); return true } catch { return false }
 }
 
-export async function getCustomRecipes(userId = null) {
-  if (!userId) return lsLoad()
+// Les recettes d'un compte (ou de l'appareil, pour un invité) : `{ recipes, error }`.
+// Une lecture refusée rend son erreur — pas une liste vide (voir le dépôt).
+export async function loadCustomRecipes(userId = null) {
+  if (!userId) return { recipes: lsLoad(), error: null }
   // Sprint 5f : délégué au repository (centralise shape mapping + filtre soft-deleted)
-  return findCommunityRecipesByUser(userId)
+  return loadCommunityRecipesByUser(userId)
 }
 
+// Enregistre une recette et DIT si c'est fait : `{ error }`.
+//
+// 🔴 Jusqu'au 2026-10-05 cette fonction ne rendait rien : une recette refusée
+// par la base (réseau, session expirée) passait pour enregistrée, le formulaire
+// se fermait et son brouillon était purgé — une recette tapée en entier, perdue
+// sans un mot. Elle ne LÈVE plus non plus : une recette validée par la
+// modération (le dépôt lève `approved_recipe_locked`) et un appel qui échoue
+// en route sont rendus comme des erreurs, que le formulaire sait dire.
 export async function saveCustomRecipe(recipe, userId = null) {
   if (!userId) {
     const list = lsLoad()
     const idx = list.findIndex(r => r.id === recipe.id)
     if (idx >= 0) list[idx] = recipe; else list.push(recipe)
-    lsSave(list)
-    return
+    return { error: lsSave(list) ? null : new Error('storage_failed') }
   }
-  // Sprint 5f : délégué au repository. Le repo throw avec code='approved_recipe_locked'
-  // si le trigger SQL prevent_edit_approved rejette l'update (recette approuvée
-  // éditée par non-admin). Le caller affiche le bon message ("Verrouillée par
-  // la modération") plutôt qu'un generic "Une erreur est survenue".
-  const { error } = await repoSaveCommunityRecipe(recipe, userId)
+  let error
+  try { ({ error } = await repoSaveCommunityRecipe(recipe, userId)) }
+  catch (err) { error = err ?? new Error('unknown') }
   if (!error && recipe.moderation_status === 'pending') {
     await logUserAction(userId, 'recipe_submitted', recipe.id)
   }
+  return { error: error ?? null }
 }
 
 export async function deleteCustomRecipe(id, userId = null) {
@@ -119,9 +129,8 @@ export function createRecipeId() {
 //     l'existence d'une recette privée (RGPD-clean).
 //   - `deleted_at IS NULL` filtré côté repository.
 //
-// IDs base recipes (préfixe `r-`) : pas traité ici — `useRecipeById`
-// fait le lookup en mémoire via `useBaseRecipes()` avant d'appeler
-// cette API.
+// Recettes officielles : pas traitées ici — voir `getOfficialRecipeById`
+// ci-dessous, que `useRecipeById` interroge en parallèle.
 export async function getRecipeById(id) {
   if (!id) return { recipe: null, status: 'not-found' }
   try {
@@ -135,6 +144,41 @@ export async function getRecipeById(id) {
     // panne réseau.
     return { recipe: null, status: 'error' }
   }
+}
+
+// La fiche d'une recette OFFICIELLE, lue seule (audit du 2026-10-04, PERF-02).
+//
+// Un lien direct (Google, partage) n'a pas à attendre le catalogue : avant, la
+// fiche cherchait dans le catalogue en mémoire — qui ne contient au démarrage
+// que les 100 recettes embarquées sur 515 — puis dans `custom_recipes`, et
+// concluait « Recette introuvable » pour 81 % des liens, le temps que le
+// catalogue arrive (626 Ko), ou pour toujours s'il n'arrivait pas.
+//
+// Rend `{ recipe, name }` — la recette sous la forme du catalogue, son nom à
+// part (il vit dans `recipeNames`) —, ou `null` si la base n'a pas cette
+// recette publiée (la règle d'accès ne montre que `published` et `featured`).
+// LÈVE sur une panne : l'appelant doit pouvoir dire « momentanément
+// indisponible » plutôt que « introuvable ».
+//
+// Depuis que le catalogue n'a plus les étapes (PERF-01), c'est la source de
+// chaque fiche ouverte : une fiche lue est gardée pour la session, comme le
+// catalogue. Une panne ou une absence ne le sont pas (la suivante relit).
+const fichesLues = new Map()
+
+export async function getOfficialRecipeById(id) {
+  if (!id) return null
+  if (fichesLues.has(id)) return fichesLues.get(id)
+  const { data, error } = await supabase
+    .from('recipes_unified')
+    .select(OFFICIAL_RECIPE_FULL_COLUMNS)
+    .eq('id', id)
+    .eq('origin', 'official')
+    .maybeSingle()
+  if (error) throw error
+  if (!data) return null
+  const fiche = { recipe: rowToOfficialRecipe(data), name: data.name ?? null }
+  fichesLues.set(id, fiche)
+  return fiche
 }
 
 // Chantier recettes de base (2026-07-14) — R-inverse : liste des recettes

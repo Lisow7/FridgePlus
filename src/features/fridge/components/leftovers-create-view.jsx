@@ -1,5 +1,6 @@
 import { LuChevronDown, LuChevronUp } from 'react-icons/lu'
 import Button from '@shared/ui/button'
+import Field from '@shared/ui/field'
 import { HYGIENE_GUIDE, getDlcForIngredient } from '@shared/static/hygiene-guide'
 import { getDlcTone } from './leftover-card'
 
@@ -79,6 +80,7 @@ export default function LeftoversCreateView({ form, theme, data, i18n }) {
             <>
               {/* Recherche — affichée à partir de 6 ingrédients pour ne pas encombrer */}
               {stockIngredients.length > 6 && (
+                <Field label={t.searchIngredientAria} labelStyle={{ display: 'block', fontSize: '12px', fontWeight: 700, color: muted, marginBottom: '6px' }}>
                 <input
                   type="search"
                   value={searchQ}
@@ -93,6 +95,7 @@ export default function LeftoversCreateView({ form, theme, data, i18n }) {
                     outline: 'none', fontFamily: 'inherit', boxSizing: 'border-box',
                   }}
                 />
+                </Field>
               )}
             <div style={{
               display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px',
@@ -140,6 +143,7 @@ export default function LeftoversCreateView({ form, theme, data, i18n }) {
           ) : (
             <>
               {/* Recherche universelle (24h prioritaires + match frigo + reste) */}
+              <Field label={t.searchRecipeAria} labelStyle={{ display: 'block', fontSize: '12px', fontWeight: 700, color: muted, marginBottom: '6px' }}>
               <input
                 type="search"
                 value={searchQ}
@@ -154,6 +158,7 @@ export default function LeftoversCreateView({ form, theme, data, i18n }) {
                   outline: 'none', fontFamily: 'inherit', boxSizing: 'border-box',
                 }}
               />
+              </Field>
             <div style={{
               display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px',
               maxHeight: '220px', overflowY: 'auto',
@@ -200,6 +205,7 @@ export default function LeftoversCreateView({ form, theme, data, i18n }) {
         </div>
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+          <Field label={t.nameAria} labelStyle={{ display: 'block', fontSize: '12px', fontWeight: 700, color: muted, marginBottom: '6px' }}>
           <input
             value={freeName}
             onChange={e => setFreeName(e.target.value)}
@@ -212,6 +218,7 @@ export default function LeftoversCreateView({ form, theme, data, i18n }) {
               outline: 'none', boxSizing: 'border-box',
             }}
           />
+          </Field>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
             {FOOD_EMOJIS.map(em => (
               <Button

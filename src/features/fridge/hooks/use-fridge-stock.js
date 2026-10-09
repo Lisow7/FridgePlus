@@ -1,6 +1,7 @@
-import { useState, useCallback, useRef } from 'react'
+import { useState, useCallback, useEffect, useRef } from 'react'
 import { addToStock, removeFromStock, clearStock } from '@features/fridge/api/stock'
 import { track } from '@shared/lib/observability/track'
+import { createWriteSeries } from '@shared/lib/optimistic-writes'
 
 // Sprint 6 PR S6.d — Custom hook `useFridgeStock`.
 // Anti-gaspi 1A — ajoute `stockMeta` (fraîcheur) EN PARALLÈLE du `Set`.
@@ -14,9 +15,22 @@ import { track } from '@shared/lib/observability/track'
 // API : { stock, stockMeta, setStock, setStockMeta, toggleIngredient,
 //         resetStock, emptyFridgeOptimistic, emptyFridgeConfirm,
 //         emptyFridgeUndo, addBatch, removeBatch, setExpiry }
+//
+// 🔴 Une écriture refusée par la base ANNULE ce qu'elle avait affiché, et le
+// dit (`onSaveError`). Jusqu'au 2026-10-04 le résultat de chaque écriture était
+// jeté : l'aliment restait coché, rien n'était enregistré, et il disparaissait
+// au rechargement sans un mot (audit UX-02). L'écran change toujours tout de
+// suite ; c'est le refus, s'il arrive, qui le remet d'accord avec la base —
+// y compris quand deux écritures du même aliment se croisent (la règle est
+// dans `shared/lib/optimistic-writes.js`).
 
 const LOCALSTORAGE_KEY = 'fridge-stock'
 const nowIso = () => new Date().toISOString()
+
+// Vidage en base ; un appel qui lève (réseau coupé) rend une erreur comme les autres.
+async function vider(userId, ids) {
+  try { return await clearStock(userId, ids) } catch (err) { return { error: err ?? new Error('unknown') } }
+}
 
 // Lit le localStorage en gérant l'ancien format (strings) ET le nouveau (objets).
 function loadInitial() {
@@ -47,7 +61,7 @@ function persistLocalStorage(set, meta) {
   }
 }
 
-export function useFridgeStock(user, { onRemoved } = {}) {
+export function useFridgeStock(user, { onRemoved, onSaveError } = {}) {
   // Single init (reviewer) : un seul loadInitial → stock et meta cohérents,
   // pas deux lectures localStorage ni deux `now()` divergents.
   const initialRef = useRef(null)
@@ -61,6 +75,59 @@ export function useFridgeStock(user, { onRemoved } = {}) {
   const stockRef = useRef(stock); stockRef.current = stock
   const metaRef = useRef(stockMeta); metaRef.current = stockMeta
   const onRemovedRef = useRef(onRemoved); onRemovedRef.current = onRemoved
+  // Lus seulement après la réponse de la base : synchronisés après le rendu.
+  const onSaveErrorRef = useRef(onSaveError)
+  useEffect(() => { onSaveErrorRef.current = onSaveError }, [onSaveError])
+  // Le compte affiché : une réponse en retard d'un compte ne doit pas toucher
+  // l'écran du suivant (même fuite que celle fermée le 2026-08-28 pour le
+  // chargement, cf. `use-user-session.js`).
+  const userIdRef = useRef(user?.id)
+  useEffect(() => { userIdRef.current = user?.id }, [user?.id])
+
+  // Les écritures en vol, aliment par aliment : c'est ce registre qui dit, à
+  // la réponse de la base, ce que l'écran doit afficher.
+  const [series] = useState(createWriteSeries)
+
+  // Suit des écritures parties vers la base ; quand la base en refuse, remet
+  // l'écran d'accord avec elle.
+  //   ecritures : [{ id, envoi: () => Promise<{ error }>, avant, apres }]
+  //   `avant` / `apres` = l'aliment avant et après le geste : sa fraîcheur
+  //   s'il est au frigo, `null` sinon.
+  const suivre = useCallback((ecritures) => {
+    const emetteur = user.id
+    const suivies = ecritures.map(({ id, envoi, avant, apres }) => {
+      // Registre tenu PAR COMPTE : l'écriture encore en vol d'un compte qui
+      // vient de se déconnecter ne doit pas retenir celles du suivant.
+      const ecriture = series.ouvrir(`${emetteur}|${id}`, avant, apres)
+      let reponse
+      try { reponse = Promise.resolve(envoi()) } catch (err) { reponse = Promise.reject(err) }
+      // Un appel qui lève (réseau coupé) compte comme un refus.
+      return { id, ecriture, refusee: reponse.then((resultat) => !!resultat?.error, () => true) }
+    })
+    Promise.all(suivies.map((s) => s.refusee)).then((refus) => {
+      const aRemettre = []
+      suivies.forEach((s, i) => {
+        const verdict = series.fermer(s.ecriture, refus[i])
+        if (verdict) aRemettre.push({ id: s.id, etat: verdict.etat, voulu: verdict.voulu })
+      })
+      // Le compte a changé pendant le vol : cette réponse ne concerne plus
+      // l'écran affiché.
+      if (aRemettre.length === 0 || userIdRef.current !== emetteur) return
+      setStock((prevSet) => {
+        const nextSet = new Set(prevSet)
+        for (const { id, etat } of aRemettre) { if (etat) nextSet.add(id); else nextSet.delete(id) }
+        return nextSet
+      })
+      setStockMeta((prevMeta) => {
+        const nextMeta = new Map(prevMeta)
+        for (const { id, etat } of aRemettre) { if (etat) nextMeta.set(id, etat); else nextMeta.delete(id) }
+        return nextMeta
+      })
+      // On ne le dit que si la personne n'a pas ce qu'elle voulait : un aliment
+      // qu'elle a retiré et qui n'est pas en base, c'est ce qu'elle demandait.
+      if (aRemettre.some(({ etat, voulu }) => !!etat !== !!voulu)) onSaveErrorRef.current?.()
+    })
+  }, [user, series])
 
   // Projection du prochain état, pour tout ce qui doit s'exécuter HORS des
   // updaters : appels DB, écriture localStorage, events anti-gaspi.
@@ -112,6 +179,8 @@ export function useFridgeStock(user, { onRemoved } = {}) {
   const toggleIngredient = useCallback((id) => {
     const proj = projection()
     const wasPresent = proj.set.has(id)
+    // Fraîcheur d'avant, à remettre si la base refuse le retrait.
+    const metaAvant = wasPresent ? (proj.meta.get(id) ?? { addedAt: nowIso(), expiresAt: null }) : null
     if (wasPresent) emitRemoved([id], proj) // retrait → event anti-gaspi
     else track('ingredient_added', { ingredientId: id })
 
@@ -143,20 +212,28 @@ export function useFridgeStock(user, { onRemoved } = {}) {
     // Même raison, même parade que `emitRemoved` plus haut : on s'appuie
     // sur `wasPresent`, lu depuis `stockRef` synchronisé au state courant.
     if (user) {
-      if (wasPresent) removeFromStock(user.id, id)
-      else addToStock(user.id, id)
+      suivre([{
+        id,
+        envoi: () => (wasPresent ? removeFromStock(user.id, id) : addToStock(user.id, id)),
+        avant: metaAvant,
+        apres: wasPresent ? null : proj.meta.get(id),
+      }])
     }
-  }, [user])
+  }, [user, suivre])
 
   const resetStock = useCallback(async () => {
     // Ne supprime que les ingrédients réellement chargés : si la base n'a pas
     // répondu, l'écran montre un frigo vide, cette liste est vide, et le
     // vidage devient un no-op au lieu d'une purge de lignes jamais lues.
-    if (user) await clearStock(user.id, stockRef.current)
-    else { try { localStorage.removeItem(LOCALSTORAGE_KEY) } catch {} }
+    if (user) {
+      // Vidage refusé : rien n'est vidé à l'écran non plus.
+      const { error } = await vider(user.id, stockRef.current)
+      if (error) { onSaveErrorRef.current?.(); return { error } }
+    } else { try { localStorage.removeItem(LOCALSTORAGE_KEY) } catch {} }
     poserProjection(new Set(), new Map())
     setStock(new Set())
     setStockMeta(new Map())
+    return { error: null }
   }, [user])
 
   // Optimistic : vide le Set en mémoire seulement. La meta est conservée
@@ -175,10 +252,21 @@ export function useFridgeStock(user, { onRemoved } = {}) {
       if (removed.length) fn(removed)
     }
     // Même garantie que `resetStock` : on ne supprime que ce qu'on a chargé.
-    if (user) await clearStock(user.id, metaRef.current.keys())
-    else { try { localStorage.removeItem(LOCALSTORAGE_KEY) } catch {} }
+    if (user) {
+      const { error } = await vider(user.id, metaRef.current.keys())
+      if (error) {
+        // Le vidage n'a pas eu lieu : le frigo revient tel qu'il était (la
+        // fraîcheur, elle, n'avait pas bougé).
+        const restaure = new Set(metaRef.current.keys())
+        poserProjection(restaure, metaRef.current)
+        setStock(restaure)
+        onSaveErrorRef.current?.()
+        return { error }
+      }
+    } else { try { localStorage.removeItem(LOCALSTORAGE_KEY) } catch {} }
     poserProjection(stockRef.current, new Map())
     setStockMeta(new Map())
+    return { error: null }
   }, [user])
 
   const emptyFridgeUndo = useCallback((stashed) => {
@@ -212,15 +300,18 @@ export function useFridgeStock(user, { onRemoved } = {}) {
       for (const id of trulyAdded) if (!nextMeta.has(id)) nextMeta.set(id, { addedAt: stamp, expiresAt: null })
       return nextMeta
     })
-    if (user) for (const id of trulyAdded) addToStock(user.id, id)
+    if (user) suivre(trulyAdded.map((id) => ({ id, envoi: () => addToStock(user.id, id), avant: null, apres: proj.meta.get(id) })))
     else persistGuest(proj)
     return arr
-  }, [user])
+  }, [user, suivre])
 
   const removeBatch = useCallback((ids) => {
     const arr = Array.isArray(ids) ? ids : [...(ids ?? [])]
     if (arr.length === 0) return
     const proj = projection()
+    // Ce qui était vraiment là, avec sa fraîcheur : à remettre si la base refuse.
+    const retires = [...new Set(arr)].filter((id) => proj.set.has(id))
+      .map((id) => ({ id, avant: proj.meta.get(id) ?? { addedAt: nowIso(), expiresAt: null } }))
     emitRemoved(arr, proj) // retraits groupés → events anti-gaspi
     for (const id of arr) { proj.set.delete(id); proj.meta.delete(id) }
     setStock(prevSet => {
@@ -233,9 +324,14 @@ export function useFridgeStock(user, { onRemoved } = {}) {
       for (const id of arr) nextMeta.delete(id)
       return nextMeta
     })
-    if (user) for (const id of arr) removeFromStock(user.id, id)
-    else persistGuest(proj)
-  }, [user])
+    if (user) {
+      const dejaSuivis = new Set(retires.map((r) => r.id))
+      suivre(retires.map(({ id, avant }) => ({ id, envoi: () => removeFromStock(user.id, id), avant, apres: null })))
+      // Un identifiant absent du frigo part quand même vers la base, comme
+      // avant : il n'y a rien à remettre s'il est refusé.
+      for (const id of arr) if (!dejaSuivis.has(id)) removeFromStock(user.id, id)
+    } else persistGuest(proj)
+  }, [user, suivre])
 
   return {
     stock,

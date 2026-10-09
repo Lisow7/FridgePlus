@@ -131,7 +131,6 @@ export default function ChangelogPage({ lang = 'fr', darkMode = false }) {
                   </span>
                   {isCurrent && (
                     <span
-                      aria-label={t.current}
                       style={{
                         fontSize: '10px', fontWeight: 800,
                         padding: '2px 8px', borderRadius: '999px',
@@ -158,7 +157,6 @@ export default function ChangelogPage({ lang = 'fr', darkMode = false }) {
                   return (
                     <li key={i} style={{ display: 'flex', gap: '12px' }}>
                       <span
-                        aria-label={typeLabel}
                         style={{
                           flexShrink: 0, fontSize: '10px', fontWeight: 700,
                           padding: '3px 8px', borderRadius: '6px',
