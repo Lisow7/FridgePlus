@@ -1,5 +1,6 @@
 import { supabase } from '@shared/lib/supabase/client'
 import { logError } from '@shared/lib/observability/sentry'
+import { detacherCetAppareil } from '@shared/lib/push/cet-appareil'
 
 // Convertit une clé VAPID base64url en Uint8Array (format attendu par
 // PushManager.subscribe applicationServerKey).
@@ -59,19 +60,29 @@ export async function subscribeToPush() {
   }
 }
 
+// Désactiver sur CET appareil : sa ligne et l'abonnement du navigateur partent
+// (`detacherCetAppareil`, qui s'arrête si la ligne est refusée). Les préférences du
+// compte ne passent à faux que s'il ne reste plus aucun appareil abonné : avant,
+// elles passaient à faux d'office, et couper le push sur un téléphone l'éteignait
+// aussi sur l'ordinateur (CPT-15).
 export async function unsubscribeFromPush() {
-  try {
-    const registration = await navigator.serviceWorker.ready
-    const subscription = await registration.pushManager.getSubscription()
-    if (subscription) {
-      await supabase.from('push_subscriptions').delete().eq('endpoint', subscription.endpoint)
-      await subscription.unsubscribe()
-    }
-    return await updatePushPreferences({ inactivity_reminder: false, announcements: false, stock_expiry: false })
-  } catch (err) {
-    logError(err, { tag: 'push.unsubscribe' })
-    return { error: err }
+  const { error } = await detacherCetAppareil()
+  if (error) {
+    logError(error, { tag: 'push.unsubscribe' })
+    return { error }
   }
+  const { count, error: erreurDuCompte } = await compterMesAppareils()
+  if (erreurDuCompte) return { error: erreurDuCompte }
+  if (count > 0) return { error: null }
+  return await updatePushPreferences({ inactivity_reminder: false, announcements: false, stock_expiry: false })
+}
+
+// Les appareils encore abonnés pour ce compte (la RLS ne rend que les siens).
+async function compterMesAppareils() {
+  const { count, error } = await supabase
+    .from('push_subscriptions')
+    .select('endpoint', { count: 'exact', head: true })
+  return { count: count ?? 0, error }
 }
 
 export async function getPushPreferences(userId) {

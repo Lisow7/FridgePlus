@@ -5,6 +5,7 @@ import { loadStockFromDB } from '@features/fridge/api/stock'
 import { loadFavoritesFromDB } from '@features/recipes/api/favorites'
 import { loadCustomRecipes } from '@features/recipes/lib/custom-recipes'
 import { migrateLocalStorageToDB } from '@shared/lib/migration'
+import { purgerLesDonneesLocalesDuCompte } from '@shared/lib/auth/purge-locale'
 
 // Hook orchestrant le cycle de vie d'une session utilisateur :
 // chargement des données user-dépendantes au login + reset complet
@@ -78,6 +79,9 @@ export function useUserSession({
         setCustomRecipes([])
         // Le message d'un compte ne reste pas affiché au suivant.
         dismiss(MESSAGE_CHARGEMENT)
+        // Session expirée ou fermée ailleurs : même règle qu'au bouton « Se
+        // déconnecter », ce que le compte a laissé sur l'appareil s'efface.
+        purgerLesDonneesLocalesDuCompte()
       }
       prevUserIdRef.current = undefined
       return
@@ -145,9 +149,7 @@ export function useUserSession({
   }, [user?.id, tentative]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleSignOut = useCallback(async () => {
-    localStorage.removeItem('fridge-stock')
-    localStorage.removeItem('fridge-favorites')
-    localStorage.removeItem('fridge-custom-recipes')
+    purgerLesDonneesLocalesDuCompte()
     setStock(new Set())
     setStockMeta(new Map())
     setFavorites(new Set())

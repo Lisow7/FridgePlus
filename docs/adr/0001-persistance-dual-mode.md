@@ -13,6 +13,9 @@ conservant ses données (`stock`, `favorites`, recettes custom).
 - **Connecté** : lecture/écriture dans **Supabase**.
 - **Au login** : migration de localStorage → Supabase, orchestrée par `src/shared/lib/migration.js`.
 - Logique de session : `src/app/hooks/use-user-session.js`, `src/shared/contexts/auth-provider.jsx`.
+- **À la déconnexion** (et quand la session expire) : les clés locales du compte sont **effacées**, jamais
+  recopiées — `src/shared/lib/auth/purge-locale.js` (les trois ci-dessus et le brouillon de recette), appelée par
+  le `signOut` du fournisseur d'auth, donc par chaque écran qui déconnecte (lot 16c, 2026-10-08).
 
 ## Conséquences
 - (+) Expérience continue invité → connecté sans perte de données.

@@ -32,8 +32,8 @@ export const FLAGS = {
 }
 
 const I18N = {
-  fr: { lang: 'Langues', theme: 'Thème', dark: 'Mode sombre', light: 'Mode clair', soon: 'Bientôt disponible' },
-  en: { lang: 'Languages', theme: 'Theme', dark: 'Dark mode', light: 'Light mode', soon: 'Coming soon' },
+  fr: { lang: 'Langues', theme: 'Thème', dark: 'Mode sombre', light: 'Mode clair' },
+  en: { lang: 'Languages', theme: 'Theme', dark: 'Dark mode', light: 'Light mode' },
 }
 
 export default function LangThemePrefs({
@@ -59,39 +59,33 @@ export default function LangThemePrefs({
       <div role="group" aria-label={t.lang} style={{ display: 'flex', gap: '6px', marginBottom: '12px' }}>
         {LANGUAGES.map(({ code, label }) => {
           const isActive = lang === code
-          // Launch bilingue FR+EN : EN accessible à tous (2026-06-16).
-          const accessible = true
+          // Les deux langues sont ouvertes à tous depuis le 2026-06-16 : la branche
+          // « Bientôt disponible » (cadenas, bouton éteint) est partie au lot 16c.
           return (
             <button
               key={code}
               role="menuitemradio"
               aria-checked={isActive}
-              onClick={accessible ? () => onLangChange?.(code) : undefined}
-              disabled={!accessible}
-              title={accessible ? label : t.soon}
-              aria-label={accessible ? label : `${label} — ${t.soon}`}
+              onClick={() => onLangChange?.(code)}
+              title={label}
+              aria-label={label}
               style={{
                 flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '5px',
                 padding: '10px 4px 8px', borderRadius: '8px',
-                border: isActive
-                  ? '1.5px solid var(--color-warm-400)'
-                  : accessible ? `1.5px solid ${borderIdle}` : `1.5px dashed ${darkMode ? '#2E4055' : '#C8BFB4'}`,
-                cursor: accessible ? 'pointer' : 'not-allowed',
+                border: isActive ? '1.5px solid var(--color-warm-400)' : `1.5px solid ${borderIdle}`,
+                cursor: 'pointer',
                 background: isActive
                   ? 'linear-gradient(135deg, rgba(247,168,94,0.18) 0%, rgba(212,106,16,0.10) 100%)'
                   : 'transparent',
-                opacity: accessible ? 1 : 0.6, position: 'relative', transition: 'all 0.15s', fontFamily: 'inherit',
+                position: 'relative', transition: 'all 0.15s', fontFamily: 'inherit',
               }}
-              onMouseEnter={e => { if (accessible && !isActive) e.currentTarget.style.background = hoverBg }}
-              onMouseLeave={e => { if (accessible && !isActive) e.currentTarget.style.background = 'transparent' }}
+              onMouseEnter={e => { if (!isActive) e.currentTarget.style.background = hoverBg }}
+              onMouseLeave={e => { if (!isActive) e.currentTarget.style.background = 'transparent' }}
             >
               {FLAGS[code]}
               <span style={{ fontSize: '11px', fontWeight: isActive ? 700 : 500, textTransform: 'uppercase', letterSpacing: '0.04em', color: isActive ? 'var(--color-warm-600)' : muted }}>
                 {code}
               </span>
-              {!accessible && (
-                <span aria-hidden="true" style={{ fontSize: '9px', lineHeight: 1, color: darkMode ? 'rgba(180,160,140,0.70)' : 'rgba(120,90,60,0.55)' }}>🔒</span>
-              )}
             </button>
           )
         })}

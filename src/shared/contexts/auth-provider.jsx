@@ -9,6 +9,7 @@ import { sendChangeNotification } from '@shared/lib/auth/profile-change-notifica
 import { useAuthLinkProblem } from '@shared/hooks/use-auth-link-problem'
 import { useAllergenPrefs } from '@shared/hooks/use-allergen-prefs'
 import { etatMfa, MFA_AUCUN } from '@shared/lib/auth/mfa-requis'
+import { fermerLaSession } from '@shared/lib/auth/sortie'
 
 const AuthContext = createContext(null)
 
@@ -296,7 +297,7 @@ export function AuthProvider({ children }) {
   async function signOut() {
     setUser(null)
     setProfile(null)
-    await supabase.auth.signOut()
+    await fermerLaSession() // détache cet appareil, efface les clés locales, ferme la session
   }
 
   async function resetPassword(email) {
@@ -355,24 +356,6 @@ export function AuthProvider({ children }) {
       if (import.meta.env.DEV) console.error('[AuthContext] updateEmail threw:', err)
       return { error: { code: 'network_error', message: err?.message ?? 'unknown' } }
     }
-  }
-
-  async function updatePassword(newPassword) {
-    const { error } = await supabase.auth.updateUser({ password: newPassword })
-    return { error }
-  }
-
-  // Vérifie que le mot de passe actuel est correct, sans modifier la session.
-  // Utilisé en pré-check avant un changement de mdp depuis le profil.
-  // signInWithPassword crée une nouvelle session côté client mais reste
-  // associé au même user (pas de logout) ; suffit pour valider l'identité.
-  async function verifyCurrentPassword(password) {
-    if (!user?.email) return { ok: false }
-    const { error } = await supabase.auth.signInWithPassword({
-      email: user.email,
-      password,
-    })
-    return { ok: !error }
   }
 
   // Demande à Supabase l'envoi d'un email "mot de passe oublié" pour le user
@@ -456,7 +439,7 @@ export function AuthProvider({ children }) {
     // toutes les sessions du compte, autres appareils compris (BDD-04, CPT-04).
     await supabase.from('activity_logs').insert({ user_id: user.id, action: 'account_soft_deleted', target_id: user.id, target_type: 'user' })
     setCompteDesactive({ effaceLe: json.expiresAt })
-    await supabase.auth.signOut()
+    await fermerLaSession()
     return { error: null, retentionDays: json.retentionDays, expiresAt: json.expiresAt }
   }
 
@@ -481,7 +464,7 @@ export function AuthProvider({ children }) {
     ...allergenes,
     signInWithEmail, signUpWithEmail, resendSignupEmail, recordSignupConsent, signInWithGoogle, signOut,
     resetPassword, updateProfile, refreshProfile, updateEmail,
-    updatePassword, verifyCurrentPassword, requestPasswordResetEmail,
+    requestPasswordResetEmail,
     deleteAccount, restoreAccount, completePasswordReset, annulerLaSuppression,
     compteDesactive, oublierCompteDesactive: () => setCompteDesactive(null),
   // eslint-disable-next-line react-hooks/exhaustive-deps

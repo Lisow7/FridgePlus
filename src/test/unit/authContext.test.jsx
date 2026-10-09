@@ -661,8 +661,9 @@ describe('AuthContext', () => {
     })
   })
 
-  // ─── updateEmail / updatePassword ─────────────────────────────────────────
-  describe('updateEmail et updatePassword', () => {
+  // ─── updateEmail ──────────────────────────────────────────────────────────
+  // (updatePassword et verifyCurrentPassword, sans appelant, sont parties au lot 16c.)
+  describe('updateEmail', () => {
     it('updateEmail appelle supabase.auth.updateUser', async () => {
       const { result } = renderHook(() => useAuth(), { wrapper })
       await waitFor(() => expect(authCallback).not.toBeNull())
@@ -671,16 +672,6 @@ describe('AuthContext', () => {
         await result.current.updateEmail('new@test.com')
       })
       expect(mockUpdateUser).toHaveBeenCalledWith({ email: 'new@test.com' })
-    })
-
-    it('updatePassword appelle supabase.auth.updateUser', async () => {
-      const { result } = renderHook(() => useAuth(), { wrapper })
-      await waitFor(() => expect(authCallback).not.toBeNull())
-      await act(async () => { await authCallback('INITIAL_SESSION', null) })
-      await act(async () => {
-        await result.current.updatePassword('NewPass1!')
-      })
-      expect(mockUpdateUser).toHaveBeenCalledWith({ password: 'NewPass1!' })
     })
   })
 
