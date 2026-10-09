@@ -1,8 +1,8 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import { LuTrash2, LuCheck, LuTriangleAlert, LuChevronDown } from 'react-icons/lu'
 import Button from '@shared/ui/button'
 import { useCloseOnBackButton } from '@shared/hooks/use-close-on-back-button'
-import { useFocusTrap } from '@shared/hooks/use-focus-trap'
+import { useDialogue } from '@shared/hooks/use-dialogue'
 import { supabase } from '@shared/lib/supabase/client'
 
 // Section « Effacer mon historique de dépenses » — Sprint 10 S10.c.5.
@@ -66,12 +66,12 @@ export default function EraseSpendingHistorySection({
   // Même garde que le clic sur le backdrop : pas de fermeture pendant l'appel
   // d'effacement en cours.
   useCloseOnBackButton(dialogOpen, () => { if (status !== 'loading') setDialogOpen(false) })
-  // Piège de focus + Escape + restitution : ce dialogue est DESTRUCTIF (RGPD,
-  // effacement d historique) — c est la derniere modale qui pouvait retenir un
-  // utilisateur clavier sans issue (audit 2026-08-25). Pas d Escape pendant le
-  // chargement : on n interrompt pas un effacement en cours.
-  const dialogRef = useRef(null)
-  useFocusTrap(dialogRef, { active: dialogOpen, onEscape: () => { if (status !== 'loading') setDialogOpen(false) } })
+  // Rôle, nom, piège de focus, Échap et restitution : ce dialogue est DESTRUCTIF
+  // (RGPD, effacement d'historique). Jusqu'au lot 9g-2 (audit du 2026-10-04,
+  // A11Y-08), son piège appelait `useFocusTrap(dialogRef)` sans jamais poser la
+  // ref : rien n'était piégé, Échap ne fermait pas, et il n'avait pas de nom.
+  // Pas d'Échap pendant le chargement : on n'interrompt pas un effacement.
+  const dialogue = useDialogue({ onClose: () => { if (status !== 'loading') setDialogOpen(false) }, actif: dialogOpen })
 
   // Load current count on mount + after a successful erase (then 0).
   useEffect(() => {
@@ -185,8 +185,6 @@ export default function EraseSpendingHistorySection({
 
       {dialogOpen && (
         <div
-          role="dialog"
-          aria-modal="true"
           style={{
             position: 'fixed', inset: 0, zIndex: 1000,
             background: 'rgba(0,0,0,0.45)',
@@ -195,7 +193,7 @@ export default function EraseSpendingHistorySection({
           }}
           onClick={(e) => { if (e.target === e.currentTarget && status !== 'loading') setDialogOpen(false) }}
         >
-          <div className="fp-modal-panel" style={{
+          <div className="fp-modal-panel" {...dialogue.proprietes} style={{
             background: modalBg, borderRadius: '16px',
             border: `1.5px solid ${border}`,
             padding: '24px', maxWidth: '400px', width: '100%',
@@ -203,7 +201,7 @@ export default function EraseSpendingHistorySection({
           }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '12px' }}>
               <LuTriangleAlert size={20} style={{ color: '#ef4444', flexShrink: 0 }} />
-              <h3 style={{ margin: 0, fontSize: '16px', fontWeight: 800, color: textColor }}>
+              <h3 id={dialogue.titreId} style={{ margin: 0, fontSize: '16px', fontWeight: 800, color: textColor }}>
                 {t.confirmTitle}
               </h3>
             </div>

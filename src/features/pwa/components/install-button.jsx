@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useId } from 'react'
 import { LuDownload } from 'react-icons/lu'
 import Button from '@shared/ui/button'
 import { usePwaInstallable } from '../lib/use-pwa-installable'
@@ -43,6 +43,8 @@ export default function InstallButton({ lang = 'fr', darkMode = false }) {
   // Overlay plein écran = dialogue : rôle + piège de focus + Escape
   // (audit clavier 2026-08-25 — il ne se fermait qu au clic).
   const iosHelpRef = useRef(null)
+  // Le nom du dialogue est son titre (A11Y-08 : il n'en avait pas).
+  const iosTitreId = useId()
   useFocusTrap(iosHelpRef, { active: showIosHelp, onEscape: () => setShowIosHelp(false) })
   // 🔴 Le piège de focus seul ne suffisait pas (audit 2026-08-28) : sur Android,
   // le bouton RETOUR du système quittait la page au lieu de fermer ce dialogue.
@@ -73,6 +75,7 @@ export default function InstallButton({ lang = 'fr', darkMode = false }) {
             ref={iosHelpRef}
             role="dialog"
             aria-modal="true"
+            aria-labelledby={iosTitreId}
             onClick={() => setShowIosHelp(false)}
             style={{
               position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)',
@@ -89,7 +92,7 @@ export default function InstallButton({ lang = 'fr', darkMode = false }) {
                 fontSize: 14, lineHeight: 1.5,
               }}
             >
-              <h3 style={{ fontSize: 16, fontWeight: 700, marginBottom: 12 }}>{t.iosTitle}</h3>
+              <h3 id={iosTitreId} style={{ fontSize: 16, fontWeight: 700, marginBottom: 12 }}>{t.iosTitle}</h3>
               <ol style={{ paddingLeft: 20, marginBottom: 14 }}>
                 <li style={{ marginBottom: 6 }}>{t.iosStep1}</li>
                 <li style={{ marginBottom: 6 }}>{t.iosStep2}</li>

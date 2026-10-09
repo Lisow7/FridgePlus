@@ -81,6 +81,7 @@ export default function AddItemSheet({
     <>
       <div className="fixed inset-0 z-40 bg-black/50" onClick={onClose} aria-hidden="true" />
       <div
+        ref={sheetRef}
         role="dialog"
         aria-modal="true"
         aria-label={t.title}

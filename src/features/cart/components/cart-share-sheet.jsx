@@ -1,7 +1,6 @@
-import { useState, useRef } from 'react'
+import { useState } from 'react'
 import { LuClipboard, LuPrinter, LuShare2, LuCheck, LuLink } from 'react-icons/lu'
 import { useCloseOnBackButton } from '@shared/hooks/use-close-on-back-button'
-import { useFocusTrap } from '@shared/hooks/use-focus-trap'
 import { createSharedBasket } from '@features/cart/api/shared-baskets'
 import { groupShareRowsByAisle, formatShareQty } from '@features/cart/lib/share-rows'
 import { printReactElement } from '@shared/lib/print/print-element'
@@ -51,11 +50,9 @@ export default function CartShareSheet({ open, lang = 'fr', darkMode = false, on
   const [linkCopied, setLinkCopied] = useState(false)
   const [linkError, setLinkError] = useState(false)
   useCloseOnBackButton(open, onClose)
-  // Piège de focus + Escape + restitution (audit clavier 2026-08-25) : cette
-  // feuille est aria-modal mais son voile n est qu un div cliquable — au
-  // clavier, elle était sans issue.
-  const sheetRef = useRef(null)
-  useFocusTrap(sheetRef, { active: open, onEscape: onClose })
+  // Le piège de focus, Échap et la restitution sont ceux de BottomSheet : un
+  // second `useFocusTrap(sheetRef)` vivait ici sans ref posée, donc sans effet
+  // (audit du 2026-10-04, A11Y-08).
   if (!open) return null
 
   const canShareLink = !!userId && shareRows.length > 0
