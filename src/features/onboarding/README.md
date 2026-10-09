@@ -16,12 +16,13 @@ exposer **quel tier d'accès** chaque feature requiert (utilisé par l'onboardin
   `useFocusTrap`, CSS injecté une fois dans `<head>`, portal). Tient compte de `PREMIUM_ENABLED`.
 - **`help-guide.jsx`** — hub d'aide (référence `CURRENT_VERSION`).
 
-## ⭐ Source unique des tiers d'accès — `lib/feature-tiers.js`
-`FEATURE_TIER` mappe **chaque feature à son tier** : `free` (fridge, recipes, voice, filters),
-`account` (favorites, community, create, profile), `soon` = **premium** (cart, costs, cooking, lists,
-share). `'soon'` s'affiche **« Prochainement »** tant que `PREMIUM_ENABLED=false`.
-👉 **C'est LA référence** du modèle d'accès 3 tiers — l'onboarding et les **pastilles** lisent ici.
-Pour changer le tier d'une feature, c'est ce fichier (pas du code éparpillé).
+## Tiers d'accès
+Trois niveaux : invité (frigo, recettes, voix, filtres), compte (favoris, communauté, création,
+profil), Premium (panier, coûts, mode cuisine vocal, listes, partage) — affiché « Bientôt » tant
+que `PREMIUM_ENABLED=false`. Les pastilles (`@shared/ui/tier-badge`) reçoivent leur tier en prop.
+La table `FEATURE_TIER` qui se disait « LA référence » a été retirée le 2026-10-09 : rien ne la
+lisait (audit du 2026-10-04, ARCH-14). Une table commune des fonctions Premium, lue par le verrou,
+la fenêtre d'abonnement et les CGV, est prévue au lot 15 (PREM-09).
 
 ## i18n
 `i18n/welcome-i18n.js` + `i18n/tour-steps-i18n.js` — **fichiers i18n centralisés** par la feature →
@@ -30,4 +31,4 @@ Pour changer le tier d'une feature, c'est ce fichier (pas du code éparpillé).
 ## Dépendances
 - `@shared/lib/premium-config` (`PREMIUM_ENABLED`), `@shared/hooks/use-focus-trap`,
   `@shared/lib/version` (`CURRENT_VERSION` dans le hub d'aide), `localStorage`.
-- Le tier d'accès (`feature-tiers`) est cross-cutting (pastilles, gates premium). Vue d'ensemble : `docs/ARCHITECTURE.md`.
+- Le tier d'accès est cross-cutting (pastilles, verrous Premium). Vue d'ensemble : `docs/ARCHITECTURE.md`.

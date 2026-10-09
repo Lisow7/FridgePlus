@@ -19,7 +19,8 @@
 - **Avec un compte gratuit** — favoris, recettes perso, communauté (avec modération), récompenses.
 - **Premium** *(fermé, « Prochainement » dans l'app)* — panier chiffré, mode cuisine, listes, partage.
 
-> Ce qui est gratuit, avec compte ou Premium : `src/features/onboarding/lib/feature-tiers.js` fait foi.
+> Ce qui est gratuit, avec compte ou Premium : `src/shared/lib/premium-config.js` (le Premium est fermé) et les
+> verrous `src/shared/ui/upgrade-gate.jsx` font foi ; une table commune des fonctions Premium est prévue (lot 15).
 > (Cette liste annonçait jusqu'au 2026-10-05 un score anti-gaspi €/carbone et des alertes de péremption,
 > retirés avec la DLC des ingrédients.)
 

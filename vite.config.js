@@ -180,7 +180,10 @@ export default defineConfig({
         // Fallback navigation pour les routes SPA inconnues (en offline).
         // Préfixé par la base pour être cohérent avec ce qui est précaché.
         navigateFallback: `${base}index.html`,
-        navigateFallbackDenylist: [/^\/api/, /^\/auth/],
+        // Jamais la coquille de l'app pour un fichier (sitemap.xml, robots.txt, une
+        // image absente) ni pour /.well-known/ (security.txt) : avec le service
+        // worker installé, ils recevaient index.html (audit du 2026-10-04, SEC-10).
+        navigateFallbackDenylist: [/^\/api/, /^\/auth/, /\.[a-z0-9]+$/, /^\/\.well-known\//],
       },
       devOptions: {
         // Ne PAS activer le SW en dev — pollue le HMR + cache désynchronisé.

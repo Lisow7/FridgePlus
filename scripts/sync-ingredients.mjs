@@ -48,7 +48,7 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_SVC_KEY, {
 // ─── Imports données ─────────────────────────────────────────────────────────
 
 const { INGREDIENTS }        = await import('../src/shared/static/ingredients.js')
-const { NUTRITION }          = await import('../src/shared/static/nutrition.js')
+const { NUTRITION }          = await import('./lib/nutrition.js')
 const { PACK_SIZES }         = await import('../src/shared/static/pack-sizes.js')
 const { DIET_BREAKING_IDS }  = await import('../src/shared/static/diet-breaking-ids.js')
 const { getUnitHints }       = await import('../src/shared/static/ingredient-unit-hints.js')

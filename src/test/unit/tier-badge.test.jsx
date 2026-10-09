@@ -5,15 +5,9 @@ let mockEnabled = false
 vi.mock('@shared/lib/premium-config', () => ({ get PREMIUM_ENABLED() { return mockEnabled } }))
 
 import TierBadge from '@shared/ui/tier-badge'
-import { FEATURE_TIER } from '@features/onboarding/lib/feature-tiers'
 
-describe('FEATURE_TIER', () => {
-  it('classe les features par tier', () => {
-    expect(FEATURE_TIER.fridge).toBe('free')
-    expect(FEATURE_TIER.community).toBe('account')
-    expect(FEATURE_TIER.cart).toBe('soon')
-  })
-})
+// (`FEATURE_TIER` n'existe plus : rien dans l'app ne le lisait — audit du
+// 2026-10-04, ARCH-14. Les pastilles reçoivent leur tier en prop.)
 
 describe('TierBadge', () => {
   it('free → « Gratuit »', () => {

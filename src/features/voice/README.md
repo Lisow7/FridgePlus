@@ -10,8 +10,9 @@ Les hooks de reconnaissance ont été **déplacés dans `@shared/hooks/`** (ils 
 - **`@shared/hooks/use-voice-recognition`** — moteur d'ajout d'ingrédients : Web Speech API +
   matching flou (**Fuse.js**) contre le catalogue, normalisation accents/casse, déstemmatisation
   singulier/pluriel, stopwords, alias (`@shared/static/speech-aliases`).
-- **`@shared/hooks/use-cooking-voice`** — commandes du mode cuisine : `next` / `prev` / `repeat` /
-  `stop` + intent **minuteur** (« minuteur 5 minutes ») via `parse-durations`.
+- **Mode cuisine** — les commandes vocales (`next` / `previous` / `repeat` / `stop`…) et l'intent
+  **minuteur** (« minuteur 5 minutes ») vivent dans la feature `cooking-mode`
+  (`hooks/use-voice-listener.js`, `lib/intent-matcher.js`, `lib/duration-parser.js`).
 
 > 🧱 **Façade (`index.js`)** : n'expose que les **composants** de la feature. Les hooks vivent dans
 > `@shared/hooks/` et sont importés **directement** depuis shared par leurs consommateurs (pas via
@@ -41,7 +42,7 @@ Les hooks de reconnaissance ont été **déplacés dans `@shared/hooks/`** (ils 
   Cf. la feature [`legal`](../legal/README.md). Feature **gratuite, sans login**.
 
 ## Dépendances & consommateurs
-- `@shared/hooks/use-voice-recognition` + `use-cooking-voice` (cœur), `@shared/contexts/data-provider`
+- `@shared/hooks/use-voice-recognition` (cœur), `@shared/contexts/data-provider`
   (`useIngredients`), `@shared/hooks/use-window-width`, `@shared/ui/button`, `fuse.js`.
 - Composants consommés par `app/components/voice-overlays.jsx` ; hooks consommés par `use-voice-flow.js`,
   `recipes/.../recipe-form-mic-input.jsx`, `recipe-form-modal.jsx`, `recipe-form-sortable-step.jsx`.
