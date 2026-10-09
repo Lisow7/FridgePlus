@@ -31,7 +31,7 @@ const I18N = {
   },
   en: {
     title: 'Erase my spending history',
-    description: 'You can permanently erase all the spending recorded by « I\'m done shopping » (your right to erasure). The Premium « Spending analysis » chart will restart from zero. This action is irreversible.',
+    description: 'You can permanently erase all the spending recorded by "I\'m done shopping" (your right to erasure). The Premium "Spending analysis" chart will restart from zero. This action is irreversible.',
     btn: 'Erase my history',
     confirmTitle: 'Confirm erasure',
     confirmText: 'All your recorded spending ({count}) will be deleted permanently. This action cannot be undone.',

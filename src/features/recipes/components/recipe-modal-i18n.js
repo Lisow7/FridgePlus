@@ -3,6 +3,7 @@
 // le composant monstre (2315 l) sans changer le comportement. Suit le pattern
 // feature-i18n du projet (dictionnaire par feature).
 import { DIFFICULTY_LABELS, TYPE_LABELS } from '@shared/static/recipe-constants'
+import { suffixS } from '@shared/lib/i18n/pluralize'
 
 export const MODAL_I18N = {
   fr: {
@@ -100,7 +101,7 @@ export const MODAL_I18N = {
   en: {
     servings:         (n) => `${n} serv.`,
     lockedServingsLabel: (n, name) => `Amount for ${n} servings of ${name}`,
-    matchCount:       (m, total) => `${m}/${total} ingredient${total > 1 ? 's' : ''}`,
+    matchCount:       (m, total) => `${m}/${total} ingredient${suffixS(total, 'en')}`,
     matchInfo:        'Share of the recipe\'s required ingredients you already have in your fridge. Optional ingredients (marked *) don\'t count.',
     ingredientsLabel: 'Ingredients',
     preparationLabel: 'Preparation',
@@ -138,7 +139,7 @@ export const MODAL_I18N = {
     keepInPantry:     'Kept in pantry',
     chooseUsed:       'Which one did you use?',
     cancel:           'Cancel',
-    feedbackDone:     (n) => n === 0 ? 'Recipe done!' : `${n} ingredient${n > 1 ? 's' : ''} removed from fridge`,
+    feedbackDone:     (n) => n === 0 ? 'Recipe done!' : `${n} ingredient${suffixS(n, 'en')} removed from fridge`,
     feedbackCookedLogged: 'Added to your cooking journal',
     inSeason:         'In season this month',
     feedbackSplit:    (fridge, pantry) => {
@@ -160,7 +161,7 @@ export const MODAL_I18N = {
     alreadyInCart: 'Already in cart', cartAdded: 'Recipe added to cart!', cartAllInFridge: 'All ingredients are already in your fridge!',
     noNutrition: 'Data unavailable',
     tabSteps: 'Steps', tabCost: 'Cost', tabNutrition: 'Nutrition', tabReviews: 'Reviews',
-    reviewsBadgeTitle: (avg, n) => `${avg}/5 — ${n} review${n > 1 ? 's' : ''}`,
+    reviewsBadgeTitle: (avg, n) => `${avg}/5 — ${n} review${suffixS(n, 'en')}`,
     withdrawPickWarning: '⚠ Pick an ingredient for every orange line before confirming',
     tabsLabel: 'Recipe sections',
     usingBaseLabel: 'Recipes that use this one',

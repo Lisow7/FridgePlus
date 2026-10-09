@@ -1,6 +1,7 @@
 import { getGramsPer } from '@shared/static/ingredient-unit-hints'
 import { PACK_SIZES } from '@shared/static/pack-sizes'
 import { getIngredientItemsFlat, getIngredientQty, getIngredientIds, isIngredientRequired } from './recipe-ingredients'
+import { formatPrix } from '@shared/lib/i18n/prix'
 
 // Dérive un prix €/100g depuis un tableau de packs `{size, unit, price}`
 // (on prend le pack le moins cher au gramme). Retourne null si aucun pack
@@ -191,9 +192,12 @@ export function calcRecipeCostByMode(recipe, {
 
 export function formatPrice(value, lang = 'fr') {
   if (!Number.isFinite(value) || value < 0) return null
+  // Les deux langues servies passent par `Intl` (« 4,99 € » / « €4.99 » —
+  // audit du 2026-10-04, UX-15) ; les autres, héritées, gardent leur monnaie.
+  if (lang === 'fr' || lang === 'en') return formatPrix(value, lang, { approx: true })
   const currency = getCurrency(lang)
   if (lang === 'ja') return `~${Math.round(value)}${currency}`
-  return `~${value.toFixed(2).replace('.', ',')}${currency}`
+  return `~${value.toFixed(2)}${currency}`
 }
 
 // Pluriel des unités (au-delà de 1, donc à partir de 2). Indexé par langue

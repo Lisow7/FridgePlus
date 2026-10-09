@@ -1,6 +1,8 @@
 import { useMemo, useState } from 'react'
 import { LuTrash2, LuCheck, LuShoppingBag, LuArrowLeft } from 'react-icons/lu'
 import { useConfirm } from '@shared/ui/confirm-dialog/confirm-provider'
+import { suffixS } from '@shared/lib/i18n/pluralize'
+import { formatPrix } from '@shared/lib/i18n/prix'
 
 const I18N = {
   fr: {
@@ -27,15 +29,15 @@ const I18N = {
     doneHint: 'Transfers purchased items to your fridge and clears the list.',
     allCheckedTitle: 'Summary',
     partialTitle: 'Checked items',
-    notAllChecked: (n, total) => `${total - n} item${total - n > 1 ? 's' : ''} not bought — will stay in your cart for next time.`,
+    notAllChecked: (n, total) => `${total - n} item${suffixS(total - n, 'en')} not bought — will stay in your cart for next time.`,
     totalLabel: 'Estimated total',
-    itemsLabel: (n) => `${n} item${n > 1 ? 's' : ''} bought`,
+    itemsLabel: (n) => `${n} item${suffixS(n, 'en')} bought`,
     emptyTitle: 'Your cart is empty',
-    emptyHint: 'Go back to « Prepare » to add items.',
+    emptyHint: 'Go back to "Prepare" to add items.',
     andMore: (n) => `+ ${n} more`,
     collapse: 'Show less',
     miscLabel: 'Misc items',
-    fridgeNote: (n) => `✅ ${n} ingredient${n > 1 ? 's' : ''} will be added to your fridge`,
+    fridgeNote: (n) => `✅ ${n} ingredient${suffixS(n, 'en')} will be added to your fridge`,
     clearEmergency: 'Clear without transferring',
     clearConfirm: 'Clear cart without transferring to fridge?',
   },
@@ -156,7 +158,7 @@ export default function HomePhase({
         <div className="flex flex-col items-center justify-center rounded-[12px] px-3 py-4 border" style={{ background: cardBg, borderColor: cardBorder }}>
           <span className="text-xl mb-1" aria-hidden="true">💶</span>
           <p className="text-[18px] font-black" style={{ color: '#D46A10' }}>
-            {checkedPrice > 0 ? `~${checkedPrice.toFixed(2).replace('.', ',')} €` : '—'}
+            {checkedPrice > 0 ? formatPrix(checkedPrice, lang, { approx: true }) : '—'}
           </p>
           <p className="text-[11px] font-semibold" style={{ color: muted }}>{t.totalLabel}</p>
         </div>

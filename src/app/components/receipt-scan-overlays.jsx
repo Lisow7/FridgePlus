@@ -9,6 +9,7 @@ import { ReceiptConsentScreen } from '@features/receipt-scan'
 import { Z_INDEX } from '@shared/lib/z-index'
 import { useFocusTrap } from '@shared/hooks/use-focus-trap'
 import { useCloseOnBackButton } from '@shared/hooks/use-close-on-back-button'
+import { suffixS } from '@shared/lib/i18n/pluralize'
 
 const ReceiptReviewPanel = lazy(() => import('@features/receipt-scan/components/receipt-review-panel'))
 
@@ -36,7 +37,7 @@ const LOGIN_REQUIRED_I18N = {
 const PROCESSING_I18N = { fr: 'Lecture du ticket…', en: 'Reading the receipt…' }
 const ADDED_I18N = {
   fr: n => `${n} ingrédient${n > 1 ? 's' : ''} ajouté${n > 1 ? 's' : ''} au frigo`,
-  en: n => `${n} ingredient${n > 1 ? 's' : ''} added to fridge`,
+  en: n => `${n} ingredient${suffixS(n, 'en')} added to fridge`,
 }
 
 // Écran "connexion requise" — mêmes garanties a11y que les autres modales

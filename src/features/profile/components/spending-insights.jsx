@@ -2,6 +2,7 @@ import { useMemo } from 'react'
 import { LuTrendingUp, LuTrendingDown, LuTriangleAlert, LuTarget, LuChartPie, LuTrophy } from 'react-icons/lu'
 import { getCategoryBreakdown, getTopExpensiveItems, getMonthProjection } from '@shared/lib/spending/spending-stats'
 import { INGREDIENTS } from '@shared/static/ingredients'
+import { suffixS } from '@shared/lib/i18n/pluralize'
 
 // v3.415 PR-E.2 — analytics étendues Mes dépenses Premium.
 // 3 sections (toujours sous le chart) :
@@ -44,7 +45,7 @@ const I18N = {
     projectionTitle:    'End-of-month projection',
     projectionNoData:   'Not enough data this month to project yet (at least 3 days needed).',
     projectionLine:     (p) => `At the current pace, you'll end the month around €${p.projected.toFixed(2)}.`,
-    projectionDays:     (p) => `Based on ${p.daysElapsed} day${p.daysElapsed > 1 ? 's' : ''} out of ${p.daysInMonth}.`,
+    projectionDays:     (p) => `Based on ${p.daysElapsed} day${suffixS(p.daysElapsed, 'en')} out of ${p.daysInMonth}.`,
     projectionVsBudget: (p) => p.deltaPct > 0
       ? `That's ${p.deltaPct}% above your monthly budget.`
       : p.deltaPct < 0
@@ -56,7 +57,7 @@ const I18N = {
     topTitle:           'Top 5 most expensive products',
     topEmpty:           'No spending over the period.',
     topUnknown:         'Unknown ingredient',
-    topOccurrences:     (n) => `${n} time${n > 1 ? 's' : ''}`,
+    topOccurrences:     (n) => `${n} time${suffixS(n, 'en')}`,
     categories: {
       frozen:  { label: 'Frozen',      color: '#4A90E2' },
       fresh:   { label: 'Fresh',       color: '#6FCF97' },

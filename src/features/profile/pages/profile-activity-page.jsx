@@ -20,7 +20,7 @@ const I18N = {
     statsSectionDesc:  'Tes stats à un coup d\'œil.',
     journalTitle: 'Journal de cuisine',
     journalDesc:  'Les 20 dernières recettes que tu as cuisinées.',
-    journalEmpty: 'Quand tu cliques « J\'ai cuisiné cette recette », elle apparait ici.',
+    journalEmpty: 'Quand tu cliques « J\'ai cuisiné cette recette », elle apparaît ici.',
     journalUnknown: 'Recette inconnue',
     journalServings: (n) => n === 1 ? '1 portion' : `${n} portions`,
     // v3.412 PR-E — i18n spending déplacé vers profile-spending-page.
@@ -76,7 +76,7 @@ const I18N = {
     statsSectionDesc:  'Your stats at a glance.',
     journalTitle: 'Cooking journal',
     journalDesc:  'Your last 20 cooked recipes.',
-    journalEmpty: 'When you click « I cooked this recipe », it appears here.',
+    journalEmpty: 'When you click "I cooked this recipe", it appears here.',
     journalUnknown: 'Unknown recipe',
     journalServings: (n) => n === 1 ? '1 serving' : `${n} servings`,
     // v3.412 PR-E — i18n spending moved to profile-spending-page.

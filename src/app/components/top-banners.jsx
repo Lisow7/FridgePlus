@@ -1,4 +1,5 @@
 import { Z_INDEX } from '@shared/lib/z-index'
+import { suffixS } from '@shared/lib/i18n/pluralize'
 
 // Composant orchestrant les 3 bandeaux top-of-app : retour restore-
 // account (succès/erreur auto-dismiss 8s), activation abonnement
@@ -12,7 +13,7 @@ import { Z_INDEX } from '@shared/lib/z-index'
 
 const TRIAL_BANNER_I18N = {
   fr: (n) => `Essai Premium — ${n} jour${n > 1 ? 's' : ''} restant${n > 1 ? 's' : ''}`,
-  en: (n) => `Premium trial — ${n} day${n > 1 ? 's' : ''} remaining`,
+  en: (n) => `Premium trial — ${n} day${suffixS(n, 'en')} remaining`,
 }
 const TRIAL_ACTIVATE_I18N = { fr: 'Activer', en: 'Activate' }
 

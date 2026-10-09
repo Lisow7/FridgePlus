@@ -44,7 +44,7 @@ const I18N = {
     create: 'Create list',
     nameTooLong: '80 characters maximum.',
     nameRequired: 'Give your list a name.',
-    intro: 'Your current list ({{count}} items) will be saved and the basket will be cleared. You can reopen it from « My lists ».',
+    intro: 'Your current list ({{count}} items) will be saved and the basket will be cleared. You can reopen it from "My lists".',
     introCreate: 'Give your list a name to start filling it. You can then add recipes and ingredients.',
     saving: 'Saving…',
     error: 'Error while saving. Please retry.',

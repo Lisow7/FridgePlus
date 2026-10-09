@@ -35,6 +35,9 @@ const I18N = {
  body: "L'application a rencontré un problème inattendu. Tu peux essayer de recharger la page. Si le problème persiste, n'hésite pas à nous contacter.",
  reload: 'Recharger la page',
  contact: 'Contacter le support',
+ mailSubject: 'Erreur Fridge+',
+ mailBody: (message) => `Erreur : ${message}`,
+ unknownError: 'inconnue',
  details: 'Détails techniques',
  },
  en: {
@@ -42,6 +45,9 @@ const I18N = {
  body: 'The app encountered an unexpected error. You can try reloading the page. If the problem persists, please contact us.',
  reload: 'Reload page',
  contact: 'Contact support',
+ mailSubject: 'Fridge+ error',
+ mailBody: (message) => `Error: ${message}`,
+ unknownError: 'unknown',
  details: 'Technical details',
  },
  },
@@ -165,7 +171,7 @@ export default class ErrorBoundary extends Component {
  </button>
  {isApp && (
  <a
- href={`mailto:${SUPPORT_EMAIL}?subject=Erreur Fridge%2B&body=${encodeURIComponent(`Erreur : ${this.state.error?.message ?? 'inconnue'}`)}`}
+ href={`mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent(t.mailSubject)}&body=${encodeURIComponent(t.mailBody(this.state.error?.message ?? t.unknownError))}`}
  style={{
  padding: '10px 18px', borderRadius: '8px',
  border: '1px solid rgba(212,106,16,0.45)', background: 'transparent',

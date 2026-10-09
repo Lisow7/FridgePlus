@@ -59,7 +59,7 @@ const I18N = {
     title: 'My lists',
     counter: '{{n}} / {{max}} lists',
     empty: 'You haven\'t saved any list yet.',
-    emptyHint: 'When you have items in your basket, click « Save my list ».',
+    emptyHint: 'When you have items in your basket, click "Save my list".',
     close: 'Close',
     loading: 'Loading…',
     items: '{{n}} item(s)',
@@ -76,7 +76,7 @@ const I18N = {
     listRenamed: 'List renamed.',
     listDeleted: 'List deleted',
     deleteFailed: 'Error while deleting. Please retry.',
-    confirmDelete: 'Permanently delete the list « {{name}} » ?\n\nThis is different from « Close my list » in the cart — here you\'re deleting the saved list. You will have 10 seconds to undo.',
+    confirmDelete: 'Permanently delete the list "{{name}}"?\n\nThis is different from "Close my list" in the cart — here you\'re deleting the saved list. You will have 10 seconds to undo.',
     ctaStartList: 'Start a new list',
   },
 }
