@@ -1,0 +1,420 @@
+@import "tailwindcss";
+
+@theme {
+  /* Palette Tailwind "warm" (Material Orange) — utilisée pour les states
+   * et accents techniques (focus rings, hover, etc.). À11y AA confirmé. */
+  --color-warm-50: #fffbf5;
+  --color-warm-100: #fff3e0;
+  --color-warm-200: #ffe0b2;
+  --color-warm-300: #ffcc80;
+  --color-warm-400: #ffa726;
+  --color-warm-500: #ff8f00;
+  --color-warm-600: #B85000;
+
+  /* Palette brand Fridge+ (Sprint 9 S9.c.1) — couleurs effectivement
+   * utilisées en hardcode dans le code historique :
+   *   - brand-400 (#F7A85E)  : accents secondaires, dégradés
+   *   - brand-500 (#E07820)  : couleur primaire de l'app (icônes, CTAs)
+   *   - brand-600 (#D46A10)  : hovers, états pressed
+   * Usage Tailwind : `bg-brand-500`, `text-brand-600`, `border-brand-400`. */
+  --color-brand-400: #F7A85E;
+  --color-brand-500: #E07820;
+  --color-brand-600: #D46A10;
+
+  /* Dégradé signature de marque — défini une seule fois (#6 cohérence UI).
+     Équivaut exactement à linear-gradient(135deg, #F7A85E 0%, #D46A10 100%).
+     Pas d'override dark : les --color-brand-* sont identiques dans les 2 thèmes. */
+  --gradient-warm: linear-gradient(135deg, var(--color-brand-400) 0%, var(--color-brand-600) 100%);
+
+  /* Surfaces & bordures chaudes (mode clair) */
+  --color-bg-warm:     #F0E8DC;
+  --color-border-warm: #EDE4D4;
+  --color-surface:     #FDFAF6;
+  --color-input:       #FFF8F2;
+
+  /* Surfaces mode sombre */
+  --color-dark-surface: #1A2A3D;
+  --color-dark-border:  #2E4A6A;
+
+  /* Sémantique état */
+  --color-danger:  #DC2626;
+  --color-success: #16A34A;
+  --color-warning: #D97706;
+  --color-info:    #2563EB;
+
+  --color-cream: #e3d9cf;
+  --color-charcoal: #2d1b00;
+  --color-muted: #6A4F45;
+}
+
+/* Semantic tokens — adaptatifs light/dark, utilisables en inline style */
+:root {
+  --panel-bg:       #FDFAF6;
+  --panel-border:   #EDE4D4;
+  --card-bg:        #F5EDD8;
+  --input-bg:       #FFF8F2;
+  --dropdown-bg:    #FDFAF6;
+  --dropdown-border:#EDE4D4;
+  --brand:          #E07820;
+  --skeleton-bone:  #E8D9C0;
+
+  /* Couleur des liens TEXTUELS accentues (« Retour », « voir le guide »).
+     Pourquoi un token separe de `--color-warm-600` : ce dernier est une teinte
+     de PALETTE, employee aussi bien en FOND de bouton (texte blanc dessus)
+     qu'en couleur de texte. Or `#B85000` sur le creme `#f5f0e8` plafonne a
+     4,42:1 — il RATE le 4,5:1 exige, de 0,08. Assombrir la palette entiere
+     aurait change la teinte de tous les boutons ; ce token ne touche que le
+     texte. Mesure : `#B34E00` sur `#f5f0e8` = 4,62:1.
+
+     🔴 QUAND L'EMPLOYER — la regle, sans quoi le defaut reviendra :
+       • texte accentue pose sur le CREME (`#f5f0e8`, fond des pages
+         /faq /guide /legal /changelog) ........... `--link-accent` OBLIGATOIRE
+       • texte accentue sur une carte BLANCHE (`#FFFFFF`) ou plus claire
+         .......... `--color-warm-600` reste conforme, inutile d'y toucher
+       • FOND de bouton, bordure, icone `aria-hidden`
+         .......... `--color-warm-600`, toujours — ce token-ci est pour du TEXTE
+     ⚠️ `--color-warm-600` sert donc ENCORE de couleur de texte ailleurs
+     (`legal-content-blocks.jsx`, `legal-page.jsx`…) et c'est VOULU : ces
+     occurrences sont sur fond blanc et passent. Ne pas les convertir en masse
+     sans mesurer leur fond reel. */
+  --link-accent:    #B34E00;
+
+  /* Meme motif que `--link-accent`, applique a `--color-success` (#16A34A) :
+     c'est un token d'ETAT, employe en badges et pastilles. Pose en TEXTE sur le
+     vert pale de `/legal`, il ne rendait que 2,76:1. Celui-ci ne sert qu'au
+     texte : 4,62:1.
+     ⛔ Ne PAS corriger `--color-success` en place — cela repeindrait tous les
+     badges de l'app pour un seul titre. */
+  --color-success-text: #007A21;
+}
+
+[data-theme="dark"] {
+  --color-warm-50:  #141F2E;
+  --color-warm-100: #1A2A3D;
+  --color-warm-200: #243650;
+  --color-warm-300: #304E6E;
+  --color-warm-400: #B07A1A;
+  --color-warm-500: #C88A20;
+  --color-warm-600: #D8901E;
+  --color-cream:    #0F1923;
+  --color-charcoal: #EBE4D8;
+  /* #7A90A8 jusqu'au 2026-09-12, et sous le seuil sur TROIS des cinq surfaces
+     sombres du thème : 4,42 sur la barre d'onglets #1A2A3D, 4,25 sur les cartes
+     #1C2D42, 3,71 sur #243650 — pour un minimum WCAG AA de 4,5.
+     #8FA5BC passe partout avec de la marge : 6,99 / 6,54 / 5,74 / 5,50 / 4,82.
+     🔴 Aucun garde-fou ne pouvait le voir : le cliquet a11y ne tournait qu'en
+     1440×900, et ces onglets-là n'existent qu'en dessous de 1280 px. Il balaie
+     désormais aussi une largeur mobile. */
+  --color-muted:    #8FA5BC;
+
+  --panel-bg:       #0F1923;
+  --panel-border:   #1A2A3D;
+  --card-bg:        #1C2D42;
+  --input-bg:       #1A2535;
+  --dropdown-bg:    #131E2C;
+  --dropdown-border:#1A2A3D;
+  --skeleton-bone:  #243650;
+
+  /* Inchange en sombre : `#D8901E` sur les fonds sombres passe deja largement,
+     axe-core ne signale aucun de ces liens en thème sombre. On ne corrige que
+     le versant qui echoue. */
+  --link-accent:    #D8901E;
+  --color-success-text: #16A34A;
+}
+
+@keyframes fridge-light {
+  0%   { opacity: 0; }
+  40%  { opacity: 0.7; }
+  60%  { opacity: 0.4; }
+  80%  { opacity: 0.95; }
+  100% { opacity: 1; }
+}
+
+.close-x {
+  transition: color 0.2s ease, opacity 0.2s ease;
+}
+.close-x:hover {
+  color: #ef4444 !important;
+  opacity: 1 !important;
+}
+
+@media (hover: hover) {
+  svg.close-x {
+    width: 16px !important;
+    height: 16px !important;
+  }
+}
+
+@media (hover: none) {
+  .close-x {
+    color: #ef4444 !important;
+    opacity: 0.75 !important;
+  }
+}
+
+.door-tap-btn {
+  opacity: 0.70;
+  transition: opacity 0.35s ease;
+}
+.door-tap-btn:hover {
+  opacity: 1;
+}
+
+/* Scrollbar thématisée Fridge+ — fine, pouce au dégradé de marque, track
+   transparent. Classe utilitaire à poser sur tout conteneur scrollable
+   (picker bannières/badges, listes de quêtes…). S'adapte light/dark : les
+   couleurs --color-brand-* sont identiques dans les deux thèmes. */
+.fp-scroll {
+  scrollbar-width: thin;                                  /* Firefox */
+  scrollbar-color: var(--color-brand-500) transparent;   /* Firefox : pouce / track */
+}
+.fp-scroll::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+.fp-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.fp-scroll::-webkit-scrollbar-thumb {
+  background: var(--gradient-warm);
+  border-radius: 8px;
+  border: 2px solid transparent;   /* affine le pouce (padding optique) */
+  background-clip: padding-box;
+}
+.fp-scroll::-webkit-scrollbar-thumb:hover {
+  background: var(--color-brand-600);
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+@keyframes fab-pulse {
+  0%, 100% { box-shadow: 0 4px 20px rgba(212,106,16,0.40); }
+  50%       { box-shadow: 0 6px 36px rgba(212,106,16,0.65), 0 0 0 10px rgba(212,106,16,0.10); }
+}
+
+.fab-pulse {
+  animation: fab-pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes soft-blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.68; }
+}
+
+.soft-blink {
+  animation: soft-blink 1.8s ease-in-out infinite;
+}
+
+/* Confirmation d'ajout d'un ingrédient au frigo (fiche recette) :
+   la pastille « pop » et un petit chip « ✓ frigo » s'envole puis disparaît.
+   Classes (pas d'inline) pour pouvoir neutraliser sous prefers-reduced-motion :
+   en mouvement réduit, la pastille ✓ verte statique suffit comme confirmation. */
+@keyframes ingredient-added-pop {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.35); }
+  100% { transform: scale(1); }
+}
+
+@keyframes add-chip-float {
+  0%   { opacity: 0; transform: translateY(4px); }
+  25%  { opacity: 1; transform: translateY(0); }
+  75%  { opacity: 1; transform: translateY(-2px); }
+  100% { opacity: 0; transform: translateY(-8px); }
+}
+
+.fp-badge-pop { animation: ingredient-added-pop 0.5s ease; }
+.fp-add-chip  { animation: add-chip-float 0.9s ease forwards; }
+
+@media (prefers-reduced-motion: reduce) {
+  .fp-badge-pop { animation: none; }
+  /* Chip statique (pas de translation/fondu) : reste lisible ~0,9 s puis retiré. */
+  .fp-add-chip  { animation: none; opacity: 1; }
+}
+
+@keyframes panel-slide-in {
+  from { transform: translateX(100%); opacity: 0; }
+  to   { transform: translateX(0);    opacity: 1; }
+}
+
+@keyframes panel-slide-up {
+  from { transform: translateY(100%); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+@keyframes backdrop-enter {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes menu-slide-down {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes modal-enter {
+  from {
+    opacity: 0;
+    transform: translateY(32px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Cohérence des modales centrées (chantier B, 2026-07-09) : durée/courbe
+   uniques pour toutes les modales utilisant modal-enter/backdrop-enter —
+   avant, chaque modale improvisait sa propre valeur (0.2s à 0.5s, ease ou
+   courbe à rebond). Classes (pas d'inline) pour pouvoir neutraliser sous
+   prefers-reduced-motion, même pattern que .fp-badge-pop plus haut. */
+.fp-modal-backdrop { animation: backdrop-enter 0.2s ease both; }
+.fp-modal-panel    { animation: modal-enter 0.3s cubic-bezier(0.34,1.10,0.64,1) both; }
+
+@media (prefers-reduced-motion: reduce) {
+  .fp-modal-backdrop,
+  .fp-modal-panel { animation: none; }
+}
+
+@keyframes modal-slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* v3.189.0 — fade discret au switch d'onglet (ProfileModal). */
+@keyframes profile-tab-fade {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* v3.191.0 — slide-in latéral droite (drawer filtres recettes desktop). */
+@keyframes recipe-filters-slide-in {
+  from { opacity: 0; transform: translateX(40px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+
+@keyframes tap-ring {
+  0%   { transform: scale(0.85); opacity: 0.7; }
+  100% { transform: scale(2);    opacity: 0; }
+}
+
+@keyframes tap-bob {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-3px); }
+}
+
+/* ⛔ La bascule de thème n'utilise PLUS les View Transitions — les keyframes
+   `theme-fade-in/out` et les règles `::view-transition-*` ont été retirées avec
+   elles. Historique, pour ne pas y revenir par erreur :
+
+   Le fondu d'images (0,55 s puis 0,28 s) croisait deux INSTANTANÉS de la page.
+   Relevé image par image de la version 0,55 s : rien ne bougeait pendant 89 ms
+   (capture des instantanés), 46 % à 174 ms, puis 280 ms de traîne invisible
+   pour les 12 % restants. D'où une impression de MOLLESSE.
+
+   Le remplacer par un glissement des couleurs (voir la règle
+   `html[data-transition] *` plus haut) donne 0 ms d'étalement au lieu de 16,
+   0 image perdue, et fonctionne dans TOUS les navigateurs — les View
+   Transitions manquent encore à Firefox. */
+
+/* 🔴 LE défaut signalé par le user : « tout ne passe pas en même temps ».
+   Ce n'était ni de la saccade ni la durée du fondu — c'est que CHAQUE élément
+   avait sa PROPRE transition CSS, avec sa propre durée. Inventaire sur
+   l'accueil : 288 éléments transitionnent une couleur, dont 230 à 0 s,
+   31 à 0,15 s, 6 à 0,2 s, 3 à 0,3 s, 10 à 0,45 s, 2 à 0,65 s et 1 à 0,7 s.
+   Résultat : les éléments arrivaient au nouveau thème en ORDRE DISPERSÉ —
+   le premier à 30 ms, le dernier à 678 ms, soit **648 ms d'étalement**.
+
+   Le remède impose à TOUS les éléments la MÊME transition, la même durée et la
+   même courbe, le temps de la bascule : la page entière glisse vers le nouveau
+   thème d'un seul tenant. Mesuré après : **0 ms d'étalement, 0 image perdue**.
+
+   ⛔ Ces durées écrasent volontairement celles des survols et des changements
+   d'état, qui n'ont aucun sens pendant une bascule de thème. `data-transition`
+   n'est posé QUE pendant celle-ci : tout reprend son comportement normal juste
+   après.
+
+   🔴 260 ms doit rester ÉGAL à `DUREE_BASCULE_THEME_MS` dans `ui-provider.jsx`,
+   qui pilote le retrait de l'attribut. Si les deux divergent, la transition est
+   coupée avant la fin ou l'attribut traîne et fige les survols. */
+html[data-transition] *,
+html[data-transition] *::before,
+html[data-transition] *::after {
+  transition: background-color 260ms ease,
+              color 260ms ease,
+              border-color 260ms ease,
+              box-shadow 260ms ease,
+              fill 260ms ease,
+              stroke 260ms ease !important;
+}
+
+/* Respect du réglage système « réduire les animations » : la bascule reste
+   instantanée pour qui en a besoin (vertiges, troubles vestibulaires). */
+@media (prefers-reduced-motion: reduce) {
+  html[data-transition] *,
+  html[data-transition] *::before,
+  html[data-transition] *::after {
+    transition: none !important;
+  }
+}
+
+/* Reconnaissance vocale */
+@keyframes voice-pulse {
+  0%   { opacity: 0.6; transform: scale(1); }
+  100% { opacity: 0;   transform: scale(1.8); }
+}
+
+@keyframes voice-wave {
+  0%   { opacity: 0.7; transform: scale(1); }
+  100% { opacity: 0;   transform: scale(2.6); }
+}
+
+@keyframes voice-dot-pulse {
+  0%, 100% { opacity: 0.3; transform: scale(0.8); }
+  50%       { opacity: 1;   transform: scale(1); }
+}
+
+@keyframes panel-slide-in-left {
+  from { transform: translateX(-100%); opacity: 0; }
+  to   { transform: translateX(0);     opacity: 1; }
+}
+
+@keyframes tile-enter {
+  from {
+    opacity: 0;
+    transform: perspective(500px) rotateX(-18deg) translateY(-8px) scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: perspective(500px) rotateX(0deg) translateY(0) scale(1);
+  }
+}
+
+@keyframes cooking-step-enter {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@layer base {
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    background-color: var(--color-cream);
+    color: var(--color-charcoal);
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    min-height: 100vh;
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "batchName": "recipes-batch-5-japon",
+  "recipes": [
+    {
+      "id": "poulet-teriyaki",
+      "name": { "fr": "Poulet teriyaki", "en": "Chicken teriyaki" },
+      "description": {
+        "fr": "Des morceaux de poulet glacés dans une sauce teriyaki brillante, sucrée-salée, parsemés de sésame et d'oignon vert — un classique japonais express servi sur du riz.",
+        "en": "Chicken pieces glazed in a glossy sweet-savoury teriyaki sauce, sprinkled with sesame and spring onion — a quick Japanese classic served over rice."
+      },
+      "emoji": "🍗",
+      "time_min": 25,
+      "prep_time_min": 10,
+      "cook_time_min": 15,
+      "difficulty": "easy",
+      "type": "main",
+      "servings": 4,
+      "country": "jp",
+      "diet": ["dairy-free"],
+      "allergens": ["soybeans", "gluten", "sesame"],
+      "ingredients": [
+        { "ids": ["fr-cuisse-poulet", "fr-blanc-poulet"], "qty": { "amount": 600, "unit": "g" }, "required": true, "labels": { "fr": "600g de cuisses de poulet", "en": "600g chicken thighs" } },
+        { "ids": ["sp-sauce-teriyaki", "sp-sauce-soja"], "qty": { "amount": 6, "unit": "cs" }, "required": true, "labels": { "fr": "6 c. à soupe de sauce teriyaki", "en": "6 tbsp teriyaki sauce" } },
+        { "ids": ["jp-mirin", "gp-sucre"], "qty": { "amount": 2, "unit": "cs" }, "required": true, "labels": { "fr": "2 c. à soupe de mirin", "en": "2 tbsp mirin" } },
+        { "ids": ["sp-gingembre"], "qty": { "amount": 1, "unit": "cc" }, "required": true, "labels": { "fr": "1 c. à café de gingembre", "en": "1 tsp ginger" } },
+        { "ids": ["gp-riz", "gp-riz-rond", "jp-hakumai"], "qty": { "amount": 300, "unit": "g" }, "required": true, "labels": { "fr": "300g de riz", "en": "300g rice" } },
+        { "ids": ["jp-goma", "sp-sesame-blanc"], "qty": { "amount": 1, "unit": "cs" }, "required": false, "labels": { "fr": "1 c. à soupe de sésame", "en": "1 tbsp sesame seeds" } },
+        { "ids": ["vg-oignon-vert"], "qty": { "amount": 2, "unit": "pcs" }, "required": false, "labels": { "fr": "2 oignons verts", "en": "2 spring onions" } }
+      ],
+      "steps": {
+        "fr": [
+          "Cuire le riz selon les indications du paquet.",
+          "Couper le poulet en morceaux et le faire dorer dans une poêle chaude.",
+          "Mélanger la sauce teriyaki, le mirin et le gingembre, puis verser sur le poulet.",
+          "Laisser réduire 5 min en enrobant le poulet d'une sauce sirupeuse et brillante.",
+          "Servir sur le riz, parsemé de sésame et d'oignon vert."
+        ],
+        "en": [
+          "Cook the rice according to the packet instructions.",
+          "Cut the chicken into pieces and brown them in a hot pan.",
+          "Mix the teriyaki sauce, mirin and ginger, then pour over the chicken.",
+          "Reduce 5 min, coating the chicken in a glossy, syrupy sauce.",
+          "Serve over the rice, sprinkled with sesame and spring onion."
+        ]
+      },
+      "functional_tags": ["kids_friendly"],
+      "status": "published"
+    }
+  ]
+}

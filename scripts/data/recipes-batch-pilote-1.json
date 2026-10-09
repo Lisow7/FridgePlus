@@ -1,0 +1,906 @@
+{
+  "batchName": "pilote-1",
+  "recipes": [
+    {
+      "id": "croque-monsieur",
+      "name": { "fr": "Croque-monsieur", "en": "Croque-monsieur", "es": "Croque-monsieur", "de": "Croque Monsieur", "ja": "クロックムッシュ" },
+      "description": {
+        "fr": "Le sandwich chaud français par excellence : pain de mie, jambon, béchamel et fromage gratiné.",
+        "en": "The classic French hot sandwich: sandwich bread, ham, béchamel and melted cheese.",
+        "es": "El clásico sándwich caliente francés: pan de molde, jamón, bechamel y queso gratinado.",
+        "de": "Das klassische französische heiße Sandwich: Toastbrot, Schinken, Béchamel und überbackener Käse.",
+        "ja": "フランス定番のホットサンド：食パン、ハム、ベシャメル、グラタンチーズ。"
+      },
+      "emoji": "🥪",
+      "time_min": 20, "prep_time_min": 10, "cook_time_min": 10,
+      "difficulty": "easy", "type": "main", "servings": 2, "country": "fr",
+      "diet": [], "allergens": ["gluten", "milk"],
+      "ingredients": [
+        { "ids": ["gp-pain-mie"], "qty": { "amount": 4, "unit": "tranche" }, "required": true,
+          "labels": { "fr": "4 tranches de pain de mie", "en": "4 slices of sandwich bread", "es": "4 rebanadas de pan de molde", "de": "4 Scheiben Toastbrot", "ja": "食パン 4枚" } },
+        { "ids": ["fr-jambon-blanc"], "qty": { "amount": 2, "unit": "tranche" }, "required": true,
+          "labels": { "fr": "2 tranches de jambon blanc", "en": "2 slices of cooked ham", "es": "2 lonchas de jamón cocido", "de": "2 Scheiben Kochschinken", "ja": "ロースハム 2枚" } },
+        { "ids": ["fr-gruyere", "fr-emmental", "fr-comte"], "qty": { "amount": 60, "unit": "g" }, "required": true,
+          "labels": { "fr": "60g de gruyère râpé", "en": "60g grated Gruyère", "es": "60g de gruyère rallado", "de": "60g geriebener Gruyère", "ja": "グリュイエール（すりおろし）60g" } },
+        { "ids": ["fr-beurre"], "qty": { "amount": 20, "unit": "g" }, "required": true,
+          "labels": { "fr": "20g de beurre", "en": "20g butter", "es": "20g de mantequilla", "de": "20g Butter", "ja": "バター 20g" } },
+        { "ids": ["gp-farine-ble"], "qty": { "amount": 20, "unit": "g" }, "required": true,
+          "labels": { "fr": "20g de farine", "en": "20g flour", "es": "20g de harina", "de": "20g Mehl", "ja": "薄力粉 20g" } },
+        { "ids": ["fr-lait"], "qty": { "amount": 200, "unit": "ml" }, "required": true,
+          "labels": { "fr": "200ml de lait", "en": "200ml milk", "es": "200ml de leche", "de": "200ml Milch", "ja": "牛乳 200ml" } }
+      ],
+      "steps": {
+        "fr": ["Préparer une béchamel : faire fondre le beurre, ajouter la farine, cuire 1 min, verser le lait en fouettant jusqu'à épaississement.", "Tartiner 2 tranches de pain de béchamel, ajouter le jambon et la moitié du fromage, refermer avec les 2 autres tranches.", "Couvrir le dessus de béchamel et du reste de fromage.", "Enfourner à 200°C pendant 10 min jusqu'à ce que le dessus soit doré."],
+        "en": ["Make a béchamel: melt the butter, add the flour, cook 1 min, pour in the milk while whisking until it thickens.", "Spread béchamel on 2 bread slices, add the ham and half the cheese, close with the other 2 slices.", "Top with béchamel and the rest of the cheese.", "Bake at 200°C (390°F) for 10 min until golden on top."],
+        "es": ["Preparar una bechamel: derretir la mantequilla, añadir la harina, cocer 1 min, verter la leche batiendo hasta que espese.", "Untar 2 rebanadas de pan con bechamel, añadir el jamón y la mitad del queso, cerrar con las otras 2 rebanadas.", "Cubrir la parte superior con bechamel y el resto del queso.", "Hornear a 200°C durante 10 min hasta que esté dorado."],
+        "de": ["Eine Béchamel zubereiten: Butter schmelzen, Mehl einrühren, 1 Min. garen, Milch unter Rühren angießen, bis sie eindickt.", "2 Brotscheiben mit Béchamel bestreichen, Schinken und die Hälfte des Käses darauf, mit den 2 anderen Scheiben schließen.", "Oben mit Béchamel und restlichem Käse bedecken.", "Bei 200°C 10 Min. backen, bis die Oberseite goldbraun ist."],
+        "ja": ["ベシャメルを作る：バターを溶かし、薄力粉を加えて1分炒め、牛乳を注ぎ混ぜながらとろみがつくまで加熱する。", "パン2枚にベシャメルを塗り、ハムとチーズの半量をのせ、残り2枚で挟む。", "上面にベシャメルと残りのチーズをのせる。", "200°Cのオーブンで10分、表面が黄金色になるまで焼く。"]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "croque-madame",
+      "name": { "fr": "Croque-madame", "en": "Croque-madame", "es": "Croque-madame", "de": "Croque Madame", "ja": "クロックマダム" },
+      "description": {
+        "fr": "Le croque-monsieur coiffé d'un œuf au plat : encore plus gourmand et réconfortant.",
+        "en": "A croque-monsieur topped with a fried egg: even richer and more comforting.",
+        "es": "El croque-monsieur coronado con un huevo frito: aún más goloso y reconfortante.",
+        "de": "Der Croque Monsieur, gekrönt von einem Spiegelei: noch reichhaltiger und wohltuender.",
+        "ja": "クロックムッシュに目玉焼きをのせた、より濃厚で satisfying な一品。"
+      },
+      "emoji": "🥪", "time_min": 22, "prep_time_min": 10, "cook_time_min": 12,
+      "difficulty": "easy", "type": "main", "servings": 2, "country": "fr",
+      "diet": [], "allergens": ["gluten", "milk", "eggs"],
+      "ingredients": [
+        { "ids": ["gp-pain-mie"], "qty": { "amount": 4, "unit": "tranche" }, "required": true,
+          "labels": { "fr": "4 tranches de pain de mie", "en": "4 slices of sandwich bread", "es": "4 rebanadas de pan de molde", "de": "4 Scheiben Toastbrot", "ja": "食パン 4枚" } },
+        { "ids": ["fr-jambon-blanc"], "qty": { "amount": 2, "unit": "tranche" }, "required": true,
+          "labels": { "fr": "2 tranches de jambon blanc", "en": "2 slices of cooked ham", "es": "2 lonchas de jamón cocido", "de": "2 Scheiben Kochschinken", "ja": "ロースハム 2枚" } },
+        { "ids": ["fr-gruyere", "fr-emmental", "fr-comte"], "qty": { "amount": 60, "unit": "g" }, "required": true,
+          "labels": { "fr": "60g de gruyère râpé", "en": "60g grated Gruyère", "es": "60g de gruyère rallado", "de": "60g geriebener Gruyère", "ja": "グリュイエール（すりおろし）60g" } },
+        { "ids": ["fr-oeuf", "fr-oeufs-standard", "fr-oeufs-bio"], "qty": { "amount": 2, "unit": "pcs" }, "required": true,
+          "labels": { "fr": "2 œufs", "en": "2 eggs", "es": "2 huevos", "de": "2 Eier", "ja": "卵 2個" } },
+        { "ids": ["fr-beurre"], "qty": { "amount": 25, "unit": "g" }, "required": true,
+          "labels": { "fr": "25g de beurre", "en": "25g butter", "es": "25g de mantequilla", "de": "25g Butter", "ja": "バター 25g" } },
+        { "ids": ["gp-farine-ble"], "qty": { "amount": 20, "unit": "g" }, "required": true,
+          "labels": { "fr": "20g de farine", "en": "20g flour", "es": "20g de harina", "de": "20g Mehl", "ja": "薄力粉 20g" } },
+        { "ids": ["fr-lait"], "qty": { "amount": 200, "unit": "ml" }, "required": true,
+          "labels": { "fr": "200ml de lait", "en": "200ml milk", "es": "200ml de leche", "de": "200ml Milch", "ja": "牛乳 200ml" } }
+      ],
+      "steps": {
+        "fr": ["Préparer une béchamel : faire fondre 20g de beurre, ajouter la farine, cuire 1 min, verser le lait en fouettant jusqu'à épaississement.", "Monter les croques : béchamel, jambon, fromage entre 2 tranches, couvrir de béchamel et de fromage.", "Enfourner à 200°C pendant 10 min jusqu'à ce que le dessus soit doré.", "Pendant ce temps, cuire 2 œufs au plat dans le reste de beurre et en déposer un sur chaque croque."],
+        "en": ["Make a béchamel: melt 20g butter, add the flour, cook 1 min, pour in the milk while whisking until it thickens.", "Assemble the sandwiches: béchamel, ham, cheese between 2 slices, top with béchamel and cheese.", "Bake at 200°C (390°F) for 10 min until golden.", "Meanwhile, fry 2 eggs in the remaining butter and place one on each sandwich."],
+        "es": ["Preparar una bechamel: derretir 20g de mantequilla, añadir la harina, cocer 1 min, verter la leche batiendo hasta que espese.", "Montar los sándwiches: bechamel, jamón, queso entre 2 rebanadas, cubrir con bechamel y queso.", "Hornear a 200°C durante 10 min hasta que esté dorado.", "Mientras tanto, freír 2 huevos en la mantequilla restante y colocar uno sobre cada sándwich."],
+        "de": ["Eine Béchamel zubereiten: 20g Butter schmelzen, Mehl einrühren, 1 Min. garen, Milch unter Rühren angießen, bis sie eindickt.", "Die Sandwiches schichten: Béchamel, Schinken, Käse zwischen 2 Scheiben, mit Béchamel und Käse bedecken.", "Bei 200°C 10 Min. backen, bis sie goldbraun sind.", "Inzwischen 2 Spiegeleier in der restlichen Butter braten und je eines auf ein Sandwich legen."],
+        "ja": ["ベシャメルを作る：バター20gを溶かし、薄力粉を加えて1分炒め、牛乳を注ぎ混ぜながらとろみがつくまで加熱する。", "クロックを組み立てる：パン2枚の間にベシャメル・ハム・チーズ、上にベシャメルとチーズ。", "200°Cのオーブンで10分、黄金色になるまで焼く。", "その間に残りのバターで目玉焼きを2個作り、各クロックに1個ずつのせる。"]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "chili-con-carne",
+      "name": { "fr": "Chili con carne", "en": "Chili con carne", "es": "Chili con carne", "de": "Chili con Carne", "ja": "チリコンカン" },
+      "description": {
+        "fr": "Un plat mijoté généreux de bœuf haché, haricots rouges et tomates, relevé d'épices — réconfortant et économique.",
+        "en": "A hearty stew of ground beef, red beans and tomatoes, spiced up — comforting and budget-friendly.",
+        "es": "Un guiso generoso de carne picada, alubias rojas y tomate, con especias — reconfortante y económico.",
+        "de": "Ein herzhafter Eintopf aus Rinderhackfleisch, Kidneybohnen und Tomaten, würzig — wohltuend und günstig.",
+        "ja": "牛ひき肉、赤いんげん豆、トマトをスパイスで煮込んだ、ボリューム満点で経済的な一品。"
+      },
+      "emoji": "🌶️", "time_min": 45, "prep_time_min": 15, "cook_time_min": 30,
+      "difficulty": "easy", "type": "main", "servings": 4, "country": "us",
+      "diet": [], "allergens": [],
+      "ingredients": [
+        { "ids": ["fr-hache-boeuf"], "qty": { "amount": 400, "unit": "g" }, "required": true,
+          "labels": { "fr": "400g de bœuf haché", "en": "400g ground beef", "es": "400g de carne picada de res", "de": "400g Rinderhackfleisch", "ja": "牛ひき肉 400g" } },
+        { "ids": ["gp-haricots-rouges"], "qty": { "amount": 400, "unit": "g" }, "required": true,
+          "labels": { "fr": "400g de haricots rouges (1 boîte)", "en": "400g red kidney beans (1 can)", "es": "400g de alubias rojas (1 lata)", "de": "400g Kidneybohnen (1 Dose)", "ja": "赤いんげん豆 400g（1缶）" } },
+        { "ids": ["gp-tomates-concas", "gp-tomates-pelees", "gp-tomate"], "qty": { "amount": 400, "unit": "g" }, "required": true,
+          "labels": { "fr": "400g de tomates concassées", "en": "400g crushed tomatoes", "es": "400g de tomate triturado", "de": "400g gehackte Tomaten", "ja": "トマト缶（カット）400g" } },
+        { "ids": ["vg-oignon"], "qty": { "amount": 1, "unit": "pcs" }, "required": true,
+          "labels": { "fr": "1 oignon", "en": "1 onion", "es": "1 cebolla", "de": "1 Zwiebel", "ja": "玉ねぎ 1個" } },
+        { "ids": ["vg-ail"], "qty": { "amount": 2, "unit": "gousse" }, "required": true,
+          "labels": { "fr": "2 gousses d'ail", "en": "2 garlic cloves", "es": "2 dientes de ajo", "de": "2 Knoblauchzehen", "ja": "にんにく 2片" } },
+        { "ids": ["sp-cumin"], "qty": { "amount": 1, "unit": "cc" }, "required": true,
+          "labels": { "fr": "1 c. à café de cumin", "en": "1 tsp cumin", "es": "1 cdta. de comino", "de": "1 TL Kreuzkümmel", "ja": "クミン 小さじ1" } },
+        { "ids": ["sp-paprika"], "qty": { "amount": 1, "unit": "cc" }, "required": true,
+          "labels": { "fr": "1 c. à café de paprika", "en": "1 tsp paprika", "es": "1 cdta. de pimentón", "de": "1 TL Paprikapulver", "ja": "パプリカ 小さじ1" } },
+        { "ids": ["sp-piment-cayenne", "sp-piment-espelette"], "qty": { "amount": null, "unit": "pm" }, "required": false,
+          "labels": { "fr": "Piment, selon le goût", "en": "Chili powder, to taste", "es": "Guindilla, al gusto", "de": "Chilipulver, nach Geschmack", "ja": "チリパウダー 適量" } }
+      ],
+      "steps": {
+        "fr": ["Émincer l'oignon et l'ail, les faire revenir dans un filet d'huile.", "Ajouter le bœuf haché et le faire dorer en l'émiettant.", "Incorporer les épices, les tomates et les haricots rouges égouttés.", "Laisser mijoter 30 min à feu doux en remuant de temps en temps. Servir chaud, avec du riz si désiré."],
+        "en": ["Chop the onion and garlic and sauté in a little oil.", "Add the ground beef and brown it, breaking it up.", "Stir in the spices, tomatoes and drained red beans.", "Simmer 30 min over low heat, stirring occasionally. Serve hot, with rice if you like."],
+        "es": ["Picar la cebolla y el ajo y sofreír en un poco de aceite.", "Añadir la carne picada y dorarla, desmenuzándola.", "Incorporar las especias, el tomate y las alubias escurridas.", "Cocer a fuego lento 30 min removiendo de vez en cuando. Servir caliente, con arroz si se desea."],
+        "de": ["Zwiebel und Knoblauch hacken und in etwas Öl anbraten.", "Das Hackfleisch dazugeben und krümelig braun braten.", "Gewürze, Tomaten und abgetropfte Kidneybohnen unterrühren.", "30 Min. bei niedriger Hitze köcheln lassen, gelegentlich umrühren. Heiß servieren, nach Wunsch mit Reis."],
+        "ja": ["玉ねぎとにんにくをみじん切りにし、少量の油で炒める。", "牛ひき肉を加え、ほぐしながら焼き色をつける。", "スパイス、トマト、水気を切った赤いんげん豆を加える。", "弱火で30分、時々混ぜながら煮込む。温かいうちに、お好みでご飯を添えて供する。"]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "shakshuka",
+      "name": { "fr": "Shakshuka", "en": "Shakshuka", "es": "Shakshuka", "de": "Schakschuka", "ja": "シャクシューカ" },
+      "description": {
+        "fr": "Des œufs pochés dans une sauce tomate épicée aux poivrons — un plat convivial à partager, à toute heure.",
+        "en": "Eggs poached in a spiced tomato and pepper sauce — a convivial dish to share, any time of day.",
+        "es": "Huevos escalfados en una salsa de tomate y pimiento especiada — un plato para compartir a cualquier hora.",
+        "de": "In einer würzigen Tomaten-Paprika-Sauce pochierte Eier — ein geselliges Gericht für jede Tageszeit.",
+        "ja": "スパイシーなトマトとピーマンのソースで卵を半熟に仕上げる、いつでも楽しめるシェア向きの一品。"
+      },
+      "emoji": "🍅", "time_min": 30, "prep_time_min": 10, "cook_time_min": 20,
+      "difficulty": "easy", "type": "main", "servings": 2, "country": "intl",
+      "diet": ["vegetarian", "gluten-free"], "allergens": ["eggs"],
+      "ingredients": [
+        { "ids": ["fr-oeuf", "fr-oeufs-standard", "fr-oeufs-bio"], "qty": { "amount": 4, "unit": "pcs" }, "required": true,
+          "labels": { "fr": "4 œufs", "en": "4 eggs", "es": "4 huevos", "de": "4 Eier", "ja": "卵 4個" } },
+        { "ids": ["gp-tomates-concas", "gp-tomates-pelees", "gp-tomate"], "qty": { "amount": 400, "unit": "g" }, "required": true,
+          "labels": { "fr": "400g de tomates concassées", "en": "400g crushed tomatoes", "es": "400g de tomate triturado", "de": "400g gehackte Tomaten", "ja": "トマト缶（カット）400g" } },
+        { "ids": ["vg-poivron"], "qty": { "amount": 1, "unit": "pcs" }, "required": true,
+          "labels": { "fr": "1 poivron rouge", "en": "1 red pepper", "es": "1 pimiento rojo", "de": "1 rote Paprika", "ja": "赤ピーマン 1個" } },
+        { "ids": ["vg-oignon"], "qty": { "amount": 1, "unit": "pcs" }, "required": true,
+          "labels": { "fr": "1 oignon", "en": "1 onion", "es": "1 cebolla", "de": "1 Zwiebel", "ja": "玉ねぎ 1個" } },
+        { "ids": ["vg-ail"], "qty": { "amount": 2, "unit": "gousse" }, "required": true,
+          "labels": { "fr": "2 gousses d'ail", "en": "2 garlic cloves", "es": "2 dientes de ajo", "de": "2 Knoblauchzehen", "ja": "にんにく 2片" } },
+        { "ids": ["sp-cumin"], "qty": { "amount": 1, "unit": "cc" }, "required": true,
+          "labels": { "fr": "1 c. à café de cumin", "en": "1 tsp cumin", "es": "1 cdta. de comino", "de": "1 TL Kreuzkümmel", "ja": "クミン 小さじ1" } },
+        { "ids": ["sp-paprika"], "qty": { "amount": 1, "unit": "cc" }, "required": true,
+          "labels": { "fr": "1 c. à café de paprika", "en": "1 tsp paprika", "es": "1 cdta. de pimentón", "de": "1 TL Paprikapulver", "ja": "パプリカ 小さじ1" } },
+        { "ids": ["sp-huile-olive", "sp-huile-olive-ex", "sp-huile-olive-vi"], "qty": { "amount": 2, "unit": "cs" }, "required": true,
+          "labels": { "fr": "2 c. à soupe d'huile d'olive", "en": "2 tbsp olive oil", "es": "2 c. de aceite de oliva", "de": "2 EL Olivenöl", "ja": "オリーブオイル 大さじ2" } }
+      ],
+      "steps": {
+        "fr": ["Faire revenir l'oignon, l'ail et le poivron émincés dans l'huile d'olive.", "Ajouter les épices puis les tomates ; laisser mijoter 10 min jusqu'à épaississement.", "Creuser des puits dans la sauce et y casser les œufs.", "Couvrir et cuire 6-8 min jusqu'à ce que les blancs soient pris mais les jaunes coulants. Servir aussitôt."],
+        "en": ["Sauté the chopped onion, garlic and pepper in the olive oil.", "Add the spices then the tomatoes; simmer 10 min until thickened.", "Make wells in the sauce and crack the eggs into them.", "Cover and cook 6-8 min until the whites are set but the yolks still runny. Serve immediately."],
+        "es": ["Sofreír la cebolla, el ajo y el pimiento picados en el aceite de oliva.", "Añadir las especias y luego el tomate; cocer 10 min hasta que espese.", "Hacer huecos en la salsa y cascar los huevos dentro.", "Tapar y cocer 6-8 min hasta que las claras cuajen pero las yemas queden líquidas. Servir enseguida."],
+        "de": ["Gehackte Zwiebel, Knoblauch und Paprika im Olivenöl anbraten.", "Die Gewürze und dann die Tomaten zugeben; 10 Min. köcheln, bis es eindickt.", "Mulden in die Sauce drücken und die Eier hineinschlagen.", "Zugedeckt 6-8 Min. garen, bis das Eiweiß gestockt, das Eigelb aber noch flüssig ist. Sofort servieren."],
+        "ja": ["みじん切りの玉ねぎ・にんにく・ピーマンをオリーブオイルで炒める。", "スパイス、続いてトマトを加え、10分ほどとろみがつくまで煮る。", "ソースにくぼみを作り、卵を割り入れる。", "蓋をして6〜8分、白身は固まり黄身は半熟になるまで加熱する。すぐに供する。"]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "tortilla-espagnole",
+      "name": { "fr": "Tortilla espagnole", "en": "Spanish omelette", "es": "Tortilla de patatas", "de": "Spanische Tortilla", "ja": "スペイン風オムレツ" },
+      "description": {
+        "fr": "L'omelette espagnole épaisse aux pommes de terre fondantes et à l'oignon — délicieuse chaude ou froide.",
+        "en": "The thick Spanish omelette with melting potatoes and onion — delicious hot or cold.",
+        "es": "La tortilla de patatas española, gruesa y jugosa con cebolla — deliciosa caliente o fría.",
+        "de": "Das dicke spanische Omelett mit zarten Kartoffeln und Zwiebel — heiß oder kalt ein Genuss.",
+        "ja": "とろけるじゃがいもと玉ねぎの厚焼きスペイン風オムレツ。温かくても冷たくても美味。"
+      },
+      "emoji": "🥘", "time_min": 40, "prep_time_min": 15, "cook_time_min": 25,
+      "difficulty": "medium", "type": "main", "servings": 4, "country": "intl",
+      "diet": ["vegetarian", "gluten-free"], "allergens": ["eggs"],
+      "ingredients": [
+        { "ids": ["vg-pomme-terre"], "qty": { "amount": 600, "unit": "g" }, "required": true,
+          "labels": { "fr": "600g de pommes de terre", "en": "600g potatoes", "es": "600g de patatas", "de": "600g Kartoffeln", "ja": "じゃがいも 600g" } },
+        { "ids": ["fr-oeuf", "fr-oeufs-standard", "fr-oeufs-bio"], "qty": { "amount": 6, "unit": "pcs" }, "required": true,
+          "labels": { "fr": "6 œufs", "en": "6 eggs", "es": "6 huevos", "de": "6 Eier", "ja": "卵 6個" } },
+        { "ids": ["vg-oignon"], "qty": { "amount": 1, "unit": "pcs" }, "required": true,
+          "labels": { "fr": "1 oignon", "en": "1 onion", "es": "1 cebolla", "de": "1 Zwiebel", "ja": "玉ねぎ 1個" } },
+        { "ids": ["sp-huile-olive", "sp-huile-olive-ex", "sp-huile-olive-vi"], "qty": { "amount": 10, "unit": "cl" }, "required": true,
+          "labels": { "fr": "10 cl d'huile d'olive", "en": "100ml olive oil", "es": "100ml de aceite de oliva", "de": "100ml Olivenöl", "ja": "オリーブオイル 100ml" } },
+        { "ids": ["sp-sel-fin", "sp-sel"], "qty": { "amount": null, "unit": "pm" }, "required": false,
+          "labels": { "fr": "Sel, à l'œil", "en": "Salt, to taste", "es": "Sal, al gusto", "de": "Salz, nach Geschmack", "ja": "塩 適量" } }
+      ],
+      "steps": {
+        "fr": ["Éplucher et couper les pommes de terre en fines tranches, émincer l'oignon.", "Les confire doucement dans l'huile d'olive 15-20 min sans les colorer, puis égoutter.", "Battre les œufs avec du sel, y mélanger les pommes de terre et l'oignon.", "Cuire l'appareil dans une poêle à feu moyen, puis retourner à l'aide d'une assiette pour dorer l'autre face."],
+        "en": ["Peel and thinly slice the potatoes, chop the onion.", "Gently confit them in the olive oil for 15-20 min without browning, then drain.", "Beat the eggs with salt and mix in the potatoes and onion.", "Cook the mixture in a pan over medium heat, then flip using a plate to brown the other side."],
+        "es": ["Pelar y cortar las patatas en láminas finas, picar la cebolla.", "Confitarlas suavemente en el aceite 15-20 min sin que tomen color, y escurrir.", "Batir los huevos con sal y mezclar con las patatas y la cebolla.", "Cuajar en una sartén a fuego medio y dar la vuelta con un plato para dorar el otro lado."],
+        "de": ["Kartoffeln schälen und in dünne Scheiben schneiden, Zwiebel hacken.", "Im Olivenöl 15-20 Min. sanft garen, ohne Farbe zu nehmen, dann abtropfen.", "Eier mit Salz verquirlen und Kartoffeln und Zwiebel untermischen.", "Die Masse in einer Pfanne bei mittlerer Hitze stocken lassen, dann mithilfe eines Tellers wenden und die andere Seite bräunen."],
+        "ja": ["じゃがいもの皮をむいて薄切りにし、玉ねぎをみじん切りにする。", "オリーブオイルで色づけないように15〜20分じっくり火を通し、油を切る。", "卵を塩とともに溶き、じゃがいもと玉ねぎを混ぜる。", "フライパンで中火で固め、皿を使って裏返し、もう片面も焼く。"]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "poulet-curry-coco",
+      "name": { "fr": "Poulet au curry et lait de coco", "en": "Coconut curry chicken", "es": "Pollo al curry con leche de coco", "de": "Kokos-Curry-Hähnchen", "ja": "チキンココナッツカレー" },
+      "description": {
+        "fr": "Des morceaux de poulet mijotés dans une sauce onctueuse au curry et lait de coco — un classique parfumé et rapide.",
+        "en": "Chicken pieces simmered in a creamy curry and coconut milk sauce — a fragrant, quick classic.",
+        "es": "Trozos de pollo cocidos en una salsa cremosa de curry y leche de coco — un clásico aromático y rápido.",
+        "de": "Hähnchenstücke in einer cremigen Curry-Kokos-Sauce geschmort — ein aromatischer, schneller Klassiker.",
+        "ja": "鶏肉をカレーとココナッツミルクのクリーミーなソースで煮込んだ、香り高く手軽な定番。"
+      },
+      "emoji": "🍛", "time_min": 30, "prep_time_min": 10, "cook_time_min": 20,
+      "difficulty": "easy", "type": "main", "servings": 4, "country": "intl",
+      "diet": ["gluten-free", "dairy-free"], "allergens": [],
+      "ingredients": [
+        { "ids": ["fr-blanc-poulet", "fr-cuisse-poulet", "fr-poulet"], "qty": { "amount": 500, "unit": "g" }, "required": true,
+          "labels": { "fr": "500g de blanc de poulet", "en": "500g chicken breast", "es": "500g de pechuga de pollo", "de": "500g Hähnchenbrust", "ja": "鶏むね肉 500g" } },
+        { "ids": ["gp-lait-coco"], "qty": { "amount": 400, "unit": "ml" }, "required": true,
+          "labels": { "fr": "400ml de lait de coco", "en": "400ml coconut milk", "es": "400ml de leche de coco", "de": "400ml Kokosmilch", "ja": "ココナッツミルク 400ml" } },
+        { "ids": ["sp-curry", "gp-pate-curry-jaune"], "qty": { "amount": 2, "unit": "cs" }, "required": true,
+          "labels": { "fr": "2 c. à soupe de curry", "en": "2 tbsp curry", "es": "2 c. de curry", "de": "2 EL Curry", "ja": "カレー粉 大さじ2" } },
+        { "ids": ["vg-oignon"], "qty": { "amount": 1, "unit": "pcs" }, "required": true,
+          "labels": { "fr": "1 oignon", "en": "1 onion", "es": "1 cebolla", "de": "1 Zwiebel", "ja": "玉ねぎ 1個" } },
+        { "ids": ["vg-ail"], "qty": { "amount": 2, "unit": "gousse" }, "required": true,
+          "labels": { "fr": "2 gousses d'ail", "en": "2 garlic cloves", "es": "2 dientes de ajo", "de": "2 Knoblauchzehen", "ja": "にんにく 2片" } },
+        { "ids": ["sp-gingembre"], "qty": { "amount": 1, "unit": "cc" }, "required": false,
+          "labels": { "fr": "1 c. à café de gingembre", "en": "1 tsp ginger", "es": "1 cdta. de jengibre", "de": "1 TL Ingwer", "ja": "しょうが 小さじ1" } }
+      ],
+      "steps": {
+        "fr": ["Couper le poulet en morceaux et l'oignon en lamelles.", "Faire dorer le poulet dans un filet d'huile, réserver. Faire revenir l'oignon, l'ail et le gingembre.", "Ajouter le curry, remuer 1 min, puis verser le lait de coco et remettre le poulet.", "Laisser mijoter 15 min à feu doux. Servir avec du riz."],
+        "en": ["Cut the chicken into pieces and slice the onion.", "Brown the chicken in a little oil, set aside. Sauté the onion, garlic and ginger.", "Add the curry, stir 1 min, then pour in the coconut milk and return the chicken.", "Simmer 15 min over low heat. Serve with rice."],
+        "es": ["Cortar el pollo en trozos y la cebolla en tiras.", "Dorar el pollo en un poco de aceite y reservar. Sofreír la cebolla, el ajo y el jengibre.", "Añadir el curry, remover 1 min, verter la leche de coco y devolver el pollo.", "Cocer a fuego lento 15 min. Servir con arroz."],
+        "de": ["Das Hähnchen in Stücke schneiden und die Zwiebel in Streifen.", "Das Hähnchen in etwas Öl anbraten, beiseitestellen. Zwiebel, Knoblauch und Ingwer anschwitzen.", "Curry zugeben, 1 Min. rühren, dann Kokosmilch angießen und das Hähnchen zurückgeben.", "15 Min. bei niedriger Hitze köcheln. Mit Reis servieren."],
+        "ja": ["鶏肉を一口大に切り、玉ねぎを薄切りにする。", "少量の油で鶏肉に焼き色をつけて取り出す。玉ねぎ・にんにく・しょうがを炒める。", "カレー粉を加えて1分炒め、ココナッツミルクを注いで鶏肉を戻す。", "弱火で15分煮込む。ご飯を添えて供する。"]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "wok-poulet-legumes",
+      "name": { "fr": "Wok de poulet aux légumes", "en": "Chicken vegetable stir-fry", "es": "Wok de pollo con verduras", "de": "Hähnchen-Gemüse-Wok", "ja": "鶏肉と野菜の炒め物" },
+      "description": {
+        "fr": "Un sauté rapide de poulet et légumes croquants à la sauce soja — sain, coloré et prêt en 20 minutes.",
+        "en": "A quick stir-fry of chicken and crunchy vegetables in soy sauce — healthy, colourful and ready in 20 minutes.",
+        "es": "Un salteado rápido de pollo y verduras crujientes con salsa de soja — sano, colorido y listo en 20 minutos.",
+        "de": "Ein schnelles Pfannengericht aus Hähnchen und knackigem Gemüse mit Sojasauce — gesund, bunt und in 20 Minuten fertig.",
+        "ja": "鶏肉とシャキシャキ野菜を醤油で炒める時短メニュー。ヘルシーで彩り豊か、20分で完成。"
+      },
+      "emoji": "🥡", "time_min": 20, "prep_time_min": 12, "cook_time_min": 8,
+      "difficulty": "easy", "type": "main", "servings": 2, "country": "intl",
+      "diet": ["dairy-free"], "allergens": ["soybeans", "gluten", "sesame"],
+      "ingredients": [
+        { "ids": ["fr-blanc-poulet", "fr-cuisse-poulet", "fr-poulet"], "qty": { "amount": 300, "unit": "g" }, "required": true,
+          "labels": { "fr": "300g de blanc de poulet", "en": "300g chicken breast", "es": "300g de pechuga de pollo", "de": "300g Hähnchenbrust", "ja": "鶏むね肉 300g" } },
+        { "ids": ["vg-poivron"], "qty": { "amount": 1, "unit": "pcs" }, "required": true,
+          "labels": { "fr": "1 poivron", "en": "1 pepper", "es": "1 pimiento", "de": "1 Paprika", "ja": "ピーマン 1個" } },
+        { "ids": ["vg-carottes"], "qty": { "amount": 2, "unit": "pcs" }, "required": true,
+          "labels": { "fr": "2 carottes", "en": "2 carrots", "es": "2 zanahorias", "de": "2 Karotten", "ja": "にんじん 2本" } },
+        { "ids": ["vg-brocoli", "frz-brocoli"], "qty": { "amount": 200, "unit": "g" }, "required": false,
+          "labels": { "fr": "200g de brocoli", "en": "200g broccoli", "es": "200g de brócoli", "de": "200g Brokkoli", "ja": "ブロッコリー 200g" } },
+        { "ids": ["sp-sauce-soja"], "qty": { "amount": 3, "unit": "cs" }, "required": true,
+          "labels": { "fr": "3 c. à soupe de sauce soja", "en": "3 tbsp soy sauce", "es": "3 c. de salsa de soja", "de": "3 EL Sojasauce", "ja": "醤油 大さじ3" } },
+        { "ids": ["sp-huile-sesame"], "qty": { "amount": 1, "unit": "cs" }, "required": true,
+          "labels": { "fr": "1 c. à soupe d'huile de sésame", "en": "1 tbsp sesame oil", "es": "1 c. de aceite de sésamo", "de": "1 EL Sesamöl", "ja": "ごま油 大さじ1" } },
+        { "ids": ["sp-gingembre"], "qty": { "amount": 1, "unit": "cc" }, "required": false,
+          "labels": { "fr": "1 c. à café de gingembre", "en": "1 tsp ginger", "es": "1 cdta. de jengibre", "de": "1 TL Ingwer", "ja": "しょうが 小さじ1" } },
+        { "ids": ["vg-ail"], "qty": { "amount": 1, "unit": "gousse" }, "required": false,
+          "labels": { "fr": "1 gousse d'ail", "en": "1 garlic clove", "es": "1 diente de ajo", "de": "1 Knoblauchzehe", "ja": "にんにく 1片" } }
+      ],
+      "steps": {
+        "fr": ["Couper le poulet en lanières et les légumes en bâtonnets.", "Saisir le poulet à feu vif dans l'huile de sésame, réserver.", "Faire sauter les légumes 4-5 min en gardant du croquant, ajouter ail et gingembre.", "Remettre le poulet, verser la sauce soja et faire revenir 2 min. Servir avec du riz ou des nouilles."],
+        "en": ["Cut the chicken into strips and the vegetables into sticks.", "Sear the chicken over high heat in the sesame oil, set aside.", "Stir-fry the vegetables 4-5 min keeping them crunchy, add garlic and ginger.", "Return the chicken, pour in the soy sauce and toss 2 min. Serve with rice or noodles."],
+        "es": ["Cortar el pollo en tiras y las verduras en bastones.", "Sellar el pollo a fuego fuerte en el aceite de sésamo y reservar.", "Saltear las verduras 4-5 min manteniéndolas crujientes, añadir ajo y jengibre.", "Devolver el pollo, verter la salsa de soja y saltear 2 min. Servir con arroz o fideos."],
+        "de": ["Das Hähnchen in Streifen und das Gemüse in Stifte schneiden.", "Das Hähnchen bei starker Hitze im Sesamöl anbraten, beiseitestellen.", "Das Gemüse 4-5 Min. knackig anbraten, Knoblauch und Ingwer zugeben.", "Das Hähnchen zurückgeben, Sojasauce angießen und 2 Min. schwenken. Mit Reis oder Nudeln servieren."],
+        "ja": ["鶏肉を細切りに、野菜を拍子木切りにする。", "ごま油で鶏肉を強火で焼きつけ、取り出す。", "野菜を4〜5分シャキッと炒め、にんにくとしょうがを加える。", "鶏肉を戻し、醤油を回し入れて2分炒める。ご飯か麺を添えて供する。"]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "boeuf-carottes",
+      "name": { "fr": "Bœuf carottes", "en": "Beef and carrot stew", "es": "Estofado de ternera y zanahorias", "de": "Rindfleisch-Karotten-Eintopf", "ja": "牛肉とにんじんの煮込み" },
+      "description": {
+        "fr": "Un plat mijoté traditionnel : du bœuf fondant et des carottes confites dans un bouillon parfumé au laurier.",
+        "en": "A traditional braise: meltingly tender beef and carrots slow-cooked in a bay-scented broth.",
+        "es": "Un guiso tradicional: ternera tierna y zanahorias cocidas a fuego lento en un caldo aromatizado con laurel.",
+        "de": "Ein traditioneller Schmortopf: zartes Rindfleisch und Karotten, langsam in einer mit Lorbeer aromatisierten Brühe gegart.",
+        "ja": "やわらかい牛肉とにんじんを、ローリエ香るだしでじっくり煮込んだ伝統的な一品。"
+      },
+      "emoji": "🥕", "time_min": 150, "prep_time_min": 20, "cook_time_min": 130,
+      "difficulty": "medium", "type": "main", "servings": 4, "country": "fr",
+      "diet": [], "allergens": ["celery", "sulphites"],
+      "ingredients": [
+        { "ids": ["fr-paleron", "fr-boeuf", "fr-jarret-veau"], "qty": { "amount": 800, "unit": "g" }, "required": true,
+          "labels": { "fr": "800g de paleron de bœuf", "en": "800g beef chuck", "es": "800g de aguja de ternera", "de": "800g Rinderschulter", "ja": "牛肩肉 800g" } },
+        { "ids": ["vg-carottes"], "qty": { "amount": 600, "unit": "g" }, "required": true,
+          "labels": { "fr": "600g de carottes", "en": "600g carrots", "es": "600g de zanahorias", "de": "600g Karotten", "ja": "にんじん 600g" } },
+        { "ids": ["vg-oignon"], "qty": { "amount": 1, "unit": "pcs" }, "required": true,
+          "labels": { "fr": "1 oignon", "en": "1 onion", "es": "1 cebolla", "de": "1 Zwiebel", "ja": "玉ねぎ 1個" } },
+        { "ids": ["gp-bouillon-cube"], "qty": { "amount": 50, "unit": "cl" }, "required": true,
+          "labels": { "fr": "50 cl de bouillon de bœuf", "en": "500ml beef stock", "es": "500ml de caldo de ternera", "de": "500ml Rinderbrühe", "ja": "牛だし 500ml" } },
+        { "ids": ["sp-laurier"], "qty": { "amount": 2, "unit": "pcs" }, "required": false,
+          "labels": { "fr": "2 feuilles de laurier", "en": "2 bay leaves", "es": "2 hojas de laurel", "de": "2 Lorbeerblätter", "ja": "ローリエ 2枚" } },
+        { "ids": ["gp-vin-rouge-cuis"], "qty": { "amount": 20, "unit": "cl" }, "required": false,
+          "labels": { "fr": "20 cl de vin rouge (facultatif)", "en": "200ml red wine (optional)", "es": "200ml de vino tinto (opcional)", "de": "200ml Rotwein (optional)", "ja": "赤ワイン 200ml（お好みで）" } }
+      ],
+      "steps": {
+        "fr": ["Couper le bœuf en gros cubes et le faire dorer de tous côtés dans une cocotte.", "Ajouter l'oignon émincé, puis déglacer au vin rouge si utilisé.", "Ajouter les carottes en rondelles, le bouillon et le laurier ; saler légèrement.", "Couvrir et laisser mijoter 2h à feu doux, jusqu'à ce que la viande soit fondante."],
+        "en": ["Cut the beef into large cubes and brown on all sides in a casserole.", "Add the sliced onion, then deglaze with the red wine if using.", "Add the sliced carrots, the stock and the bay leaves; season lightly.", "Cover and simmer 2h over low heat, until the meat is meltingly tender."],
+        "es": ["Cortar la ternera en cubos grandes y dorarla por todos los lados en una cazuela.", "Añadir la cebolla picada y desglasar con el vino tinto si se usa.", "Incorporar las zanahorias en rodajas, el caldo y el laurel; salar ligeramente.", "Tapar y cocer a fuego lento 2h, hasta que la carne esté muy tierna."],
+        "de": ["Das Rindfleisch in große Würfel schneiden und in einem Schmortopf rundum anbraten.", "Die gehackte Zwiebel zugeben, dann mit dem Rotwein ablöschen (falls verwendet).", "Karottenscheiben, Brühe und Lorbeer zugeben; leicht salzen.", "Zugedeckt 2 Std. bei niedriger Hitze schmoren, bis das Fleisch butterzart ist."],
+        "ja": ["牛肉を大きめの角切りにし、鍋で全面に焼き色をつける。", "薄切りの玉ねぎを加え、お好みで赤ワインで鍋底をこそげる。", "輪切りのにんじん、だし、ローリエを加え、軽く塩をする。", "蓋をして弱火で2時間、肉がやわらかくなるまで煮込む。"]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "saumon-papillote",
+      "name": { "fr": "Saumon en papillote", "en": "Salmon en papillote", "es": "Salmón en papillote", "de": "Lachs in der Papillote", "ja": "鮭の包み焼き" },
+      "description": {
+        "fr": "Un pavé de saumon cuit en papillote avec courgette et citron — sain, sans matière grasse ajoutée et inratable.",
+        "en": "A salmon fillet baked in parchment with courgette and lemon — healthy, fat-free and foolproof.",
+        "es": "Un lomo de salmón al papillote con calabacín y limón — sano, sin grasa añadida e infalible.",
+        "de": "Ein Lachsfilet in der Papillote mit Zucchini und Zitrone — gesund, ohne zugesetztes Fett und gelingsicher.",
+        "ja": "鮭の切り身をズッキーニとレモンと一緒に包み焼きに。ヘルシーで油いらず、失敗なし。"
+      },
+      "emoji": "🐟", "time_min": 30, "prep_time_min": 10, "cook_time_min": 20,
+      "difficulty": "very-easy", "type": "main", "servings": 2, "country": "fr",
+      "diet": ["gluten-free", "dairy-free"], "allergens": ["fish"],
+      "ingredients": [
+        { "ids": ["fr-saumon", "frz-saumon-pave"], "qty": { "amount": 2, "unit": "pcs" }, "required": true,
+          "labels": { "fr": "2 pavés de saumon", "en": "2 salmon fillets", "es": "2 lomos de salmón", "de": "2 Lachsfilets", "ja": "鮭の切り身 2切れ" } },
+        { "ids": ["vg-courgette"], "qty": { "amount": 1, "unit": "pcs" }, "required": true,
+          "labels": { "fr": "1 courgette", "en": "1 courgette", "es": "1 calabacín", "de": "1 Zucchini", "ja": "ズッキーニ 1本" } },
+        { "ids": ["fr-citron"], "qty": { "amount": 1, "unit": "pcs" }, "required": true,
+          "labels": { "fr": "1 citron", "en": "1 lemon", "es": "1 limón", "de": "1 Zitrone", "ja": "レモン 1個" } },
+        { "ids": ["sp-aneth", "sp-persil"], "qty": { "amount": null, "unit": "pm" }, "required": false,
+          "labels": { "fr": "Aneth, quelques brins", "en": "Dill, a few sprigs", "es": "Eneldo, unas ramitas", "de": "Dill, einige Zweige", "ja": "ディル 少々" } },
+        { "ids": ["sp-huile-olive", "sp-huile-olive-ex"], "qty": { "amount": 1, "unit": "cs" }, "required": false,
+          "labels": { "fr": "1 c. à soupe d'huile d'olive", "en": "1 tbsp olive oil", "es": "1 c. de aceite de oliva", "de": "1 EL Olivenöl", "ja": "オリーブオイル 大さじ1" } }
+      ],
+      "steps": {
+        "fr": ["Préchauffer le four à 200°C.", "Sur une feuille de papier cuisson, déposer des rondelles de courgette, le pavé de saumon, quelques rondelles de citron et l'aneth.", "Arroser d'un filet d'huile, saler, poivrer et fermer hermétiquement la papillote.", "Enfourner 18-20 min. Servir aussitôt à l'ouverture de la papillote."],
+        "en": ["Preheat the oven to 200°C (390°F).", "On a sheet of parchment, layer courgette rounds, the salmon fillet, a few lemon slices and the dill.", "Drizzle with oil, season, and seal the parcel tightly.", "Bake 18-20 min. Serve immediately, opening the parcel at the table."],
+        "es": ["Precalentar el horno a 200°C.", "Sobre papel de hornear, colocar rodajas de calabacín, el salmón, unas rodajas de limón y el eneldo.", "Rociar con aceite, salpimentar y cerrar bien el papillote.", "Hornear 18-20 min. Servir enseguida al abrir el papillote."],
+        "de": ["Den Ofen auf 200°C vorheizen.", "Auf ein Stück Backpapier Zucchinischeiben, das Lachsfilet, einige Zitronenscheiben und den Dill legen.", "Mit Öl beträufeln, würzen und die Papillote dicht verschließen.", "18-20 Min. backen. Sofort servieren und die Papillote am Tisch öffnen."],
+        "ja": ["オーブンを200°Cに予熱する。", "クッキングシートにズッキーニの輪切り、鮭、レモンの薄切り数枚、ディルをのせる。", "オイルを回しかけ、塩こしょうし、包みをしっかり閉じる。", "18〜20分焼く。包みを開けてすぐに供する。"]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "cabillaud-legumes",
+      "name": { "fr": "Cabillaud aux légumes", "en": "Cod with vegetables", "es": "Bacalao con verduras", "de": "Kabeljau mit Gemüse", "ja": "たらと野菜" },
+      "description": {
+        "fr": "Un dos de cabillaud rôti sur un lit de tomates et courgettes au thym — léger, méditerranéen et coloré.",
+        "en": "Roasted cod loin on a bed of tomatoes and courgettes with thyme — light, Mediterranean and colourful.",
+        "es": "Lomo de bacalao asado sobre un lecho de tomate y calabacín con tomillo — ligero, mediterráneo y colorido.",
+        "de": "Gebratener Kabeljaurücken auf einem Bett aus Tomaten und Zucchini mit Thymian — leicht, mediterran und bunt.",
+        "ja": "トマトとズッキーニの上でたらを焼いた、タイム香る軽やかで彩り豊かな地中海風。"
+      },
+      "emoji": "🐟", "time_min": 35, "prep_time_min": 15, "cook_time_min": 20,
+      "difficulty": "easy", "type": "main", "servings": 2, "country": "fr",
+      "diet": ["gluten-free", "dairy-free"], "allergens": ["fish"],
+      "ingredients": [
+        { "ids": ["fr-cabillaud", "frz-cabillaud", "fr-lieu-jaune", "fr-colin"], "qty": { "amount": 2, "unit": "pcs" }, "required": true,
+          "labels": { "fr": "2 dos de cabillaud", "en": "2 cod loins", "es": "2 lomos de bacalao", "de": "2 Kabeljaurücken", "ja": "たらの切り身 2切れ" } },
+        { "ids": ["vg-tomate", "vg-tomate-ronde"], "qty": { "amount": 3, "unit": "pcs" }, "required": true,
+          "labels": { "fr": "3 tomates", "en": "3 tomatoes", "es": "3 tomates", "de": "3 Tomaten", "ja": "トマト 3個" } },
+        { "ids": ["vg-courgette"], "qty": { "amount": 1, "unit": "pcs" }, "required": true,
+          "labels": { "fr": "1 courgette", "en": "1 courgette", "es": "1 calabacín", "de": "1 Zucchini", "ja": "ズッキーニ 1本" } },
+        { "ids": ["vg-oignon"], "qty": { "amount": 1, "unit": "pcs" }, "required": false,
+          "labels": { "fr": "1 oignon", "en": "1 onion", "es": "1 cebolla", "de": "1 Zwiebel", "ja": "玉ねぎ 1個" } },
+        { "ids": ["sp-thym", "sp-herbes-prov"], "qty": { "amount": null, "unit": "pm" }, "required": false,
+          "labels": { "fr": "Thym", "en": "Thyme", "es": "Tomillo", "de": "Thymian", "ja": "タイム" } },
+        { "ids": ["sp-huile-olive", "sp-huile-olive-ex"], "qty": { "amount": 2, "unit": "cs" }, "required": true,
+          "labels": { "fr": "2 c. à soupe d'huile d'olive", "en": "2 tbsp olive oil", "es": "2 c. de aceite de oliva", "de": "2 EL Olivenöl", "ja": "オリーブオイル 大さじ2" } }
+      ],
+      "steps": {
+        "fr": ["Préchauffer le four à 200°C. Émincer l'oignon, couper tomates et courgette en rondelles.", "Disposer les légumes dans un plat, arroser d'huile, saler, poivrer, parsemer de thym.", "Enfourner les légumes 10 min, puis déposer le cabillaud par-dessus.", "Poursuivre la cuisson 12-15 min jusqu'à ce que le poisson soit nacré. Servir chaud."],
+        "en": ["Preheat the oven to 200°C (390°F). Slice the onion, tomatoes and courgette into rounds.", "Arrange the vegetables in a dish, drizzle with oil, season and sprinkle with thyme.", "Bake the vegetables 10 min, then place the cod on top.", "Continue cooking 12-15 min until the fish is opaque. Serve hot."],
+        "es": ["Precalentar el horno a 200°C. Picar la cebolla, cortar tomates y calabacín en rodajas.", "Colocar las verduras en una fuente, rociar con aceite, salpimentar y espolvorear tomillo.", "Hornear las verduras 10 min y colocar el bacalao encima.", "Seguir horneando 12-15 min hasta que el pescado esté opaco. Servir caliente."],
+        "de": ["Den Ofen auf 200°C vorheizen. Zwiebel hacken, Tomaten und Zucchini in Scheiben schneiden.", "Das Gemüse in eine Form geben, mit Öl beträufeln, würzen und mit Thymian bestreuen.", "Das Gemüse 10 Min. backen, dann den Kabeljau darauflegen.", "Weitere 12-15 Min. garen, bis der Fisch glasig ist. Heiß servieren."],
+        "ja": ["オーブンを200°Cに予熱する。玉ねぎをみじん切り、トマトとズッキーニを輪切りにする。", "野菜を耐熱皿に並べ、オイルを回しかけ、塩こしょうしてタイムをふる。", "野菜を10分焼き、その上にたらをのせる。", "さらに12〜15分、魚が白くなるまで焼く。温かいうちに供する。"]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "riz-cantonais",
+      "name": { "fr": "Riz cantonais", "en": "Cantonese fried rice", "es": "Arroz tres delicias", "de": "Gebratener Reis", "ja": "チャーハン" },
+      "description": {
+        "fr": "Le riz sauté incontournable avec œuf, jambon et petits pois — la meilleure façon d'accommoder un reste de riz.",
+        "en": "The essential fried rice with egg, ham and peas — the best way to use up leftover rice.",
+        "es": "El imprescindible arroz frito con huevo, jamón y guisantes — la mejor forma de aprovechar arroz sobrante.",
+        "de": "Der klassische gebratene Reis mit Ei, Schinken und Erbsen — die beste Verwendung für Reisreste.",
+        "ja": "卵・ハム・グリーンピースの定番チャーハン。余ったご飯の最高の活用法。"
+      },
+      "emoji": "🍚", "time_min": 20, "prep_time_min": 10, "cook_time_min": 10,
+      "difficulty": "easy", "type": "main", "servings": 3, "country": "intl",
+      "diet": ["dairy-free"], "allergens": ["eggs", "soybeans", "gluten"],
+      "ingredients": [
+        { "ids": ["gp-riz", "gp-riz-basmati", "gp-riz-rond"], "qty": { "amount": 250, "unit": "g" }, "required": true,
+          "labels": { "fr": "250g de riz cuit", "en": "250g cooked rice", "es": "250g de arroz cocido", "de": "250g gekochter Reis", "ja": "炊いたご飯 250g" } },
+        { "ids": ["fr-oeuf", "fr-oeufs-standard"], "qty": { "amount": 2, "unit": "pcs" }, "required": true,
+          "labels": { "fr": "2 œufs", "en": "2 eggs", "es": "2 huevos", "de": "2 Eier", "ja": "卵 2個" } },
+        { "ids": ["fr-jambon-blanc", "fr-lardons"], "qty": { "amount": 100, "unit": "g" }, "required": true,
+          "labels": { "fr": "100g de jambon", "en": "100g ham", "es": "100g de jamón", "de": "100g Schinken", "ja": "ハム 100g" } },
+        { "ids": ["gp-petits-pois", "frz-petits-pois"], "qty": { "amount": 100, "unit": "g" }, "required": true,
+          "labels": { "fr": "100g de petits pois", "en": "100g peas", "es": "100g de guisantes", "de": "100g Erbsen", "ja": "グリーンピース 100g" } },
+        { "ids": ["sp-sauce-soja"], "qty": { "amount": 2, "unit": "cs" }, "required": true,
+          "labels": { "fr": "2 c. à soupe de sauce soja", "en": "2 tbsp soy sauce", "es": "2 c. de salsa de soja", "de": "2 EL Sojasauce", "ja": "醤油 大さじ2" } },
+        { "ids": ["vg-oignon-vert", "vg-oignon"], "qty": { "amount": 2, "unit": "pcs" }, "required": false,
+          "labels": { "fr": "2 oignons verts", "en": "2 spring onions", "es": "2 cebolletas", "de": "2 Frühlingszwiebeln", "ja": "青ねぎ 2本" } }
+      ],
+      "steps": {
+        "fr": ["Battre les œufs et les cuire en omelette dans un wok huilé, puis les couper en lanières et réserver.", "Faire sauter le jambon coupé en dés et les petits pois 2-3 min.", "Ajouter le riz cuit et faire revenir à feu vif en remuant.", "Incorporer l'omelette, la sauce soja et les oignons verts ; sauter 1 min et servir."],
+        "en": ["Beat the eggs and cook them as an omelette in an oiled wok, then cut into strips and set aside.", "Stir-fry the diced ham and the peas 2-3 min.", "Add the cooked rice and stir-fry over high heat.", "Stir in the omelette, soy sauce and spring onions; toss 1 min and serve."],
+        "es": ["Batir los huevos y cuajarlos como tortilla en un wok aceitado, cortar en tiras y reservar.", "Saltear el jamón en dados y los guisantes 2-3 min.", "Añadir el arroz cocido y saltear a fuego fuerte removiendo.", "Incorporar la tortilla, la salsa de soja y las cebolletas; saltear 1 min y servir."],
+        "de": ["Die Eier verquirlen und in einem geölten Wok als Omelett braten, in Streifen schneiden und beiseitestellen.", "Den gewürfelten Schinken und die Erbsen 2-3 Min. anbraten.", "Den gekochten Reis zugeben und bei starker Hitze unter Rühren anbraten.", "Omelett, Sojasauce und Frühlingszwiebeln unterrühren; 1 Min. schwenken und servieren."],
+        "ja": ["卵を溶き、油をひいた中華鍋で薄焼き卵にし、細切りにして取り出す。", "角切りのハムとグリーンピースを2〜3分炒める。", "炊いたご飯を加え、強火で混ぜながら炒める。", "薄焼き卵、醤油、青ねぎを加えて1分炒め、供する。"]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "boulettes-sauce-tomate",
+      "name": { "fr": "Boulettes à la sauce tomate", "en": "Meatballs in tomato sauce", "es": "Albóndigas en salsa de tomate", "de": "Hackbällchen in Tomatensauce", "ja": "ミートボールのトマトソース" },
+      "description": {
+        "fr": "Des boulettes de bœuf moelleuses mijotées dans une sauce tomate maison — délicieuses avec des pâtes ou du riz.",
+        "en": "Tender beef meatballs simmered in a homemade tomato sauce — delicious with pasta or rice.",
+        "es": "Albóndigas de ternera jugosas cocidas en salsa de tomate casera — deliciosas con pasta o arroz.",
+        "de": "Zarte Rinderhackbällchen in hausgemachter Tomatensauce geschmort — köstlich mit Pasta oder Reis.",
+        "ja": "やわらかい牛肉のミートボールを自家製トマトソースで煮込んだ、パスタやご飯に合う一品。"
+      },
+      "emoji": "🍝", "time_min": 40, "prep_time_min": 20, "cook_time_min": 20,
+      "difficulty": "easy", "type": "main", "servings": 4, "country": "intl",
+      "diet": [], "allergens": ["gluten", "eggs"],
+      "ingredients": [
+        { "ids": ["fr-hache-boeuf"], "qty": { "amount": 500, "unit": "g" }, "required": true,
+          "labels": { "fr": "500g de bœuf haché", "en": "500g ground beef", "es": "500g de carne picada de res", "de": "500g Rinderhackfleisch", "ja": "牛ひき肉 500g" } },
+        { "ids": ["gp-chapelure", "gp-panko"], "qty": { "amount": 50, "unit": "g" }, "required": true,
+          "labels": { "fr": "50g de chapelure", "en": "50g breadcrumbs", "es": "50g de pan rallado", "de": "50g Semmelbrösel", "ja": "パン粉 50g" } },
+        { "ids": ["fr-oeuf", "fr-oeufs-standard"], "qty": { "amount": 1, "unit": "pcs" }, "required": true,
+          "labels": { "fr": "1 œuf", "en": "1 egg", "es": "1 huevo", "de": "1 Ei", "ja": "卵 1個" } },
+        { "ids": ["gp-tomates-concas", "gp-tomates-pelees", "gp-tomate"], "qty": { "amount": 400, "unit": "g" }, "required": true,
+          "labels": { "fr": "400g de tomates concassées", "en": "400g crushed tomatoes", "es": "400g de tomate triturado", "de": "400g gehackte Tomaten", "ja": "トマト缶（カット）400g" } },
+        { "ids": ["vg-oignon"], "qty": { "amount": 1, "unit": "pcs" }, "required": true,
+          "labels": { "fr": "1 oignon", "en": "1 onion", "es": "1 cebolla", "de": "1 Zwiebel", "ja": "玉ねぎ 1個" } },
+        { "ids": ["vg-ail"], "qty": { "amount": 2, "unit": "gousse" }, "required": false,
+          "labels": { "fr": "2 gousses d'ail", "en": "2 garlic cloves", "es": "2 dientes de ajo", "de": "2 Knoblauchzehen", "ja": "にんにく 2片" } },
+        { "ids": ["sp-origan", "sp-herbes-prov", "sp-basilic"], "qty": { "amount": 1, "unit": "cc" }, "required": false,
+          "labels": { "fr": "1 c. à café d'origan", "en": "1 tsp oregano", "es": "1 cdta. de orégano", "de": "1 TL Oregano", "ja": "オレガノ 小さじ1" } }
+      ],
+      "steps": {
+        "fr": ["Mélanger le bœuf haché, la chapelure, l'œuf, du sel et du poivre, puis former des boulettes.", "Les faire dorer de tous côtés dans une poêle huilée, réserver.", "Faire revenir l'oignon et l'ail, ajouter les tomates et l'origan ; laisser mijoter 10 min.", "Remettre les boulettes dans la sauce et laisser mijoter 10 min. Servir avec des pâtes."],
+        "en": ["Mix the ground beef, breadcrumbs, egg, salt and pepper, then shape into balls.", "Brown them on all sides in an oiled pan, set aside.", "Sauté the onion and garlic, add the tomatoes and oregano; simmer 10 min.", "Return the meatballs to the sauce and simmer 10 min. Serve with pasta."],
+        "es": ["Mezclar la carne picada, el pan rallado, el huevo, sal y pimienta, y formar albóndigas.", "Dorarlas por todos los lados en una sartén con aceite y reservar.", "Sofreír la cebolla y el ajo, añadir el tomate y el orégano; cocer 10 min.", "Devolver las albóndigas a la salsa y cocer 10 min. Servir con pasta."],
+        "de": ["Hackfleisch, Semmelbrösel, Ei, Salz und Pfeffer vermengen und Bällchen formen.", "In einer geölten Pfanne rundum anbraten, beiseitestellen.", "Zwiebel und Knoblauch anbraten, Tomaten und Oregano zugeben; 10 Min. köcheln.", "Die Bällchen zurück in die Sauce geben und 10 Min. köcheln. Mit Pasta servieren."],
+        "ja": ["牛ひき肉、パン粉、卵、塩こしょうを混ぜ、ボール状に丸める。", "油をひいたフライパンで全面に焼き色をつけ、取り出す。", "玉ねぎとにんにくを炒め、トマトとオレガノを加えて10分煮る。", "ミートボールをソースに戻し、10分煮込む。パスタを添えて供する。"]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "dahl-lentilles-coco",
+      "name": { "fr": "Dahl de lentilles corail au lait de coco", "en": "Coconut red lentil dahl", "es": "Dahl de lentejas rojas con coco", "de": "Rote-Linsen-Dahl mit Kokos", "ja": "赤レンズ豆とココナッツのダル" },
+      "description": {
+        "fr": "Un dahl crémeux de lentilles corail mijotées aux épices et au lait de coco — végétalien, nourrissant et économique.",
+        "en": "A creamy red lentil dahl simmered with spices and coconut milk — vegan, nourishing and budget-friendly.",
+        "es": "Un dahl cremoso de lentejas rojas con especias y leche de coco — vegano, nutritivo y económico.",
+        "de": "Ein cremiges Dahl aus roten Linsen mit Gewürzen und Kokosmilch — vegan, nahrhaft und günstig.",
+        "ja": "赤レンズ豆をスパイスとココナッツミルクで煮込んだクリーミーなダル。ヴィーガンで栄養満点、経済的。"
+      },
+      "emoji": "🍲", "time_min": 35, "prep_time_min": 10, "cook_time_min": 25,
+      "difficulty": "easy", "type": "main", "servings": 4, "country": "in",
+      "diet": ["vegan", "vegetarian", "gluten-free", "dairy-free"], "allergens": [],
+      "ingredients": [
+        { "ids": ["gp-lentilles-coral"], "qty": { "amount": 250, "unit": "g" }, "required": true,
+          "labels": { "fr": "250g de lentilles corail", "en": "250g red lentils", "es": "250g de lentejas rojas", "de": "250g rote Linsen", "ja": "赤レンズ豆 250g" } },
+        { "ids": ["gp-lait-coco"], "qty": { "amount": 400, "unit": "ml" }, "required": true,
+          "labels": { "fr": "400ml de lait de coco", "en": "400ml coconut milk", "es": "400ml de leche de coco", "de": "400ml Kokosmilch", "ja": "ココナッツミルク 400ml" } },
+        { "ids": ["vg-oignon"], "qty": { "amount": 1, "unit": "pcs" }, "required": true,
+          "labels": { "fr": "1 oignon", "en": "1 onion", "es": "1 cebolla", "de": "1 Zwiebel", "ja": "玉ねぎ 1個" } },
+        { "ids": ["vg-ail"], "qty": { "amount": 2, "unit": "gousse" }, "required": true,
+          "labels": { "fr": "2 gousses d'ail", "en": "2 garlic cloves", "es": "2 dientes de ajo", "de": "2 Knoblauchzehen", "ja": "にんにく 2片" } },
+        { "ids": ["sp-curcuma"], "qty": { "amount": 1, "unit": "cc" }, "required": true,
+          "labels": { "fr": "1 c. à café de curcuma", "en": "1 tsp turmeric", "es": "1 cdta. de cúrcuma", "de": "1 TL Kurkuma", "ja": "ターメリック 小さじ1" } },
+        { "ids": ["sp-cumin"], "qty": { "amount": 1, "unit": "cc" }, "required": true,
+          "labels": { "fr": "1 c. à café de cumin", "en": "1 tsp cumin", "es": "1 cdta. de comino", "de": "1 TL Kreuzkümmel", "ja": "クミン 小さじ1" } },
+        { "ids": ["sp-gingembre"], "qty": { "amount": 1, "unit": "cc" }, "required": false,
+          "labels": { "fr": "1 c. à café de gingembre", "en": "1 tsp ginger", "es": "1 cdta. de jengibre", "de": "1 TL Ingwer", "ja": "しょうが 小さじ1" } }
+      ],
+      "steps": {
+        "fr": ["Rincer les lentilles corail. Faire revenir l'oignon, l'ail et le gingembre dans un filet d'huile.", "Ajouter les épices et remuer 1 min pour les torréfier.", "Verser les lentilles, le lait de coco et 40 cl d'eau ; porter à ébullition.", "Laisser mijoter 20-25 min en remuant, jusqu'à ce que les lentilles soient fondues et le dahl crémeux. Saler et servir."],
+        "en": ["Rinse the red lentils. Sauté the onion, garlic and ginger in a little oil.", "Add the spices and stir 1 min to toast them.", "Pour in the lentils, coconut milk and 400ml water; bring to a boil.", "Simmer 20-25 min, stirring, until the lentils break down and the dahl is creamy. Season and serve."],
+        "es": ["Enjuagar las lentejas rojas. Sofreír la cebolla, el ajo y el jengibre en un poco de aceite.", "Añadir las especias y remover 1 min para tostarlas.", "Verter las lentejas, la leche de coco y 400ml de agua; llevar a ebullición.", "Cocer 20-25 min removiendo, hasta que las lentejas se deshagan y el dahl quede cremoso. Salar y servir."],
+        "de": ["Die roten Linsen abspülen. Zwiebel, Knoblauch und Ingwer in etwas Öl anbraten.", "Die Gewürze zugeben und 1 Min. rösten.", "Linsen, Kokosmilch und 400ml Wasser angießen; aufkochen.", "20-25 Min. köcheln, bis die Linsen zerfallen und das Dahl cremig ist. Würzen und servieren."],
+        "ja": ["赤レンズ豆を洗う。玉ねぎ・にんにく・しょうがを少量の油で炒める。", "スパイスを加え、1分炒めて香りを立てる。", "レンズ豆、ココナッツミルク、水400mlを加えて沸騰させる。", "20〜25分、混ぜながらレンズ豆が崩れてクリーミーになるまで煮る。塩で味を調えて供する。"]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "gratin-chou-fleur",
+      "name": { "fr": "Gratin de chou-fleur", "en": "Cauliflower gratin", "es": "Gratinado de coliflor", "de": "Blumenkohl-Gratin", "ja": "カリフラワーのグラタン" },
+      "description": {
+        "fr": "Du chou-fleur fondant nappé de béchamel et gratiné au fromage — un accompagnement réconfortant d'hiver.",
+        "en": "Tender cauliflower coated in béchamel and browned with cheese — a comforting winter side.",
+        "es": "Coliflor tierna cubierta de bechamel y gratinada con queso — una guarnición reconfortante de invierno.",
+        "de": "Zarter Blumenkohl in Béchamel und mit Käse überbacken — eine wohltuende Winterbeilage.",
+        "ja": "やわらかいカリフラワーをベシャメルで包み、チーズで焼いた、冬にうれしい付け合わせ。"
+      },
+      "emoji": "🧀", "time_min": 45, "prep_time_min": 15, "cook_time_min": 30,
+      "difficulty": "easy", "type": "side", "servings": 4, "country": "fr",
+      "diet": ["vegetarian"], "allergens": ["milk", "gluten"],
+      "ingredients": [
+        { "ids": ["vg-chou-fleur", "frz-chou-fleur"], "qty": { "amount": 1, "unit": "pcs" }, "required": true,
+          "labels": { "fr": "1 chou-fleur", "en": "1 cauliflower", "es": "1 coliflor", "de": "1 Blumenkohl", "ja": "カリフラワー 1株" } },
+        { "ids": ["fr-lait"], "qty": { "amount": 50, "unit": "cl" }, "required": true,
+          "labels": { "fr": "50 cl de lait", "en": "500ml milk", "es": "500ml de leche", "de": "500ml Milch", "ja": "牛乳 500ml" } },
+        { "ids": ["fr-beurre"], "qty": { "amount": 40, "unit": "g" }, "required": true,
+          "labels": { "fr": "40g de beurre", "en": "40g butter", "es": "40g de mantequilla", "de": "40g Butter", "ja": "バター 40g" } },
+        { "ids": ["gp-farine-ble"], "qty": { "amount": 40, "unit": "g" }, "required": true,
+          "labels": { "fr": "40g de farine", "en": "40g flour", "es": "40g de harina", "de": "40g Mehl", "ja": "薄力粉 40g" } },
+        { "ids": ["fr-gruyere", "fr-emmental", "fr-comte"], "qty": { "amount": 80, "unit": "g" }, "required": true,
+          "labels": { "fr": "80g de gruyère râpé", "en": "80g grated Gruyère", "es": "80g de gruyère rallado", "de": "80g geriebener Gruyère", "ja": "グリュイエール（すりおろし）80g" } },
+        { "ids": ["sp-muscade"], "qty": { "amount": null, "unit": "pm" }, "required": false,
+          "labels": { "fr": "Muscade, une pincée", "en": "Nutmeg, a pinch", "es": "Nuez moscada, una pizca", "de": "Muskat, eine Prise", "ja": "ナツメグ ひとつまみ" } }
+      ],
+      "steps": {
+        "fr": ["Détailler le chou-fleur en bouquets et le cuire 10 min à l'eau bouillante salée, puis égoutter.", "Préparer une béchamel : beurre + farine, puis le lait en fouettant, muscade, sel et poivre.", "Mélanger le chou-fleur à la béchamel et verser dans un plat à gratin.", "Couvrir de fromage râpé et gratiner 25-30 min à 200°C."],
+        "en": ["Cut the cauliflower into florets and boil 10 min in salted water, then drain.", "Make a béchamel: butter + flour, then whisk in the milk, nutmeg, salt and pepper.", "Mix the cauliflower into the béchamel and pour into a gratin dish.", "Top with grated cheese and bake 25-30 min at 200°C (390°F)."],
+        "es": ["Cortar la coliflor en ramilletes y hervir 10 min en agua con sal, escurrir.", "Preparar una bechamel: mantequilla + harina, añadir la leche batiendo, nuez moscada, sal y pimienta.", "Mezclar la coliflor con la bechamel y verter en una fuente.", "Cubrir con queso rallado y gratinar 25-30 min a 200°C."],
+        "de": ["Den Blumenkohl in Röschen teilen und 10 Min. in Salzwasser kochen, abgießen.", "Eine Béchamel zubereiten: Butter + Mehl, dann die Milch einrühren, Muskat, Salz und Pfeffer.", "Den Blumenkohl mit der Béchamel mischen und in eine Gratinform geben.", "Mit geriebenem Käse bedecken und 25-30 Min. bei 200°C überbacken."],
+        "ja": ["カリフラワーを小房に分け、塩を入れた湯で10分ゆでて湯を切る。", "ベシャメルを作る：バターと薄力粉、続いて牛乳を混ぜ、ナツメグ・塩・こしょうで調える。", "カリフラワーをベシャメルと混ぜ、グラタン皿に流す。", "すりおろしチーズをかけ、200°Cで25〜30分焼く。"]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "puree-carottes",
+      "name": { "fr": "Purée de carottes", "en": "Carrot purée", "es": "Puré de zanahoria", "de": "Karottenpüree", "ja": "にんじんのピューレ" },
+      "description": {
+        "fr": "Une purée de carottes douce et veloutée, juste relevée de beurre — un accompagnement coloré qui plaît aux enfants.",
+        "en": "A sweet, velvety carrot purée, simply enriched with butter — a colourful side that kids love.",
+        "es": "Un puré de zanahoria dulce y aterciopelado, con un toque de mantequilla — una guarnición que encanta a los niños.",
+        "de": "Ein süßes, samtiges Karottenpüree, nur mit Butter verfeinert — eine bunte Beilage, die Kindern schmeckt.",
+        "ja": "バターだけで仕上げた甘くなめらかなにんじんのピューレ。子どもにも人気の彩り副菜。"
+      },
+      "emoji": "🥕", "time_min": 30, "prep_time_min": 10, "cook_time_min": 20,
+      "difficulty": "very-easy", "type": "side", "servings": 4, "country": "fr",
+      "diet": ["vegetarian", "gluten-free"], "allergens": ["milk"],
+      "ingredients": [
+        { "ids": ["vg-carottes"], "qty": { "amount": 700, "unit": "g" }, "required": true,
+          "labels": { "fr": "700g de carottes", "en": "700g carrots", "es": "700g de zanahorias", "de": "700g Karotten", "ja": "にんじん 700g" } },
+        { "ids": ["vg-pomme-terre"], "qty": { "amount": 1, "unit": "pcs" }, "required": false,
+          "labels": { "fr": "1 pomme de terre (pour la tenue)", "en": "1 potato (for texture)", "es": "1 patata (para la textura)", "de": "1 Kartoffel (für die Bindung)", "ja": "じゃがいも 1個（つなぎ用）" } },
+        { "ids": ["fr-beurre"], "qty": { "amount": 30, "unit": "g" }, "required": true,
+          "labels": { "fr": "30g de beurre", "en": "30g butter", "es": "30g de mantequilla", "de": "30g Butter", "ja": "バター 30g" } },
+        { "ids": ["fr-lait", "fr-creme-liquide"], "qty": { "amount": 10, "unit": "cl" }, "required": false,
+          "labels": { "fr": "10 cl de lait", "en": "100ml milk", "es": "100ml de leche", "de": "100ml Milch", "ja": "牛乳 100ml" } }
+      ],
+      "steps": {
+        "fr": ["Éplucher les carottes (et la pomme de terre) et les couper en morceaux.", "Les cuire 20 min à l'eau bouillante salée jusqu'à ce qu'elles soient tendres, puis égoutter.", "Écraser ou mixer avec le beurre et le lait jusqu'à obtenir une purée lisse.", "Rectifier l'assaisonnement et servir bien chaud."],
+        "en": ["Peel the carrots (and potato) and cut into chunks.", "Boil 20 min in salted water until tender, then drain.", "Mash or blend with the butter and milk until smooth.", "Adjust seasoning and serve hot."],
+        "es": ["Pelar las zanahorias (y la patata) y cortarlas en trozos.", "Hervir 20 min en agua con sal hasta que estén tiernas, escurrir.", "Triturar con la mantequilla y la leche hasta obtener un puré liso.", "Rectificar de sal y servir bien caliente."],
+        "de": ["Die Karotten (und Kartoffel) schälen und in Stücke schneiden.", "20 Min. in Salzwasser weich kochen, abgießen.", "Mit Butter und Milch zu einem glatten Püree stampfen oder mixen.", "Abschmecken und heiß servieren."],
+        "ja": ["にんじん（とじゃがいも）の皮をむき、ぶつ切りにする。", "塩を入れた湯で20分、やわらかくなるまでゆでて湯を切る。", "バターと牛乳を加え、なめらかになるまでつぶす（または攪拌する）。", "味を調えて熱々で供する。"]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "poireaux-vinaigrette",
+      "name": { "fr": "Poireaux vinaigrette", "en": "Leeks vinaigrette", "es": "Puerros a la vinagreta", "de": "Lauch in Vinaigrette", "ja": "ポロねぎのビネグレット" },
+      "description": {
+        "fr": "Des poireaux tièdes nappés d'une vinaigrette à la moutarde — une entrée de bistrot simple et raffinée.",
+        "en": "Warm leeks dressed with a mustard vinaigrette — a simple, refined bistro starter.",
+        "es": "Puerros tibios con una vinagreta a la mostaza — un entrante de bistró sencillo y refinado.",
+        "de": "Lauwarmer Lauch mit einer Senf-Vinaigrette — eine schlichte, raffinierte Bistro-Vorspeise.",
+        "ja": "温かいポロねぎにマスタードのビネグレットをかけた、シンプルで上品なビストロ前菜。"
+      },
+      "emoji": "🥗", "time_min": 25, "prep_time_min": 10, "cook_time_min": 15,
+      "difficulty": "very-easy", "type": "starter", "servings": 4, "country": "fr",
+      "diet": ["vegan", "vegetarian", "gluten-free", "dairy-free"], "allergens": ["mustard"],
+      "ingredients": [
+        { "ids": ["vg-poireau", "frz-poireaux"], "qty": { "amount": 4, "unit": "pcs" }, "required": true,
+          "labels": { "fr": "4 poireaux", "en": "4 leeks", "es": "4 puerros", "de": "4 Stangen Lauch", "ja": "ポロねぎ 4本" } },
+        { "ids": ["sp-moutarde"], "qty": { "amount": 1, "unit": "cs" }, "required": true,
+          "labels": { "fr": "1 c. à soupe de moutarde", "en": "1 tbsp mustard", "es": "1 c. de mostaza", "de": "1 EL Senf", "ja": "マスタード 大さじ1" } },
+        { "ids": ["sp-vinaigre-vin", "sp-vinaigre", "sp-vinaigre-xeres"], "qty": { "amount": 1, "unit": "cs" }, "required": true,
+          "labels": { "fr": "1 c. à soupe de vinaigre", "en": "1 tbsp vinegar", "es": "1 c. de vinagre", "de": "1 EL Essig", "ja": "酢 大さじ1" } },
+        { "ids": ["sp-huile-tournesol", "sp-huile-olive", "sp-huile-colza"], "qty": { "amount": 3, "unit": "cs" }, "required": true,
+          "labels": { "fr": "3 c. à soupe d'huile", "en": "3 tbsp oil", "es": "3 c. de aceite", "de": "3 EL Öl", "ja": "サラダ油 大さじ3" } }
+      ],
+      "steps": {
+        "fr": ["Nettoyer les poireaux, ne garder que le blanc et le vert tendre.", "Les cuire 12-15 min à l'eau bouillante salée jusqu'à ce qu'ils soient tendres, puis égoutter et presser doucement.", "Préparer la vinaigrette : moutarde, vinaigre, sel, poivre, puis l'huile en émulsionnant.", "Disposer les poireaux tièdes, napper de vinaigrette et servir."],
+        "en": ["Clean the leeks, keeping only the white and tender green parts.", "Boil 12-15 min in salted water until tender, then drain and gently press out the water.", "Make the vinaigrette: mustard, vinegar, salt, pepper, then whisk in the oil.", "Arrange the warm leeks, drizzle with vinaigrette and serve."],
+        "es": ["Limpiar los puerros, conservando solo la parte blanca y el verde tierno.", "Hervir 12-15 min en agua con sal hasta que estén tiernos, escurrir y presionar suavemente.", "Preparar la vinagreta: mostaza, vinagre, sal, pimienta y emulsionar con el aceite.", "Colocar los puerros tibios, napar con la vinagreta y servir."],
+        "de": ["Den Lauch putzen, nur das Weiße und zarte Grün verwenden.", "12-15 Min. in Salzwasser weich kochen, abgießen und vorsichtig ausdrücken.", "Die Vinaigrette zubereiten: Senf, Essig, Salz, Pfeffer, dann das Öl einrühren.", "Den lauwarmen Lauch anrichten, mit Vinaigrette beträufeln und servieren."],
+        "ja": ["ポロねぎを洗い、白い部分とやわらかい緑の部分だけを使う。", "塩を入れた湯で12〜15分やわらかくなるまでゆで、湯を切って軽く水気を絞る。", "ビネグレットを作る：マスタード、酢、塩、こしょう、続いて油を加えて乳化させる。", "温かいポロねぎを盛り、ビネグレットをかけて供する。"]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "veloute-champignons",
+      "name": { "fr": "Velouté de champignons", "en": "Mushroom soup", "es": "Crema de champiñones", "de": "Champignoncremesuppe", "ja": "マッシュルームのポタージュ" },
+      "description": {
+        "fr": "Un velouté crémeux de champignons de Paris, parfumé et réconfortant — parfait pour une entrée d'automne.",
+        "en": "A creamy button mushroom soup, fragrant and comforting — perfect as an autumn starter.",
+        "es": "Una crema de champiñones suave, aromática y reconfortante — perfecta como entrante de otoño.",
+        "de": "Eine cremige Champignonsuppe, aromatisch und wohltuend — perfekt als Herbstvorspeise.",
+        "ja": "マッシュルームのクリーミーで香り高いポタージュ。秋の前菜にぴったり。"
+      },
+      "emoji": "🍄", "time_min": 30, "prep_time_min": 10, "cook_time_min": 20,
+      "difficulty": "easy", "type": "starter", "servings": 4, "country": "fr",
+      "diet": ["vegetarian"], "allergens": ["milk", "celery"],
+      "ingredients": [
+        { "ids": ["vg-champignons", "frz-champignons", "gp-champignons"], "qty": { "amount": 500, "unit": "g" }, "required": true,
+          "labels": { "fr": "500g de champignons de Paris", "en": "500g button mushrooms", "es": "500g de champiñones", "de": "500g Champignons", "ja": "マッシュルーム 500g" } },
+        { "ids": ["vg-oignon", "vg-echalote"], "qty": { "amount": 1, "unit": "pcs" }, "required": true,
+          "labels": { "fr": "1 oignon", "en": "1 onion", "es": "1 cebolla", "de": "1 Zwiebel", "ja": "玉ねぎ 1個" } },
+        { "ids": ["gp-bouillon-cube"], "qty": { "amount": 50, "unit": "cl" }, "required": true,
+          "labels": { "fr": "50 cl de bouillon de volaille", "en": "500ml chicken stock", "es": "500ml de caldo de pollo", "de": "500ml Hühnerbrühe", "ja": "鶏だし 500ml" } },
+        { "ids": ["fr-creme-liquide", "fr-creme", "fr-creme-fraiche"], "qty": { "amount": 10, "unit": "cl" }, "required": true,
+          "labels": { "fr": "10 cl de crème liquide", "en": "100ml cream", "es": "100ml de nata líquida", "de": "100ml Sahne", "ja": "生クリーム 100ml" } },
+        { "ids": ["fr-beurre"], "qty": { "amount": 20, "unit": "g" }, "required": false,
+          "labels": { "fr": "20g de beurre", "en": "20g butter", "es": "20g de mantequilla", "de": "20g Butter", "ja": "バター 20g" } }
+      ],
+      "steps": {
+        "fr": ["Nettoyer et émincer les champignons, émincer l'oignon.", "Faire suer l'oignon dans le beurre, ajouter les champignons et les faire revenir 5 min.", "Verser le bouillon, saler, poivrer et laisser mijoter 15 min.", "Mixer finement, incorporer la crème, réchauffer sans bouillir et servir."],
+        "en": ["Clean and slice the mushrooms, chop the onion.", "Sweat the onion in the butter, add the mushrooms and cook 5 min.", "Pour in the stock, season and simmer 15 min.", "Blend until smooth, stir in the cream, reheat without boiling and serve."],
+        "es": ["Limpiar y laminar los champiñones, picar la cebolla.", "Pochar la cebolla en la mantequilla, añadir los champiñones y rehogar 5 min.", "Verter el caldo, salpimentar y cocer 15 min.", "Triturar finamente, incorporar la nata, recalentar sin hervir y servir."],
+        "de": ["Die Champignons putzen und in Scheiben schneiden, die Zwiebel hacken.", "Die Zwiebel in der Butter andünsten, die Champignons zugeben und 5 Min. anbraten.", "Die Brühe angießen, würzen und 15 Min. köcheln.", "Fein pürieren, die Sahne unterrühren, ohne Kochen erhitzen und servieren."],
+        "ja": ["マッシュルームを掃除して薄切りにし、玉ねぎをみじん切りにする。", "バターで玉ねぎをしんなり炒め、マッシュルームを加えて5分炒める。", "だしを注ぎ、塩こしょうして15分煮る。", "なめらかに攪拌し、生クリームを加え、沸騰させずに温めて供する。"]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "salade-riz-thon",
+      "name": { "fr": "Salade de riz au thon", "en": "Tuna rice salad", "es": "Ensalada de arroz con atún", "de": "Thunfisch-Reissalat", "ja": "ツナの米サラダ" },
+      "description": {
+        "fr": "Une salade de riz complète au thon, maïs et tomates — fraîche, rassasiante et idéale pour les pique-niques.",
+        "en": "A complete tuna rice salad with corn and tomatoes — fresh, filling and ideal for picnics.",
+        "es": "Una ensalada de arroz completa con atún, maíz y tomate — fresca, saciante e ideal para picnics.",
+        "de": "Ein vollwertiger Reissalat mit Thunfisch, Mais und Tomaten — frisch, sättigend und ideal für Picknicks.",
+        "ja": "ツナ・コーン・トマトの食べごたえある米サラダ。さっぱりしてピクニックにも最適。"
+      },
+      "emoji": "🥗", "time_min": 20, "prep_time_min": 20, "cook_time_min": 0,
+      "difficulty": "very-easy", "type": "salad", "servings": 4, "country": "intl",
+      "diet": ["gluten-free", "dairy-free"], "allergens": ["fish"],
+      "ingredients": [
+        { "ids": ["gp-riz", "gp-riz-basmati", "gp-riz-complet"], "qty": { "amount": 250, "unit": "g" }, "required": true,
+          "labels": { "fr": "250g de riz cuit", "en": "250g cooked rice", "es": "250g de arroz cocido", "de": "250g gekochter Reis", "ja": "炊いたご飯 250g" } },
+        { "ids": ["gp-thon"], "qty": { "amount": 160, "unit": "g" }, "required": true,
+          "labels": { "fr": "160g de thon en boîte", "en": "160g canned tuna", "es": "160g de atún en lata", "de": "160g Thunfisch aus der Dose", "ja": "ツナ缶 160g" } },
+        { "ids": ["gp-mais", "frz-mais"], "qty": { "amount": 150, "unit": "g" }, "required": true,
+          "labels": { "fr": "150g de maïs", "en": "150g sweetcorn", "es": "150g de maíz", "de": "150g Mais", "ja": "コーン 150g" } },
+        { "ids": ["vg-tomate", "vg-tomate-cerise"], "qty": { "amount": 2, "unit": "pcs" }, "required": true,
+          "labels": { "fr": "2 tomates", "en": "2 tomatoes", "es": "2 tomates", "de": "2 Tomaten", "ja": "トマト 2個" } },
+        { "ids": ["sp-huile-olive", "sp-huile-olive-ex"], "qty": { "amount": 2, "unit": "cs" }, "required": true,
+          "labels": { "fr": "2 c. à soupe d'huile d'olive", "en": "2 tbsp olive oil", "es": "2 c. de aceite de oliva", "de": "2 EL Olivenöl", "ja": "オリーブオイル 大さじ2" } },
+        { "ids": ["sp-vinaigre", "sp-vinaigre-vin"], "qty": { "amount": 1, "unit": "cs" }, "required": false,
+          "labels": { "fr": "1 c. à soupe de vinaigre", "en": "1 tbsp vinegar", "es": "1 c. de vinagre", "de": "1 EL Essig", "ja": "酢 大さじ1" } }
+      ],
+      "steps": {
+        "fr": ["Laisser refroidir le riz cuit dans un saladier.", "Égoutter le thon et le maïs, couper les tomates en dés.", "Mélanger le riz, le thon émietté, le maïs et les tomates.", "Assaisonner d'huile, de vinaigre, de sel et de poivre. Servir frais."],
+        "en": ["Let the cooked rice cool in a salad bowl.", "Drain the tuna and corn, dice the tomatoes.", "Mix the rice, flaked tuna, corn and tomatoes.", "Dress with oil, vinegar, salt and pepper. Serve chilled."],
+        "es": ["Dejar enfriar el arroz cocido en una ensaladera.", "Escurrir el atún y el maíz, cortar los tomates en dados.", "Mezclar el arroz, el atún desmenuzado, el maíz y los tomates.", "Aliñar con aceite, vinagre, sal y pimienta. Servir frío."],
+        "de": ["Den gekochten Reis in einer Schüssel abkühlen lassen.", "Thunfisch und Mais abtropfen lassen, die Tomaten würfeln.", "Reis, zerpflückten Thunfisch, Mais und Tomaten vermengen.", "Mit Öl, Essig, Salz und Pfeffer anmachen. Kalt servieren."],
+        "ja": ["炊いたご飯をボウルで冷ます。", "ツナとコーンの水気を切り、トマトを角切りにする。", "ご飯、ほぐしたツナ、コーン、トマトを混ぜる。", "油・酢・塩・こしょうで和える。冷やして供する。"]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "tarte-tatin",
+      "name": { "fr": "Tarte Tatin", "en": "Tarte Tatin", "es": "Tarta Tatin", "de": "Tarte Tatin", "ja": "タルトタタン" },
+      "description": {
+        "fr": "La célèbre tarte aux pommes caramélisées renversée — croustillante dessous, fondante dessus.",
+        "en": "The famous upside-down caramelised apple tart — crisp underneath, melting on top.",
+        "es": "La famosa tarta de manzana caramelizada al revés — crujiente abajo y fundente arriba.",
+        "de": "Die berühmte gestürzte Tarte mit karamellisierten Äpfeln — unten knusprig, oben zart.",
+        "ja": "有名な逆さまのキャラメルりんごタルト。下はサクッ、上はとろり。"
+      },
+      "emoji": "🥧", "time_min": 60, "prep_time_min": 25, "cook_time_min": 35,
+      "difficulty": "medium", "type": "dessert", "servings": 6, "country": "fr",
+      "diet": ["vegetarian"], "allergens": ["gluten", "milk"],
+      "ingredients": [
+        { "ids": ["fr-pomme"], "qty": { "amount": 6, "unit": "pcs" }, "required": true,
+          "labels": { "fr": "6 pommes", "en": "6 apples", "es": "6 manzanas", "de": "6 Äpfel", "ja": "りんご 6個" } },
+        { "ids": ["fr-pate-brisee", "fr-pate-feuilletee"], "qty": { "amount": 1, "unit": "pcs" }, "required": true,
+          "labels": { "fr": "1 pâte brisée", "en": "1 shortcrust pastry", "es": "1 masa quebrada", "de": "1 Mürbeteig", "ja": "練りパイ生地 1枚" } },
+        { "ids": ["gp-sucre", "gp-sucre-poudre"], "qty": { "amount": 120, "unit": "g" }, "required": true,
+          "labels": { "fr": "120g de sucre", "en": "120g sugar", "es": "120g de azúcar", "de": "120g Zucker", "ja": "砂糖 120g" } },
+        { "ids": ["fr-beurre"], "qty": { "amount": 60, "unit": "g" }, "required": true,
+          "labels": { "fr": "60g de beurre", "en": "60g butter", "es": "60g de mantequilla", "de": "60g Butter", "ja": "バター 60g" } }
+      ],
+      "steps": {
+        "fr": ["Éplucher les pommes, les couper en quartiers et retirer le cœur.", "Dans un moule, faire un caramel avec le sucre et le beurre, puis y disposer les pommes serrées.", "Recouvrir de la pâte en rentrant les bords à l'intérieur.", "Enfourner 35 min à 190°C, laisser tiédir puis démouler en retournant la tarte sur un plat."],
+        "en": ["Peel the apples, cut into quarters and remove the cores.", "In a mould, make a caramel with the sugar and butter, then pack the apples tightly on top.", "Cover with the pastry, tucking the edges down inside.", "Bake 35 min at 190°C (375°F), let cool slightly, then turn out onto a plate."],
+        "es": ["Pelar las manzanas, cortarlas en cuartos y quitar el corazón.", "En un molde, hacer un caramelo con el azúcar y la mantequilla, y colocar las manzanas apretadas.", "Cubrir con la masa metiendo los bordes hacia dentro.", "Hornear 35 min a 190°C, dejar templar y desmoldar dándole la vuelta sobre un plato."],
+        "de": ["Die Äpfel schälen, vierteln und das Kerngehäuse entfernen.", "In einer Form aus Zucker und Butter ein Karamell zubereiten, dann die Äpfel dicht darauf schichten.", "Mit dem Teig bedecken und die Ränder nach innen einschlagen.", "35 Min. bei 190°C backen, etwas abkühlen lassen und auf einen Teller stürzen."],
+        "ja": ["りんごの皮をむき、4つ割りにして芯を取る。", "型で砂糖とバターのキャラメルを作り、りんごをすき間なく並べる。", "生地をかぶせ、縁を内側に折り込む。", "190°Cで35分焼き、少し冷ましてから皿に返して型から外す。"]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "cookies-chocolat",
+      "name": { "fr": "Cookies au chocolat", "en": "Chocolate chip cookies", "es": "Galletas con chips de chocolate", "de": "Schoko-Cookies", "ja": "チョコチップクッキー" },
+      "description": {
+        "fr": "Des cookies moelleux au cœur fondant et aux pépites de chocolat — un classique américain inratable.",
+        "en": "Soft cookies with a gooey centre and chocolate chips — a foolproof American classic.",
+        "es": "Galletas blandas con centro fundente y chips de chocolate — un clásico americano infalible.",
+        "de": "Weiche Cookies mit zartschmelzendem Kern und Schokostückchen — ein gelingsicherer US-Klassiker.",
+        "ja": "中はとろり、チョコチップたっぷりのソフトクッキー。失敗しないアメリカの定番。"
+      },
+      "emoji": "🍪", "time_min": 30, "prep_time_min": 15, "cook_time_min": 12,
+      "difficulty": "easy", "type": "dessert", "servings": 6, "country": "us",
+      "diet": ["vegetarian"], "allergens": ["gluten", "milk", "eggs"],
+      "ingredients": [
+        { "ids": ["gp-farine", "gp-farine-ble"], "qty": { "amount": 250, "unit": "g" }, "required": true,
+          "labels": { "fr": "250g de farine", "en": "250g flour", "es": "250g de harina", "de": "250g Mehl", "ja": "薄力粉 250g" } },
+        { "ids": ["fr-beurre"], "qty": { "amount": 125, "unit": "g" }, "required": true,
+          "labels": { "fr": "125g de beurre mou", "en": "125g soft butter", "es": "125g de mantequilla blanda", "de": "125g weiche Butter", "ja": "やわらかいバター 125g" } },
+        { "ids": ["gp-cassonade", "gp-sucre", "gp-vergeoise"], "qty": { "amount": 120, "unit": "g" }, "required": true,
+          "labels": { "fr": "120g de cassonade", "en": "120g brown sugar", "es": "120g de azúcar moreno", "de": "120g brauner Zucker", "ja": "ブラウンシュガー 120g" } },
+        { "ids": ["fr-oeuf", "fr-oeufs-standard"], "qty": { "amount": 1, "unit": "pcs" }, "required": true,
+          "labels": { "fr": "1 œuf", "en": "1 egg", "es": "1 huevo", "de": "1 Ei", "ja": "卵 1個" } },
+        { "ids": ["gp-pepites-choco", "gp-choco-noir"], "qty": { "amount": 150, "unit": "g" }, "required": true,
+          "labels": { "fr": "150g de pépites de chocolat", "en": "150g chocolate chips", "es": "150g de chips de chocolate", "de": "150g Schokostückchen", "ja": "チョコチップ 150g" } },
+        { "ids": ["gp-levure"], "qty": { "amount": 1, "unit": "cc" }, "required": true,
+          "labels": { "fr": "1 c. à café de levure", "en": "1 tsp baking powder", "es": "1 cdta. de levadura", "de": "1 TL Backpulver", "ja": "ベーキングパウダー 小さじ1" } }
+      ],
+      "steps": {
+        "fr": ["Travailler le beurre mou avec la cassonade jusqu'à ce que le mélange blanchisse.", "Ajouter l'œuf, puis la farine et la levure, et enfin les pépites de chocolat.", "Former des boules et les disposer espacées sur une plaque couverte de papier cuisson.", "Enfourner 11-12 min à 180°C ; les cookies sont encore mous à la sortie. Laisser refroidir."],
+        "en": ["Cream the soft butter with the brown sugar until pale.", "Add the egg, then the flour and baking powder, and finally the chocolate chips.", "Shape into balls and place spaced apart on a lined baking tray.", "Bake 11-12 min at 180°C (355°F); the cookies are still soft when they come out. Let cool."],
+        "es": ["Batir la mantequilla blanda con el azúcar moreno hasta que blanquee.", "Añadir el huevo, luego la harina y la levadura, y por último las chips de chocolate.", "Formar bolas y colocarlas separadas en una bandeja con papel de hornear.", "Hornear 11-12 min a 180°C; las galletas salen aún blandas. Dejar enfriar."],
+        "de": ["Die weiche Butter mit dem braunen Zucker hell-cremig rühren.", "Das Ei zugeben, dann Mehl und Backpulver und zuletzt die Schokostückchen.", "Kugeln formen und mit Abstand auf ein mit Backpapier belegtes Blech setzen.", "11-12 Min. bei 180°C backen; die Cookies sind beim Herausnehmen noch weich. Abkühlen lassen."],
+        "ja": ["やわらかいバターとブラウンシュガーを白っぽくなるまで混ぜる。", "卵、続いて薄力粉とベーキングパウダー、最後にチョコチップを加える。", "ボール状に丸め、クッキングシートを敷いた天板に間隔をあけて並べる。", "180°Cで11〜12分焼く。取り出したては柔らかい。冷ます。"]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "madeleines",
+      "name": { "fr": "Madeleines", "en": "Madeleines", "es": "Magdalenas (madeleines)", "de": "Madeleines", "ja": "マドレーヌ" },
+      "description": {
+        "fr": "Les petits gâteaux moelleux en forme de coquillage, à la bosse caractéristique — parfaits pour le goûter.",
+        "en": "The little soft shell-shaped cakes with their signature hump — perfect for teatime.",
+        "es": "Los pastelitos esponjosos con forma de concha y su característico copete — perfectos para la merienda.",
+        "de": "Die kleinen weichen muschelförmigen Küchlein mit ihrem typischen Höcker — perfekt zum Nachmittagstee.",
+        "ja": "貝の形と特徴的な膨らみが愛らしい、ふんわり小さな焼き菓子。おやつにぴったり。"
+      },
+      "emoji": "🍮", "time_min": 30, "prep_time_min": 15, "cook_time_min": 12,
+      "difficulty": "easy", "type": "dessert", "servings": 6, "country": "fr",
+      "diet": ["vegetarian"], "allergens": ["gluten", "eggs", "milk"],
+      "ingredients": [
+        { "ids": ["fr-oeuf", "fr-oeufs-standard"], "qty": { "amount": 2, "unit": "pcs" }, "required": true,
+          "labels": { "fr": "2 œufs", "en": "2 eggs", "es": "2 huevos", "de": "2 Eier", "ja": "卵 2個" } },
+        { "ids": ["gp-farine", "gp-farine-ble"], "qty": { "amount": 100, "unit": "g" }, "required": true,
+          "labels": { "fr": "100g de farine", "en": "100g flour", "es": "100g de harina", "de": "100g Mehl", "ja": "薄力粉 100g" } },
+        { "ids": ["gp-sucre", "gp-sucre-poudre"], "qty": { "amount": 100, "unit": "g" }, "required": true,
+          "labels": { "fr": "100g de sucre", "en": "100g sugar", "es": "100g de azúcar", "de": "100g Zucker", "ja": "砂糖 100g" } },
+        { "ids": ["fr-beurre"], "qty": { "amount": 100, "unit": "g" }, "required": true,
+          "labels": { "fr": "100g de beurre fondu", "en": "100g melted butter", "es": "100g de mantequilla derretida", "de": "100g geschmolzene Butter", "ja": "溶かしバター 100g" } },
+        { "ids": ["gp-levure"], "qty": { "amount": 1, "unit": "cc" }, "required": true,
+          "labels": { "fr": "1 c. à café de levure", "en": "1 tsp baking powder", "es": "1 cdta. de levadura", "de": "1 TL Backpulver", "ja": "ベーキングパウダー 小さじ1" } },
+        { "ids": ["fr-citron"], "qty": { "amount": 1, "unit": "pcs" }, "required": false,
+          "labels": { "fr": "Le zeste d'1 citron", "en": "Zest of 1 lemon", "es": "Ralladura de 1 limón", "de": "Schale 1 Zitrone", "ja": "レモンの皮 1個分" } }
+      ],
+      "steps": {
+        "fr": ["Fouetter les œufs et le sucre jusqu'à ce que le mélange double de volume.", "Incorporer la farine, la levure, le zeste, puis le beurre fondu.", "Laisser reposer la pâte 30 min au frais et remplir les moules à madeleines aux trois quarts.", "Enfourner 4 min à 240°C puis 6-8 min à 180°C pour former la bosse. Démouler tièdes."],
+        "en": ["Whisk the eggs and sugar until the mixture doubles in volume.", "Fold in the flour, baking powder, zest, then the melted butter.", "Rest the batter 30 min in the fridge and fill the madeleine moulds three-quarters full.", "Bake 4 min at 240°C (465°F) then 6-8 min at 180°C to form the hump. Unmould while warm."],
+        "es": ["Batir los huevos y el azúcar hasta que la mezcla doble su volumen.", "Incorporar la harina, la levadura, la ralladura y la mantequilla derretida.", "Dejar reposar la masa 30 min en frío y llenar los moldes de madeleine tres cuartos.", "Hornear 4 min a 240°C y luego 6-8 min a 180°C para formar el copete. Desmoldar templadas."],
+        "de": ["Eier und Zucker schaumig schlagen, bis sich das Volumen verdoppelt.", "Mehl, Backpulver, Zitronenschale und dann die geschmolzene Butter unterheben.", "Den Teig 30 Min. kalt ruhen lassen und die Madeleine-Formen zu drei Vierteln füllen.", "4 Min. bei 240°C, dann 6-8 Min. bei 180°C backen, damit der Höcker entsteht. Lauwarm aus der Form lösen."],
+        "ja": ["卵と砂糖を、生地が2倍になるまで泡立てる。", "薄力粉、ベーキングパウダー、レモンの皮、続いて溶かしバターを混ぜる。", "生地を冷蔵で30分休ませ、マドレーヌ型に3分の2まで流す。", "240°Cで4分、続いて180°Cで6〜8分焼いて膨らみを出す。温かいうちに型から外す。"]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "gaufres",
+      "name": { "fr": "Gaufres", "en": "Waffles", "es": "Gofres", "de": "Waffeln", "ja": "ワッフル" },
+      "description": {
+        "fr": "Des gaufres dorées et croustillantes dehors, moelleuses dedans — à savourer tièdes avec du sucre glace.",
+        "en": "Golden waffles, crisp outside and soft inside — best enjoyed warm with icing sugar.",
+        "es": "Gofres dorados, crujientes por fuera y tiernos por dentro — para disfrutar templados con azúcar glas.",
+        "de": "Goldene Waffeln, außen knusprig und innen weich — am besten lauwarm mit Puderzucker.",
+        "ja": "外はカリッと中はふわっと、黄金色のワッフル。粉砂糖をかけて温かいうちに。"
+      },
+      "emoji": "🧇", "time_min": 30, "prep_time_min": 15, "cook_time_min": 15,
+      "difficulty": "easy", "type": "dessert", "servings": 4, "country": "intl",
+      "diet": ["vegetarian"], "allergens": ["gluten", "milk", "eggs"],
+      "ingredients": [
+        { "ids": ["gp-farine", "gp-farine-ble"], "qty": { "amount": 250, "unit": "g" }, "required": true,
+          "labels": { "fr": "250g de farine", "en": "250g flour", "es": "250g de harina", "de": "250g Mehl", "ja": "薄力粉 250g" } },
+        { "ids": ["fr-lait"], "qty": { "amount": 50, "unit": "cl" }, "required": true,
+          "labels": { "fr": "50 cl de lait", "en": "500ml milk", "es": "500ml de leche", "de": "500ml Milch", "ja": "牛乳 500ml" } },
+        { "ids": ["fr-oeuf", "fr-oeufs-standard"], "qty": { "amount": 2, "unit": "pcs" }, "required": true,
+          "labels": { "fr": "2 œufs", "en": "2 eggs", "es": "2 huevos", "de": "2 Eier", "ja": "卵 2個" } },
+        { "ids": ["fr-beurre"], "qty": { "amount": 75, "unit": "g" }, "required": true,
+          "labels": { "fr": "75g de beurre fondu", "en": "75g melted butter", "es": "75g de mantequilla derretida", "de": "75g geschmolzene Butter", "ja": "溶かしバター 75g" } },
+        { "ids": ["gp-sucre", "gp-sucre-poudre"], "qty": { "amount": 50, "unit": "g" }, "required": true,
+          "labels": { "fr": "50g de sucre", "en": "50g sugar", "es": "50g de azúcar", "de": "50g Zucker", "ja": "砂糖 50g" } },
+        { "ids": ["gp-levure"], "qty": { "amount": 1, "unit": "cs" }, "required": true,
+          "labels": { "fr": "1 sachet de levure", "en": "1 sachet baking powder", "es": "1 sobre de levadura", "de": "1 Päckchen Backpulver", "ja": "ベーキングパウダー 1袋" } }
+      ],
+      "steps": {
+        "fr": ["Mélanger la farine, le sucre et la levure dans un saladier.", "Ajouter les œufs, puis le lait petit à petit en fouettant pour éviter les grumeaux, et le beurre fondu.", "Laisser reposer la pâte 30 min.", "Cuire dans un gaufrier chaud 3-4 min par gaufre jusqu'à ce qu'elles soient dorées. Saupoudrer de sucre glace."],
+        "en": ["Mix the flour, sugar and baking powder in a bowl.", "Add the eggs, then the milk gradually while whisking to avoid lumps, and the melted butter.", "Rest the batter 30 min.", "Cook in a hot waffle iron 3-4 min per waffle until golden. Dust with icing sugar."],
+        "es": ["Mezclar la harina, el azúcar y la levadura en un bol.", "Añadir los huevos, luego la leche poco a poco batiendo para evitar grumos, y la mantequilla derretida.", "Dejar reposar la masa 30 min.", "Cocer en una gofrera caliente 3-4 min por gofre hasta que estén dorados. Espolvorear azúcar glas."],
+        "de": ["Mehl, Zucker und Backpulver in einer Schüssel mischen.", "Die Eier zugeben, dann nach und nach die Milch unter Rühren (gegen Klümpchen) und die geschmolzene Butter.", "Den Teig 30 Min. ruhen lassen.", "Im heißen Waffeleisen 3-4 Min. pro Waffel goldbraun backen. Mit Puderzucker bestäuben."],
+        "ja": ["ボウルで薄力粉・砂糖・ベーキングパウダーを混ぜる。", "卵を加え、続いてダマにならないよう牛乳を少しずつ混ぜ、溶かしバターを加える。", "生地を30分休ませる。", "熱したワッフルメーカーで1枚3〜4分、黄金色になるまで焼く。粉砂糖をふる。"]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "mug-cake-chocolat",
+      "name": { "fr": "Mug cake au chocolat", "en": "Chocolate mug cake", "es": "Mug cake de chocolate", "de": "Schoko-Tassenkuchen", "ja": "チョコのマグカップケーキ" },
+      "description": {
+        "fr": "Un gâteau au chocolat individuel cuit en 2 minutes au micro-ondes — l'envie de sucré comblée à l'instant.",
+        "en": "A single chocolate cake cooked in 2 minutes in the microwave — a sweet craving satisfied instantly.",
+        "es": "Un bizcocho de chocolate individual hecho en 2 minutos al microondas — el antojo dulce al instante.",
+        "de": "Ein einzelner Schokokuchen in 2 Minuten in der Mikrowelle — der süße Heißhunger sofort gestillt.",
+        "ja": "電子レンジで2分の一人分チョコケーキ。甘いものが欲しいときにすぐ。"
+      },
+      "emoji": "🍫", "time_min": 5, "prep_time_min": 3, "cook_time_min": 2,
+      "difficulty": "very-easy", "type": "dessert", "servings": 1, "country": "intl",
+      "diet": ["vegetarian"], "allergens": ["gluten", "milk", "eggs"],
+      "ingredients": [
+        { "ids": ["gp-farine", "gp-farine-ble"], "qty": { "amount": 4, "unit": "cs" }, "required": true,
+          "labels": { "fr": "4 c. à soupe de farine", "en": "4 tbsp flour", "es": "4 c. de harina", "de": "4 EL Mehl", "ja": "薄力粉 大さじ4" } },
+        { "ids": ["gp-cacao-poudre", "gp-choco-noir"], "qty": { "amount": 2, "unit": "cs" }, "required": true,
+          "labels": { "fr": "2 c. à soupe de cacao", "en": "2 tbsp cocoa", "es": "2 c. de cacao", "de": "2 EL Kakao", "ja": "ココアパウダー 大さじ2" } },
+        { "ids": ["gp-sucre", "gp-sucre-poudre"], "qty": { "amount": 3, "unit": "cs" }, "required": true,
+          "labels": { "fr": "3 c. à soupe de sucre", "en": "3 tbsp sugar", "es": "3 c. de azúcar", "de": "3 EL Zucker", "ja": "砂糖 大さじ3" } },
+        { "ids": ["fr-lait"], "qty": { "amount": 4, "unit": "cs" }, "required": true,
+          "labels": { "fr": "4 c. à soupe de lait", "en": "4 tbsp milk", "es": "4 c. de leche", "de": "4 EL Milch", "ja": "牛乳 大さじ4" } },
+        { "ids": ["fr-oeuf", "fr-oeufs-standard"], "qty": { "amount": 1, "unit": "pcs" }, "required": true,
+          "labels": { "fr": "1 œuf", "en": "1 egg", "es": "1 huevo", "de": "1 Ei", "ja": "卵 1個" } },
+        { "ids": ["gp-levure"], "qty": { "amount": 1, "unit": "cc" }, "required": false,
+          "labels": { "fr": "½ c. à café de levure", "en": "½ tsp baking powder", "es": "½ cdta. de levadura", "de": "½ TL Backpulver", "ja": "ベーキングパウダー 小さじ½" } }
+      ],
+      "steps": {
+        "fr": ["Dans un grand mug, mélanger la farine, le cacao, le sucre et la levure.", "Ajouter l'œuf et le lait, mélanger jusqu'à obtenir une pâte lisse.", "Cuire au micro-ondes 1 min 30 à 2 min à pleine puissance (selon l'appareil).", "Laisser tiédir 1 min et déguster directement dans le mug."],
+        "en": ["In a large mug, mix the flour, cocoa, sugar and baking powder.", "Add the egg and milk, stir until you get a smooth batter.", "Microwave 1 min 30 to 2 min at full power (depending on your microwave).", "Let cool 1 min and eat straight from the mug."],
+        "es": ["En una taza grande, mezclar la harina, el cacao, el azúcar y la levadura.", "Añadir el huevo y la leche, remover hasta obtener una masa lisa.", "Cocinar al microondas 1 min 30 a 2 min a máxima potencia (según el aparato).", "Dejar templar 1 min y comer directamente de la taza."],
+        "de": ["In einer großen Tasse Mehl, Kakao, Zucker und Backpulver mischen.", "Ei und Milch zugeben, glatt rühren.", "In der Mikrowelle 1 Min. 30 bis 2 Min. bei voller Leistung garen (je nach Gerät).", "1 Min. abkühlen lassen und direkt aus der Tasse genießen."],
+        "ja": ["大きめのマグカップに薄力粉・ココア・砂糖・ベーキングパウダーを混ぜる。", "卵と牛乳を加え、なめらかになるまで混ぜる。", "電子レンジ（機種により）強で1分30秒〜2分加熱する。", "1分ほど冷まし、マグカップのまま味わう。"]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "banana-bread",
+      "name": { "fr": "Banana bread", "en": "Banana bread", "es": "Pan de plátano", "de": "Bananenbrot", "ja": "バナナブレッド" },
+      "description": {
+        "fr": "Un cake moelleux à la banane, idéal pour utiliser les bananes trop mûres — anti-gaspi et délicieux.",
+        "en": "A moist banana loaf, ideal for using up overripe bananas — waste-free and delicious.",
+        "es": "Un bizcocho jugoso de plátano, ideal para aprovechar los plátanos muy maduros — antidesperdicio y delicioso.",
+        "de": "Ein saftiger Bananenkuchen, ideal zum Verwerten überreifer Bananen — Anti-Verschwendung und köstlich.",
+        "ja": "熟しすぎたバナナの活用に最適な、しっとりバナナケーキ。食品ロス対策にも。"
+      },
+      "emoji": "🍌", "time_min": 60, "prep_time_min": 15, "cook_time_min": 45,
+      "difficulty": "easy", "type": "dessert", "servings": 6, "country": "us",
+      "diet": ["vegetarian"], "allergens": ["gluten", "eggs", "milk"],
+      "ingredients": [
+        { "ids": ["fr-banane"], "qty": { "amount": 3, "unit": "pcs" }, "required": true,
+          "labels": { "fr": "3 bananes bien mûres", "en": "3 very ripe bananas", "es": "3 plátanos muy maduros", "de": "3 sehr reife Bananen", "ja": "完熟バナナ 3本" } },
+        { "ids": ["gp-farine", "gp-farine-ble"], "qty": { "amount": 200, "unit": "g" }, "required": true,
+          "labels": { "fr": "200g de farine", "en": "200g flour", "es": "200g de harina", "de": "200g Mehl", "ja": "薄力粉 200g" } },
+        { "ids": ["gp-sucre", "gp-cassonade"], "qty": { "amount": 100, "unit": "g" }, "required": true,
+          "labels": { "fr": "100g de sucre", "en": "100g sugar", "es": "100g de azúcar", "de": "100g Zucker", "ja": "砂糖 100g" } },
+        { "ids": ["fr-oeuf", "fr-oeufs-standard"], "qty": { "amount": 2, "unit": "pcs" }, "required": true,
+          "labels": { "fr": "2 œufs", "en": "2 eggs", "es": "2 huevos", "de": "2 Eier", "ja": "卵 2個" } },
+        { "ids": ["fr-beurre"], "qty": { "amount": 80, "unit": "g" }, "required": true,
+          "labels": { "fr": "80g de beurre fondu", "en": "80g melted butter", "es": "80g de mantequilla derretida", "de": "80g geschmolzene Butter", "ja": "溶かしバター 80g" } },
+        { "ids": ["gp-levure"], "qty": { "amount": 1, "unit": "cc" }, "required": true,
+          "labels": { "fr": "1 c. à café de levure", "en": "1 tsp baking powder", "es": "1 cdta. de levadura", "de": "1 TL Backpulver", "ja": "ベーキングパウダー 小さじ1" } }
+      ],
+      "steps": {
+        "fr": ["Écraser les bananes à la fourchette. Préchauffer le four à 180°C.", "Mélanger les bananes, le sucre, les œufs et le beurre fondu.", "Incorporer la farine et la levure sans trop travailler la pâte.", "Verser dans un moule à cake et enfourner 45 min ; vérifier la cuisson avec la pointe d'un couteau."],
+        "en": ["Mash the bananas with a fork. Preheat the oven to 180°C (355°F).", "Mix the bananas, sugar, eggs and melted butter.", "Fold in the flour and baking powder without overworking.", "Pour into a loaf tin and bake 45 min; check with a knife tip."],
+        "es": ["Aplastar los plátanos con un tenedor. Precalentar el horno a 180°C.", "Mezclar los plátanos, el azúcar, los huevos y la mantequilla derretida.", "Incorporar la harina y la levadura sin trabajar demasiado la masa.", "Verter en un molde alargado y hornear 45 min; comprobar con la punta de un cuchillo."],
+        "de": ["Die Bananen mit einer Gabel zerdrücken. Den Ofen auf 180°C vorheizen.", "Bananen, Zucker, Eier und geschmolzene Butter verrühren.", "Mehl und Backpulver unterheben, ohne den Teig zu überarbeiten.", "In eine Kastenform füllen und 45 Min. backen; mit einer Messerspitze prüfen."],
+        "ja": ["バナナをフォークでつぶす。オーブンを180°Cに予熱する。", "バナナ、砂糖、卵、溶かしバターを混ぜる。", "薄力粉とベーキングパウダーを、こねすぎないように混ぜる。", "パウンド型に流して45分焼く。竹串で焼け具合を確認する。"]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "pancakes",
+      "name": { "fr": "Pancakes", "en": "Pancakes", "es": "Tortitas (pancakes)", "de": "Pancakes", "ja": "パンケーキ" },
+      "description": {
+        "fr": "Des pancakes épais et moelleux pour le petit-déjeuner — délicieux avec du sirop d'érable ou de la confiture.",
+        "en": "Thick, fluffy pancakes for breakfast — delicious with maple syrup or jam.",
+        "es": "Tortitas gruesas y esponjosas para el desayuno — deliciosas con sirope de arce o mermelada.",
+        "de": "Dicke, fluffige Pancakes zum Frühstück — köstlich mit Ahornsirup oder Marmelade.",
+        "ja": "朝食にうれしい厚みのあるふわふわパンケーキ。メープルシロップやジャムで。"
+      },
+      "emoji": "🥞", "time_min": 25, "prep_time_min": 10, "cook_time_min": 15,
+      "difficulty": "easy", "type": "dessert", "servings": 4, "country": "us",
+      "diet": ["vegetarian"], "allergens": ["gluten", "milk", "eggs"],
+      "ingredients": [
+        { "ids": ["gp-farine", "gp-farine-ble"], "qty": { "amount": 200, "unit": "g" }, "required": true,
+          "labels": { "fr": "200g de farine", "en": "200g flour", "es": "200g de harina", "de": "200g Mehl", "ja": "薄力粉 200g" } },
+        { "ids": ["fr-lait"], "qty": { "amount": 30, "unit": "cl" }, "required": true,
+          "labels": { "fr": "30 cl de lait", "en": "300ml milk", "es": "300ml de leche", "de": "300ml Milch", "ja": "牛乳 300ml" } },
+        { "ids": ["fr-oeuf", "fr-oeufs-standard"], "qty": { "amount": 2, "unit": "pcs" }, "required": true,
+          "labels": { "fr": "2 œufs", "en": "2 eggs", "es": "2 huevos", "de": "2 Eier", "ja": "卵 2個" } },
+        { "ids": ["gp-sucre", "gp-sucre-poudre"], "qty": { "amount": 2, "unit": "cs" }, "required": true,
+          "labels": { "fr": "2 c. à soupe de sucre", "en": "2 tbsp sugar", "es": "2 c. de azúcar", "de": "2 EL Zucker", "ja": "砂糖 大さじ2" } },
+        { "ids": ["gp-levure"], "qty": { "amount": 1, "unit": "cs" }, "required": true,
+          "labels": { "fr": "1 sachet de levure", "en": "1 sachet baking powder", "es": "1 sobre de levadura", "de": "1 Päckchen Backpulver", "ja": "ベーキングパウダー 1袋" } },
+        { "ids": ["fr-beurre"], "qty": { "amount": 30, "unit": "g" }, "required": false,
+          "labels": { "fr": "30g de beurre fondu", "en": "30g melted butter", "es": "30g de mantequilla derretida", "de": "30g geschmolzene Butter", "ja": "溶かしバター 30g" } }
+      ],
+      "steps": {
+        "fr": ["Mélanger la farine, le sucre et la levure.", "Ajouter les œufs, le lait et le beurre fondu, puis fouetter jusqu'à obtenir une pâte lisse.", "Cuire une petite louche de pâte dans une poêle chaude légèrement huilée.", "Retourner quand des bulles apparaissent en surface ; cuire l'autre face 1 min. Servir tièdes."],
+        "en": ["Mix the flour, sugar and baking powder.", "Add the eggs, milk and melted butter, then whisk until smooth.", "Cook a small ladle of batter in a hot, lightly oiled pan.", "Flip when bubbles appear on the surface; cook the other side 1 min. Serve warm."],
+        "es": ["Mezclar la harina, el azúcar y la levadura.", "Añadir los huevos, la leche y la mantequilla derretida, y batir hasta que quede liso.", "Cocer un pequeño cucharón de masa en una sartén caliente ligeramente engrasada.", "Dar la vuelta cuando aparezcan burbujas en la superficie; cocer el otro lado 1 min. Servir templadas."],
+        "de": ["Mehl, Zucker und Backpulver mischen.", "Eier, Milch und geschmolzene Butter zugeben und glatt rühren.", "Eine kleine Kelle Teig in einer heißen, leicht geölten Pfanne backen.", "Wenden, wenn an der Oberfläche Bläschen entstehen; die andere Seite 1 Min. backen. Warm servieren."],
+        "ja": ["薄力粉・砂糖・ベーキングパウダーを混ぜる。", "卵・牛乳・溶かしバターを加え、なめらかになるまで混ぜる。", "薄く油をひいた熱したフライパンに、生地を小さなお玉1杯流す。", "表面に泡が出たら裏返し、もう片面を1分焼く。温かいうちに供する。"]
+      },
+      "functional_tags": [], "status": "published"
+    }
+  ]
+}

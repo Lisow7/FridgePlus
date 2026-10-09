@@ -1,0 +1,3351 @@
+{
+  "batchName": "recipes-batch-15-usa-intl",
+  "recipes": [
+    {
+      "id": "mac-and-cheese",
+      "name": {
+        "fr": "Mac and cheese",
+        "en": "Mac and cheese"
+      },
+      "description": {
+        "fr": "Des macaronis enrobés d'une sauce au fromage ultra-crémeuse, gratinés au four — le comfort food américain par excellence.",
+        "en": "Macaroni in an ultra-creamy cheese sauce, baked golden — the ultimate American comfort food."
+      },
+      "emoji": "🧀",
+      "time_min": 35,
+      "prep_time_min": 10,
+      "cook_time_min": 25,
+      "difficulty": "easy",
+      "type": "main",
+      "servings": 4,
+      "country": "us",
+      "diet": [
+        "vegetarian"
+      ],
+      "allergens": [
+        "gluten",
+        "milk"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "gp-coquillettes",
+            "gp-pates",
+            "gp-penne"
+          ],
+          "qty": {
+            "amount": 400,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "400g de macaronis",
+            "en": "400g macaroni"
+          }
+        },
+        {
+          "ids": [
+            "fr-cheddar",
+            "fr-fromage-rape"
+          ],
+          "qty": {
+            "amount": 250,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "250g de cheddar",
+            "en": "250g cheddar"
+          }
+        },
+        {
+          "ids": [
+            "fr-lait"
+          ],
+          "qty": {
+            "amount": 50,
+            "unit": "cl"
+          },
+          "required": true,
+          "labels": {
+            "fr": "50 cl de lait",
+            "en": "500ml milk"
+          }
+        },
+        {
+          "ids": [
+            "fr-beurre",
+            "gp-farine"
+          ],
+          "qty": {
+            "amount": 50,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Beurre et farine",
+            "en": "Butter and flour"
+          }
+        },
+        {
+          "ids": [
+            "gp-chapelure",
+            "sp-muscade"
+          ],
+          "qty": {
+            "amount": 40,
+            "unit": "g"
+          },
+          "required": false,
+          "labels": {
+            "fr": "Chapelure et muscade",
+            "en": "Breadcrumbs and nutmeg"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Cuire les macaronis al dente.",
+          "Préparer une béchamel et y faire fondre le cheddar.",
+          "Mélanger les pâtes à la sauce au fromage.",
+          "Verser dans un plat, parsemer de chapelure.",
+          "Gratiner 15 min à 200°C et servir."
+        ],
+        "en": [
+          "Cook the macaroni al dente.",
+          "Make a béchamel and melt the cheddar into it.",
+          "Mix the pasta with the cheese sauce.",
+          "Pour into a dish, scatter breadcrumbs.",
+          "Bake 15 min at 200°C and serve."
+        ]
+      },
+      "functional_tags": [
+        "kids_friendly"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "philly-cheesesteak",
+      "name": {
+        "fr": "Philly cheesesteak",
+        "en": "Philly cheesesteak"
+      },
+      "description": {
+        "fr": "Un sandwich généreux de fines lamelles de bœuf, oignons et poivrons fondants nappés de fromage — la spécialité emblématique de Philadelphie.",
+        "en": "A hearty sandwich of thin beef slices, soft onions and peppers smothered in cheese — Philadelphia's iconic speciality."
+      },
+      "emoji": "🥖",
+      "time_min": 25,
+      "prep_time_min": 12,
+      "cook_time_min": 13,
+      "difficulty": "easy",
+      "type": "main",
+      "servings": 4,
+      "country": "us",
+      "diet": [],
+      "allergens": [
+        "gluten",
+        "milk"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "fr-boeuf",
+            "fr-bavette",
+            "fr-entrecote"
+          ],
+          "qty": {
+            "amount": 500,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "500g de bœuf émincé",
+            "en": "500g sliced beef"
+          }
+        },
+        {
+          "ids": [
+            "gp-baguette",
+            "gp-pain-burger"
+          ],
+          "qty": {
+            "amount": 4,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "4 pains longs",
+            "en": "4 sub rolls"
+          }
+        },
+        {
+          "ids": [
+            "vg-poivron",
+            "vg-oignon"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Poivron et oignon",
+            "en": "Pepper and onion"
+          }
+        },
+        {
+          "ids": [
+            "fr-cheddar",
+            "fr-emmental",
+            "fr-fromage-rape"
+          ],
+          "qty": {
+            "amount": 150,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "150g de fromage",
+            "en": "150g cheese"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Faire revenir les oignons et poivrons émincés.",
+          "Saisir le bœuf émincé à feu vif.",
+          "Mélanger viande et légumes, couvrir de fromage pour le faire fondre.",
+          "Garnir les pains.",
+          "Servir aussitôt, bien chaud."
+        ],
+        "en": [
+          "Sauté the sliced onions and peppers.",
+          "Sear the sliced beef over high heat.",
+          "Combine meat and vegetables, cover with cheese to melt.",
+          "Fill the rolls.",
+          "Serve hot at once."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "sloppy-joe",
+      "name": {
+        "fr": "Sloppy Joe",
+        "en": "Sloppy Joe"
+      },
+      "description": {
+        "fr": "Un pain à burger garni de bœuf haché mijoté dans une sauce tomate sucrée-épicée — gourmand, rapide et apprécié des enfants.",
+        "en": "A burger bun filled with minced beef in a sweet-spicy tomato sauce — indulgent, quick and loved by kids."
+      },
+      "emoji": "🍔",
+      "time_min": 25,
+      "prep_time_min": 10,
+      "cook_time_min": 15,
+      "difficulty": "easy",
+      "type": "main",
+      "servings": 4,
+      "country": "us",
+      "diet": [
+        "dairy-free"
+      ],
+      "allergens": [
+        "gluten",
+        "milk"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "fr-hache-boeuf",
+            "frz-boeuf-hache"
+          ],
+          "qty": {
+            "amount": 500,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "500g de bœuf haché",
+            "en": "500g minced beef"
+          }
+        },
+        {
+          "ids": [
+            "gp-pain-burger",
+            "gp-pain-mie"
+          ],
+          "qty": {
+            "amount": 4,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "4 pains à burger",
+            "en": "4 burger buns"
+          }
+        },
+        {
+          "ids": [
+            "gp-concentre-tom",
+            "sp-ketchup"
+          ],
+          "qty": {
+            "amount": 4,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Concentré de tomate / ketchup",
+            "en": "Tomato paste / ketchup"
+          }
+        },
+        {
+          "ids": [
+            "vg-oignon",
+            "vg-poivron"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Oignon et poivron",
+            "en": "Onion and pepper"
+          }
+        },
+        {
+          "ids": [
+            "sp-sauce-worcestershire",
+            "sp-paprika"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "cs"
+          },
+          "required": false,
+          "labels": {
+            "fr": "Worcestershire et paprika",
+            "en": "Worcestershire and paprika"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Faire revenir l'oignon et le poivron.",
+          "Ajouter le bœuf haché et le faire colorer.",
+          "Incorporer la sauce tomate et les épices.",
+          "Mijoter 10 min jusqu'à épaississement.",
+          "Garnir les pains et servir."
+        ],
+        "en": [
+          "Sauté the onion and pepper.",
+          "Add the minced beef and brown it.",
+          "Stir in the tomato sauce and spices.",
+          "Simmer 10 min until thickened.",
+          "Fill the buns and serve."
+        ]
+      },
+      "functional_tags": [
+        "kids_friendly"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "meatloaf",
+      "name": {
+        "fr": "Meatloaf (pain de viande)",
+        "en": "Meatloaf"
+      },
+      "description": {
+        "fr": "Un pain de viande hachée parfumé, glacé de sauce tomate sucrée et cuit au four — un plat familial américain réconfortant à trancher.",
+        "en": "A seasoned minced meat loaf, glazed with sweet tomato sauce and baked — a comforting American family dish to slice."
+      },
+      "emoji": "🍖",
+      "time_min": 70,
+      "prep_time_min": 20,
+      "cook_time_min": 50,
+      "difficulty": "easy",
+      "type": "main",
+      "servings": 6,
+      "country": "us",
+      "diet": [
+        "dairy-free"
+      ],
+      "allergens": [
+        "gluten",
+        "eggs"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "fr-hache-boeuf",
+            "fr-echine"
+          ],
+          "qty": {
+            "amount": 800,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "800g de viande hachée",
+            "en": "800g minced meat"
+          }
+        },
+        {
+          "ids": [
+            "fr-oeuf"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 œufs",
+            "en": "2 eggs"
+          }
+        },
+        {
+          "ids": [
+            "gp-chapelure"
+          ],
+          "qty": {
+            "amount": 80,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "80g de chapelure",
+            "en": "80g breadcrumbs"
+          }
+        },
+        {
+          "ids": [
+            "sp-ketchup",
+            "gp-concentre-tom"
+          ],
+          "qty": {
+            "amount": 4,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Ketchup (glaçage)",
+            "en": "Ketchup (glaze)"
+          }
+        },
+        {
+          "ids": [
+            "vg-oignon",
+            "vg-ail"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Oignon et ail",
+            "en": "Onion and garlic"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Mélanger la viande, les œufs, la chapelure, l'oignon et l'ail.",
+          "Former un pain dans un moule à cake.",
+          "Badigeonner le dessus de ketchup.",
+          "Cuire 50 min à 180°C.",
+          "Laisser reposer puis trancher et servir."
+        ],
+        "en": [
+          "Mix the meat, eggs, breadcrumbs, onion and garlic.",
+          "Form a loaf in a loaf tin.",
+          "Brush the top with ketchup.",
+          "Bake 50 min at 180°C.",
+          "Rest then slice and serve."
+        ]
+      },
+      "functional_tags": [
+        "batch_cooking"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "jambalaya",
+      "name": {
+        "fr": "Jambalaya",
+        "en": "Jambalaya"
+      },
+      "description": {
+        "fr": "Un riz épicé de Louisiane mijoté avec poulet, chorizo et crevettes, poivrons et tomates — généreux, relevé et plein de soleil.",
+        "en": "A spicy Louisiana rice simmered with chicken, sausage and shrimp, peppers and tomatoes — generous, spicy and sunny."
+      },
+      "emoji": "🍚",
+      "time_min": 50,
+      "prep_time_min": 20,
+      "cook_time_min": 30,
+      "difficulty": "medium",
+      "type": "main",
+      "servings": 4,
+      "country": "us",
+      "diet": [
+        "gluten-free",
+        "dairy-free"
+      ],
+      "allergens": [
+        "crustaceans",
+        "sulphites"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "gp-riz"
+          ],
+          "qty": {
+            "amount": 300,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "300g de riz",
+            "en": "300g rice"
+          }
+        },
+        {
+          "ids": [
+            "fr-blanc-poulet",
+            "fr-cuisse-poulet"
+          ],
+          "qty": {
+            "amount": 300,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "300g de poulet",
+            "en": "300g chicken"
+          }
+        },
+        {
+          "ids": [
+            "fr-chorizo",
+            "frz-saucisses"
+          ],
+          "qty": {
+            "amount": 150,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "150g de chorizo",
+            "en": "150g sausage"
+          }
+        },
+        {
+          "ids": [
+            "fr-crevettes",
+            "frz-crevettes"
+          ],
+          "qty": {
+            "amount": 200,
+            "unit": "g"
+          },
+          "required": false,
+          "labels": {
+            "fr": "200g de crevettes",
+            "en": "200g shrimp"
+          }
+        },
+        {
+          "ids": [
+            "vg-poivron",
+            "vg-celeri",
+            "vg-oignon"
+          ],
+          "qty": {
+            "amount": 300,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Poivron, céleri, oignon",
+            "en": "Pepper, celery, onion"
+          }
+        },
+        {
+          "ids": [
+            "sp-paprika",
+            "gp-tomates-concas"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "cc"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Paprika et tomates",
+            "en": "Paprika and tomatoes"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Faire dorer le poulet et le chorizo, réserver.",
+          "Faire revenir poivron, céleri et oignon.",
+          "Ajouter le riz, les épices et les tomates.",
+          "Verser le bouillon, remettre les viandes et cuire 18 min.",
+          "Ajouter les crevettes en fin de cuisson et servir."
+        ],
+        "en": [
+          "Brown the chicken and sausage, set aside.",
+          "Sauté the pepper, celery and onion.",
+          "Add the rice, spices and tomatoes.",
+          "Pour in stock, return the meats and cook 18 min.",
+          "Add the shrimp near the end and serve."
+        ]
+      },
+      "functional_tags": [
+        "batch_cooking"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "buffalo-wings",
+      "name": {
+        "fr": "Ailes de poulet Buffalo",
+        "en": "Buffalo wings"
+      },
+      "description": {
+        "fr": "Des ailes de poulet croustillantes enrobées d'une sauce piquante au beurre — l'apéritif américain incontournable, à tremper dans une sauce fraîche.",
+        "en": "Crispy chicken wings tossed in a spicy butter sauce — the essential American appetiser, with a cool dip on the side."
+      },
+      "emoji": "🍗",
+      "time_min": 45,
+      "prep_time_min": 15,
+      "cook_time_min": 30,
+      "difficulty": "easy",
+      "type": "starter",
+      "servings": 4,
+      "country": "us",
+      "diet": [
+        "gluten-free"
+      ],
+      "allergens": [
+        "milk"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "fr-cuisse-poulet",
+            "frz-cuisses"
+          ],
+          "qty": {
+            "amount": 1000,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 kg d'ailes de poulet",
+            "en": "1kg chicken wings"
+          }
+        },
+        {
+          "ids": [
+            "sp-tabasco",
+            "sp-sriracha",
+            "sp-sauces-piment"
+          ],
+          "qty": {
+            "amount": 6,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Sauce piquante",
+            "en": "Hot sauce"
+          }
+        },
+        {
+          "ids": [
+            "fr-beurre"
+          ],
+          "qty": {
+            "amount": 50,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "50g de beurre",
+            "en": "50g butter"
+          }
+        },
+        {
+          "ids": [
+            "sp-paprika",
+            "vg-ail"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cc"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Paprika et ail",
+            "en": "Paprika and garlic"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Assaisonner les ailes de paprika et les rôtir 30 min à 200°C.",
+          "Faire fondre le beurre avec la sauce piquante.",
+          "Enrober les ailes chaudes de sauce.",
+          "Bien les laquer.",
+          "Servir avec des bâtonnets de céleri et une sauce fraîche."
+        ],
+        "en": [
+          "Season the wings with paprika and roast 30 min at 200°C.",
+          "Melt the butter with the hot sauce.",
+          "Toss the hot wings in the sauce.",
+          "Coat them well.",
+          "Serve with celery sticks and a cool dip."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "club-sandwich",
+      "name": {
+        "fr": "Club sandwich",
+        "en": "Club sandwich"
+      },
+      "description": {
+        "fr": "Un sandwich à trois étages de poulet, bacon, tomate, salade et mayonnaise — copieux, croustillant et idéal au déjeuner.",
+        "en": "A triple-decker sandwich of chicken, bacon, tomato, lettuce and mayo — hearty, crisp and perfect for lunch."
+      },
+      "emoji": "🥪",
+      "time_min": 20,
+      "prep_time_min": 15,
+      "cook_time_min": 5,
+      "difficulty": "very-easy",
+      "type": "main",
+      "servings": 2,
+      "country": "us",
+      "diet": [],
+      "allergens": [
+        "gluten",
+        "eggs",
+        "milk"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "gp-pain-mie"
+          ],
+          "qty": {
+            "amount": 6,
+            "unit": "tranche"
+          },
+          "required": true,
+          "labels": {
+            "fr": "6 tranches de pain de mie",
+            "en": "6 slices of bread"
+          }
+        },
+        {
+          "ids": [
+            "fr-blanc-poulet"
+          ],
+          "qty": {
+            "amount": 200,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "200g de poulet",
+            "en": "200g chicken"
+          }
+        },
+        {
+          "ids": [
+            "fr-bacon",
+            "fr-lardons"
+          ],
+          "qty": {
+            "amount": 4,
+            "unit": "tranche"
+          },
+          "required": true,
+          "labels": {
+            "fr": "4 tranches de bacon",
+            "en": "4 slices of bacon"
+          }
+        },
+        {
+          "ids": [
+            "vg-tomate",
+            "vg-laitue"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Tomate et laitue",
+            "en": "Tomato and lettuce"
+          }
+        },
+        {
+          "ids": [
+            "sp-mayonnaise"
+          ],
+          "qty": {
+            "amount": 3,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Mayonnaise",
+            "en": "Mayonnaise"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Griller le pain de mie.",
+          "Cuire le bacon jusqu'à ce qu'il soit croustillant.",
+          "Tartiner de mayonnaise.",
+          "Monter les étages : poulet, bacon, tomate, salade.",
+          "Couper en triangles et piquer de cure-dents."
+        ],
+        "en": [
+          "Toast the bread.",
+          "Cook the bacon until crisp.",
+          "Spread with mayonnaise.",
+          "Build the layers: chicken, bacon, tomato, lettuce.",
+          "Cut into triangles and pin with toothpicks."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "bbq-ribs",
+      "name": {
+        "fr": "Travers de porc BBQ",
+        "en": "BBQ pork ribs"
+      },
+      "description": {
+        "fr": "Des travers de porc cuits lentement puis laqués de sauce barbecue, fondants et caramélisés — le plat à partager des étés américains.",
+        "en": "Pork ribs slow-cooked then glazed in barbecue sauce, tender and caramelised — the sharing dish of American summers."
+      },
+      "emoji": "🍖",
+      "time_min": 150,
+      "prep_time_min": 15,
+      "cook_time_min": 135,
+      "difficulty": "medium",
+      "type": "main",
+      "servings": 4,
+      "country": "us",
+      "diet": [
+        "dairy-free"
+      ],
+      "allergens": [
+        "gluten"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "fr-travers-porc"
+          ],
+          "qty": {
+            "amount": 1200,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1,2 kg de travers de porc",
+            "en": "1.2kg pork ribs"
+          }
+        },
+        {
+          "ids": [
+            "sp-sauce-bbq"
+          ],
+          "qty": {
+            "amount": 8,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "8 c. à soupe de sauce barbecue",
+            "en": "8 tbsp BBQ sauce"
+          }
+        },
+        {
+          "ids": [
+            "sp-paprika",
+            "gp-cassonade"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Paprika fumé et cassonade",
+            "en": "Smoked paprika and brown sugar"
+          }
+        },
+        {
+          "ids": [
+            "vg-ail",
+            "sp-cumin"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "gousse"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Ail et cumin",
+            "en": "Garlic and cumin"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Frotter les travers d'un mélange paprika, cassonade et épices.",
+          "Les cuire au four à 150°C 2h sous papier aluminium.",
+          "Découvrir et badigeonner de sauce barbecue.",
+          "Cuire encore 20 min à 200°C pour caraméliser.",
+          "Découper entre les os et servir."
+        ],
+        "en": [
+          "Rub the ribs with a paprika, brown sugar and spice mix.",
+          "Bake at 150°C for 2h covered with foil.",
+          "Uncover and brush with BBQ sauce.",
+          "Bake another 20 min at 200°C to caramelise.",
+          "Cut between the bones and serve."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "gumbo",
+      "name": {
+        "fr": "Gumbo",
+        "en": "Gumbo"
+      },
+      "description": {
+        "fr": "Un ragoût épais de Louisiane à base de roux, poulet, saucisse et crevettes, parfumé au gombo — riche, épicé et profondément réconfortant.",
+        "en": "A thick Louisiana stew built on a roux, with chicken, sausage and shrimp, flavoured with okra — rich, spicy and deeply comforting."
+      },
+      "emoji": "🍲",
+      "time_min": 75,
+      "prep_time_min": 25,
+      "cook_time_min": 50,
+      "difficulty": "hard",
+      "type": "main",
+      "servings": 6,
+      "country": "us",
+      "diet": [
+        "dairy-free"
+      ],
+      "allergens": [
+        "gluten",
+        "crustaceans",
+        "sulphites"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "fr-cuisse-poulet",
+            "fr-blanc-poulet"
+          ],
+          "qty": {
+            "amount": 400,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "400g de poulet",
+            "en": "400g chicken"
+          }
+        },
+        {
+          "ids": [
+            "fr-chorizo",
+            "frz-saucisses"
+          ],
+          "qty": {
+            "amount": 200,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "200g de saucisse fumée",
+            "en": "200g smoked sausage"
+          }
+        },
+        {
+          "ids": [
+            "fr-crevettes",
+            "frz-crevettes"
+          ],
+          "qty": {
+            "amount": 200,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "200g de crevettes",
+            "en": "200g shrimp"
+          }
+        },
+        {
+          "ids": [
+            "vg-gombo",
+            "vg-poivron",
+            "vg-celeri"
+          ],
+          "qty": {
+            "amount": 300,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Gombo, poivron, céleri",
+            "en": "Okra, pepper, celery"
+          }
+        },
+        {
+          "ids": [
+            "gp-farine",
+            "sp-paprika"
+          ],
+          "qty": {
+            "amount": 60,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Farine (roux) et paprika",
+            "en": "Flour (roux) and paprika"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Préparer un roux brun avec la farine et l'huile.",
+          "Ajouter poivron, céleri et oignon (la trinité).",
+          "Verser le bouillon, ajouter poulet, saucisse et gombo.",
+          "Mijoter 40 min.",
+          "Ajouter les crevettes en fin de cuisson et servir sur du riz."
+        ],
+        "en": [
+          "Make a brown roux with the flour and oil.",
+          "Add pepper, celery and onion (the trinity).",
+          "Pour in stock, add chicken, sausage and okra.",
+          "Simmer 40 min.",
+          "Add the shrimp near the end and serve over rice."
+        ]
+      },
+      "functional_tags": [
+        "batch_cooking"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "hot-dog-maison",
+      "name": {
+        "fr": "Hot-dog maison",
+        "en": "Homemade hot dog"
+      },
+      "description": {
+        "fr": "Une saucisse dans un pain moelleux, garnie d'oignons dorés, de moutarde et de ketchup — le snack américain réconfortant à composer.",
+        "en": "A sausage in a soft bun, topped with golden onions, mustard and ketchup — the comforting American snack to build."
+      },
+      "emoji": "🌭",
+      "time_min": 20,
+      "prep_time_min": 10,
+      "cook_time_min": 10,
+      "difficulty": "very-easy",
+      "type": "main",
+      "servings": 4,
+      "country": "us",
+      "diet": [],
+      "allergens": [
+        "gluten",
+        "mustard",
+        "milk"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "frz-saucisses",
+            "fr-saucisse-seche"
+          ],
+          "qty": {
+            "amount": 4,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "4 saucisses",
+            "en": "4 sausages"
+          }
+        },
+        {
+          "ids": [
+            "gp-pain-burger",
+            "gp-pain-mie"
+          ],
+          "qty": {
+            "amount": 4,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "4 pains à hot-dog",
+            "en": "4 hot dog buns"
+          }
+        },
+        {
+          "ids": [
+            "vg-oignon"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 oignons",
+            "en": "2 onions"
+          }
+        },
+        {
+          "ids": [
+            "sp-moutarde",
+            "sp-ketchup"
+          ],
+          "qty": {
+            "amount": 4,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Moutarde et ketchup",
+            "en": "Mustard and ketchup"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Faire dorer lentement les oignons émincés.",
+          "Pocher ou griller les saucisses.",
+          "Réchauffer les pains et les ouvrir.",
+          "Déposer la saucisse, les oignons, moutarde et ketchup.",
+          "Servir aussitôt."
+        ],
+        "en": [
+          "Slowly brown the sliced onions.",
+          "Poach or grill the sausages.",
+          "Warm the buns and open them.",
+          "Add the sausage, onions, mustard and ketchup.",
+          "Serve at once."
+        ]
+      },
+      "functional_tags": [
+        "kids_friendly"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "cobb-salad",
+      "name": {
+        "fr": "Salade Cobb",
+        "en": "Cobb salad"
+      },
+      "description": {
+        "fr": "Une salade composée américaine de poulet, bacon, œuf, avocat et bleu, disposée en rangées colorées — complète et généreuse.",
+        "en": "An American composed salad of chicken, bacon, egg, avocado and blue cheese, arranged in colourful rows — complete and generous."
+      },
+      "emoji": "🥗",
+      "time_min": 30,
+      "prep_time_min": 25,
+      "cook_time_min": 5,
+      "difficulty": "easy",
+      "type": "salad",
+      "servings": 4,
+      "country": "us",
+      "diet": [
+        "gluten-free"
+      ],
+      "allergens": [
+        "eggs",
+        "milk"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "vg-laitue",
+            "vg-salade-verte"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 laitue",
+            "en": "1 lettuce"
+          }
+        },
+        {
+          "ids": [
+            "fr-blanc-poulet"
+          ],
+          "qty": {
+            "amount": 300,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "300g de poulet",
+            "en": "300g chicken"
+          }
+        },
+        {
+          "ids": [
+            "fr-bacon",
+            "fr-lardons"
+          ],
+          "qty": {
+            "amount": 100,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "100g de bacon",
+            "en": "100g bacon"
+          }
+        },
+        {
+          "ids": [
+            "fr-oeuf",
+            "fr-avocat"
+          ],
+          "qty": {
+            "amount": 3,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Œufs durs et avocat",
+            "en": "Boiled eggs and avocado"
+          }
+        },
+        {
+          "ids": [
+            "fr-roquefort",
+            "fr-fourme"
+          ],
+          "qty": {
+            "amount": 80,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "80g de bleu",
+            "en": "80g blue cheese"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Cuire le poulet et le couper en dés.",
+          "Cuire le bacon et les œufs durs.",
+          "Disposer la laitue dans un grand plat.",
+          "Aligner en rangées poulet, bacon, œuf, avocat et bleu.",
+          "Arroser de vinaigrette et servir."
+        ],
+        "en": [
+          "Cook the chicken and dice it.",
+          "Cook the bacon and boil the eggs.",
+          "Spread the lettuce in a large dish.",
+          "Arrange in rows the chicken, bacon, egg, avocado and blue cheese.",
+          "Drizzle with dressing and serve."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "cornbread",
+      "name": {
+        "fr": "Cornbread (pain de maïs)",
+        "en": "Cornbread"
+      },
+      "description": {
+        "fr": "Un pain de maïs moelleux et légèrement sucré, doré au four — l'accompagnement américain parfait des plats mijotés et du chili.",
+        "en": "A moist, slightly sweet cornbread, baked golden — the perfect American side for stews and chili."
+      },
+      "emoji": "🌽",
+      "time_min": 35,
+      "prep_time_min": 10,
+      "cook_time_min": 25,
+      "difficulty": "easy",
+      "type": "side",
+      "servings": 6,
+      "country": "us",
+      "diet": [
+        "vegetarian"
+      ],
+      "allergens": [
+        "gluten",
+        "eggs",
+        "milk"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "gp-semoule",
+            "gp-farine"
+          ],
+          "qty": {
+            "amount": 200,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "200g de farine de maïs",
+            "en": "200g cornmeal"
+          }
+        },
+        {
+          "ids": [
+            "gp-farine"
+          ],
+          "qty": {
+            "amount": 100,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "100g de farine",
+            "en": "100g flour"
+          }
+        },
+        {
+          "ids": [
+            "fr-oeuf"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 œufs",
+            "en": "2 eggs"
+          }
+        },
+        {
+          "ids": [
+            "fr-lait",
+            "fr-yaourt"
+          ],
+          "qty": {
+            "amount": 25,
+            "unit": "cl"
+          },
+          "required": true,
+          "labels": {
+            "fr": "25 cl de lait",
+            "en": "250ml milk"
+          }
+        },
+        {
+          "ids": [
+            "gp-levure",
+            "fr-beurre"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Levure et beurre",
+            "en": "Baking powder and butter"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Mélanger les farines, la levure, le sel et un peu de sucre.",
+          "Ajouter les œufs, le lait et le beurre fondu.",
+          "Verser dans un moule beurré.",
+          "Cuire 25 min à 190°C jusqu'à ce que ce soit doré.",
+          "Servir tiède, coupé en parts."
+        ],
+        "en": [
+          "Mix the flours, baking powder, salt and a little sugar.",
+          "Add the eggs, milk and melted butter.",
+          "Pour into a buttered tin.",
+          "Bake 25 min at 190°C until golden.",
+          "Serve warm, cut into pieces."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "onion-rings",
+      "name": {
+        "fr": "Onion rings",
+        "en": "Onion rings"
+      },
+      "description": {
+        "fr": "Des rondelles d'oignon enrobées de pâte croustillante et frites jusqu'à être dorées — un en-cas américain irrésistible à tremper.",
+        "en": "Onion rings in a crispy batter, fried golden — an irresistible American snack to dip."
+      },
+      "emoji": "🧅",
+      "time_min": 25,
+      "prep_time_min": 12,
+      "cook_time_min": 13,
+      "difficulty": "easy",
+      "type": "starter",
+      "servings": 4,
+      "country": "us",
+      "diet": [
+        "vegetarian",
+        "dairy-free"
+      ],
+      "allergens": [
+        "gluten"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "vg-oignon"
+          ],
+          "qty": {
+            "amount": 3,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "3 gros oignons",
+            "en": "3 large onions"
+          }
+        },
+        {
+          "ids": [
+            "gp-farine"
+          ],
+          "qty": {
+            "amount": 150,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "150g de farine",
+            "en": "150g flour"
+          }
+        },
+        {
+          "ids": [
+            "gp-chapelure",
+            "gp-panko"
+          ],
+          "qty": {
+            "amount": 100,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "100g de chapelure",
+            "en": "100g breadcrumbs"
+          }
+        },
+        {
+          "ids": [
+            "sp-paprika",
+            "gp-levure"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cc"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Paprika et levure",
+            "en": "Paprika and baking powder"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Couper les oignons en rondelles épaisses et les séparer.",
+          "Préparer une pâte avec la farine, l'eau pétillante et le paprika.",
+          "Tremper les rondelles dans la pâte puis la chapelure.",
+          "Frire jusqu'à ce qu'elles soient dorées.",
+          "Égoutter et servir avec une sauce."
+        ],
+        "en": [
+          "Cut the onions into thick rings and separate them.",
+          "Make a batter with the flour, sparkling water and paprika.",
+          "Dip the rings in batter then breadcrumbs.",
+          "Fry until golden.",
+          "Drain and serve with a dip."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "carrot-cake",
+      "name": {
+        "fr": "Carrot cake",
+        "en": "Carrot cake"
+      },
+      "description": {
+        "fr": "Un gâteau moelleux à la carotte et aux épices, recouvert d'un glaçage au fromage frais — doux, parfumé et terriblement gourmand.",
+        "en": "A moist spiced carrot cake topped with a cream cheese frosting — soft, fragrant and seriously indulgent."
+      },
+      "emoji": "🥕",
+      "time_min": 60,
+      "prep_time_min": 25,
+      "cook_time_min": 35,
+      "difficulty": "easy",
+      "type": "dessert",
+      "servings": 8,
+      "country": "us",
+      "diet": [
+        "vegetarian"
+      ],
+      "allergens": [
+        "gluten",
+        "eggs",
+        "milk",
+        "nuts"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "vg-carottes"
+          ],
+          "qty": {
+            "amount": 300,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "300g de carottes",
+            "en": "300g carrots"
+          }
+        },
+        {
+          "ids": [
+            "gp-farine"
+          ],
+          "qty": {
+            "amount": 250,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "250g de farine",
+            "en": "250g flour"
+          }
+        },
+        {
+          "ids": [
+            "fr-oeuf"
+          ],
+          "qty": {
+            "amount": 3,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "3 œufs",
+            "en": "3 eggs"
+          }
+        },
+        {
+          "ids": [
+            "gp-sucre",
+            "gp-cassonade"
+          ],
+          "qty": {
+            "amount": 180,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "180g de sucre",
+            "en": "180g sugar"
+          }
+        },
+        {
+          "ids": [
+            "fr-fromage-frais",
+            "fr-mascarpone"
+          ],
+          "qty": {
+            "amount": 200,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "200g de fromage frais (glaçage)",
+            "en": "200g cream cheese (frosting)"
+          }
+        },
+        {
+          "ids": [
+            "sp-cannelle",
+            "gp-noix"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "cc"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Cannelle et noix",
+            "en": "Cinnamon and walnuts"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Râper les carottes.",
+          "Battre les œufs, le sucre et l'huile, ajouter farine, levure et cannelle.",
+          "Incorporer les carottes et les noix.",
+          "Cuire 35 min à 175°C.",
+          "Laisser refroidir et étaler le glaçage au fromage frais."
+        ],
+        "en": [
+          "Grate the carrots.",
+          "Beat the eggs, sugar and oil, add flour, baking powder and cinnamon.",
+          "Fold in the carrots and walnuts.",
+          "Bake 35 min at 175°C.",
+          "Cool and spread the cream cheese frosting."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "pumpkin-pie",
+      "name": {
+        "fr": "Pumpkin pie (tarte au potiron)",
+        "en": "Pumpkin pie"
+      },
+      "description": {
+        "fr": "Une tarte crémeuse au potiron et aux épices douces, sur une pâte croustillante — le dessert emblématique de Thanksgiving.",
+        "en": "A creamy spiced pumpkin tart on a crisp crust — the iconic Thanksgiving dessert."
+      },
+      "emoji": "🥧",
+      "time_min": 70,
+      "prep_time_min": 20,
+      "cook_time_min": 50,
+      "difficulty": "medium",
+      "type": "dessert",
+      "servings": 8,
+      "country": "us",
+      "diet": [
+        "vegetarian"
+      ],
+      "allergens": [
+        "gluten",
+        "eggs",
+        "milk"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "vg-potiron",
+            "vg-potimarron",
+            "vg-butternut"
+          ],
+          "qty": {
+            "amount": 600,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "600g de potiron",
+            "en": "600g pumpkin"
+          }
+        },
+        {
+          "ids": [
+            "fr-pate-brisee",
+            "fr-pate-sablee"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 pâte brisée",
+            "en": "1 shortcrust pastry"
+          }
+        },
+        {
+          "ids": [
+            "fr-oeuf"
+          ],
+          "qty": {
+            "amount": 3,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "3 œufs",
+            "en": "3 eggs"
+          }
+        },
+        {
+          "ids": [
+            "fr-creme-liquide",
+            "fr-lait"
+          ],
+          "qty": {
+            "amount": 20,
+            "unit": "cl"
+          },
+          "required": true,
+          "labels": {
+            "fr": "20 cl de crème",
+            "en": "200ml cream"
+          }
+        },
+        {
+          "ids": [
+            "sp-cannelle",
+            "gp-cassonade"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "cc"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Cannelle et cassonade",
+            "en": "Cinnamon and brown sugar"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Cuire le potiron à la vapeur et le réduire en purée.",
+          "Mélanger purée, œufs, crème, sucre et épices.",
+          "Foncer un moule avec la pâte.",
+          "Verser l'appareil au potiron.",
+          "Cuire 45 min à 180°C, laisser refroidir et servir."
+        ],
+        "en": [
+          "Steam the pumpkin and purée it.",
+          "Mix the purée, eggs, cream, sugar and spices.",
+          "Line a tin with the pastry.",
+          "Pour in the pumpkin filling.",
+          "Bake 45 min at 180°C, cool and serve."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "blueberry-muffins",
+      "name": {
+        "fr": "Muffins aux myrtilles",
+        "en": "Blueberry muffins"
+      },
+      "description": {
+        "fr": "Des muffins moelleux parsemés de myrtilles juteuses, dorés et bombés — parfaits au petit-déjeuner ou au goûter.",
+        "en": "Soft muffins studded with juicy blueberries, golden and domed — perfect for breakfast or a snack."
+      },
+      "emoji": "🫐",
+      "time_min": 35,
+      "prep_time_min": 15,
+      "cook_time_min": 20,
+      "difficulty": "very-easy",
+      "type": "dessert",
+      "servings": 6,
+      "country": "us",
+      "diet": [
+        "vegetarian"
+      ],
+      "allergens": [
+        "gluten",
+        "eggs",
+        "milk"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "gp-farine"
+          ],
+          "qty": {
+            "amount": 250,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "250g de farine",
+            "en": "250g flour"
+          }
+        },
+        {
+          "ids": [
+            "fr-myrtille",
+            "fr-baies",
+            "fr-framboise"
+          ],
+          "qty": {
+            "amount": 200,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "200g de myrtilles",
+            "en": "200g blueberries"
+          }
+        },
+        {
+          "ids": [
+            "fr-oeuf"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 œufs",
+            "en": "2 eggs"
+          }
+        },
+        {
+          "ids": [
+            "gp-sucre"
+          ],
+          "qty": {
+            "amount": 120,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "120g de sucre",
+            "en": "120g sugar"
+          }
+        },
+        {
+          "ids": [
+            "fr-lait",
+            "gp-levure"
+          ],
+          "qty": {
+            "amount": 15,
+            "unit": "cl"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Lait et levure",
+            "en": "Milk and baking powder"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Mélanger la farine, le sucre et la levure.",
+          "Ajouter les œufs, le lait et le beurre fondu.",
+          "Incorporer délicatement les myrtilles.",
+          "Répartir dans des moules à muffins.",
+          "Cuire 20 min à 180°C et laisser refroidir."
+        ],
+        "en": [
+          "Mix the flour, sugar and baking powder.",
+          "Add the eggs, milk and melted butter.",
+          "Gently fold in the blueberries.",
+          "Divide into muffin tins.",
+          "Bake 20 min at 180°C and cool."
+        ]
+      },
+      "functional_tags": [
+        "kids_friendly"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "cinnamon-rolls",
+      "name": {
+        "fr": "Cinnamon rolls",
+        "en": "Cinnamon rolls"
+      },
+      "description": {
+        "fr": "Des brioches roulées à la cannelle et au sucre, nappées d'un glaçage crémeux — moelleuses, parfumées et réconfortantes.",
+        "en": "Soft cinnamon-sugar swirl buns topped with a creamy glaze — fluffy, fragrant and comforting."
+      },
+      "emoji": "🍥",
+      "time_min": 120,
+      "prep_time_min": 40,
+      "cook_time_min": 25,
+      "difficulty": "medium",
+      "type": "dessert",
+      "servings": 8,
+      "country": "us",
+      "diet": [
+        "vegetarian"
+      ],
+      "allergens": [
+        "gluten",
+        "eggs",
+        "milk"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "gp-farine"
+          ],
+          "qty": {
+            "amount": 400,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "400g de farine",
+            "en": "400g flour"
+          }
+        },
+        {
+          "ids": [
+            "gp-levure-boul",
+            "gp-levure-seche"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 sachet de levure",
+            "en": "1 sachet of yeast"
+          }
+        },
+        {
+          "ids": [
+            "sp-cannelle"
+          ],
+          "qty": {
+            "amount": 3,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "3 c. à soupe de cannelle",
+            "en": "3 tbsp cinnamon"
+          }
+        },
+        {
+          "ids": [
+            "gp-cassonade",
+            "gp-sucre"
+          ],
+          "qty": {
+            "amount": 150,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "150g de cassonade",
+            "en": "150g brown sugar"
+          }
+        },
+        {
+          "ids": [
+            "fr-beurre",
+            "fr-fromage-frais"
+          ],
+          "qty": {
+            "amount": 100,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Beurre et fromage frais (glaçage)",
+            "en": "Butter and cream cheese (glaze)"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Préparer une pâte levée et la laisser doubler.",
+          "L'étaler, la beurrer et la parsemer de sucre-cannelle.",
+          "Rouler et découper des tronçons.",
+          "Cuire 25 min à 180°C.",
+          "Napper du glaçage au fromage frais et servir tiède."
+        ],
+        "en": [
+          "Make a yeasted dough and let it double.",
+          "Roll it out, butter it and scatter with cinnamon sugar.",
+          "Roll up and cut into pieces.",
+          "Bake 25 min at 180°C.",
+          "Top with cream cheese glaze and serve warm."
+        ]
+      },
+      "functional_tags": [
+        "kids_friendly"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "peanut-butter-cookies",
+      "name": {
+        "fr": "Cookies au beurre de cacahuète",
+        "en": "Peanut butter cookies"
+      },
+      "description": {
+        "fr": "Des cookies fondants et légèrement croustillants au beurre de cacahuète, marqués à la fourchette — un classique américain en trois ingrédients.",
+        "en": "Soft, slightly crisp peanut butter cookies, fork-marked on top — an American classic in three ingredients."
+      },
+      "emoji": "🍪",
+      "time_min": 25,
+      "prep_time_min": 10,
+      "cook_time_min": 15,
+      "difficulty": "very-easy",
+      "type": "dessert",
+      "servings": 6,
+      "country": "us",
+      "diet": [
+        "vegetarian"
+      ],
+      "allergens": [
+        "peanuts",
+        "eggs"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "sp-beurre-cacahuete"
+          ],
+          "qty": {
+            "amount": 250,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "250g de beurre de cacahuète",
+            "en": "250g peanut butter"
+          }
+        },
+        {
+          "ids": [
+            "gp-sucre",
+            "gp-cassonade"
+          ],
+          "qty": {
+            "amount": 200,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "200g de sucre",
+            "en": "200g sugar"
+          }
+        },
+        {
+          "ids": [
+            "fr-oeuf"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 œuf",
+            "en": "1 egg"
+          }
+        },
+        {
+          "ids": [
+            "gp-pepites-choco"
+          ],
+          "qty": {
+            "amount": 80,
+            "unit": "g"
+          },
+          "required": false,
+          "labels": {
+            "fr": "80g de pépites de chocolat",
+            "en": "80g chocolate chips"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Mélanger le beurre de cacahuète, le sucre et l'œuf.",
+          "Former des boules et les aplatir avec une fourchette.",
+          "Disposer sur une plaque.",
+          "Cuire 12-15 min à 175°C.",
+          "Laisser refroidir pour qu'ils durcissent."
+        ],
+        "en": [
+          "Mix the peanut butter, sugar and egg.",
+          "Form balls and flatten them with a fork.",
+          "Arrange on a tray.",
+          "Bake 12-15 min at 175°C.",
+          "Cool so they firm up."
+        ]
+      },
+      "functional_tags": [
+        "kids_friendly"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "milkshake-vanille",
+      "name": {
+        "fr": "Milkshake à la vanille",
+        "en": "Vanilla milkshake"
+      },
+      "description": {
+        "fr": "Une boisson onctueuse et glacée de glace à la vanille mixée avec du lait — épaisse, mousseuse et nostalgique des diners américains.",
+        "en": "A thick, frosty blend of vanilla ice cream and milk — creamy, foamy and nostalgic of American diners."
+      },
+      "emoji": "🥤",
+      "time_min": 5,
+      "prep_time_min": 5,
+      "cook_time_min": 0,
+      "difficulty": "very-easy",
+      "type": "drink",
+      "servings": 2,
+      "country": "us",
+      "diet": [
+        "vegetarian",
+        "gluten-free"
+      ],
+      "allergens": [
+        "milk",
+        "eggs"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "frz-bac-vanille"
+          ],
+          "qty": {
+            "amount": 400,
+            "unit": "ml"
+          },
+          "required": true,
+          "labels": {
+            "fr": "400ml de glace vanille",
+            "en": "400ml vanilla ice cream"
+          }
+        },
+        {
+          "ids": [
+            "fr-lait",
+            "fr-lait-entier"
+          ],
+          "qty": {
+            "amount": 25,
+            "unit": "cl"
+          },
+          "required": true,
+          "labels": {
+            "fr": "25 cl de lait",
+            "en": "250ml milk"
+          }
+        },
+        {
+          "ids": [
+            "gp-extrait-vanille",
+            "gp-sirop-erable"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cc"
+          },
+          "required": false,
+          "labels": {
+            "fr": "Vanille",
+            "en": "Vanilla"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Mettre la glace et le lait dans un blender.",
+          "Ajouter la vanille.",
+          "Mixer jusqu'à obtenir une texture épaisse et lisse.",
+          "Verser dans des grands verres.",
+          "Servir aussitôt avec une paille."
+        ],
+        "en": [
+          "Put the ice cream and milk in a blender.",
+          "Add the vanilla.",
+          "Blend until thick and smooth.",
+          "Pour into tall glasses.",
+          "Serve at once with a straw."
+        ]
+      },
+      "functional_tags": [
+        "kids_friendly"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "iced-tea-citron",
+      "name": {
+        "fr": "Thé glacé au citron",
+        "en": "Lemon iced tea"
+      },
+      "description": {
+        "fr": "Un thé infusé refroidi, à peine sucré et parfumé au citron et à la menthe — la boisson rafraîchissante des étés américains.",
+        "en": "Cooled brewed tea, barely sweetened and flavoured with lemon and mint — the refreshing drink of American summers."
+      },
+      "emoji": "🧊",
+      "time_min": 10,
+      "prep_time_min": 5,
+      "cook_time_min": 5,
+      "difficulty": "very-easy",
+      "type": "drink",
+      "servings": 4,
+      "country": "us",
+      "diet": [
+        "vegan",
+        "vegetarian",
+        "gluten-free",
+        "dairy-free"
+      ],
+      "allergens": [],
+      "ingredients": [
+        {
+          "ids": [
+            "gp-cafe"
+          ],
+          "qty": {
+            "amount": 3,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "3 sachets de thé noir",
+            "en": "3 black tea bags"
+          }
+        },
+        {
+          "ids": [
+            "fr-citron"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 citrons",
+            "en": "2 lemons"
+          }
+        },
+        {
+          "ids": [
+            "gp-sucre",
+            "gp-miel"
+          ],
+          "qty": {
+            "amount": 50,
+            "unit": "g"
+          },
+          "required": false,
+          "labels": {
+            "fr": "Sucre",
+            "en": "Sugar"
+          }
+        },
+        {
+          "ids": [
+            "sp-menthe"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "botte"
+          },
+          "required": false,
+          "labels": {
+            "fr": "Menthe",
+            "en": "Mint"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Infuser le thé dans 1 L d'eau chaude 5 min.",
+          "Retirer les sachets et ajouter le sucre.",
+          "Laisser refroidir complètement.",
+          "Ajouter le jus de citron, la menthe et des glaçons.",
+          "Servir bien frais."
+        ],
+        "en": [
+          "Brew the tea in 1 L hot water for 5 min.",
+          "Remove the bags and add the sugar.",
+          "Let cool completely.",
+          "Add the lemon juice, mint and ice cubes.",
+          "Serve well chilled."
+        ]
+      },
+      "functional_tags": [
+        "kids_friendly"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "key-lime-pie",
+      "name": {
+        "fr": "Key lime pie",
+        "en": "Key lime pie"
+      },
+      "description": {
+        "fr": "Une tarte crémeuse et acidulée au citron vert sur une base de biscuits, fraîche et fondante — le dessert ensoleillé de Floride.",
+        "en": "A creamy, tangy lime pie on a biscuit base, fresh and silky — Florida's sunny dessert."
+      },
+      "emoji": "🥧",
+      "time_min": 40,
+      "prep_time_min": 25,
+      "cook_time_min": 15,
+      "difficulty": "easy",
+      "type": "dessert",
+      "servings": 8,
+      "country": "us",
+      "diet": [
+        "vegetarian"
+      ],
+      "allergens": [
+        "gluten",
+        "eggs",
+        "milk"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "gp-boudoirs",
+            "gp-biscuits-sale",
+            "gp-crackers-biscuits"
+          ],
+          "qty": {
+            "amount": 250,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "250g de biscuits",
+            "en": "250g biscuits"
+          }
+        },
+        {
+          "ids": [
+            "fr-citron-vert"
+          ],
+          "qty": {
+            "amount": 4,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "4 citrons verts",
+            "en": "4 limes"
+          }
+        },
+        {
+          "ids": [
+            "fr-lait",
+            "fr-creme-liquide"
+          ],
+          "qty": {
+            "amount": 40,
+            "unit": "cl"
+          },
+          "required": true,
+          "labels": {
+            "fr": "40 cl de lait concentré sucré",
+            "en": "400ml condensed milk"
+          }
+        },
+        {
+          "ids": [
+            "fr-oeuf"
+          ],
+          "qty": {
+            "amount": 3,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "3 jaunes d'œufs",
+            "en": "3 egg yolks"
+          }
+        },
+        {
+          "ids": [
+            "fr-beurre"
+          ],
+          "qty": {
+            "amount": 100,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "100g de beurre",
+            "en": "100g butter"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Mixer les biscuits et les mélanger au beurre fondu pour la base.",
+          "Tasser dans un moule.",
+          "Battre les jaunes, le lait concentré et le jus de citron vert.",
+          "Verser sur la base et cuire 15 min à 160°C.",
+          "Réfrigérer plusieurs heures et servir."
+        ],
+        "en": [
+          "Blend the biscuits and mix with melted butter for the base.",
+          "Press into a tin.",
+          "Beat the yolks, condensed milk and lime juice.",
+          "Pour over the base and bake 15 min at 160°C.",
+          "Chill for several hours and serve."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "buddha-bowl",
+      "name": {
+        "fr": "Buddha bowl",
+        "en": "Buddha bowl"
+      },
+      "description": {
+        "fr": "Un bol équilibré de céréales, légumes rôtis, pois chiches et avocat, avec une sauce crémeuse au tahini — sain, coloré et végétalien.",
+        "en": "A balanced bowl of grains, roasted vegetables, chickpeas and avocado, with a creamy tahini sauce — healthy, colourful and vegan."
+      },
+      "emoji": "🥗",
+      "time_min": 35,
+      "prep_time_min": 15,
+      "cook_time_min": 20,
+      "difficulty": "easy",
+      "type": "main",
+      "servings": 4,
+      "country": "intl",
+      "diet": [
+        "vegan",
+        "vegetarian",
+        "dairy-free"
+      ],
+      "allergens": [
+        "sesame"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "gp-quinoa",
+            "gp-riz-complet",
+            "gp-boulgour"
+          ],
+          "qty": {
+            "amount": 250,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "250g de quinoa",
+            "en": "250g quinoa"
+          }
+        },
+        {
+          "ids": [
+            "gp-pois-chiches"
+          ],
+          "qty": {
+            "amount": 250,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "250g de pois chiches",
+            "en": "250g chickpeas"
+          }
+        },
+        {
+          "ids": [
+            "vg-patate-douce",
+            "vg-courgette",
+            "vg-brocoli"
+          ],
+          "qty": {
+            "amount": 400,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "400g de légumes",
+            "en": "400g vegetables"
+          }
+        },
+        {
+          "ids": [
+            "fr-avocat"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 avocat",
+            "en": "1 avocado"
+          }
+        },
+        {
+          "ids": [
+            "sp-tahini",
+            "fr-citron"
+          ],
+          "qty": {
+            "amount": 3,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Tahini et citron (sauce)",
+            "en": "Tahini and lemon (sauce)"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Cuire le quinoa.",
+          "Rôtir les légumes et les pois chiches épicés au four.",
+          "Préparer une sauce tahini-citron.",
+          "Dresser le quinoa, les légumes, les pois chiches et l'avocat en bol.",
+          "Arroser de sauce et servir."
+        ],
+        "en": [
+          "Cook the quinoa.",
+          "Roast the vegetables and spiced chickpeas in the oven.",
+          "Make a tahini-lemon sauce.",
+          "Build the bowl with quinoa, vegetables, chickpeas and avocado.",
+          "Drizzle with sauce and serve."
+        ]
+      },
+      "functional_tags": [
+        "batch_cooking"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "overnight-oats",
+      "name": {
+        "fr": "Overnight oats",
+        "en": "Overnight oats"
+      },
+      "description": {
+        "fr": "Des flocons d'avoine trempés une nuit dans du lait avec des graines de chia et des fruits — un petit-déjeuner sain, sans cuisson, prêt au réveil.",
+        "en": "Oats soaked overnight in milk with chia seeds and fruit — a healthy, no-cook breakfast, ready when you wake up."
+      },
+      "emoji": "🥣",
+      "time_min": 10,
+      "prep_time_min": 10,
+      "cook_time_min": 0,
+      "difficulty": "very-easy",
+      "type": "dessert",
+      "servings": 2,
+      "country": "intl",
+      "diet": [
+        "vegetarian"
+      ],
+      "allergens": [
+        "gluten",
+        "milk"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "gp-flocons-avoine",
+            "gp-avoine"
+          ],
+          "qty": {
+            "amount": 120,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "120g de flocons d'avoine",
+            "en": "120g rolled oats"
+          }
+        },
+        {
+          "ids": [
+            "fr-lait",
+            "fr-lait-amande",
+            "fr-yaourt"
+          ],
+          "qty": {
+            "amount": 30,
+            "unit": "cl"
+          },
+          "required": true,
+          "labels": {
+            "fr": "30 cl de lait",
+            "en": "300ml milk"
+          }
+        },
+        {
+          "ids": [
+            "gp-chia"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 c. à soupe de graines de chia",
+            "en": "2 tbsp chia seeds"
+          }
+        },
+        {
+          "ids": [
+            "fr-banane",
+            "fr-baies",
+            "gp-miel"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Fruits et miel",
+            "en": "Fruit and honey"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Mélanger les flocons, le lait et les graines de chia.",
+          "Sucrer légèrement au miel.",
+          "Répartir dans des bocaux.",
+          "Réfrigérer toute une nuit.",
+          "Garnir de fruits frais au matin et déguster."
+        ],
+        "en": [
+          "Mix the oats, milk and chia seeds.",
+          "Sweeten lightly with honey.",
+          "Divide into jars.",
+          "Refrigerate overnight.",
+          "Top with fresh fruit in the morning and enjoy."
+        ]
+      },
+      "functional_tags": [
+        "kids_friendly"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "wrap-vegetarien",
+      "name": {
+        "fr": "Wrap végétarien",
+        "en": "Vegetarian wrap"
+      },
+      "description": {
+        "fr": "Une tortilla roulée garnie de houmous, de légumes croquants et de feta — un déjeuner rapide, frais et nomade.",
+        "en": "A rolled tortilla filled with hummus, crunchy vegetables and feta — a quick, fresh and portable lunch."
+      },
+      "emoji": "🌯",
+      "time_min": 15,
+      "prep_time_min": 15,
+      "cook_time_min": 0,
+      "difficulty": "very-easy",
+      "type": "main",
+      "servings": 4,
+      "country": "intl",
+      "diet": [
+        "vegetarian"
+      ],
+      "allergens": [
+        "gluten",
+        "milk",
+        "sesame"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "gp-tortillas"
+          ],
+          "qty": {
+            "amount": 4,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "4 grandes tortillas",
+            "en": "4 large tortillas"
+          }
+        },
+        {
+          "ids": [
+            "gp-pois-chiches",
+            "sp-tahini"
+          ],
+          "qty": {
+            "amount": 200,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Houmous",
+            "en": "Hummus"
+          }
+        },
+        {
+          "ids": [
+            "vg-concombre",
+            "vg-carottes",
+            "vg-poivron",
+            "vg-salade"
+          ],
+          "qty": {
+            "amount": 300,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "300g de crudités",
+            "en": "300g raw vegetables"
+          }
+        },
+        {
+          "ids": [
+            "fr-feta",
+            "fr-fromage-frais"
+          ],
+          "qty": {
+            "amount": 100,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "100g de feta",
+            "en": "100g feta"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Tartiner chaque tortilla de houmous.",
+          "Tailler les légumes en bâtonnets.",
+          "Répartir crudités et feta émiettée.",
+          "Rouler serré en repliant les côtés.",
+          "Couper en deux et servir."
+        ],
+        "en": [
+          "Spread each tortilla with hummus.",
+          "Cut the vegetables into sticks.",
+          "Spread the vegetables and crumbled feta.",
+          "Roll tightly, folding in the sides.",
+          "Cut in half and serve."
+        ]
+      },
+      "functional_tags": [
+        "anti_waste"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "soupe-lentilles-curry",
+      "name": {
+        "fr": "Soupe de lentilles au curry",
+        "en": "Curried lentil soup"
+      },
+      "description": {
+        "fr": "Une soupe veloutée de lentilles et de carottes parfumée au curry et au lait de coco — réconfortante, végétalienne et nourrissante.",
+        "en": "A velvety lentil and carrot soup flavoured with curry and coconut milk — comforting, vegan and nourishing."
+      },
+      "emoji": "🍲",
+      "time_min": 35,
+      "prep_time_min": 10,
+      "cook_time_min": 25,
+      "difficulty": "very-easy",
+      "type": "starter",
+      "servings": 4,
+      "country": "intl",
+      "diet": [
+        "vegan",
+        "vegetarian",
+        "gluten-free",
+        "dairy-free"
+      ],
+      "allergens": [],
+      "ingredients": [
+        {
+          "ids": [
+            "gp-lentilles-coral",
+            "gp-lentilles"
+          ],
+          "qty": {
+            "amount": 250,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "250g de lentilles corail",
+            "en": "250g red lentils"
+          }
+        },
+        {
+          "ids": [
+            "vg-carottes"
+          ],
+          "qty": {
+            "amount": 3,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "3 carottes",
+            "en": "3 carrots"
+          }
+        },
+        {
+          "ids": [
+            "gp-lait-coco"
+          ],
+          "qty": {
+            "amount": 20,
+            "unit": "cl"
+          },
+          "required": true,
+          "labels": {
+            "fr": "20 cl de lait de coco",
+            "en": "200ml coconut milk"
+          }
+        },
+        {
+          "ids": [
+            "sp-curry",
+            "sp-curcuma"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "cc"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Curry et curcuma",
+            "en": "Curry and turmeric"
+          }
+        },
+        {
+          "ids": [
+            "vg-oignon",
+            "sp-gingembre"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Oignon et gingembre",
+            "en": "Onion and ginger"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Faire revenir l'oignon, le gingembre et les épices.",
+          "Ajouter les carottes en dés et les lentilles.",
+          "Couvrir d'eau et mijoter 20 min.",
+          "Ajouter le lait de coco et mixer.",
+          "Rectifier l'assaisonnement et servir."
+        ],
+        "en": [
+          "Sauté the onion, ginger and spices.",
+          "Add the diced carrots and lentils.",
+          "Cover with water and simmer 20 min.",
+          "Add the coconut milk and blend.",
+          "Adjust the seasoning and serve."
+        ]
+      },
+      "functional_tags": [
+        "batch_cooking",
+        "anti_waste"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "omelette-legumes",
+      "name": {
+        "fr": "Omelette aux légumes",
+        "en": "Vegetable omelette"
+      },
+      "description": {
+        "fr": "Une omelette moelleuse garnie de légumes sautés et d'herbes — un repas express, sain et anti-gaspi, à toute heure.",
+        "en": "A fluffy omelette filled with sautéed vegetables and herbs — a quick, healthy and waste-busting meal, any time of day."
+      },
+      "emoji": "🥬",
+      "time_min": 15,
+      "prep_time_min": 8,
+      "cook_time_min": 7,
+      "difficulty": "easy",
+      "type": "main",
+      "servings": 2,
+      "country": "intl",
+      "diet": [
+        "vegetarian",
+        "gluten-free",
+        "dairy-free"
+      ],
+      "allergens": [
+        "eggs"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "fr-oeuf"
+          ],
+          "qty": {
+            "amount": 6,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "6 œufs",
+            "en": "6 eggs"
+          }
+        },
+        {
+          "ids": [
+            "vg-poivron",
+            "vg-courgette",
+            "vg-champignons",
+            "vg-epinards"
+          ],
+          "qty": {
+            "amount": 300,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "300g de légumes",
+            "en": "300g vegetables"
+          }
+        },
+        {
+          "ids": [
+            "vg-oignon",
+            "sp-persil"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Oignon et persil",
+            "en": "Onion and parsley"
+          }
+        },
+        {
+          "ids": [
+            "sp-huile-olive"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Huile d'olive",
+            "en": "Olive oil"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Faire sauter les légumes émincés.",
+          "Battre les œufs et les assaisonner.",
+          "Verser les œufs sur les légumes.",
+          "Cuire à feu doux jusqu'à ce que l'omelette prenne.",
+          "Plier et servir aussitôt."
+        ],
+        "en": [
+          "Sauté the sliced vegetables.",
+          "Beat the eggs and season them.",
+          "Pour the eggs over the vegetables.",
+          "Cook over low heat until the omelette sets.",
+          "Fold and serve at once."
+        ]
+      },
+      "functional_tags": [
+        "anti_waste"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "smoothie-bowl",
+      "name": {
+        "fr": "Smoothie bowl",
+        "en": "Smoothie bowl"
+      },
+      "description": {
+        "fr": "Un smoothie épais à la banane et aux fruits rouges, servi en bol et garni de granola, de fruits et de graines — frais, sain et coloré.",
+        "en": "A thick banana and berry smoothie served in a bowl, topped with granola, fruit and seeds — fresh, healthy and colourful."
+      },
+      "emoji": "🍓",
+      "time_min": 10,
+      "prep_time_min": 10,
+      "cook_time_min": 0,
+      "difficulty": "very-easy",
+      "type": "dessert",
+      "servings": 2,
+      "country": "intl",
+      "diet": [
+        "vegetarian"
+      ],
+      "allergens": [
+        "milk"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "fr-banane"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 bananes",
+            "en": "2 bananas"
+          }
+        },
+        {
+          "ids": [
+            "fr-baies",
+            "fr-fraise",
+            "fr-myrtille"
+          ],
+          "qty": {
+            "amount": 200,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "200g de fruits rouges",
+            "en": "200g berries"
+          }
+        },
+        {
+          "ids": [
+            "fr-yaourt",
+            "fr-yaourt-nature"
+          ],
+          "qty": {
+            "amount": 150,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "150g de yaourt",
+            "en": "150g yogurt"
+          }
+        },
+        {
+          "ids": [
+            "gp-granola",
+            "gp-flocons-avoine",
+            "gp-chia"
+          ],
+          "qty": {
+            "amount": 60,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Granola et graines (garniture)",
+            "en": "Granola and seeds (topping)"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Mixer les bananes, les fruits rouges et le yaourt en un smoothie épais.",
+          "Verser dans des bols.",
+          "Garnir de granola et de fruits frais.",
+          "Parsemer de graines.",
+          "Servir aussitôt à la cuillère."
+        ],
+        "en": [
+          "Blend the bananas, berries and yogurt into a thick smoothie.",
+          "Pour into bowls.",
+          "Top with granola and fresh fruit.",
+          "Scatter with seeds.",
+          "Serve at once with a spoon."
+        ]
+      },
+      "functional_tags": [
+        "kids_friendly"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "soupe-miso-tofu",
+      "name": {
+        "fr": "Soupe miso au tofu",
+        "en": "Miso soup with tofu"
+      },
+      "description": {
+        "fr": "Un bouillon dashi parfumé au miso, garni de tofu, d'algues wakamé et d'oignon vert — léger, réconfortant et prêt en dix minutes.",
+        "en": "A dashi broth seasoned with miso, with tofu, wakame seaweed and spring onion — light, comforting and ready in ten minutes."
+      },
+      "emoji": "🍵",
+      "time_min": 12,
+      "prep_time_min": 5,
+      "cook_time_min": 7,
+      "difficulty": "very-easy",
+      "type": "starter",
+      "servings": 4,
+      "country": "intl",
+      "diet": [
+        "dairy-free"
+      ],
+      "allergens": [
+        "soybeans",
+        "fish"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "jp-miso",
+            "jp-miso-shiro"
+          ],
+          "qty": {
+            "amount": 4,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "4 c. à soupe de miso",
+            "en": "4 tbsp miso"
+          }
+        },
+        {
+          "ids": [
+            "jp-dashi-pack"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 sachet de dashi",
+            "en": "1 dashi sachet"
+          }
+        },
+        {
+          "ids": [
+            "jp-kinu-tofu",
+            "vg-tofu",
+            "jp-tofu"
+          ],
+          "qty": {
+            "amount": 200,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "200g de tofu",
+            "en": "200g tofu"
+          }
+        },
+        {
+          "ids": [
+            "jp-wakame",
+            "jp-algues"
+          ],
+          "qty": {
+            "amount": 10,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "10g de wakamé",
+            "en": "10g wakame"
+          }
+        },
+        {
+          "ids": [
+            "vg-oignon-vert"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "pcs"
+          },
+          "required": false,
+          "labels": {
+            "fr": "2 oignons verts",
+            "en": "2 spring onions"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Préparer un bouillon dashi avec 1 L d'eau.",
+          "Réhydrater le wakamé.",
+          "Hors ébullition, délayer le miso dans le bouillon.",
+          "Ajouter le tofu en cubes et le wakamé.",
+          "Parsemer d'oignon vert et servir aussitôt."
+        ],
+        "en": [
+          "Make a dashi broth with 1 L water.",
+          "Rehydrate the wakame.",
+          "Off the boil, whisk the miso into the broth.",
+          "Add the cubed tofu and wakame.",
+          "Scatter spring onion and serve at once."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "porridge-banane",
+      "name": {
+        "fr": "Porridge banane-cannelle",
+        "en": "Banana cinnamon porridge"
+      },
+      "description": {
+        "fr": "Des flocons d'avoine cuits dans le lait avec de la banane et de la cannelle — un petit-déjeuner chaud, crémeux et réconfortant.",
+        "en": "Oats cooked in milk with banana and cinnamon — a warm, creamy and comforting breakfast."
+      },
+      "emoji": "🥣",
+      "time_min": 15,
+      "prep_time_min": 5,
+      "cook_time_min": 10,
+      "difficulty": "very-easy",
+      "type": "dessert",
+      "servings": 2,
+      "country": "intl",
+      "diet": [
+        "vegetarian"
+      ],
+      "allergens": [
+        "gluten",
+        "milk"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "gp-flocons-avoine",
+            "gp-avoine"
+          ],
+          "qty": {
+            "amount": 120,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "120g de flocons d'avoine",
+            "en": "120g rolled oats"
+          }
+        },
+        {
+          "ids": [
+            "fr-lait",
+            "fr-lait-avoine",
+            "fr-lait-amande"
+          ],
+          "qty": {
+            "amount": 50,
+            "unit": "cl"
+          },
+          "required": true,
+          "labels": {
+            "fr": "50 cl de lait",
+            "en": "500ml milk"
+          }
+        },
+        {
+          "ids": [
+            "fr-banane"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 bananes",
+            "en": "2 bananas"
+          }
+        },
+        {
+          "ids": [
+            "sp-cannelle",
+            "gp-miel"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cc"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Cannelle et miel",
+            "en": "Cinnamon and honey"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Chauffer le lait avec les flocons d'avoine.",
+          "Cuire 8 min en remuant jusqu'à épaississement.",
+          "Écraser une banane et l'incorporer.",
+          "Verser dans des bols.",
+          "Garnir de banane en rondelles, de cannelle et de miel."
+        ],
+        "en": [
+          "Heat the milk with the oats.",
+          "Cook 8 min, stirring, until thick.",
+          "Mash one banana and stir it in.",
+          "Pour into bowls.",
+          "Top with sliced banana, cinnamon and honey."
+        ]
+      },
+      "functional_tags": [
+        "kids_friendly"
+      ],
+      "status": "published"
+    }
+  ]
+}

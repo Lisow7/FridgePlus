@@ -1,0 +1,23 @@
+# Fridge+
+
+> Application web gratuite qui part de ce qu'on a déjà dans son frigo pour proposer des recettes réalisables tout de suite. Gestion du frigo et du garde-manger, 515 recettes, ajout d'ingrédients à la voix ou par photo du ticket de caisse, espace communautaire. L'essentiel fonctionne sans compte, sans publicité et sans revente de données. Interface en français et en anglais ; les pages ci-dessous sont servies en français.
+
+## Comprendre le service
+
+- [Comment ça marche](https://fridgeplus.app/guide): le fonctionnement en cinq étapes — remplir son frigo, dicter ses courses ou photographier le ticket, puis voir ce qu'on peut cuisiner maintenant.
+- [Questions fréquentes](https://fridgeplus.app/faq): la prise en main et les réponses sur le service — gratuité, compte, données personnelles, RGPD, signalement de contenu, âge minimum.
+- [Nouveautés](https://fridgeplus.app/changelog): le journal des versions, ce qui a été ajouté et corrigé.
+
+## Recettes
+
+- [Accueil](https://fridgeplus.app/): le point d'entrée de l'application ; les recettes se parcourent depuis l'inventaire du frigo.
+- [Plan du site](https://fridgeplus.app/sitemap.xml): les 515 recettes publiées, chacune à son adresse `/recipe/<identifiant>`, avec ingrédients, étapes et valeurs nutritionnelles.
+
+## Communauté
+
+- [Espace communauté](https://fridgeplus.app/community): les recettes partagées par les utilisateurs, soumises à modération avant publication.
+
+## Optional
+
+- [Mentions légales](https://fridgeplus.app/legal): éditeur, hébergeurs, conditions d'utilisation et politique de confidentialité.
+- [Supprimer mon compte](https://fridgeplus.app/suppression-compte): la marche à suivre pour supprimer son compte et ses données, depuis l'application ou par e-mail, avec le détail de ce qui est effacé, anonymisé ou conservé.

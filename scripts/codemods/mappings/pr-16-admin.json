@@ -1,0 +1,22 @@
+[
+  {"from": "/^(\\.\\.?\\/)+components\\/admin\\/AdminPanel$/",         "to": "@features/admin/components/admin-panel"},
+  {"from": "/^(\\.\\.?\\/)+components\\/admin\\/Dashboard$/",          "to": "@features/admin/components/dashboard"},
+  {"from": "/^(\\.\\.?\\/)+components\\/admin\\/AdminHelpModal$/",     "to": "@features/admin/components/admin-help-modal"},
+  {"from": "/^(\\.\\.?\\/)+components\\/admin\\/IngredientExtraFields$/", "to": "@features/admin/components/ingredient-extra-fields"},
+  {"from": "/^(\\.\\.?\\/)+components\\/admin\\/AdminContext$/",       "to": "@features/admin/providers/admin-provider"},
+  {"from": "/^(\\.\\.?\\/)+components\\/admin\\/adminI18n$/",          "to": "@features/admin/i18n/admin-i18n"},
+  {"from": "/^(\\.\\.?\\/)+components\\/admin\\/adminHelpContent$/",   "to": "@features/admin/data/admin-help-content"},
+
+  {"from": "/^(\\.\\.?\\/)+components\\/admin\\/sections\\/(.+)$/",    "to": "@features/admin/components/sections/$2"},
+  {"from": "/^(\\.\\.?\\/)+components\\/admin\\/shared\\/(.+)$/",      "to": "@features/admin/components/shared/$2"},
+
+  {"from": "/^(\\.\\.?\\/)+lib\\/db\\/admin$/",               "to": "@features/admin/api/admin"},
+  {"from": "/^(\\.\\.?\\/)+lib\\/db\\/communityAdmin$/",      "to": "@features/admin/api/community-admin"},
+  {"from": "/^(\\.\\.?\\/)+lib\\/db\\/recipeReviewsAdmin$/",  "to": "@features/admin/api/recipe-reviews-admin"},
+  {"from": "/^(\\.\\.?\\/)+lib\\/db\\/reports$/",             "to": "@features/admin/api/reports"},
+  {"from": "/^(\\.\\.?\\/)+lib\\/db\\/sensitiveAudit$/",      "to": "@features/admin/api/sensitive-audit"},
+
+  {"from": "/^(\\.\\.?\\/)+lib\\/audit$/",            "to": "@features/admin/lib/audit"},
+  {"from": "/^(\\.\\.?\\/)+lib\\/devCrashTrigger$/",  "to": "@features/admin/lib/dev-crash-trigger"},
+  {"from": "/^(\\.\\.?\\/)+lib\\/moderation$/",       "to": "@features/admin/lib/moderation"}
+]

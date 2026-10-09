@@ -1,0 +1,460 @@
+{
+  "batchName": "recipes-batch-7-chine",
+  "recipes": [
+    {
+      "id": "poulet-kung-pao",
+      "name": { "fr": "Poulet kung pao", "en": "Kung pao chicken" },
+      "description": { "fr": "Un sauté sichuanais de poulet, cacahuètes et poivrons dans une sauce épicée et légèrement sucrée — vif, croquant et parfumé.", "en": "A Sichuan stir-fry of chicken, peanuts and peppers in a spicy, lightly sweet sauce — punchy, crunchy and fragrant." },
+      "emoji": "🥜", "time_min": 30, "prep_time_min": 15, "cook_time_min": 15, "difficulty": "medium", "type": "main", "servings": 4, "country": "cn",
+      "diet": ["dairy-free"], "allergens": ["peanuts", "soybeans", "gluten"],
+      "ingredients": [
+        { "ids": ["fr-blanc-poulet", "fr-cuisse-poulet"], "qty": { "amount": 500, "unit": "g" }, "required": true, "labels": { "fr": "500g de poulet", "en": "500g chicken" } },
+        { "ids": ["gp-cacahuetes"], "qty": { "amount": 80, "unit": "g" }, "required": true, "labels": { "fr": "80g de cacahuètes", "en": "80g peanuts" } },
+        { "ids": ["vg-poivron"], "qty": { "amount": 1, "unit": "pcs" }, "required": true, "labels": { "fr": "1 poivron", "en": "1 bell pepper" } },
+        { "ids": ["sp-sauce-soja"], "qty": { "amount": 3, "unit": "cs" }, "required": true, "labels": { "fr": "3 c. à soupe de sauce soja", "en": "3 tbsp soy sauce" } },
+        { "ids": ["sp-vinaigre-riz"], "qty": { "amount": 1, "unit": "cs" }, "required": true, "labels": { "fr": "1 c. à soupe de vinaigre de riz", "en": "1 tbsp rice vinegar" } },
+        { "ids": ["sp-piment-cayenne", "sp-sambal-oelek"], "qty": { "amount": 1, "unit": "cc" }, "required": true, "labels": { "fr": "1 c. à café de piment", "en": "1 tsp chilli" } },
+        { "ids": ["vg-oignon-vert"], "qty": { "amount": 3, "unit": "pcs" }, "required": false, "labels": { "fr": "3 oignons verts", "en": "3 spring onions" } }
+      ],
+      "steps": {
+        "fr": ["Couper le poulet en dés et le faire saisir à feu vif.", "Ajouter le poivron en morceaux et faire sauter 3 min.", "Verser la sauce soja, le vinaigre et le piment.", "Incorporer les cacahuètes et laisser glacer 2 min.", "Parsemer d'oignon vert et servir avec du riz."],
+        "en": ["Dice the chicken and sear it over high heat.", "Add the chopped pepper and stir-fry 3 min.", "Pour in the soy sauce, vinegar and chilli.", "Stir in the peanuts and let glaze 2 min.", "Scatter with spring onion and serve with rice."]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "boeuf-brocoli",
+      "name": { "fr": "Bœuf au brocoli", "en": "Beef and broccoli" },
+      "description": { "fr": "De fines lamelles de bœuf et des fleurettes de brocoli sautées dans une sauce soja-huître brillante — un grand classique des restaurants chinois.", "en": "Thin slices of beef and broccoli florets stir-fried in a glossy soy-oyster sauce — a Chinese restaurant classic." },
+      "emoji": "🥦", "time_min": 25, "prep_time_min": 15, "cook_time_min": 10, "difficulty": "easy", "type": "main", "servings": 4, "country": "cn",
+      "diet": ["dairy-free"], "allergens": ["soybeans", "gluten", "molluscs"],
+      "ingredients": [
+        { "ids": ["fr-boeuf", "fr-bavette", "frz-boeuf"], "qty": { "amount": 500, "unit": "g" }, "required": true, "labels": { "fr": "500g de bœuf émincé", "en": "500g sliced beef" } },
+        { "ids": ["vg-brocoli", "frz-brocoli"], "qty": { "amount": 400, "unit": "g" }, "required": true, "labels": { "fr": "400g de brocoli", "en": "400g broccoli" } },
+        { "ids": ["sp-sauce-huitre"], "qty": { "amount": 3, "unit": "cs" }, "required": true, "labels": { "fr": "3 c. à soupe de sauce d'huître", "en": "3 tbsp oyster sauce" } },
+        { "ids": ["sp-sauce-soja"], "qty": { "amount": 2, "unit": "cs" }, "required": true, "labels": { "fr": "2 c. à soupe de sauce soja", "en": "2 tbsp soy sauce" } },
+        { "ids": ["vg-ail"], "qty": { "amount": 2, "unit": "gousse" }, "required": true, "labels": { "fr": "2 gousses d'ail", "en": "2 garlic cloves" } },
+        { "ids": ["gp-fecule-mais"], "qty": { "amount": 1, "unit": "cs" }, "required": true, "labels": { "fr": "1 c. à soupe de fécule", "en": "1 tbsp cornstarch" } }
+      ],
+      "steps": {
+        "fr": ["Blanchir le brocoli 2 min puis l'égoutter.", "Saisir le bœuf à feu très vif avec l'ail.", "Ajouter le brocoli et faire sauter 2 min.", "Verser la sauce d'huître, la sauce soja et la fécule délayée.", "Laisser épaissir 1 min et servir avec du riz."],
+        "en": ["Blanch the broccoli 2 min then drain.", "Sear the beef over very high heat with the garlic.", "Add the broccoli and stir-fry 2 min.", "Pour in the oyster sauce, soy sauce and slaked cornstarch.", "Let thicken 1 min and serve with rice."]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "poulet-aigre-doux",
+      "name": { "fr": "Poulet aigre-doux", "en": "Sweet and sour chicken" },
+      "description": { "fr": "Des morceaux de poulet croustillants enrobés d'une sauce aigre-douce à l'ananas et au poivron — la recette chinoise préférée des enfants.", "en": "Crispy chicken pieces coated in a pineapple-and-pepper sweet and sour sauce — a Chinese favourite with kids." },
+      "emoji": "🍍", "time_min": 35, "prep_time_min": 20, "cook_time_min": 15, "difficulty": "medium", "type": "main", "servings": 4, "country": "cn",
+      "diet": ["dairy-free"], "allergens": ["gluten", "soybeans", "eggs"],
+      "ingredients": [
+        { "ids": ["fr-blanc-poulet"], "qty": { "amount": 600, "unit": "g" }, "required": true, "labels": { "fr": "600g de poulet", "en": "600g chicken" } },
+        { "ids": ["fr-ananas", "fr-fruits-tropicaux"], "qty": { "amount": 200, "unit": "g" }, "required": true, "labels": { "fr": "200g d'ananas", "en": "200g pineapple" } },
+        { "ids": ["vg-poivron"], "qty": { "amount": 1, "unit": "pcs" }, "required": true, "labels": { "fr": "1 poivron", "en": "1 bell pepper" } },
+        { "ids": ["sp-vinaigre-riz", "sp-vinaigre"], "qty": { "amount": 3, "unit": "cs" }, "required": true, "labels": { "fr": "3 c. à soupe de vinaigre de riz", "en": "3 tbsp rice vinegar" } },
+        { "ids": ["gp-sucre", "gp-concentre-tom"], "qty": { "amount": 3, "unit": "cs" }, "required": true, "labels": { "fr": "3 c. à soupe de sucre + concentré de tomate", "en": "3 tbsp sugar + tomato paste" } },
+        { "ids": ["gp-fecule-mais", "fr-oeuf"], "qty": { "amount": 3, "unit": "cs" }, "required": true, "labels": { "fr": "Fécule et œuf (panure)", "en": "Cornstarch and egg (batter)" } }
+      ],
+      "steps": {
+        "fr": ["Enrober le poulet en dés de fécule et d'œuf, puis le frire jusqu'à dorure.", "Faire sauter le poivron et l'ananas.", "Préparer la sauce : vinaigre, sucre, concentré de tomate et un peu d'eau.", "Ajouter le poulet frit et enrober de sauce.", "Laisser glacer 2 min et servir avec du riz."],
+        "en": ["Coat the diced chicken in cornstarch and egg, then fry until golden.", "Stir-fry the pepper and pineapple.", "Make the sauce: vinegar, sugar, tomato paste and a little water.", "Add the fried chicken and coat in the sauce.", "Let glaze 2 min and serve with rice."]
+      },
+      "functional_tags": ["kids_friendly"], "status": "published"
+    },
+    {
+      "id": "chow-mein-boeuf",
+      "name": { "fr": "Chow mein au bœuf", "en": "Beef chow mein" },
+      "description": { "fr": "Des nouilles sautées au bœuf et aux légumes croquants dans une sauce soja parfumée — un plat wok complet et rapide.", "en": "Stir-fried noodles with beef and crunchy vegetables in a fragrant soy sauce — a complete, quick wok dish." },
+      "emoji": "🍜", "time_min": 25, "prep_time_min": 15, "cook_time_min": 10, "difficulty": "easy", "type": "main", "servings": 4, "country": "cn",
+      "diet": ["dairy-free"], "allergens": ["gluten", "soybeans", "molluscs"],
+      "ingredients": [
+        { "ids": ["gp-nouilles-asie"], "qty": { "amount": 350, "unit": "g" }, "required": true, "labels": { "fr": "350g de nouilles chinoises", "en": "350g egg noodles" } },
+        { "ids": ["fr-boeuf", "fr-bavette"], "qty": { "amount": 400, "unit": "g" }, "required": true, "labels": { "fr": "400g de bœuf", "en": "400g beef" } },
+        { "ids": ["vg-carottes", "vg-poivron", "vg-germes-soja"], "qty": { "amount": 300, "unit": "g" }, "required": true, "labels": { "fr": "300g de légumes", "en": "300g vegetables" } },
+        { "ids": ["sp-sauce-soja"], "qty": { "amount": 4, "unit": "cs" }, "required": true, "labels": { "fr": "4 c. à soupe de sauce soja", "en": "4 tbsp soy sauce" } },
+        { "ids": ["sp-sauce-huitre"], "qty": { "amount": 2, "unit": "cs" }, "required": false, "labels": { "fr": "2 c. à soupe de sauce d'huître", "en": "2 tbsp oyster sauce" } },
+        { "ids": ["sp-huile-sesame"], "qty": { "amount": 1, "unit": "cs" }, "required": false, "labels": { "fr": "1 c. à soupe d'huile de sésame", "en": "1 tbsp sesame oil" } }
+      ],
+      "steps": {
+        "fr": ["Cuire les nouilles, les égoutter et les huiler légèrement.", "Saisir le bœuf émincé à feu vif, réserver.", "Faire sauter les légumes 3 min.", "Ajouter les nouilles, le bœuf, la sauce soja et la sauce d'huître.", "Sauter 2 min et terminer par l'huile de sésame."],
+        "en": ["Cook the noodles, drain and lightly oil them.", "Sear the sliced beef over high heat, set aside.", "Stir-fry the vegetables 3 min.", "Add the noodles, beef, soy sauce and oyster sauce.", "Stir-fry 2 min and finish with sesame oil."]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "poulet-general-tso",
+      "name": { "fr": "Poulet du Général Tso", "en": "General Tso's chicken" },
+      "description": { "fr": "Des bouchées de poulet frites et croustillantes nappées d'une sauce sucrée, acidulée et pimentée — gourmand et spectaculaire.", "en": "Crispy fried chicken bites coated in a sweet, tangy and spicy sauce — indulgent and spectacular." },
+      "emoji": "🍗", "time_min": 45, "prep_time_min": 25, "cook_time_min": 20, "difficulty": "hard", "type": "main", "servings": 4, "country": "cn",
+      "diet": ["dairy-free"], "allergens": ["gluten", "soybeans", "eggs"],
+      "ingredients": [
+        { "ids": ["fr-cuisse-poulet", "fr-blanc-poulet"], "qty": { "amount": 600, "unit": "g" }, "required": true, "labels": { "fr": "600g de poulet", "en": "600g chicken" } },
+        { "ids": ["gp-fecule-mais"], "qty": { "amount": 6, "unit": "cs" }, "required": true, "labels": { "fr": "6 c. à soupe de fécule", "en": "6 tbsp cornstarch" } },
+        { "ids": ["fr-oeuf"], "qty": { "amount": 1, "unit": "pcs" }, "required": true, "labels": { "fr": "1 œuf", "en": "1 egg" } },
+        { "ids": ["sp-sauce-soja"], "qty": { "amount": 4, "unit": "cs" }, "required": true, "labels": { "fr": "4 c. à soupe de sauce soja", "en": "4 tbsp soy sauce" } },
+        { "ids": ["gp-sucre", "gp-miel"], "qty": { "amount": 3, "unit": "cs" }, "required": true, "labels": { "fr": "3 c. à soupe de sucre", "en": "3 tbsp sugar" } },
+        { "ids": ["sp-vinaigre-riz"], "qty": { "amount": 2, "unit": "cs" }, "required": true, "labels": { "fr": "2 c. à soupe de vinaigre de riz", "en": "2 tbsp rice vinegar" } },
+        { "ids": ["sp-piment-cayenne", "sp-sambal-oelek"], "qty": { "amount": 1, "unit": "cc" }, "required": true, "labels": { "fr": "1 c. à café de piment", "en": "1 tsp chilli" } }
+      ],
+      "steps": {
+        "fr": ["Enrober les dés de poulet d'œuf battu et de fécule.", "Les frire en deux fois jusqu'à ce qu'ils soient très croustillants.", "Préparer la sauce : sauce soja, sucre, vinaigre, piment et un peu de fécule.", "Faire épaissir la sauce dans un wok chaud.", "Ajouter le poulet frit, enrober rapidement et servir aussitôt."],
+        "en": ["Coat the chicken cubes in beaten egg and cornstarch.", "Fry them in two batches until very crisp.", "Make the sauce: soy sauce, sugar, vinegar, chilli and a little cornstarch.", "Thicken the sauce in a hot wok.", "Add the fried chicken, coat quickly and serve at once."]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "mapo-tofu",
+      "name": { "fr": "Mapo tofu", "en": "Mapo tofu" },
+      "description": { "fr": "Du tofu soyeux et du porc haché mijotés dans une sauce sichuanaise relevée et soyeuse — un plat emblématique, intense et réconfortant.", "en": "Silken tofu and minced pork simmered in a bold, silky Sichuan sauce — an iconic, intense and comforting dish." },
+      "emoji": "🌶️", "time_min": 25, "prep_time_min": 10, "cook_time_min": 15, "difficulty": "medium", "type": "main", "servings": 4, "country": "cn",
+      "diet": ["dairy-free"], "allergens": ["soybeans", "gluten"],
+      "ingredients": [
+        { "ids": ["jp-kinu-tofu", "vg-tofu", "jp-tofu"], "qty": { "amount": 400, "unit": "g" }, "required": true, "labels": { "fr": "400g de tofu soyeux", "en": "400g silken tofu" } },
+        { "ids": ["fr-echine", "frz-boeuf-hache", "fr-hache-boeuf"], "qty": { "amount": 200, "unit": "g" }, "required": true, "labels": { "fr": "200g de porc haché", "en": "200g minced pork" } },
+        { "ids": ["sp-sambal-oelek", "sp-sriracha"], "qty": { "amount": 1, "unit": "cs" }, "required": true, "labels": { "fr": "1 c. à soupe de pâte de piment", "en": "1 tbsp chilli bean paste" } },
+        { "ids": ["sp-sauce-soja"], "qty": { "amount": 2, "unit": "cs" }, "required": true, "labels": { "fr": "2 c. à soupe de sauce soja", "en": "2 tbsp soy sauce" } },
+        { "ids": ["vg-ail", "sp-gingembre"], "qty": { "amount": 2, "unit": "gousse" }, "required": true, "labels": { "fr": "Ail et gingembre", "en": "Garlic and ginger" } },
+        { "ids": ["vg-oignon-vert"], "qty": { "amount": 2, "unit": "pcs" }, "required": false, "labels": { "fr": "2 oignons verts", "en": "2 spring onions" } }
+      ],
+      "steps": {
+        "fr": ["Faire revenir l'ail et le gingembre, ajouter le porc haché.", "Incorporer la pâte de piment et la sauce soja.", "Verser 15 cl d'eau et porter à frémissement.", "Ajouter le tofu en cubes délicatement et mijoter 5 min.", "Lier avec un peu de fécule, parsemer d'oignon vert et servir sur du riz."],
+        "en": ["Sauté the garlic and ginger, add the minced pork.", "Stir in the chilli bean paste and soy sauce.", "Pour in 150ml water and bring to a simmer.", "Gently add the cubed tofu and simmer 5 min.", "Thicken with a little cornstarch, scatter spring onion and serve over rice."]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "poulet-sesame",
+      "name": { "fr": "Poulet au sésame", "en": "Sesame chicken" },
+      "description": { "fr": "Du poulet croustillant enrobé d'une sauce brillante au miel et au sésame grillé — sucré, gourmand et terriblement addictif.", "en": "Crispy chicken coated in a glossy honey and toasted sesame sauce — sweet, indulgent and seriously moreish." },
+      "emoji": "🍗", "time_min": 35, "prep_time_min": 20, "cook_time_min": 15, "difficulty": "medium", "type": "main", "servings": 4, "country": "cn",
+      "diet": ["dairy-free"], "allergens": ["gluten", "soybeans", "sesame", "eggs"],
+      "ingredients": [
+        { "ids": ["fr-blanc-poulet"], "qty": { "amount": 600, "unit": "g" }, "required": true, "labels": { "fr": "600g de poulet", "en": "600g chicken" } },
+        { "ids": ["gp-fecule-mais", "fr-oeuf"], "qty": { "amount": 4, "unit": "cs" }, "required": true, "labels": { "fr": "Fécule et œuf", "en": "Cornstarch and egg" } },
+        { "ids": ["sp-sauce-soja"], "qty": { "amount": 3, "unit": "cs" }, "required": true, "labels": { "fr": "3 c. à soupe de sauce soja", "en": "3 tbsp soy sauce" } },
+        { "ids": ["gp-miel"], "qty": { "amount": 3, "unit": "cs" }, "required": true, "labels": { "fr": "3 c. à soupe de miel", "en": "3 tbsp honey" } },
+        { "ids": ["sp-sesame-blanc", "jp-goma"], "qty": { "amount": 2, "unit": "cs" }, "required": true, "labels": { "fr": "2 c. à soupe de sésame", "en": "2 tbsp sesame seeds" } }
+      ],
+      "steps": {
+        "fr": ["Enrober le poulet de fécule et d'œuf, puis le frire jusqu'à dorure.", "Faire griller le sésame à sec.", "Préparer la sauce : sauce soja, miel et un peu d'eau.", "Faire épaissir la sauce puis y enrober le poulet.", "Parsemer de sésame grillé et servir avec du riz."],
+        "en": ["Coat the chicken in cornstarch and egg, then fry until golden.", "Dry-toast the sesame seeds.", "Make the sauce: soy sauce, honey and a little water.", "Thicken the sauce then coat the chicken.", "Sprinkle with toasted sesame and serve with rice."]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "riz-saute-crevettes",
+      "name": { "fr": "Riz sauté aux crevettes", "en": "Shrimp fried rice" },
+      "description": { "fr": "Un riz sauté au wok avec crevettes, œuf et petits pois — le plat anti-gaspi parfait pour un reste de riz, prêt en 15 minutes.", "en": "Wok-fried rice with shrimp, egg and peas — the perfect waste-busting dish for leftover rice, ready in 15 minutes." },
+      "emoji": "🍤", "time_min": 20, "prep_time_min": 8, "cook_time_min": 12, "difficulty": "easy", "type": "main", "servings": 4, "country": "cn",
+      "diet": ["dairy-free"], "allergens": ["crustaceans", "eggs", "soybeans", "gluten"],
+      "ingredients": [
+        { "ids": ["gp-riz"], "qty": { "amount": 400, "unit": "g" }, "required": true, "labels": { "fr": "400g de riz cuit", "en": "400g cooked rice" } },
+        { "ids": ["fr-crevettes", "frz-crevettes"], "qty": { "amount": 250, "unit": "g" }, "required": true, "labels": { "fr": "250g de crevettes", "en": "250g shrimp" } },
+        { "ids": ["fr-oeuf"], "qty": { "amount": 2, "unit": "pcs" }, "required": true, "labels": { "fr": "2 œufs", "en": "2 eggs" } },
+        { "ids": ["gp-petits-pois", "frz-petits-pois"], "qty": { "amount": 100, "unit": "g" }, "required": true, "labels": { "fr": "100g de petits pois", "en": "100g peas" } },
+        { "ids": ["sp-sauce-soja"], "qty": { "amount": 3, "unit": "cs" }, "required": true, "labels": { "fr": "3 c. à soupe de sauce soja", "en": "3 tbsp soy sauce" } },
+        { "ids": ["vg-oignon-vert"], "qty": { "amount": 2, "unit": "pcs" }, "required": false, "labels": { "fr": "2 oignons verts", "en": "2 spring onions" } }
+      ],
+      "steps": {
+        "fr": ["Brouiller les œufs dans un wok très chaud, réserver.", "Saisir les crevettes 2 min, réserver.", "Faire sauter le riz à feu vif avec les petits pois.", "Ajouter les œufs, les crevettes et la sauce soja.", "Sauter 2 min, parsemer d'oignon vert et servir."],
+        "en": ["Scramble the eggs in a very hot wok, set aside.", "Sear the shrimp 2 min, set aside.", "Stir-fry the rice over high heat with the peas.", "Add the eggs, shrimp and soy sauce.", "Stir-fry 2 min, scatter spring onion and serve."]
+      },
+      "functional_tags": ["anti_waste"], "status": "published"
+    },
+    {
+      "id": "nouilles-dan-dan",
+      "name": { "fr": "Nouilles dan dan", "en": "Dan dan noodles" },
+      "description": { "fr": "Des nouilles dans une sauce sichuanaise au sésame et au porc épicé — un bol intense, crémeux et relevé, à mélanger avant de déguster.", "en": "Noodles in a Sichuan sesame sauce with spicy pork — an intense, creamy and fiery bowl, to mix before eating." },
+      "emoji": "🍜", "time_min": 25, "prep_time_min": 12, "cook_time_min": 13, "difficulty": "medium", "type": "main", "servings": 4, "country": "cn",
+      "diet": ["dairy-free"], "allergens": ["gluten", "soybeans", "sesame", "peanuts"],
+      "ingredients": [
+        { "ids": ["gp-nouilles-asie"], "qty": { "amount": 350, "unit": "g" }, "required": true, "labels": { "fr": "350g de nouilles", "en": "350g noodles" } },
+        { "ids": ["fr-echine", "frz-boeuf-hache"], "qty": { "amount": 250, "unit": "g" }, "required": true, "labels": { "fr": "250g de porc haché", "en": "250g minced pork" } },
+        { "ids": ["sp-tahini", "sp-beurre-cacahuete"], "qty": { "amount": 3, "unit": "cs" }, "required": true, "labels": { "fr": "3 c. à soupe de pâte de sésame", "en": "3 tbsp sesame paste" } },
+        { "ids": ["sp-sauce-soja"], "qty": { "amount": 3, "unit": "cs" }, "required": true, "labels": { "fr": "3 c. à soupe de sauce soja", "en": "3 tbsp soy sauce" } },
+        { "ids": ["sp-sambal-oelek", "sp-sriracha"], "qty": { "amount": 1, "unit": "cs" }, "required": true, "labels": { "fr": "1 c. à soupe de piment", "en": "1 tbsp chilli paste" } },
+        { "ids": ["vg-oignon-vert"], "qty": { "amount": 2, "unit": "pcs" }, "required": false, "labels": { "fr": "2 oignons verts", "en": "2 spring onions" } }
+      ],
+      "steps": {
+        "fr": ["Faire revenir le porc haché jusqu'à ce qu'il soit croustillant.", "Préparer la sauce : pâte de sésame, sauce soja, piment et un peu d'eau de cuisson.", "Cuire les nouilles.", "Verser la sauce au fond des bols, déposer les nouilles.", "Couronner de porc, parsemer d'oignon vert et mélanger avant de déguster."],
+        "en": ["Fry the minced pork until crispy.", "Make the sauce: sesame paste, soy sauce, chilli and a little cooking water.", "Cook the noodles.", "Pour the sauce into the bowls, add the noodles.", "Top with pork, scatter spring onion and mix before eating."]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "boeuf-sichuan",
+      "name": { "fr": "Bœuf sauté du Sichuan", "en": "Sichuan stir-fried beef" },
+      "description": { "fr": "Du bœuf émincé sauté avec poivrons et oignon dans une sauce relevée au piment et au soja — rapide, parfumé et bien épicé.", "en": "Sliced beef stir-fried with peppers and onion in a spicy chilli-soy sauce — quick, fragrant and well spiced." },
+      "emoji": "🌶️", "time_min": 25, "prep_time_min": 15, "cook_time_min": 10, "difficulty": "easy", "type": "main", "servings": 4, "country": "cn",
+      "diet": ["dairy-free"], "allergens": ["soybeans", "gluten"],
+      "ingredients": [
+        { "ids": ["fr-boeuf", "fr-bavette", "fr-entrecote"], "qty": { "amount": 500, "unit": "g" }, "required": true, "labels": { "fr": "500g de bœuf", "en": "500g beef" } },
+        { "ids": ["vg-poivron"], "qty": { "amount": 2, "unit": "pcs" }, "required": true, "labels": { "fr": "2 poivrons", "en": "2 bell peppers" } },
+        { "ids": ["vg-oignon"], "qty": { "amount": 1, "unit": "pcs" }, "required": true, "labels": { "fr": "1 oignon", "en": "1 onion" } },
+        { "ids": ["sp-sauce-soja"], "qty": { "amount": 3, "unit": "cs" }, "required": true, "labels": { "fr": "3 c. à soupe de sauce soja", "en": "3 tbsp soy sauce" } },
+        { "ids": ["sp-sambal-oelek", "sp-piment-cayenne"], "qty": { "amount": 1, "unit": "cc" }, "required": true, "labels": { "fr": "1 c. à café de piment", "en": "1 tsp chilli" } },
+        { "ids": ["sp-gingembre", "vg-ail"], "qty": { "amount": 1, "unit": "cs" }, "required": true, "labels": { "fr": "Gingembre et ail", "en": "Ginger and garlic" } }
+      ],
+      "steps": {
+        "fr": ["Émincer le bœuf et le mariner 10 min dans un peu de sauce soja.", "Saisir le bœuf à feu très vif, réserver.", "Faire sauter l'oignon et les poivrons.", "Remettre le bœuf, ajouter le piment, l'ail et le gingembre.", "Déglacer avec la sauce soja et servir avec du riz."],
+        "en": ["Slice the beef and marinate 10 min in a little soy sauce.", "Sear the beef over very high heat, set aside.", "Stir-fry the onion and peppers.", "Return the beef, add the chilli, garlic and ginger.", "Deglaze with the soy sauce and serve with rice."]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "tofu-saute-legumes-chinois",
+      "name": { "fr": "Tofu sauté aux légumes", "en": "Stir-fried tofu with vegetables" },
+      "description": { "fr": "Du tofu doré sauté au wok avec des légumes croquants dans une sauce soja-gingembre — un plat végétalien express, sain et savoureux.", "en": "Golden tofu wok-fried with crunchy vegetables in a soy-ginger sauce — a quick, healthy and tasty vegan dish." },
+      "emoji": "🥢", "time_min": 25, "prep_time_min": 15, "cook_time_min": 10, "difficulty": "easy", "type": "main", "servings": 4, "country": "cn",
+      "diet": ["vegan", "vegetarian", "dairy-free"], "allergens": ["soybeans", "gluten"],
+      "ingredients": [
+        { "ids": ["vg-tofu", "jp-kimomen-tofu", "jp-yaki-tofu"], "qty": { "amount": 400, "unit": "g" }, "required": true, "labels": { "fr": "400g de tofu ferme", "en": "400g firm tofu" } },
+        { "ids": ["vg-brocoli", "vg-poivron", "vg-pak-choi", "vg-carottes"], "qty": { "amount": 400, "unit": "g" }, "required": true, "labels": { "fr": "400g de légumes", "en": "400g vegetables" } },
+        { "ids": ["sp-sauce-soja"], "qty": { "amount": 4, "unit": "cs" }, "required": true, "labels": { "fr": "4 c. à soupe de sauce soja", "en": "4 tbsp soy sauce" } },
+        { "ids": ["sp-gingembre"], "qty": { "amount": 1, "unit": "cs" }, "required": true, "labels": { "fr": "1 c. à soupe de gingembre", "en": "1 tbsp ginger" } },
+        { "ids": ["gp-fecule-mais"], "qty": { "amount": 1, "unit": "cs" }, "required": true, "labels": { "fr": "1 c. à soupe de fécule", "en": "1 tbsp cornstarch" } },
+        { "ids": ["sp-huile-sesame"], "qty": { "amount": 1, "unit": "cs" }, "required": false, "labels": { "fr": "1 c. à soupe d'huile de sésame", "en": "1 tbsp sesame oil" } }
+      ],
+      "steps": {
+        "fr": ["Égoutter le tofu, le couper en cubes et le faire dorer ; réserver.", "Faire sauter les légumes à feu vif 4 min avec le gingembre.", "Remettre le tofu et verser la sauce soja.", "Lier avec la fécule délayée dans un peu d'eau.", "Terminer par l'huile de sésame et servir avec du riz."],
+        "en": ["Drain the tofu, cube it and brown it; set aside.", "Stir-fry the vegetables over high heat 4 min with the ginger.", "Return the tofu and pour in the soy sauce.", "Thicken with the cornstarch slaked in a little water.", "Finish with sesame oil and serve with rice."]
+      },
+      "functional_tags": ["batch_cooking"], "status": "published"
+    },
+    {
+      "id": "poulet-cajou",
+      "name": { "fr": "Poulet aux noix de cajou", "en": "Cashew chicken" },
+      "description": { "fr": "Un sauté de poulet tendre et de noix de cajou croquantes dans une sauce soja légèrement sucrée — équilibré et toujours apprécié.", "en": "A stir-fry of tender chicken and crunchy cashews in a lightly sweet soy sauce — balanced and always a hit." },
+      "emoji": "🥜", "time_min": 25, "prep_time_min": 15, "cook_time_min": 10, "difficulty": "easy", "type": "main", "servings": 4, "country": "cn",
+      "diet": ["dairy-free"], "allergens": ["nuts", "soybeans", "gluten"],
+      "ingredients": [
+        { "ids": ["fr-blanc-poulet"], "qty": { "amount": 500, "unit": "g" }, "required": true, "labels": { "fr": "500g de poulet", "en": "500g chicken" } },
+        { "ids": ["gp-noix-cajou"], "qty": { "amount": 100, "unit": "g" }, "required": true, "labels": { "fr": "100g de noix de cajou", "en": "100g cashews" } },
+        { "ids": ["vg-poivron"], "qty": { "amount": 1, "unit": "pcs" }, "required": true, "labels": { "fr": "1 poivron", "en": "1 bell pepper" } },
+        { "ids": ["sp-sauce-soja"], "qty": { "amount": 3, "unit": "cs" }, "required": true, "labels": { "fr": "3 c. à soupe de sauce soja", "en": "3 tbsp soy sauce" } },
+        { "ids": ["sp-sauce-huitre"], "qty": { "amount": 1, "unit": "cs" }, "required": false, "labels": { "fr": "1 c. à soupe de sauce d'huître", "en": "1 tbsp oyster sauce" } },
+        { "ids": ["vg-oignon-vert"], "qty": { "amount": 2, "unit": "pcs" }, "required": false, "labels": { "fr": "2 oignons verts", "en": "2 spring onions" } }
+      ],
+      "steps": {
+        "fr": ["Faire griller les noix de cajou à sec, réserver.", "Saisir le poulet en dés à feu vif.", "Ajouter le poivron et faire sauter 3 min.", "Verser la sauce soja et la sauce d'huître.", "Incorporer les cajous, parsemer d'oignon vert et servir."],
+        "en": ["Dry-toast the cashews, set aside.", "Sear the diced chicken over high heat.", "Add the pepper and stir-fry 3 min.", "Pour in the soy sauce and oyster sauce.", "Stir in the cashews, scatter spring onion and serve."]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "travers-porc-hoisin",
+      "name": { "fr": "Travers de porc laqués", "en": "Hoisin glazed pork ribs" },
+      "description": { "fr": "Des travers de porc fondants laqués d'une sauce hoisin-miel collante et brillante — un plat à partager qui plaît à tous.", "en": "Tender pork ribs glazed in a sticky, glossy hoisin-honey sauce — a crowd-pleasing dish to share." },
+      "emoji": "🍖", "time_min": 90, "prep_time_min": 15, "cook_time_min": 75, "difficulty": "medium", "type": "main", "servings": 4, "country": "cn",
+      "diet": ["dairy-free"], "allergens": ["soybeans", "gluten", "sesame"],
+      "ingredients": [
+        { "ids": ["fr-travers-porc"], "qty": { "amount": 1000, "unit": "g" }, "required": true, "labels": { "fr": "1 kg de travers de porc", "en": "1kg pork ribs" } },
+        { "ids": ["sp-sauce-hoisin"], "qty": { "amount": 4, "unit": "cs" }, "required": true, "labels": { "fr": "4 c. à soupe de sauce hoisin", "en": "4 tbsp hoisin sauce" } },
+        { "ids": ["gp-miel"], "qty": { "amount": 2, "unit": "cs" }, "required": true, "labels": { "fr": "2 c. à soupe de miel", "en": "2 tbsp honey" } },
+        { "ids": ["sp-sauce-soja"], "qty": { "amount": 3, "unit": "cs" }, "required": true, "labels": { "fr": "3 c. à soupe de sauce soja", "en": "3 tbsp soy sauce" } },
+        { "ids": ["vg-ail", "sp-gingembre"], "qty": { "amount": 3, "unit": "gousse" }, "required": true, "labels": { "fr": "Ail et gingembre", "en": "Garlic and ginger" } },
+        { "ids": ["sp-cinq-epices"], "qty": { "amount": 1, "unit": "cc" }, "required": false, "labels": { "fr": "1 c. à café de 5 épices", "en": "1 tsp five spice" } }
+      ],
+      "steps": {
+        "fr": ["Mélanger hoisin, miel, sauce soja, ail, gingembre et 5 épices.", "Enduire les travers de marinade et laisser reposer 30 min.", "Cuire au four à 160°C 1h sous papier aluminium.", "Découvrir, badigeonner de marinade et cuire 15 min à 200°C pour laquer.", "Découper entre les os et servir."],
+        "en": ["Mix hoisin, honey, soy sauce, garlic, ginger and five spice.", "Coat the ribs in the marinade and rest 30 min.", "Bake at 160°C for 1h covered with foil.", "Uncover, brush with marinade and bake 15 min at 200°C to glaze.", "Cut between the bones and serve."]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "canard-laque-maison",
+      "name": { "fr": "Magret laqué façon canard pékinois", "en": "Peking-style glazed duck" },
+      "description": { "fr": "Un magret de canard rôti et laqué au hoisin, servi en fines tranches avec oignon vert et concombre — une version maison du canard pékinois.", "en": "Roasted hoisin-glazed duck breast, served in thin slices with spring onion and cucumber — a homemade take on Peking duck." },
+      "emoji": "🦆", "time_min": 60, "prep_time_min": 20, "cook_time_min": 40, "difficulty": "hard", "type": "main", "servings": 4, "country": "cn",
+      "diet": ["dairy-free"], "allergens": ["soybeans", "gluten", "sesame"],
+      "ingredients": [
+        { "ids": ["fr-magret", "fr-canard"], "qty": { "amount": 2, "unit": "pcs" }, "required": true, "labels": { "fr": "2 magrets de canard", "en": "2 duck breasts" } },
+        { "ids": ["sp-sauce-hoisin"], "qty": { "amount": 4, "unit": "cs" }, "required": true, "labels": { "fr": "4 c. à soupe de sauce hoisin", "en": "4 tbsp hoisin sauce" } },
+        { "ids": ["gp-miel"], "qty": { "amount": 2, "unit": "cs" }, "required": true, "labels": { "fr": "2 c. à soupe de miel", "en": "2 tbsp honey" } },
+        { "ids": ["sp-cinq-epices"], "qty": { "amount": 1, "unit": "cc" }, "required": true, "labels": { "fr": "1 c. à café de 5 épices", "en": "1 tsp five spice" } },
+        { "ids": ["vg-concombre"], "qty": { "amount": 1, "unit": "pcs" }, "required": true, "labels": { "fr": "1 concombre", "en": "1 cucumber" } },
+        { "ids": ["vg-oignon-vert"], "qty": { "amount": 3, "unit": "pcs" }, "required": true, "labels": { "fr": "3 oignons verts", "en": "3 spring onions" } }
+      ],
+      "steps": {
+        "fr": ["Quadriller la peau des magrets et les frotter de 5 épices.", "Les saisir côté peau pour rendre la graisse, puis cuire au four 15 min à 180°C.", "Badigeonner de hoisin et de miel, repasser 5 min au four pour laquer.", "Laisser reposer puis trancher finement.", "Servir avec des bâtonnets de concombre et d'oignon vert."],
+        "en": ["Score the duck skin and rub with five spice.", "Sear skin-side down to render the fat, then roast 15 min at 180°C.", "Brush with hoisin and honey, return to the oven 5 min to glaze.", "Rest then slice thinly.", "Serve with cucumber and spring onion sticks."]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "chow-mein-legumes",
+      "name": { "fr": "Chow mein aux légumes", "en": "Vegetable chow mein" },
+      "description": { "fr": "Des nouilles sautées aux légumes croquants dans une sauce soja parfumée — un plat végétalien rapide, coloré et anti-gaspi.", "en": "Stir-fried noodles with crunchy vegetables in a fragrant soy sauce — a quick, colourful and waste-busting vegan dish." },
+      "emoji": "🍜", "time_min": 20, "prep_time_min": 12, "cook_time_min": 8, "difficulty": "easy", "type": "main", "servings": 4, "country": "cn",
+      "diet": ["vegan", "vegetarian", "dairy-free"], "allergens": ["gluten", "soybeans", "sesame"],
+      "ingredients": [
+        { "ids": ["gp-nouilles-asie"], "qty": { "amount": 350, "unit": "g" }, "required": true, "labels": { "fr": "350g de nouilles", "en": "350g noodles" } },
+        { "ids": ["vg-chou", "vg-carottes", "vg-poivron", "vg-germes-soja"], "qty": { "amount": 400, "unit": "g" }, "required": true, "labels": { "fr": "400g de légumes", "en": "400g vegetables" } },
+        { "ids": ["sp-sauce-soja"], "qty": { "amount": 4, "unit": "cs" }, "required": true, "labels": { "fr": "4 c. à soupe de sauce soja", "en": "4 tbsp soy sauce" } },
+        { "ids": ["sp-gingembre", "vg-ail"], "qty": { "amount": 1, "unit": "cs" }, "required": true, "labels": { "fr": "Gingembre et ail", "en": "Ginger and garlic" } },
+        { "ids": ["sp-huile-sesame"], "qty": { "amount": 1, "unit": "cs" }, "required": false, "labels": { "fr": "1 c. à soupe d'huile de sésame", "en": "1 tbsp sesame oil" } }
+      ],
+      "steps": {
+        "fr": ["Cuire les nouilles, les égoutter.", "Faire sauter l'ail et le gingembre dans un wok très chaud.", "Ajouter les légumes et faire sauter 4 min.", "Incorporer les nouilles et la sauce soja.", "Terminer par l'huile de sésame et servir aussitôt."],
+        "en": ["Cook the noodles, drain them.", "Stir-fry the garlic and ginger in a very hot wok.", "Add the vegetables and stir-fry 4 min.", "Stir in the noodles and soy sauce.", "Finish with sesame oil and serve at once."]
+      },
+      "functional_tags": ["anti_waste"], "status": "published"
+    },
+    {
+      "id": "aubergines-sichuan",
+      "name": { "fr": "Aubergines à la sichuanaise", "en": "Sichuan aubergines" },
+      "description": { "fr": "Des aubergines fondantes mijotées dans une sauce aigre-douce et pimentée à l'ail — végétaliennes, intenses et irrésistibles.", "en": "Meltingly soft aubergines simmered in a sweet, sour and spicy garlic sauce — vegan, intense and irresistible." },
+      "emoji": "🍆", "time_min": 30, "prep_time_min": 10, "cook_time_min": 20, "difficulty": "easy", "type": "side", "servings": 4, "country": "cn",
+      "diet": ["vegan", "vegetarian", "dairy-free"], "allergens": ["soybeans", "gluten"],
+      "ingredients": [
+        { "ids": ["vg-aubergine"], "qty": { "amount": 3, "unit": "pcs" }, "required": true, "labels": { "fr": "3 aubergines", "en": "3 aubergines" } },
+        { "ids": ["sp-sauce-soja"], "qty": { "amount": 3, "unit": "cs" }, "required": true, "labels": { "fr": "3 c. à soupe de sauce soja", "en": "3 tbsp soy sauce" } },
+        { "ids": ["sp-vinaigre-riz"], "qty": { "amount": 2, "unit": "cs" }, "required": true, "labels": { "fr": "2 c. à soupe de vinaigre de riz", "en": "2 tbsp rice vinegar" } },
+        { "ids": ["sp-sambal-oelek", "sp-sriracha"], "qty": { "amount": 1, "unit": "cs" }, "required": true, "labels": { "fr": "1 c. à soupe de pâte de piment", "en": "1 tbsp chilli paste" } },
+        { "ids": ["vg-ail", "sp-gingembre"], "qty": { "amount": 3, "unit": "gousse" }, "required": true, "labels": { "fr": "Ail et gingembre", "en": "Garlic and ginger" } },
+        { "ids": ["gp-sucre"], "qty": { "amount": 1, "unit": "cs" }, "required": true, "labels": { "fr": "1 c. à soupe de sucre", "en": "1 tbsp sugar" } }
+      ],
+      "steps": {
+        "fr": ["Couper les aubergines en bâtonnets et les faire dorer dans l'huile.", "Réserver, puis faire revenir l'ail, le gingembre et la pâte de piment.", "Ajouter la sauce soja, le vinaigre, le sucre et un peu d'eau.", "Remettre les aubergines et mijoter 8 min.", "Lier avec un peu de fécule et servir avec du riz."],
+        "en": ["Cut the aubergines into batons and brown them in oil.", "Set aside, then sauté the garlic, ginger and chilli paste.", "Add the soy sauce, vinegar, sugar and a little water.", "Return the aubergines and simmer 8 min.", "Thicken with a little cornstarch and serve with rice."]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "pak-choi-ail",
+      "name": { "fr": "Pak-choï sauté à l'ail", "en": "Garlic stir-fried pak choi" },
+      "description": { "fr": "Du pak-choï sauté rapidement à l'ail et à la sauce soja — un accompagnement végétalien croquant, prêt en cinq minutes.", "en": "Pak choi quickly stir-fried with garlic and soy sauce — a crunchy vegan side ready in five minutes." },
+      "emoji": "🥬", "time_min": 10, "prep_time_min": 5, "cook_time_min": 5, "difficulty": "very-easy", "type": "side", "servings": 4, "country": "cn",
+      "diet": ["vegan", "vegetarian", "dairy-free"], "allergens": ["soybeans", "gluten"],
+      "ingredients": [
+        { "ids": ["vg-pak-choi", "vg-blettes", "vg-epinards"], "qty": { "amount": 500, "unit": "g" }, "required": true, "labels": { "fr": "500g de pak-choï", "en": "500g pak choi" } },
+        { "ids": ["vg-ail"], "qty": { "amount": 3, "unit": "gousse" }, "required": true, "labels": { "fr": "3 gousses d'ail", "en": "3 garlic cloves" } },
+        { "ids": ["sp-sauce-soja"], "qty": { "amount": 2, "unit": "cs" }, "required": true, "labels": { "fr": "2 c. à soupe de sauce soja", "en": "2 tbsp soy sauce" } },
+        { "ids": ["sp-huile-sesame"], "qty": { "amount": 1, "unit": "cs" }, "required": false, "labels": { "fr": "1 c. à soupe d'huile de sésame", "en": "1 tbsp sesame oil" } }
+      ],
+      "steps": {
+        "fr": ["Laver le pak-choï et le couper en deux dans la longueur.", "Faire chauffer un wok avec un peu d'huile et l'ail émincé.", "Ajouter le pak-choï et sauter 3 min à feu vif.", "Verser la sauce soja et un filet d'eau.", "Couvrir 1 min puis servir arrosé d'huile de sésame."],
+        "en": ["Wash the pak choi and halve it lengthwise.", "Heat a wok with a little oil and the sliced garlic.", "Add the pak choi and stir-fry 3 min over high heat.", "Pour in the soy sauce and a splash of water.", "Cover 1 min then serve drizzled with sesame oil."]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "germes-soja-sautes",
+      "name": { "fr": "Germes de soja sautés", "en": "Stir-fried bean sprouts" },
+      "description": { "fr": "Des germes de soja sautés très rapidement avec oignon vert et sauce soja — un accompagnement croquant, frais et minute.", "en": "Bean sprouts flash-fried with spring onion and soy sauce — a crunchy, fresh and last-minute side." },
+      "emoji": "🌱", "time_min": 10, "prep_time_min": 5, "cook_time_min": 5, "difficulty": "very-easy", "type": "side", "servings": 4, "country": "cn",
+      "diet": ["vegan", "vegetarian", "dairy-free"], "allergens": ["soybeans", "gluten", "sesame"],
+      "ingredients": [
+        { "ids": ["vg-germes-soja"], "qty": { "amount": 400, "unit": "g" }, "required": true, "labels": { "fr": "400g de germes de soja", "en": "400g bean sprouts" } },
+        { "ids": ["vg-oignon-vert"], "qty": { "amount": 3, "unit": "pcs" }, "required": true, "labels": { "fr": "3 oignons verts", "en": "3 spring onions" } },
+        { "ids": ["sp-sauce-soja"], "qty": { "amount": 2, "unit": "cs" }, "required": true, "labels": { "fr": "2 c. à soupe de sauce soja", "en": "2 tbsp soy sauce" } },
+        { "ids": ["sp-huile-sesame"], "qty": { "amount": 1, "unit": "cs" }, "required": true, "labels": { "fr": "1 c. à soupe d'huile de sésame", "en": "1 tbsp sesame oil" } }
+      ],
+      "steps": {
+        "fr": ["Rincer les germes de soja et bien les égoutter.", "Chauffer un wok à feu très vif.", "Sauter les germes 2 min sans les détremper.", "Ajouter l'oignon vert et la sauce soja.", "Terminer par l'huile de sésame et servir aussitôt."],
+        "en": ["Rinse the bean sprouts and drain well.", "Heat a wok over very high heat.", "Stir-fry the sprouts 2 min without letting them go soggy.", "Add the spring onion and soy sauce.", "Finish with sesame oil and serve at once."]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "crevettes-sel-poivre",
+      "name": { "fr": "Crevettes sel et poivre", "en": "Salt and pepper shrimp" },
+      "description": { "fr": "Des crevettes croustillantes sautées avec ail, oignon vert et un mélange sel-poivre relevé — un grand classique des dim sum.", "en": "Crispy shrimp tossed with garlic, spring onion and a punchy salt-pepper mix — a dim sum classic." },
+      "emoji": "🍤", "time_min": 20, "prep_time_min": 12, "cook_time_min": 8, "difficulty": "medium", "type": "starter", "servings": 4, "country": "cn",
+      "diet": ["dairy-free"], "allergens": ["crustaceans"],
+      "ingredients": [
+        { "ids": ["fr-crevettes", "frz-crevettes"], "qty": { "amount": 500, "unit": "g" }, "required": true, "labels": { "fr": "500g de crevettes", "en": "500g shrimp" } },
+        { "ids": ["gp-fecule-mais"], "qty": { "amount": 3, "unit": "cs" }, "required": true, "labels": { "fr": "3 c. à soupe de fécule", "en": "3 tbsp cornstarch" } },
+        { "ids": ["vg-ail"], "qty": { "amount": 3, "unit": "gousse" }, "required": true, "labels": { "fr": "3 gousses d'ail", "en": "3 garlic cloves" } },
+        { "ids": ["vg-oignon-vert"], "qty": { "amount": 3, "unit": "pcs" }, "required": true, "labels": { "fr": "3 oignons verts", "en": "3 spring onions" } },
+        { "ids": ["sp-poivre-noir", "sp-poivre-sichuan"], "qty": { "amount": 1, "unit": "cc" }, "required": true, "labels": { "fr": "1 c. à café de poivre", "en": "1 tsp pepper" } }
+      ],
+      "steps": {
+        "fr": ["Enrober les crevettes de fécule.", "Les frire 2-3 min jusqu'à ce qu'elles soient croustillantes, égoutter.", "Faire sauter l'ail et l'oignon vert dans un peu d'huile.", "Remettre les crevettes, saler et poivrer généreusement.", "Sauter 1 min et servir aussitôt."],
+        "en": ["Coat the shrimp in cornstarch.", "Fry them 2-3 min until crisp, drain.", "Stir-fry the garlic and spring onion in a little oil.", "Return the shrimp, season generously with salt and pepper.", "Stir-fry 1 min and serve at once."]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "soupe-aigre-piquante",
+      "name": { "fr": "Soupe aigre-piquante", "en": "Hot and sour soup" },
+      "description": { "fr": "Une soupe chinoise réconfortante, à la fois acidulée et relevée, garnie de tofu, de champignons et d'œuf en filaments.", "en": "A comforting Chinese soup, both sour and spicy, with tofu, mushrooms and ribbons of egg." },
+      "emoji": "🥣", "time_min": 30, "prep_time_min": 15, "cook_time_min": 15, "difficulty": "medium", "type": "starter", "servings": 4, "country": "cn",
+      "diet": ["dairy-free"], "allergens": ["soybeans", "gluten", "eggs"],
+      "ingredients": [
+        { "ids": ["vg-champignons", "gp-shiitake-sec", "gp-champignons"], "qty": { "amount": 200, "unit": "g" }, "required": true, "labels": { "fr": "200g de champignons", "en": "200g mushrooms" } },
+        { "ids": ["vg-tofu", "jp-kinu-tofu"], "qty": { "amount": 200, "unit": "g" }, "required": true, "labels": { "fr": "200g de tofu", "en": "200g tofu" } },
+        { "ids": ["fr-oeuf"], "qty": { "amount": 2, "unit": "pcs" }, "required": true, "labels": { "fr": "2 œufs", "en": "2 eggs" } },
+        { "ids": ["sp-vinaigre-riz", "sp-vinaigre"], "qty": { "amount": 3, "unit": "cs" }, "required": true, "labels": { "fr": "3 c. à soupe de vinaigre", "en": "3 tbsp vinegar" } },
+        { "ids": ["sp-sauce-soja"], "qty": { "amount": 3, "unit": "cs" }, "required": true, "labels": { "fr": "3 c. à soupe de sauce soja", "en": "3 tbsp soy sauce" } },
+        { "ids": ["sp-sriracha", "sp-piment-cayenne"], "qty": { "amount": 1, "unit": "cc" }, "required": true, "labels": { "fr": "1 c. à café de piment", "en": "1 tsp chilli" } },
+        { "ids": ["gp-fecule-mais"], "qty": { "amount": 2, "unit": "cs" }, "required": true, "labels": { "fr": "2 c. à soupe de fécule", "en": "2 tbsp cornstarch" } }
+      ],
+      "steps": {
+        "fr": ["Porter 1,5 L de bouillon à frémissement.", "Ajouter les champignons et le tofu en lamelles.", "Assaisonner avec le vinaigre, la sauce soja et le piment.", "Lier avec la fécule délayée puis verser l'œuf battu en filet.", "Mélanger doucement pour former des filaments et servir."],
+        "en": ["Bring 1.5 L stock to a simmer.", "Add the mushrooms and sliced tofu.", "Season with the vinegar, soy sauce and chilli.", "Thicken with slaked cornstarch then drizzle in the beaten egg.", "Stir gently to form ribbons and serve."]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "soupe-mais-poulet",
+      "name": { "fr": "Soupe maïs et poulet", "en": "Chicken and corn soup" },
+      "description": { "fr": "Une soupe veloutée au maïs doux et au poulet effiloché, liée à l'œuf — douce, réconfortante et appréciée des enfants.", "en": "A velvety sweetcorn and shredded chicken soup, thickened with egg — mild, comforting and loved by kids." },
+      "emoji": "🌽", "time_min": 25, "prep_time_min": 10, "cook_time_min": 15, "difficulty": "easy", "type": "starter", "servings": 4, "country": "cn",
+      "diet": ["dairy-free"], "allergens": ["soybeans", "gluten", "eggs"],
+      "ingredients": [
+        { "ids": ["gp-mais", "frz-mais"], "qty": { "amount": 300, "unit": "g" }, "required": true, "labels": { "fr": "300g de maïs doux", "en": "300g sweetcorn" } },
+        { "ids": ["fr-blanc-poulet"], "qty": { "amount": 200, "unit": "g" }, "required": true, "labels": { "fr": "200g de poulet", "en": "200g chicken" } },
+        { "ids": ["fr-oeuf"], "qty": { "amount": 2, "unit": "pcs" }, "required": true, "labels": { "fr": "2 œufs", "en": "2 eggs" } },
+        { "ids": ["gp-fecule-mais"], "qty": { "amount": 2, "unit": "cs" }, "required": true, "labels": { "fr": "2 c. à soupe de fécule", "en": "2 tbsp cornstarch" } },
+        { "ids": ["sp-sauce-soja", "gp-bouillon-cube"], "qty": { "amount": 2, "unit": "cs" }, "required": true, "labels": { "fr": "2 c. à soupe de sauce soja", "en": "2 tbsp soy sauce" } },
+        { "ids": ["vg-oignon-vert"], "qty": { "amount": 2, "unit": "pcs" }, "required": false, "labels": { "fr": "2 oignons verts", "en": "2 spring onions" } }
+      ],
+      "steps": {
+        "fr": ["Pocher le poulet dans 1,5 L de bouillon, puis l'effilocher.", "Ajouter le maïs et la sauce soja.", "Lier avec la fécule délayée dans un peu d'eau.", "Verser l'œuf battu en filet en remuant doucement.", "Parsemer d'oignon vert et servir bien chaud."],
+        "en": ["Poach the chicken in 1.5 L stock, then shred it.", "Add the corn and soy sauce.", "Thicken with the cornstarch slaked in a little water.", "Drizzle in the beaten egg while stirring gently.", "Scatter spring onion and serve hot."]
+      },
+      "functional_tags": ["kids_friendly"], "status": "published"
+    },
+    {
+      "id": "salade-chou-chinois-sesame",
+      "name": { "fr": "Salade de chou chinois au sésame", "en": "Chinese cabbage sesame salad" },
+      "description": { "fr": "Une salade croquante de chou chinois et de carotte dans une vinaigrette soja-sésame — fraîche, légère et pleine de peps.", "en": "A crunchy Chinese cabbage and carrot salad in a soy-sesame dressing — fresh, light and full of zing." },
+      "emoji": "🥗", "time_min": 15, "prep_time_min": 15, "cook_time_min": 0, "difficulty": "very-easy", "type": "salad", "servings": 4, "country": "cn",
+      "diet": ["vegan", "vegetarian", "dairy-free"], "allergens": ["soybeans", "gluten", "sesame"],
+      "ingredients": [
+        { "ids": ["vg-chou", "vg-chou-vert"], "qty": { "amount": 400, "unit": "g" }, "required": true, "labels": { "fr": "400g de chou chinois", "en": "400g Chinese cabbage" } },
+        { "ids": ["vg-carottes"], "qty": { "amount": 2, "unit": "pcs" }, "required": true, "labels": { "fr": "2 carottes", "en": "2 carrots" } },
+        { "ids": ["sp-sauce-soja"], "qty": { "amount": 2, "unit": "cs" }, "required": true, "labels": { "fr": "2 c. à soupe de sauce soja", "en": "2 tbsp soy sauce" } },
+        { "ids": ["sp-vinaigre-riz"], "qty": { "amount": 2, "unit": "cs" }, "required": true, "labels": { "fr": "2 c. à soupe de vinaigre de riz", "en": "2 tbsp rice vinegar" } },
+        { "ids": ["sp-huile-sesame"], "qty": { "amount": 1, "unit": "cs" }, "required": true, "labels": { "fr": "1 c. à soupe d'huile de sésame", "en": "1 tbsp sesame oil" } },
+        { "ids": ["sp-sesame-blanc", "jp-goma"], "qty": { "amount": 1, "unit": "cs" }, "required": false, "labels": { "fr": "1 c. à soupe de sésame", "en": "1 tbsp sesame seeds" } }
+      ],
+      "steps": {
+        "fr": ["Émincer finement le chou chinois et râper les carottes.", "Préparer la vinaigrette : sauce soja, vinaigre de riz, huile de sésame.", "Mélanger les légumes avec la sauce.", "Laisser reposer 10 min pour attendrir le chou.", "Parsemer de sésame et servir frais."],
+        "en": ["Finely shred the Chinese cabbage and grate the carrots.", "Make the dressing: soy sauce, rice vinegar, sesame oil.", "Toss the vegetables with the dressing.", "Rest 10 min to soften the cabbage.", "Sprinkle with sesame and serve cold."]
+      },
+      "functional_tags": ["anti_waste"], "status": "published"
+    },
+    {
+      "id": "beignets-banane-sesame",
+      "name": { "fr": "Beignets de banane au sésame", "en": "Sesame banana fritters" },
+      "description": { "fr": "Des morceaux de banane enrobés de pâte et frits, croustillants dehors et fondants dedans, roulés dans le sésame et le miel — un dessert de restaurant chinois.", "en": "Banana pieces in batter, fried crisp outside and soft within, rolled in sesame and honey — a Chinese restaurant dessert." },
+      "emoji": "🍌", "time_min": 25, "prep_time_min": 12, "cook_time_min": 13, "difficulty": "easy", "type": "dessert", "servings": 4, "country": "cn",
+      "diet": ["vegetarian"], "allergens": ["gluten", "sesame"],
+      "ingredients": [
+        { "ids": ["fr-banane"], "qty": { "amount": 4, "unit": "pcs" }, "required": true, "labels": { "fr": "4 bananes", "en": "4 bananas" } },
+        { "ids": ["gp-farine"], "qty": { "amount": 120, "unit": "g" }, "required": true, "labels": { "fr": "120g de farine", "en": "120g flour" } },
+        { "ids": ["gp-fecule-mais"], "qty": { "amount": 2, "unit": "cs" }, "required": true, "labels": { "fr": "2 c. à soupe de fécule", "en": "2 tbsp cornstarch" } },
+        { "ids": ["gp-miel", "gp-sucre"], "qty": { "amount": 3, "unit": "cs" }, "required": true, "labels": { "fr": "3 c. à soupe de miel", "en": "3 tbsp honey" } },
+        { "ids": ["sp-sesame-blanc"], "qty": { "amount": 2, "unit": "cs" }, "required": true, "labels": { "fr": "2 c. à soupe de sésame", "en": "2 tbsp sesame seeds" } }
+      ],
+      "steps": {
+        "fr": ["Préparer une pâte légère avec la farine, la fécule et de l'eau froide.", "Couper les bananes en tronçons et les enrober de pâte.", "Frire jusqu'à ce qu'ils soient dorés et croustillants.", "Faire tiédir le miel et y rouler les beignets.", "Parsemer de sésame et servir aussitôt."],
+        "en": ["Make a light batter with the flour, cornstarch and cold water.", "Cut the bananas into chunks and coat in batter.", "Fry until golden and crisp.", "Warm the honey and roll the fritters in it.", "Sprinkle with sesame and serve at once."]
+      },
+      "functional_tags": ["kids_friendly"], "status": "published"
+    }
+  ]
+}

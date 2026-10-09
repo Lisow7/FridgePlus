@@ -1,0 +1,86 @@
+# Dependabot config — Fridge+
+#
+# Sprint 10 S10.d.3 — automated dependency security updates.
+# 2026-06-23 — target-branch passe a `dev` (post-cutover : le flux est
+#              feat -> dev -> main ; les deps doivent passer par `dev`,
+#              pas viser `main` qui est protege/release-gated).
+#
+# 2026-08-06 — ATTENTION, limitation GitHub connue : `target-branch` ne
+#              s'applique QU'AUX version updates. Les *security* updates
+#              (declenchees par une alerte Dependabot, branche nommee
+#              `dependabot/npm_and_yarn/<hash>` sans segment `/dev/`) visent
+#              TOUJOURS la branche par defaut, donc `main`. C'est documente
+#              et non configurable :
+#              https://github.com/dependabot/dependabot-core/issues/2767
+#              => Une PR de securite qui arrive sur `main` n'est PAS une
+#              erreur de config. Marche a suivre : rejouer son commit sur
+#              une branche issue de `dev` (cherry-pick, l'attribution du bot
+#              est conservee), ouvrir la PR vers `dev`, puis fermer la PR
+#              d'origine. Ne pas la merger dans `main` : elle contournerait
+#              le staging et ferait echouer le release-guard.
+#              1er cas rencontre : PR #948 (brace-expansion), fermee au
+#              profit de sa rejouee sur `dev`.
+#
+# Strategy:
+#   - npm    : daily, security updates only auto-merged via CI guards;
+#              feature updates grouped weekly to keep PR noise manageable.
+#   - github-actions : weekly, low-volume; we control workflows tightly.
+#
+# Reviewers are not auto-assigned (small team, the bot pings via PR notif).
+# Labels make the PRs filterable in the project board.
+
+version: 2
+
+updates:
+  # ─── npm (frontend + scripts) ──────────────────────────────────
+  - package-ecosystem: npm
+    directory: /
+    target-branch: dev
+    schedule:
+      interval: daily
+      time: '06:00'
+      timezone: Europe/Paris
+    open-pull-requests-limit: 5
+    labels:
+      - dependencies
+      - npm
+    groups:
+      # Group all minor/patch updates so we don't get 30 separate PRs.
+      # Security updates remain separate (the bot ignores grouping for those).
+      minor-and-patch:
+        update-types:
+          - minor
+          - patch
+    # Pin majors that need manual, deliberate upgrades to avoid surprises:
+    #   - react / react-dom : on reste sur 19.x.
+    #   - eslint / @eslint/js : la passe ESLint 10 est un chantier dedie
+    #     (le baseline lint est encore a nettoyer — cf. methode de travail).
+    ignore:
+      - dependency-name: react
+        update-types: [version-update:semver-major]
+      - dependency-name: react-dom
+        update-types: [version-update:semver-major]
+      - dependency-name: eslint
+        update-types: [version-update:semver-major]
+      - dependency-name: '@eslint/js'
+        update-types: [version-update:semver-major]
+    commit-message:
+      prefix: 'chore(deps)'
+      include: scope
+
+  # ─── GitHub Actions ────────────────────────────────────────────
+  - package-ecosystem: github-actions
+    directory: /
+    target-branch: dev
+    schedule:
+      interval: weekly
+      day: monday
+      time: '06:00'
+      timezone: Europe/Paris
+    open-pull-requests-limit: 3
+    labels:
+      - dependencies
+      - github-actions
+    commit-message:
+      prefix: 'chore(ci)'
+      include: scope

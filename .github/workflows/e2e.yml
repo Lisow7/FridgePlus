@@ -1,0 +1,78 @@
+name: E2E tests (Playwright)
+
+# Smoke tests Playwright.
+#
+# 2026-08-06 — se déclenche désormais sur les PR vers `main` ET vers `dev`.
+# Restreint à `main`, il ne couvrait jamais les PR du quotidien : les 4 PR de
+# la release #952 ont été livrées sans avoir jamais été passées en E2E. Le
+# surcoût est modéré (~1m30/PR) au regard de ce trou.
+# Au besoin, relancer à la main via « Run workflow » (workflow_dispatch).
+#
+# Le build de prod a été retiré du job : `playwright.config.js` lance
+# `webServer: npm run dev`, les tests s'exécutent donc contre le serveur de
+# développement et ce bundle n'était jamais exercé (~30 s pour rien).
+#
+# Tests exécutés : TOUT le dossier `e2e/`. Volontairement PAS énuméré ici.
+#
+# 🔴 Cette liste a menti deux fois. Recalée le 2026-08-22 — elle annonçait
+# 7 fichiers pour 9, et « 14 passés / 3 sautés sur 17 » quand la suite en
+# comptait 28. Recalée encore le 2026-09-12 : elle annonçait 10 fichiers pour
+# 13, et « a11y.spec.js — axe-core sur 6 pages publiques × 2 thèmes » quand ce
+# fichier balaie 11 pages × 2 thèmes × 2 largeurs, soit 44 cas.
+#
+# 🥇 Une liste qu'aucun test ne vérifie finit TOUJOURS par décrire autre chose
+# que ce qui tourne — c'est la classe de défaut la plus fréquente de ce dépôt :
+# une garantie qui existe à un endroit et dont la copie a divergé. La recopier
+# une troisième fois, c'est planifier le prochain mensonge. La source est
+# `ls e2e/*.spec.js`, et le décompte réel est dans les logs du job.
+#
+# Lire ce décompte dans les logs, jamais la couleur du badge : c'est aussi ce
+# qui distingue un job vert d'un job vide.
+
+on:
+  pull_request:
+    branches: [main, dev]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  e2e:
+    name: Smoke tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Run Playwright tests
+        run: npm run e2e
+        env:
+          CI: true
+          # Ces secrets n'existent pas dans le dépôt : les variables arrivent
+          # donc VIDES et le client retombe sur `placeholder.supabase.co`, le
+          # fallback statique prenant le relais. C'est volontaire — aucun test
+          # ne doit atteindre la base de production. `signup-funnel.spec.js` va
+          # plus loin et intercepte tout appel `rest/v1` / `auth/v1`.
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
+
+      - name: Upload report on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 14
+          if-no-files-found: ignore

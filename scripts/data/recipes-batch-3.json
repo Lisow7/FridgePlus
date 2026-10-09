@@ -1,0 +1,508 @@
+{
+  "batchName": "batch-3",
+  "recipes": [
+    {
+      "id": "quiche-legumes",
+      "name": { "fr": "Quiche aux légumes", "en": "Vegetable quiche" },
+      "description": { "fr": "Une quiche dorée garnie de légumes et d'un appareil crémeux aux œufs — parfaite pour utiliser les restes de légumes.", "en": "A golden quiche filled with vegetables and a creamy egg custard — perfect for using up leftover veg." },
+      "emoji": "🥧", "time_min": 50, "prep_time_min": 20, "cook_time_min": 30,
+      "difficulty": "easy", "type": "main", "servings": 4, "country": "fr",
+      "diet": ["vegetarian"], "allergens": ["gluten", "milk", "eggs"],
+      "ingredients": [
+        { "ids": ["fr-pate-brisee", "fr-pate-feuilletee"], "qty": { "amount": 1, "unit": "pcs" }, "required": true, "labels": { "fr": "1 pâte brisée", "en": "1 shortcrust pastry" } },
+        { "ids": ["fr-oeuf", "fr-oeufs-standard"], "qty": { "amount": 3, "unit": "pcs" }, "required": true, "labels": { "fr": "3 œufs", "en": "3 eggs" } },
+        { "ids": ["fr-creme-liquide", "fr-creme", "fr-lait"], "qty": { "amount": 20, "unit": "cl" }, "required": true, "labels": { "fr": "20 cl de crème", "en": "200ml cream" } },
+        { "ids": ["vg-courgette", "vg-poivron", "vg-epinards", "vg-brocoli"], "qty": { "amount": 300, "unit": "g" }, "required": true, "labels": { "fr": "300g de légumes", "en": "300g vegetables" } },
+        { "ids": ["fr-gruyere", "fr-emmental", "fr-fromage-rape"], "qty": { "amount": 80, "unit": "g" }, "required": false, "labels": { "fr": "80g de fromage râpé", "en": "80g grated cheese" } }
+      ],
+      "steps": {
+        "fr": ["Préchauffer le four à 190°C et foncer un moule avec la pâte.", "Faire revenir les légumes coupés en dés quelques minutes.", "Battre les œufs avec la crème, sel, poivre et muscade.", "Répartir les légumes et le fromage sur la pâte, verser l'appareil et enfourner 30 min."],
+        "en": ["Preheat the oven to 190°C (375°F) and line a tin with the pastry.", "Sauté the diced vegetables for a few minutes.", "Beat the eggs with the cream, salt, pepper and nutmeg.", "Spread the vegetables and cheese over the pastry, pour in the custard and bake 30 min."]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "pates-pesto",
+      "name": { "fr": "Pâtes au pesto", "en": "Pasta with pesto" },
+      "description": { "fr": "Des pâtes nappées de pesto au basilic et parmesan — un plat express, prêt en 15 minutes.", "en": "Pasta tossed in basil and parmesan pesto — a quick dish ready in 15 minutes." },
+      "emoji": "🍝", "time_min": 15, "prep_time_min": 5, "cook_time_min": 10,
+      "difficulty": "very-easy", "type": "main", "servings": 2, "country": "it",
+      "diet": ["vegetarian"], "allergens": ["gluten", "milk", "nuts"],
+      "ingredients": [
+        { "ids": ["gp-pates", "gp-penne", "gp-fusilli", "gp-spaghetti"], "qty": { "amount": 250, "unit": "g" }, "required": true, "labels": { "fr": "250g de pâtes", "en": "250g pasta" } },
+        { "ids": ["sp-pesto"], "qty": { "amount": 4, "unit": "cs" }, "required": true, "labels": { "fr": "4 c. à soupe de pesto", "en": "4 tbsp pesto" } },
+        { "ids": ["fr-parmesan", "fr-grana-padano"], "qty": { "amount": 40, "unit": "g" }, "required": false, "labels": { "fr": "40g de parmesan", "en": "40g parmesan" } },
+        { "ids": ["vg-tomate-cerise"], "qty": { "amount": 100, "unit": "g" }, "required": false, "labels": { "fr": "100g de tomates cerises", "en": "100g cherry tomatoes" } }
+      ],
+      "steps": {
+        "fr": ["Cuire les pâtes al dente dans l'eau bouillante salée.", "Réserver un peu d'eau de cuisson, puis égoutter.", "Mélanger les pâtes avec le pesto et un peu d'eau de cuisson pour lier.", "Servir avec le parmesan et les tomates cerises."],
+        "en": ["Cook the pasta al dente in salted boiling water.", "Reserve a little cooking water, then drain.", "Toss the pasta with the pesto and a splash of cooking water to loosen.", "Serve with the parmesan and cherry tomatoes."]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "tartiflette",
+      "name": { "fr": "Tartiflette", "en": "Tartiflette" },
+      "description": { "fr": "Le gratin savoyard de pommes de terre, lardons et reblochon fondu — généreux et réconfortant.", "en": "The Savoyard bake of potatoes, lardons and melted reblochon — generous and comforting." },
+      "emoji": "🧀", "time_min": 60, "prep_time_min": 20, "cook_time_min": 40,
+      "difficulty": "easy", "type": "main", "servings": 4, "country": "fr",
+      "diet": [], "allergens": ["milk"],
+      "ingredients": [
+        { "ids": ["vg-pomme-terre"], "qty": { "amount": 1, "unit": "kg" }, "required": true, "labels": { "fr": "1 kg de pommes de terre", "en": "1 kg potatoes" } },
+        { "ids": ["fr-reblochon"], "qty": { "amount": 1, "unit": "pcs" }, "required": true, "labels": { "fr": "1 reblochon", "en": "1 reblochon cheese" } },
+        { "ids": ["fr-lardons", "fr-bacon"], "qty": { "amount": 200, "unit": "g" }, "required": true, "labels": { "fr": "200g de lardons", "en": "200g lardons" } },
+        { "ids": ["vg-oignon"], "qty": { "amount": 2, "unit": "pcs" }, "required": true, "labels": { "fr": "2 oignons", "en": "2 onions" } },
+        { "ids": ["fr-creme-fraiche", "fr-creme"], "qty": { "amount": 10, "unit": "cl" }, "required": false, "labels": { "fr": "10 cl de crème", "en": "100ml cream" } }
+      ],
+      "steps": {
+        "fr": ["Cuire les pommes de terre, les peler et les couper en rondelles.", "Faire revenir les oignons émincés et les lardons.", "Dans un plat, alterner pommes de terre, oignons-lardons et crème.", "Couper le reblochon en deux et le poser croûte vers le haut. Enfourner 30 min à 200°C."],
+        "en": ["Cook the potatoes, peel and slice them.", "Sauté the sliced onions and lardons.", "In a dish, layer potatoes, onion-lardons and cream.", "Cut the reblochon in half and place it rind up. Bake 30 min at 200°C (390°F)."]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "raclette",
+      "name": { "fr": "Raclette", "en": "Raclette" },
+      "description": { "fr": "Le repas convivial par excellence : fromage à raclette fondu sur des pommes de terre et de la charcuterie.", "en": "The ultimate convivial meal: melted raclette cheese over potatoes and cured meats." },
+      "emoji": "🧀", "time_min": 40, "prep_time_min": 20, "cook_time_min": 20,
+      "difficulty": "very-easy", "type": "main", "servings": 4, "country": "fr",
+      "diet": [], "allergens": ["milk"],
+      "ingredients": [
+        { "ids": ["fr-raclette"], "qty": { "amount": 800, "unit": "g" }, "required": true, "labels": { "fr": "800g de fromage à raclette", "en": "800g raclette cheese" } },
+        { "ids": ["vg-pomme-terre"], "qty": { "amount": 1, "unit": "kg" }, "required": true, "labels": { "fr": "1 kg de pommes de terre", "en": "1 kg potatoes" } },
+        { "ids": ["fr-jambon-sec", "fr-jambon-blanc", "fr-rosette", "fr-saucisson"], "qty": { "amount": 300, "unit": "g" }, "required": true, "labels": { "fr": "300g de charcuterie", "en": "300g cured meats" } },
+        { "ids": ["sp-cornichon"], "qty": { "amount": null, "unit": "pm" }, "required": false, "labels": { "fr": "Cornichons", "en": "Pickles" } }
+      ],
+      "steps": {
+        "fr": ["Cuire les pommes de terre à l'eau ou à la vapeur, les garder au chaud.", "Disposer la charcuterie et les cornichons sur un plat.", "Faire fondre les tranches de fromage dans les coupelles de l'appareil à raclette.", "Verser le fromage fondu sur les pommes de terre et déguster aussitôt."],
+        "en": ["Boil or steam the potatoes and keep them warm.", "Arrange the cured meats and pickles on a platter.", "Melt the cheese slices in the raclette grill trays.", "Pour the melted cheese over the potatoes and eat immediately."]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "pizza-maison",
+      "name": { "fr": "Pizza maison", "en": "Homemade pizza" },
+      "description": { "fr": "Une pizza maison à la sauce tomate et mozzarella, à personnaliser selon vos envies — meilleure que la livraison.", "en": "A homemade pizza with tomato sauce and mozzarella, customise it to taste — better than delivery." },
+      "emoji": "🍕", "time_min": 30, "prep_time_min": 15, "cook_time_min": 15,
+      "difficulty": "easy", "type": "main", "servings": 2, "country": "it",
+      "diet": ["vegetarian"], "allergens": ["gluten", "milk"],
+      "ingredients": [
+        { "ids": ["frz-paton-pizza", "gp-farine"], "qty": { "amount": 1, "unit": "pcs" }, "required": true, "labels": { "fr": "1 pâte à pizza", "en": "1 pizza dough" } },
+        { "ids": ["sp-sauce-tomate", "gp-concentre-tom", "gp-tomates-pelees"], "qty": { "amount": 100, "unit": "g" }, "required": true, "labels": { "fr": "100g de sauce tomate", "en": "100g tomato sauce" } },
+        { "ids": ["fr-mozzarella", "fr-fromage-rape"], "qty": { "amount": 125, "unit": "g" }, "required": true, "labels": { "fr": "1 boule de mozzarella", "en": "1 mozzarella ball" } },
+        { "ids": ["sp-origan", "sp-basilic", "sp-herbes-prov"], "qty": { "amount": null, "unit": "pm" }, "required": false, "labels": { "fr": "Origan", "en": "Oregano" } }
+      ],
+      "steps": {
+        "fr": ["Préchauffer le four au maximum (240-250°C).", "Étaler la pâte, la tartiner de sauce tomate.", "Répartir la mozzarella en morceaux et les garnitures de votre choix.", "Enfourner 12-15 min jusqu'à ce que la pâte soit dorée. Parsemer d'origan."],
+        "en": ["Preheat the oven to maximum (240-250°C / 475°F).", "Roll out the dough and spread with tomato sauce.", "Scatter over the torn mozzarella and your chosen toppings.", "Bake 12-15 min until the crust is golden. Sprinkle with oregano."]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "pates-saumon",
+      "name": { "fr": "Pâtes au saumon", "en": "Salmon pasta" },
+      "description": { "fr": "Des pâtes dans une sauce crémeuse au saumon et à l'aneth — élégant et prêt en 20 minutes.", "en": "Pasta in a creamy salmon and dill sauce — elegant and ready in 20 minutes." },
+      "emoji": "🍝", "time_min": 20, "prep_time_min": 5, "cook_time_min": 15,
+      "difficulty": "easy", "type": "main", "servings": 2, "country": "it",
+      "diet": [], "allergens": ["gluten", "fish", "milk"],
+      "ingredients": [
+        { "ids": ["gp-tagliatelles", "gp-pates", "gp-penne"], "qty": { "amount": 250, "unit": "g" }, "required": true, "labels": { "fr": "250g de tagliatelles", "en": "250g tagliatelle" } },
+        { "ids": ["fr-saumon", "fr-saumon-fume", "frz-saumon-pave"], "qty": { "amount": 200, "unit": "g" }, "required": true, "labels": { "fr": "200g de saumon", "en": "200g salmon" } },
+        { "ids": ["fr-creme-liquide", "fr-creme", "fr-creme-fraiche"], "qty": { "amount": 20, "unit": "cl" }, "required": true, "labels": { "fr": "20 cl de crème liquide", "en": "200ml cream" } },
+        { "ids": ["vg-echalote", "vg-oignon"], "qty": { "amount": 1, "unit": "pcs" }, "required": false, "labels": { "fr": "1 échalote", "en": "1 shallot" } },
+        { "ids": ["sp-aneth", "sp-ciboulette"], "qty": { "amount": null, "unit": "pm" }, "required": false, "labels": { "fr": "Aneth", "en": "Dill" } }
+      ],
+      "steps": {
+        "fr": ["Cuire les pâtes al dente.", "Faire revenir l'échalote, ajouter le saumon en dés et le saisir.", "Verser la crème, saler, poivrer et laisser épaissir 3-4 min.", "Mélanger avec les pâtes égouttées, parsemer d'aneth et servir."],
+        "en": ["Cook the pasta al dente.", "Sauté the shallot, add the diced salmon and sear.", "Pour in the cream, season and let thicken 3-4 min.", "Toss with the drained pasta, sprinkle with dill and serve."]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "nouilles-sautees-legumes",
+      "name": { "fr": "Nouilles sautées aux légumes", "en": "Stir-fried noodles with vegetables" },
+      "description": { "fr": "Des nouilles asiatiques sautées au wok avec des légumes croquants et de la sauce soja — rapide et végétalien.", "en": "Asian noodles stir-fried with crunchy vegetables and soy sauce — quick and vegan." },
+      "emoji": "🍜", "time_min": 20, "prep_time_min": 10, "cook_time_min": 10,
+      "difficulty": "easy", "type": "main", "servings": 2, "country": "intl",
+      "diet": ["vegan", "vegetarian", "dairy-free"], "allergens": ["gluten", "soybeans", "sesame"],
+      "ingredients": [
+        { "ids": ["gp-nouilles-asie", "jp-udon", "jp-yakisoba-men"], "qty": { "amount": 250, "unit": "g" }, "required": true, "labels": { "fr": "250g de nouilles", "en": "250g noodles" } },
+        { "ids": ["vg-poivron"], "qty": { "amount": 1, "unit": "pcs" }, "required": true, "labels": { "fr": "1 poivron", "en": "1 pepper" } },
+        { "ids": ["vg-carottes"], "qty": { "amount": 2, "unit": "pcs" }, "required": true, "labels": { "fr": "2 carottes", "en": "2 carrots" } },
+        { "ids": ["sp-sauce-soja"], "qty": { "amount": 3, "unit": "cs" }, "required": true, "labels": { "fr": "3 c. à soupe de sauce soja", "en": "3 tbsp soy sauce" } },
+        { "ids": ["sp-huile-sesame"], "qty": { "amount": 1, "unit": "cs" }, "required": true, "labels": { "fr": "1 c. à soupe d'huile de sésame", "en": "1 tbsp sesame oil" } },
+        { "ids": ["vg-germes-soja", "vg-oignon-vert"], "qty": { "amount": 100, "unit": "g" }, "required": false, "labels": { "fr": "100g de germes de soja", "en": "100g bean sprouts" } }
+      ],
+      "steps": {
+        "fr": ["Cuire les nouilles selon le paquet, égoutter.", "Faire sauter les légumes en lanières à feu vif dans l'huile de sésame 4-5 min.", "Ajouter les nouilles et la sauce soja, faire revenir 2 min.", "Ajouter les germes de soja, mélanger et servir."],
+        "en": ["Cook the noodles per the packet, drain.", "Stir-fry the sliced vegetables over high heat in the sesame oil 4-5 min.", "Add the noodles and soy sauce, toss 2 min.", "Add the bean sprouts, mix and serve."]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "curry-pois-chiches",
+      "name": { "fr": "Curry de pois chiches", "en": "Chickpea curry" },
+      "description": { "fr": "Un curry végétalien de pois chiches au lait de coco et tomates — nourrissant, parfumé et économique.", "en": "A vegan chickpea curry with coconut milk and tomatoes — nourishing, fragrant and budget-friendly." },
+      "emoji": "🍛", "time_min": 30, "prep_time_min": 10, "cook_time_min": 20,
+      "difficulty": "easy", "type": "main", "servings": 4, "country": "in",
+      "diet": ["vegan", "vegetarian", "gluten-free", "dairy-free"], "allergens": [],
+      "ingredients": [
+        { "ids": ["gp-pois-chiches"], "qty": { "amount": 400, "unit": "g" }, "required": true, "labels": { "fr": "400g de pois chiches", "en": "400g chickpeas" } },
+        { "ids": ["gp-lait-coco"], "qty": { "amount": 400, "unit": "ml" }, "required": true, "labels": { "fr": "400ml de lait de coco", "en": "400ml coconut milk" } },
+        { "ids": ["gp-tomates-concas", "gp-tomate"], "qty": { "amount": 400, "unit": "g" }, "required": true, "labels": { "fr": "400g de tomates concassées", "en": "400g crushed tomatoes" } },
+        { "ids": ["sp-curry", "sp-curcuma"], "qty": { "amount": 2, "unit": "cs" }, "required": true, "labels": { "fr": "2 c. à soupe de curry", "en": "2 tbsp curry" } },
+        { "ids": ["vg-oignon"], "qty": { "amount": 1, "unit": "pcs" }, "required": true, "labels": { "fr": "1 oignon", "en": "1 onion" } },
+        { "ids": ["vg-ail"], "qty": { "amount": 2, "unit": "gousse" }, "required": false, "labels": { "fr": "2 gousses d'ail", "en": "2 garlic cloves" } }
+      ],
+      "steps": {
+        "fr": ["Faire revenir l'oignon et l'ail, ajouter le curry et remuer 1 min.", "Verser les tomates et le lait de coco, porter à frémissement.", "Ajouter les pois chiches égouttés et mijoter 15 min.", "Rectifier l'assaisonnement et servir avec du riz."],
+        "en": ["Sauté the onion and garlic, add the curry and stir 1 min.", "Pour in the tomatoes and coconut milk, bring to a simmer.", "Add the drained chickpeas and simmer 15 min.", "Adjust seasoning and serve with rice."]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "boeuf-stroganoff",
+      "name": { "fr": "Bœuf Stroganoff", "en": "Beef Stroganoff" },
+      "description": { "fr": "Des lamelles de bœuf dans une sauce crémeuse aux champignons et à la moutarde — un classique russe réconfortant.", "en": "Strips of beef in a creamy mushroom and mustard sauce — a comforting Russian classic." },
+      "emoji": "🥩", "time_min": 30, "prep_time_min": 10, "cook_time_min": 20,
+      "difficulty": "easy", "type": "main", "servings": 4, "country": "intl",
+      "diet": [], "allergens": ["milk", "mustard"],
+      "ingredients": [
+        { "ids": ["fr-bavette", "fr-filet-boeuf", "fr-boeuf", "fr-entrecote"], "qty": { "amount": 500, "unit": "g" }, "required": true, "labels": { "fr": "500g de bœuf", "en": "500g beef" } },
+        { "ids": ["vg-champignons", "frz-champignons"], "qty": { "amount": 300, "unit": "g" }, "required": true, "labels": { "fr": "300g de champignons", "en": "300g mushrooms" } },
+        { "ids": ["fr-creme-fraiche", "fr-creme-liquide", "fr-creme"], "qty": { "amount": 20, "unit": "cl" }, "required": true, "labels": { "fr": "20 cl de crème fraîche", "en": "200ml sour cream" } },
+        { "ids": ["vg-oignon"], "qty": { "amount": 1, "unit": "pcs" }, "required": true, "labels": { "fr": "1 oignon", "en": "1 onion" } },
+        { "ids": ["sp-moutarde"], "qty": { "amount": 1, "unit": "cs" }, "required": false, "labels": { "fr": "1 c. à soupe de moutarde", "en": "1 tbsp mustard" } },
+        { "ids": ["sp-paprika"], "qty": { "amount": 1, "unit": "cc" }, "required": false, "labels": { "fr": "1 c. à café de paprika", "en": "1 tsp paprika" } }
+      ],
+      "steps": {
+        "fr": ["Couper le bœuf en fines lamelles et le saisir à feu vif, réserver.", "Faire revenir l'oignon et les champignons émincés.", "Ajouter la crème, la moutarde et le paprika, mélanger.", "Remettre le bœuf, réchauffer 2 min sans bouillir et servir avec du riz."],
+        "en": ["Cut the beef into thin strips and sear over high heat, set aside.", "Sauté the sliced onion and mushrooms.", "Add the cream, mustard and paprika, stir.", "Return the beef, reheat 2 min without boiling and serve with rice."]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "poulet-citron",
+      "name": { "fr": "Poulet au citron", "en": "Lemon chicken" },
+      "description": { "fr": "Des morceaux de poulet dorés au citron, à l'ail et au thym — léger, parfumé et sans matière grasse superflue.", "en": "Chicken pieces roasted with lemon, garlic and thyme — light, fragrant and lean." },
+      "emoji": "🍗", "time_min": 40, "prep_time_min": 10, "cook_time_min": 30,
+      "difficulty": "easy", "type": "main", "servings": 4, "country": "fr",
+      "diet": ["gluten-free", "dairy-free"], "allergens": [],
+      "ingredients": [
+        { "ids": ["fr-cuisse-poulet", "fr-blanc-poulet", "fr-poulet"], "qty": { "amount": 4, "unit": "pcs" }, "required": true, "labels": { "fr": "4 cuisses de poulet", "en": "4 chicken thighs" } },
+        { "ids": ["fr-citron"], "qty": { "amount": 2, "unit": "pcs" }, "required": true, "labels": { "fr": "2 citrons", "en": "2 lemons" } },
+        { "ids": ["vg-ail"], "qty": { "amount": 4, "unit": "gousse" }, "required": true, "labels": { "fr": "4 gousses d'ail", "en": "4 garlic cloves" } },
+        { "ids": ["sp-thym", "sp-herbes-prov", "sp-romarin"], "qty": { "amount": null, "unit": "pm" }, "required": false, "labels": { "fr": "Thym", "en": "Thyme" } },
+        { "ids": ["sp-huile-olive"], "qty": { "amount": 2, "unit": "cs" }, "required": true, "labels": { "fr": "2 c. à soupe d'huile d'olive", "en": "2 tbsp olive oil" } }
+      ],
+      "steps": {
+        "fr": ["Préchauffer le four à 200°C.", "Disposer le poulet dans un plat avec les citrons en quartiers et l'ail.", "Arroser d'huile, saler, poivrer, parsemer de thym.", "Enfourner 30-35 min en arrosant à mi-cuisson, jusqu'à ce que le poulet soit doré."],
+        "en": ["Preheat the oven to 200°C (390°F).", "Arrange the chicken in a dish with the quartered lemons and garlic.", "Drizzle with oil, season and sprinkle with thyme.", "Bake 30-35 min, basting halfway, until the chicken is golden."]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "aubergines-parmesan",
+      "name": { "fr": "Aubergines à la parmesane", "en": "Eggplant parmigiana" },
+      "description": { "fr": "Un gratin d'aubergines à la sauce tomate, mozzarella et parmesan — le plat italien végétarien par excellence.", "en": "A bake of eggplant, tomato sauce, mozzarella and parmesan — the quintessential Italian vegetarian dish." },
+      "emoji": "🍆", "time_min": 60, "prep_time_min": 25, "cook_time_min": 35,
+      "difficulty": "medium", "type": "main", "servings": 4, "country": "it",
+      "diet": ["vegetarian", "gluten-free"], "allergens": ["milk"],
+      "ingredients": [
+        { "ids": ["vg-aubergine"], "qty": { "amount": 3, "unit": "pcs" }, "required": true, "labels": { "fr": "3 aubergines", "en": "3 eggplants" } },
+        { "ids": ["gp-tomates-concas", "gp-tomates-pelees", "sp-sauce-tomate"], "qty": { "amount": 400, "unit": "g" }, "required": true, "labels": { "fr": "400g de sauce tomate", "en": "400g tomato sauce" } },
+        { "ids": ["fr-mozzarella"], "qty": { "amount": 250, "unit": "g" }, "required": true, "labels": { "fr": "250g de mozzarella", "en": "250g mozzarella" } },
+        { "ids": ["fr-parmesan", "fr-grana-padano"], "qty": { "amount": 60, "unit": "g" }, "required": true, "labels": { "fr": "60g de parmesan", "en": "60g parmesan" } },
+        { "ids": ["sp-basilic"], "qty": { "amount": null, "unit": "pm" }, "required": false, "labels": { "fr": "Basilic frais", "en": "Fresh basil" } },
+        { "ids": ["sp-huile-olive"], "qty": { "amount": 3, "unit": "cs" }, "required": true, "labels": { "fr": "3 c. à soupe d'huile d'olive", "en": "3 tbsp olive oil" } }
+      ],
+      "steps": {
+        "fr": ["Couper les aubergines en tranches et les faire dorer à la poêle dans l'huile.", "Dans un plat, alterner aubergines, sauce tomate, mozzarella et parmesan.", "Répéter les couches en terminant par le parmesan.", "Enfourner 35 min à 190°C. Parsemer de basilic avant de servir."],
+        "en": ["Slice the eggplants and brown them in a pan with the oil.", "In a dish, layer eggplant, tomato sauce, mozzarella and parmesan.", "Repeat the layers, finishing with parmesan.", "Bake 35 min at 190°C (375°F). Sprinkle with basil before serving."]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "burritos-haricots",
+      "name": { "fr": "Burritos aux haricots", "en": "Bean burritos" },
+      "description": { "fr": "Des tortillas garnies de haricots rouges, riz et fromage — un repas mexicain végétarien rassasiant.", "en": "Tortillas filled with red beans, rice and cheese — a filling vegetarian Mexican meal." },
+      "emoji": "🌯", "time_min": 25, "prep_time_min": 15, "cook_time_min": 10,
+      "difficulty": "easy", "type": "main", "servings": 4, "country": "us",
+      "diet": ["vegetarian"], "allergens": ["gluten", "milk"],
+      "ingredients": [
+        { "ids": ["gp-tortillas"], "qty": { "amount": 4, "unit": "pcs" }, "required": true, "labels": { "fr": "4 grandes tortillas", "en": "4 large tortillas" } },
+        { "ids": ["gp-haricots-rouges"], "qty": { "amount": 400, "unit": "g" }, "required": true, "labels": { "fr": "400g de haricots rouges", "en": "400g red kidney beans" } },
+        { "ids": ["gp-riz", "gp-riz-basmati"], "qty": { "amount": 200, "unit": "g" }, "required": true, "labels": { "fr": "200g de riz cuit", "en": "200g cooked rice" } },
+        { "ids": ["fr-cheddar", "fr-fromage-rape"], "qty": { "amount": 100, "unit": "g" }, "required": true, "labels": { "fr": "100g de cheddar râpé", "en": "100g grated cheddar" } },
+        { "ids": ["vg-poivron"], "qty": { "amount": 1, "unit": "pcs" }, "required": false, "labels": { "fr": "1 poivron", "en": "1 pepper" } },
+        { "ids": ["sp-cumin", "sp-paprika"], "qty": { "amount": 1, "unit": "cc" }, "required": false, "labels": { "fr": "1 c. à café de cumin", "en": "1 tsp cumin" } }
+      ],
+      "steps": {
+        "fr": ["Réchauffer les haricots avec le poivron en dés et les épices.", "Tiédir les tortillas.", "Garnir chaque tortilla de riz, haricots et fromage.", "Replier les bords et rouler ; faire dorer 2 min par face à la poêle si désiré."],
+        "en": ["Heat the beans with the diced pepper and spices.", "Warm the tortillas.", "Fill each tortilla with rice, beans and cheese.", "Fold in the edges and roll; pan-toast 2 min per side if desired."]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "carottes-rapees",
+      "name": { "fr": "Carottes râpées", "en": "Grated carrot salad" },
+      "description": { "fr": "Des carottes râpées fraîches en vinaigrette au citron — une entrée croquante, saine et économique.", "en": "Fresh grated carrots in a lemon dressing — a crunchy, healthy and budget-friendly starter." },
+      "emoji": "🥕", "time_min": 10, "prep_time_min": 10, "cook_time_min": 0,
+      "difficulty": "very-easy", "type": "starter", "servings": 4, "country": "fr",
+      "diet": ["vegan", "vegetarian", "gluten-free", "dairy-free"], "allergens": [],
+      "ingredients": [
+        { "ids": ["vg-carottes"], "qty": { "amount": 500, "unit": "g" }, "required": true, "labels": { "fr": "500g de carottes", "en": "500g carrots" } },
+        { "ids": ["fr-citron"], "qty": { "amount": 1, "unit": "pcs" }, "required": true, "labels": { "fr": "Le jus d'1 citron", "en": "Juice of 1 lemon" } },
+        { "ids": ["sp-huile-olive", "sp-huile-tournesol", "sp-huile-colza"], "qty": { "amount": 2, "unit": "cs" }, "required": true, "labels": { "fr": "2 c. à soupe d'huile", "en": "2 tbsp oil" } },
+        { "ids": ["sp-persil", "sp-ciboulette"], "qty": { "amount": null, "unit": "pm" }, "required": false, "labels": { "fr": "Persil", "en": "Parsley" } }
+      ],
+      "steps": {
+        "fr": ["Éplucher et râper les carottes.", "Préparer la vinaigrette : jus de citron, huile, sel et poivre.", "Mélanger les carottes avec la vinaigrette.", "Parsemer de persil et laisser reposer 10 min avant de servir."],
+        "en": ["Peel and grate the carrots.", "Make the dressing: lemon juice, oil, salt and pepper.", "Toss the carrots with the dressing.", "Sprinkle with parsley and let rest 10 min before serving."]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "tzatziki",
+      "name": { "fr": "Tzatziki", "en": "Tzatziki" },
+      "description": { "fr": "Une sauce grecque fraîche au yaourt, concombre et ail — parfaite en dip ou pour accompagner les grillades.", "en": "A fresh Greek dip of yogurt, cucumber and garlic — perfect as a dip or with grilled meats." },
+      "emoji": "🥒", "time_min": 15, "prep_time_min": 15, "cook_time_min": 0,
+      "difficulty": "very-easy", "type": "starter", "servings": 4, "country": "intl",
+      "diet": ["vegetarian", "gluten-free"], "allergens": ["milk"],
+      "ingredients": [
+        { "ids": ["fr-yaourt-nature", "fr-yaourt", "fr-skyr", "fr-fromage-blanc"], "qty": { "amount": 400, "unit": "g" }, "required": true, "labels": { "fr": "400g de yaourt grec", "en": "400g Greek yogurt" } },
+        { "ids": ["vg-concombre"], "qty": { "amount": 1, "unit": "pcs" }, "required": true, "labels": { "fr": "1 concombre", "en": "1 cucumber" } },
+        { "ids": ["vg-ail"], "qty": { "amount": 2, "unit": "gousse" }, "required": true, "labels": { "fr": "2 gousses d'ail", "en": "2 garlic cloves" } },
+        { "ids": ["sp-menthe", "sp-aneth"], "qty": { "amount": null, "unit": "pm" }, "required": false, "labels": { "fr": "Menthe ou aneth", "en": "Mint or dill" } },
+        { "ids": ["sp-huile-olive"], "qty": { "amount": 1, "unit": "cs" }, "required": true, "labels": { "fr": "1 c. à soupe d'huile d'olive", "en": "1 tbsp olive oil" } }
+      ],
+      "steps": {
+        "fr": ["Râper le concombre et le presser pour retirer l'eau.", "Mélanger le yaourt, le concombre, l'ail écrasé et l'huile.", "Ajouter la menthe ciselée, saler et poivrer.", "Réfrigérer 30 min avant de servir."],
+        "en": ["Grate the cucumber and squeeze out the water.", "Mix the yogurt, cucumber, crushed garlic and oil.", "Add the chopped mint, season with salt and pepper.", "Chill 30 min before serving."]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "caviar-aubergine",
+      "name": { "fr": "Caviar d'aubergine", "en": "Eggplant dip (baba ganoush)" },
+      "description": { "fr": "Une purée fumée d'aubergines rôties au tahini et citron — un dip végétalien plein de saveur.", "en": "A smoky roasted eggplant purée with tahini and lemon — a flavour-packed vegan dip." },
+      "emoji": "🍆", "time_min": 45, "prep_time_min": 10, "cook_time_min": 35,
+      "difficulty": "easy", "type": "starter", "servings": 4, "country": "lb",
+      "diet": ["vegan", "vegetarian", "gluten-free", "dairy-free"], "allergens": ["sesame"],
+      "ingredients": [
+        { "ids": ["vg-aubergine"], "qty": { "amount": 2, "unit": "pcs" }, "required": true, "labels": { "fr": "2 aubergines", "en": "2 eggplants" } },
+        { "ids": ["sp-tahini"], "qty": { "amount": 2, "unit": "cs" }, "required": true, "labels": { "fr": "2 c. à soupe de tahini", "en": "2 tbsp tahini" } },
+        { "ids": ["fr-citron"], "qty": { "amount": 1, "unit": "pcs" }, "required": true, "labels": { "fr": "Le jus d'1 citron", "en": "Juice of 1 lemon" } },
+        { "ids": ["vg-ail"], "qty": { "amount": 1, "unit": "gousse" }, "required": true, "labels": { "fr": "1 gousse d'ail", "en": "1 garlic clove" } },
+        { "ids": ["sp-huile-olive"], "qty": { "amount": 2, "unit": "cs" }, "required": true, "labels": { "fr": "2 c. à soupe d'huile d'olive", "en": "2 tbsp olive oil" } }
+      ],
+      "steps": {
+        "fr": ["Rôtir les aubergines entières 35 min à 200°C jusqu'à ce que la peau noircisse.", "Récupérer la chair et la laisser égoutter.", "Mixer la chair avec le tahini, le jus de citron, l'ail et l'huile.", "Saler, poivrer et servir avec un filet d'huile."],
+        "en": ["Roast the whole eggplants 35 min at 200°C (390°F) until the skin blackens.", "Scoop out the flesh and let it drain.", "Blend the flesh with the tahini, lemon juice, garlic and oil.", "Season and serve with a drizzle of oil."]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "puree-patate-douce",
+      "name": { "fr": "Purée de patate douce", "en": "Sweet potato mash" },
+      "description": { "fr": "Une purée douce et veloutée de patate douce au beurre — un accompagnement coloré et légèrement sucré.", "en": "A sweet, velvety sweet potato mash with butter — a colourful, slightly sweet side." },
+      "emoji": "🍠", "time_min": 30, "prep_time_min": 10, "cook_time_min": 20,
+      "difficulty": "very-easy", "type": "side", "servings": 4, "country": "intl",
+      "diet": ["vegetarian", "gluten-free"], "allergens": ["milk"],
+      "ingredients": [
+        { "ids": ["vg-patate-douce"], "qty": { "amount": 800, "unit": "g" }, "required": true, "labels": { "fr": "800g de patates douces", "en": "800g sweet potatoes" } },
+        { "ids": ["fr-beurre"], "qty": { "amount": 30, "unit": "g" }, "required": true, "labels": { "fr": "30g de beurre", "en": "30g butter" } },
+        { "ids": ["fr-lait", "fr-creme-liquide"], "qty": { "amount": 10, "unit": "cl" }, "required": false, "labels": { "fr": "10 cl de lait", "en": "100ml milk" } },
+        { "ids": ["sp-muscade", "sp-cannelle"], "qty": { "amount": null, "unit": "pm" }, "required": false, "labels": { "fr": "Muscade", "en": "Nutmeg" } }
+      ],
+      "steps": {
+        "fr": ["Éplucher et couper les patates douces en morceaux.", "Les cuire 20 min à l'eau bouillante salée, puis égoutter.", "Écraser avec le beurre, le lait et la muscade.", "Rectifier l'assaisonnement et servir bien chaud."],
+        "en": ["Peel and cut the sweet potatoes into chunks.", "Boil 20 min in salted water, then drain.", "Mash with the butter, milk and nutmeg.", "Adjust seasoning and serve hot."]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "riz-coco",
+      "name": { "fr": "Riz au lait de coco", "en": "Coconut rice" },
+      "description": { "fr": "Un riz parfumé cuit au lait de coco — l'accompagnement idéal des currys et plats épicés.", "en": "A fragrant rice cooked in coconut milk — the ideal side for curries and spicy dishes." },
+      "emoji": "🍚", "time_min": 25, "prep_time_min": 5, "cook_time_min": 20,
+      "difficulty": "very-easy", "type": "side", "servings": 4, "country": "intl",
+      "diet": ["vegan", "vegetarian", "gluten-free", "dairy-free"], "allergens": [],
+      "ingredients": [
+        { "ids": ["gp-riz-basmati", "gp-riz", "gp-riz-rond"], "qty": { "amount": 300, "unit": "g" }, "required": true, "labels": { "fr": "300g de riz basmati", "en": "300g basmati rice" } },
+        { "ids": ["gp-lait-coco"], "qty": { "amount": 400, "unit": "ml" }, "required": true, "labels": { "fr": "400ml de lait de coco", "en": "400ml coconut milk" } },
+        { "ids": ["sp-sel-fin", "sp-sel"], "qty": { "amount": null, "unit": "pm" }, "required": false, "labels": { "fr": "Sel", "en": "Salt" } }
+      ],
+      "steps": {
+        "fr": ["Rincer le riz à l'eau froide.", "Le mettre dans une casserole avec le lait de coco, autant d'eau et une pincée de sel.", "Porter à ébullition, couvrir et cuire à feu doux 15 min.", "Laisser reposer 5 min hors du feu, puis égrainer à la fourchette."],
+        "en": ["Rinse the rice in cold water.", "Put it in a pan with the coconut milk, the same amount of water and a pinch of salt.", "Bring to a boil, cover and cook on low 15 min.", "Rest 5 min off the heat, then fluff with a fork."]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "salade-haricots-blancs",
+      "name": { "fr": "Salade de haricots blancs", "en": "White bean salad" },
+      "description": { "fr": "Une salade fraîche de haricots blancs, tomates et oignon rouge en vinaigrette — rapide, végétalienne et protéinée.", "en": "A fresh salad of white beans, tomatoes and red onion in vinaigrette — quick, vegan and protein-rich." },
+      "emoji": "🥗", "time_min": 10, "prep_time_min": 10, "cook_time_min": 0,
+      "difficulty": "very-easy", "type": "salad", "servings": 4, "country": "intl",
+      "diet": ["vegan", "vegetarian", "gluten-free", "dairy-free"], "allergens": [],
+      "ingredients": [
+        { "ids": ["gp-haricots-bl"], "qty": { "amount": 400, "unit": "g" }, "required": true, "labels": { "fr": "400g de haricots blancs", "en": "400g white beans" } },
+        { "ids": ["vg-tomate", "vg-tomate-cerise"], "qty": { "amount": 2, "unit": "pcs" }, "required": true, "labels": { "fr": "2 tomates", "en": "2 tomatoes" } },
+        { "ids": ["vg-oignon-rouge", "vg-oignon", "vg-echalote"], "qty": { "amount": 0.5, "unit": "pcs" }, "required": true, "labels": { "fr": "½ oignon rouge", "en": "½ red onion" } },
+        { "ids": ["sp-huile-olive", "sp-huile-olive-ex"], "qty": { "amount": 3, "unit": "cs" }, "required": true, "labels": { "fr": "3 c. à soupe d'huile d'olive", "en": "3 tbsp olive oil" } },
+        { "ids": ["sp-vinaigre", "sp-vinaigre-vin"], "qty": { "amount": 1, "unit": "cs" }, "required": false, "labels": { "fr": "1 c. à soupe de vinaigre", "en": "1 tbsp vinegar" } },
+        { "ids": ["sp-persil"], "qty": { "amount": null, "unit": "pm" }, "required": false, "labels": { "fr": "Persil", "en": "Parsley" } }
+      ],
+      "steps": {
+        "fr": ["Égoutter et rincer les haricots blancs.", "Couper les tomates en dés et émincer l'oignon rouge.", "Mélanger le tout avec l'huile, le vinaigre, sel et poivre.", "Parsemer de persil et servir frais."],
+        "en": ["Drain and rinse the white beans.", "Dice the tomatoes and thinly slice the red onion.", "Mix everything with the oil, vinegar, salt and pepper.", "Sprinkle with parsley and serve chilled."]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "salade-pasteque-feta",
+      "name": { "fr": "Salade pastèque feta", "en": "Watermelon feta salad" },
+      "description": { "fr": "L'alliance sucrée-salée de la pastèque, de la feta et de la menthe — la salade rafraîchissante de l'été.", "en": "The sweet-savoury pairing of watermelon, feta and mint — the refreshing summer salad." },
+      "emoji": "🍉", "time_min": 10, "prep_time_min": 10, "cook_time_min": 0,
+      "difficulty": "very-easy", "type": "salad", "servings": 4, "country": "intl",
+      "diet": ["vegetarian", "gluten-free"], "allergens": ["milk"],
+      "ingredients": [
+        { "ids": ["fr-pasteque"], "qty": { "amount": 800, "unit": "g" }, "required": true, "labels": { "fr": "800g de pastèque", "en": "800g watermelon" } },
+        { "ids": ["fr-feta"], "qty": { "amount": 150, "unit": "g" }, "required": true, "labels": { "fr": "150g de feta", "en": "150g feta" } },
+        { "ids": ["sp-menthe"], "qty": { "amount": null, "unit": "pm" }, "required": true, "labels": { "fr": "Quelques feuilles de menthe", "en": "A few mint leaves" } },
+        { "ids": ["sp-huile-olive-ex", "sp-huile-olive"], "qty": { "amount": 2, "unit": "cs" }, "required": true, "labels": { "fr": "2 c. à soupe d'huile d'olive", "en": "2 tbsp olive oil" } },
+        { "ids": ["gp-olives-noires", "gp-olive"], "qty": { "amount": 50, "unit": "g" }, "required": false, "labels": { "fr": "50g d'olives noires", "en": "50g black olives" } }
+      ],
+      "steps": {
+        "fr": ["Couper la pastèque et la feta en cubes.", "Les disposer dans un plat avec les olives.", "Arroser d'huile d'olive et d'un tour de moulin à poivre.", "Parsemer de menthe ciselée et servir bien frais."],
+        "en": ["Cut the watermelon and feta into cubes.", "Arrange in a dish with the olives.", "Drizzle with olive oil and a grind of pepper.", "Scatter with chopped mint and serve well chilled."]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "tarte-chocolat",
+      "name": { "fr": "Tarte au chocolat", "en": "Chocolate tart" },
+      "description": { "fr": "Une tarte à la ganache au chocolat noir sur pâte sablée — intense et fondante, pour les amateurs de chocolat.", "en": "A dark chocolate ganache tart on a shortcrust base — intense and silky, for chocolate lovers." },
+      "emoji": "🍫", "time_min": 40, "prep_time_min": 20, "cook_time_min": 20,
+      "difficulty": "medium", "type": "dessert", "servings": 8, "country": "fr",
+      "diet": ["vegetarian"], "allergens": ["gluten", "milk", "eggs"],
+      "ingredients": [
+        { "ids": ["fr-pate-sablee", "fr-pate-brisee"], "qty": { "amount": 1, "unit": "pcs" }, "required": true, "labels": { "fr": "1 pâte sablée", "en": "1 sweet shortcrust pastry" } },
+        { "ids": ["gp-choco-noir", "gp-choco-patissier"], "qty": { "amount": 200, "unit": "g" }, "required": true, "labels": { "fr": "200g de chocolat noir", "en": "200g dark chocolate" } },
+        { "ids": ["fr-creme-liquide", "fr-creme"], "qty": { "amount": 20, "unit": "cl" }, "required": true, "labels": { "fr": "20 cl de crème liquide", "en": "200ml cream" } },
+        { "ids": ["fr-beurre"], "qty": { "amount": 30, "unit": "g" }, "required": true, "labels": { "fr": "30g de beurre", "en": "30g butter" } },
+        { "ids": ["fr-oeuf", "fr-oeufs-standard"], "qty": { "amount": 1, "unit": "pcs" }, "required": false, "labels": { "fr": "1 œuf", "en": "1 egg" } }
+      ],
+      "steps": {
+        "fr": ["Foncer un moule avec la pâte et la cuire à blanc 15 min à 180°C.", "Chauffer la crème, la verser sur le chocolat cassé en morceaux et mélanger.", "Incorporer le beurre pour lisser la ganache.", "Verser sur le fond de tarte et réfrigérer 2h jusqu'à ce que la ganache prenne."],
+        "en": ["Line a tin with the pastry and blind-bake 15 min at 180°C (355°F).", "Heat the cream, pour it over the chopped chocolate and stir.", "Stir in the butter to smooth the ganache.", "Pour onto the tart base and chill 2h until the ganache sets."]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "financiers",
+      "name": { "fr": "Financiers", "en": "Financiers (almond cakes)" },
+      "description": { "fr": "Des petits gâteaux moelleux à la poudre d'amande et au beurre noisette — fondants et dorés, parfaits avec le café.", "en": "Little moist almond and brown-butter cakes — soft and golden, perfect with coffee." },
+      "emoji": "🍰", "time_min": 30, "prep_time_min": 15, "cook_time_min": 12,
+      "difficulty": "easy", "type": "dessert", "servings": 6, "country": "fr",
+      "diet": ["vegetarian"], "allergens": ["nuts", "gluten", "eggs", "milk"],
+      "ingredients": [
+        { "ids": ["gp-poudre-amande"], "qty": { "amount": 100, "unit": "g" }, "required": true, "labels": { "fr": "100g de poudre d'amande", "en": "100g ground almonds" } },
+        { "ids": ["gp-sucre-glace", "gp-sucre"], "qty": { "amount": 120, "unit": "g" }, "required": true, "labels": { "fr": "120g de sucre glace", "en": "120g icing sugar" } },
+        { "ids": ["gp-farine", "gp-farine-ble"], "qty": { "amount": 50, "unit": "g" }, "required": true, "labels": { "fr": "50g de farine", "en": "50g flour" } },
+        { "ids": ["fr-oeuf", "fr-oeufs-standard"], "qty": { "amount": 4, "unit": "pcs" }, "required": true, "labels": { "fr": "4 blancs d'œufs", "en": "4 egg whites" } },
+        { "ids": ["fr-beurre"], "qty": { "amount": 100, "unit": "g" }, "required": true, "labels": { "fr": "100g de beurre", "en": "100g butter" } }
+      ],
+      "steps": {
+        "fr": ["Faire fondre le beurre jusqu'à ce qu'il prenne une couleur noisette, laisser tiédir.", "Mélanger la poudre d'amande, le sucre glace et la farine.", "Incorporer les blancs d'œufs non battus, puis le beurre noisette.", "Remplir des moules et enfourner 12 min à 200°C jusqu'à ce qu'ils soient dorés."],
+        "en": ["Melt the butter until it turns nut-brown, let cool slightly.", "Mix the ground almonds, icing sugar and flour.", "Stir in the unbeaten egg whites, then the brown butter.", "Fill moulds and bake 12 min at 200°C (390°F) until golden."]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "far-breton",
+      "name": { "fr": "Far breton", "en": "Far breton (custard flan cake)" },
+      "description": { "fr": "Un flan breton dense et moelleux aux pruneaux ou raisins — un dessert rustique et inratable.", "en": "A dense, moist Breton flan cake with prunes or raisins — a rustic, foolproof dessert." },
+      "emoji": "🍮", "time_min": 55, "prep_time_min": 15, "cook_time_min": 40,
+      "difficulty": "easy", "type": "dessert", "servings": 6, "country": "fr",
+      "diet": ["vegetarian"], "allergens": ["gluten", "eggs", "milk"],
+      "ingredients": [
+        { "ids": ["fr-lait", "fr-lait-entier"], "qty": { "amount": 75, "unit": "cl" }, "required": true, "labels": { "fr": "75 cl de lait", "en": "750ml milk" } },
+        { "ids": ["fr-oeuf", "fr-oeufs-standard"], "qty": { "amount": 4, "unit": "pcs" }, "required": true, "labels": { "fr": "4 œufs", "en": "4 eggs" } },
+        { "ids": ["gp-farine", "gp-farine-ble"], "qty": { "amount": 150, "unit": "g" }, "required": true, "labels": { "fr": "150g de farine", "en": "150g flour" } },
+        { "ids": ["gp-sucre", "gp-sucre-poudre"], "qty": { "amount": 120, "unit": "g" }, "required": true, "labels": { "fr": "120g de sucre", "en": "120g sugar" } },
+        { "ids": ["gp-raisins-secs", "gp-dattes", "gp-figues-seches"], "qty": { "amount": 150, "unit": "g" }, "required": false, "labels": { "fr": "150g de raisins secs", "en": "150g raisins" } }
+      ],
+      "steps": {
+        "fr": ["Mélanger la farine et le sucre, ajouter les œufs un à un.", "Délayer avec le lait jusqu'à obtenir une pâte lisse et liquide.", "Verser dans un moule beurré et répartir les raisins.", "Enfourner 40 min à 200°C jusqu'à ce que le far soit pris et doré. Servir tiède ou froid."],
+        "en": ["Mix the flour and sugar, add the eggs one by one.", "Thin with the milk until you get a smooth, runny batter.", "Pour into a buttered dish and scatter in the raisins.", "Bake 40 min at 200°C (390°F) until set and golden. Serve warm or cold."]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "pain-d-epices",
+      "name": { "fr": "Pain d'épices", "en": "Spiced honey loaf (pain d'épices)" },
+      "description": { "fr": "Un cake moelleux au miel, à la cannelle et au gingembre — parfumé et réconfortant, idéal en hiver.", "en": "A moist loaf with honey, cinnamon and ginger — fragrant and comforting, ideal in winter." },
+      "emoji": "🍞", "time_min": 60, "prep_time_min": 15, "cook_time_min": 45,
+      "difficulty": "easy", "type": "dessert", "servings": 8, "country": "fr",
+      "diet": ["vegetarian"], "allergens": ["gluten", "eggs", "milk"],
+      "ingredients": [
+        { "ids": ["gp-farine", "gp-farine-ble", "gp-farine-sarrasin"], "qty": { "amount": 250, "unit": "g" }, "required": true, "labels": { "fr": "250g de farine", "en": "250g flour" } },
+        { "ids": ["gp-miel"], "qty": { "amount": 200, "unit": "g" }, "required": true, "labels": { "fr": "200g de miel", "en": "200g honey" } },
+        { "ids": ["fr-lait"], "qty": { "amount": 15, "unit": "cl" }, "required": true, "labels": { "fr": "15 cl de lait", "en": "150ml milk" } },
+        { "ids": ["fr-oeuf", "fr-oeufs-standard"], "qty": { "amount": 1, "unit": "pcs" }, "required": true, "labels": { "fr": "1 œuf", "en": "1 egg" } },
+        { "ids": ["sp-cannelle"], "qty": { "amount": 2, "unit": "cc" }, "required": true, "labels": { "fr": "2 c. à café de cannelle", "en": "2 tsp cinnamon" } },
+        { "ids": ["sp-gingembre", "sp-cinq-epices", "sp-muscade"], "qty": { "amount": 1, "unit": "cc" }, "required": false, "labels": { "fr": "1 c. à café de gingembre", "en": "1 tsp ginger" } },
+        { "ids": ["gp-levure"], "qty": { "amount": 1, "unit": "cs" }, "required": true, "labels": { "fr": "1 sachet de levure", "en": "1 sachet baking powder" } }
+      ],
+      "steps": {
+        "fr": ["Faire tiédir le lait et le miel ensemble.", "Mélanger la farine, la levure et les épices.", "Incorporer le lait-miel et l'œuf jusqu'à obtenir une pâte lisse.", "Verser dans un moule à cake et enfourner 45 min à 160°C."],
+        "en": ["Warm the milk and honey together.", "Mix the flour, baking powder and spices.", "Stir in the milk-honey and the egg until smooth.", "Pour into a loaf tin and bake 45 min at 160°C (320°F)."]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "cake-citron",
+      "name": { "fr": "Cake au citron", "en": "Lemon loaf cake" },
+      "description": { "fr": "Un cake moelleux et acidulé au citron, nappé d'un glaçage — le gâteau du goûter qui plaît à tous.", "en": "A moist, tangy lemon loaf with a glaze — a teatime cake everyone loves." },
+      "emoji": "🍋", "time_min": 55, "prep_time_min": 15, "cook_time_min": 40,
+      "difficulty": "easy", "type": "dessert", "servings": 8, "country": "fr",
+      "diet": ["vegetarian"], "allergens": ["gluten", "eggs", "milk"],
+      "ingredients": [
+        { "ids": ["gp-farine", "gp-farine-ble"], "qty": { "amount": 180, "unit": "g" }, "required": true, "labels": { "fr": "180g de farine", "en": "180g flour" } },
+        { "ids": ["gp-sucre", "gp-sucre-poudre"], "qty": { "amount": 150, "unit": "g" }, "required": true, "labels": { "fr": "150g de sucre", "en": "150g sugar" } },
+        { "ids": ["fr-oeuf", "fr-oeufs-standard"], "qty": { "amount": 3, "unit": "pcs" }, "required": true, "labels": { "fr": "3 œufs", "en": "3 eggs" } },
+        { "ids": ["fr-beurre"], "qty": { "amount": 100, "unit": "g" }, "required": true, "labels": { "fr": "100g de beurre fondu", "en": "100g melted butter" } },
+        { "ids": ["fr-citron"], "qty": { "amount": 2, "unit": "pcs" }, "required": true, "labels": { "fr": "2 citrons (jus + zeste)", "en": "2 lemons (juice + zest)" } },
+        { "ids": ["gp-levure"], "qty": { "amount": 1, "unit": "cc" }, "required": true, "labels": { "fr": "1 c. à café de levure", "en": "1 tsp baking powder" } }
+      ],
+      "steps": {
+        "fr": ["Fouetter les œufs et le sucre, ajouter le beurre fondu.", "Incorporer la farine, la levure, le zeste et le jus d'un citron.", "Verser dans un moule à cake et enfourner 40 min à 180°C.", "Préparer un glaçage avec le sucre glace et le jus du second citron, en napper le cake tiède."],
+        "en": ["Whisk the eggs and sugar, add the melted butter.", "Stir in the flour, baking powder, zest and juice of one lemon.", "Pour into a loaf tin and bake 40 min at 180°C (355°F).", "Make a glaze with icing sugar and the juice of the second lemon, drizzle over the warm cake."]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "salade-de-fruits",
+      "name": { "fr": "Salade de fruits", "en": "Fruit salad" },
+      "description": { "fr": "Un assortiment de fruits frais de saison, juste relevé de jus de citron et de menthe — léger et vitaminé.", "en": "An assortment of fresh seasonal fruits with a touch of lemon juice and mint — light and full of vitamins." },
+      "emoji": "🍓", "time_min": 15, "prep_time_min": 15, "cook_time_min": 0,
+      "difficulty": "very-easy", "type": "dessert", "servings": 4, "country": "intl",
+      "diet": ["vegan", "vegetarian", "gluten-free", "dairy-free"], "allergens": [],
+      "ingredients": [
+        { "ids": ["fr-pomme"], "qty": { "amount": 1, "unit": "pcs" }, "required": true, "labels": { "fr": "1 pomme", "en": "1 apple" } },
+        { "ids": ["fr-banane"], "qty": { "amount": 1, "unit": "pcs" }, "required": true, "labels": { "fr": "1 banane", "en": "1 banana" } },
+        { "ids": ["fr-orange", "fr-clem", "fr-mandarine"], "qty": { "amount": 2, "unit": "pcs" }, "required": true, "labels": { "fr": "2 oranges", "en": "2 oranges" } },
+        { "ids": ["fr-fraise", "fr-raisin", "fr-kiwi", "fr-baies"], "qty": { "amount": 200, "unit": "g" }, "required": true, "labels": { "fr": "200g de fraises", "en": "200g strawberries" } },
+        { "ids": ["fr-citron"], "qty": { "amount": 1, "unit": "pcs" }, "required": false, "labels": { "fr": "Le jus d'1 citron", "en": "Juice of 1 lemon" } },
+        { "ids": ["sp-menthe", "gp-miel"], "qty": { "amount": null, "unit": "pm" }, "required": false, "labels": { "fr": "Menthe fraîche", "en": "Fresh mint" } }
+      ],
+      "steps": {
+        "fr": ["Laver et éplucher les fruits si nécessaire.", "Les couper en morceaux de taille régulière.", "Les mélanger délicatement avec le jus de citron (anti-oxydation).", "Réfrigérer 30 min, parsemer de menthe et servir frais."],
+        "en": ["Wash and peel the fruits as needed.", "Cut them into even-sized pieces.", "Gently toss with the lemon juice (to prevent browning).", "Chill 30 min, sprinkle with mint and serve cold."]
+      },
+      "functional_tags": [], "status": "published"
+    }
+  ]
+}

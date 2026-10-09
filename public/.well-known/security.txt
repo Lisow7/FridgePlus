@@ -1,0 +1,15 @@
+# Fridge+ security contact — RFC 9116
+#
+# This file is the canonical machine-readable security contact for the Fridge+ web
+# app. Researchers, automated scanners, and bug bounty hunters can use it to
+# locate the right channel for vulnerability disclosure.
+#
+# The human-readable disclosure policy is at:
+#   https://github.com/Lisow7/FridgePlus/blob/main/SECURITY.md
+
+Contact: mailto:support@fridgeplus.app
+Expires: 2027-05-15T00:00:00Z
+Preferred-Languages: en, fr
+Canonical: https://fridgeplus.app/.well-known/security.txt
+Policy: https://github.com/Lisow7/FridgePlus/blob/main/SECURITY.md
+Acknowledgments: https://github.com/Lisow7/FridgePlus/blob/main/SECURITY.md#bug-bounty

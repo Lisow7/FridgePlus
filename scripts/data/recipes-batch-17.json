@@ -1,0 +1,4337 @@
+{
+  "batchName": "recipes-batch-17-mix-final",
+  "recipes": [
+    {
+      "id": "curry-crevettes-coco",
+      "name": {
+        "fr": "Curry de crevettes au lait de coco",
+        "en": "Coconut shrimp curry"
+      },
+      "description": {
+        "fr": "Des crevettes mijotées dans une sauce crémeuse au lait de coco, curry et tomate — parfumé, rapide et délicieux sur du riz.",
+        "en": "Shrimp simmered in a creamy coconut, curry and tomato sauce — fragrant, quick and delicious over rice."
+      },
+      "emoji": "🍤",
+      "time_min": 25,
+      "prep_time_min": 12,
+      "cook_time_min": 13,
+      "difficulty": "easy",
+      "type": "main",
+      "servings": 4,
+      "country": "intl",
+      "diet": [
+        "gluten-free",
+        "dairy-free"
+      ],
+      "allergens": [
+        "crustaceans"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "fr-crevettes",
+            "frz-crevettes"
+          ],
+          "qty": {
+            "amount": 500,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "500g de crevettes",
+            "en": "500g shrimp"
+          }
+        },
+        {
+          "ids": [
+            "gp-lait-coco"
+          ],
+          "qty": {
+            "amount": 40,
+            "unit": "cl"
+          },
+          "required": true,
+          "labels": {
+            "fr": "40 cl de lait de coco",
+            "en": "400ml coconut milk"
+          }
+        },
+        {
+          "ids": [
+            "gp-tomates-concas",
+            "gp-concentre-tom"
+          ],
+          "qty": {
+            "amount": 200,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "200g de tomates",
+            "en": "200g tomatoes"
+          }
+        },
+        {
+          "ids": [
+            "sp-curry",
+            "sp-curcuma"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "cc"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Curry et curcuma",
+            "en": "Curry and turmeric"
+          }
+        },
+        {
+          "ids": [
+            "vg-oignon",
+            "vg-ail",
+            "sp-gingembre"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Oignon, ail, gingembre",
+            "en": "Onion, garlic, ginger"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Faire revenir l'oignon, l'ail et le gingembre.",
+          "Ajouter le curry et les tomates.",
+          "Verser le lait de coco et porter à frémissement.",
+          "Ajouter les crevettes et cuire 5 min.",
+          "Servir avec du riz et de la coriandre."
+        ],
+        "en": [
+          "Sauté the onion, garlic and ginger.",
+          "Add the curry and tomatoes.",
+          "Pour in the coconut milk and bring to a simmer.",
+          "Add the shrimp and cook 5 min.",
+          "Serve with rice and coriander."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "pates-courgettes-ricotta",
+      "name": {
+        "fr": "Pâtes courgettes-ricotta",
+        "en": "Courgette ricotta pasta"
+      },
+      "description": {
+        "fr": "Des pâtes enrobées de ricotta crémeuse et de courgettes fondantes, parfumées au citron et au basilic — léger, frais et rapide.",
+        "en": "Pasta coated in creamy ricotta and soft courgettes, scented with lemon and basil — light, fresh and quick."
+      },
+      "emoji": "🥒",
+      "time_min": 25,
+      "prep_time_min": 10,
+      "cook_time_min": 15,
+      "difficulty": "very-easy",
+      "type": "main",
+      "servings": 4,
+      "country": "it",
+      "diet": [
+        "vegetarian"
+      ],
+      "allergens": [
+        "gluten",
+        "milk"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "gp-pates",
+            "gp-penne",
+            "gp-fusilli"
+          ],
+          "qty": {
+            "amount": 400,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "400g de pâtes",
+            "en": "400g pasta"
+          }
+        },
+        {
+          "ids": [
+            "vg-courgette"
+          ],
+          "qty": {
+            "amount": 3,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "3 courgettes",
+            "en": "3 courgettes"
+          }
+        },
+        {
+          "ids": [
+            "fr-ricotta",
+            "fr-fromage-frais"
+          ],
+          "qty": {
+            "amount": 250,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "250g de ricotta",
+            "en": "250g ricotta"
+          }
+        },
+        {
+          "ids": [
+            "fr-citron",
+            "sp-basilic"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Citron et basilic",
+            "en": "Lemon and basil"
+          }
+        },
+        {
+          "ids": [
+            "vg-ail",
+            "fr-parmesan"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "gousse"
+          },
+          "required": false,
+          "labels": {
+            "fr": "Ail et parmesan",
+            "en": "Garlic and parmesan"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Cuire les pâtes al dente.",
+          "Faire revenir les courgettes en dés avec l'ail.",
+          "Détendre la ricotta avec un peu d'eau de cuisson et le zeste de citron.",
+          "Mélanger pâtes, courgettes et ricotta.",
+          "Parsemer de basilic et servir."
+        ],
+        "en": [
+          "Cook the pasta al dente.",
+          "Sauté the diced courgettes with the garlic.",
+          "Loosen the ricotta with a little pasta water and lemon zest.",
+          "Toss the pasta, courgettes and ricotta.",
+          "Scatter basil and serve."
+        ]
+      },
+      "functional_tags": [
+        "anti_waste"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "risotto-asperges",
+      "name": {
+        "fr": "Risotto aux asperges",
+        "en": "Asparagus risotto"
+      },
+      "description": {
+        "fr": "Un risotto crémeux aux asperges vertes et au parmesan, printanier et élégant — fondant et délicatement végétal.",
+        "en": "A creamy risotto with green asparagus and parmesan, springlike and elegant — silky and delicately vegetal."
+      },
+      "emoji": "🌿",
+      "time_min": 35,
+      "prep_time_min": 10,
+      "cook_time_min": 25,
+      "difficulty": "medium",
+      "type": "main",
+      "servings": 4,
+      "country": "it",
+      "diet": [
+        "vegetarian",
+        "gluten-free"
+      ],
+      "allergens": [
+        "milk"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "gp-riz-rond"
+          ],
+          "qty": {
+            "amount": 320,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "320g de riz à risotto",
+            "en": "320g risotto rice"
+          }
+        },
+        {
+          "ids": [
+            "vg-asperges"
+          ],
+          "qty": {
+            "amount": 400,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "400g d'asperges vertes",
+            "en": "400g green asparagus"
+          }
+        },
+        {
+          "ids": [
+            "fr-parmesan"
+          ],
+          "qty": {
+            "amount": 80,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "80g de parmesan",
+            "en": "80g parmesan"
+          }
+        },
+        {
+          "ids": [
+            "fr-beurre",
+            "vg-oignon"
+          ],
+          "qty": {
+            "amount": 50,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Beurre et oignon",
+            "en": "Butter and onion"
+          }
+        },
+        {
+          "ids": [
+            "gp-bouillon-cube",
+            "gp-vin-rouge-cuis"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Bouillon et vin blanc",
+            "en": "Stock and white wine"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Faire revenir l'oignon, nacrer le riz et déglacer au vin blanc.",
+          "Ajouter le bouillon louche par louche en remuant.",
+          "Ajouter les asperges en tronçons à mi-cuisson.",
+          "Après 18 min, incorporer beurre et parmesan hors du feu.",
+          "Mélanger et servir crémeux."
+        ],
+        "en": [
+          "Sauté the onion, toast the rice and deglaze with white wine.",
+          "Add the stock ladle by ladle, stirring.",
+          "Add the chopped asparagus halfway through.",
+          "After 18 min, stir in butter and parmesan off the heat.",
+          "Beat and serve creamy."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "galette-complete",
+      "name": {
+        "fr": "Galette bretonne complète",
+        "en": "Buckwheat galette complète"
+      },
+      "description": {
+        "fr": "Une galette de sarrasin garnie d'un œuf, de jambon et de fromage fondu — la spécialité bretonne salée, croustillante et réconfortante.",
+        "en": "A buckwheat galette filled with an egg, ham and melted cheese — the savoury Breton speciality, crisp and comforting."
+      },
+      "emoji": "🥞",
+      "time_min": 30,
+      "prep_time_min": 15,
+      "cook_time_min": 15,
+      "difficulty": "medium",
+      "type": "main",
+      "servings": 4,
+      "country": "fr",
+      "diet": [],
+      "allergens": [
+        "gluten",
+        "eggs",
+        "milk"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "gp-farine-sarrasin",
+            "gp-sarrasin"
+          ],
+          "qty": {
+            "amount": 250,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "250g de farine de sarrasin",
+            "en": "250g buckwheat flour"
+          }
+        },
+        {
+          "ids": [
+            "fr-oeuf"
+          ],
+          "qty": {
+            "amount": 4,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "4 œufs",
+            "en": "4 eggs"
+          }
+        },
+        {
+          "ids": [
+            "fr-jambon-blanc",
+            "fr-jambon"
+          ],
+          "qty": {
+            "amount": 4,
+            "unit": "tranche"
+          },
+          "required": true,
+          "labels": {
+            "fr": "4 tranches de jambon",
+            "en": "4 slices of ham"
+          }
+        },
+        {
+          "ids": [
+            "fr-gruyere",
+            "fr-emmental",
+            "fr-fromage-rape"
+          ],
+          "qty": {
+            "amount": 150,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "150g de fromage râpé",
+            "en": "150g grated cheese"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Préparer une pâte avec la farine de sarrasin, de l'eau et du sel ; laisser reposer.",
+          "Cuire une galette fine dans une poêle.",
+          "Casser un œuf au centre, ajouter jambon et fromage.",
+          "Replier les bords en carré.",
+          "Cuire jusqu'à ce que le fromage fonde et servir."
+        ],
+        "en": [
+          "Make a batter with buckwheat flour, water and salt; rest it.",
+          "Cook a thin galette in a pan.",
+          "Crack an egg in the centre, add ham and cheese.",
+          "Fold the edges into a square.",
+          "Cook until the cheese melts and serve."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "wok-crevettes-legumes",
+      "name": {
+        "fr": "Wok de crevettes aux légumes",
+        "en": "Shrimp and vegetable stir-fry"
+      },
+      "description": {
+        "fr": "Des crevettes sautées avec des légumes croquants dans une sauce soja-gingembre — un wok rapide, coloré et léger.",
+        "en": "Shrimp stir-fried with crunchy vegetables in a soy-ginger sauce — a quick, colourful and light wok."
+      },
+      "emoji": "🦐",
+      "time_min": 20,
+      "prep_time_min": 12,
+      "cook_time_min": 8,
+      "difficulty": "easy",
+      "type": "main",
+      "servings": 4,
+      "country": "intl",
+      "diet": [
+        "dairy-free"
+      ],
+      "allergens": [
+        "crustaceans",
+        "soybeans",
+        "gluten"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "fr-crevettes",
+            "frz-crevettes"
+          ],
+          "qty": {
+            "amount": 500,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "500g de crevettes",
+            "en": "500g shrimp"
+          }
+        },
+        {
+          "ids": [
+            "vg-brocoli",
+            "vg-poivron",
+            "vg-carottes",
+            "vg-pois-m-tout"
+          ],
+          "qty": {
+            "amount": 400,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "400g de légumes",
+            "en": "400g vegetables"
+          }
+        },
+        {
+          "ids": [
+            "sp-sauce-soja"
+          ],
+          "qty": {
+            "amount": 3,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "3 c. à soupe de sauce soja",
+            "en": "3 tbsp soy sauce"
+          }
+        },
+        {
+          "ids": [
+            "sp-gingembre",
+            "vg-ail"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Gingembre et ail",
+            "en": "Ginger and garlic"
+          }
+        },
+        {
+          "ids": [
+            "sp-huile-sesame"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cs"
+          },
+          "required": false,
+          "labels": {
+            "fr": "Huile de sésame",
+            "en": "Sesame oil"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Saisir les crevettes à feu vif, réserver.",
+          "Faire sauter l'ail, le gingembre et les légumes 4 min.",
+          "Remettre les crevettes.",
+          "Verser la sauce soja et l'huile de sésame.",
+          "Sauter 1 min et servir avec du riz."
+        ],
+        "en": [
+          "Sear the shrimp over high heat, set aside.",
+          "Stir-fry the garlic, ginger and vegetables 4 min.",
+          "Return the shrimp.",
+          "Pour in the soy sauce and sesame oil.",
+          "Stir-fry 1 min and serve with rice."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "boulettes-vegetariennes",
+      "name": {
+        "fr": "Boulettes végétariennes à la tomate",
+        "en": "Vegetarian meatballs in tomato sauce"
+      },
+      "description": {
+        "fr": "Des boulettes de pois chiches et légumes mijotées dans une sauce tomate — une alternative végétarienne savoureuse aux boulettes de viande.",
+        "en": "Chickpea-and-vegetable balls simmered in tomato sauce — a tasty vegetarian alternative to meatballs."
+      },
+      "emoji": "🧆",
+      "time_min": 40,
+      "prep_time_min": 20,
+      "cook_time_min": 20,
+      "difficulty": "easy",
+      "type": "main",
+      "servings": 4,
+      "country": "intl",
+      "diet": [
+        "vegetarian"
+      ],
+      "allergens": [
+        "gluten",
+        "eggs"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "gp-pois-chiches"
+          ],
+          "qty": {
+            "amount": 400,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "400g de pois chiches",
+            "en": "400g chickpeas"
+          }
+        },
+        {
+          "ids": [
+            "gp-chapelure"
+          ],
+          "qty": {
+            "amount": 60,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "60g de chapelure",
+            "en": "60g breadcrumbs"
+          }
+        },
+        {
+          "ids": [
+            "fr-oeuf"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 œuf",
+            "en": "1 egg"
+          }
+        },
+        {
+          "ids": [
+            "gp-tomates-concas"
+          ],
+          "qty": {
+            "amount": 400,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "400g de tomates",
+            "en": "400g tomatoes"
+          }
+        },
+        {
+          "ids": [
+            "vg-oignon",
+            "vg-ail",
+            "sp-cumin"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Oignon, ail, cumin",
+            "en": "Onion, garlic, cumin"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Écraser les pois chiches avec l'œuf, la chapelure et les épices.",
+          "Former des boulettes et les faire dorer.",
+          "Préparer une sauce tomate.",
+          "Plonger les boulettes dans la sauce et mijoter 12 min.",
+          "Servir avec des pâtes ou du riz."
+        ],
+        "en": [
+          "Mash the chickpeas with the egg, breadcrumbs and spices.",
+          "Form balls and brown them.",
+          "Make a tomato sauce.",
+          "Drop the balls into the sauce and simmer 12 min.",
+          "Serve with pasta or rice."
+        ]
+      },
+      "functional_tags": [
+        "batch_cooking"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "dahl-epinards",
+      "name": {
+        "fr": "Dahl de lentilles aux épinards",
+        "en": "Spinach lentil dahl"
+      },
+      "description": {
+        "fr": "Un dahl de lentilles aux épinards, épices et tomate — végétalien, nourrissant et anti-gaspi, parfait avec du riz.",
+        "en": "A lentil dahl with spinach, spices and tomato — vegan, nourishing and waste-busting, perfect with rice."
+      },
+      "emoji": "🍲",
+      "time_min": 35,
+      "prep_time_min": 10,
+      "cook_time_min": 25,
+      "difficulty": "easy",
+      "type": "main",
+      "servings": 4,
+      "country": "in",
+      "diet": [
+        "vegan",
+        "vegetarian",
+        "gluten-free",
+        "dairy-free"
+      ],
+      "allergens": [],
+      "ingredients": [
+        {
+          "ids": [
+            "gp-lentilles-coral",
+            "gp-lentilles"
+          ],
+          "qty": {
+            "amount": 250,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "250g de lentilles corail",
+            "en": "250g red lentils"
+          }
+        },
+        {
+          "ids": [
+            "vg-epinards",
+            "frz-epinards"
+          ],
+          "qty": {
+            "amount": 300,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "300g d'épinards",
+            "en": "300g spinach"
+          }
+        },
+        {
+          "ids": [
+            "gp-tomates-concas"
+          ],
+          "qty": {
+            "amount": 200,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "200g de tomates",
+            "en": "200g tomatoes"
+          }
+        },
+        {
+          "ids": [
+            "sp-curcuma",
+            "sp-cumin",
+            "sp-curry"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "cc"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Épices indiennes",
+            "en": "Indian spices"
+          }
+        },
+        {
+          "ids": [
+            "vg-oignon",
+            "vg-ail",
+            "sp-gingembre"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Oignon, ail, gingembre",
+            "en": "Onion, garlic, ginger"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Faire revenir l'oignon, l'ail, le gingembre et les épices.",
+          "Ajouter les lentilles, les tomates et de l'eau.",
+          "Mijoter 20 min jusqu'à ce que les lentilles fondent.",
+          "Incorporer les épinards et cuire 3 min.",
+          "Servir avec du riz."
+        ],
+        "en": [
+          "Sauté the onion, garlic, ginger and spices.",
+          "Add the lentils, tomatoes and water.",
+          "Simmer 20 min until the lentils break down.",
+          "Stir in the spinach and cook 3 min.",
+          "Serve with rice."
+        ]
+      },
+      "functional_tags": [
+        "batch_cooking",
+        "anti_waste"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "chili-patate-douce",
+      "name": {
+        "fr": "Chili de patate douce",
+        "en": "Sweet potato chili"
+      },
+      "description": {
+        "fr": "Un chili végétalien réconfortant aux patates douces, haricots noirs et maïs, parfumé au cumin et au paprika fumé — nourrissant et coloré.",
+        "en": "A comforting vegan chili with sweet potato, black beans and corn, flavoured with cumin and smoked paprika — hearty and colourful."
+      },
+      "emoji": "🍠",
+      "time_min": 40,
+      "prep_time_min": 15,
+      "cook_time_min": 25,
+      "difficulty": "easy",
+      "type": "main",
+      "servings": 4,
+      "country": "intl",
+      "diet": [
+        "vegan",
+        "vegetarian",
+        "gluten-free",
+        "dairy-free"
+      ],
+      "allergens": [],
+      "ingredients": [
+        {
+          "ids": [
+            "vg-patate-douce"
+          ],
+          "qty": {
+            "amount": 500,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "500g de patates douces",
+            "en": "500g sweet potatoes"
+          }
+        },
+        {
+          "ids": [
+            "gp-haricots-rouges"
+          ],
+          "qty": {
+            "amount": 400,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "400g de haricots rouges",
+            "en": "400g red beans"
+          }
+        },
+        {
+          "ids": [
+            "gp-mais",
+            "frz-mais"
+          ],
+          "qty": {
+            "amount": 200,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "200g de maïs",
+            "en": "200g corn"
+          }
+        },
+        {
+          "ids": [
+            "gp-tomates-concas"
+          ],
+          "qty": {
+            "amount": 400,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "400g de tomates",
+            "en": "400g tomatoes"
+          }
+        },
+        {
+          "ids": [
+            "sp-cumin",
+            "sp-paprika"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "cc"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Cumin et paprika fumé",
+            "en": "Cumin and smoked paprika"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Faire revenir l'oignon et les patates douces en dés.",
+          "Ajouter les épices, les tomates et un peu d'eau.",
+          "Mijoter 15 min jusqu'à ce que les patates soient tendres.",
+          "Ajouter les haricots et le maïs, cuire 8 min.",
+          "Servir avec du riz ou de l'avocat."
+        ],
+        "en": [
+          "Sauté the onion and diced sweet potatoes.",
+          "Add the spices, tomatoes and a little water.",
+          "Simmer 15 min until the potatoes are tender.",
+          "Add the beans and corn, cook 8 min.",
+          "Serve with rice or avocado."
+        ]
+      },
+      "functional_tags": [
+        "batch_cooking",
+        "anti_waste"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "saumon-miel-moutarde",
+      "name": {
+        "fr": "Saumon miel-moutarde",
+        "en": "Honey mustard salmon"
+      },
+      "description": {
+        "fr": "Un pavé de saumon glacé d'une sauce miel-moutarde, rôti jusqu'à être laqué et fondant — élégant et prêt en vingt minutes.",
+        "en": "A salmon fillet glazed with honey-mustard sauce, roasted until lacquered and tender — elegant and ready in twenty minutes."
+      },
+      "emoji": "🐟",
+      "time_min": 20,
+      "prep_time_min": 5,
+      "cook_time_min": 15,
+      "difficulty": "very-easy",
+      "type": "main",
+      "servings": 4,
+      "country": "fr",
+      "diet": [
+        "gluten-free",
+        "dairy-free"
+      ],
+      "allergens": [
+        "fish",
+        "mustard"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "fr-saumon",
+            "frz-saumon-pave"
+          ],
+          "qty": {
+            "amount": 4,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "4 pavés de saumon",
+            "en": "4 salmon fillets"
+          }
+        },
+        {
+          "ids": [
+            "gp-miel"
+          ],
+          "qty": {
+            "amount": 3,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "3 c. à soupe de miel",
+            "en": "3 tbsp honey"
+          }
+        },
+        {
+          "ids": [
+            "sp-moutarde"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 c. à soupe de moutarde",
+            "en": "2 tbsp mustard"
+          }
+        },
+        {
+          "ids": [
+            "fr-citron",
+            "sp-aneth"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": false,
+          "labels": {
+            "fr": "Citron et aneth",
+            "en": "Lemon and dill"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Mélanger le miel, la moutarde et le jus de citron.",
+          "Badigeonner les pavés de saumon.",
+          "Les disposer dans un plat.",
+          "Rôtir 12-15 min à 200°C en arrosant.",
+          "Parsemer d'aneth et servir."
+        ],
+        "en": [
+          "Mix the honey, mustard and lemon juice.",
+          "Brush the salmon fillets.",
+          "Place them in a dish.",
+          "Roast 12-15 min at 200°C, basting.",
+          "Scatter dill and serve."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "pates-thon-tomate",
+      "name": {
+        "fr": "Pâtes au thon et tomate",
+        "en": "Tuna tomato pasta"
+      },
+      "description": {
+        "fr": "Des pâtes dans une sauce tomate au thon, ail et olives — un plat de placard rapide, savoureux et économique.",
+        "en": "Pasta in a tomato sauce with tuna, garlic and olives — a quick, tasty and budget-friendly storecupboard dish."
+      },
+      "emoji": "🐟",
+      "time_min": 20,
+      "prep_time_min": 5,
+      "cook_time_min": 15,
+      "difficulty": "very-easy",
+      "type": "main",
+      "servings": 4,
+      "country": "it",
+      "diet": [
+        "dairy-free"
+      ],
+      "allergens": [
+        "gluten",
+        "fish"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "gp-pates",
+            "gp-penne",
+            "gp-spaghetti"
+          ],
+          "qty": {
+            "amount": 400,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "400g de pâtes",
+            "en": "400g pasta"
+          }
+        },
+        {
+          "ids": [
+            "gp-thon"
+          ],
+          "qty": {
+            "amount": 200,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "200g de thon",
+            "en": "200g tuna"
+          }
+        },
+        {
+          "ids": [
+            "gp-tomates-concas"
+          ],
+          "qty": {
+            "amount": 400,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "400g de tomates",
+            "en": "400g tomatoes"
+          }
+        },
+        {
+          "ids": [
+            "gp-olives-noires",
+            "vg-ail"
+          ],
+          "qty": {
+            "amount": 80,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Olives et ail",
+            "en": "Olives and garlic"
+          }
+        },
+        {
+          "ids": [
+            "sp-piment-cayenne",
+            "sp-persil"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cc"
+          },
+          "required": false,
+          "labels": {
+            "fr": "Piment et persil",
+            "en": "Chilli and parsley"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Faire dorer l'ail dans l'huile d'olive.",
+          "Ajouter les tomates et les olives, mijoter 10 min.",
+          "Incorporer le thon émietté.",
+          "Cuire les pâtes al dente.",
+          "Mélanger pâtes et sauce, parsemer de persil et servir."
+        ],
+        "en": [
+          "Brown the garlic in olive oil.",
+          "Add the tomatoes and olives, simmer 10 min.",
+          "Stir in the flaked tuna.",
+          "Cook the pasta al dente.",
+          "Toss pasta and sauce, scatter parsley and serve."
+        ]
+      },
+      "functional_tags": [
+        "anti_waste"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "quiche-saumon-epinards",
+      "name": {
+        "fr": "Quiche saumon-épinards",
+        "en": "Salmon spinach quiche"
+      },
+      "description": {
+        "fr": "Une quiche dorée au saumon et aux épinards dans un appareil crémeux aux œufs — savoureuse, fondante et parfaite tiède ou froide.",
+        "en": "A golden quiche with salmon and spinach in a creamy egg custard — tasty, tender and perfect warm or cold."
+      },
+      "emoji": "🥧",
+      "time_min": 50,
+      "prep_time_min": 20,
+      "cook_time_min": 30,
+      "difficulty": "easy",
+      "type": "main",
+      "servings": 6,
+      "country": "fr",
+      "diet": [],
+      "allergens": [
+        "gluten",
+        "milk",
+        "eggs",
+        "fish"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "fr-pate-brisee",
+            "fr-pate-feuilletee"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 pâte brisée",
+            "en": "1 shortcrust pastry"
+          }
+        },
+        {
+          "ids": [
+            "fr-saumon",
+            "fr-saumon-fume"
+          ],
+          "qty": {
+            "amount": 250,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "250g de saumon",
+            "en": "250g salmon"
+          }
+        },
+        {
+          "ids": [
+            "vg-epinards",
+            "frz-epinards"
+          ],
+          "qty": {
+            "amount": 200,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "200g d'épinards",
+            "en": "200g spinach"
+          }
+        },
+        {
+          "ids": [
+            "fr-oeuf"
+          ],
+          "qty": {
+            "amount": 3,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "3 œufs",
+            "en": "3 eggs"
+          }
+        },
+        {
+          "ids": [
+            "fr-creme-liquide",
+            "fr-creme"
+          ],
+          "qty": {
+            "amount": 20,
+            "unit": "cl"
+          },
+          "required": true,
+          "labels": {
+            "fr": "20 cl de crème",
+            "en": "200ml cream"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Foncer un moule avec la pâte.",
+          "Faire tomber les épinards et les égoutter.",
+          "Battre les œufs avec la crème, sel et poivre.",
+          "Répartir saumon et épinards sur la pâte, verser l'appareil.",
+          "Cuire 30 min à 190°C et servir."
+        ],
+        "en": [
+          "Line a tin with the pastry.",
+          "Wilt the spinach and drain it.",
+          "Beat the eggs with the cream, salt and pepper.",
+          "Spread salmon and spinach over the pastry, pour in the custard.",
+          "Bake 30 min at 190°C and serve."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "tofu-curry-coco",
+      "name": {
+        "fr": "Curry de tofu au lait de coco",
+        "en": "Coconut tofu curry"
+      },
+      "description": {
+        "fr": "Du tofu doré mijoté avec des légumes dans une sauce curry au lait de coco — un curry végétalien onctueux et parfumé.",
+        "en": "Golden tofu simmered with vegetables in a coconut curry sauce — a creamy, fragrant vegan curry."
+      },
+      "emoji": "🍛",
+      "time_min": 30,
+      "prep_time_min": 15,
+      "cook_time_min": 15,
+      "difficulty": "easy",
+      "type": "main",
+      "servings": 4,
+      "country": "intl",
+      "diet": [
+        "vegan",
+        "vegetarian",
+        "gluten-free",
+        "dairy-free"
+      ],
+      "allergens": [
+        "soybeans"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "vg-tofu",
+            "jp-kimomen-tofu"
+          ],
+          "qty": {
+            "amount": 400,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "400g de tofu ferme",
+            "en": "400g firm tofu"
+          }
+        },
+        {
+          "ids": [
+            "gp-lait-coco"
+          ],
+          "qty": {
+            "amount": 40,
+            "unit": "cl"
+          },
+          "required": true,
+          "labels": {
+            "fr": "40 cl de lait de coco",
+            "en": "400ml coconut milk"
+          }
+        },
+        {
+          "ids": [
+            "vg-poivron",
+            "vg-courgette",
+            "vg-epinards"
+          ],
+          "qty": {
+            "amount": 400,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "400g de légumes",
+            "en": "400g vegetables"
+          }
+        },
+        {
+          "ids": [
+            "sp-curry",
+            "sp-curcuma"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "cc"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Curry et curcuma",
+            "en": "Curry and turmeric"
+          }
+        },
+        {
+          "ids": [
+            "vg-oignon",
+            "vg-ail",
+            "sp-gingembre"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Oignon, ail, gingembre",
+            "en": "Onion, garlic, ginger"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Faire dorer le tofu en cubes, réserver.",
+          "Faire revenir l'oignon, l'ail, le gingembre et le curry.",
+          "Ajouter les légumes et le lait de coco.",
+          "Mijoter 10 min, puis remettre le tofu 3 min.",
+          "Servir avec du riz."
+        ],
+        "en": [
+          "Brown the cubed tofu, set aside.",
+          "Sauté the onion, garlic, ginger and curry.",
+          "Add the vegetables and coconut milk.",
+          "Simmer 10 min, then return the tofu for 3 min.",
+          "Serve with rice."
+        ]
+      },
+      "functional_tags": [
+        "batch_cooking"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "poelee-gnocchi-legumes",
+      "name": {
+        "fr": "Poêlée de gnocchi aux légumes",
+        "en": "Pan-fried gnocchi with vegetables"
+      },
+      "description": {
+        "fr": "Des gnocchi dorés à la poêle avec des légumes du soleil et du parmesan — un plat unique rapide, croustillant et réconfortant.",
+        "en": "Pan-crisped gnocchi with summer vegetables and parmesan — a quick, crispy and comforting one-pan dish."
+      },
+      "emoji": "🥔",
+      "time_min": 25,
+      "prep_time_min": 10,
+      "cook_time_min": 15,
+      "difficulty": "very-easy",
+      "type": "main",
+      "servings": 4,
+      "country": "it",
+      "diet": [
+        "vegetarian"
+      ],
+      "allergens": [
+        "gluten",
+        "milk"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "gp-pates",
+            "vg-pomme-terre"
+          ],
+          "qty": {
+            "amount": 500,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "500g de gnocchi",
+            "en": "500g gnocchi"
+          }
+        },
+        {
+          "ids": [
+            "vg-courgette",
+            "vg-poivron",
+            "vg-tomate-cerise"
+          ],
+          "qty": {
+            "amount": 400,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "400g de légumes",
+            "en": "400g vegetables"
+          }
+        },
+        {
+          "ids": [
+            "fr-parmesan",
+            "fr-mozzarella"
+          ],
+          "qty": {
+            "amount": 60,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "60g de parmesan",
+            "en": "60g parmesan"
+          }
+        },
+        {
+          "ids": [
+            "vg-ail",
+            "sp-basilic",
+            "sp-huile-olive"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "gousse"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Ail, basilic, huile",
+            "en": "Garlic, basil, oil"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Faire dorer les gnocchi à la poêle dans l'huile d'olive.",
+          "Réserver, puis faire sauter les légumes.",
+          "Remettre les gnocchi et l'ail.",
+          "Parsemer de parmesan et de basilic.",
+          "Servir aussitôt."
+        ],
+        "en": [
+          "Crisp the gnocchi in a pan with olive oil.",
+          "Set aside, then stir-fry the vegetables.",
+          "Return the gnocchi and garlic.",
+          "Scatter with parmesan and basil.",
+          "Serve at once."
+        ]
+      },
+      "functional_tags": [
+        "anti_waste"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "riz-saute-legumes-oeuf",
+      "name": {
+        "fr": "Riz sauté aux légumes et œuf",
+        "en": "Vegetable egg fried rice"
+      },
+      "description": {
+        "fr": "Un riz sauté végétarien aux légumes croquants et à l'œuf brouillé, assaisonné de sauce soja — le plat anti-gaspi rapide par excellence.",
+        "en": "A vegetarian fried rice with crunchy vegetables and scrambled egg, seasoned with soy sauce — the ultimate quick waste-busting dish."
+      },
+      "emoji": "🍚",
+      "time_min": 20,
+      "prep_time_min": 10,
+      "cook_time_min": 10,
+      "difficulty": "very-easy",
+      "type": "main",
+      "servings": 4,
+      "country": "intl",
+      "diet": [
+        "vegetarian",
+        "dairy-free"
+      ],
+      "allergens": [
+        "eggs",
+        "soybeans",
+        "gluten"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "gp-riz"
+          ],
+          "qty": {
+            "amount": 400,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "400g de riz cuit",
+            "en": "400g cooked rice"
+          }
+        },
+        {
+          "ids": [
+            "fr-oeuf"
+          ],
+          "qty": {
+            "amount": 3,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "3 œufs",
+            "en": "3 eggs"
+          }
+        },
+        {
+          "ids": [
+            "vg-carottes",
+            "vg-petits-pois",
+            "vg-poivron",
+            "frz-petits-pois"
+          ],
+          "qty": {
+            "amount": 250,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "250g de légumes",
+            "en": "250g vegetables"
+          }
+        },
+        {
+          "ids": [
+            "sp-sauce-soja"
+          ],
+          "qty": {
+            "amount": 3,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "3 c. à soupe de sauce soja",
+            "en": "3 tbsp soy sauce"
+          }
+        },
+        {
+          "ids": [
+            "vg-oignon-vert",
+            "sp-huile-sesame"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "pcs"
+          },
+          "required": false,
+          "labels": {
+            "fr": "Oignon vert et sésame",
+            "en": "Spring onion and sesame"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Brouiller les œufs dans un wok, réserver.",
+          "Faire sauter les légumes 4 min.",
+          "Ajouter le riz et le faire sauter à feu vif.",
+          "Incorporer les œufs et la sauce soja.",
+          "Parsemer d'oignon vert et servir."
+        ],
+        "en": [
+          "Scramble the eggs in a wok, set aside.",
+          "Stir-fry the vegetables 4 min.",
+          "Add the rice and stir-fry over high heat.",
+          "Stir in the eggs and soy sauce.",
+          "Scatter spring onion and serve."
+        ]
+      },
+      "functional_tags": [
+        "anti_waste"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "boeuf-saute-haricots-verts",
+      "name": {
+        "fr": "Bœuf sauté aux haricots verts",
+        "en": "Beef and green bean stir-fry"
+      },
+      "description": {
+        "fr": "Du bœuf émincé sauté avec des haricots verts croquants dans une sauce soja-ail — un wok express, savoureux et équilibré.",
+        "en": "Sliced beef stir-fried with crunchy green beans in a soy-garlic sauce — a quick, tasty and balanced wok."
+      },
+      "emoji": "🥩",
+      "time_min": 20,
+      "prep_time_min": 10,
+      "cook_time_min": 10,
+      "difficulty": "easy",
+      "type": "main",
+      "servings": 4,
+      "country": "intl",
+      "diet": [
+        "dairy-free"
+      ],
+      "allergens": [
+        "soybeans",
+        "gluten"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "fr-boeuf",
+            "fr-bavette"
+          ],
+          "qty": {
+            "amount": 500,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "500g de bœuf",
+            "en": "500g beef"
+          }
+        },
+        {
+          "ids": [
+            "vg-haricots-v",
+            "frz-haricots-v"
+          ],
+          "qty": {
+            "amount": 400,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "400g de haricots verts",
+            "en": "400g green beans"
+          }
+        },
+        {
+          "ids": [
+            "sp-sauce-soja",
+            "sp-sauce-huitre"
+          ],
+          "qty": {
+            "amount": 3,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Sauce soja et huître",
+            "en": "Soy and oyster sauce"
+          }
+        },
+        {
+          "ids": [
+            "vg-ail",
+            "sp-gingembre"
+          ],
+          "qty": {
+            "amount": 3,
+            "unit": "gousse"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Ail et gingembre",
+            "en": "Garlic and ginger"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Blanchir les haricots verts 4 min.",
+          "Saisir le bœuf émincé à feu très vif, réserver.",
+          "Faire sauter l'ail, le gingembre et les haricots.",
+          "Remettre le bœuf et verser les sauces.",
+          "Sauter 2 min et servir avec du riz."
+        ],
+        "en": [
+          "Blanch the green beans 4 min.",
+          "Sear the sliced beef over very high heat, set aside.",
+          "Stir-fry the garlic, ginger and beans.",
+          "Return the beef and pour in the sauces.",
+          "Stir-fry 2 min and serve with rice."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "veloute-tomate-roti",
+      "name": {
+        "fr": "Velouté de tomates rôties",
+        "en": "Roasted tomato soup"
+      },
+      "description": {
+        "fr": "Un velouté de tomates rôties au four avec ail et basilic — intense, légèrement sucré et profondément réconfortant.",
+        "en": "A soup of oven-roasted tomatoes with garlic and basil — intense, slightly sweet and deeply comforting."
+      },
+      "emoji": "🍅",
+      "time_min": 45,
+      "prep_time_min": 10,
+      "cook_time_min": 35,
+      "difficulty": "very-easy",
+      "type": "starter",
+      "servings": 4,
+      "country": "intl",
+      "diet": [
+        "vegan",
+        "vegetarian",
+        "gluten-free",
+        "dairy-free"
+      ],
+      "allergens": [],
+      "ingredients": [
+        {
+          "ids": [
+            "vg-tomate",
+            "vg-tomate-ronde"
+          ],
+          "qty": {
+            "amount": 1000,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 kg de tomates",
+            "en": "1kg tomatoes"
+          }
+        },
+        {
+          "ids": [
+            "vg-ail"
+          ],
+          "qty": {
+            "amount": 4,
+            "unit": "gousse"
+          },
+          "required": true,
+          "labels": {
+            "fr": "4 gousses d'ail",
+            "en": "4 garlic cloves"
+          }
+        },
+        {
+          "ids": [
+            "vg-oignon"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 oignon",
+            "en": "1 onion"
+          }
+        },
+        {
+          "ids": [
+            "sp-basilic",
+            "sp-huile-olive"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "botte"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Basilic et huile d'olive",
+            "en": "Basil and olive oil"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Couper les tomates et l'oignon, les disposer avec l'ail sur une plaque.",
+          "Arroser d'huile et rôtir 30 min à 200°C.",
+          "Mixer le tout avec un peu d'eau ou de bouillon.",
+          "Réchauffer et rectifier l'assaisonnement.",
+          "Parsemer de basilic et servir."
+        ],
+        "en": [
+          "Cut the tomatoes and onion, arrange with the garlic on a tray.",
+          "Drizzle with oil and roast 30 min at 200°C.",
+          "Blend everything with a little water or stock.",
+          "Reheat and adjust the seasoning.",
+          "Scatter basil and serve."
+        ]
+      },
+      "functional_tags": [
+        "anti_waste",
+        "batch_cooking"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "soupe-pois-chiches",
+      "name": {
+        "fr": "Soupe de pois chiches",
+        "en": "Chickpea soup"
+      },
+      "description": {
+        "fr": "Une soupe rustique de pois chiches au romarin et à l'ail, en partie mixée pour plus d'onctuosité — végétalienne, nourrissante et économique.",
+        "en": "A rustic chickpea soup with rosemary and garlic, partly blended for creaminess — vegan, nourishing and budget-friendly."
+      },
+      "emoji": "🥣",
+      "time_min": 30,
+      "prep_time_min": 10,
+      "cook_time_min": 20,
+      "difficulty": "very-easy",
+      "type": "starter",
+      "servings": 4,
+      "country": "intl",
+      "diet": [
+        "vegan",
+        "vegetarian",
+        "gluten-free",
+        "dairy-free"
+      ],
+      "allergens": [],
+      "ingredients": [
+        {
+          "ids": [
+            "gp-pois-chiches"
+          ],
+          "qty": {
+            "amount": 500,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "500g de pois chiches",
+            "en": "500g chickpeas"
+          }
+        },
+        {
+          "ids": [
+            "vg-oignon",
+            "vg-ail"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Oignon et ail",
+            "en": "Onion and garlic"
+          }
+        },
+        {
+          "ids": [
+            "vg-carottes",
+            "vg-celeri"
+          ],
+          "qty": {
+            "amount": 200,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Carotte et céleri",
+            "en": "Carrot and celery"
+          }
+        },
+        {
+          "ids": [
+            "sp-romarin",
+            "gp-concentre-tom"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Romarin et tomate",
+            "en": "Rosemary and tomato"
+          }
+        },
+        {
+          "ids": [
+            "sp-huile-olive-vi"
+          ],
+          "qty": {
+            "amount": 3,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Huile d'olive",
+            "en": "Olive oil"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Faire revenir l'oignon, l'ail, la carotte et le céleri.",
+          "Ajouter les pois chiches, le romarin et le concentré.",
+          "Couvrir d'eau et mijoter 18 min.",
+          "Mixer la moitié de la soupe.",
+          "Arroser d'huile d'olive et servir."
+        ],
+        "en": [
+          "Sauté the onion, garlic, carrot and celery.",
+          "Add the chickpeas, rosemary and tomato paste.",
+          "Cover with water and simmer 18 min.",
+          "Blend half the soup.",
+          "Drizzle with olive oil and serve."
+        ]
+      },
+      "functional_tags": [
+        "batch_cooking",
+        "anti_waste"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "soupe-courgette-chevre",
+      "name": {
+        "fr": "Velouté de courgette au chèvre",
+        "en": "Courgette goat cheese soup"
+      },
+      "description": {
+        "fr": "Un velouté léger de courgettes enrichi de chèvre frais — onctueux, doux et parfait pour utiliser les courgettes de saison.",
+        "en": "A light courgette soup enriched with fresh goat cheese — smooth, mild and perfect for using up seasonal courgettes."
+      },
+      "emoji": "🥒",
+      "time_min": 30,
+      "prep_time_min": 10,
+      "cook_time_min": 20,
+      "difficulty": "very-easy",
+      "type": "starter",
+      "servings": 4,
+      "country": "fr",
+      "diet": [
+        "vegetarian",
+        "gluten-free"
+      ],
+      "allergens": [
+        "milk"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "vg-courgette"
+          ],
+          "qty": {
+            "amount": 800,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "800g de courgettes",
+            "en": "800g courgettes"
+          }
+        },
+        {
+          "ids": [
+            "fr-chevre",
+            "fr-fromage-frais"
+          ],
+          "qty": {
+            "amount": 120,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "120g de chèvre frais",
+            "en": "120g fresh goat cheese"
+          }
+        },
+        {
+          "ids": [
+            "vg-oignon",
+            "gp-bouillon-cube"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Oignon et bouillon",
+            "en": "Onion and stock"
+          }
+        },
+        {
+          "ids": [
+            "sp-menthe",
+            "sp-huile-olive"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "botte"
+          },
+          "required": false,
+          "labels": {
+            "fr": "Menthe",
+            "en": "Mint"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Faire revenir l'oignon, ajouter les courgettes en dés.",
+          "Couvrir de bouillon et cuire 15 min.",
+          "Mixer avec le chèvre frais.",
+          "Rectifier l'assaisonnement.",
+          "Parsemer de menthe et servir."
+        ],
+        "en": [
+          "Sauté the onion, add the diced courgettes.",
+          "Cover with stock and cook 15 min.",
+          "Blend with the fresh goat cheese.",
+          "Adjust the seasoning.",
+          "Scatter mint and serve."
+        ]
+      },
+      "functional_tags": [
+        "anti_waste"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "bruschetta-champignons",
+      "name": {
+        "fr": "Bruschetta aux champignons",
+        "en": "Mushroom bruschetta"
+      },
+      "description": {
+        "fr": "Du pain grillé garni de champignons poêlés à l'ail et au persil — une entrée italienne rustique, parfumée et chaleureuse.",
+        "en": "Toasted bread topped with garlic-and-parsley pan-fried mushrooms — a rustic, fragrant and warming Italian starter."
+      },
+      "emoji": "🍄",
+      "time_min": 20,
+      "prep_time_min": 8,
+      "cook_time_min": 12,
+      "difficulty": "very-easy",
+      "type": "starter",
+      "servings": 4,
+      "country": "it",
+      "diet": [
+        "vegetarian",
+        "dairy-free"
+      ],
+      "allergens": [
+        "gluten"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "gp-pain",
+            "gp-baguette",
+            "gp-pain-campagne"
+          ],
+          "qty": {
+            "amount": 8,
+            "unit": "tranche"
+          },
+          "required": true,
+          "labels": {
+            "fr": "8 tranches de pain",
+            "en": "8 slices of bread"
+          }
+        },
+        {
+          "ids": [
+            "vg-champignons",
+            "gp-champignons"
+          ],
+          "qty": {
+            "amount": 400,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "400g de champignons",
+            "en": "400g mushrooms"
+          }
+        },
+        {
+          "ids": [
+            "vg-ail",
+            "sp-persil"
+          ],
+          "qty": {
+            "amount": 3,
+            "unit": "gousse"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Ail et persil",
+            "en": "Garlic and parsley"
+          }
+        },
+        {
+          "ids": [
+            "sp-huile-olive",
+            "sp-thym"
+          ],
+          "qty": {
+            "amount": 3,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Huile d'olive et thym",
+            "en": "Olive oil and thyme"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Faire sauter les champignons émincés à feu vif.",
+          "Ajouter l'ail et le persil en fin de cuisson.",
+          "Griller les tranches de pain.",
+          "Les frotter d'ail et les garnir de champignons.",
+          "Arroser d'huile d'olive et servir aussitôt."
+        ],
+        "en": [
+          "Stir-fry the sliced mushrooms over high heat.",
+          "Add the garlic and parsley at the end.",
+          "Toast the bread slices.",
+          "Rub them with garlic and top with mushrooms.",
+          "Drizzle with olive oil and serve at once."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "verrine-avocat-crevettes",
+      "name": {
+        "fr": "Verrine avocat-crevettes",
+        "en": "Avocado shrimp verrine"
+      },
+      "description": {
+        "fr": "Une entrée fraîche en verrine d'écrasé d'avocat, de crevettes et de sauce cocktail — élégante, légère et prête en quinze minutes.",
+        "en": "A fresh verrine starter of mashed avocado, shrimp and cocktail sauce — elegant, light and ready in fifteen minutes."
+      },
+      "emoji": "🥑",
+      "time_min": 15,
+      "prep_time_min": 15,
+      "cook_time_min": 0,
+      "difficulty": "very-easy",
+      "type": "starter",
+      "servings": 4,
+      "country": "fr",
+      "diet": [
+        "gluten-free"
+      ],
+      "allergens": [
+        "crustaceans",
+        "eggs"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "fr-avocat"
+          ],
+          "qty": {
+            "amount": 3,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "3 avocats",
+            "en": "3 avocados"
+          }
+        },
+        {
+          "ids": [
+            "fr-crevettes",
+            "frz-crevettes"
+          ],
+          "qty": {
+            "amount": 250,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "250g de crevettes",
+            "en": "250g shrimp"
+          }
+        },
+        {
+          "ids": [
+            "sp-mayonnaise",
+            "sp-ketchup",
+            "sp-sauce-cocktail"
+          ],
+          "qty": {
+            "amount": 3,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Sauce cocktail",
+            "en": "Cocktail sauce"
+          }
+        },
+        {
+          "ids": [
+            "fr-citron",
+            "sp-ciboulette"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Citron et ciboulette",
+            "en": "Lemon and chives"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Écraser les avocats avec le jus de citron.",
+          "Préparer la sauce cocktail.",
+          "Répartir l'avocat au fond des verrines.",
+          "Ajouter les crevettes et napper de sauce.",
+          "Parsemer de ciboulette et réfrigérer avant de servir."
+        ],
+        "en": [
+          "Mash the avocados with lemon juice.",
+          "Make the cocktail sauce.",
+          "Spoon the avocado into the bottom of glasses.",
+          "Add the shrimp and top with sauce.",
+          "Scatter chives and chill before serving."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "soupe-haricots-noirs",
+      "name": {
+        "fr": "Soupe de haricots noirs",
+        "en": "Black bean soup"
+      },
+      "description": {
+        "fr": "Une soupe épaisse et épicée de haricots noirs au cumin et au citron vert — végétalienne, nourrissante et pleine de saveur.",
+        "en": "A thick, spicy black bean soup with cumin and lime — vegan, nourishing and full of flavour."
+      },
+      "emoji": "🥣",
+      "time_min": 30,
+      "prep_time_min": 10,
+      "cook_time_min": 20,
+      "difficulty": "very-easy",
+      "type": "starter",
+      "servings": 4,
+      "country": "intl",
+      "diet": [
+        "vegan",
+        "vegetarian",
+        "gluten-free",
+        "dairy-free"
+      ],
+      "allergens": [],
+      "ingredients": [
+        {
+          "ids": [
+            "gp-haricots-rouges",
+            "gp-haricots-bl"
+          ],
+          "qty": {
+            "amount": 500,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "500g de haricots noirs",
+            "en": "500g black beans"
+          }
+        },
+        {
+          "ids": [
+            "vg-oignon",
+            "vg-ail",
+            "vg-poivron"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Oignon, ail, poivron",
+            "en": "Onion, garlic, pepper"
+          }
+        },
+        {
+          "ids": [
+            "sp-cumin",
+            "sp-paprika"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "cc"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Cumin et paprika",
+            "en": "Cumin and paprika"
+          }
+        },
+        {
+          "ids": [
+            "fr-citron-vert",
+            "sp-coriandre"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Citron vert et coriandre",
+            "en": "Lime and coriander"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Faire revenir l'oignon, l'ail et le poivron.",
+          "Ajouter les épices et les haricots noirs.",
+          "Couvrir d'eau et mijoter 18 min.",
+          "Mixer la moitié de la soupe.",
+          "Arroser de citron vert et parsemer de coriandre."
+        ],
+        "en": [
+          "Sauté the onion, garlic and pepper.",
+          "Add the spices and black beans.",
+          "Cover with water and simmer 18 min.",
+          "Blend half the soup.",
+          "Squeeze over lime and scatter coriander."
+        ]
+      },
+      "functional_tags": [
+        "batch_cooking",
+        "anti_waste"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "legumes-rotis-four",
+      "name": {
+        "fr": "Légumes rôtis au four",
+        "en": "Oven-roasted vegetables"
+      },
+      "description": {
+        "fr": "Un assortiment de légumes rôtis aux herbes et à l'huile d'olive, dorés et fondants — un accompagnement sain, simple et anti-gaspi.",
+        "en": "An assortment of vegetables roasted with herbs and olive oil, golden and tender — a healthy, simple and waste-busting side."
+      },
+      "emoji": "🫑",
+      "time_min": 45,
+      "prep_time_min": 15,
+      "cook_time_min": 30,
+      "difficulty": "very-easy",
+      "type": "side",
+      "servings": 4,
+      "country": "intl",
+      "diet": [
+        "vegan",
+        "vegetarian",
+        "gluten-free",
+        "dairy-free"
+      ],
+      "allergens": [],
+      "ingredients": [
+        {
+          "ids": [
+            "vg-courgette",
+            "vg-poivron",
+            "vg-aubergine",
+            "vg-carottes"
+          ],
+          "qty": {
+            "amount": 800,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "800g de légumes variés",
+            "en": "800g mixed vegetables"
+          }
+        },
+        {
+          "ids": [
+            "vg-oignon-rouge",
+            "vg-oignon"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 oignon rouge",
+            "en": "1 red onion"
+          }
+        },
+        {
+          "ids": [
+            "sp-herbes-prov",
+            "sp-thym"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "cc"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Herbes de Provence",
+            "en": "Provençal herbs"
+          }
+        },
+        {
+          "ids": [
+            "sp-huile-olive",
+            "vg-ail"
+          ],
+          "qty": {
+            "amount": 4,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Huile d'olive et ail",
+            "en": "Olive oil and garlic"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Couper tous les légumes en morceaux réguliers.",
+          "Les mélanger avec l'huile, l'ail et les herbes.",
+          "Étaler sur une plaque sans les superposer.",
+          "Rôtir 30 min à 200°C en remuant à mi-cuisson.",
+          "Saler et servir."
+        ],
+        "en": [
+          "Cut all the vegetables into even pieces.",
+          "Toss them with the oil, garlic and herbs.",
+          "Spread on a tray without overlapping.",
+          "Roast 30 min at 200°C, stirring halfway.",
+          "Season and serve."
+        ]
+      },
+      "functional_tags": [
+        "anti_waste"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "gratin-butternut",
+      "name": {
+        "fr": "Gratin de butternut",
+        "en": "Butternut gratin"
+      },
+      "description": {
+        "fr": "Des tranches de courge butternut gratinées à la crème et au fromage — doux, fondant et automnal.",
+        "en": "Butternut squash slices baked in cream and cheese — sweet, tender and autumnal."
+      },
+      "emoji": "🎃",
+      "time_min": 55,
+      "prep_time_min": 15,
+      "cook_time_min": 40,
+      "difficulty": "easy",
+      "type": "side",
+      "servings": 4,
+      "country": "fr",
+      "diet": [
+        "vegetarian",
+        "gluten-free"
+      ],
+      "allergens": [
+        "milk"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "vg-butternut",
+            "vg-potimarron",
+            "vg-courges"
+          ],
+          "qty": {
+            "amount": 800,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "800g de butternut",
+            "en": "800g butternut squash"
+          }
+        },
+        {
+          "ids": [
+            "fr-creme-liquide",
+            "fr-creme"
+          ],
+          "qty": {
+            "amount": 25,
+            "unit": "cl"
+          },
+          "required": true,
+          "labels": {
+            "fr": "25 cl de crème",
+            "en": "250ml cream"
+          }
+        },
+        {
+          "ids": [
+            "fr-fromage-rape",
+            "fr-comte"
+          ],
+          "qty": {
+            "amount": 100,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "100g de fromage râpé",
+            "en": "100g grated cheese"
+          }
+        },
+        {
+          "ids": [
+            "vg-ail",
+            "sp-muscade"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "gousse"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Ail et muscade",
+            "en": "Garlic and nutmeg"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Trancher finement le butternut.",
+          "Disposer les tranches dans un plat avec l'ail.",
+          "Verser la crème assaisonnée à la muscade.",
+          "Couvrir de fromage râpé.",
+          "Cuire 40 min à 180°C jusqu'à gratiner."
+        ],
+        "en": [
+          "Thinly slice the butternut.",
+          "Arrange the slices in a dish with the garlic.",
+          "Pour over the nutmeg-seasoned cream.",
+          "Cover with grated cheese.",
+          "Bake 40 min at 180°C until golden."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "puree-pois-casses",
+      "name": {
+        "fr": "Purée de pois cassés",
+        "en": "Split pea purée"
+      },
+      "description": {
+        "fr": "Une purée onctueuse de pois cassés mijotés avec carotte et oignon — végétalienne, réconfortante et économique.",
+        "en": "A smooth purée of split peas simmered with carrot and onion — vegan, comforting and budget-friendly."
+      },
+      "emoji": "🫛",
+      "time_min": 50,
+      "prep_time_min": 10,
+      "cook_time_min": 40,
+      "difficulty": "very-easy",
+      "type": "side",
+      "servings": 4,
+      "country": "fr",
+      "diet": [
+        "vegan",
+        "vegetarian",
+        "gluten-free",
+        "dairy-free"
+      ],
+      "allergens": [],
+      "ingredients": [
+        {
+          "ids": [
+            "gp-pois-casses"
+          ],
+          "qty": {
+            "amount": 400,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "400g de pois cassés",
+            "en": "400g split peas"
+          }
+        },
+        {
+          "ids": [
+            "vg-carottes",
+            "vg-oignon"
+          ],
+          "qty": {
+            "amount": 200,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Carotte et oignon",
+            "en": "Carrot and onion"
+          }
+        },
+        {
+          "ids": [
+            "sp-laurier",
+            "sp-thym"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Laurier et thym",
+            "en": "Bay and thyme"
+          }
+        },
+        {
+          "ids": [
+            "sp-huile-olive"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Huile d'olive",
+            "en": "Olive oil"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Rincer les pois cassés.",
+          "Les cuire avec la carotte, l'oignon et le laurier 35 min.",
+          "Égoutter en gardant un peu d'eau.",
+          "Mixer en purée onctueuse.",
+          "Assaisonner d'huile d'olive et servir."
+        ],
+        "en": [
+          "Rinse the split peas.",
+          "Cook them with the carrot, onion and bay 35 min.",
+          "Drain, keeping a little water.",
+          "Blend into a smooth purée.",
+          "Season with olive oil and serve."
+        ]
+      },
+      "functional_tags": [
+        "batch_cooking"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "carottes-roties-miel",
+      "name": {
+        "fr": "Carottes rôties au miel",
+        "en": "Honey roasted carrots"
+      },
+      "description": {
+        "fr": "Des carottes rôties au four, glacées au miel et parfumées au thym — caramélisées, tendres et délicatement sucrées.",
+        "en": "Oven-roasted carrots glazed with honey and scented with thyme — caramelised, tender and gently sweet."
+      },
+      "emoji": "🥕",
+      "time_min": 40,
+      "prep_time_min": 10,
+      "cook_time_min": 30,
+      "difficulty": "very-easy",
+      "type": "side",
+      "servings": 4,
+      "country": "fr",
+      "diet": [
+        "vegetarian",
+        "gluten-free",
+        "dairy-free"
+      ],
+      "allergens": [],
+      "ingredients": [
+        {
+          "ids": [
+            "vg-carottes"
+          ],
+          "qty": {
+            "amount": 700,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "700g de carottes",
+            "en": "700g carrots"
+          }
+        },
+        {
+          "ids": [
+            "gp-miel"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 c. à soupe de miel",
+            "en": "2 tbsp honey"
+          }
+        },
+        {
+          "ids": [
+            "sp-thym",
+            "sp-romarin"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Thym",
+            "en": "Thyme"
+          }
+        },
+        {
+          "ids": [
+            "sp-huile-olive",
+            "fr-beurre"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Huile d'olive",
+            "en": "Olive oil"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Couper les carottes en bâtonnets.",
+          "Les mélanger avec l'huile, le miel et le thym.",
+          "Étaler sur une plaque.",
+          "Rôtir 30 min à 200°C en remuant.",
+          "Servir caramélisées."
+        ],
+        "en": [
+          "Cut the carrots into batons.",
+          "Toss them with the oil, honey and thyme.",
+          "Spread on a tray.",
+          "Roast 30 min at 200°C, stirring.",
+          "Serve caramelised."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "chou-fleur-roti-curcuma",
+      "name": {
+        "fr": "Chou-fleur rôti au curcuma",
+        "en": "Turmeric roasted cauliflower"
+      },
+      "description": {
+        "fr": "Des fleurettes de chou-fleur rôties au curcuma et au cumin, dorées et croustillantes — un accompagnement végétalien plein de caractère.",
+        "en": "Cauliflower florets roasted with turmeric and cumin, golden and crisp — a vegan side full of character."
+      },
+      "emoji": "🥦",
+      "time_min": 35,
+      "prep_time_min": 10,
+      "cook_time_min": 25,
+      "difficulty": "very-easy",
+      "type": "side",
+      "servings": 4,
+      "country": "intl",
+      "diet": [
+        "vegan",
+        "vegetarian",
+        "gluten-free",
+        "dairy-free"
+      ],
+      "allergens": [],
+      "ingredients": [
+        {
+          "ids": [
+            "vg-chou-fleur",
+            "frz-chou-fleur"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 chou-fleur",
+            "en": "1 cauliflower"
+          }
+        },
+        {
+          "ids": [
+            "sp-curcuma",
+            "sp-cumin"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "cc"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Curcuma et cumin",
+            "en": "Turmeric and cumin"
+          }
+        },
+        {
+          "ids": [
+            "sp-paprika",
+            "vg-ail"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cc"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Paprika et ail",
+            "en": "Paprika and garlic"
+          }
+        },
+        {
+          "ids": [
+            "sp-huile-olive"
+          ],
+          "qty": {
+            "amount": 3,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Huile d'olive",
+            "en": "Olive oil"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Détailler le chou-fleur en fleurettes.",
+          "Les mélanger avec l'huile et les épices.",
+          "Étaler sur une plaque.",
+          "Rôtir 25 min à 200°C jusqu'à ce que ce soit doré.",
+          "Servir aussitôt."
+        ],
+        "en": [
+          "Cut the cauliflower into florets.",
+          "Toss them with the oil and spices.",
+          "Spread on a tray.",
+          "Roast 25 min at 200°C until golden.",
+          "Serve at once."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "salade-quinoa-feta",
+      "name": {
+        "fr": "Salade quinoa-feta",
+        "en": "Quinoa feta salad"
+      },
+      "description": {
+        "fr": "Une salade de quinoa, feta, concombre et tomates dans une vinaigrette au citron et à la menthe — fraîche, complète et nourrissante.",
+        "en": "A salad of quinoa, feta, cucumber and tomatoes in a lemon-mint dressing — fresh, complete and nourishing."
+      },
+      "emoji": "🥗",
+      "time_min": 25,
+      "prep_time_min": 15,
+      "cook_time_min": 10,
+      "difficulty": "very-easy",
+      "type": "salad",
+      "servings": 4,
+      "country": "intl",
+      "diet": [
+        "vegetarian",
+        "gluten-free"
+      ],
+      "allergens": [
+        "milk"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "gp-quinoa"
+          ],
+          "qty": {
+            "amount": 250,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "250g de quinoa",
+            "en": "250g quinoa"
+          }
+        },
+        {
+          "ids": [
+            "fr-feta"
+          ],
+          "qty": {
+            "amount": 150,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "150g de feta",
+            "en": "150g feta"
+          }
+        },
+        {
+          "ids": [
+            "vg-concombre",
+            "vg-tomate-cerise"
+          ],
+          "qty": {
+            "amount": 300,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Concombre et tomates",
+            "en": "Cucumber and tomatoes"
+          }
+        },
+        {
+          "ids": [
+            "fr-citron",
+            "sp-menthe"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Citron et menthe",
+            "en": "Lemon and mint"
+          }
+        },
+        {
+          "ids": [
+            "sp-huile-olive",
+            "gp-olives-noires"
+          ],
+          "qty": {
+            "amount": 3,
+            "unit": "cs"
+          },
+          "required": false,
+          "labels": {
+            "fr": "Huile et olives",
+            "en": "Oil and olives"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Cuire le quinoa et le laisser refroidir.",
+          "Couper le concombre et les tomates.",
+          "Mélanger le quinoa, les légumes et la feta émiettée.",
+          "Assaisonner de citron, d'huile et de menthe.",
+          "Servir frais."
+        ],
+        "en": [
+          "Cook the quinoa and let it cool.",
+          "Cut the cucumber and tomatoes.",
+          "Mix the quinoa, vegetables and crumbled feta.",
+          "Dress with lemon, oil and mint.",
+          "Serve cold."
+        ]
+      },
+      "functional_tags": [
+        "anti_waste"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "salade-lentilles-feta",
+      "name": {
+        "fr": "Salade de lentilles à la feta",
+        "en": "Lentil feta salad"
+      },
+      "description": {
+        "fr": "Une salade de lentilles vertes, feta, tomates et oignon rouge dans une vinaigrette moutardée — nourrissante, fraîche et pleine de protéines.",
+        "en": "A salad of green lentils, feta, tomatoes and red onion in a mustard dressing — nourishing, fresh and protein-packed."
+      },
+      "emoji": "🥗",
+      "time_min": 30,
+      "prep_time_min": 15,
+      "cook_time_min": 15,
+      "difficulty": "very-easy",
+      "type": "salad",
+      "servings": 4,
+      "country": "fr",
+      "diet": [
+        "vegetarian"
+      ],
+      "allergens": [
+        "milk",
+        "mustard"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "gp-lentilles-vert",
+            "gp-lentilles"
+          ],
+          "qty": {
+            "amount": 250,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "250g de lentilles vertes",
+            "en": "250g green lentils"
+          }
+        },
+        {
+          "ids": [
+            "fr-feta"
+          ],
+          "qty": {
+            "amount": 150,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "150g de feta",
+            "en": "150g feta"
+          }
+        },
+        {
+          "ids": [
+            "vg-tomate",
+            "vg-oignon-rouge"
+          ],
+          "qty": {
+            "amount": 250,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Tomate et oignon rouge",
+            "en": "Tomato and red onion"
+          }
+        },
+        {
+          "ids": [
+            "sp-moutarde",
+            "sp-vinaigre-vin"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Moutarde et vinaigre",
+            "en": "Mustard and vinegar"
+          }
+        },
+        {
+          "ids": [
+            "sp-persil",
+            "sp-huile-olive"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "botte"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Persil et huile",
+            "en": "Parsley and oil"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Cuire les lentilles 18 min et les égoutter.",
+          "Préparer une vinaigrette moutardée.",
+          "Mélanger les lentilles tièdes avec la vinaigrette.",
+          "Ajouter tomates, oignon et feta émiettée.",
+          "Parsemer de persil et servir tiède ou froid."
+        ],
+        "en": [
+          "Cook the lentils 18 min and drain.",
+          "Make a mustard dressing.",
+          "Mix the warm lentils with the dressing.",
+          "Add tomatoes, onion and crumbled feta.",
+          "Scatter parsley and serve warm or cold."
+        ]
+      },
+      "functional_tags": [
+        "batch_cooking",
+        "anti_waste"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "salade-pates-thon",
+      "name": {
+        "fr": "Salade de pâtes au thon",
+        "en": "Tuna pasta salad"
+      },
+      "description": {
+        "fr": "Une salade de pâtes fraîche au thon, maïs, tomates et olives — facile, complète et idéale pour les pique-niques.",
+        "en": "A fresh pasta salad with tuna, corn, tomatoes and olives — easy, complete and perfect for picnics."
+      },
+      "emoji": "🥗",
+      "time_min": 25,
+      "prep_time_min": 15,
+      "cook_time_min": 10,
+      "difficulty": "very-easy",
+      "type": "salad",
+      "servings": 4,
+      "country": "intl",
+      "diet": [
+        "dairy-free"
+      ],
+      "allergens": [
+        "gluten",
+        "fish"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "gp-fusilli",
+            "gp-farfalle",
+            "gp-pates"
+          ],
+          "qty": {
+            "amount": 350,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "350g de pâtes",
+            "en": "350g pasta"
+          }
+        },
+        {
+          "ids": [
+            "gp-thon"
+          ],
+          "qty": {
+            "amount": 200,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "200g de thon",
+            "en": "200g tuna"
+          }
+        },
+        {
+          "ids": [
+            "gp-mais",
+            "vg-tomate-cerise"
+          ],
+          "qty": {
+            "amount": 200,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Maïs et tomates cerises",
+            "en": "Corn and cherry tomatoes"
+          }
+        },
+        {
+          "ids": [
+            "gp-olives-vertes",
+            "gp-olives-noires"
+          ],
+          "qty": {
+            "amount": 60,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "60g d'olives",
+            "en": "60g olives"
+          }
+        },
+        {
+          "ids": [
+            "sp-huile-olive",
+            "sp-vinaigre-bals"
+          ],
+          "qty": {
+            "amount": 3,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Huile et vinaigre",
+            "en": "Oil and vinegar"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Cuire les pâtes al dente et les rafraîchir.",
+          "Égoutter et émietter le thon.",
+          "Mélanger pâtes, thon, maïs, tomates et olives.",
+          "Assaisonner d'huile et de vinaigre.",
+          "Réfrigérer et servir frais."
+        ],
+        "en": [
+          "Cook the pasta al dente and refresh.",
+          "Drain and flake the tuna.",
+          "Mix pasta, tuna, corn, tomatoes and olives.",
+          "Dress with oil and vinegar.",
+          "Chill and serve cold."
+        ]
+      },
+      "functional_tags": [
+        "anti_waste"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "salade-orzo-legumes",
+      "name": {
+        "fr": "Salade d'orzo aux légumes",
+        "en": "Orzo vegetable salad"
+      },
+      "description": {
+        "fr": "Une salade de pâtes orzo aux légumes grillés, citron et herbes fraîches — méditerranéenne, légère et végétalienne.",
+        "en": "An orzo pasta salad with grilled vegetables, lemon and fresh herbs — Mediterranean, light and vegan."
+      },
+      "emoji": "🥗",
+      "time_min": 30,
+      "prep_time_min": 15,
+      "cook_time_min": 15,
+      "difficulty": "easy",
+      "type": "salad",
+      "servings": 4,
+      "country": "it",
+      "diet": [
+        "vegan",
+        "vegetarian",
+        "dairy-free"
+      ],
+      "allergens": [
+        "gluten"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "gp-orzo",
+            "gp-pates"
+          ],
+          "qty": {
+            "amount": 300,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "300g d'orzo",
+            "en": "300g orzo"
+          }
+        },
+        {
+          "ids": [
+            "vg-courgette",
+            "vg-poivron",
+            "vg-aubergine"
+          ],
+          "qty": {
+            "amount": 400,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "400g de légumes",
+            "en": "400g vegetables"
+          }
+        },
+        {
+          "ids": [
+            "fr-citron",
+            "sp-basilic",
+            "sp-persil"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Citron et herbes",
+            "en": "Lemon and herbs"
+          }
+        },
+        {
+          "ids": [
+            "sp-huile-olive-vi",
+            "gp-pignons"
+          ],
+          "qty": {
+            "amount": 4,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Huile d'olive et pignons",
+            "en": "Olive oil and pine nuts"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Cuire l'orzo al dente et le rafraîchir.",
+          "Faire griller les légumes en dés.",
+          "Mélanger l'orzo et les légumes.",
+          "Assaisonner de citron, d'huile et d'herbes.",
+          "Parsemer de pignons et servir."
+        ],
+        "en": [
+          "Cook the orzo al dente and refresh.",
+          "Grill the diced vegetables.",
+          "Mix the orzo and vegetables.",
+          "Dress with lemon, oil and herbs.",
+          "Scatter pine nuts and serve."
+        ]
+      },
+      "functional_tags": [
+        "anti_waste"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "salade-carottes-orange",
+      "name": {
+        "fr": "Salade de carottes à l'orange",
+        "en": "Carrot orange salad"
+      },
+      "description": {
+        "fr": "Une salade fraîche de carottes râpées et de suprêmes d'orange, parfumée à la fleur d'oranger — vive, sucrée et vitaminée.",
+        "en": "A fresh salad of grated carrots and orange segments, scented with orange blossom — bright, sweet and vitamin-rich."
+      },
+      "emoji": "🥕",
+      "time_min": 15,
+      "prep_time_min": 15,
+      "cook_time_min": 0,
+      "difficulty": "very-easy",
+      "type": "salad",
+      "servings": 4,
+      "country": "fr",
+      "diet": [
+        "vegan",
+        "vegetarian",
+        "gluten-free",
+        "dairy-free"
+      ],
+      "allergens": [],
+      "ingredients": [
+        {
+          "ids": [
+            "vg-carottes"
+          ],
+          "qty": {
+            "amount": 600,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "600g de carottes",
+            "en": "600g carrots"
+          }
+        },
+        {
+          "ids": [
+            "fr-orange"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 oranges",
+            "en": "2 oranges"
+          }
+        },
+        {
+          "ids": [
+            "gp-raisins-secs",
+            "gp-amandes"
+          ],
+          "qty": {
+            "amount": 50,
+            "unit": "g"
+          },
+          "required": false,
+          "labels": {
+            "fr": "Raisins secs",
+            "en": "Raisins"
+          }
+        },
+        {
+          "ids": [
+            "gp-eau-fleur-oranger",
+            "sp-menthe"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cs"
+          },
+          "required": false,
+          "labels": {
+            "fr": "Fleur d'oranger et menthe",
+            "en": "Orange blossom and mint"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Râper les carottes.",
+          "Prélever les suprêmes d'orange.",
+          "Mélanger carottes, oranges et raisins.",
+          "Arroser de jus d'orange et de fleur d'oranger.",
+          "Réfrigérer et servir frais."
+        ],
+        "en": [
+          "Grate the carrots.",
+          "Segment the oranges.",
+          "Mix carrots, oranges and raisins.",
+          "Drizzle with orange juice and orange blossom.",
+          "Chill and serve cold."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "tarte-poire-chocolat",
+      "name": {
+        "fr": "Tarte poire-chocolat",
+        "en": "Pear chocolate tart"
+      },
+      "description": {
+        "fr": "Une tarte aux poires fondantes sur une crème d'amande et une base de chocolat — gourmande, élégante et réconfortante.",
+        "en": "A tart of tender pears on almond cream and a chocolate base — indulgent, elegant and comforting."
+      },
+      "emoji": "🍫",
+      "time_min": 60,
+      "prep_time_min": 25,
+      "cook_time_min": 35,
+      "difficulty": "medium",
+      "type": "dessert",
+      "servings": 8,
+      "country": "fr",
+      "diet": [
+        "vegetarian"
+      ],
+      "allergens": [
+        "gluten",
+        "eggs",
+        "nuts",
+        "milk"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "fr-pate-brisee",
+            "fr-pate-sablee"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 pâte sablée",
+            "en": "1 sweet pastry"
+          }
+        },
+        {
+          "ids": [
+            "fr-poire"
+          ],
+          "qty": {
+            "amount": 4,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "4 poires",
+            "en": "4 pears"
+          }
+        },
+        {
+          "ids": [
+            "gp-poudre-amande"
+          ],
+          "qty": {
+            "amount": 120,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "120g de poudre d'amande",
+            "en": "120g ground almonds"
+          }
+        },
+        {
+          "ids": [
+            "gp-choco-noir",
+            "gp-choco-patissier"
+          ],
+          "qty": {
+            "amount": 100,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "100g de chocolat",
+            "en": "100g chocolate"
+          }
+        },
+        {
+          "ids": [
+            "fr-oeuf",
+            "fr-beurre",
+            "gp-sucre"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Œufs, beurre, sucre",
+            "en": "Eggs, butter, sugar"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Foncer un moule avec la pâte.",
+          "Étaler le chocolat fondu sur le fond.",
+          "Préparer une crème d'amande et l'étaler.",
+          "Disposer les poires en lamelles.",
+          "Cuire 35 min à 180°C et laisser tiédir."
+        ],
+        "en": [
+          "Line a tin with the pastry.",
+          "Spread the melted chocolate over the base.",
+          "Make an almond cream and spread it.",
+          "Arrange the sliced pears.",
+          "Bake 35 min at 180°C and let cool."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "crumble-pommes-avoine",
+      "name": {
+        "fr": "Crumble pommes-flocons d'avoine",
+        "en": "Apple oat crumble"
+      },
+      "description": {
+        "fr": "Des pommes fondantes sous une pâte croustillante de flocons d'avoine et de cassonade — réconfortant, parfumé et facile à préparer.",
+        "en": "Soft apples under a crunchy oat-and-brown-sugar topping — comforting, fragrant and easy to make."
+      },
+      "emoji": "🍎",
+      "time_min": 50,
+      "prep_time_min": 20,
+      "cook_time_min": 30,
+      "difficulty": "very-easy",
+      "type": "dessert",
+      "servings": 6,
+      "country": "fr",
+      "diet": [
+        "vegetarian"
+      ],
+      "allergens": [
+        "gluten",
+        "milk"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "fr-pomme"
+          ],
+          "qty": {
+            "amount": 6,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "6 pommes",
+            "en": "6 apples"
+          }
+        },
+        {
+          "ids": [
+            "gp-flocons-avoine",
+            "gp-avoine"
+          ],
+          "qty": {
+            "amount": 150,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "150g de flocons d'avoine",
+            "en": "150g rolled oats"
+          }
+        },
+        {
+          "ids": [
+            "gp-farine"
+          ],
+          "qty": {
+            "amount": 100,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "100g de farine",
+            "en": "100g flour"
+          }
+        },
+        {
+          "ids": [
+            "fr-beurre",
+            "fr-margarine"
+          ],
+          "qty": {
+            "amount": 100,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "100g de beurre",
+            "en": "100g butter"
+          }
+        },
+        {
+          "ids": [
+            "gp-cassonade",
+            "sp-cannelle"
+          ],
+          "qty": {
+            "amount": 100,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Cassonade et cannelle",
+            "en": "Brown sugar and cinnamon"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Éplucher et couper les pommes, les disposer dans un plat.",
+          "Saupoudrer de cannelle.",
+          "Mélanger flocons, farine, cassonade et beurre du bout des doigts.",
+          "Répartir la pâte sur les pommes.",
+          "Cuire 30 min à 180°C et servir tiède."
+        ],
+        "en": [
+          "Peel and cut the apples, arrange in a dish.",
+          "Sprinkle with cinnamon.",
+          "Rub the oats, flour, brown sugar and butter together.",
+          "Spread the topping over the apples.",
+          "Bake 30 min at 180°C and serve warm."
+        ]
+      },
+      "functional_tags": [
+        "anti_waste"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "mousse-mangue",
+      "name": {
+        "fr": "Mousse à la mangue",
+        "en": "Mango mousse"
+      },
+      "description": {
+        "fr": "Une mousse aérienne et fruitée à la mangue, légère et sans cuisson — un dessert exotique et rafraîchissant.",
+        "en": "An airy, fruity mango mousse, light and no-cook — an exotic and refreshing dessert."
+      },
+      "emoji": "🥭",
+      "time_min": 20,
+      "prep_time_min": 20,
+      "cook_time_min": 0,
+      "difficulty": "easy",
+      "type": "dessert",
+      "servings": 4,
+      "country": "intl",
+      "diet": [
+        "vegetarian",
+        "gluten-free"
+      ],
+      "allergens": [
+        "milk"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "fr-mangue"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 mangues mûres",
+            "en": "2 ripe mangoes"
+          }
+        },
+        {
+          "ids": [
+            "fr-creme-liquide",
+            "fr-mascarpone"
+          ],
+          "qty": {
+            "amount": 25,
+            "unit": "cl"
+          },
+          "required": true,
+          "labels": {
+            "fr": "25 cl de crème",
+            "en": "250ml cream"
+          }
+        },
+        {
+          "ids": [
+            "gp-sucre-glace",
+            "gp-sucre"
+          ],
+          "qty": {
+            "amount": 50,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "50g de sucre glace",
+            "en": "50g icing sugar"
+          }
+        },
+        {
+          "ids": [
+            "fr-citron-vert"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": false,
+          "labels": {
+            "fr": "1 citron vert",
+            "en": "1 lime"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Mixer la mangue en purée lisse.",
+          "Monter la crème en chantilly avec le sucre.",
+          "Incorporer délicatement la purée de mangue.",
+          "Répartir dans des verrines.",
+          "Réfrigérer 2h et servir frais."
+        ],
+        "en": [
+          "Blend the mango into a smooth purée.",
+          "Whip the cream with the sugar.",
+          "Gently fold in the mango purée.",
+          "Divide into glasses.",
+          "Chill 2h and serve cold."
+        ]
+      },
+      "functional_tags": [
+        "kids_friendly"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "cookies-avoine-raisins",
+      "name": {
+        "fr": "Cookies avoine-raisins",
+        "en": "Oatmeal raisin cookies"
+      },
+      "description": {
+        "fr": "Des cookies moelleux aux flocons d'avoine et aux raisins secs, parfumés à la cannelle — réconfortants et un peu plus sains.",
+        "en": "Soft oatmeal cookies with raisins and a touch of cinnamon — comforting and a little wholesome."
+      },
+      "emoji": "🍪",
+      "time_min": 30,
+      "prep_time_min": 15,
+      "cook_time_min": 15,
+      "difficulty": "very-easy",
+      "type": "dessert",
+      "servings": 6,
+      "country": "us",
+      "diet": [
+        "vegetarian"
+      ],
+      "allergens": [
+        "gluten",
+        "eggs",
+        "milk"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "gp-flocons-avoine"
+          ],
+          "qty": {
+            "amount": 200,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "200g de flocons d'avoine",
+            "en": "200g rolled oats"
+          }
+        },
+        {
+          "ids": [
+            "gp-farine"
+          ],
+          "qty": {
+            "amount": 150,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "150g de farine",
+            "en": "150g flour"
+          }
+        },
+        {
+          "ids": [
+            "gp-raisins-secs"
+          ],
+          "qty": {
+            "amount": 100,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "100g de raisins secs",
+            "en": "100g raisins"
+          }
+        },
+        {
+          "ids": [
+            "fr-beurre",
+            "gp-cassonade"
+          ],
+          "qty": {
+            "amount": 120,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Beurre et cassonade",
+            "en": "Butter and brown sugar"
+          }
+        },
+        {
+          "ids": [
+            "fr-oeuf",
+            "sp-cannelle"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Œuf et cannelle",
+            "en": "Egg and cinnamon"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Battre le beurre et la cassonade.",
+          "Ajouter l'œuf, puis la farine, les flocons et la cannelle.",
+          "Incorporer les raisins secs.",
+          "Former des tas sur une plaque.",
+          "Cuire 13 min à 180°C et laisser refroidir."
+        ],
+        "en": [
+          "Beat the butter and brown sugar.",
+          "Add the egg, then the flour, oats and cinnamon.",
+          "Stir in the raisins.",
+          "Spoon mounds onto a tray.",
+          "Bake 13 min at 180°C and cool."
+        ]
+      },
+      "functional_tags": [
+        "kids_friendly"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "gateau-banane-chocolat",
+      "name": {
+        "fr": "Gâteau banane-chocolat",
+        "en": "Banana chocolate cake"
+      },
+      "description": {
+        "fr": "Un gâteau moelleux à la banane et aux pépites de chocolat — anti-gaspi pour les bananes trop mûres, fondant et gourmand.",
+        "en": "A moist banana cake with chocolate chips — waste-busting for over-ripe bananas, soft and indulgent."
+      },
+      "emoji": "🍌",
+      "time_min": 55,
+      "prep_time_min": 15,
+      "cook_time_min": 40,
+      "difficulty": "very-easy",
+      "type": "dessert",
+      "servings": 8,
+      "country": "intl",
+      "diet": [
+        "vegetarian"
+      ],
+      "allergens": [
+        "gluten",
+        "eggs",
+        "milk"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "fr-banane"
+          ],
+          "qty": {
+            "amount": 4,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "4 bananes mûres",
+            "en": "4 ripe bananas"
+          }
+        },
+        {
+          "ids": [
+            "gp-farine"
+          ],
+          "qty": {
+            "amount": 250,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "250g de farine",
+            "en": "250g flour"
+          }
+        },
+        {
+          "ids": [
+            "gp-pepites-choco",
+            "gp-choco-noir"
+          ],
+          "qty": {
+            "amount": 100,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "100g de pépites de chocolat",
+            "en": "100g chocolate chips"
+          }
+        },
+        {
+          "ids": [
+            "fr-oeuf"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 œufs",
+            "en": "2 eggs"
+          }
+        },
+        {
+          "ids": [
+            "gp-sucre",
+            "fr-beurre",
+            "gp-levure"
+          ],
+          "qty": {
+            "amount": 120,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Sucre, beurre, levure",
+            "en": "Sugar, butter, baking powder"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Écraser les bananes.",
+          "Battre les œufs, le sucre et le beurre fondu.",
+          "Ajouter les bananes, la farine et la levure.",
+          "Incorporer les pépites de chocolat.",
+          "Cuire 40 min à 180°C et laisser refroidir."
+        ],
+        "en": [
+          "Mash the bananas.",
+          "Beat the eggs, sugar and melted butter.",
+          "Add the bananas, flour and baking powder.",
+          "Fold in the chocolate chips.",
+          "Bake 40 min at 180°C and cool."
+        ]
+      },
+      "functional_tags": [
+        "kids_friendly",
+        "anti_waste"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "smoothie-vert",
+      "name": {
+        "fr": "Smoothie vert",
+        "en": "Green smoothie"
+      },
+      "description": {
+        "fr": "Un smoothie vert d'épinards, banane, pomme et citron — détox, vitaminé et étonnamment doux, prêt en deux minutes.",
+        "en": "A green smoothie of spinach, banana, apple and lemon — detoxifying, vitamin-rich and surprisingly sweet, ready in two minutes."
+      },
+      "emoji": "🥬",
+      "time_min": 5,
+      "prep_time_min": 5,
+      "cook_time_min": 0,
+      "difficulty": "very-easy",
+      "type": "drink",
+      "servings": 2,
+      "country": "intl",
+      "diet": [
+        "vegan",
+        "vegetarian",
+        "gluten-free",
+        "dairy-free"
+      ],
+      "allergens": [],
+      "ingredients": [
+        {
+          "ids": [
+            "vg-epinards",
+            "vg-roquette"
+          ],
+          "qty": {
+            "amount": 80,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "80g d'épinards frais",
+            "en": "80g fresh spinach"
+          }
+        },
+        {
+          "ids": [
+            "fr-banane"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 banane",
+            "en": "1 banana"
+          }
+        },
+        {
+          "ids": [
+            "fr-pomme",
+            "fr-kiwi"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 pomme",
+            "en": "1 apple"
+          }
+        },
+        {
+          "ids": [
+            "fr-citron",
+            "sp-gingembre"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": false,
+          "labels": {
+            "fr": "Citron et gingembre",
+            "en": "Lemon and ginger"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Laver les épinards et les fruits.",
+          "Couper la banane et la pomme.",
+          "Mettre le tout dans un blender avec de l'eau.",
+          "Mixer jusqu'à obtenir une texture lisse.",
+          "Servir aussitôt bien frais."
+        ],
+        "en": [
+          "Wash the spinach and fruit.",
+          "Cut the banana and apple.",
+          "Put everything in a blender with water.",
+          "Blend until smooth.",
+          "Serve cold at once."
+        ]
+      },
+      "functional_tags": [
+        "kids_friendly"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "milkshake-fraise",
+      "name": {
+        "fr": "Milkshake à la fraise",
+        "en": "Strawberry milkshake"
+      },
+      "description": {
+        "fr": "Un milkshake crémeux aux fraises fraîches et à la glace vanille — onctueux, sucré et irrésistible pour les gourmands.",
+        "en": "A creamy milkshake with fresh strawberries and vanilla ice cream — smooth, sweet and irresistible."
+      },
+      "emoji": "🍓",
+      "time_min": 5,
+      "prep_time_min": 5,
+      "cook_time_min": 0,
+      "difficulty": "very-easy",
+      "type": "drink",
+      "servings": 2,
+      "country": "intl",
+      "diet": [
+        "vegetarian",
+        "gluten-free"
+      ],
+      "allergens": [
+        "milk",
+        "eggs"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "fr-fraise",
+            "frz-glace-fraise"
+          ],
+          "qty": {
+            "amount": 250,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "250g de fraises",
+            "en": "250g strawberries"
+          }
+        },
+        {
+          "ids": [
+            "frz-bac-vanille"
+          ],
+          "qty": {
+            "amount": 300,
+            "unit": "ml"
+          },
+          "required": true,
+          "labels": {
+            "fr": "300ml de glace vanille",
+            "en": "300ml vanilla ice cream"
+          }
+        },
+        {
+          "ids": [
+            "fr-lait"
+          ],
+          "qty": {
+            "amount": 25,
+            "unit": "cl"
+          },
+          "required": true,
+          "labels": {
+            "fr": "25 cl de lait",
+            "en": "250ml milk"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Laver et équeuter les fraises.",
+          "Les mettre dans un blender avec la glace et le lait.",
+          "Mixer jusqu'à obtenir une texture lisse et mousseuse.",
+          "Verser dans des grands verres.",
+          "Servir aussitôt avec une paille."
+        ],
+        "en": [
+          "Wash and hull the strawberries.",
+          "Put them in a blender with the ice cream and milk.",
+          "Blend until smooth and frothy.",
+          "Pour into tall glasses.",
+          "Serve at once with a straw."
+        ]
+      },
+      "functional_tags": [
+        "kids_friendly"
+      ],
+      "status": "published"
+    }
+  ]
+}

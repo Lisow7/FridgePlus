@@ -1,0 +1,491 @@
+{
+  "batchName": "recipes-batch-13-italie",
+  "recipes": [
+    {
+      "id": "risotto-milanaise",
+      "name": { "fr": "Risotto à la milanaise", "en": "Risotto milanese" },
+      "description": { "fr": "Un risotto crémeux teinté de safran, lié au beurre et au parmesan — l'élégance lombarde dans toute sa simplicité dorée.", "en": "A creamy saffron-tinged risotto finished with butter and parmesan — Lombard elegance in all its golden simplicity." },
+      "emoji": "🍚", "time_min": 35, "prep_time_min": 10, "cook_time_min": 25, "difficulty": "medium", "type": "main", "servings": 4, "country": "it",
+      "diet": ["vegetarian", "gluten-free"], "allergens": ["milk"],
+      "ingredients": [
+        { "ids": ["gp-riz-rond"], "qty": { "amount": 320, "unit": "g" }, "required": true, "labels": { "fr": "320g de riz à risotto", "en": "320g risotto rice" } },
+        { "ids": ["sp-safran"], "qty": { "amount": 1, "unit": "pm" }, "required": true, "labels": { "fr": "1 dose de safran", "en": "1 pinch saffron" } },
+        { "ids": ["fr-parmesan", "fr-grana-padano"], "qty": { "amount": 80, "unit": "g" }, "required": true, "labels": { "fr": "80g de parmesan", "en": "80g parmesan" } },
+        { "ids": ["fr-beurre"], "qty": { "amount": 50, "unit": "g" }, "required": true, "labels": { "fr": "50g de beurre", "en": "50g butter" } },
+        { "ids": ["vg-oignon", "gp-bouillon-cube"], "qty": { "amount": 1, "unit": "pcs" }, "required": true, "labels": { "fr": "Oignon et bouillon", "en": "Onion and stock" } }
+      ],
+      "steps": {
+        "fr": ["Faire revenir l'oignon, ajouter le riz et le nacrer 2 min.", "Ajouter le bouillon louche par louche en remuant.", "Incorporer le safran à mi-cuisson.", "Après 18 min, hors du feu, ajouter beurre et parmesan.", "Mélanger vigoureusement et servir crémeux."],
+        "en": ["Sauté the onion, add the rice and toast 2 min.", "Add the stock ladle by ladle, stirring.", "Stir in the saffron halfway through.", "After 18 min, off the heat, add butter and parmesan.", "Beat vigorously and serve creamy."]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "risotto-fruits-mer",
+      "name": { "fr": "Risotto aux fruits de mer", "en": "Seafood risotto" },
+      "description": { "fr": "Un risotto crémeux et iodé aux fruits de mer, parfumé au vin blanc et au persil — un plat de fête italien généreux.", "en": "A creamy, briny seafood risotto scented with white wine and parsley — a generous Italian feast dish." },
+      "emoji": "🦐", "time_min": 40, "prep_time_min": 15, "cook_time_min": 25, "difficulty": "medium", "type": "main", "servings": 4, "country": "it",
+      "diet": ["gluten-free", "dairy-free"], "allergens": ["crustaceans", "molluscs", "sulphites"],
+      "ingredients": [
+        { "ids": ["gp-riz-rond"], "qty": { "amount": 320, "unit": "g" }, "required": true, "labels": { "fr": "320g de riz à risotto", "en": "320g risotto rice" } },
+        { "ids": ["fr-fruits-mer", "frz-fruits-mer", "fr-crevettes"], "qty": { "amount": 400, "unit": "g" }, "required": true, "labels": { "fr": "400g de fruits de mer", "en": "400g mixed seafood" } },
+        { "ids": ["gp-vin-rouge-cuis"], "qty": { "amount": 10, "unit": "cl" }, "required": true, "labels": { "fr": "10 cl de vin blanc", "en": "100ml white wine" } },
+        { "ids": ["vg-oignon", "vg-ail"], "qty": { "amount": 1, "unit": "pcs" }, "required": true, "labels": { "fr": "Oignon et ail", "en": "Onion and garlic" } },
+        { "ids": ["sp-persil", "gp-bouillon-cube"], "qty": { "amount": 1, "unit": "botte" }, "required": true, "labels": { "fr": "Persil et bouillon", "en": "Parsley and stock" } }
+      ],
+      "steps": {
+        "fr": ["Faire revenir l'oignon et l'ail, nacrer le riz.", "Déglacer au vin blanc.", "Ajouter le bouillon louche par louche en remuant 16 min.", "Incorporer les fruits de mer et cuire 4 min.", "Parsemer de persil et servir aussitôt."],
+        "en": ["Sauté the onion and garlic, toast the rice.", "Deglaze with white wine.", "Add stock ladle by ladle, stirring, for 16 min.", "Stir in the seafood and cook 4 min.", "Scatter parsley and serve at once."]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "spaghetti-aglio-olio",
+      "name": { "fr": "Spaghetti aglio e olio", "en": "Spaghetti aglio e olio" },
+      "description": { "fr": "Des spaghetti enrobés d'ail doré, d'huile d'olive et de piment — le plat italien minimaliste, prêt en quinze minutes avec presque rien.", "en": "Spaghetti tossed with golden garlic, olive oil and chilli — the minimalist Italian dish, ready in fifteen minutes from almost nothing." },
+      "emoji": "🍝", "time_min": 15, "prep_time_min": 5, "cook_time_min": 10, "difficulty": "very-easy", "type": "main", "servings": 4, "country": "it",
+      "diet": ["vegan", "vegetarian", "dairy-free"], "allergens": ["gluten"],
+      "ingredients": [
+        { "ids": ["gp-spaghetti"], "qty": { "amount": 400, "unit": "g" }, "required": true, "labels": { "fr": "400g de spaghetti", "en": "400g spaghetti" } },
+        { "ids": ["vg-ail"], "qty": { "amount": 4, "unit": "gousse" }, "required": true, "labels": { "fr": "4 gousses d'ail", "en": "4 garlic cloves" } },
+        { "ids": ["sp-huile-olive-vi", "sp-huile-olive"], "qty": { "amount": 6, "unit": "cs" }, "required": true, "labels": { "fr": "6 c. à soupe d'huile d'olive", "en": "6 tbsp olive oil" } },
+        { "ids": ["sp-piment-cayenne", "sp-piment-espelette"], "qty": { "amount": 1, "unit": "cc" }, "required": true, "labels": { "fr": "1 c. à café de piment", "en": "1 tsp chilli flakes" } },
+        { "ids": ["sp-persil"], "qty": { "amount": 1, "unit": "botte" }, "required": false, "labels": { "fr": "Persil", "en": "Parsley" } }
+      ],
+      "steps": {
+        "fr": ["Cuire les spaghetti al dente.", "Faire dorer l'ail émincé dans l'huile d'olive avec le piment.", "Ajouter une louche d'eau de cuisson.", "Égoutter les pâtes et les faire sauter dans l'huile parfumée.", "Parsemer de persil et servir aussitôt."],
+        "en": ["Cook the spaghetti al dente.", "Brown the sliced garlic in olive oil with the chilli.", "Add a ladle of pasta water.", "Drain the pasta and toss in the fragrant oil.", "Scatter parsley and serve at once."]
+      },
+      "functional_tags": ["anti_waste"], "status": "published"
+    },
+    {
+      "id": "penne-arrabiata",
+      "name": { "fr": "Penne all'arrabbiata", "en": "Penne arrabbiata" },
+      "description": { "fr": "Des penne dans une sauce tomate relevée à l'ail et au piment — simple, vive et pleine de soleil, le plat « en colère » des Romains.", "en": "Penne in a fiery tomato sauce with garlic and chilli — simple, lively and sunny, the Romans' 'angry' pasta." },
+      "emoji": "🌶️", "time_min": 25, "prep_time_min": 8, "cook_time_min": 17, "difficulty": "easy", "type": "main", "servings": 4, "country": "it",
+      "diet": ["vegan", "vegetarian", "dairy-free"], "allergens": ["gluten"],
+      "ingredients": [
+        { "ids": ["gp-penne", "gp-pates"], "qty": { "amount": 400, "unit": "g" }, "required": true, "labels": { "fr": "400g de penne", "en": "400g penne" } },
+        { "ids": ["gp-tomates-concas", "gp-tomates-pelees"], "qty": { "amount": 400, "unit": "g" }, "required": true, "labels": { "fr": "400g de tomates", "en": "400g tomatoes" } },
+        { "ids": ["vg-ail"], "qty": { "amount": 3, "unit": "gousse" }, "required": true, "labels": { "fr": "3 gousses d'ail", "en": "3 garlic cloves" } },
+        { "ids": ["sp-piment-cayenne"], "qty": { "amount": 1, "unit": "cc" }, "required": true, "labels": { "fr": "1 c. à café de piment", "en": "1 tsp chilli flakes" } },
+        { "ids": ["sp-huile-olive", "sp-persil"], "qty": { "amount": 3, "unit": "cs" }, "required": true, "labels": { "fr": "Huile d'olive et persil", "en": "Olive oil and parsley" } }
+      ],
+      "steps": {
+        "fr": ["Faire dorer l'ail et le piment dans l'huile d'olive.", "Ajouter les tomates et mijoter 12 min.", "Cuire les penne al dente.", "Mélanger les pâtes à la sauce avec un peu d'eau de cuisson.", "Parsemer de persil et servir."],
+        "en": ["Brown the garlic and chilli in olive oil.", "Add the tomatoes and simmer 12 min.", "Cook the penne al dente.", "Toss the pasta with the sauce and a little pasta water.", "Scatter parsley and serve."]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "pasta-puttanesca",
+      "name": { "fr": "Pâtes à la puttanesca", "en": "Pasta puttanesca" },
+      "description": { "fr": "Des pâtes dans une sauce tomate intense aux olives, câpres et anchois — salée, savoureuse et profondément napolitaine.", "en": "Pasta in an intense tomato sauce with olives, capers and anchovies — salty, savoury and deeply Neapolitan." },
+      "emoji": "🫒", "time_min": 25, "prep_time_min": 10, "cook_time_min": 15, "difficulty": "easy", "type": "main", "servings": 4, "country": "it",
+      "diet": ["dairy-free"], "allergens": ["gluten", "fish"],
+      "ingredients": [
+        { "ids": ["gp-spaghetti", "gp-penne"], "qty": { "amount": 400, "unit": "g" }, "required": true, "labels": { "fr": "400g de spaghetti", "en": "400g spaghetti" } },
+        { "ids": ["gp-tomates-concas"], "qty": { "amount": 400, "unit": "g" }, "required": true, "labels": { "fr": "400g de tomates", "en": "400g tomatoes" } },
+        { "ids": ["gp-olives-noires"], "qty": { "amount": 80, "unit": "g" }, "required": true, "labels": { "fr": "80g d'olives noires", "en": "80g black olives" } },
+        { "ids": ["gp-anchois"], "qty": { "amount": 50, "unit": "g" }, "required": true, "labels": { "fr": "50g d'anchois", "en": "50g anchovies" } },
+        { "ids": ["vg-ail", "sp-piment-cayenne"], "qty": { "amount": 2, "unit": "gousse" }, "required": true, "labels": { "fr": "Ail et piment", "en": "Garlic and chilli" } }
+      ],
+      "steps": {
+        "fr": ["Faire fondre les anchois et l'ail dans l'huile d'olive.", "Ajouter les tomates, les olives et le piment.", "Mijoter 12 min.", "Cuire les pâtes al dente.", "Mélanger à la sauce et servir aussitôt."],
+        "en": ["Melt the anchovies and garlic in olive oil.", "Add the tomatoes, olives and chilli.", "Simmer 12 min.", "Cook the pasta al dente.", "Toss with the sauce and serve at once."]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "spaghetti-cacio-e-pepe",
+      "name": { "fr": "Spaghetti cacio e pepe", "en": "Spaghetti cacio e pepe" },
+      "description": { "fr": "Des spaghetti enrobés d'une crème de pecorino et de poivre noir, sans autre ingrédient — l'élégance romaine réduite à l'essentiel.", "en": "Spaghetti coated in a pecorino-and-black-pepper cream, nothing else — Roman elegance reduced to the essential." },
+      "emoji": "🧀", "time_min": 20, "prep_time_min": 5, "cook_time_min": 15, "difficulty": "medium", "type": "main", "servings": 4, "country": "it",
+      "diet": ["vegetarian"], "allergens": ["gluten", "milk"],
+      "ingredients": [
+        { "ids": ["gp-spaghetti"], "qty": { "amount": 400, "unit": "g" }, "required": true, "labels": { "fr": "400g de spaghetti", "en": "400g spaghetti" } },
+        { "ids": ["fr-parmesan", "fr-grana-padano"], "qty": { "amount": 150, "unit": "g" }, "required": true, "labels": { "fr": "150g de pecorino", "en": "150g pecorino" } },
+        { "ids": ["sp-poivre-noir"], "qty": { "amount": 2, "unit": "cc" }, "required": true, "labels": { "fr": "2 c. à café de poivre noir", "en": "2 tsp black pepper" } }
+      ],
+      "steps": {
+        "fr": ["Cuire les spaghetti dans peu d'eau pour une eau bien amidonnée.", "Torréfier le poivre concassé à sec.", "Mélanger le pecorino râpé avec un peu d'eau de cuisson tiède en crème.", "Égoutter les pâtes et les enrober de la crème de fromage et de poivre.", "Servir immédiatement, bien crémeux."],
+        "en": ["Cook the spaghetti in little water for a starchy water.", "Dry-toast the cracked pepper.", "Mix the grated pecorino with a little warm pasta water into a cream.", "Drain the pasta and coat in the cheese cream and pepper.", "Serve immediately, very creamy."]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "gnocchi-tomate",
+      "name": { "fr": "Gnocchi à la tomate", "en": "Gnocchi in tomato sauce" },
+      "description": { "fr": "Des gnocchi moelleux nappés d'une sauce tomate au basilic et au parmesan — réconfortant, rapide et toujours apprécié.", "en": "Soft gnocchi in a basil tomato sauce with parmesan — comforting, quick and always a hit." },
+      "emoji": "🥔", "time_min": 20, "prep_time_min": 5, "cook_time_min": 15, "difficulty": "very-easy", "type": "main", "servings": 4, "country": "it",
+      "diet": ["vegetarian"], "allergens": ["gluten", "milk"],
+      "ingredients": [
+        { "ids": ["gp-pates", "vg-pomme-terre"], "qty": { "amount": 500, "unit": "g" }, "required": true, "labels": { "fr": "500g de gnocchi", "en": "500g gnocchi" } },
+        { "ids": ["gp-tomates-concas", "sp-sauce-tomate"], "qty": { "amount": 400, "unit": "g" }, "required": true, "labels": { "fr": "400g de tomates", "en": "400g tomatoes" } },
+        { "ids": ["sp-basilic"], "qty": { "amount": 1, "unit": "botte" }, "required": true, "labels": { "fr": "Basilic", "en": "Basil" } },
+        { "ids": ["fr-parmesan", "fr-mozzarella"], "qty": { "amount": 60, "unit": "g" }, "required": true, "labels": { "fr": "60g de parmesan", "en": "60g parmesan" } },
+        { "ids": ["vg-ail", "sp-huile-olive"], "qty": { "amount": 1, "unit": "gousse" }, "required": true, "labels": { "fr": "Ail et huile d'olive", "en": "Garlic and olive oil" } }
+      ],
+      "steps": {
+        "fr": ["Préparer une sauce tomate à l'ail et au basilic.", "Cuire les gnocchi à l'eau bouillante jusqu'à ce qu'ils remontent.", "Les égoutter et les mélanger à la sauce.", "Parsemer de parmesan.", "Servir aussitôt, éventuellement gratiné."],
+        "en": ["Make a garlic-and-basil tomato sauce.", "Cook the gnocchi in boiling water until they float.", "Drain and toss with the sauce.", "Scatter with parmesan.", "Serve at once, optionally gratinated."]
+      },
+      "functional_tags": ["kids_friendly"], "status": "published"
+    },
+    {
+      "id": "gnocchi-gorgonzola",
+      "name": { "fr": "Gnocchi au gorgonzola", "en": "Gnocchi in gorgonzola sauce" },
+      "description": { "fr": "Des gnocchi enrobés d'une sauce crémeuse au gorgonzola fondu et aux noix — riche, fondant et terriblement gourmand.", "en": "Gnocchi coated in a creamy melted gorgonzola sauce with walnuts — rich, melting and seriously indulgent." },
+      "emoji": "🧀", "time_min": 20, "prep_time_min": 5, "cook_time_min": 15, "difficulty": "easy", "type": "main", "servings": 4, "country": "it",
+      "diet": ["vegetarian"], "allergens": ["gluten", "milk", "nuts"],
+      "ingredients": [
+        { "ids": ["gp-pates", "vg-pomme-terre"], "qty": { "amount": 500, "unit": "g" }, "required": true, "labels": { "fr": "500g de gnocchi", "en": "500g gnocchi" } },
+        { "ids": ["fr-fourme", "fr-roquefort", "fr-fromage"], "qty": { "amount": 150, "unit": "g" }, "required": true, "labels": { "fr": "150g de gorgonzola", "en": "150g gorgonzola" } },
+        { "ids": ["fr-creme-liquide", "fr-creme"], "qty": { "amount": 15, "unit": "cl" }, "required": true, "labels": { "fr": "15 cl de crème", "en": "150ml cream" } },
+        { "ids": ["gp-noix"], "qty": { "amount": 50, "unit": "g" }, "required": true, "labels": { "fr": "50g de noix", "en": "50g walnuts" } }
+      ],
+      "steps": {
+        "fr": ["Faire fondre le gorgonzola dans la crème à feu doux.", "Cuire les gnocchi jusqu'à ce qu'ils remontent.", "Les égoutter et les mélanger à la sauce.", "Parsemer de noix concassées.", "Servir aussitôt bien chaud."],
+        "en": ["Melt the gorgonzola in the cream over low heat.", "Cook the gnocchi until they float.", "Drain and toss with the sauce.", "Scatter with crushed walnuts.", "Serve hot at once."]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "tagliatelles-champignons",
+      "name": { "fr": "Tagliatelles aux champignons", "en": "Mushroom tagliatelle" },
+      "description": { "fr": "Des tagliatelles dans une sauce crémeuse aux champignons et au parmesan, parfumée à l'ail et au persil — automnale et réconfortante.", "en": "Tagliatelle in a creamy mushroom-and-parmesan sauce, scented with garlic and parsley — autumnal and comforting." },
+      "emoji": "🍄", "time_min": 25, "prep_time_min": 10, "cook_time_min": 15, "difficulty": "easy", "type": "main", "servings": 4, "country": "it",
+      "diet": ["vegetarian"], "allergens": ["gluten", "milk", "eggs"],
+      "ingredients": [
+        { "ids": ["gp-tagliatelles"], "qty": { "amount": 400, "unit": "g" }, "required": true, "labels": { "fr": "400g de tagliatelles", "en": "400g tagliatelle" } },
+        { "ids": ["vg-champignons", "gp-champignons"], "qty": { "amount": 400, "unit": "g" }, "required": true, "labels": { "fr": "400g de champignons", "en": "400g mushrooms" } },
+        { "ids": ["fr-creme-liquide", "fr-creme"], "qty": { "amount": 20, "unit": "cl" }, "required": true, "labels": { "fr": "20 cl de crème", "en": "200ml cream" } },
+        { "ids": ["fr-parmesan"], "qty": { "amount": 60, "unit": "g" }, "required": true, "labels": { "fr": "60g de parmesan", "en": "60g parmesan" } },
+        { "ids": ["vg-ail", "sp-persil"], "qty": { "amount": 2, "unit": "gousse" }, "required": true, "labels": { "fr": "Ail et persil", "en": "Garlic and parsley" } }
+      ],
+      "steps": {
+        "fr": ["Faire sauter les champignons émincés avec l'ail.", "Ajouter la crème et laisser réduire.", "Cuire les tagliatelles al dente.", "Mélanger les pâtes à la sauce et au parmesan.", "Parsemer de persil et servir."],
+        "en": ["Sauté the sliced mushrooms with the garlic.", "Add the cream and reduce.", "Cook the tagliatelle al dente.", "Toss the pasta with the sauce and parmesan.", "Scatter parsley and serve."]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "cannelloni-ricotta-epinards",
+      "name": { "fr": "Cannelloni ricotta-épinards", "en": "Ricotta-spinach cannelloni" },
+      "description": { "fr": "Des cannelloni farcis de ricotta et d'épinards, nappés de sauce tomate et gratinés — un classique italien végétarien et généreux.", "en": "Cannelloni stuffed with ricotta and spinach, topped with tomato sauce and gratinated — a generous Italian vegetarian classic." },
+      "emoji": "🧀", "time_min": 60, "prep_time_min": 30, "cook_time_min": 30, "difficulty": "medium", "type": "main", "servings": 4, "country": "it",
+      "diet": ["vegetarian"], "allergens": ["gluten", "milk", "eggs"],
+      "ingredients": [
+        { "ids": ["gp-lasagnes-sec", "gp-pates"], "qty": { "amount": 250, "unit": "g" }, "required": true, "labels": { "fr": "250g de cannelloni", "en": "250g cannelloni" } },
+        { "ids": ["fr-ricotta"], "qty": { "amount": 400, "unit": "g" }, "required": true, "labels": { "fr": "400g de ricotta", "en": "400g ricotta" } },
+        { "ids": ["vg-epinards", "frz-epinards"], "qty": { "amount": 400, "unit": "g" }, "required": true, "labels": { "fr": "400g d'épinards", "en": "400g spinach" } },
+        { "ids": ["gp-tomates-concas", "sp-sauce-tomate"], "qty": { "amount": 400, "unit": "g" }, "required": true, "labels": { "fr": "400g de tomates", "en": "400g tomatoes" } },
+        { "ids": ["fr-parmesan", "fr-mozzarella"], "qty": { "amount": 80, "unit": "g" }, "required": true, "labels": { "fr": "80g de parmesan", "en": "80g parmesan" } }
+      ],
+      "steps": {
+        "fr": ["Faire tomber les épinards et les mélanger à la ricotta.", "Garnir les cannelloni de cette farce.", "Napper le fond d'un plat de sauce tomate.", "Disposer les cannelloni, couvrir de sauce et de parmesan.", "Cuire 30 min à 180°C et servir."],
+        "en": ["Wilt the spinach and mix it with the ricotta.", "Fill the cannelloni with this stuffing.", "Spread tomato sauce in a dish.", "Lay the cannelloni, cover with sauce and parmesan.", "Bake 30 min at 180°C and serve."]
+      },
+      "functional_tags": ["batch_cooking"], "status": "published"
+    },
+    {
+      "id": "lasagnes-legumes",
+      "name": { "fr": "Lasagnes aux légumes", "en": "Vegetable lasagne" },
+      "description": { "fr": "Des lasagnes végétariennes en couches de légumes du soleil, de sauce tomate et de béchamel gratinée — généreuses et réconfortantes.", "en": "Vegetarian lasagne layered with summer vegetables, tomato sauce and gratinated béchamel — generous and comforting." },
+      "emoji": "🍆", "time_min": 75, "prep_time_min": 30, "cook_time_min": 45, "difficulty": "medium", "type": "main", "servings": 6, "country": "it",
+      "diet": ["vegetarian"], "allergens": ["gluten", "milk"],
+      "ingredients": [
+        { "ids": ["gp-lasagnes-sec"], "qty": { "amount": 250, "unit": "g" }, "required": true, "labels": { "fr": "250g de lasagnes", "en": "250g lasagne sheets" } },
+        { "ids": ["vg-courgette", "vg-aubergine", "vg-poivron"], "qty": { "amount": 600, "unit": "g" }, "required": true, "labels": { "fr": "600g de légumes", "en": "600g vegetables" } },
+        { "ids": ["gp-tomates-concas"], "qty": { "amount": 400, "unit": "g" }, "required": true, "labels": { "fr": "400g de tomates", "en": "400g tomatoes" } },
+        { "ids": ["fr-lait", "sp-bechamel"], "qty": { "amount": 50, "unit": "cl" }, "required": true, "labels": { "fr": "50 cl de lait (béchamel)", "en": "500ml milk (béchamel)" } },
+        { "ids": ["fr-fromage-rape", "fr-mozzarella"], "qty": { "amount": 150, "unit": "g" }, "required": true, "labels": { "fr": "150g de fromage râpé", "en": "150g grated cheese" } }
+      ],
+      "steps": {
+        "fr": ["Faire revenir les légumes en dés, ajouter les tomates.", "Préparer une béchamel.", "Monter les lasagnes : sauce de légumes, pâtes, béchamel.", "Terminer par la béchamel et le fromage.", "Cuire 40 min à 180°C jusqu'à gratiner."],
+        "en": ["Sauté the diced vegetables, add the tomatoes.", "Make a béchamel.", "Layer the lasagne: vegetable sauce, sheets, béchamel.", "Finish with béchamel and cheese.", "Bake 40 min at 180°C until golden."]
+      },
+      "functional_tags": ["batch_cooking"], "status": "published"
+    },
+    {
+      "id": "osso-buco",
+      "name": { "fr": "Osso buco", "en": "Osso buco" },
+      "description": { "fr": "Des jarrets de veau mijotés longuement au vin blanc, aux tomates et aux légumes, jusqu'à devenir fondants — un grand classique milanais.", "en": "Veal shanks slowly braised in white wine, tomatoes and vegetables until meltingly tender — a great Milanese classic." },
+      "emoji": "🍖", "time_min": 140, "prep_time_min": 20, "cook_time_min": 120, "difficulty": "hard", "type": "main", "servings": 4, "country": "it",
+      "diet": ["gluten-free", "dairy-free"], "allergens": ["sulphites"],
+      "ingredients": [
+        { "ids": ["fr-jarret-veau", "fr-veau"], "qty": { "amount": 1200, "unit": "g" }, "required": true, "labels": { "fr": "1,2 kg de jarret de veau", "en": "1.2kg veal shanks" } },
+        { "ids": ["gp-vin-rouge-cuis"], "qty": { "amount": 20, "unit": "cl" }, "required": true, "labels": { "fr": "20 cl de vin blanc", "en": "200ml white wine" } },
+        { "ids": ["gp-tomates-concas"], "qty": { "amount": 400, "unit": "g" }, "required": true, "labels": { "fr": "400g de tomates", "en": "400g tomatoes" } },
+        { "ids": ["vg-carottes", "vg-celeri", "vg-oignon"], "qty": { "amount": 300, "unit": "g" }, "required": true, "labels": { "fr": "Carotte, céleri, oignon", "en": "Carrot, celery, onion" } },
+        { "ids": ["fr-citron", "sp-persil", "vg-ail"], "qty": { "amount": 1, "unit": "pcs" }, "required": false, "labels": { "fr": "Gremolata (citron, persil, ail)", "en": "Gremolata (lemon, parsley, garlic)" } }
+      ],
+      "steps": {
+        "fr": ["Fariner et faire dorer les jarrets de veau.", "Faire revenir carotte, céleri et oignon.", "Déglacer au vin blanc, ajouter les tomates.", "Couvrir et mijoter 1h45 à feu très doux.", "Parsemer de gremolata et servir avec un risotto."],
+        "en": ["Flour and brown the veal shanks.", "Sauté the carrot, celery and onion.", "Deglaze with white wine, add the tomatoes.", "Cover and braise 1h45 over very low heat.", "Scatter with gremolata and serve with risotto."]
+      },
+      "functional_tags": ["batch_cooking"], "status": "published"
+    },
+    {
+      "id": "saltimbocca",
+      "name": { "fr": "Saltimbocca alla romana", "en": "Saltimbocca alla romana" },
+      "description": { "fr": "De fines escalopes de veau couvertes de jambon cru et de sauge, poêlées et déglacées au vin blanc — élégant et prêt en quinze minutes.", "en": "Thin veal escalopes topped with cured ham and sage, pan-fried and deglazed with white wine — elegant and ready in fifteen minutes." },
+      "emoji": "🥩", "time_min": 20, "prep_time_min": 10, "cook_time_min": 10, "difficulty": "medium", "type": "main", "servings": 4, "country": "it",
+      "diet": ["gluten-free"], "allergens": ["milk", "sulphites"],
+      "ingredients": [
+        { "ids": ["fr-escalope-veau", "fr-veau"], "qty": { "amount": 600, "unit": "g" }, "required": true, "labels": { "fr": "4 escalopes de veau", "en": "4 veal escalopes" } },
+        { "ids": ["fr-jambon-sec"], "qty": { "amount": 8, "unit": "tranche" }, "required": true, "labels": { "fr": "8 tranches de jambon cru", "en": "8 slices cured ham" } },
+        { "ids": ["sp-sauge"], "qty": { "amount": 8, "unit": "pcs" }, "required": true, "labels": { "fr": "8 feuilles de sauge", "en": "8 sage leaves" } },
+        { "ids": ["gp-vin-rouge-cuis"], "qty": { "amount": 10, "unit": "cl" }, "required": true, "labels": { "fr": "10 cl de vin blanc", "en": "100ml white wine" } },
+        { "ids": ["fr-beurre"], "qty": { "amount": 40, "unit": "g" }, "required": true, "labels": { "fr": "40g de beurre", "en": "40g butter" } }
+      ],
+      "steps": {
+        "fr": ["Poser sur chaque escalope une tranche de jambon et une feuille de sauge.", "Fixer avec un cure-dent.", "Poêler côté viande puis côté jambon au beurre.", "Déglacer au vin blanc et laisser réduire.", "Napper de sauce et servir aussitôt."],
+        "en": ["Top each escalope with a slice of ham and a sage leaf.", "Secure with a toothpick.", "Pan-fry meat-side then ham-side in butter.", "Deglaze with white wine and reduce.", "Spoon over the sauce and serve at once."]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "escalope-milanaise",
+      "name": { "fr": "Escalope milanaise", "en": "Veal milanese" },
+      "description": { "fr": "Une escalope de veau panée et dorée au beurre, croustillante dehors et tendre dedans, servie avec un quartier de citron — un classique lombard.", "en": "A breaded veal escalope fried golden in butter, crisp outside and tender within, served with a lemon wedge — a Lombard classic." },
+      "emoji": "🍖", "time_min": 25, "prep_time_min": 12, "cook_time_min": 13, "difficulty": "easy", "type": "main", "servings": 4, "country": "it",
+      "diet": [], "allergens": ["gluten", "eggs", "milk"],
+      "ingredients": [
+        { "ids": ["fr-escalope-veau", "fr-veau"], "qty": { "amount": 600, "unit": "g" }, "required": true, "labels": { "fr": "4 escalopes de veau", "en": "4 veal escalopes" } },
+        { "ids": ["gp-chapelure", "gp-panko"], "qty": { "amount": 120, "unit": "g" }, "required": true, "labels": { "fr": "120g de chapelure", "en": "120g breadcrumbs" } },
+        { "ids": ["fr-oeuf"], "qty": { "amount": 2, "unit": "pcs" }, "required": true, "labels": { "fr": "2 œufs", "en": "2 eggs" } },
+        { "ids": ["gp-farine"], "qty": { "amount": 50, "unit": "g" }, "required": true, "labels": { "fr": "50g de farine", "en": "50g flour" } },
+        { "ids": ["fr-beurre", "fr-citron"], "qty": { "amount": 50, "unit": "g" }, "required": true, "labels": { "fr": "Beurre et citron", "en": "Butter and lemon" } }
+      ],
+      "steps": {
+        "fr": ["Aplatir les escalopes.", "Les passer dans la farine, l'œuf puis la chapelure.", "Les dorer au beurre 3-4 min par face.", "Égoutter sur du papier absorbant.", "Servir avec un quartier de citron."],
+        "en": ["Flatten the escalopes.", "Coat in flour, egg then breadcrumbs.", "Fry in butter 3-4 min per side.", "Drain on paper towel.", "Serve with a lemon wedge."]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "polenta-champignons",
+      "name": { "fr": "Polenta crémeuse aux champignons", "en": "Creamy polenta with mushrooms" },
+      "description": { "fr": "Une polenta onctueuse au parmesan, couronnée de champignons poêlés à l'ail — réconfortante, dorée et terreuse.", "en": "Silky parmesan polenta topped with garlic-pan-fried mushrooms — comforting, golden and earthy." },
+      "emoji": "🍄", "time_min": 35, "prep_time_min": 10, "cook_time_min": 25, "difficulty": "easy", "type": "main", "servings": 4, "country": "it",
+      "diet": ["vegetarian"], "allergens": ["milk"],
+      "ingredients": [
+        { "ids": ["gp-semoule", "gp-millet"], "qty": { "amount": 250, "unit": "g" }, "required": true, "labels": { "fr": "250g de polenta", "en": "250g polenta" } },
+        { "ids": ["vg-champignons", "gp-champignons"], "qty": { "amount": 400, "unit": "g" }, "required": true, "labels": { "fr": "400g de champignons", "en": "400g mushrooms" } },
+        { "ids": ["fr-parmesan"], "qty": { "amount": 80, "unit": "g" }, "required": true, "labels": { "fr": "80g de parmesan", "en": "80g parmesan" } },
+        { "ids": ["fr-beurre", "vg-ail"], "qty": { "amount": 40, "unit": "g" }, "required": true, "labels": { "fr": "Beurre et ail", "en": "Butter and garlic" } },
+        { "ids": ["sp-persil", "sp-thym"], "qty": { "amount": 1, "unit": "botte" }, "required": false, "labels": { "fr": "Persil et thym", "en": "Parsley and thyme" } }
+      ],
+      "steps": {
+        "fr": ["Cuire la polenta dans de l'eau bouillante salée en remuant.", "Incorporer le beurre et le parmesan.", "Faire sauter les champignons avec l'ail.", "Dresser la polenta crémeuse dans les assiettes.", "Couronner de champignons et parsemer d'herbes."],
+        "en": ["Cook the polenta in boiling salted water, stirring.", "Stir in the butter and parmesan.", "Pan-fry the mushrooms with the garlic.", "Spoon the creamy polenta onto plates.", "Top with mushrooms and scatter herbs."]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "minestrone",
+      "name": { "fr": "Minestrone", "en": "Minestrone" },
+      "description": { "fr": "Une soupe italienne généreuse de légumes, haricots et pâtes, parfumée au basilic — nourrissante, végétalienne et anti-gaspi.", "en": "A generous Italian soup of vegetables, beans and pasta, scented with basil — nourishing, vegan and waste-busting." },
+      "emoji": "🍲", "time_min": 45, "prep_time_min": 20, "cook_time_min": 25, "difficulty": "easy", "type": "starter", "servings": 6, "country": "it",
+      "diet": ["vegan", "vegetarian", "dairy-free"], "allergens": ["gluten", "celery"],
+      "ingredients": [
+        { "ids": ["vg-carottes", "vg-courgette", "vg-celeri", "vg-pomme-terre"], "qty": { "amount": 600, "unit": "g" }, "required": true, "labels": { "fr": "600g de légumes variés", "en": "600g mixed vegetables" } },
+        { "ids": ["gp-haricots-bl", "gp-haricots-rouges"], "qty": { "amount": 250, "unit": "g" }, "required": true, "labels": { "fr": "250g de haricots", "en": "250g beans" } },
+        { "ids": ["gp-coquillettes", "gp-pates"], "qty": { "amount": 100, "unit": "g" }, "required": true, "labels": { "fr": "100g de petites pâtes", "en": "100g small pasta" } },
+        { "ids": ["gp-tomates-concas"], "qty": { "amount": 400, "unit": "g" }, "required": true, "labels": { "fr": "400g de tomates", "en": "400g tomatoes" } },
+        { "ids": ["sp-basilic", "vg-oignon"], "qty": { "amount": 1, "unit": "botte" }, "required": true, "labels": { "fr": "Basilic et oignon", "en": "Basil and onion" } }
+      ],
+      "steps": {
+        "fr": ["Faire revenir l'oignon et les légumes en dés.", "Ajouter les tomates et 1,5 L d'eau.", "Mijoter 15 min, ajouter les haricots et les pâtes.", "Cuire 10 min de plus.", "Parsemer de basilic et arroser d'huile d'olive."],
+        "en": ["Sauté the onion and diced vegetables.", "Add the tomatoes and 1.5 L water.", "Simmer 15 min, add the beans and pasta.", "Cook a further 10 min.", "Scatter basil and drizzle with olive oil."]
+      },
+      "functional_tags": ["batch_cooking", "anti_waste"], "status": "published"
+    },
+    {
+      "id": "ribollita",
+      "name": { "fr": "Ribollita", "en": "Ribollita" },
+      "description": { "fr": "Une soupe toscane épaisse de pain, haricots et chou noir, mijotée puis « rebouillie » — rustique, végétalienne et profondément réconfortante.", "en": "A thick Tuscan soup of bread, beans and cavolo nero, simmered then 're-boiled' — rustic, vegan and deeply comforting." },
+      "emoji": "🥣", "time_min": 50, "prep_time_min": 20, "cook_time_min": 30, "difficulty": "easy", "type": "starter", "servings": 6, "country": "it",
+      "diet": ["vegan", "vegetarian", "dairy-free"], "allergens": ["gluten", "celery"],
+      "ingredients": [
+        { "ids": ["gp-haricots-bl"], "qty": { "amount": 300, "unit": "g" }, "required": true, "labels": { "fr": "300g de haricots blancs", "en": "300g white beans" } },
+        { "ids": ["vg-chou-kale", "vg-chou-vert", "vg-blettes"], "qty": { "amount": 300, "unit": "g" }, "required": true, "labels": { "fr": "300g de chou noir", "en": "300g cavolo nero" } },
+        { "ids": ["gp-pain", "gp-pain-campagne"], "qty": { "amount": 200, "unit": "g" }, "required": true, "labels": { "fr": "200g de pain rassis", "en": "200g stale bread" } },
+        { "ids": ["gp-tomates-concas"], "qty": { "amount": 400, "unit": "g" }, "required": true, "labels": { "fr": "400g de tomates", "en": "400g tomatoes" } },
+        { "ids": ["vg-carottes", "vg-celeri", "vg-oignon"], "qty": { "amount": 300, "unit": "g" }, "required": true, "labels": { "fr": "Carotte, céleri, oignon", "en": "Carrot, celery, onion" } }
+      ],
+      "steps": {
+        "fr": ["Faire revenir carotte, céleri et oignon.", "Ajouter les tomates, les haricots et le chou.", "Couvrir d'eau et mijoter 25 min.", "Incorporer le pain rassis en morceaux pour épaissir.", "Laisser reposer puis réchauffer ; arroser d'huile d'olive et servir."],
+        "en": ["Sauté the carrot, celery and onion.", "Add the tomatoes, beans and cabbage.", "Cover with water and simmer 25 min.", "Stir in the torn stale bread to thicken.", "Rest then reheat; drizzle with olive oil and serve."]
+      },
+      "functional_tags": ["anti_waste", "batch_cooking"], "status": "published"
+    },
+    {
+      "id": "arancini",
+      "name": { "fr": "Arancini", "en": "Arancini" },
+      "description": { "fr": "Des boules de risotto panées et frites, fondantes au cœur de mozzarella — la street food sicilienne dorée et irrésistible.", "en": "Breaded fried risotto balls with a molten mozzarella centre — Sicily's golden, irresistible street food." },
+      "emoji": "🍙", "time_min": 50, "prep_time_min": 30, "cook_time_min": 20, "difficulty": "hard", "type": "starter", "servings": 4, "country": "it",
+      "diet": ["vegetarian"], "allergens": ["gluten", "milk", "eggs"],
+      "ingredients": [
+        { "ids": ["gp-riz-rond"], "qty": { "amount": 300, "unit": "g" }, "required": true, "labels": { "fr": "300g de riz à risotto", "en": "300g risotto rice" } },
+        { "ids": ["fr-mozzarella"], "qty": { "amount": 150, "unit": "g" }, "required": true, "labels": { "fr": "150g de mozzarella", "en": "150g mozzarella" } },
+        { "ids": ["fr-parmesan"], "qty": { "amount": 60, "unit": "g" }, "required": true, "labels": { "fr": "60g de parmesan", "en": "60g parmesan" } },
+        { "ids": ["gp-chapelure"], "qty": { "amount": 150, "unit": "g" }, "required": true, "labels": { "fr": "150g de chapelure", "en": "150g breadcrumbs" } },
+        { "ids": ["fr-oeuf"], "qty": { "amount": 2, "unit": "pcs" }, "required": true, "labels": { "fr": "2 œufs", "en": "2 eggs" } }
+      ],
+      "steps": {
+        "fr": ["Préparer un risotto au parmesan et le laisser refroidir.", "Former des boules en enfermant un cube de mozzarella au centre.", "Les passer dans l'œuf puis la chapelure.", "Frire jusqu'à ce qu'elles soient dorées.", "Égoutter et servir bien chaudes."],
+        "en": ["Make a parmesan risotto and let it cool.", "Form balls enclosing a cube of mozzarella in the centre.", "Coat in egg then breadcrumbs.", "Fry until golden.", "Drain and serve hot."]
+      },
+      "functional_tags": ["freezer_friendly"], "status": "published"
+    },
+    {
+      "id": "burrata-tomates",
+      "name": { "fr": "Burrata et tomates", "en": "Burrata with tomatoes" },
+      "description": { "fr": "Une burrata crémeuse posée sur des tomates mûres, basilic et huile d'olive — une entrée italienne d'une simplicité lumineuse.", "en": "A creamy burrata over ripe tomatoes, basil and olive oil — an Italian starter of luminous simplicity." },
+      "emoji": "🧀", "time_min": 10, "prep_time_min": 10, "cook_time_min": 0, "difficulty": "very-easy", "type": "starter", "servings": 4, "country": "it",
+      "diet": ["vegetarian", "gluten-free"], "allergens": ["milk"],
+      "ingredients": [
+        { "ids": ["fr-burrata", "fr-mozzarella"], "qty": { "amount": 2, "unit": "pcs" }, "required": true, "labels": { "fr": "2 burratas", "en": "2 burratas" } },
+        { "ids": ["vg-tomate", "vg-tomate-cerise"], "qty": { "amount": 400, "unit": "g" }, "required": true, "labels": { "fr": "400g de tomates", "en": "400g tomatoes" } },
+        { "ids": ["sp-basilic"], "qty": { "amount": 1, "unit": "botte" }, "required": true, "labels": { "fr": "Basilic frais", "en": "Fresh basil" } },
+        { "ids": ["sp-huile-olive-vi", "sp-vinaigre-bals"], "qty": { "amount": 3, "unit": "cs" }, "required": true, "labels": { "fr": "Huile d'olive et balsamique", "en": "Olive oil and balsamic" } }
+      ],
+      "steps": {
+        "fr": ["Couper les tomates en quartiers et les disposer dans un plat.", "Saler légèrement.", "Poser les burratas au centre.", "Arroser d'huile d'olive et de balsamique.", "Parsemer de basilic et servir aussitôt."],
+        "en": ["Cut the tomatoes into wedges and arrange on a plate.", "Season lightly with salt.", "Place the burratas in the centre.", "Drizzle with olive oil and balsamic.", "Scatter basil and serve at once."]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "vitello-tonnato",
+      "name": { "fr": "Vitello tonnato", "en": "Vitello tonnato" },
+      "description": { "fr": "De fines tranches de veau froid nappées d'une sauce crémeuse au thon et aux câpres — une entrée piémontaise raffinée et estivale.", "en": "Thin slices of cold veal coated in a creamy tuna-and-caper sauce — a refined, summery Piedmontese starter." },
+      "emoji": "🥩", "time_min": 45, "prep_time_min": 20, "cook_time_min": 25, "difficulty": "medium", "type": "starter", "servings": 4, "country": "it",
+      "diet": ["gluten-free"], "allergens": ["fish", "eggs"],
+      "ingredients": [
+        { "ids": ["fr-veau", "fr-escalope-veau"], "qty": { "amount": 500, "unit": "g" }, "required": true, "labels": { "fr": "500g de veau", "en": "500g veal" } },
+        { "ids": ["gp-thon"], "qty": { "amount": 150, "unit": "g" }, "required": true, "labels": { "fr": "150g de thon", "en": "150g tuna" } },
+        { "ids": ["sp-mayonnaise"], "qty": { "amount": 4, "unit": "cs" }, "required": true, "labels": { "fr": "4 c. à soupe de mayonnaise", "en": "4 tbsp mayonnaise" } },
+        { "ids": ["gp-anchois", "sp-cornichon"], "qty": { "amount": 30, "unit": "g" }, "required": true, "labels": { "fr": "Anchois et câpres", "en": "Anchovies and capers" } },
+        { "ids": ["fr-citron"], "qty": { "amount": 1, "unit": "pcs" }, "required": true, "labels": { "fr": "1 citron", "en": "1 lemon" } }
+      ],
+      "steps": {
+        "fr": ["Cuire le veau doucement puis le laisser refroidir.", "Mixer le thon, la mayonnaise, les anchois et le citron en sauce.", "Trancher le veau très finement.", "Disposer les tranches et napper de sauce tonnato.", "Décorer de câpres et servir frais."],
+        "en": ["Gently cook the veal then let it cool.", "Blend the tuna, mayonnaise, anchovies and lemon into a sauce.", "Slice the veal very thinly.", "Arrange the slices and coat with tonnato sauce.", "Decorate with capers and serve cold."]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "polenta-cremeuse",
+      "name": { "fr": "Polenta crémeuse au parmesan", "en": "Creamy parmesan polenta" },
+      "description": { "fr": "Une polenta fondante enrichie de beurre et de parmesan — un accompagnement onctueux et réconfortant, parfait avec un plat en sauce.", "en": "A soft polenta enriched with butter and parmesan — a creamy, comforting side, perfect with a saucy dish." },
+      "emoji": "🌽", "time_min": 25, "prep_time_min": 5, "cook_time_min": 20, "difficulty": "very-easy", "type": "side", "servings": 4, "country": "it",
+      "diet": ["vegetarian"], "allergens": ["milk"],
+      "ingredients": [
+        { "ids": ["gp-semoule", "gp-millet"], "qty": { "amount": 250, "unit": "g" }, "required": true, "labels": { "fr": "250g de polenta", "en": "250g polenta" } },
+        { "ids": ["fr-parmesan", "fr-grana-padano"], "qty": { "amount": 80, "unit": "g" }, "required": true, "labels": { "fr": "80g de parmesan", "en": "80g parmesan" } },
+        { "ids": ["fr-beurre"], "qty": { "amount": 50, "unit": "g" }, "required": true, "labels": { "fr": "50g de beurre", "en": "50g butter" } },
+        { "ids": ["fr-lait", "fr-creme"], "qty": { "amount": 20, "unit": "cl" }, "required": false, "labels": { "fr": "20 cl de lait", "en": "200ml milk" } }
+      ],
+      "steps": {
+        "fr": ["Porter 1 L d'eau salée (et le lait) à ébullition.", "Verser la polenta en pluie en remuant.", "Cuire 15-20 min en remuant régulièrement.", "Incorporer le beurre et le parmesan.", "Servir aussitôt, bien crémeuse."],
+        "en": ["Bring 1 L salted water (and the milk) to a boil.", "Pour in the polenta in a stream, stirring.", "Cook 15-20 min, stirring regularly.", "Stir in the butter and parmesan.", "Serve at once, very creamy."]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "focaccia",
+      "name": { "fr": "Focaccia", "en": "Focaccia" },
+      "description": { "fr": "Un pain plat italien moelleux, arrosé d'huile d'olive et parsemé de romarin et de fleur de sel — doré, alvéolé et parfumé.", "en": "A soft Italian flatbread, drizzled with olive oil and scattered with rosemary and flaky salt — golden, airy and fragrant." },
+      "emoji": "🫓", "time_min": 120, "prep_time_min": 20, "cook_time_min": 25, "difficulty": "medium", "type": "side", "servings": 6, "country": "it",
+      "diet": ["vegan", "vegetarian", "dairy-free"], "allergens": ["gluten"],
+      "ingredients": [
+        { "ids": ["gp-farine"], "qty": { "amount": 500, "unit": "g" }, "required": true, "labels": { "fr": "500g de farine", "en": "500g flour" } },
+        { "ids": ["gp-levure-boul", "gp-levure-seche"], "qty": { "amount": 1, "unit": "cs" }, "required": true, "labels": { "fr": "1 sachet de levure boulangère", "en": "1 sachet of yeast" } },
+        { "ids": ["sp-huile-olive-vi"], "qty": { "amount": 6, "unit": "cs" }, "required": true, "labels": { "fr": "6 c. à soupe d'huile d'olive", "en": "6 tbsp olive oil" } },
+        { "ids": ["sp-romarin", "sp-fleur-sel"], "qty": { "amount": 2, "unit": "cs" }, "required": true, "labels": { "fr": "Romarin et fleur de sel", "en": "Rosemary and flaky salt" } }
+      ],
+      "steps": {
+        "fr": ["Préparer une pâte avec farine, levure, eau tiède, sel et huile.", "Laisser lever 1h jusqu'à ce qu'elle double.", "Étaler dans un plat huilé et faire des trous avec les doigts.", "Arroser d'huile, parsemer de romarin et de sel.", "Cuire 25 min à 220°C jusqu'à dorure."],
+        "en": ["Make a dough with flour, yeast, warm water, salt and oil.", "Let rise 1h until doubled.", "Spread in an oiled tray and dimple with your fingers.", "Drizzle with oil, scatter rosemary and salt.", "Bake 25 min at 220°C until golden."]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "caponata",
+      "name": { "fr": "Caponata sicilienne", "en": "Sicilian caponata" },
+      "description": { "fr": "Une poêlée sicilienne d'aubergines, céleri et tomates en aigre-doux, relevée d'olives et de câpres — végétalienne, parfumée, meilleure le lendemain.", "en": "A Sicilian sweet-and-sour sauté of aubergines, celery and tomatoes with olives and capers — vegan, fragrant, even better the next day." },
+      "emoji": "🍆", "time_min": 45, "prep_time_min": 20, "cook_time_min": 25, "difficulty": "easy", "type": "side", "servings": 4, "country": "it",
+      "diet": ["vegan", "vegetarian", "gluten-free", "dairy-free"], "allergens": ["celery"],
+      "ingredients": [
+        { "ids": ["vg-aubergine"], "qty": { "amount": 3, "unit": "pcs" }, "required": true, "labels": { "fr": "3 aubergines", "en": "3 aubergines" } },
+        { "ids": ["vg-celeri"], "qty": { "amount": 2, "unit": "pcs" }, "required": true, "labels": { "fr": "2 branches de céleri", "en": "2 celery sticks" } },
+        { "ids": ["gp-tomates-concas"], "qty": { "amount": 300, "unit": "g" }, "required": true, "labels": { "fr": "300g de tomates", "en": "300g tomatoes" } },
+        { "ids": ["gp-olives-vertes", "sp-cornichon"], "qty": { "amount": 80, "unit": "g" }, "required": true, "labels": { "fr": "Olives et câpres", "en": "Olives and capers" } },
+        { "ids": ["sp-vinaigre-vin", "gp-sucre"], "qty": { "amount": 3, "unit": "cs" }, "required": true, "labels": { "fr": "Vinaigre et sucre", "en": "Vinegar and sugar" } }
+      ],
+      "steps": {
+        "fr": ["Faire dorer les aubergines en dés, réserver.", "Faire revenir le céleri et l'oignon, ajouter les tomates.", "Remettre les aubergines, ajouter olives et câpres.", "Verser le vinaigre et le sucre, mijoter 10 min.", "Laisser refroidir et servir tiède ou froid."],
+        "en": ["Brown the diced aubergines, set aside.", "Sauté the celery and onion, add the tomatoes.", "Return the aubergines, add olives and capers.", "Pour in the vinegar and sugar, simmer 10 min.", "Cool and serve warm or cold."]
+      },
+      "functional_tags": ["anti_waste"], "status": "published"
+    },
+    {
+      "id": "torta-caprese",
+      "name": { "fr": "Torta caprese (gâteau choco-amande)", "en": "Torta caprese (chocolate almond cake)" },
+      "description": { "fr": "Un gâteau napolitain fondant au chocolat et aux amandes, sans farine — intense, moelleux et naturellement sans gluten.", "en": "A fudgy Neapolitan chocolate-and-almond cake, flourless — intense, moist and naturally gluten-free." },
+      "emoji": "🍫", "time_min": 55, "prep_time_min": 20, "cook_time_min": 35, "difficulty": "medium", "type": "dessert", "servings": 8, "country": "it",
+      "diet": ["vegetarian", "gluten-free"], "allergens": ["nuts", "eggs", "milk"],
+      "ingredients": [
+        { "ids": ["gp-choco-noir", "gp-choco-patissier"], "qty": { "amount": 200, "unit": "g" }, "required": true, "labels": { "fr": "200g de chocolat noir", "en": "200g dark chocolate" } },
+        { "ids": ["gp-poudre-amande"], "qty": { "amount": 200, "unit": "g" }, "required": true, "labels": { "fr": "200g de poudre d'amande", "en": "200g ground almonds" } },
+        { "ids": ["fr-oeuf"], "qty": { "amount": 4, "unit": "pcs" }, "required": true, "labels": { "fr": "4 œufs", "en": "4 eggs" } },
+        { "ids": ["fr-beurre"], "qty": { "amount": 150, "unit": "g" }, "required": true, "labels": { "fr": "150g de beurre", "en": "150g butter" } },
+        { "ids": ["gp-sucre", "gp-sucre-glace"], "qty": { "amount": 150, "unit": "g" }, "required": true, "labels": { "fr": "150g de sucre", "en": "150g sugar" } }
+      ],
+      "steps": {
+        "fr": ["Faire fondre le chocolat avec le beurre.", "Battre les œufs avec le sucre.", "Incorporer le chocolat fondu puis la poudre d'amande.", "Verser dans un moule et cuire 35 min à 170°C.", "Laisser refroidir et saupoudrer de sucre glace."],
+        "en": ["Melt the chocolate with the butter.", "Beat the eggs with the sugar.", "Fold in the melted chocolate then the ground almonds.", "Pour into a tin and bake 35 min at 170°C.", "Cool and dust with icing sugar."]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "cannoli",
+      "name": { "fr": "Cannoli siciliens", "en": "Sicilian cannoli" },
+      "description": { "fr": "Des tubes de pâte croustillants garnis d'une crème de ricotta sucrée aux pépites de chocolat — la pâtisserie sicilienne emblématique.", "en": "Crisp pastry tubes filled with a sweet ricotta cream studded with chocolate chips — Sicily's iconic pastry." },
+      "emoji": "🍫", "time_min": 70, "prep_time_min": 50, "cook_time_min": 20, "difficulty": "hard", "type": "dessert", "servings": 6, "country": "it",
+      "diet": ["vegetarian"], "allergens": ["gluten", "milk", "eggs"],
+      "ingredients": [
+        { "ids": ["gp-farine"], "qty": { "amount": 250, "unit": "g" }, "required": true, "labels": { "fr": "250g de farine", "en": "250g flour" } },
+        { "ids": ["fr-ricotta"], "qty": { "amount": 400, "unit": "g" }, "required": true, "labels": { "fr": "400g de ricotta", "en": "400g ricotta" } },
+        { "ids": ["gp-sucre-glace", "gp-sucre"], "qty": { "amount": 120, "unit": "g" }, "required": true, "labels": { "fr": "120g de sucre glace", "en": "120g icing sugar" } },
+        { "ids": ["gp-pepites-choco", "gp-choco-noir"], "qty": { "amount": 80, "unit": "g" }, "required": true, "labels": { "fr": "80g de pépites de chocolat", "en": "80g chocolate chips" } },
+        { "ids": ["fr-oeuf", "gp-vin-rouge-cuis"], "qty": { "amount": 1, "unit": "pcs" }, "required": true, "labels": { "fr": "Œuf et vin (pâte)", "en": "Egg and wine (dough)" } }
+      ],
+      "steps": {
+        "fr": ["Préparer la pâte, l'étaler très finement et découper des cercles.", "Les enrouler sur des moules et les frire jusqu'à dorure.", "Égoutter la ricotta et la mélanger au sucre glace et aux pépites.", "Garnir les tubes refroidis de crème à la poche.", "Saupoudrer de sucre glace et servir aussitôt."],
+        "en": ["Make the dough, roll it very thin and cut circles.", "Wrap them on tubes and fry until golden.", "Drain the ricotta and mix with icing sugar and chips.", "Pipe the cream into the cooled tubes.", "Dust with icing sugar and serve at once."]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "affogato",
+      "name": { "fr": "Affogato", "en": "Affogato" },
+      "description": { "fr": "Une boule de glace à la vanille « noyée » sous un espresso brûlant — un dessert italien minute, à la fois chaud et glacé.", "en": "A scoop of vanilla ice cream 'drowned' under a hot espresso — an instant Italian dessert, both hot and frozen." },
+      "emoji": "☕", "time_min": 5, "prep_time_min": 5, "cook_time_min": 0, "difficulty": "very-easy", "type": "dessert", "servings": 2, "country": "it",
+      "diet": ["vegetarian", "gluten-free"], "allergens": ["milk"],
+      "ingredients": [
+        { "ids": ["frz-bac-vanille", "frz-cornet"], "qty": { "amount": 2, "unit": "pcs" }, "required": true, "labels": { "fr": "2 boules de glace vanille", "en": "2 scoops vanilla ice cream" } },
+        { "ids": ["gp-cafe"], "qty": { "amount": 2, "unit": "pcs" }, "required": true, "labels": { "fr": "2 espressos", "en": "2 espressos" } },
+        { "ids": ["gp-cacao-poudre", "gp-amandes"], "qty": { "amount": 1, "unit": "cs" }, "required": false, "labels": { "fr": "Cacao ou amandes", "en": "Cocoa or almonds" } }
+      ],
+      "steps": {
+        "fr": ["Déposer une boule de glace vanille dans chaque verre.", "Préparer deux espressos bien chauds.", "Verser le café brûlant sur la glace au moment de servir.", "Saupoudrer de cacao si désiré.", "Déguster immédiatement à la cuillère."],
+        "en": ["Place a scoop of vanilla ice cream in each glass.", "Brew two hot espressos.", "Pour the hot coffee over the ice cream just before serving.", "Dust with cocoa if desired.", "Eat immediately with a spoon."]
+      },
+      "functional_tags": ["kids_friendly"], "status": "published"
+    }
+  ]
+}

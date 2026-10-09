@@ -1,0 +1,2325 @@
+{
+  "batchName": "recipes-batch-11-vietnam",
+  "recipes": [
+    {
+      "id": "pho-boeuf",
+      "name": {
+        "fr": "Phở bò (soupe de bœuf)",
+        "en": "Pho bo (beef noodle soup)"
+      },
+      "description": {
+        "fr": "Le bouillon vietnamien emblématique : des nouilles de riz dans un bouillon parfumé à l'anis et au gingembre, garni de fines lamelles de bœuf et d'herbes fraîches.",
+        "en": "Vietnam's iconic broth: rice noodles in a star anise and ginger broth, topped with thin slices of beef and fresh herbs."
+      },
+      "emoji": "🍜",
+      "time_min": 50,
+      "prep_time_min": 20,
+      "cook_time_min": 30,
+      "difficulty": "medium",
+      "type": "main",
+      "servings": 4,
+      "country": "vn",
+      "diet": [
+        "dairy-free"
+      ],
+      "allergens": [
+        "fish"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "jp-bifun",
+            "gp-vermicelles",
+            "gp-nouilles-asie"
+          ],
+          "qty": {
+            "amount": 300,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "300g de nouilles de riz",
+            "en": "300g rice noodles"
+          }
+        },
+        {
+          "ids": [
+            "fr-boeuf",
+            "fr-bavette",
+            "fr-entrecote"
+          ],
+          "qty": {
+            "amount": 400,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "400g de bœuf",
+            "en": "400g beef"
+          }
+        },
+        {
+          "ids": [
+            "sp-gingembre",
+            "vg-oignon"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Gingembre et oignon",
+            "en": "Ginger and onion"
+          }
+        },
+        {
+          "ids": [
+            "sp-anis-etoile",
+            "sp-cannelle"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Anis étoilé et cannelle",
+            "en": "Star anise and cinnamon"
+          }
+        },
+        {
+          "ids": [
+            "sp-nuoc-mam"
+          ],
+          "qty": {
+            "amount": 3,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "3 c. à soupe de nuoc-mâm",
+            "en": "3 tbsp fish sauce"
+          }
+        },
+        {
+          "ids": [
+            "vg-germes-soja",
+            "sp-coriandre",
+            "sp-menthe"
+          ],
+          "qty": {
+            "amount": 150,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Germes de soja et herbes",
+            "en": "Bean sprouts and herbs"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Faire griller le gingembre et l'oignon, puis les mettre dans 2 L d'eau avec les épices.",
+          "Mijoter le bouillon 25 min, assaisonner de nuoc-mâm.",
+          "Cuire les nouilles de riz.",
+          "Trancher le bœuf très finement.",
+          "Dresser nouilles et bœuf cru dans les bols, verser le bouillon brûlant et garnir d'herbes et de germes."
+        ],
+        "en": [
+          "Char the ginger and onion, then add to 2 L water with the spices.",
+          "Simmer the broth 25 min, season with fish sauce.",
+          "Cook the rice noodles.",
+          "Slice the beef very thinly.",
+          "Place noodles and raw beef in bowls, pour over the boiling broth and top with herbs and sprouts."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "bo-bun",
+      "name": {
+        "fr": "Bò bún",
+        "en": "Bo bun"
+      },
+      "description": {
+        "fr": "Un bol frais de vermicelles de riz, bœuf sauté à la citronnelle, crudités, herbes et cacahuètes, arrosé de sauce nuoc-mâm — équilibré et plein de fraîcheur.",
+        "en": "A fresh bowl of rice vermicelli, lemongrass beef, raw vegetables, herbs and peanuts, dressed with nuoc-mâm sauce — balanced and fresh."
+      },
+      "emoji": "🥗",
+      "time_min": 35,
+      "prep_time_min": 20,
+      "cook_time_min": 15,
+      "difficulty": "easy",
+      "type": "main",
+      "servings": 4,
+      "country": "vn",
+      "diet": [
+        "dairy-free"
+      ],
+      "allergens": [
+        "fish",
+        "peanuts",
+        "soybeans"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "gp-vermicelles",
+            "jp-bifun"
+          ],
+          "qty": {
+            "amount": 300,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "300g de vermicelles de riz",
+            "en": "300g rice vermicelli"
+          }
+        },
+        {
+          "ids": [
+            "fr-boeuf",
+            "fr-bavette"
+          ],
+          "qty": {
+            "amount": 400,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "400g de bœuf",
+            "en": "400g beef"
+          }
+        },
+        {
+          "ids": [
+            "vg-concombre",
+            "vg-carottes",
+            "vg-salade"
+          ],
+          "qty": {
+            "amount": 300,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "300g de crudités",
+            "en": "300g raw vegetables"
+          }
+        },
+        {
+          "ids": [
+            "gp-cacahuetes"
+          ],
+          "qty": {
+            "amount": 60,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "60g de cacahuètes",
+            "en": "60g peanuts"
+          }
+        },
+        {
+          "ids": [
+            "sp-nuoc-mam"
+          ],
+          "qty": {
+            "amount": 4,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "4 c. à soupe de nuoc-mâm",
+            "en": "4 tbsp fish sauce"
+          }
+        },
+        {
+          "ids": [
+            "sp-menthe",
+            "sp-coriandre",
+            "fr-citron-vert"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "botte"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Herbes et citron vert",
+            "en": "Herbs and lime"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Cuire les vermicelles, les rincer à l'eau froide.",
+          "Saisir le bœuf émincé à feu vif avec un peu d'ail.",
+          "Préparer la sauce nuoc-mâm avec citron vert, sucre et eau.",
+          "Dresser les vermicelles, crudités, bœuf et herbes dans les bols.",
+          "Arroser de sauce et parsemer de cacahuètes."
+        ],
+        "en": [
+          "Cook the vermicelli, rinse under cold water.",
+          "Sear the sliced beef over high heat with a little garlic.",
+          "Make the nuoc-mâm sauce with lime, sugar and water.",
+          "Arrange the vermicelli, vegetables, beef and herbs in bowls.",
+          "Drizzle with sauce and scatter peanuts."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "banh-mi",
+      "name": {
+        "fr": "Bánh mì",
+        "en": "Banh mi"
+      },
+      "description": {
+        "fr": "Un sandwich vietnamien dans une baguette croustillante : porc, carottes marinées, concombre, coriandre et mayonnaise — un mariage franco-vietnamien parfait.",
+        "en": "A Vietnamese sandwich in a crisp baguette: pork, pickled carrots, cucumber, coriander and mayo — a perfect Franco-Vietnamese marriage."
+      },
+      "emoji": "🥖",
+      "time_min": 30,
+      "prep_time_min": 20,
+      "cook_time_min": 10,
+      "difficulty": "easy",
+      "type": "main",
+      "servings": 4,
+      "country": "vn",
+      "diet": [
+        "dairy-free"
+      ],
+      "allergens": [
+        "gluten",
+        "eggs",
+        "soybeans"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "gp-baguette",
+            "gp-pain"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 baguettes",
+            "en": "2 baguettes"
+          }
+        },
+        {
+          "ids": [
+            "fr-echine",
+            "fr-filet-porc",
+            "fr-blanc-poulet"
+          ],
+          "qty": {
+            "amount": 400,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "400g de porc",
+            "en": "400g pork"
+          }
+        },
+        {
+          "ids": [
+            "vg-carottes",
+            "vg-daikon",
+            "vg-radis"
+          ],
+          "qty": {
+            "amount": 200,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "200g de carottes (marinées)",
+            "en": "200g carrots (pickled)"
+          }
+        },
+        {
+          "ids": [
+            "vg-concombre"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 concombre",
+            "en": "1 cucumber"
+          }
+        },
+        {
+          "ids": [
+            "sp-mayonnaise",
+            "sp-coriandre"
+          ],
+          "qty": {
+            "amount": 3,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Mayonnaise et coriandre",
+            "en": "Mayonnaise and coriander"
+          }
+        },
+        {
+          "ids": [
+            "sp-sauce-soja",
+            "sp-nuoc-mam"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Sauce soja",
+            "en": "Soy sauce"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Mariner les carottes râpées dans du vinaigre et du sucre.",
+          "Mariner et poêler le porc émincé.",
+          "Couper les baguettes et les tartiner de mayonnaise.",
+          "Garnir de porc, carottes marinées, concombre et coriandre.",
+          "Refermer et servir aussitôt."
+        ],
+        "en": [
+          "Pickle the grated carrots in vinegar and sugar.",
+          "Marinate and pan-fry the sliced pork.",
+          "Cut the baguettes and spread with mayonnaise.",
+          "Fill with pork, pickled carrots, cucumber and coriander.",
+          "Close and serve at once."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "nems",
+      "name": {
+        "fr": "Nems (rouleaux frits)",
+        "en": "Fried spring rolls"
+      },
+      "description": {
+        "fr": "Des rouleaux de riz croustillants farcis de porc, de vermicelles et de légumes, frits jusqu'à être dorés — l'entrée vietnamienne à tremper dans le nuoc-mâm.",
+        "en": "Crispy rice rolls stuffed with pork, vermicelli and vegetables, fried until golden — the Vietnamese starter to dip in nuoc-mâm."
+      },
+      "emoji": "🥟",
+      "time_min": 60,
+      "prep_time_min": 40,
+      "cook_time_min": 20,
+      "difficulty": "medium",
+      "type": "starter",
+      "servings": 4,
+      "country": "vn",
+      "diet": [
+        "dairy-free"
+      ],
+      "allergens": [
+        "fish",
+        "soybeans"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "gp-galettes-riz"
+          ],
+          "qty": {
+            "amount": 16,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "16 galettes de riz",
+            "en": "16 rice paper sheets"
+          }
+        },
+        {
+          "ids": [
+            "fr-echine",
+            "frz-boeuf-hache",
+            "fr-hache-boeuf"
+          ],
+          "qty": {
+            "amount": 300,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "300g de porc haché",
+            "en": "300g minced pork"
+          }
+        },
+        {
+          "ids": [
+            "jp-harusame",
+            "gp-vermicelles"
+          ],
+          "qty": {
+            "amount": 50,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "50g de vermicelles",
+            "en": "50g vermicelli"
+          }
+        },
+        {
+          "ids": [
+            "vg-carottes",
+            "vg-champignons"
+          ],
+          "qty": {
+            "amount": 150,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "150g de carottes et champignons",
+            "en": "150g carrots and mushrooms"
+          }
+        },
+        {
+          "ids": [
+            "sp-nuoc-mam"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 c. à soupe de nuoc-mâm",
+            "en": "2 tbsp fish sauce"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Réhydrater les vermicelles et les couper.",
+          "Mélanger le porc, les vermicelles, les carottes râpées et le nuoc-mâm.",
+          "Assouplir les galettes de riz, y déposer la farce et rouler serré.",
+          "Frire les nems jusqu'à ce qu'ils soient dorés et croustillants.",
+          "Servir avec une sauce nuoc-mâm et de la salade."
+        ],
+        "en": [
+          "Rehydrate the vermicelli and cut them.",
+          "Mix the pork, vermicelli, grated carrots and fish sauce.",
+          "Soften the rice papers, add the filling and roll tightly.",
+          "Fry the rolls until golden and crisp.",
+          "Serve with nuoc-mâm sauce and salad."
+        ]
+      },
+      "functional_tags": [
+        "freezer_friendly"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "boeuf-loc-lac",
+      "name": {
+        "fr": "Bœuf loc lac",
+        "en": "Beef loc lac"
+      },
+      "description": {
+        "fr": "Des dés de bœuf sautés et caramélisés à la sauce soja, servis sur de la salade avec une sauce au citron vert et au poivre — vif et savoureux.",
+        "en": "Cubes of beef stir-fried and caramelised in soy sauce, served over salad with a lime-pepper dip — punchy and tasty."
+      },
+      "emoji": "🥩",
+      "time_min": 25,
+      "prep_time_min": 15,
+      "cook_time_min": 10,
+      "difficulty": "easy",
+      "type": "main",
+      "servings": 4,
+      "country": "vn",
+      "diet": [
+        "dairy-free"
+      ],
+      "allergens": [
+        "soybeans",
+        "gluten"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "fr-boeuf",
+            "fr-filet-boeuf",
+            "fr-bavette"
+          ],
+          "qty": {
+            "amount": 600,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "600g de bœuf",
+            "en": "600g beef"
+          }
+        },
+        {
+          "ids": [
+            "sp-sauce-soja",
+            "sp-sauce-huitre"
+          ],
+          "qty": {
+            "amount": 4,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Sauce soja et huître",
+            "en": "Soy and oyster sauce"
+          }
+        },
+        {
+          "ids": [
+            "vg-oignon",
+            "vg-ail"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Oignon et ail",
+            "en": "Onion and garlic"
+          }
+        },
+        {
+          "ids": [
+            "vg-salade",
+            "vg-tomate"
+          ],
+          "qty": {
+            "amount": 200,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Salade et tomate",
+            "en": "Salad and tomato"
+          }
+        },
+        {
+          "ids": [
+            "fr-citron-vert",
+            "sp-poivre-noir"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Citron vert et poivre",
+            "en": "Lime and pepper"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Couper le bœuf en cubes et le mariner dans la sauce soja.",
+          "Saisir le bœuf à feu très vif avec l'ail et l'oignon.",
+          "Laisser caraméliser 2 min.",
+          "Dresser sur un lit de salade et de tomates.",
+          "Servir avec une sauce citron vert-poivre."
+        ],
+        "en": [
+          "Cut the beef into cubes and marinate in soy sauce.",
+          "Sear the beef over very high heat with garlic and onion.",
+          "Let caramelise 2 min.",
+          "Arrange over a bed of salad and tomatoes.",
+          "Serve with a lime-pepper dip."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "poulet-caramel-vietnamien",
+      "name": {
+        "fr": "Poulet au caramel vietnamien",
+        "en": "Vietnamese caramel chicken"
+      },
+      "description": {
+        "fr": "Du poulet mijoté dans un caramel salé au nuoc-mâm et au gingembre — sucré, ambré et profondément parfumé, à servir sur du riz.",
+        "en": "Chicken simmered in a savoury caramel with fish sauce and ginger — sweet, amber and deeply fragrant, served over rice."
+      },
+      "emoji": "🍗",
+      "time_min": 35,
+      "prep_time_min": 10,
+      "cook_time_min": 25,
+      "difficulty": "easy",
+      "type": "main",
+      "servings": 4,
+      "country": "vn",
+      "diet": [
+        "gluten-free",
+        "dairy-free"
+      ],
+      "allergens": [
+        "fish"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "fr-cuisse-poulet",
+            "fr-blanc-poulet"
+          ],
+          "qty": {
+            "amount": 700,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "700g de poulet",
+            "en": "700g chicken"
+          }
+        },
+        {
+          "ids": [
+            "gp-sucre"
+          ],
+          "qty": {
+            "amount": 4,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "4 c. à soupe de sucre",
+            "en": "4 tbsp sugar"
+          }
+        },
+        {
+          "ids": [
+            "sp-nuoc-mam"
+          ],
+          "qty": {
+            "amount": 4,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "4 c. à soupe de nuoc-mâm",
+            "en": "4 tbsp fish sauce"
+          }
+        },
+        {
+          "ids": [
+            "sp-gingembre",
+            "vg-ail"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Gingembre et ail",
+            "en": "Ginger and garlic"
+          }
+        },
+        {
+          "ids": [
+            "vg-oignon-vert"
+          ],
+          "qty": {
+            "amount": 3,
+            "unit": "pcs"
+          },
+          "required": false,
+          "labels": {
+            "fr": "3 oignons verts",
+            "en": "3 spring onions"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Faire un caramel ambré avec le sucre et un peu d'eau.",
+          "Ajouter le nuoc-mâm, l'ail et le gingembre (attention aux éclaboussures).",
+          "Ajouter le poulet en morceaux et bien l'enrober.",
+          "Mijoter 20 min jusqu'à ce que la sauce nappe.",
+          "Parsemer d'oignon vert et servir sur du riz."
+        ],
+        "en": [
+          "Make an amber caramel with the sugar and a little water.",
+          "Add the fish sauce, garlic and ginger (mind the splatter).",
+          "Add the chicken pieces and coat well.",
+          "Simmer 20 min until the sauce coats.",
+          "Scatter spring onion and serve over rice."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "ca-kho-to",
+      "name": {
+        "fr": "Poisson au caramel (cá kho)",
+        "en": "Caramel braised fish (ca kho)"
+      },
+      "description": {
+        "fr": "Des morceaux de poisson mijotés dans un caramel salé au nuoc-mâm et au poivre — un plat familial vietnamien intense et réconfortant.",
+        "en": "Fish pieces braised in a savoury fish-sauce caramel with pepper — an intense, comforting Vietnamese family dish."
+      },
+      "emoji": "🐟",
+      "time_min": 35,
+      "prep_time_min": 10,
+      "cook_time_min": 25,
+      "difficulty": "medium",
+      "type": "main",
+      "servings": 4,
+      "country": "vn",
+      "diet": [
+        "gluten-free",
+        "dairy-free"
+      ],
+      "allergens": [
+        "fish"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "fr-cabillaud",
+            "frz-pangasius",
+            "fr-lieu-jaune"
+          ],
+          "qty": {
+            "amount": 600,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "600g de poisson blanc",
+            "en": "600g white fish"
+          }
+        },
+        {
+          "ids": [
+            "gp-sucre"
+          ],
+          "qty": {
+            "amount": 3,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "3 c. à soupe de sucre",
+            "en": "3 tbsp sugar"
+          }
+        },
+        {
+          "ids": [
+            "sp-nuoc-mam"
+          ],
+          "qty": {
+            "amount": 4,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "4 c. à soupe de nuoc-mâm",
+            "en": "4 tbsp fish sauce"
+          }
+        },
+        {
+          "ids": [
+            "vg-oignon-vert",
+            "vg-ail"
+          ],
+          "qty": {
+            "amount": 3,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Oignon vert et ail",
+            "en": "Spring onion and garlic"
+          }
+        },
+        {
+          "ids": [
+            "sp-poivre-noir",
+            "sp-gingembre"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cc"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Poivre et gingembre",
+            "en": "Pepper and ginger"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Préparer un caramel ambré avec le sucre.",
+          "Ajouter le nuoc-mâm, l'ail et le gingembre.",
+          "Déposer le poisson et l'enrober de sauce.",
+          "Mijoter 18 min à couvert en arrosant.",
+          "Parsemer de poivre et d'oignon vert, servir avec du riz."
+        ],
+        "en": [
+          "Make an amber caramel with the sugar.",
+          "Add the fish sauce, garlic and ginger.",
+          "Add the fish and coat it in sauce.",
+          "Braise 18 min covered, basting.",
+          "Scatter pepper and spring onion, serve with rice."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "crevettes-citronnelle",
+      "name": {
+        "fr": "Crevettes à la citronnelle",
+        "en": "Lemongrass prawns"
+      },
+      "description": {
+        "fr": "Des crevettes sautées à l'ail, au gingembre et au citron vert, laquées de nuoc-mâm — un plat vietnamien express, parfumé et léger.",
+        "en": "Prawns stir-fried with garlic, ginger and lime, glazed with fish sauce — a quick, fragrant and light Vietnamese dish."
+      },
+      "emoji": "🦐",
+      "time_min": 20,
+      "prep_time_min": 12,
+      "cook_time_min": 8,
+      "difficulty": "easy",
+      "type": "main",
+      "servings": 4,
+      "country": "vn",
+      "diet": [
+        "gluten-free",
+        "dairy-free"
+      ],
+      "allergens": [
+        "crustaceans",
+        "fish"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "fr-crevettes",
+            "frz-crevettes"
+          ],
+          "qty": {
+            "amount": 600,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "600g de crevettes",
+            "en": "600g prawns"
+          }
+        },
+        {
+          "ids": [
+            "sp-gingembre",
+            "vg-ail"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Gingembre et ail",
+            "en": "Ginger and garlic"
+          }
+        },
+        {
+          "ids": [
+            "sp-nuoc-mam"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 c. à soupe de nuoc-mâm",
+            "en": "2 tbsp fish sauce"
+          }
+        },
+        {
+          "ids": [
+            "fr-citron-vert"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 citron vert",
+            "en": "1 lime"
+          }
+        },
+        {
+          "ids": [
+            "vg-oignon-vert",
+            "sp-coriandre"
+          ],
+          "qty": {
+            "amount": 3,
+            "unit": "pcs"
+          },
+          "required": false,
+          "labels": {
+            "fr": "Oignon vert et coriandre",
+            "en": "Spring onion and coriander"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Faire revenir l'ail et le gingembre dans un wok chaud.",
+          "Ajouter les crevettes et saisir 3 min.",
+          "Verser le nuoc-mâm et un peu de sucre.",
+          "Laisser glacer 2 min.",
+          "Arroser de citron vert, parsemer d'herbes et servir sur du riz."
+        ],
+        "en": [
+          "Sauté the garlic and ginger in a hot wok.",
+          "Add the prawns and sear 3 min.",
+          "Pour in the fish sauce and a little sugar.",
+          "Let glaze 2 min.",
+          "Squeeze over lime, scatter herbs and serve over rice."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "banh-xeo",
+      "name": {
+        "fr": "Bánh xèo (crêpe vietnamienne)",
+        "en": "Banh xeo (Vietnamese pancake)"
+      },
+      "description": {
+        "fr": "Une crêpe croustillante au lait de coco et au curcuma, garnie de porc, crevettes et germes de soja, à déguster roulée dans la salade.",
+        "en": "A crispy coconut-and-turmeric pancake filled with pork, prawns and bean sprouts, eaten wrapped in salad leaves."
+      },
+      "emoji": "🥞",
+      "time_min": 40,
+      "prep_time_min": 20,
+      "cook_time_min": 20,
+      "difficulty": "medium",
+      "type": "main",
+      "servings": 4,
+      "country": "vn",
+      "diet": [
+        "dairy-free"
+      ],
+      "allergens": [
+        "crustaceans",
+        "fish"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "gp-farine-riz",
+            "gp-farine"
+          ],
+          "qty": {
+            "amount": 200,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "200g de farine de riz",
+            "en": "200g rice flour"
+          }
+        },
+        {
+          "ids": [
+            "gp-lait-coco"
+          ],
+          "qty": {
+            "amount": 25,
+            "unit": "cl"
+          },
+          "required": true,
+          "labels": {
+            "fr": "25 cl de lait de coco",
+            "en": "250ml coconut milk"
+          }
+        },
+        {
+          "ids": [
+            "sp-curcuma"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cc"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 c. à café de curcuma",
+            "en": "1 tsp turmeric"
+          }
+        },
+        {
+          "ids": [
+            "fr-echine",
+            "fr-crevettes",
+            "frz-crevettes"
+          ],
+          "qty": {
+            "amount": 300,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "300g de porc et crevettes",
+            "en": "300g pork and prawns"
+          }
+        },
+        {
+          "ids": [
+            "vg-germes-soja",
+            "vg-salade"
+          ],
+          "qty": {
+            "amount": 200,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Germes de soja et salade",
+            "en": "Bean sprouts and salad"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Mélanger la farine de riz, le lait de coco, le curcuma et de l'eau.",
+          "Saisir le porc et les crevettes dans une poêle huilée.",
+          "Verser une louche de pâte fine et couvrir d'un côté.",
+          "Ajouter les germes de soja, plier la crêpe et faire croustiller.",
+          "Servir avec de la salade et une sauce nuoc-mâm."
+        ],
+        "en": [
+          "Mix the rice flour, coconut milk, turmeric and water.",
+          "Sear the pork and prawns in an oiled pan.",
+          "Pour in a thin ladle of batter and cover one side.",
+          "Add the bean sprouts, fold the pancake and crisp it.",
+          "Serve with salad and a nuoc-mâm sauce."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "tofu-citronnelle",
+      "name": {
+        "fr": "Tofu sauté à la citronnelle",
+        "en": "Lemongrass tofu"
+      },
+      "description": {
+        "fr": "Du tofu doré sauté avec ail, gingembre et citron vert dans une sauce soja parfumée — un plat vietnamien végétalien, croustillant et relevé.",
+        "en": "Golden tofu stir-fried with garlic, ginger and lime in a fragrant soy sauce — a crispy, zesty Vietnamese vegan dish."
+      },
+      "emoji": "🌿",
+      "time_min": 25,
+      "prep_time_min": 12,
+      "cook_time_min": 13,
+      "difficulty": "easy",
+      "type": "main",
+      "servings": 4,
+      "country": "vn",
+      "diet": [
+        "vegan",
+        "vegetarian",
+        "dairy-free"
+      ],
+      "allergens": [
+        "soybeans",
+        "gluten"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "vg-tofu",
+            "jp-kimomen-tofu"
+          ],
+          "qty": {
+            "amount": 400,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "400g de tofu ferme",
+            "en": "400g firm tofu"
+          }
+        },
+        {
+          "ids": [
+            "sp-gingembre",
+            "vg-ail"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Gingembre et ail",
+            "en": "Ginger and garlic"
+          }
+        },
+        {
+          "ids": [
+            "sp-sauce-soja"
+          ],
+          "qty": {
+            "amount": 3,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "3 c. à soupe de sauce soja",
+            "en": "3 tbsp soy sauce"
+          }
+        },
+        {
+          "ids": [
+            "fr-citron-vert"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 citron vert",
+            "en": "1 lime"
+          }
+        },
+        {
+          "ids": [
+            "gp-fecule-mais",
+            "vg-oignon-vert"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Fécule et oignon vert",
+            "en": "Cornstarch and spring onion"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Égoutter le tofu, le couper en cubes et l'enrober de fécule.",
+          "Le faire dorer jusqu'à ce qu'il soit croustillant.",
+          "Faire revenir l'ail et le gingembre.",
+          "Remettre le tofu, verser la sauce soja et un peu de sucre.",
+          "Arroser de citron vert et servir avec du riz."
+        ],
+        "en": [
+          "Drain the tofu, cube it and coat in cornstarch.",
+          "Brown it until crisp.",
+          "Sauté the garlic and ginger.",
+          "Return the tofu, pour in the soy sauce and a little sugar.",
+          "Squeeze over lime and serve with rice."
+        ]
+      },
+      "functional_tags": [
+        "batch_cooking"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "pho-legumes",
+      "name": {
+        "fr": "Phở aux légumes",
+        "en": "Vegetable pho"
+      },
+      "description": {
+        "fr": "Une version végétalienne du phở : un bouillon parfumé à l'anis étoilé et au gingembre, des nouilles de riz, du tofu et beaucoup d'herbes fraîches.",
+        "en": "A vegan version of pho: a star anise and ginger broth, rice noodles, tofu and plenty of fresh herbs."
+      },
+      "emoji": "🍜",
+      "time_min": 40,
+      "prep_time_min": 15,
+      "cook_time_min": 25,
+      "difficulty": "easy",
+      "type": "main",
+      "servings": 4,
+      "country": "vn",
+      "diet": [
+        "vegan",
+        "vegetarian",
+        "dairy-free"
+      ],
+      "allergens": [
+        "soybeans",
+        "gluten"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "jp-bifun",
+            "gp-vermicelles"
+          ],
+          "qty": {
+            "amount": 300,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "300g de nouilles de riz",
+            "en": "300g rice noodles"
+          }
+        },
+        {
+          "ids": [
+            "vg-tofu",
+            "jp-yaki-tofu"
+          ],
+          "qty": {
+            "amount": 300,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "300g de tofu",
+            "en": "300g tofu"
+          }
+        },
+        {
+          "ids": [
+            "sp-anis-etoile",
+            "sp-cannelle",
+            "sp-gingembre"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Anis étoilé, cannelle, gingembre",
+            "en": "Star anise, cinnamon, ginger"
+          }
+        },
+        {
+          "ids": [
+            "sp-sauce-soja"
+          ],
+          "qty": {
+            "amount": 3,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "3 c. à soupe de sauce soja",
+            "en": "3 tbsp soy sauce"
+          }
+        },
+        {
+          "ids": [
+            "vg-germes-soja",
+            "sp-coriandre",
+            "sp-menthe"
+          ],
+          "qty": {
+            "amount": 150,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Germes de soja et herbes",
+            "en": "Bean sprouts and herbs"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Faire griller le gingembre, puis l'infuser dans 2 L d'eau avec les épices.",
+          "Mijoter 25 min, assaisonner de sauce soja.",
+          "Faire dorer le tofu en cubes.",
+          "Cuire les nouilles de riz.",
+          "Dresser nouilles, tofu, herbes et germes ; verser le bouillon brûlant."
+        ],
+        "en": [
+          "Char the ginger, then infuse it in 2 L water with the spices.",
+          "Simmer 25 min, season with soy sauce.",
+          "Brown the cubed tofu.",
+          "Cook the rice noodles.",
+          "Arrange noodles, tofu, herbs and sprouts; pour over the boiling broth."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "poulet-grille-citronnelle",
+      "name": {
+        "fr": "Poulet grillé à la citronnelle",
+        "en": "Lemongrass grilled chicken"
+      },
+      "description": {
+        "fr": "Des cuisses de poulet marinées à l'ail, au gingembre et au nuoc-mâm puis grillées — caramélisées, juteuses et parfumées, servies avec du riz.",
+        "en": "Chicken thighs marinated in garlic, ginger and fish sauce then grilled — caramelised, juicy and fragrant, served with rice."
+      },
+      "emoji": "🍗",
+      "time_min": 40,
+      "prep_time_min": 25,
+      "cook_time_min": 15,
+      "difficulty": "easy",
+      "type": "main",
+      "servings": 4,
+      "country": "vn",
+      "diet": [
+        "gluten-free",
+        "dairy-free"
+      ],
+      "allergens": [
+        "fish"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "fr-cuisse-poulet",
+            "fr-blanc-poulet"
+          ],
+          "qty": {
+            "amount": 800,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "800g de cuisses de poulet",
+            "en": "800g chicken thighs"
+          }
+        },
+        {
+          "ids": [
+            "sp-nuoc-mam"
+          ],
+          "qty": {
+            "amount": 4,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "4 c. à soupe de nuoc-mâm",
+            "en": "4 tbsp fish sauce"
+          }
+        },
+        {
+          "ids": [
+            "vg-ail",
+            "sp-gingembre"
+          ],
+          "qty": {
+            "amount": 3,
+            "unit": "gousse"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Ail et gingembre",
+            "en": "Garlic and ginger"
+          }
+        },
+        {
+          "ids": [
+            "gp-sucre",
+            "gp-miel"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 c. à soupe de sucre",
+            "en": "2 tbsp sugar"
+          }
+        },
+        {
+          "ids": [
+            "fr-citron-vert",
+            "vg-oignon-vert"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": false,
+          "labels": {
+            "fr": "Citron vert et oignon vert",
+            "en": "Lime and spring onion"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Mélanger nuoc-mâm, ail, gingembre et sucre.",
+          "Mariner le poulet au moins 30 min.",
+          "Le griller 12-15 min en le retournant et en l'arrosant.",
+          "Laisser caraméliser légèrement.",
+          "Servir avec du riz et un filet de citron vert."
+        ],
+        "en": [
+          "Mix the fish sauce, garlic, ginger and sugar.",
+          "Marinate the chicken for at least 30 min.",
+          "Grill 12-15 min, turning and basting.",
+          "Let it caramelise lightly.",
+          "Serve with rice and a squeeze of lime."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "nouilles-sautees-vietnamiennes",
+      "name": {
+        "fr": "Nouilles sautées vietnamiennes",
+        "en": "Vietnamese stir-fried noodles"
+      },
+      "description": {
+        "fr": "Des nouilles de riz sautées au poulet, aux légumes et au nuoc-mâm, parsemées de cacahuètes — un wok rapide, parfumé et complet.",
+        "en": "Rice noodles stir-fried with chicken, vegetables and fish sauce, scattered with peanuts — a quick, fragrant and complete wok."
+      },
+      "emoji": "🍜",
+      "time_min": 25,
+      "prep_time_min": 15,
+      "cook_time_min": 10,
+      "difficulty": "easy",
+      "type": "main",
+      "servings": 4,
+      "country": "vn",
+      "diet": [
+        "dairy-free"
+      ],
+      "allergens": [
+        "fish",
+        "peanuts",
+        "soybeans"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "jp-bifun",
+            "gp-vermicelles",
+            "gp-nouilles-asie"
+          ],
+          "qty": {
+            "amount": 320,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "320g de nouilles de riz",
+            "en": "320g rice noodles"
+          }
+        },
+        {
+          "ids": [
+            "fr-blanc-poulet",
+            "fr-crevettes"
+          ],
+          "qty": {
+            "amount": 400,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "400g de poulet",
+            "en": "400g chicken"
+          }
+        },
+        {
+          "ids": [
+            "vg-carottes",
+            "vg-germes-soja",
+            "vg-poivron"
+          ],
+          "qty": {
+            "amount": 300,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "300g de légumes",
+            "en": "300g vegetables"
+          }
+        },
+        {
+          "ids": [
+            "sp-nuoc-mam",
+            "sp-sauce-soja"
+          ],
+          "qty": {
+            "amount": 3,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Nuoc-mâm et sauce soja",
+            "en": "Fish and soy sauce"
+          }
+        },
+        {
+          "ids": [
+            "gp-cacahuetes",
+            "fr-citron-vert"
+          ],
+          "qty": {
+            "amount": 50,
+            "unit": "g"
+          },
+          "required": false,
+          "labels": {
+            "fr": "Cacahuètes et citron vert",
+            "en": "Peanuts and lime"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Cuire les nouilles, les égoutter.",
+          "Saisir le poulet émincé à feu vif.",
+          "Ajouter les légumes et faire sauter 3 min.",
+          "Incorporer les nouilles et les sauces.",
+          "Parsemer de cacahuètes et d'un filet de citron vert."
+        ],
+        "en": [
+          "Cook the noodles, drain them.",
+          "Sear the sliced chicken over high heat.",
+          "Add the vegetables and stir-fry 3 min.",
+          "Stir in the noodles and the sauces.",
+          "Scatter peanuts and a squeeze of lime."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "salade-vietnamienne-poulet",
+      "name": {
+        "fr": "Salade vietnamienne au poulet",
+        "en": "Vietnamese chicken salad"
+      },
+      "description": {
+        "fr": "Une salade fraîche de poulet effiloché, chou, carotte et herbes dans une vinaigrette acidulée au citron vert — croquante, légère et parfumée.",
+        "en": "A fresh salad of shredded chicken, cabbage, carrot and herbs in a zingy lime dressing — crunchy, light and fragrant."
+      },
+      "emoji": "🥗",
+      "time_min": 25,
+      "prep_time_min": 25,
+      "cook_time_min": 0,
+      "difficulty": "easy",
+      "type": "salad",
+      "servings": 4,
+      "country": "vn",
+      "diet": [
+        "gluten-free",
+        "dairy-free"
+      ],
+      "allergens": [
+        "fish",
+        "peanuts"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "fr-blanc-poulet"
+          ],
+          "qty": {
+            "amount": 400,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "400g de poulet cuit",
+            "en": "400g cooked chicken"
+          }
+        },
+        {
+          "ids": [
+            "vg-chou",
+            "vg-chou-blanc",
+            "vg-carottes"
+          ],
+          "qty": {
+            "amount": 400,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "400g de chou et carotte",
+            "en": "400g cabbage and carrot"
+          }
+        },
+        {
+          "ids": [
+            "sp-menthe",
+            "sp-coriandre"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "botte"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Menthe et coriandre",
+            "en": "Mint and coriander"
+          }
+        },
+        {
+          "ids": [
+            "sp-nuoc-mam",
+            "fr-citron-vert"
+          ],
+          "qty": {
+            "amount": 3,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Nuoc-mâm et citron vert",
+            "en": "Fish sauce and lime"
+          }
+        },
+        {
+          "ids": [
+            "gp-cacahuetes"
+          ],
+          "qty": {
+            "amount": 50,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "50g de cacahuètes",
+            "en": "50g peanuts"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Effilocher le poulet cuit.",
+          "Émincer finement le chou et râper la carotte.",
+          "Préparer la sauce : nuoc-mâm, citron vert, sucre et eau.",
+          "Mélanger poulet, légumes, herbes et sauce.",
+          "Parsemer de cacahuètes concassées et servir frais."
+        ],
+        "en": [
+          "Shred the cooked chicken.",
+          "Finely slice the cabbage and grate the carrot.",
+          "Make the dressing: fish sauce, lime, sugar and water.",
+          "Toss the chicken, vegetables, herbs and dressing.",
+          "Scatter crushed peanuts and serve cold."
+        ]
+      },
+      "functional_tags": [
+        "anti_waste"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "rouleaux-printemps-crevettes",
+      "name": {
+        "fr": "Rouleaux de printemps aux crevettes",
+        "en": "Shrimp summer rolls"
+      },
+      "description": {
+        "fr": "Des galettes de riz fraîches garnies de crevettes, vermicelles, salade et menthe, servies avec une sauce aux cacahuètes — légers et sans cuisson.",
+        "en": "Fresh rice paper rolls filled with shrimp, vermicelli, salad and mint, served with a peanut sauce — light and no-cook."
+      },
+      "emoji": "🦐",
+      "time_min": 35,
+      "prep_time_min": 35,
+      "cook_time_min": 0,
+      "difficulty": "medium",
+      "type": "starter",
+      "servings": 4,
+      "country": "vn",
+      "diet": [
+        "dairy-free"
+      ],
+      "allergens": [
+        "crustaceans",
+        "peanuts",
+        "soybeans"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "gp-galettes-riz"
+          ],
+          "qty": {
+            "amount": 12,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "12 galettes de riz",
+            "en": "12 rice paper sheets"
+          }
+        },
+        {
+          "ids": [
+            "fr-crevettes",
+            "frz-crevettes"
+          ],
+          "qty": {
+            "amount": 250,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "250g de crevettes",
+            "en": "250g shrimp"
+          }
+        },
+        {
+          "ids": [
+            "jp-bifun",
+            "gp-vermicelles"
+          ],
+          "qty": {
+            "amount": 100,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "100g de vermicelles de riz",
+            "en": "100g rice vermicelli"
+          }
+        },
+        {
+          "ids": [
+            "vg-salade",
+            "vg-concombre",
+            "vg-carottes"
+          ],
+          "qty": {
+            "amount": 200,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Salade, concombre, carotte",
+            "en": "Salad, cucumber, carrot"
+          }
+        },
+        {
+          "ids": [
+            "sp-beurre-cacahuete",
+            "sp-menthe"
+          ],
+          "qty": {
+            "amount": 3,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Beurre de cacahuète et menthe",
+            "en": "Peanut butter and mint"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Cuire les crevettes et les couper en deux.",
+          "Réhydrater les vermicelles.",
+          "Assouplir une galette de riz dans l'eau tiède.",
+          "Garnir de salade, vermicelles, crevettes et menthe, puis rouler serré.",
+          "Servir avec une sauce au beurre de cacahuète."
+        ],
+        "en": [
+          "Cook the shrimp and halve them.",
+          "Rehydrate the vermicelli.",
+          "Soften a rice paper sheet in warm water.",
+          "Fill with salad, vermicelli, shrimp and mint, then roll tightly.",
+          "Serve with a peanut butter sauce."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "soupe-vermicelles-poulet",
+      "name": {
+        "fr": "Soupe de vermicelles au poulet",
+        "en": "Chicken vermicelli soup"
+      },
+      "description": {
+        "fr": "Un bouillon vietnamien léger et réconfortant aux fines vermicelles, poulet effiloché et herbes fraîches — parfait quand on est patraque.",
+        "en": "A light, comforting Vietnamese broth with thin vermicelli, shredded chicken and fresh herbs — perfect when you're under the weather."
+      },
+      "emoji": "🍲",
+      "time_min": 30,
+      "prep_time_min": 10,
+      "cook_time_min": 20,
+      "difficulty": "very-easy",
+      "type": "starter",
+      "servings": 4,
+      "country": "vn",
+      "diet": [
+        "dairy-free"
+      ],
+      "allergens": [
+        "fish"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "gp-vermicelles",
+            "jp-bifun"
+          ],
+          "qty": {
+            "amount": 200,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "200g de vermicelles",
+            "en": "200g vermicelli"
+          }
+        },
+        {
+          "ids": [
+            "fr-blanc-poulet"
+          ],
+          "qty": {
+            "amount": 300,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "300g de poulet",
+            "en": "300g chicken"
+          }
+        },
+        {
+          "ids": [
+            "sp-gingembre",
+            "vg-oignon"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Gingembre et oignon",
+            "en": "Ginger and onion"
+          }
+        },
+        {
+          "ids": [
+            "sp-nuoc-mam"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 c. à soupe de nuoc-mâm",
+            "en": "2 tbsp fish sauce"
+          }
+        },
+        {
+          "ids": [
+            "vg-oignon-vert",
+            "sp-coriandre"
+          ],
+          "qty": {
+            "amount": 3,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Oignon vert et coriandre",
+            "en": "Spring onion and coriander"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Pocher le poulet dans 1,5 L de bouillon avec le gingembre.",
+          "Effilocher le poulet, assaisonner le bouillon de nuoc-mâm.",
+          "Cuire les vermicelles.",
+          "Répartir vermicelles et poulet dans les bols.",
+          "Verser le bouillon et garnir d'herbes."
+        ],
+        "en": [
+          "Poach the chicken in 1.5 L stock with the ginger.",
+          "Shred the chicken, season the broth with fish sauce.",
+          "Cook the vermicelli.",
+          "Divide vermicelli and chicken into bowls.",
+          "Pour over the broth and top with herbs."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "boeuf-saute-gingembre",
+      "name": {
+        "fr": "Bœuf sauté au gingembre",
+        "en": "Ginger beef stir-fry"
+      },
+      "description": {
+        "fr": "Du bœuf émincé sauté au gingembre frais, à l'oignon et à la sauce soja — un wok vietnamien rapide, parfumé et plein de peps.",
+        "en": "Sliced beef stir-fried with fresh ginger, onion and soy sauce — a quick, fragrant and lively Vietnamese wok."
+      },
+      "emoji": "🥩",
+      "time_min": 20,
+      "prep_time_min": 12,
+      "cook_time_min": 8,
+      "difficulty": "easy",
+      "type": "main",
+      "servings": 4,
+      "country": "vn",
+      "diet": [
+        "dairy-free"
+      ],
+      "allergens": [
+        "soybeans",
+        "gluten",
+        "fish"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "fr-boeuf",
+            "fr-bavette"
+          ],
+          "qty": {
+            "amount": 500,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "500g de bœuf",
+            "en": "500g beef"
+          }
+        },
+        {
+          "ids": [
+            "sp-gingembre"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 c. à soupe de gingembre",
+            "en": "2 tbsp ginger"
+          }
+        },
+        {
+          "ids": [
+            "vg-oignon",
+            "vg-oignon-vert"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Oignon et oignon vert",
+            "en": "Onion and spring onion"
+          }
+        },
+        {
+          "ids": [
+            "sp-sauce-soja",
+            "sp-nuoc-mam"
+          ],
+          "qty": {
+            "amount": 3,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Sauce soja et nuoc-mâm",
+            "en": "Soy and fish sauce"
+          }
+        },
+        {
+          "ids": [
+            "vg-ail",
+            "gp-sucre"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "gousse"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Ail et sucre",
+            "en": "Garlic and sugar"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Émincer le bœuf et le mariner dans la sauce soja.",
+          "Saisir le bœuf à feu très vif, réserver.",
+          "Faire revenir le gingembre, l'ail et l'oignon.",
+          "Remettre le bœuf, ajouter le nuoc-mâm et le sucre.",
+          "Sauter 2 min, parsemer d'oignon vert et servir avec du riz."
+        ],
+        "en": [
+          "Slice the beef and marinate it in soy sauce.",
+          "Sear the beef over very high heat, set aside.",
+          "Sauté the ginger, garlic and onion.",
+          "Return the beef, add the fish sauce and sugar.",
+          "Stir-fry 2 min, scatter spring onion and serve with rice."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "che-banane-coco",
+      "name": {
+        "fr": "Chè banane-coco",
+        "en": "Banana coconut che"
+      },
+      "description": {
+        "fr": "Un dessert vietnamien chaud de bananes mijotées dans du lait de coco avec des perles de tapioca, parsemé de cacahuètes — réconfortant et exotique.",
+        "en": "A warm Vietnamese dessert of bananas simmered in coconut milk with tapioca pearls, scattered with peanuts — comforting and exotic."
+      },
+      "emoji": "🍌",
+      "time_min": 30,
+      "prep_time_min": 10,
+      "cook_time_min": 20,
+      "difficulty": "easy",
+      "type": "dessert",
+      "servings": 4,
+      "country": "vn",
+      "diet": [
+        "vegan",
+        "vegetarian",
+        "gluten-free",
+        "dairy-free"
+      ],
+      "allergens": [
+        "peanuts"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "fr-banane"
+          ],
+          "qty": {
+            "amount": 5,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "5 bananes",
+            "en": "5 bananas"
+          }
+        },
+        {
+          "ids": [
+            "gp-lait-coco"
+          ],
+          "qty": {
+            "amount": 40,
+            "unit": "cl"
+          },
+          "required": true,
+          "labels": {
+            "fr": "40 cl de lait de coco",
+            "en": "400ml coconut milk"
+          }
+        },
+        {
+          "ids": [
+            "gp-sucre"
+          ],
+          "qty": {
+            "amount": 60,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "60g de sucre",
+            "en": "60g sugar"
+          }
+        },
+        {
+          "ids": [
+            "gp-chia",
+            "gp-fecule-mais"
+          ],
+          "qty": {
+            "amount": 3,
+            "unit": "cs"
+          },
+          "required": false,
+          "labels": {
+            "fr": "Perles de tapioca",
+            "en": "Tapioca pearls"
+          }
+        },
+        {
+          "ids": [
+            "gp-cacahuetes",
+            "fr-noix-coco"
+          ],
+          "qty": {
+            "amount": 40,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Cacahuètes et coco",
+            "en": "Peanuts and coconut"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Chauffer le lait de coco avec le sucre et une pincée de sel.",
+          "Ajouter les perles de tapioca et cuire jusqu'à ce qu'elles soient translucides.",
+          "Ajouter les bananes coupées en tronçons.",
+          "Mijoter 8 min sans les défaire.",
+          "Servir tiède, parsemé de cacahuètes concassées."
+        ],
+        "en": [
+          "Heat the coconut milk with the sugar and a pinch of salt.",
+          "Add the tapioca pearls and cook until translucent.",
+          "Add the bananas cut into chunks.",
+          "Simmer 8 min without breaking them up.",
+          "Serve warm, scattered with crushed peanuts."
+        ]
+      },
+      "functional_tags": [
+        "kids_friendly"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "cafe-vietnamien",
+      "name": {
+        "fr": "Café vietnamien glacé",
+        "en": "Vietnamese iced coffee"
+      },
+      "description": {
+        "fr": "Un café fort et corsé adouci de lait concentré sucré, servi sur des glaçons — la boisson vietnamienne réveille-matin par excellence.",
+        "en": "A strong, bold coffee sweetened with condensed milk, served over ice — the ultimate Vietnamese wake-up drink."
+      },
+      "emoji": "☕",
+      "time_min": 10,
+      "prep_time_min": 5,
+      "cook_time_min": 5,
+      "difficulty": "very-easy",
+      "type": "drink",
+      "servings": 2,
+      "country": "vn",
+      "diet": [
+        "vegetarian",
+        "gluten-free"
+      ],
+      "allergens": [
+        "milk"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "gp-cafe"
+          ],
+          "qty": {
+            "amount": 4,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "4 c. à soupe de café fort",
+            "en": "4 tbsp strong coffee"
+          }
+        },
+        {
+          "ids": [
+            "fr-lait",
+            "fr-creme-liquide"
+          ],
+          "qty": {
+            "amount": 10,
+            "unit": "cl"
+          },
+          "required": true,
+          "labels": {
+            "fr": "10 cl de lait concentré sucré",
+            "en": "100ml sweetened condensed milk"
+          }
+        },
+        {
+          "ids": [
+            "gp-sucre"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cs"
+          },
+          "required": false,
+          "labels": {
+            "fr": "1 c. à soupe de sucre",
+            "en": "1 tbsp sugar"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Préparer un café bien fort.",
+          "Verser le lait concentré sucré au fond des verres.",
+          "Ajouter le café chaud et mélanger.",
+          "Remplir les verres de glaçons.",
+          "Mélanger à nouveau et servir bien frais."
+        ],
+        "en": [
+          "Brew a very strong coffee.",
+          "Pour the sweetened condensed milk into the bottom of the glasses.",
+          "Add the hot coffee and stir.",
+          "Fill the glasses with ice.",
+          "Stir again and serve cold."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    }
+  ]
+}

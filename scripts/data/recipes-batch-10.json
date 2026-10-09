@@ -1,0 +1,2529 @@
+{
+  "batchName": "recipes-batch-10-grece",
+  "recipes": [
+    {
+      "id": "moussaka",
+      "name": {
+        "fr": "Moussaka",
+        "en": "Moussaka"
+      },
+      "description": {
+        "fr": "Un gratin grec en couches d'aubergines, de viande hachée à la tomate et de béchamel dorée — un plat généreux, parfumé et réconfortant.",
+        "en": "A Greek bake layered with aubergines, tomato-rich minced meat and golden béchamel — a generous, fragrant and comforting dish."
+      },
+      "emoji": "🍆",
+      "time_min": 90,
+      "prep_time_min": 35,
+      "cook_time_min": 55,
+      "difficulty": "hard",
+      "type": "main",
+      "servings": 6,
+      "country": "gr",
+      "diet": [],
+      "allergens": [
+        "milk",
+        "gluten"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "vg-aubergine"
+          ],
+          "qty": {
+            "amount": 3,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "3 aubergines",
+            "en": "3 aubergines"
+          }
+        },
+        {
+          "ids": [
+            "fr-hache-boeuf",
+            "fr-agneau",
+            "frz-boeuf-hache"
+          ],
+          "qty": {
+            "amount": 500,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "500g de viande hachée",
+            "en": "500g minced meat"
+          }
+        },
+        {
+          "ids": [
+            "gp-tomates-concas"
+          ],
+          "qty": {
+            "amount": 400,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "400g de tomates",
+            "en": "400g tomatoes"
+          }
+        },
+        {
+          "ids": [
+            "fr-lait",
+            "sp-bechamel"
+          ],
+          "qty": {
+            "amount": 50,
+            "unit": "cl"
+          },
+          "required": true,
+          "labels": {
+            "fr": "50 cl de lait (béchamel)",
+            "en": "500ml milk (béchamel)"
+          }
+        },
+        {
+          "ids": [
+            "fr-beurre",
+            "gp-farine"
+          ],
+          "qty": {
+            "amount": 50,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Beurre et farine",
+            "en": "Butter and flour"
+          }
+        },
+        {
+          "ids": [
+            "sp-cannelle",
+            "vg-oignon"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cc"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Cannelle et oignon",
+            "en": "Cinnamon and onion"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Trancher les aubergines et les faire dorer.",
+          "Préparer une sauce de viande à la tomate et à la cannelle.",
+          "Préparer une béchamel épaisse.",
+          "Monter en couches aubergines, viande puis béchamel dans un plat.",
+          "Cuire 40 min à 180°C jusqu'à ce que le dessus soit doré."
+        ],
+        "en": [
+          "Slice the aubergines and brown them.",
+          "Make a tomato-and-cinnamon meat sauce.",
+          "Make a thick béchamel.",
+          "Layer aubergines, meat then béchamel in a dish.",
+          "Bake 40 min at 180°C until the top is golden."
+        ]
+      },
+      "functional_tags": [
+        "batch_cooking"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "souvlaki-poulet",
+      "name": {
+        "fr": "Souvlaki de poulet",
+        "en": "Chicken souvlaki"
+      },
+      "description": {
+        "fr": "Des brochettes de poulet marinées au citron, à l'ail et à l'origan, grillées et servies avec du tzatziki — l'incontournable grec à griller.",
+        "en": "Chicken skewers marinated in lemon, garlic and oregano, grilled and served with tzatziki — the Greek grilling essential."
+      },
+      "emoji": "🍢",
+      "time_min": 35,
+      "prep_time_min": 20,
+      "cook_time_min": 15,
+      "difficulty": "easy",
+      "type": "main",
+      "servings": 4,
+      "country": "gr",
+      "diet": [
+        "gluten-free",
+        "dairy-free"
+      ],
+      "allergens": [],
+      "ingredients": [
+        {
+          "ids": [
+            "fr-blanc-poulet",
+            "fr-cuisse-poulet"
+          ],
+          "qty": {
+            "amount": 700,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "700g de poulet",
+            "en": "700g chicken"
+          }
+        },
+        {
+          "ids": [
+            "fr-citron"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 citron",
+            "en": "1 lemon"
+          }
+        },
+        {
+          "ids": [
+            "vg-ail"
+          ],
+          "qty": {
+            "amount": 3,
+            "unit": "gousse"
+          },
+          "required": true,
+          "labels": {
+            "fr": "3 gousses d'ail",
+            "en": "3 garlic cloves"
+          }
+        },
+        {
+          "ids": [
+            "sp-origan"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "cc"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 c. à café d'origan",
+            "en": "2 tsp oregano"
+          }
+        },
+        {
+          "ids": [
+            "sp-huile-olive"
+          ],
+          "qty": {
+            "amount": 3,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "3 c. à soupe d'huile d'olive",
+            "en": "3 tbsp olive oil"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Couper le poulet en cubes.",
+          "Mariner avec citron, ail, origan et huile d'olive 1h.",
+          "Enfiler les morceaux sur des brochettes.",
+          "Griller 12-15 min en retournant.",
+          "Servir avec du tzatziki et du pain pita."
+        ],
+        "en": [
+          "Cut the chicken into cubes.",
+          "Marinate with lemon, garlic, oregano and olive oil for 1h.",
+          "Thread the pieces onto skewers.",
+          "Grill 12-15 min, turning.",
+          "Serve with tzatziki and pita bread."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "gyros-poulet",
+      "name": {
+        "fr": "Gyros de poulet",
+        "en": "Chicken gyros"
+      },
+      "description": {
+        "fr": "Du poulet mariné et doré, servi dans un pain pita avec tomate, oignon et tzatziki — le sandwich grec de rue par excellence.",
+        "en": "Marinated golden chicken served in a pita with tomato, onion and tzatziki — the ultimate Greek street sandwich."
+      },
+      "emoji": "🥙",
+      "time_min": 35,
+      "prep_time_min": 20,
+      "cook_time_min": 15,
+      "difficulty": "easy",
+      "type": "main",
+      "servings": 4,
+      "country": "gr",
+      "diet": [],
+      "allergens": [
+        "gluten",
+        "milk"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "fr-cuisse-poulet",
+            "fr-blanc-poulet"
+          ],
+          "qty": {
+            "amount": 600,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "600g de poulet",
+            "en": "600g chicken"
+          }
+        },
+        {
+          "ids": [
+            "gp-pain",
+            "gp-pain-mie"
+          ],
+          "qty": {
+            "amount": 4,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "4 pains pita",
+            "en": "4 pita breads"
+          }
+        },
+        {
+          "ids": [
+            "fr-yaourt-nature"
+          ],
+          "qty": {
+            "amount": 150,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "150g de yaourt (tzatziki)",
+            "en": "150g yogurt (tzatziki)"
+          }
+        },
+        {
+          "ids": [
+            "vg-tomate",
+            "vg-oignon-rouge"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Tomate et oignon",
+            "en": "Tomato and onion"
+          }
+        },
+        {
+          "ids": [
+            "sp-origan",
+            "sp-paprika"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "cc"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Origan et paprika",
+            "en": "Oregano and paprika"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Mariner le poulet émincé avec origan, paprika et huile.",
+          "Le faire dorer à la poêle.",
+          "Réchauffer les pains pita.",
+          "Garnir de poulet, tomate, oignon et tzatziki.",
+          "Rouler et servir aussitôt."
+        ],
+        "en": [
+          "Marinate the sliced chicken with oregano, paprika and oil.",
+          "Brown it in a pan.",
+          "Warm the pita breads.",
+          "Fill with chicken, tomato, onion and tzatziki.",
+          "Roll and serve at once."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "spanakopita",
+      "name": {
+        "fr": "Spanakopita",
+        "en": "Spanakopita"
+      },
+      "description": {
+        "fr": "Une tourte croustillante de pâte filo garnie d'épinards et de feta — feuilletée, dorée et parfumée à l'aneth, à servir tiède ou froide.",
+        "en": "A crisp filo pie filled with spinach and feta — flaky, golden and scented with dill, served warm or cold."
+      },
+      "emoji": "🥧",
+      "time_min": 60,
+      "prep_time_min": 25,
+      "cook_time_min": 35,
+      "difficulty": "medium",
+      "type": "main",
+      "servings": 6,
+      "country": "gr",
+      "diet": [
+        "vegetarian"
+      ],
+      "allergens": [
+        "gluten",
+        "milk",
+        "eggs"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "vg-epinards",
+            "frz-epinards"
+          ],
+          "qty": {
+            "amount": 600,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "600g d'épinards",
+            "en": "600g spinach"
+          }
+        },
+        {
+          "ids": [
+            "fr-feta"
+          ],
+          "qty": {
+            "amount": 250,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "250g de feta",
+            "en": "250g feta"
+          }
+        },
+        {
+          "ids": [
+            "fr-pate-feuilletee",
+            "fr-pate-brisee"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 paquet de pâte filo",
+            "en": "1 pack of filo pastry"
+          }
+        },
+        {
+          "ids": [
+            "fr-oeuf"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 œufs",
+            "en": "2 eggs"
+          }
+        },
+        {
+          "ids": [
+            "sp-aneth",
+            "vg-oignon-vert"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "botte"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Aneth et oignon vert",
+            "en": "Dill and spring onion"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Faire tomber les épinards à la poêle et les égoutter.",
+          "Mélanger avec la feta émiettée, les œufs et l'aneth.",
+          "Disposer des feuilles de filo beurrées dans un plat.",
+          "Garnir de la préparation et recouvrir de filo.",
+          "Cuire 35 min à 180°C jusqu'à ce que ce soit doré et croustillant."
+        ],
+        "en": [
+          "Wilt the spinach in a pan and drain it.",
+          "Mix with crumbled feta, eggs and dill.",
+          "Layer buttered filo sheets in a dish.",
+          "Add the filling and cover with more filo.",
+          "Bake 35 min at 180°C until golden and crisp."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "keftedes",
+      "name": {
+        "fr": "Keftedes (boulettes grecques)",
+        "en": "Keftedes (Greek meatballs)"
+      },
+      "description": {
+        "fr": "Des boulettes de viande parfumées à la menthe et à l'origan, dorées à la poêle — un mezze grec savoureux à tremper dans le tzatziki.",
+        "en": "Meatballs scented with mint and oregano, pan-fried golden — a tasty Greek mezze to dip in tzatziki."
+      },
+      "emoji": "🧆",
+      "time_min": 35,
+      "prep_time_min": 20,
+      "cook_time_min": 15,
+      "difficulty": "easy",
+      "type": "main",
+      "servings": 4,
+      "country": "gr",
+      "diet": [
+        "dairy-free"
+      ],
+      "allergens": [
+        "gluten",
+        "eggs"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "fr-hache-boeuf",
+            "fr-agneau"
+          ],
+          "qty": {
+            "amount": 500,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "500g de viande hachée",
+            "en": "500g minced meat"
+          }
+        },
+        {
+          "ids": [
+            "vg-oignon"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 oignon",
+            "en": "1 onion"
+          }
+        },
+        {
+          "ids": [
+            "sp-menthe",
+            "sp-origan"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "cc"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Menthe et origan",
+            "en": "Mint and oregano"
+          }
+        },
+        {
+          "ids": [
+            "gp-chapelure"
+          ],
+          "qty": {
+            "amount": 50,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "50g de chapelure",
+            "en": "50g breadcrumbs"
+          }
+        },
+        {
+          "ids": [
+            "fr-oeuf"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 œuf",
+            "en": "1 egg"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Mélanger la viande, l'oignon râpé, les herbes, la chapelure et l'œuf.",
+          "Façonner de petites boulettes.",
+          "Les fariner légèrement.",
+          "Les dorer à la poêle 12 min en les retournant.",
+          "Servir avec du tzatziki et une salade."
+        ],
+        "en": [
+          "Mix the meat, grated onion, herbs, breadcrumbs and egg.",
+          "Shape small meatballs.",
+          "Lightly flour them.",
+          "Pan-fry 12 min, turning.",
+          "Serve with tzatziki and a salad."
+        ]
+      },
+      "functional_tags": [
+        "batch_cooking"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "gemista",
+      "name": {
+        "fr": "Gemista (légumes farcis)",
+        "en": "Gemista (stuffed vegetables)"
+      },
+      "description": {
+        "fr": "Des tomates et poivrons farcis de riz aux herbes et rôtis au four — un plat grec végétarien parfumé, délicieux tiède ou froid.",
+        "en": "Tomatoes and peppers stuffed with herby rice and oven-roasted — a fragrant Greek vegetarian dish, lovely warm or cold."
+      },
+      "emoji": "🫑",
+      "time_min": 75,
+      "prep_time_min": 25,
+      "cook_time_min": 50,
+      "difficulty": "medium",
+      "type": "main",
+      "servings": 4,
+      "country": "gr",
+      "diet": [
+        "vegan",
+        "vegetarian",
+        "gluten-free",
+        "dairy-free"
+      ],
+      "allergens": [],
+      "ingredients": [
+        {
+          "ids": [
+            "vg-tomate",
+            "vg-tomate-ronde"
+          ],
+          "qty": {
+            "amount": 4,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "4 grosses tomates",
+            "en": "4 large tomatoes"
+          }
+        },
+        {
+          "ids": [
+            "vg-poivron"
+          ],
+          "qty": {
+            "amount": 4,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "4 poivrons",
+            "en": "4 bell peppers"
+          }
+        },
+        {
+          "ids": [
+            "gp-riz"
+          ],
+          "qty": {
+            "amount": 250,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "250g de riz",
+            "en": "250g rice"
+          }
+        },
+        {
+          "ids": [
+            "vg-oignon",
+            "vg-ail"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Oignon et ail",
+            "en": "Onion and garlic"
+          }
+        },
+        {
+          "ids": [
+            "sp-menthe",
+            "sp-persil"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "botte"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Menthe et persil",
+            "en": "Mint and parsley"
+          }
+        },
+        {
+          "ids": [
+            "sp-huile-olive"
+          ],
+          "qty": {
+            "amount": 4,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Huile d'olive",
+            "en": "Olive oil"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Évider les tomates et les poivrons.",
+          "Faire revenir l'oignon, l'ail et le riz avec la pulpe des tomates et les herbes.",
+          "Remplir les légumes de cette farce.",
+          "Arroser d'huile d'olive et d'un peu d'eau.",
+          "Cuire 50 min au four à 180°C et servir tiède."
+        ],
+        "en": [
+          "Hollow out the tomatoes and peppers.",
+          "Sauté the onion, garlic and rice with the tomato pulp and herbs.",
+          "Fill the vegetables with this stuffing.",
+          "Drizzle with olive oil and a little water.",
+          "Bake 50 min at 180°C and serve warm."
+        ]
+      },
+      "functional_tags": [
+        "anti_waste"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "pastitsio",
+      "name": {
+        "fr": "Pastitsio",
+        "en": "Pastitsio"
+      },
+      "description": {
+        "fr": "Un gratin grec de pâtes longues, de viande à la tomate épicée et de béchamel — comme une lasagne grecque, riche et réconfortante.",
+        "en": "A Greek bake of long pasta, spiced tomato meat and béchamel — like a Greek lasagne, rich and comforting."
+      },
+      "emoji": "🧀",
+      "time_min": 80,
+      "prep_time_min": 30,
+      "cook_time_min": 50,
+      "difficulty": "medium",
+      "type": "main",
+      "servings": 6,
+      "country": "gr",
+      "diet": [],
+      "allergens": [
+        "gluten",
+        "milk",
+        "eggs"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "gp-spaghetti",
+            "gp-penne",
+            "gp-pates"
+          ],
+          "qty": {
+            "amount": 400,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "400g de pâtes longues",
+            "en": "400g long pasta"
+          }
+        },
+        {
+          "ids": [
+            "fr-hache-boeuf",
+            "fr-agneau"
+          ],
+          "qty": {
+            "amount": 500,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "500g de viande hachée",
+            "en": "500g minced meat"
+          }
+        },
+        {
+          "ids": [
+            "gp-tomates-concas"
+          ],
+          "qty": {
+            "amount": 400,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "400g de tomates",
+            "en": "400g tomatoes"
+          }
+        },
+        {
+          "ids": [
+            "fr-lait",
+            "sp-bechamel"
+          ],
+          "qty": {
+            "amount": 50,
+            "unit": "cl"
+          },
+          "required": true,
+          "labels": {
+            "fr": "50 cl de lait (béchamel)",
+            "en": "500ml milk (béchamel)"
+          }
+        },
+        {
+          "ids": [
+            "fr-fromage-rape",
+            "fr-parmesan"
+          ],
+          "qty": {
+            "amount": 100,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "100g de fromage râpé",
+            "en": "100g grated cheese"
+          }
+        },
+        {
+          "ids": [
+            "sp-cannelle",
+            "vg-oignon"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cc"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Cannelle et oignon",
+            "en": "Cinnamon and onion"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Cuire les pâtes. Préparer une sauce de viande à la tomate et à la cannelle.",
+          "Préparer une béchamel au fromage.",
+          "Disposer les pâtes puis la viande dans un plat.",
+          "Recouvrir de béchamel et de fromage.",
+          "Cuire 40 min à 180°C jusqu'à ce que ce soit gratiné."
+        ],
+        "en": [
+          "Cook the pasta. Make a tomato-and-cinnamon meat sauce.",
+          "Make a cheese béchamel.",
+          "Layer the pasta then the meat in a dish.",
+          "Cover with béchamel and cheese.",
+          "Bake 40 min at 180°C until golden."
+        ]
+      },
+      "functional_tags": [
+        "batch_cooking"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "gigantes-plaki",
+      "name": {
+        "fr": "Gigantes plaki (haricots au four)",
+        "en": "Gigantes plaki (baked beans)"
+      },
+      "description": {
+        "fr": "De gros haricots blancs mijotés puis rôtis dans une sauce tomate à l'aneth et à l'huile d'olive — un plat grec végétalien fondant.",
+        "en": "Large white beans simmered then baked in a tomato sauce with dill and olive oil — a tender Greek vegan dish."
+      },
+      "emoji": "🫘",
+      "time_min": 70,
+      "prep_time_min": 15,
+      "cook_time_min": 55,
+      "difficulty": "easy",
+      "type": "main",
+      "servings": 4,
+      "country": "gr",
+      "diet": [
+        "vegan",
+        "vegetarian",
+        "gluten-free",
+        "dairy-free"
+      ],
+      "allergens": [],
+      "ingredients": [
+        {
+          "ids": [
+            "gp-haricots-bl"
+          ],
+          "qty": {
+            "amount": 500,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "500g de gros haricots blancs",
+            "en": "500g large white beans"
+          }
+        },
+        {
+          "ids": [
+            "gp-tomates-concas"
+          ],
+          "qty": {
+            "amount": 400,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "400g de tomates",
+            "en": "400g tomatoes"
+          }
+        },
+        {
+          "ids": [
+            "vg-oignon",
+            "vg-ail"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Oignon et ail",
+            "en": "Onion and garlic"
+          }
+        },
+        {
+          "ids": [
+            "sp-aneth",
+            "sp-persil"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "botte"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Aneth et persil",
+            "en": "Dill and parsley"
+          }
+        },
+        {
+          "ids": [
+            "sp-huile-olive-vi"
+          ],
+          "qty": {
+            "amount": 5,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Huile d'olive",
+            "en": "Olive oil"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Précuire les haricots blancs jusqu'à ce qu'ils soient tendres.",
+          "Faire revenir l'oignon et l'ail, ajouter les tomates.",
+          "Mélanger les haricots à la sauce avec l'aneth et l'huile.",
+          "Verser dans un plat et cuire 45 min à 180°C.",
+          "Servir tiède avec du pain et de la feta."
+        ],
+        "en": [
+          "Pre-cook the white beans until tender.",
+          "Sauté the onion and garlic, add the tomatoes.",
+          "Mix the beans into the sauce with the dill and oil.",
+          "Pour into a dish and bake 45 min at 180°C.",
+          "Serve warm with bread and feta."
+        ]
+      },
+      "functional_tags": [
+        "batch_cooking",
+        "anti_waste"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "agneau-four-grec",
+      "name": {
+        "fr": "Agneau au four à la grecque",
+        "en": "Greek roast lamb"
+      },
+      "description": {
+        "fr": "Un gigot d'agneau rôti lentement avec des pommes de terre, du citron et de l'origan — le plat de fête grec, fondant et parfumé.",
+        "en": "A leg of lamb slowly roasted with potatoes, lemon and oregano — the Greek feast dish, tender and fragrant."
+      },
+      "emoji": "🍖",
+      "time_min": 150,
+      "prep_time_min": 20,
+      "cook_time_min": 130,
+      "difficulty": "medium",
+      "type": "main",
+      "servings": 6,
+      "country": "gr",
+      "diet": [
+        "gluten-free",
+        "dairy-free",
+        "halal"
+      ],
+      "allergens": [],
+      "ingredients": [
+        {
+          "ids": [
+            "fr-gigot",
+            "fr-epaule-agneau",
+            "fr-agneau"
+          ],
+          "qty": {
+            "amount": 1500,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1,5 kg de gigot d'agneau",
+            "en": "1.5kg leg of lamb"
+          }
+        },
+        {
+          "ids": [
+            "vg-pomme-terre"
+          ],
+          "qty": {
+            "amount": 1000,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 kg de pommes de terre",
+            "en": "1kg potatoes"
+          }
+        },
+        {
+          "ids": [
+            "fr-citron"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 citrons",
+            "en": "2 lemons"
+          }
+        },
+        {
+          "ids": [
+            "vg-ail"
+          ],
+          "qty": {
+            "amount": 6,
+            "unit": "gousse"
+          },
+          "required": true,
+          "labels": {
+            "fr": "6 gousses d'ail",
+            "en": "6 garlic cloves"
+          }
+        },
+        {
+          "ids": [
+            "sp-origan",
+            "sp-romarin"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Origan et romarin",
+            "en": "Oregano and rosemary"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Piquer l'agneau d'ail et le frotter d'origan, de citron et d'huile.",
+          "Disposer les pommes de terre en quartiers autour.",
+          "Arroser de jus de citron et d'huile d'olive.",
+          "Rôtir 2h à 160°C en arrosant régulièrement.",
+          "Laisser reposer puis servir avec le jus."
+        ],
+        "en": [
+          "Stud the lamb with garlic and rub with oregano, lemon and oil.",
+          "Arrange the quartered potatoes around it.",
+          "Drizzle with lemon juice and olive oil.",
+          "Roast 2h at 160°C, basting regularly.",
+          "Rest then serve with the juices."
+        ]
+      },
+      "functional_tags": [
+        "batch_cooking"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "tyropita",
+      "name": {
+        "fr": "Tyropita (feuilleté à la feta)",
+        "en": "Tyropita (feta pie)"
+      },
+      "description": {
+        "fr": "Des feuilletés croustillants de pâte filo garnis de feta crémeuse — un en-cas grec doré, parfait au petit-déjeuner ou à l'apéritif.",
+        "en": "Crisp filo pastries filled with creamy feta — a golden Greek snack, perfect for breakfast or with drinks."
+      },
+      "emoji": "🧀",
+      "time_min": 40,
+      "prep_time_min": 20,
+      "cook_time_min": 20,
+      "difficulty": "medium",
+      "type": "starter",
+      "servings": 4,
+      "country": "gr",
+      "diet": [
+        "vegetarian"
+      ],
+      "allergens": [
+        "gluten",
+        "milk",
+        "eggs"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "fr-feta"
+          ],
+          "qty": {
+            "amount": 250,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "250g de feta",
+            "en": "250g feta"
+          }
+        },
+        {
+          "ids": [
+            "fr-pate-feuilletee"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 paquet de pâte filo",
+            "en": "1 pack of filo pastry"
+          }
+        },
+        {
+          "ids": [
+            "fr-oeuf"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 œuf",
+            "en": "1 egg"
+          }
+        },
+        {
+          "ids": [
+            "fr-fromage-frais",
+            "fr-ricotta"
+          ],
+          "qty": {
+            "amount": 100,
+            "unit": "g"
+          },
+          "required": false,
+          "labels": {
+            "fr": "100g de fromage frais",
+            "en": "100g cream cheese"
+          }
+        },
+        {
+          "ids": [
+            "fr-beurre"
+          ],
+          "qty": {
+            "amount": 50,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "50g de beurre",
+            "en": "50g butter"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Écraser la feta avec l'œuf et le fromage frais.",
+          "Découper la pâte filo en bandes et les beurrer.",
+          "Déposer un peu de garniture et plier en triangles.",
+          "Badigeonner de beurre fondu.",
+          "Cuire 18 min à 190°C jusqu'à ce que ce soit doré."
+        ],
+        "en": [
+          "Mash the feta with the egg and cream cheese.",
+          "Cut the filo into strips and butter them.",
+          "Add a little filling and fold into triangles.",
+          "Brush with melted butter.",
+          "Bake 18 min at 190°C until golden."
+        ]
+      },
+      "functional_tags": [
+        "freezer_friendly"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "soupe-avgolemono",
+      "name": {
+        "fr": "Soupe avgolemono",
+        "en": "Avgolemono soup"
+      },
+      "description": {
+        "fr": "Une soupe grecque veloutée au poulet et au riz, liée à l'œuf et au citron — réconfortante, acidulée et soyeuse.",
+        "en": "A velvety Greek chicken-and-rice soup, thickened with egg and lemon — comforting, tangy and silky."
+      },
+      "emoji": "🍋",
+      "time_min": 35,
+      "prep_time_min": 10,
+      "cook_time_min": 25,
+      "difficulty": "medium",
+      "type": "starter",
+      "servings": 4,
+      "country": "gr",
+      "diet": [
+        "gluten-free",
+        "dairy-free"
+      ],
+      "allergens": [
+        "eggs",
+        "celery"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "fr-blanc-poulet",
+            "fr-cuisse-poulet"
+          ],
+          "qty": {
+            "amount": 300,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "300g de poulet",
+            "en": "300g chicken"
+          }
+        },
+        {
+          "ids": [
+            "gp-riz"
+          ],
+          "qty": {
+            "amount": 100,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "100g de riz",
+            "en": "100g rice"
+          }
+        },
+        {
+          "ids": [
+            "fr-oeuf"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 œufs",
+            "en": "2 eggs"
+          }
+        },
+        {
+          "ids": [
+            "fr-citron"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 citrons",
+            "en": "2 lemons"
+          }
+        },
+        {
+          "ids": [
+            "gp-bouillon-cube"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 bouillon de volaille",
+            "en": "1 chicken stock cube"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Pocher le poulet dans 1,5 L de bouillon, puis l'effilocher.",
+          "Cuire le riz dans le bouillon.",
+          "Battre les œufs avec le jus de citron.",
+          "Verser un peu de bouillon chaud dessus en fouettant, puis reverser dans la casserole.",
+          "Réchauffer sans bouillir, ajouter le poulet et servir."
+        ],
+        "en": [
+          "Poach the chicken in 1.5 L stock, then shred it.",
+          "Cook the rice in the stock.",
+          "Beat the eggs with the lemon juice.",
+          "Whisk in a little hot stock, then pour back into the pot.",
+          "Warm without boiling, add the chicken and serve."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "saganaki",
+      "name": {
+        "fr": "Saganaki (fromage frit)",
+        "en": "Saganaki (fried cheese)"
+      },
+      "description": {
+        "fr": "Une tranche de fromage grec enrobée de farine et poêlée jusqu'à être dorée et fondante, arrosée de citron — une tapa grecque irrésistible.",
+        "en": "A slice of Greek cheese coated in flour and pan-fried golden and gooey, finished with lemon — an irresistible Greek mezze."
+      },
+      "emoji": "🧀",
+      "time_min": 12,
+      "prep_time_min": 5,
+      "cook_time_min": 7,
+      "difficulty": "easy",
+      "type": "starter",
+      "servings": 4,
+      "country": "gr",
+      "diet": [
+        "vegetarian"
+      ],
+      "allergens": [
+        "milk",
+        "gluten"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "fr-feta",
+            "fr-fromage"
+          ],
+          "qty": {
+            "amount": 250,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "250g de fromage à frire",
+            "en": "250g frying cheese"
+          }
+        },
+        {
+          "ids": [
+            "gp-farine"
+          ],
+          "qty": {
+            "amount": 50,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "50g de farine",
+            "en": "50g flour"
+          }
+        },
+        {
+          "ids": [
+            "fr-citron"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 citron",
+            "en": "1 lemon"
+          }
+        },
+        {
+          "ids": [
+            "sp-huile-olive"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Huile d'olive",
+            "en": "Olive oil"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Couper le fromage en tranches épaisses.",
+          "Les passer dans la farine.",
+          "Les poêler dans l'huile chaude 2 min par face.",
+          "Arroser de jus de citron.",
+          "Servir aussitôt, bien chaud."
+        ],
+        "en": [
+          "Cut the cheese into thick slices.",
+          "Coat them in flour.",
+          "Pan-fry in hot oil 2 min per side.",
+          "Squeeze over lemon juice.",
+          "Serve at once, piping hot."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "kolokithokeftedes",
+      "name": {
+        "fr": "Galettes de courgette grecques",
+        "en": "Greek courgette fritters"
+      },
+      "description": {
+        "fr": "Des galettes croustillantes de courgette, feta et herbes fraîches — un mezze grec végétarien doré, à tremper dans le tzatziki.",
+        "en": "Crispy fritters of courgette, feta and fresh herbs — a golden Greek vegetarian mezze, to dip in tzatziki."
+      },
+      "emoji": "🥒",
+      "time_min": 35,
+      "prep_time_min": 20,
+      "cook_time_min": 15,
+      "difficulty": "easy",
+      "type": "starter",
+      "servings": 4,
+      "country": "gr",
+      "diet": [
+        "vegetarian"
+      ],
+      "allergens": [
+        "gluten",
+        "milk",
+        "eggs"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "vg-courgette"
+          ],
+          "qty": {
+            "amount": 3,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "3 courgettes",
+            "en": "3 courgettes"
+          }
+        },
+        {
+          "ids": [
+            "fr-feta"
+          ],
+          "qty": {
+            "amount": 150,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "150g de feta",
+            "en": "150g feta"
+          }
+        },
+        {
+          "ids": [
+            "gp-farine"
+          ],
+          "qty": {
+            "amount": 80,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "80g de farine",
+            "en": "80g flour"
+          }
+        },
+        {
+          "ids": [
+            "fr-oeuf"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 œufs",
+            "en": "2 eggs"
+          }
+        },
+        {
+          "ids": [
+            "sp-menthe",
+            "vg-oignon-vert"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "botte"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Menthe et oignon vert",
+            "en": "Mint and spring onion"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Râper les courgettes, les saler et bien les essorer.",
+          "Mélanger avec la feta, les œufs, la farine et les herbes.",
+          "Former des galettes à la cuillère.",
+          "Les dorer à la poêle 3 min par face.",
+          "Égoutter et servir avec du tzatziki."
+        ],
+        "en": [
+          "Grate the courgettes, salt them and squeeze out the water.",
+          "Mix with the feta, eggs, flour and herbs.",
+          "Spoon out into fritters.",
+          "Pan-fry 3 min per side.",
+          "Drain and serve with tzatziki."
+        ]
+      },
+      "functional_tags": [
+        "anti_waste"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "fasolada",
+      "name": {
+        "fr": "Fasolada (soupe de haricots)",
+        "en": "Fasolada (bean soup)"
+      },
+      "description": {
+        "fr": "La soupe nationale grecque : des haricots blancs mijotés avec carottes, céleri et tomate dans une généreuse huile d'olive — végétalienne et réconfortante.",
+        "en": "Greece's national soup: white beans simmered with carrots, celery and tomato in generous olive oil — vegan and comforting."
+      },
+      "emoji": "🥣",
+      "time_min": 70,
+      "prep_time_min": 15,
+      "cook_time_min": 55,
+      "difficulty": "easy",
+      "type": "starter",
+      "servings": 4,
+      "country": "gr",
+      "diet": [
+        "vegan",
+        "vegetarian",
+        "gluten-free",
+        "dairy-free"
+      ],
+      "allergens": [
+        "celery"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "gp-haricots-bl"
+          ],
+          "qty": {
+            "amount": 400,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "400g de haricots blancs",
+            "en": "400g white beans"
+          }
+        },
+        {
+          "ids": [
+            "vg-carottes"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 carottes",
+            "en": "2 carrots"
+          }
+        },
+        {
+          "ids": [
+            "vg-celeri"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 branches de céleri",
+            "en": "2 celery sticks"
+          }
+        },
+        {
+          "ids": [
+            "gp-tomates-concas",
+            "gp-concentre-tom"
+          ],
+          "qty": {
+            "amount": 200,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "200g de tomates",
+            "en": "200g tomatoes"
+          }
+        },
+        {
+          "ids": [
+            "sp-huile-olive-vi",
+            "vg-oignon"
+          ],
+          "qty": {
+            "amount": 5,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Huile d'olive et oignon",
+            "en": "Olive oil and onion"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Faire revenir l'oignon, les carottes et le céleri.",
+          "Ajouter les haricots blancs et les tomates.",
+          "Couvrir d'eau et porter à ébullition.",
+          "Mijoter 45 min jusqu'à ce que les haricots soient fondants.",
+          "Arroser d'huile d'olive et servir avec du pain."
+        ],
+        "en": [
+          "Sauté the onion, carrots and celery.",
+          "Add the white beans and tomatoes.",
+          "Cover with water and bring to a boil.",
+          "Simmer 45 min until the beans are tender.",
+          "Drizzle with olive oil and serve with bread."
+        ]
+      },
+      "functional_tags": [
+        "batch_cooking",
+        "anti_waste"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "briam",
+      "name": {
+        "fr": "Briam (légumes rôtis grecs)",
+        "en": "Briam (Greek roasted vegetables)"
+      },
+      "description": {
+        "fr": "Des légumes d'été rôtis lentement à l'huile d'olive et aux herbes — courgettes, aubergines, pommes de terre et tomates fondantes. Végétalien et anti-gaspi.",
+        "en": "Summer vegetables slowly roasted with olive oil and herbs — courgettes, aubergines, potatoes and melting tomatoes. Vegan and waste-busting."
+      },
+      "emoji": "🍅",
+      "time_min": 75,
+      "prep_time_min": 20,
+      "cook_time_min": 55,
+      "difficulty": "easy",
+      "type": "side",
+      "servings": 4,
+      "country": "gr",
+      "diet": [
+        "vegan",
+        "vegetarian",
+        "gluten-free",
+        "dairy-free"
+      ],
+      "allergens": [],
+      "ingredients": [
+        {
+          "ids": [
+            "vg-courgette"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 courgettes",
+            "en": "2 courgettes"
+          }
+        },
+        {
+          "ids": [
+            "vg-aubergine"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 aubergine",
+            "en": "1 aubergine"
+          }
+        },
+        {
+          "ids": [
+            "vg-pomme-terre"
+          ],
+          "qty": {
+            "amount": 400,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "400g de pommes de terre",
+            "en": "400g potatoes"
+          }
+        },
+        {
+          "ids": [
+            "vg-tomate",
+            "gp-tomates-concas"
+          ],
+          "qty": {
+            "amount": 3,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "3 tomates",
+            "en": "3 tomatoes"
+          }
+        },
+        {
+          "ids": [
+            "sp-huile-olive",
+            "sp-origan"
+          ],
+          "qty": {
+            "amount": 5,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Huile d'olive et origan",
+            "en": "Olive oil and oregano"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Couper tous les légumes en fines rondelles.",
+          "Les disposer dans un grand plat à four.",
+          "Arroser généreusement d'huile d'olive et d'origan.",
+          "Rôtir 50 min à 190°C en remuant à mi-cuisson.",
+          "Servir tiède ou froid avec du pain."
+        ],
+        "en": [
+          "Cut all the vegetables into thin rounds.",
+          "Arrange them in a large baking dish.",
+          "Drizzle generously with olive oil and oregano.",
+          "Roast 50 min at 190°C, stirring halfway.",
+          "Serve warm or cold with bread."
+        ]
+      },
+      "functional_tags": [
+        "anti_waste"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "patates-grecques-citron",
+      "name": {
+        "fr": "Pommes de terre grecques au citron",
+        "en": "Greek lemon potatoes"
+      },
+      "description": {
+        "fr": "Des quartiers de pommes de terre rôtis au citron, à l'ail et à l'origan, dorés dehors et fondants dedans — l'accompagnement grec parfait.",
+        "en": "Potato wedges roasted with lemon, garlic and oregano, crisp outside and soft within — the perfect Greek side."
+      },
+      "emoji": "🥔",
+      "time_min": 55,
+      "prep_time_min": 10,
+      "cook_time_min": 45,
+      "difficulty": "very-easy",
+      "type": "side",
+      "servings": 4,
+      "country": "gr",
+      "diet": [
+        "vegan",
+        "vegetarian",
+        "gluten-free",
+        "dairy-free"
+      ],
+      "allergens": [],
+      "ingredients": [
+        {
+          "ids": [
+            "vg-pomme-terre"
+          ],
+          "qty": {
+            "amount": 800,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "800g de pommes de terre",
+            "en": "800g potatoes"
+          }
+        },
+        {
+          "ids": [
+            "fr-citron"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 citrons",
+            "en": "2 lemons"
+          }
+        },
+        {
+          "ids": [
+            "vg-ail"
+          ],
+          "qty": {
+            "amount": 4,
+            "unit": "gousse"
+          },
+          "required": true,
+          "labels": {
+            "fr": "4 gousses d'ail",
+            "en": "4 garlic cloves"
+          }
+        },
+        {
+          "ids": [
+            "sp-origan"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "cc"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 c. à café d'origan",
+            "en": "2 tsp oregano"
+          }
+        },
+        {
+          "ids": [
+            "sp-huile-olive"
+          ],
+          "qty": {
+            "amount": 4,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Huile d'olive",
+            "en": "Olive oil"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Couper les pommes de terre en quartiers.",
+          "Les mélanger avec le jus de citron, l'ail, l'origan et l'huile.",
+          "Verser dans un plat avec un peu d'eau.",
+          "Rôtir 45 min à 200°C jusqu'à ce qu'elles soient dorées.",
+          "Servir bien chaudes."
+        ],
+        "en": [
+          "Cut the potatoes into wedges.",
+          "Toss them with lemon juice, garlic, oregano and oil.",
+          "Pour into a dish with a little water.",
+          "Roast 45 min at 200°C until golden.",
+          "Serve hot."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "dakos",
+      "name": {
+        "fr": "Dakos crétois",
+        "en": "Cretan dakos"
+      },
+      "description": {
+        "fr": "Une biscotte d'orge garnie de tomate râpée, de feta et d'origan, arrosée d'huile d'olive — la bruschetta crétoise, fraîche et rustique.",
+        "en": "A barley rusk topped with grated tomato, feta and oregano, drizzled with olive oil — the Cretan bruschetta, fresh and rustic."
+      },
+      "emoji": "🍅",
+      "time_min": 10,
+      "prep_time_min": 10,
+      "cook_time_min": 0,
+      "difficulty": "very-easy",
+      "type": "salad",
+      "servings": 4,
+      "country": "gr",
+      "diet": [
+        "vegetarian"
+      ],
+      "allergens": [
+        "gluten",
+        "milk"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "gp-biscottes",
+            "gp-pain-grille"
+          ],
+          "qty": {
+            "amount": 8,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "8 biscottes d'orge",
+            "en": "8 barley rusks"
+          }
+        },
+        {
+          "ids": [
+            "vg-tomate",
+            "vg-tomate-ronde"
+          ],
+          "qty": {
+            "amount": 4,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "4 tomates mûres",
+            "en": "4 ripe tomatoes"
+          }
+        },
+        {
+          "ids": [
+            "fr-feta"
+          ],
+          "qty": {
+            "amount": 150,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "150g de feta",
+            "en": "150g feta"
+          }
+        },
+        {
+          "ids": [
+            "gp-olives-noires"
+          ],
+          "qty": {
+            "amount": 50,
+            "unit": "g"
+          },
+          "required": false,
+          "labels": {
+            "fr": "50g d'olives noires",
+            "en": "50g black olives"
+          }
+        },
+        {
+          "ids": [
+            "sp-origan",
+            "sp-huile-olive-vi"
+          ],
+          "qty": {
+            "amount": 3,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Origan et huile d'olive",
+            "en": "Oregano and olive oil"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Humidifier légèrement les biscottes avec un peu d'eau.",
+          "Râper les tomates par-dessus.",
+          "Émietter la feta et ajouter les olives.",
+          "Saupoudrer d'origan et arroser d'huile d'olive.",
+          "Servir aussitôt."
+        ],
+        "en": [
+          "Lightly dampen the rusks with a little water.",
+          "Grate the tomatoes over them.",
+          "Crumble the feta and add the olives.",
+          "Sprinkle with oregano and drizzle with olive oil.",
+          "Serve at once."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "yaourt-grec-miel-noix",
+      "name": {
+        "fr": "Yaourt grec miel et noix",
+        "en": "Greek yogurt with honey and walnuts"
+      },
+      "description": {
+        "fr": "Du yaourt grec épais nappé de miel doré et parsemé de noix concassées — un dessert simple, sain et profondément réconfortant.",
+        "en": "Thick Greek yogurt drizzled with golden honey and scattered with crushed walnuts — a simple, healthy and deeply comforting dessert."
+      },
+      "emoji": "🍯",
+      "time_min": 5,
+      "prep_time_min": 5,
+      "cook_time_min": 0,
+      "difficulty": "very-easy",
+      "type": "dessert",
+      "servings": 4,
+      "country": "gr",
+      "diet": [
+        "vegetarian",
+        "gluten-free"
+      ],
+      "allergens": [
+        "milk",
+        "nuts"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "fr-yaourt",
+            "fr-yaourt-nature",
+            "fr-skyr"
+          ],
+          "qty": {
+            "amount": 500,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "500g de yaourt grec",
+            "en": "500g Greek yogurt"
+          }
+        },
+        {
+          "ids": [
+            "gp-miel"
+          ],
+          "qty": {
+            "amount": 4,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "4 c. à soupe de miel",
+            "en": "4 tbsp honey"
+          }
+        },
+        {
+          "ids": [
+            "gp-noix"
+          ],
+          "qty": {
+            "amount": 80,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "80g de noix",
+            "en": "80g walnuts"
+          }
+        },
+        {
+          "ids": [
+            "sp-cannelle"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pm"
+          },
+          "required": false,
+          "labels": {
+            "fr": "1 pincée de cannelle",
+            "en": "1 pinch cinnamon"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Répartir le yaourt grec dans des coupes.",
+          "Concasser grossièrement les noix.",
+          "Napper généreusement de miel.",
+          "Parsemer de noix et d'une pincée de cannelle.",
+          "Servir aussitôt bien frais."
+        ],
+        "en": [
+          "Divide the Greek yogurt into bowls.",
+          "Roughly crush the walnuts.",
+          "Drizzle generously with honey.",
+          "Scatter with walnuts and a pinch of cinnamon.",
+          "Serve cold at once."
+        ]
+      },
+      "functional_tags": [
+        "kids_friendly"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "loukoumades",
+      "name": {
+        "fr": "Loukoumades",
+        "en": "Loukoumades"
+      },
+      "description": {
+        "fr": "De petits beignets grecs moelleux frits puis trempés dans le miel et saupoudrés de cannelle — irrésistibles et dorés.",
+        "en": "Little fluffy Greek doughnuts, fried then soaked in honey and dusted with cinnamon — irresistible and golden."
+      },
+      "emoji": "🍩",
+      "time_min": 90,
+      "prep_time_min": 70,
+      "cook_time_min": 20,
+      "difficulty": "medium",
+      "type": "dessert",
+      "servings": 4,
+      "country": "gr",
+      "diet": [
+        "vegetarian"
+      ],
+      "allergens": [
+        "gluten"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "gp-farine"
+          ],
+          "qty": {
+            "amount": 300,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "300g de farine",
+            "en": "300g flour"
+          }
+        },
+        {
+          "ids": [
+            "gp-levure-boul",
+            "gp-levure-seche"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 sachet de levure boulangère",
+            "en": "1 sachet of yeast"
+          }
+        },
+        {
+          "ids": [
+            "gp-miel"
+          ],
+          "qty": {
+            "amount": 6,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "6 c. à soupe de miel",
+            "en": "6 tbsp honey"
+          }
+        },
+        {
+          "ids": [
+            "sp-cannelle"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "cc"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 c. à café de cannelle",
+            "en": "2 tsp cinnamon"
+          }
+        },
+        {
+          "ids": [
+            "gp-noix",
+            "sp-sesame-blanc"
+          ],
+          "qty": {
+            "amount": 50,
+            "unit": "g"
+          },
+          "required": false,
+          "labels": {
+            "fr": "Noix ou sésame",
+            "en": "Walnuts or sesame"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Préparer une pâte liquide avec la farine, la levure et de l'eau tiède.",
+          "Laisser lever 1h.",
+          "Former des boules à la cuillère et les frire jusqu'à dorure.",
+          "Égoutter et tremper dans le miel.",
+          "Saupoudrer de cannelle et de noix, servir chaud."
+        ],
+        "en": [
+          "Make a loose batter with the flour, yeast and warm water.",
+          "Let rise 1h.",
+          "Spoon out balls and fry until golden.",
+          "Drain and dip in honey.",
+          "Sprinkle with cinnamon and walnuts, serve warm."
+        ]
+      },
+      "functional_tags": [
+        "kids_friendly"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "baklava",
+      "name": {
+        "fr": "Baklava",
+        "en": "Baklava"
+      },
+      "description": {
+        "fr": "Des couches de pâte filo croustillante garnies de noix et imbibées de sirop au miel — une pâtisserie orientale riche, dorée et fondante.",
+        "en": "Layers of crisp filo filled with nuts and soaked in honey syrup — a rich, golden and melting Eastern pastry."
+      },
+      "emoji": "🍯",
+      "time_min": 75,
+      "prep_time_min": 35,
+      "cook_time_min": 40,
+      "difficulty": "hard",
+      "type": "dessert",
+      "servings": 8,
+      "country": "gr",
+      "diet": [
+        "vegetarian"
+      ],
+      "allergens": [
+        "gluten",
+        "nuts",
+        "milk"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "fr-pate-feuilletee"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 paquet de pâte filo",
+            "en": "1 pack of filo pastry"
+          }
+        },
+        {
+          "ids": [
+            "gp-noix",
+            "gp-pistaches",
+            "gp-amandes"
+          ],
+          "qty": {
+            "amount": 300,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "300g de noix et pistaches",
+            "en": "300g walnuts and pistachios"
+          }
+        },
+        {
+          "ids": [
+            "gp-miel"
+          ],
+          "qty": {
+            "amount": 200,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "200g de miel",
+            "en": "200g honey"
+          }
+        },
+        {
+          "ids": [
+            "fr-beurre"
+          ],
+          "qty": {
+            "amount": 150,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "150g de beurre",
+            "en": "150g butter"
+          }
+        },
+        {
+          "ids": [
+            "sp-cannelle",
+            "fr-citron"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cc"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Cannelle et citron",
+            "en": "Cinnamon and lemon"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Concasser les noix avec la cannelle.",
+          "Superposer des feuilles de filo beurrées avec des couches de noix.",
+          "Découper en losanges avant cuisson.",
+          "Cuire 40 min à 170°C jusqu'à dorure.",
+          "Arroser de sirop au miel tiède et laisser imbiber avant de servir."
+        ],
+        "en": [
+          "Crush the nuts with the cinnamon.",
+          "Layer buttered filo sheets with layers of nuts.",
+          "Cut into diamonds before baking.",
+          "Bake 40 min at 170°C until golden.",
+          "Pour over warm honey syrup and let soak before serving."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "feta-au-four-miel",
+      "name": {
+        "fr": "Feta au four au miel",
+        "en": "Baked feta with honey"
+      },
+      "description": {
+        "fr": "Un bloc de feta enveloppé de pâte filo, doré au four et arrosé de miel et de graines de sésame — un mezze grec sucré-salé spectaculaire.",
+        "en": "A block of feta wrapped in filo, baked golden and drizzled with honey and sesame — a spectacular sweet-savoury Greek mezze."
+      },
+      "emoji": "🧀",
+      "time_min": 25,
+      "prep_time_min": 10,
+      "cook_time_min": 15,
+      "difficulty": "easy",
+      "type": "starter",
+      "servings": 4,
+      "country": "gr",
+      "diet": [
+        "vegetarian"
+      ],
+      "allergens": [
+        "milk",
+        "gluten",
+        "sesame"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "fr-feta"
+          ],
+          "qty": {
+            "amount": 200,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "200g de feta",
+            "en": "200g feta"
+          }
+        },
+        {
+          "ids": [
+            "fr-pate-feuilletee"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 feuille de pâte filo",
+            "en": "1 sheet of filo"
+          }
+        },
+        {
+          "ids": [
+            "gp-miel"
+          ],
+          "qty": {
+            "amount": 3,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "3 c. à soupe de miel",
+            "en": "3 tbsp honey"
+          }
+        },
+        {
+          "ids": [
+            "sp-sesame-blanc"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 c. à soupe de sésame",
+            "en": "1 tbsp sesame seeds"
+          }
+        },
+        {
+          "ids": [
+            "sp-origan",
+            "sp-thym"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cc"
+          },
+          "required": false,
+          "labels": {
+            "fr": "Origan",
+            "en": "Oregano"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Envelopper le bloc de feta dans la pâte filo beurrée.",
+          "Déposer sur une plaque.",
+          "Cuire 15 min à 200°C jusqu'à ce que la pâte soit dorée.",
+          "Arroser de miel chaud.",
+          "Parsemer de sésame et d'origan, servir aussitôt."
+        ],
+        "en": [
+          "Wrap the feta block in buttered filo pastry.",
+          "Place on a tray.",
+          "Bake 15 min at 200°C until the pastry is golden.",
+          "Drizzle with warm honey.",
+          "Scatter with sesame and oregano, serve at once."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    }
+  ]
+}

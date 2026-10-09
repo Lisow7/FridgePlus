@@ -1,0 +1,3686 @@
+{
+  "batchName": "recipes-batch-4-monde",
+  "recipes": [
+    {
+      "id": "poulet-tikka-masala",
+      "name": {
+        "fr": "Poulet tikka masala",
+        "en": "Chicken tikka masala"
+      },
+      "description": {
+        "fr": "Des morceaux de poulet marinés au yaourt et aux épices, mijotés dans une sauce tomate crémeuse et parfumée — le grand classique indo-britannique.",
+        "en": "Yogurt-and-spice marinated chicken simmered in a creamy, fragrant tomato sauce — the great Anglo-Indian classic."
+      },
+      "emoji": "🍛",
+      "time_min": 50,
+      "prep_time_min": 20,
+      "cook_time_min": 30,
+      "difficulty": "medium",
+      "type": "main",
+      "servings": 4,
+      "country": "in",
+      "diet": [
+        "gluten-free"
+      ],
+      "allergens": [
+        "milk"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "fr-blanc-poulet",
+            "fr-cuisse-poulet"
+          ],
+          "qty": {
+            "amount": 600,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "600g de blanc de poulet",
+            "en": "600g chicken breast"
+          }
+        },
+        {
+          "ids": [
+            "fr-yaourt-nature",
+            "fr-yaourt"
+          ],
+          "qty": {
+            "amount": 150,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "150g de yaourt nature",
+            "en": "150g plain yogurt"
+          }
+        },
+        {
+          "ids": [
+            "gp-tomates-concas",
+            "gp-tomate",
+            "gp-concentre-tom"
+          ],
+          "qty": {
+            "amount": 400,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "400g de tomates concassées",
+            "en": "400g crushed tomatoes"
+          }
+        },
+        {
+          "ids": [
+            "fr-creme-liquide",
+            "fr-creme"
+          ],
+          "qty": {
+            "amount": 15,
+            "unit": "cl"
+          },
+          "required": true,
+          "labels": {
+            "fr": "15 cl de crème",
+            "en": "150ml cream"
+          }
+        },
+        {
+          "ids": [
+            "vg-oignon"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 oignon",
+            "en": "1 onion"
+          }
+        },
+        {
+          "ids": [
+            "vg-ail"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "gousse"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 gousses d'ail",
+            "en": "2 garlic cloves"
+          }
+        },
+        {
+          "ids": [
+            "sp-gingembre"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cc"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 c. à café de gingembre",
+            "en": "1 tsp ginger"
+          }
+        },
+        {
+          "ids": [
+            "sp-curry",
+            "sp-paprika"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "cc"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 c. à café de garam masala / curry",
+            "en": "2 tsp garam masala / curry"
+          }
+        },
+        {
+          "ids": [
+            "sp-cumin"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cc"
+          },
+          "required": false,
+          "labels": {
+            "fr": "1 c. à café de cumin",
+            "en": "1 tsp cumin"
+          }
+        },
+        {
+          "ids": [
+            "sp-coriandre"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "botte"
+          },
+          "required": false,
+          "labels": {
+            "fr": "½ bouquet de coriandre",
+            "en": "½ bunch coriander"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Couper le poulet en cubes et le mariner 20 min dans le yaourt avec la moitié des épices, l'ail et le gingembre.",
+          "Saisir les morceaux de poulet à feu vif dans un filet d'huile, puis réserver.",
+          "Faire revenir l'oignon émincé, ajouter le reste des épices et torréfier 1 min.",
+          "Verser les tomates, laisser réduire 10 min, puis ajouter le poulet et la crème.",
+          "Mijoter 10 min à feu doux, parsemer de coriandre et servir avec du riz."
+        ],
+        "en": [
+          "Cut the chicken into cubes and marinate 20 min in the yogurt with half the spices, garlic and ginger.",
+          "Sear the chicken pieces over high heat in a little oil, then set aside.",
+          "Sauté the sliced onion, add the remaining spices and toast 1 min.",
+          "Pour in the tomatoes, reduce 10 min, then add the chicken and cream.",
+          "Simmer 10 min over low heat, scatter with coriander and serve with rice."
+        ]
+      },
+      "functional_tags": [
+        "batch_cooking"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "lassi-mangue",
+      "name": {
+        "fr": "Lassi à la mangue",
+        "en": "Mango lassi"
+      },
+      "description": {
+        "fr": "Une boisson indienne onctueuse et rafraîchissante à base de yaourt et de mangue, parfumée d'une pointe de cardamome — parfaite pour apaiser les plats épicés.",
+        "en": "A smooth, refreshing Indian yogurt-and-mango drink with a hint of cardamom — perfect to cool down spicy dishes."
+      },
+      "emoji": "🥭",
+      "time_min": 5,
+      "prep_time_min": 5,
+      "cook_time_min": 0,
+      "difficulty": "very-easy",
+      "type": "drink",
+      "servings": 2,
+      "country": "in",
+      "diet": [
+        "vegetarian",
+        "gluten-free"
+      ],
+      "allergens": [
+        "milk"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "fr-mangue",
+            "fr-fruits-tropicaux"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 mangue mûre",
+            "en": "1 ripe mango"
+          }
+        },
+        {
+          "ids": [
+            "fr-yaourt-nature",
+            "fr-yaourt"
+          ],
+          "qty": {
+            "amount": 250,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "250g de yaourt nature",
+            "en": "250g plain yogurt"
+          }
+        },
+        {
+          "ids": [
+            "fr-lait",
+            "fr-lait-demi"
+          ],
+          "qty": {
+            "amount": 10,
+            "unit": "cl"
+          },
+          "required": true,
+          "labels": {
+            "fr": "10 cl de lait",
+            "en": "100ml milk"
+          }
+        },
+        {
+          "ids": [
+            "gp-sucre",
+            "gp-miel"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cs"
+          },
+          "required": false,
+          "labels": {
+            "fr": "1 c. à soupe de sucre",
+            "en": "1 tbsp sugar"
+          }
+        },
+        {
+          "ids": [
+            "sp-cardamome",
+            "sp-cannelle"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pm"
+          },
+          "required": false,
+          "labels": {
+            "fr": "1 pincée de cardamome",
+            "en": "1 pinch cardamom"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Éplucher la mangue et détailler la chair en morceaux.",
+          "Mettre la mangue, le yaourt, le lait et le sucre dans un blender.",
+          "Mixer jusqu'à obtenir une texture lisse et mousseuse.",
+          "Parfumer d'une pincée de cardamome et servir bien frais."
+        ],
+        "en": [
+          "Peel the mango and cut the flesh into chunks.",
+          "Add the mango, yogurt, milk and sugar to a blender.",
+          "Blend until smooth and frothy.",
+          "Add a pinch of cardamom and serve well chilled."
+        ]
+      },
+      "functional_tags": [
+        "kids_friendly"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "biryani-legumes",
+      "name": {
+        "fr": "Biryani de légumes",
+        "en": "Vegetable biryani"
+      },
+      "description": {
+        "fr": "Un riz basmati parfumé cuit en couches avec des légumes, des épices entières et des oignons frits — un plat de fête indien végétarien, riche en arômes.",
+        "en": "Fragrant basmati rice layered with vegetables, whole spices and fried onions — a richly aromatic Indian vegetarian feast."
+      },
+      "emoji": "🍚",
+      "time_min": 70,
+      "prep_time_min": 30,
+      "cook_time_min": 40,
+      "difficulty": "hard",
+      "type": "main",
+      "servings": 4,
+      "country": "in",
+      "diet": [
+        "vegetarian"
+      ],
+      "allergens": [
+        "milk",
+        "nuts"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "gp-riz-basmati",
+            "gp-riz"
+          ],
+          "qty": {
+            "amount": 300,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "300g de riz basmati",
+            "en": "300g basmati rice"
+          }
+        },
+        {
+          "ids": [
+            "vg-carottes",
+            "vg-petits-pois",
+            "vg-chou-fleur",
+            "vg-pomme-terre"
+          ],
+          "qty": {
+            "amount": 400,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "400g de légumes variés",
+            "en": "400g mixed vegetables"
+          }
+        },
+        {
+          "ids": [
+            "vg-oignon"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 oignons",
+            "en": "2 onions"
+          }
+        },
+        {
+          "ids": [
+            "fr-yaourt-nature",
+            "fr-yaourt"
+          ],
+          "qty": {
+            "amount": 100,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "100g de yaourt",
+            "en": "100g yogurt"
+          }
+        },
+        {
+          "ids": [
+            "sp-curcuma"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cc"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 c. à café de curcuma",
+            "en": "1 tsp turmeric"
+          }
+        },
+        {
+          "ids": [
+            "sp-cardamome",
+            "sp-cannelle",
+            "sp-clous-girofle"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cc"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Épices entières (cardamome, cannelle, girofle)",
+            "en": "Whole spices (cardamom, cinnamon, cloves)"
+          }
+        },
+        {
+          "ids": [
+            "sp-curry"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "cc"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 c. à café de garam masala",
+            "en": "2 tsp garam masala"
+          }
+        },
+        {
+          "ids": [
+            "gp-noix-cajou",
+            "gp-amandes"
+          ],
+          "qty": {
+            "amount": 40,
+            "unit": "g"
+          },
+          "required": false,
+          "labels": {
+            "fr": "40g de noix de cajou",
+            "en": "40g cashews"
+          }
+        },
+        {
+          "ids": [
+            "sp-safran"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pm"
+          },
+          "required": false,
+          "labels": {
+            "fr": "1 pincée de safran",
+            "en": "1 pinch saffron"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Rincer le riz et le cuire 5 min à l'eau bouillante salée avec les épices entières ; égoutter (il doit rester ferme).",
+          "Faire frire les oignons émincés jusqu'à ce qu'ils soient dorés et croustillants ; réserver la moitié.",
+          "Dans la même cocotte, faire revenir les légumes avec le curcuma, le garam masala et le yaourt.",
+          "Disposer le riz en couches sur les légumes, parsemer d'oignons frits, de cajou et de safran infusé.",
+          "Couvrir et cuire à feu très doux 20 min (cuisson dum) ; mélanger délicatement avant de servir."
+        ],
+        "en": [
+          "Rinse the rice and parboil 5 min in salted water with the whole spices; drain (it should stay firm).",
+          "Fry the sliced onions until golden and crisp; set half aside.",
+          "In the same pot, sauté the vegetables with turmeric, garam masala and yogurt.",
+          "Layer the rice over the vegetables, scatter with fried onions, cashews and steeped saffron.",
+          "Cover and cook over very low heat 20 min (dum style); fluff gently before serving."
+        ]
+      },
+      "functional_tags": [
+        "batch_cooking"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "aloo-gobi",
+      "name": {
+        "fr": "Aloo gobi",
+        "en": "Aloo gobi"
+      },
+      "description": {
+        "fr": "Un curry sec de pommes de terre et de chou-fleur revenus aux épices indiennes et au curcuma — végétalien, économique et plein de caractère.",
+        "en": "A dry curry of potatoes and cauliflower tossed with Indian spices and turmeric — vegan, budget-friendly and full of character."
+      },
+      "emoji": "🥔",
+      "time_min": 35,
+      "prep_time_min": 15,
+      "cook_time_min": 20,
+      "difficulty": "easy",
+      "type": "main",
+      "servings": 4,
+      "country": "in",
+      "diet": [
+        "vegan",
+        "vegetarian",
+        "gluten-free",
+        "dairy-free"
+      ],
+      "allergens": [],
+      "ingredients": [
+        {
+          "ids": [
+            "vg-pomme-terre"
+          ],
+          "qty": {
+            "amount": 400,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "400g de pommes de terre",
+            "en": "400g potatoes"
+          }
+        },
+        {
+          "ids": [
+            "vg-chou-fleur"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 petit chou-fleur",
+            "en": "1 small cauliflower"
+          }
+        },
+        {
+          "ids": [
+            "vg-tomate",
+            "gp-tomates-concas"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 tomates",
+            "en": "2 tomatoes"
+          }
+        },
+        {
+          "ids": [
+            "vg-oignon"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 oignon",
+            "en": "1 onion"
+          }
+        },
+        {
+          "ids": [
+            "sp-curcuma"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cc"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 c. à café de curcuma",
+            "en": "1 tsp turmeric"
+          }
+        },
+        {
+          "ids": [
+            "sp-cumin"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cc"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 c. à café de cumin",
+            "en": "1 tsp cumin"
+          }
+        },
+        {
+          "ids": [
+            "sp-coriandre-pdre",
+            "sp-curry"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cc"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 c. à café de coriandre moulue",
+            "en": "1 tsp ground coriander"
+          }
+        },
+        {
+          "ids": [
+            "sp-gingembre"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cc"
+          },
+          "required": false,
+          "labels": {
+            "fr": "1 c. à café de gingembre",
+            "en": "1 tsp ginger"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Couper les pommes de terre et le chou-fleur en morceaux réguliers.",
+          "Faire chauffer l'huile, ajouter le cumin puis l'oignon émincé jusqu'à coloration.",
+          "Ajouter le curcuma, la coriandre et le gingembre, puis les pommes de terre ; remuer 2 min.",
+          "Incorporer le chou-fleur et les tomates, couvrir et cuire 18-20 min à feu doux en remuant.",
+          "Rectifier l'assaisonnement et servir avec du riz ou du pain."
+        ],
+        "en": [
+          "Cut the potatoes and cauliflower into even pieces.",
+          "Heat the oil, add the cumin then the sliced onion until coloured.",
+          "Add turmeric, coriander and ginger, then the potatoes; stir 2 min.",
+          "Stir in the cauliflower and tomatoes, cover and cook 18-20 min over low heat, stirring.",
+          "Adjust the seasoning and serve with rice or bread."
+        ]
+      },
+      "functional_tags": [
+        "anti_waste"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "samoussas-legumes",
+      "name": {
+        "fr": "Samoussas aux légumes",
+        "en": "Vegetable samosas"
+      },
+      "description": {
+        "fr": "Des triangles croustillants garnis de pommes de terre et de petits pois épicés — un en-cas indien doré et réconfortant, idéal à l'apéritif.",
+        "en": "Crisp golden triangles filled with spiced potato and peas — a comforting Indian snack, perfect for sharing."
+      },
+      "emoji": "🥟",
+      "time_min": 60,
+      "prep_time_min": 40,
+      "cook_time_min": 20,
+      "difficulty": "medium",
+      "type": "starter",
+      "servings": 4,
+      "country": "in",
+      "diet": [
+        "vegetarian"
+      ],
+      "allergens": [
+        "gluten",
+        "milk"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "fr-pate-feuilletee",
+            "fr-pate-brisee"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 pâte (feuilles de brick ou feuilletée)",
+            "en": "1 pastry (brick or puff)"
+          }
+        },
+        {
+          "ids": [
+            "vg-pomme-terre"
+          ],
+          "qty": {
+            "amount": 300,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "300g de pommes de terre",
+            "en": "300g potatoes"
+          }
+        },
+        {
+          "ids": [
+            "vg-petits-pois",
+            "gp-petits-pois",
+            "frz-petits-pois"
+          ],
+          "qty": {
+            "amount": 100,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "100g de petits pois",
+            "en": "100g peas"
+          }
+        },
+        {
+          "ids": [
+            "vg-oignon"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 oignon",
+            "en": "1 onion"
+          }
+        },
+        {
+          "ids": [
+            "sp-cumin"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cc"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 c. à café de cumin",
+            "en": "1 tsp cumin"
+          }
+        },
+        {
+          "ids": [
+            "sp-curry",
+            "sp-curcuma"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cc"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 c. à café de curry",
+            "en": "1 tsp curry powder"
+          }
+        },
+        {
+          "ids": [
+            "sp-coriandre"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "botte"
+          },
+          "required": false,
+          "labels": {
+            "fr": "½ bouquet de coriandre",
+            "en": "½ bunch coriander"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Cuire les pommes de terre à l'eau, les écraser grossièrement.",
+          "Faire revenir l'oignon et les épices, ajouter les pommes de terre, les petits pois et la coriandre.",
+          "Découper la pâte en bandes, déposer une cuillère de farce et plier en triangles.",
+          "Souder les bords avec un peu d'eau, puis dorer au four à 200°C (ou frire) 18-20 min.",
+          "Servir chaud avec une sauce yaourt ou une chutney."
+        ],
+        "en": [
+          "Boil the potatoes and mash them roughly.",
+          "Sauté the onion and spices, add the potatoes, peas and coriander.",
+          "Cut the pastry into strips, add a spoon of filling and fold into triangles.",
+          "Seal the edges with a little water, then bake at 200°C (or fry) 18-20 min until golden.",
+          "Serve hot with a yogurt sauce or chutney."
+        ]
+      },
+      "functional_tags": [
+        "freezer_friendly"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "korma-poulet",
+      "name": {
+        "fr": "Korma de poulet",
+        "en": "Chicken korma"
+      },
+      "description": {
+        "fr": "Un curry doux et crémeux où le poulet mijote dans une sauce aux amandes et aux épices suaves — l'entrée idéale dans la cuisine indienne pour les palais délicats.",
+        "en": "A mild, creamy curry where chicken simmers in a gentle almond-and-spice sauce — the perfect gateway to Indian cooking."
+      },
+      "emoji": "🍗",
+      "time_min": 45,
+      "prep_time_min": 15,
+      "cook_time_min": 30,
+      "difficulty": "medium",
+      "type": "main",
+      "servings": 4,
+      "country": "in",
+      "diet": [
+        "gluten-free"
+      ],
+      "allergens": [
+        "milk",
+        "nuts"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "fr-blanc-poulet",
+            "fr-cuisse-poulet"
+          ],
+          "qty": {
+            "amount": 600,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "600g de poulet",
+            "en": "600g chicken"
+          }
+        },
+        {
+          "ids": [
+            "gp-poudre-amande",
+            "gp-noix-cajou"
+          ],
+          "qty": {
+            "amount": 60,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "60g de poudre d'amande",
+            "en": "60g ground almonds"
+          }
+        },
+        {
+          "ids": [
+            "fr-creme-liquide",
+            "fr-creme"
+          ],
+          "qty": {
+            "amount": 15,
+            "unit": "cl"
+          },
+          "required": true,
+          "labels": {
+            "fr": "15 cl de crème",
+            "en": "150ml cream"
+          }
+        },
+        {
+          "ids": [
+            "vg-oignon"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 oignon",
+            "en": "1 onion"
+          }
+        },
+        {
+          "ids": [
+            "vg-ail"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "gousse"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 gousses d'ail",
+            "en": "2 garlic cloves"
+          }
+        },
+        {
+          "ids": [
+            "sp-curry"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "cc"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 c. à café de garam masala",
+            "en": "2 tsp garam masala"
+          }
+        },
+        {
+          "ids": [
+            "sp-cardamome",
+            "sp-cannelle"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cc"
+          },
+          "required": false,
+          "labels": {
+            "fr": "1 c. à café de cardamome",
+            "en": "1 tsp cardamom"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Faire dorer les morceaux de poulet dans un filet d'huile, puis réserver.",
+          "Faire fondre l'oignon et l'ail, ajouter les épices et torréfier 1 min.",
+          "Incorporer la poudre d'amande et 15 cl d'eau pour former une sauce.",
+          "Remettre le poulet, couvrir et mijoter 20 min à feu doux.",
+          "Ajouter la crème, réchauffer 5 min sans bouillir et servir avec du riz."
+        ],
+        "en": [
+          "Brown the chicken pieces in a little oil, then set aside.",
+          "Soften the onion and garlic, add the spices and toast 1 min.",
+          "Stir in the ground almonds and 150ml water to form a sauce.",
+          "Return the chicken, cover and simmer 20 min over low heat.",
+          "Add the cream, warm through 5 min without boiling and serve with rice."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "curry-vert-poulet-thai",
+      "name": {
+        "fr": "Curry vert thaï au poulet",
+        "en": "Thai green chicken curry"
+      },
+      "description": {
+        "fr": "Un curry parfumé où le poulet et les légumes mijotent dans une sauce au lait de coco et à la pâte de curry vert, relevée de citron vert et de basilic.",
+        "en": "A fragrant curry of chicken and vegetables simmered in coconut milk and green curry paste, lifted with lime and basil."
+      },
+      "emoji": "🍲",
+      "time_min": 35,
+      "prep_time_min": 15,
+      "cook_time_min": 20,
+      "difficulty": "easy",
+      "type": "main",
+      "servings": 4,
+      "country": "th",
+      "diet": [
+        "gluten-free",
+        "dairy-free"
+      ],
+      "allergens": [
+        "fish"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "fr-blanc-poulet",
+            "fr-cuisse-poulet"
+          ],
+          "qty": {
+            "amount": 500,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "500g de poulet",
+            "en": "500g chicken"
+          }
+        },
+        {
+          "ids": [
+            "gp-pate-curry-vert",
+            "gp-pates-curry"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 c. à soupe de pâte de curry vert",
+            "en": "2 tbsp green curry paste"
+          }
+        },
+        {
+          "ids": [
+            "gp-lait-coco"
+          ],
+          "qty": {
+            "amount": 400,
+            "unit": "ml"
+          },
+          "required": true,
+          "labels": {
+            "fr": "400ml de lait de coco",
+            "en": "400ml coconut milk"
+          }
+        },
+        {
+          "ids": [
+            "vg-courgette",
+            "vg-poivron",
+            "vg-haricots-v",
+            "vg-aubergine"
+          ],
+          "qty": {
+            "amount": 300,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "300g de légumes",
+            "en": "300g vegetables"
+          }
+        },
+        {
+          "ids": [
+            "fr-citron-vert"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 citron vert",
+            "en": "1 lime"
+          }
+        },
+        {
+          "ids": [
+            "sp-nuoc-mam",
+            "sp-sauce-soja"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cs"
+          },
+          "required": false,
+          "labels": {
+            "fr": "1 c. à soupe de nuoc-mâm",
+            "en": "1 tbsp fish sauce"
+          }
+        },
+        {
+          "ids": [
+            "sp-basilic",
+            "sp-coriandre"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "botte"
+          },
+          "required": false,
+          "labels": {
+            "fr": "Quelques feuilles de basilic thaï",
+            "en": "A few Thai basil leaves"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Faire revenir la pâte de curry vert 1 min dans un peu de lait de coco jusqu'à ce qu'elle libère ses arômes.",
+          "Ajouter le poulet en morceaux et le faire colorer.",
+          "Verser le reste du lait de coco et le nuoc-mâm, porter à frémissement.",
+          "Ajouter les légumes et cuire 12-15 min jusqu'à ce qu'ils soient tendres.",
+          "Hors du feu, ajouter le jus de citron vert et le basilic ; servir avec du riz."
+        ],
+        "en": [
+          "Fry the green curry paste 1 min in a little coconut milk until fragrant.",
+          "Add the diced chicken and let it colour.",
+          "Pour in the rest of the coconut milk and the fish sauce, bring to a gentle simmer.",
+          "Add the vegetables and cook 12-15 min until tender.",
+          "Off the heat, add the lime juice and basil; serve with rice."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "curry-rouge-tofu-thai",
+      "name": {
+        "fr": "Curry rouge thaï au tofu",
+        "en": "Thai red curry with tofu"
+      },
+      "description": {
+        "fr": "Un curry végétalien généreux où le tofu et les légumes s'imprègnent d'une sauce au lait de coco et à la pâte de curry rouge, à la fois douce et épicée.",
+        "en": "A generous vegan curry where tofu and vegetables soak up a sweet-and-spicy coconut and red curry paste sauce."
+      },
+      "emoji": "🌶️",
+      "time_min": 30,
+      "prep_time_min": 15,
+      "cook_time_min": 15,
+      "difficulty": "easy",
+      "type": "main",
+      "servings": 4,
+      "country": "th",
+      "diet": [
+        "vegan",
+        "vegetarian",
+        "dairy-free"
+      ],
+      "allergens": [
+        "soybeans"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "vg-tofu",
+            "jp-kimomen-tofu",
+            "jp-tofu"
+          ],
+          "qty": {
+            "amount": 400,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "400g de tofu ferme",
+            "en": "400g firm tofu"
+          }
+        },
+        {
+          "ids": [
+            "gp-pate-curry-rouge",
+            "gp-pates-curry"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 c. à soupe de pâte de curry rouge",
+            "en": "2 tbsp red curry paste"
+          }
+        },
+        {
+          "ids": [
+            "gp-lait-coco"
+          ],
+          "qty": {
+            "amount": 400,
+            "unit": "ml"
+          },
+          "required": true,
+          "labels": {
+            "fr": "400ml de lait de coco",
+            "en": "400ml coconut milk"
+          }
+        },
+        {
+          "ids": [
+            "vg-poivron",
+            "vg-courgette",
+            "vg-pois-m-tout",
+            "vg-carottes"
+          ],
+          "qty": {
+            "amount": 300,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "300g de légumes",
+            "en": "300g vegetables"
+          }
+        },
+        {
+          "ids": [
+            "sp-sauce-soja"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cs"
+          },
+          "required": false,
+          "labels": {
+            "fr": "1 c. à soupe de sauce soja",
+            "en": "1 tbsp soy sauce"
+          }
+        },
+        {
+          "ids": [
+            "fr-citron-vert"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": false,
+          "labels": {
+            "fr": "1 citron vert",
+            "en": "1 lime"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Égoutter le tofu, le couper en cubes et le faire dorer dans un peu d'huile ; réserver.",
+          "Faire revenir la pâte de curry rouge 1 min dans un peu de lait de coco.",
+          "Verser le reste du lait de coco et la sauce soja, porter à frémissement.",
+          "Ajouter les légumes et cuire 10 min, puis remettre le tofu 3 min.",
+          "Arroser d'un filet de citron vert et servir avec du riz."
+        ],
+        "en": [
+          "Drain the tofu, cut into cubes and brown in a little oil; set aside.",
+          "Fry the red curry paste 1 min in a little coconut milk.",
+          "Pour in the rest of the coconut milk and soy sauce, bring to a gentle simmer.",
+          "Add the vegetables and cook 10 min, then return the tofu for 3 min.",
+          "Finish with a squeeze of lime and serve with rice."
+        ]
+      },
+      "functional_tags": [
+        "batch_cooking"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "soupe-tom-kha",
+      "name": {
+        "fr": "Soupe thaï tom kha",
+        "en": "Tom kha soup"
+      },
+      "description": {
+        "fr": "Une soupe thaïlandaise crémeuse au lait de coco, parfumée au gingembre, au citron vert et aux champignons — équilibre parfait entre douceur et acidité.",
+        "en": "A creamy Thai coconut soup scented with ginger, lime and mushrooms — a perfect balance of sweet and tangy."
+      },
+      "emoji": "🥣",
+      "time_min": 30,
+      "prep_time_min": 10,
+      "cook_time_min": 20,
+      "difficulty": "easy",
+      "type": "starter",
+      "servings": 4,
+      "country": "th",
+      "diet": [
+        "gluten-free",
+        "dairy-free"
+      ],
+      "allergens": [
+        "fish"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "gp-lait-coco"
+          ],
+          "qty": {
+            "amount": 400,
+            "unit": "ml"
+          },
+          "required": true,
+          "labels": {
+            "fr": "400ml de lait de coco",
+            "en": "400ml coconut milk"
+          }
+        },
+        {
+          "ids": [
+            "fr-blanc-poulet",
+            "vg-champignons"
+          ],
+          "qty": {
+            "amount": 300,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "300g de poulet (ou champignons)",
+            "en": "300g chicken (or mushrooms)"
+          }
+        },
+        {
+          "ids": [
+            "vg-champignons",
+            "gp-champignons"
+          ],
+          "qty": {
+            "amount": 150,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "150g de champignons",
+            "en": "150g mushrooms"
+          }
+        },
+        {
+          "ids": [
+            "sp-gingembre"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 c. à soupe de gingembre",
+            "en": "1 tbsp ginger"
+          }
+        },
+        {
+          "ids": [
+            "fr-citron-vert"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 citron vert",
+            "en": "1 lime"
+          }
+        },
+        {
+          "ids": [
+            "sp-nuoc-mam"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 c. à soupe de nuoc-mâm",
+            "en": "1 tbsp fish sauce"
+          }
+        },
+        {
+          "ids": [
+            "sp-coriandre"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "botte"
+          },
+          "required": false,
+          "labels": {
+            "fr": "½ bouquet de coriandre",
+            "en": "½ bunch coriander"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Porter le lait de coco et 30 cl d'eau à frémissement avec le gingembre.",
+          "Ajouter le poulet émincé et cuire 8 min.",
+          "Incorporer les champignons et poursuivre 5 min.",
+          "Assaisonner avec le nuoc-mâm et le jus de citron vert.",
+          "Parsemer de coriandre et servir bien chaud."
+        ],
+        "en": [
+          "Bring the coconut milk and 300ml water to a gentle simmer with the ginger.",
+          "Add the sliced chicken and cook 8 min.",
+          "Stir in the mushrooms and continue 5 min.",
+          "Season with fish sauce and lime juice.",
+          "Scatter with coriander and serve hot."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "riz-gluant-mangue",
+      "name": {
+        "fr": "Riz gluant à la mangue",
+        "en": "Mango sticky rice"
+      },
+      "description": {
+        "fr": "Le dessert thaïlandais emblématique : un riz gluant nappé de lait de coco sucré, servi avec des tranches de mangue mûre et une pincée de sésame.",
+        "en": "Thailand's iconic dessert: sticky rice bathed in sweet coconut milk, served with ripe mango slices and a sprinkle of sesame."
+      },
+      "emoji": "🥭",
+      "time_min": 45,
+      "prep_time_min": 15,
+      "cook_time_min": 30,
+      "difficulty": "medium",
+      "type": "dessert",
+      "servings": 4,
+      "country": "th",
+      "diet": [
+        "vegan",
+        "vegetarian",
+        "gluten-free",
+        "dairy-free"
+      ],
+      "allergens": [
+        "sesame"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "jp-mochigome",
+            "gp-riz-rond"
+          ],
+          "qty": {
+            "amount": 250,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "250g de riz gluant",
+            "en": "250g sticky rice"
+          }
+        },
+        {
+          "ids": [
+            "gp-lait-coco"
+          ],
+          "qty": {
+            "amount": 250,
+            "unit": "ml"
+          },
+          "required": true,
+          "labels": {
+            "fr": "250ml de lait de coco",
+            "en": "250ml coconut milk"
+          }
+        },
+        {
+          "ids": [
+            "fr-mangue"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 mangues mûres",
+            "en": "2 ripe mangoes"
+          }
+        },
+        {
+          "ids": [
+            "gp-sucre",
+            "gp-sucre-poudre"
+          ],
+          "qty": {
+            "amount": 60,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "60g de sucre",
+            "en": "60g sugar"
+          }
+        },
+        {
+          "ids": [
+            "sp-sesame-blanc",
+            "jp-goma"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cs"
+          },
+          "required": false,
+          "labels": {
+            "fr": "1 c. à soupe de sésame",
+            "en": "1 tbsp sesame seeds"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Faire tremper le riz gluant 30 min, puis le cuire à la vapeur 25 min jusqu'à ce qu'il soit translucide.",
+          "Chauffer le lait de coco avec le sucre et une pincée de sel sans le faire bouillir.",
+          "Verser les deux tiers du lait de coco sucré sur le riz chaud et laisser absorber 10 min.",
+          "Éplucher et trancher les mangues.",
+          "Dresser le riz avec la mangue, napper du reste de lait de coco et parsemer de sésame."
+        ],
+        "en": [
+          "Soak the sticky rice 30 min, then steam 25 min until translucent.",
+          "Warm the coconut milk with the sugar and a pinch of salt without boiling.",
+          "Pour two-thirds of the sweet coconut milk over the hot rice and let absorb 10 min.",
+          "Peel and slice the mangoes.",
+          "Plate the rice with the mango, drizzle with the remaining coconut milk and sprinkle with sesame."
+        ]
+      },
+      "functional_tags": [
+        "kids_friendly"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "rouleaux-printemps",
+      "name": {
+        "fr": "Rouleaux de printemps frais",
+        "en": "Fresh spring rolls"
+      },
+      "description": {
+        "fr": "Des galettes de riz garnies de vermicelles, de légumes croquants et d'herbes fraîches, servies avec une sauce aux cacahuètes — légers, frais et sans cuisson.",
+        "en": "Rice paper rolls filled with vermicelli, crunchy vegetables and fresh herbs, served with a peanut sauce — light, fresh and no-cook."
+      },
+      "emoji": "🌯",
+      "time_min": 30,
+      "prep_time_min": 30,
+      "cook_time_min": 0,
+      "difficulty": "medium",
+      "type": "starter",
+      "servings": 4,
+      "country": "th",
+      "diet": [
+        "vegan",
+        "vegetarian",
+        "dairy-free"
+      ],
+      "allergens": [
+        "peanuts"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "gp-galettes-riz"
+          ],
+          "qty": {
+            "amount": 12,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "12 galettes de riz",
+            "en": "12 rice paper sheets"
+          }
+        },
+        {
+          "ids": [
+            "jp-bifun",
+            "gp-vermicelles"
+          ],
+          "qty": {
+            "amount": 100,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "100g de vermicelles de riz",
+            "en": "100g rice vermicelli"
+          }
+        },
+        {
+          "ids": [
+            "vg-carottes"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 carottes",
+            "en": "2 carrots"
+          }
+        },
+        {
+          "ids": [
+            "vg-concombre"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 concombre",
+            "en": "1 cucumber"
+          }
+        },
+        {
+          "ids": [
+            "vg-germes-soja",
+            "vg-salade"
+          ],
+          "qty": {
+            "amount": 100,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "100g de germes de soja",
+            "en": "100g bean sprouts"
+          }
+        },
+        {
+          "ids": [
+            "sp-menthe",
+            "sp-coriandre"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "botte"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Herbes fraîches (menthe, coriandre)",
+            "en": "Fresh herbs (mint, coriander)"
+          }
+        },
+        {
+          "ids": [
+            "sp-beurre-cacahuete"
+          ],
+          "qty": {
+            "amount": 3,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "3 c. à soupe de beurre de cacahuète",
+            "en": "3 tbsp peanut butter"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Réhydrater les vermicelles dans l'eau chaude, égoutter.",
+          "Tailler les carottes et le concombre en fins bâtonnets.",
+          "Tremper une galette de riz dans l'eau tiède 10 s pour l'assouplir.",
+          "Garnir de vermicelles, légumes et herbes, puis rouler serré en repliant les côtés.",
+          "Mélanger le beurre de cacahuète avec un peu d'eau et de sauce soja ; servir en dip."
+        ],
+        "en": [
+          "Rehydrate the vermicelli in hot water, drain.",
+          "Cut the carrots and cucumber into thin sticks.",
+          "Dip a rice paper sheet in warm water for 10 s to soften.",
+          "Fill with vermicelli, vegetables and herbs, then roll tightly, folding in the sides.",
+          "Mix the peanut butter with a little water and soy sauce; serve as a dip."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "som-tam",
+      "name": {
+        "fr": "Salade de papaye verte (som tam)",
+        "en": "Green papaya salad (som tam)"
+      },
+      "description": {
+        "fr": "Une salade thaïlandaise vive et croquante de papaye verte râpée, relevée de citron vert, de piment et de cacahuètes — l'équilibre parfait du sucré, salé et acide.",
+        "en": "A vibrant, crunchy Thai salad of shredded green papaya with lime, chilli and peanuts — the perfect sweet-salty-sour balance."
+      },
+      "emoji": "🥗",
+      "time_min": 20,
+      "prep_time_min": 20,
+      "cook_time_min": 0,
+      "difficulty": "easy",
+      "type": "salad",
+      "servings": 4,
+      "country": "th",
+      "diet": [
+        "gluten-free",
+        "dairy-free"
+      ],
+      "allergens": [
+        "peanuts",
+        "fish"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "fr-papaye",
+            "vg-carottes"
+          ],
+          "qty": {
+            "amount": 400,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "400g de papaye verte (ou carotte)",
+            "en": "400g green papaya (or carrot)"
+          }
+        },
+        {
+          "ids": [
+            "vg-tomate-cerise",
+            "vg-tomate"
+          ],
+          "qty": {
+            "amount": 150,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "150g de tomates cerises",
+            "en": "150g cherry tomatoes"
+          }
+        },
+        {
+          "ids": [
+            "vg-haricots-v"
+          ],
+          "qty": {
+            "amount": 80,
+            "unit": "g"
+          },
+          "required": false,
+          "labels": {
+            "fr": "80g de haricots verts",
+            "en": "80g green beans"
+          }
+        },
+        {
+          "ids": [
+            "fr-citron-vert"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 citrons verts",
+            "en": "2 limes"
+          }
+        },
+        {
+          "ids": [
+            "gp-cacahuetes"
+          ],
+          "qty": {
+            "amount": 50,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "50g de cacahuètes",
+            "en": "50g peanuts"
+          }
+        },
+        {
+          "ids": [
+            "sp-nuoc-mam"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 c. à soupe de nuoc-mâm",
+            "en": "1 tbsp fish sauce"
+          }
+        },
+        {
+          "ids": [
+            "vg-ail"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "gousse"
+          },
+          "required": false,
+          "labels": {
+            "fr": "1 gousse d'ail",
+            "en": "1 garlic clove"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Râper la papaye verte en longs filaments.",
+          "Piler l'ail, ajouter le jus de citron vert, le nuoc-mâm et un peu de sucre.",
+          "Mélanger la papaye, les tomates coupées et les haricots avec la sauce.",
+          "Écraser légèrement pour faire pénétrer les saveurs.",
+          "Parsemer de cacahuètes concassées et servir aussitôt."
+        ],
+        "en": [
+          "Shred the green papaya into long strands.",
+          "Pound the garlic, add the lime juice, fish sauce and a little sugar.",
+          "Toss the papaya, halved tomatoes and beans with the dressing.",
+          "Lightly bruise to let the flavours soak in.",
+          "Scatter with crushed peanuts and serve immediately."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "tajine-legumes",
+      "name": {
+        "fr": "Tajine de légumes",
+        "en": "Vegetable tagine"
+      },
+      "description": {
+        "fr": "Un tajine végétalien et coloré où les légumes et les pois chiches mijotent doucement aux épices marocaines et au citron confit.",
+        "en": "A colourful vegan tagine where vegetables and chickpeas slowly simmer with Moroccan spices and preserved lemon."
+      },
+      "emoji": "🥘",
+      "time_min": 50,
+      "prep_time_min": 20,
+      "cook_time_min": 30,
+      "difficulty": "easy",
+      "type": "main",
+      "servings": 4,
+      "country": "ma",
+      "diet": [
+        "vegan",
+        "vegetarian",
+        "gluten-free",
+        "dairy-free"
+      ],
+      "allergens": [],
+      "ingredients": [
+        {
+          "ids": [
+            "vg-carottes",
+            "vg-courgette",
+            "vg-patate-douce",
+            "vg-pomme-terre"
+          ],
+          "qty": {
+            "amount": 500,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "500g de légumes (carotte, courgette, patate douce)",
+            "en": "500g vegetables (carrot, courgette, sweet potato)"
+          }
+        },
+        {
+          "ids": [
+            "gp-pois-chiches"
+          ],
+          "qty": {
+            "amount": 250,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "250g de pois chiches",
+            "en": "250g chickpeas"
+          }
+        },
+        {
+          "ids": [
+            "vg-oignon"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 oignon",
+            "en": "1 onion"
+          }
+        },
+        {
+          "ids": [
+            "gp-tomates-concas",
+            "vg-tomate"
+          ],
+          "qty": {
+            "amount": 200,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "200g de tomates",
+            "en": "200g tomatoes"
+          }
+        },
+        {
+          "ids": [
+            "sp-ras-el-hanout"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "cc"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 c. à café de ras-el-hanout",
+            "en": "2 tsp ras el hanout"
+          }
+        },
+        {
+          "ids": [
+            "gp-citrons-confits"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": false,
+          "labels": {
+            "fr": "1 citron confit",
+            "en": "1 preserved lemon"
+          }
+        },
+        {
+          "ids": [
+            "sp-coriandre",
+            "sp-persil"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "botte"
+          },
+          "required": false,
+          "labels": {
+            "fr": "½ bouquet de coriandre",
+            "en": "½ bunch coriander"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Faire revenir l'oignon émincé dans l'huile d'olive avec le ras-el-hanout.",
+          "Ajouter les légumes coupés en morceaux et remuer 5 min.",
+          "Incorporer les tomates, les pois chiches et 20 cl d'eau.",
+          "Couvrir et laisser mijoter 30 min à feu doux jusqu'à ce que les légumes soient fondants.",
+          "Ajouter le citron confit en lamelles et la coriandre ; servir avec de la semoule."
+        ],
+        "en": [
+          "Sauté the sliced onion in olive oil with the ras el hanout.",
+          "Add the chopped vegetables and stir 5 min.",
+          "Stir in the tomatoes, chickpeas and 200ml water.",
+          "Cover and simmer 30 min over low heat until the vegetables are meltingly tender.",
+          "Add the sliced preserved lemon and coriander; serve with couscous."
+        ]
+      },
+      "functional_tags": [
+        "anti_waste",
+        "batch_cooking"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "tajine-agneau-pruneaux",
+      "name": {
+        "fr": "Tajine d'agneau aux pruneaux",
+        "en": "Lamb tagine with prunes"
+      },
+      "description": {
+        "fr": "Un tajine sucré-salé où l'agneau fond lentement avec des pruneaux, du miel et de la cannelle, parsemé d'amandes et de sésame — un grand plat de fête marocain.",
+        "en": "A sweet-savoury tagine where lamb slowly melts with prunes, honey and cinnamon, finished with almonds and sesame — a great Moroccan feast dish."
+      },
+      "emoji": "🍖",
+      "time_min": 130,
+      "prep_time_min": 25,
+      "cook_time_min": 105,
+      "difficulty": "hard",
+      "type": "main",
+      "servings": 4,
+      "country": "ma",
+      "diet": [
+        "gluten-free",
+        "dairy-free",
+        "halal"
+      ],
+      "allergens": [
+        "nuts"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "fr-epaule-agneau",
+            "fr-agneau",
+            "fr-gigot"
+          ],
+          "qty": {
+            "amount": 800,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "800g d'épaule d'agneau",
+            "en": "800g lamb shoulder"
+          }
+        },
+        {
+          "ids": [
+            "gp-fruits-secs",
+            "gp-dattes"
+          ],
+          "qty": {
+            "amount": 200,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "200g de pruneaux",
+            "en": "200g prunes"
+          }
+        },
+        {
+          "ids": [
+            "vg-oignon"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 oignons",
+            "en": "2 onions"
+          }
+        },
+        {
+          "ids": [
+            "gp-miel"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 c. à soupe de miel",
+            "en": "2 tbsp honey"
+          }
+        },
+        {
+          "ids": [
+            "sp-cannelle"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cc"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 c. à café de cannelle",
+            "en": "1 tsp cinnamon"
+          }
+        },
+        {
+          "ids": [
+            "sp-ras-el-hanout",
+            "sp-gingembre"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "cc"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 c. à café de ras-el-hanout",
+            "en": "2 tsp ras el hanout"
+          }
+        },
+        {
+          "ids": [
+            "gp-amandes"
+          ],
+          "qty": {
+            "amount": 50,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "50g d'amandes",
+            "en": "50g almonds"
+          }
+        },
+        {
+          "ids": [
+            "sp-sesame-blanc"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cs"
+          },
+          "required": false,
+          "labels": {
+            "fr": "1 c. à soupe de sésame",
+            "en": "1 tbsp sesame seeds"
+          }
+        },
+        {
+          "ids": [
+            "sp-safran"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pm"
+          },
+          "required": false,
+          "labels": {
+            "fr": "1 pincée de safran",
+            "en": "1 pinch saffron"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Faire dorer les morceaux d'agneau dans l'huile, retirer puis faire fondre les oignons.",
+          "Remettre la viande, ajouter le ras-el-hanout, la cannelle, le safran et couvrir d'eau.",
+          "Couvrir et mijoter 1h30 à feu très doux jusqu'à ce que l'agneau soit fondant.",
+          "Ajouter les pruneaux et le miel, poursuivre 15 min à découvert pour siruper la sauce.",
+          "Parsemer d'amandes grillées et de sésame ; servir avec de la semoule."
+        ],
+        "en": [
+          "Brown the lamb pieces in oil, remove then soften the onions.",
+          "Return the meat, add the ras el hanout, cinnamon, saffron and cover with water.",
+          "Cover and simmer 1h30 over very low heat until the lamb is tender.",
+          "Add the prunes and honey, continue 15 min uncovered to syrup the sauce.",
+          "Scatter with toasted almonds and sesame; serve with couscous."
+        ]
+      },
+      "functional_tags": [
+        "batch_cooking"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "harira",
+      "name": {
+        "fr": "Harira",
+        "en": "Harira soup"
+      },
+      "description": {
+        "fr": "La soupe marocaine réconfortante par excellence : lentilles, pois chiches et tomates mijotés aux épices et aux herbes, liés de vermicelles — nourrissante et parfumée.",
+        "en": "Morocco's ultimate comforting soup: lentils, chickpeas and tomatoes simmered with spices and herbs, thickened with vermicelli — hearty and fragrant."
+      },
+      "emoji": "🍲",
+      "time_min": 60,
+      "prep_time_min": 15,
+      "cook_time_min": 45,
+      "difficulty": "medium",
+      "type": "starter",
+      "servings": 4,
+      "country": "ma",
+      "diet": [
+        "vegetarian",
+        "dairy-free"
+      ],
+      "allergens": [
+        "gluten",
+        "celery"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "gp-lentilles",
+            "gp-lentilles-vert"
+          ],
+          "qty": {
+            "amount": 150,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "150g de lentilles",
+            "en": "150g lentils"
+          }
+        },
+        {
+          "ids": [
+            "gp-pois-chiches"
+          ],
+          "qty": {
+            "amount": 200,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "200g de pois chiches",
+            "en": "200g chickpeas"
+          }
+        },
+        {
+          "ids": [
+            "gp-tomates-concas",
+            "gp-tomate"
+          ],
+          "qty": {
+            "amount": 400,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "400g de tomates concassées",
+            "en": "400g crushed tomatoes"
+          }
+        },
+        {
+          "ids": [
+            "gp-vermicelles",
+            "jp-bifun"
+          ],
+          "qty": {
+            "amount": 60,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "60g de vermicelles",
+            "en": "60g vermicelli"
+          }
+        },
+        {
+          "ids": [
+            "vg-celeri"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 branches de céleri",
+            "en": "2 celery sticks"
+          }
+        },
+        {
+          "ids": [
+            "vg-oignon"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 oignon",
+            "en": "1 onion"
+          }
+        },
+        {
+          "ids": [
+            "sp-gingembre",
+            "sp-curcuma"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cc"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 c. à café de gingembre",
+            "en": "1 tsp ginger"
+          }
+        },
+        {
+          "ids": [
+            "sp-coriandre",
+            "sp-persil"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "botte"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 bouquet de coriandre et persil",
+            "en": "1 bunch coriander and parsley"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Faire revenir l'oignon et le céleri émincés dans l'huile avec les épices.",
+          "Ajouter les tomates, les lentilles, les pois chiches et 1,5 L d'eau.",
+          "Porter à ébullition puis laisser mijoter 35 min.",
+          "Ajouter les vermicelles et cuire 8 min de plus.",
+          "Incorporer les herbes ciselées et servir avec des quartiers de citron."
+        ],
+        "en": [
+          "Sauté the sliced onion and celery in oil with the spices.",
+          "Add the tomatoes, lentils, chickpeas and 1.5 L water.",
+          "Bring to a boil then simmer 35 min.",
+          "Add the vermicelli and cook a further 8 min.",
+          "Stir in the chopped herbs and serve with lemon wedges."
+        ]
+      },
+      "functional_tags": [
+        "batch_cooking",
+        "anti_waste"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "zaalouk",
+      "name": {
+        "fr": "Zaalouk d'aubergines",
+        "en": "Zaalouk (aubergine dip)"
+      },
+      "description": {
+        "fr": "Une salade cuite marocaine d'aubergines et de tomates fondues, parfumée à l'ail, au cumin et au paprika — délicieuse tiède ou froide avec du pain.",
+        "en": "A Moroccan cooked salad of melting aubergine and tomato, scented with garlic, cumin and paprika — lovely warm or cold with bread."
+      },
+      "emoji": "🍆",
+      "time_min": 40,
+      "prep_time_min": 15,
+      "cook_time_min": 25,
+      "difficulty": "easy",
+      "type": "starter",
+      "servings": 4,
+      "country": "ma",
+      "diet": [
+        "vegan",
+        "vegetarian",
+        "gluten-free",
+        "dairy-free"
+      ],
+      "allergens": [],
+      "ingredients": [
+        {
+          "ids": [
+            "vg-aubergine"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 aubergines",
+            "en": "2 aubergines"
+          }
+        },
+        {
+          "ids": [
+            "vg-tomate",
+            "gp-tomates-concas"
+          ],
+          "qty": {
+            "amount": 3,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "3 tomates",
+            "en": "3 tomatoes"
+          }
+        },
+        {
+          "ids": [
+            "vg-ail"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "gousse"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 gousses d'ail",
+            "en": "2 garlic cloves"
+          }
+        },
+        {
+          "ids": [
+            "sp-cumin"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cc"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 c. à café de cumin",
+            "en": "1 tsp cumin"
+          }
+        },
+        {
+          "ids": [
+            "sp-paprika"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cc"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 c. à café de paprika",
+            "en": "1 tsp paprika"
+          }
+        },
+        {
+          "ids": [
+            "sp-huile-olive",
+            "sp-huile-olive-vi"
+          ],
+          "qty": {
+            "amount": 3,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "3 c. à soupe d'huile d'olive",
+            "en": "3 tbsp olive oil"
+          }
+        },
+        {
+          "ids": [
+            "sp-coriandre",
+            "sp-persil"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "botte"
+          },
+          "required": false,
+          "labels": {
+            "fr": "½ bouquet de coriandre",
+            "en": "½ bunch coriander"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Éplucher partiellement et couper les aubergines en dés ; concasser les tomates.",
+          "Faire revenir l'ail dans l'huile d'olive, ajouter les épices.",
+          "Ajouter les aubergines et les tomates, couvrir et cuire 20 min en écrasant à la fourchette.",
+          "Laisser réduire à découvert jusqu'à obtenir une compotée fondante.",
+          "Parsemer de coriandre et servir tiède avec du pain."
+        ],
+        "en": [
+          "Partly peel and dice the aubergines; crush the tomatoes.",
+          "Sauté the garlic in olive oil, add the spices.",
+          "Add the aubergines and tomatoes, cover and cook 20 min, mashing with a fork.",
+          "Reduce uncovered until you get a soft compote.",
+          "Scatter with coriander and serve warm with bread."
+        ]
+      },
+      "functional_tags": [
+        "anti_waste"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "pastilla-poulet",
+      "name": {
+        "fr": "Pastilla au poulet",
+        "en": "Chicken pastilla"
+      },
+      "description": {
+        "fr": "Une tourte marocaine raffinée mêlant poulet fondant, amandes et cannelle dans une pâte croustillante, saupoudrée de sucre glace — l'art du sucré-salé.",
+        "en": "A refined Moroccan pie of tender chicken, almonds and cinnamon in crisp pastry, dusted with icing sugar — the art of sweet-and-savoury."
+      },
+      "emoji": "🥧",
+      "time_min": 90,
+      "prep_time_min": 45,
+      "cook_time_min": 45,
+      "difficulty": "hard",
+      "type": "main",
+      "servings": 6,
+      "country": "ma",
+      "diet": [
+        "halal"
+      ],
+      "allergens": [
+        "gluten",
+        "eggs",
+        "nuts",
+        "milk"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "fr-pate-feuilletee"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 paquet de feuilles de brick",
+            "en": "1 pack of brick/filo pastry"
+          }
+        },
+        {
+          "ids": [
+            "fr-blanc-poulet",
+            "fr-cuisse-poulet",
+            "fr-poulet"
+          ],
+          "qty": {
+            "amount": 600,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "600g de poulet",
+            "en": "600g chicken"
+          }
+        },
+        {
+          "ids": [
+            "fr-oeuf",
+            "fr-oeufs-standard"
+          ],
+          "qty": {
+            "amount": 4,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "4 œufs",
+            "en": "4 eggs"
+          }
+        },
+        {
+          "ids": [
+            "gp-amandes",
+            "gp-poudre-amande"
+          ],
+          "qty": {
+            "amount": 100,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "100g d'amandes",
+            "en": "100g almonds"
+          }
+        },
+        {
+          "ids": [
+            "vg-oignon"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 oignons",
+            "en": "2 onions"
+          }
+        },
+        {
+          "ids": [
+            "sp-cannelle"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "cc"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 c. à café de cannelle",
+            "en": "2 tsp cinnamon"
+          }
+        },
+        {
+          "ids": [
+            "gp-sucre-glace"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 c. à soupe de sucre glace",
+            "en": "2 tbsp icing sugar"
+          }
+        },
+        {
+          "ids": [
+            "sp-gingembre",
+            "sp-safran"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cc"
+          },
+          "required": false,
+          "labels": {
+            "fr": "1 c. à café de gingembre",
+            "en": "1 tsp ginger"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Faire mijoter le poulet avec les oignons, la cannelle et les épices 30 min ; effilocher la chair.",
+          "Réduire le bouillon, y cuire les œufs battus pour obtenir une masse moelleuse.",
+          "Torréfier et concasser les amandes avec un peu de sucre et de cannelle.",
+          "Beurrer un moule, disposer les feuilles, garnir de poulet, d'œufs et d'amandes, refermer.",
+          "Cuire au four à 180°C 25 min, puis saupoudrer de sucre glace et de cannelle avant de servir."
+        ],
+        "en": [
+          "Simmer the chicken with the onions, cinnamon and spices 30 min; shred the meat.",
+          "Reduce the stock, cook the beaten eggs in it to a soft curd.",
+          "Toast and crush the almonds with a little sugar and cinnamon.",
+          "Butter a tin, layer the pastry, fill with chicken, eggs and almonds, then close.",
+          "Bake at 180°C for 25 min, then dust with icing sugar and cinnamon before serving."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "falafel",
+      "name": {
+        "fr": "Falafels",
+        "en": "Falafel"
+      },
+      "description": {
+        "fr": "Des boulettes de pois chiches aux herbes et aux épices, dorées et croustillantes dehors, moelleuses dedans — un classique végétalien du Moyen-Orient.",
+        "en": "Herb-and-spice chickpea balls, crisp and golden outside, soft within — a Middle Eastern vegan classic."
+      },
+      "emoji": "🧆",
+      "time_min": 40,
+      "prep_time_min": 25,
+      "cook_time_min": 15,
+      "difficulty": "medium",
+      "type": "main",
+      "servings": 4,
+      "country": "lb",
+      "diet": [
+        "vegan",
+        "vegetarian",
+        "dairy-free"
+      ],
+      "allergens": [
+        "gluten",
+        "sesame"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "gp-pois-ch-sec",
+            "gp-pois-chiches"
+          ],
+          "qty": {
+            "amount": 300,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "300g de pois chiches secs",
+            "en": "300g dried chickpeas"
+          }
+        },
+        {
+          "ids": [
+            "vg-oignon"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 oignon",
+            "en": "1 onion"
+          }
+        },
+        {
+          "ids": [
+            "vg-ail"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "gousse"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 gousses d'ail",
+            "en": "2 garlic cloves"
+          }
+        },
+        {
+          "ids": [
+            "sp-persil",
+            "sp-coriandre"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "botte"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 bouquet de persil et coriandre",
+            "en": "1 bunch parsley and coriander"
+          }
+        },
+        {
+          "ids": [
+            "sp-cumin"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "cc"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 c. à café de cumin",
+            "en": "2 tsp cumin"
+          }
+        },
+        {
+          "ids": [
+            "gp-farine",
+            "gp-farine-pois-ch"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "cs"
+          },
+          "required": false,
+          "labels": {
+            "fr": "2 c. à soupe de farine",
+            "en": "2 tbsp flour"
+          }
+        },
+        {
+          "ids": [
+            "sp-tahini"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "cs"
+          },
+          "required": false,
+          "labels": {
+            "fr": "2 c. à soupe de tahini (sauce)",
+            "en": "2 tbsp tahini (sauce)"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Faire tremper les pois chiches secs une nuit, égoutter (ne pas les cuire).",
+          "Mixer les pois chiches avec l'oignon, l'ail, les herbes et les épices en une pâte grossière.",
+          "Ajouter un peu de farine, façonner des boulettes et laisser reposer 15 min.",
+          "Frire ou cuire au four à 200°C 15 min jusqu'à ce qu'elles soient dorées.",
+          "Servir avec une sauce tahini, du pain pita et des crudités."
+        ],
+        "en": [
+          "Soak the dried chickpeas overnight, drain (do not cook them).",
+          "Blend the chickpeas with the onion, garlic, herbs and spices into a coarse paste.",
+          "Add a little flour, shape into balls and rest 15 min.",
+          "Fry or bake at 200°C for 15 min until golden.",
+          "Serve with a tahini sauce, pita bread and crudités."
+        ]
+      },
+      "functional_tags": [
+        "batch_cooking"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "fattoush",
+      "name": {
+        "fr": "Fattoush",
+        "en": "Fattoush"
+      },
+      "description": {
+        "fr": "Une salade libanaise croquante de légumes frais et de pain pita grillé, relevée de sumac et de citron — fraîche, acidulée et anti-gaspi.",
+        "en": "A crunchy Lebanese salad of fresh vegetables and toasted pita, brightened with sumac and lemon — fresh, tangy and waste-friendly."
+      },
+      "emoji": "🥗",
+      "time_min": 20,
+      "prep_time_min": 20,
+      "cook_time_min": 0,
+      "difficulty": "very-easy",
+      "type": "salad",
+      "servings": 4,
+      "country": "lb",
+      "diet": [
+        "vegan",
+        "vegetarian",
+        "dairy-free"
+      ],
+      "allergens": [
+        "gluten"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "gp-pain",
+            "gp-pain-complet",
+            "gp-pain-grille"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 pains pita",
+            "en": "2 pita breads"
+          }
+        },
+        {
+          "ids": [
+            "vg-tomate",
+            "vg-tomate-cerise"
+          ],
+          "qty": {
+            "amount": 3,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "3 tomates",
+            "en": "3 tomatoes"
+          }
+        },
+        {
+          "ids": [
+            "vg-concombre"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 concombre",
+            "en": "1 cucumber"
+          }
+        },
+        {
+          "ids": [
+            "vg-radis",
+            "vg-laitue",
+            "vg-salade"
+          ],
+          "qty": {
+            "amount": 150,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "150g de radis et laitue",
+            "en": "150g radishes and lettuce"
+          }
+        },
+        {
+          "ids": [
+            "sp-sumac"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 c. à soupe de sumac",
+            "en": "1 tbsp sumac"
+          }
+        },
+        {
+          "ids": [
+            "fr-citron"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 citron",
+            "en": "1 lemon"
+          }
+        },
+        {
+          "ids": [
+            "sp-menthe",
+            "sp-persil"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "botte"
+          },
+          "required": false,
+          "labels": {
+            "fr": "½ bouquet de menthe",
+            "en": "½ bunch mint"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Faire griller les pains pita au four jusqu'à ce qu'ils soient croustillants, puis les briser.",
+          "Couper les tomates, le concombre et les radis en morceaux.",
+          "Préparer la sauce : huile d'olive, jus de citron, sumac, sel et poivre.",
+          "Mélanger les légumes, la menthe et la sauce.",
+          "Ajouter les morceaux de pain juste avant de servir pour garder le croquant."
+        ],
+        "en": [
+          "Toast the pita breads in the oven until crisp, then break them up.",
+          "Cut the tomatoes, cucumber and radishes into pieces.",
+          "Make the dressing: olive oil, lemon juice, sumac, salt and pepper.",
+          "Toss the vegetables, mint and dressing.",
+          "Add the bread pieces just before serving to keep them crunchy."
+        ]
+      },
+      "functional_tags": [
+        "anti_waste"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "mujaddara",
+      "name": {
+        "fr": "Mujaddara (lentilles & riz)",
+        "en": "Mujaddara (lentils & rice)"
+      },
+      "description": {
+        "fr": "Un plat libanais humble et nourrissant de lentilles et de riz couronné d'oignons caramélisés — végétalien, économique et étonnamment savoureux.",
+        "en": "A humble, nourishing Lebanese dish of lentils and rice crowned with caramelised onions — vegan, budget-friendly and surprisingly tasty."
+      },
+      "emoji": "🍚",
+      "time_min": 45,
+      "prep_time_min": 10,
+      "cook_time_min": 35,
+      "difficulty": "easy",
+      "type": "main",
+      "servings": 4,
+      "country": "lb",
+      "diet": [
+        "vegan",
+        "vegetarian",
+        "gluten-free",
+        "dairy-free"
+      ],
+      "allergens": [],
+      "ingredients": [
+        {
+          "ids": [
+            "gp-lentilles-vert",
+            "gp-lentilles"
+          ],
+          "qty": {
+            "amount": 200,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "200g de lentilles vertes",
+            "en": "200g green lentils"
+          }
+        },
+        {
+          "ids": [
+            "gp-riz",
+            "gp-riz-basmati"
+          ],
+          "qty": {
+            "amount": 150,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "150g de riz",
+            "en": "150g rice"
+          }
+        },
+        {
+          "ids": [
+            "vg-oignon"
+          ],
+          "qty": {
+            "amount": 3,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "3 oignons",
+            "en": "3 onions"
+          }
+        },
+        {
+          "ids": [
+            "sp-cumin"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cc"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 c. à café de cumin",
+            "en": "1 tsp cumin"
+          }
+        },
+        {
+          "ids": [
+            "sp-huile-olive"
+          ],
+          "qty": {
+            "amount": 3,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "3 c. à soupe d'huile d'olive",
+            "en": "3 tbsp olive oil"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Cuire les lentilles 15 min dans l'eau, puis ajouter le riz et le cumin.",
+          "Compléter avec de l'eau, couvrir et cuire 18 min jusqu'à absorption.",
+          "Pendant ce temps, faire revenir les oignons émincés longuement jusqu'à caramélisation.",
+          "Incorporer la moitié des oignons au mélange lentilles-riz.",
+          "Couronner du reste d'oignons croustillants et servir avec un yaourt si désiré."
+        ],
+        "en": [
+          "Cook the lentils 15 min in water, then add the rice and cumin.",
+          "Top up with water, cover and cook 18 min until absorbed.",
+          "Meanwhile, fry the sliced onions slowly until caramelised.",
+          "Stir half the onions into the lentil-rice mixture.",
+          "Crown with the rest of the crispy onions and serve with yogurt if desired."
+        ]
+      },
+      "functional_tags": [
+        "anti_waste",
+        "batch_cooking"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "chich-taouk",
+      "name": {
+        "fr": "Chich taouk",
+        "en": "Chich taouk"
+      },
+      "description": {
+        "fr": "Des brochettes de poulet libanaises marinées au yaourt, à l'ail et au citron, grillées jusqu'à être tendres et dorées — parfaites avec du pain et de l'ail.",
+        "en": "Lebanese chicken skewers marinated in yogurt, garlic and lemon, grilled until tender and golden — perfect with bread and garlic sauce."
+      },
+      "emoji": "🍢",
+      "time_min": 40,
+      "prep_time_min": 25,
+      "cook_time_min": 15,
+      "difficulty": "medium",
+      "type": "main",
+      "servings": 4,
+      "country": "lb",
+      "diet": [
+        "gluten-free",
+        "halal"
+      ],
+      "allergens": [
+        "milk"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "fr-blanc-poulet",
+            "fr-cuisse-poulet"
+          ],
+          "qty": {
+            "amount": 700,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "700g de blanc de poulet",
+            "en": "700g chicken breast"
+          }
+        },
+        {
+          "ids": [
+            "fr-yaourt-nature",
+            "fr-yaourt"
+          ],
+          "qty": {
+            "amount": 150,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "150g de yaourt nature",
+            "en": "150g plain yogurt"
+          }
+        },
+        {
+          "ids": [
+            "vg-ail"
+          ],
+          "qty": {
+            "amount": 3,
+            "unit": "gousse"
+          },
+          "required": true,
+          "labels": {
+            "fr": "3 gousses d'ail",
+            "en": "3 garlic cloves"
+          }
+        },
+        {
+          "ids": [
+            "fr-citron"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 citron",
+            "en": "1 lemon"
+          }
+        },
+        {
+          "ids": [
+            "sp-paprika"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cc"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 c. à café de paprika",
+            "en": "1 tsp paprika"
+          }
+        },
+        {
+          "ids": [
+            "sp-huile-olive"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 c. à soupe d'huile d'olive",
+            "en": "2 tbsp olive oil"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Préparer la marinade : yaourt, ail écrasé, jus de citron, paprika, huile, sel et poivre.",
+          "Couper le poulet en cubes et le mariner au moins 1h (idéalement une nuit).",
+          "Enfiler les morceaux sur des brochettes.",
+          "Griller 12-15 min en retournant régulièrement jusqu'à coloration dorée.",
+          "Servir avec du pain pita, des crudités et une sauce à l'ail."
+        ],
+        "en": [
+          "Make the marinade: yogurt, crushed garlic, lemon juice, paprika, oil, salt and pepper.",
+          "Cut the chicken into cubes and marinate at least 1h (ideally overnight).",
+          "Thread the pieces onto skewers.",
+          "Grill 12-15 min, turning regularly until golden.",
+          "Serve with pita bread, crudités and a garlic sauce."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "labneh",
+      "name": {
+        "fr": "Labneh à l'huile d'olive",
+        "en": "Labneh with olive oil"
+      },
+      "description": {
+        "fr": "Un fromage frais libanais crémeux et acidulé, nappé d'huile d'olive et parsemé de za'atar — un mezze sans cuisson à tartiner sur du pain.",
+        "en": "A creamy, tangy Lebanese fresh cheese drizzled with olive oil and sprinkled with za'atar — a no-cook mezze to spread on bread."
+      },
+      "emoji": "🧀",
+      "time_min": 10,
+      "prep_time_min": 10,
+      "cook_time_min": 0,
+      "difficulty": "very-easy",
+      "type": "starter",
+      "servings": 4,
+      "country": "lb",
+      "diet": [
+        "vegetarian",
+        "gluten-free"
+      ],
+      "allergens": [
+        "milk",
+        "sesame"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "fr-labneh",
+            "fr-yaourt-nature",
+            "fr-fromage-blanc"
+          ],
+          "qty": {
+            "amount": 400,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "400g de labneh (ou yaourt égoutté)",
+            "en": "400g labneh (or strained yogurt)"
+          }
+        },
+        {
+          "ids": [
+            "sp-za-atar"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 c. à soupe de za'atar",
+            "en": "1 tbsp za'atar"
+          }
+        },
+        {
+          "ids": [
+            "sp-huile-olive-vi",
+            "sp-huile-olive"
+          ],
+          "qty": {
+            "amount": 3,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "3 c. à soupe d'huile d'olive",
+            "en": "3 tbsp olive oil"
+          }
+        },
+        {
+          "ids": [
+            "sp-menthe"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "botte"
+          },
+          "required": false,
+          "labels": {
+            "fr": "Quelques feuilles de menthe",
+            "en": "A few mint leaves"
+          }
+        },
+        {
+          "ids": [
+            "gp-olives-noires",
+            "gp-olive"
+          ],
+          "qty": {
+            "amount": 50,
+            "unit": "g"
+          },
+          "required": false,
+          "labels": {
+            "fr": "50g d'olives",
+            "en": "50g olives"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Si vous partez d'un yaourt, l'égoutter une nuit dans un linge pour obtenir le labneh.",
+          "Étaler le labneh dans une assiette creuse en formant des creux avec le dos d'une cuillère.",
+          "Arroser généreusement d'huile d'olive.",
+          "Parsemer de za'atar, de menthe et d'olives.",
+          "Servir frais avec du pain pita."
+        ],
+        "en": [
+          "If starting from yogurt, strain it overnight in a cloth to make labneh.",
+          "Spread the labneh on a shallow plate, making dips with the back of a spoon.",
+          "Drizzle generously with olive oil.",
+          "Sprinkle with za'atar, mint and olives.",
+          "Serve cold with pita bread."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "limonade-maison",
+      "name": {
+        "fr": "Limonade maison à la menthe",
+        "en": "Homemade mint lemonade"
+      },
+      "description": {
+        "fr": "Une boisson désaltérante de jus de citron pressé, d'eau fraîche et de menthe, à peine sucrée — sans cuisson et prête en cinq minutes.",
+        "en": "A thirst-quenching drink of fresh lemon juice, cold water and mint, barely sweetened — no-cook and ready in five minutes."
+      },
+      "emoji": "🍋",
+      "time_min": 5,
+      "prep_time_min": 5,
+      "cook_time_min": 0,
+      "difficulty": "very-easy",
+      "type": "drink",
+      "servings": 4,
+      "country": "intl",
+      "diet": [
+        "vegan",
+        "vegetarian",
+        "gluten-free",
+        "dairy-free"
+      ],
+      "allergens": [],
+      "ingredients": [
+        {
+          "ids": [
+            "fr-citron"
+          ],
+          "qty": {
+            "amount": 4,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "4 citrons",
+            "en": "4 lemons"
+          }
+        },
+        {
+          "ids": [
+            "gp-sucre",
+            "gp-miel",
+            "gp-sirop-erable"
+          ],
+          "qty": {
+            "amount": 60,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "60g de sucre",
+            "en": "60g sugar"
+          }
+        },
+        {
+          "ids": [
+            "sp-menthe"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "botte"
+          },
+          "required": false,
+          "labels": {
+            "fr": "Quelques feuilles de menthe",
+            "en": "A few mint leaves"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Presser les citrons pour en extraire le jus.",
+          "Dissoudre le sucre dans un peu d'eau tiède, puis laisser refroidir.",
+          "Mélanger le jus, le sirop de sucre et 1 L d'eau fraîche.",
+          "Ajouter les feuilles de menthe légèrement froissées et des glaçons.",
+          "Goûter, ajuster le sucre et servir bien frais."
+        ],
+        "en": [
+          "Squeeze the lemons to extract the juice.",
+          "Dissolve the sugar in a little warm water, then let cool.",
+          "Mix the juice, the sugar syrup and 1 L cold water.",
+          "Add the lightly bruised mint leaves and ice cubes.",
+          "Taste, adjust the sugar and serve well chilled."
+        ]
+      },
+      "functional_tags": [
+        "kids_friendly"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "chocolat-chaud",
+      "name": {
+        "fr": "Chocolat chaud maison",
+        "en": "Homemade hot chocolate"
+      },
+      "description": {
+        "fr": "Un chocolat chaud onctueux préparé avec du vrai chocolat noir et du lait crémeux — réconfortant à souhait, bien plus riche qu'en sachet.",
+        "en": "A silky hot chocolate made with real dark chocolate and creamy milk — wonderfully comforting and far richer than the powdered kind."
+      },
+      "emoji": "☕",
+      "time_min": 10,
+      "prep_time_min": 2,
+      "cook_time_min": 8,
+      "difficulty": "very-easy",
+      "type": "drink",
+      "servings": 2,
+      "country": "intl",
+      "diet": [
+        "vegetarian",
+        "gluten-free"
+      ],
+      "allergens": [
+        "milk"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "fr-lait",
+            "fr-lait-entier",
+            "fr-lait-demi"
+          ],
+          "qty": {
+            "amount": 50,
+            "unit": "cl"
+          },
+          "required": true,
+          "labels": {
+            "fr": "50 cl de lait",
+            "en": "500ml milk"
+          }
+        },
+        {
+          "ids": [
+            "gp-choco-noir",
+            "gp-chocolat",
+            "gp-choco-patissier"
+          ],
+          "qty": {
+            "amount": 80,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "80g de chocolat noir",
+            "en": "80g dark chocolate"
+          }
+        },
+        {
+          "ids": [
+            "gp-cacao-poudre"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cs"
+          },
+          "required": false,
+          "labels": {
+            "fr": "1 c. à soupe de cacao",
+            "en": "1 tbsp cocoa"
+          }
+        },
+        {
+          "ids": [
+            "gp-sucre"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cs"
+          },
+          "required": false,
+          "labels": {
+            "fr": "1 c. à soupe de sucre",
+            "en": "1 tbsp sugar"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Hacher le chocolat noir en petits morceaux.",
+          "Chauffer le lait dans une casserole sans le faire bouillir.",
+          "Ajouter le chocolat et le cacao, fouetter jusqu'à ce que ce soit lisse.",
+          "Sucrer selon le goût et fouetter pour faire mousser.",
+          "Servir bien chaud, éventuellement avec de la chantilly."
+        ],
+        "en": [
+          "Chop the dark chocolate into small pieces.",
+          "Heat the milk in a saucepan without boiling.",
+          "Add the chocolate and cocoa, whisk until smooth.",
+          "Sweeten to taste and whisk to make it frothy.",
+          "Serve hot, optionally with whipped cream."
+        ]
+      },
+      "functional_tags": [
+        "kids_friendly"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "paella",
+      "name": {
+        "fr": "Paella aux fruits de mer",
+        "en": "Seafood paella"
+      },
+      "description": {
+        "fr": "Le grand plat espagnol convivial : un riz safrané cuit avec fruits de mer, poulet, chorizo et poivrons — généreux et spectaculaire à partager.",
+        "en": "Spain's great sharing dish: saffron rice cooked with seafood, chicken, chorizo and peppers — generous and spectacular to share."
+      },
+      "emoji": "🥘",
+      "time_min": 75,
+      "prep_time_min": 30,
+      "cook_time_min": 45,
+      "difficulty": "hard",
+      "type": "main",
+      "servings": 6,
+      "country": "intl",
+      "diet": [
+        "gluten-free",
+        "dairy-free"
+      ],
+      "allergens": [
+        "crustaceans",
+        "molluscs"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "gp-riz-rond",
+            "gp-riz"
+          ],
+          "qty": {
+            "amount": 400,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "400g de riz rond",
+            "en": "400g short-grain rice"
+          }
+        },
+        {
+          "ids": [
+            "fr-fruits-mer",
+            "frz-fruits-mer",
+            "fr-moules"
+          ],
+          "qty": {
+            "amount": 400,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "400g de fruits de mer",
+            "en": "400g mixed seafood"
+          }
+        },
+        {
+          "ids": [
+            "fr-crevettes",
+            "frz-crevettes"
+          ],
+          "qty": {
+            "amount": 200,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "200g de crevettes",
+            "en": "200g prawns"
+          }
+        },
+        {
+          "ids": [
+            "fr-blanc-poulet",
+            "fr-cuisse-poulet"
+          ],
+          "qty": {
+            "amount": 300,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "300g de poulet",
+            "en": "300g chicken"
+          }
+        },
+        {
+          "ids": [
+            "fr-chorizo"
+          ],
+          "qty": {
+            "amount": 100,
+            "unit": "g"
+          },
+          "required": false,
+          "labels": {
+            "fr": "100g de chorizo",
+            "en": "100g chorizo"
+          }
+        },
+        {
+          "ids": [
+            "vg-poivron"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 poivron",
+            "en": "1 bell pepper"
+          }
+        },
+        {
+          "ids": [
+            "gp-petits-pois",
+            "vg-petits-pois",
+            "frz-petits-pois"
+          ],
+          "qty": {
+            "amount": 100,
+            "unit": "g"
+          },
+          "required": false,
+          "labels": {
+            "fr": "100g de petits pois",
+            "en": "100g peas"
+          }
+        },
+        {
+          "ids": [
+            "sp-safran"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pm"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 dose de safran",
+            "en": "1 pinch saffron"
+          }
+        },
+        {
+          "ids": [
+            "vg-tomate",
+            "gp-tomates-concas"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 tomates",
+            "en": "2 tomatoes"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Faire revenir le poulet et le chorizo dans une grande poêle, réserver.",
+          "Faire suer l'oignon, le poivron et les tomates, ajouter le safran.",
+          "Verser le riz, le nacrer 2 min, puis mouiller avec 1 L de bouillon chaud.",
+          "Cuire 18 min sans remuer, en disposant les fruits de mer et crevettes par-dessus.",
+          "Ajouter les petits pois en fin de cuisson, laisser reposer 5 min et servir dans le plat."
+        ],
+        "en": [
+          "Brown the chicken and chorizo in a large pan, set aside.",
+          "Sweat the onion, pepper and tomatoes, add the saffron.",
+          "Pour in the rice, coat it 2 min, then add 1 L hot stock.",
+          "Cook 18 min without stirring, arranging the seafood and prawns on top.",
+          "Add the peas at the end, rest 5 min and serve in the pan."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    }
+  ]
+}

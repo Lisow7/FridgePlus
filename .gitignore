@@ -1,0 +1,118 @@
+# ─── Logs ──────────────────────────────────────────────────
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# ─── Node / Build outputs ──────────────────────────────────
+node_modules
+dist
+dist-ssr
+dev-dist/
+*.local
+*.tsbuildinfo
+
+# ─── Caches ────────────────────────────────────────────────
+.cache/
+.turbo/
+.parcel-cache/
+.vercel/
+
+# ─── Tests ─────────────────────────────────────────────────
+coverage/
+.nyc_output/
+test-results/
+playwright-report/
+playwright/.cache/
+.playwright-mcp/
+before-*.png
+after-*.png
+drawer-*.png
+e2e-*.png
+*-screenshot.png
+*-screenshot-v*.png
+_ids_dump.txt
+
+# ─── IDE / Éditeurs ────────────────────────────────────────
+.vscode/*
+!.vscode/extensions.json
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+*.orig
+*.rej
+*~
+.~lock.*#
+
+# ─── OS ────────────────────────────────────────────────────
+.DS_Store
+._*
+Thumbs.db
+ehthumbs.db
+desktop.ini
+$RECYCLE.BIN/
+
+# ─── Secrets / sensible (RGPD critique) ────────────────────
+.env
+.env.local
+.env.production
+.env.development
+.env.*.local
+.npmrc.local
+.sentryclirc
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+credentials.json
+
+# ─── Dumps BDD (Phase 6.1 : pg_dump auto chiffré GPG) ──────
+*.dump
+*.sql.gz
+*.sql.bak
+backup-*.sql
+
+# ─── Supabase ──────────────────────────────────────────────
+supabase/SCHEMA.md
+supabase/.temp/
+supabase/.branches/
+supabase/functions/**/.env*
+supabase/_apply_*.sql
+
+# ─── Backups locaux et fichiers d'audit ────────────────────
+.AUDIT.md
+.CHANGELOG.md
+.BACKUP_*
+.RECIPE_BACKUP_*.md
+
+# ─── Scratchpad / rapports d'analyse hors-source ───────────
+# Rapport généré par `npm run pricing:audit`
+docs/pricing-coverage.md
+analyze_ingredients.*
+extract_report.*
+analysis_output.json
+lighthouse-report.*
+
+# ─── Divers (sécurité défensive) ───────────────────────────
+lib/*
+
+# Audit recettes (rapport temporaire) + captures QA visuelle (Playwright)
+tmp-*
+/f2-*.png
+/tri-*.png
+
+# Worktrees locaux
+.worktrees/
+
+# Captures de debug/QA laissées à la racine du repo (jamais des assets
+# applicatifs — ceux-ci vivent dans src/**/assets ou docs/**/screenshots)
+/*.png
+/*.jpg
+/*.jpeg

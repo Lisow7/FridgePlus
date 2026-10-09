@@ -1,0 +1,27 @@
+[
+  {"from": "/^(\\.\\.?\\/)+data\\/defaultPacksByCategory$/", "to": "@shared/static/default-packs-by-category"},
+  {"from": "/^(\\.\\.?\\/)+data\\/dietBreakingIds$/", "to": "@shared/static/diet-breaking-ids"},
+  {"from": "/^(\\.\\.?\\/)+data\\/fridgeLayouts$/", "to": "@shared/static/fridge-layouts"},
+  {"from": "/^(\\.\\.?\\/)+data\\/hygieneGuide$/", "to": "@shared/static/hygiene-guide"},
+  {"from": "/^(\\.\\.?\\/)+data\\/iconMap$/", "to": "@shared/static/icon-map"},
+  {"from": "/^(\\.\\.?\\/)+data\\/ingredientConservation$/", "to": "@shared/static/ingredient-conservation"},
+  {"from": "/^(\\.\\.?\\/)+data\\/ingredients$/", "to": "@shared/static/ingredients"},
+  {"from": "/^(\\.\\.?\\/)+data\\/ingredientUnitHints$/", "to": "@shared/static/ingredient-unit-hints"},
+  {"from": "/^(\\.\\.?\\/)+data\\/nutrition$/", "to": "@shared/static/nutrition"},
+  {"from": "/^(\\.\\.?\\/)+data\\/packSizes$/", "to": "@shared/static/pack-sizes"},
+  {"from": "/^(\\.\\.?\\/)+data\\/pricing\\/2026\\.json$/", "to": "@shared/static/pricing/2026.json"},
+  {"from": "/^(\\.\\.?\\/)+data\\/quotes$/", "to": "@shared/static/quotes"},
+  {"from": "/^(\\.\\.?\\/)+data\\/recipeConstants$/", "to": "@shared/static/recipe-constants"},
+  {"from": "/^(\\.\\.?\\/)+data\\/recipeNames$/", "to": "@shared/static/recipe-names"},
+  {"from": "/^(\\.\\.?\\/)+data\\/recipePanelI18N$/", "to": "@shared/static/recipe-panel-i18n"},
+  {"from": "/^(\\.\\.?\\/)+data\\/recipes$/", "to": "@shared/static/recipes"},
+  {"from": "/^(\\.\\.?\\/)+data\\/seoMeta$/", "to": "@shared/static/seo-meta"},
+  {"from": "/^(\\.\\.?\\/)+data\\/speechAliases$/", "to": "@shared/static/speech-aliases"},
+  {"from": "/^(\\.\\.?\\/)+data\\/subcategoryColors$/", "to": "@shared/static/subcategory-colors"},
+
+  {"from": "/^(\\.\\.?\\/)+lib\\/supabaseClient$/", "to": "@shared/lib/supabase/client"},
+  {"from": "/^(\\.\\.?\\/)+lib\\/sentry$/", "to": "@shared/lib/observability/sentry"},
+  {"from": "/^(\\.\\.?\\/)+lib\\/ingredientLookup$/", "to": "@shared/lib/ingredients/ingredient-lookup"},
+  {"from": "/^(\\.\\.?\\/)+lib\\/ingredientSchema$/", "to": "@shared/lib/ingredients/ingredient-schema"},
+  {"from": "/^(\\.\\.?\\/)+lib\\/seasonality$/", "to": "@shared/lib/ingredients/seasonality"}
+]

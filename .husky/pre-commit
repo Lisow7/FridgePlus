@@ -1,0 +1,16 @@
+# v3.219.0 — Sprint 5 PR S5.a — pre-commit hook étendu.
+#
+# Pipeline :
+#   1. gitleaks  → scanne les staged pour fuites de secrets (clés API,
+#      tokens, JWT, etc.). Si détection → commit refusé.
+#   2. lint-staged → lance `eslint --fix` sur les .js/.jsx/.ts/.tsx staged
+#      uniquement. Autofix appliqué + ré-staging auto. Pas de blocage strict
+#      en v3.219 (baseline pré-existant avec ~270 warnings tolérés) ;
+#      durcissement à --max-warnings 0 prévu en S5.d, une fois le baseline
+#      nettoyé.
+#
+# Skip exceptionnel : `git commit --no-verify` (à n'utiliser qu'avec
+# l'accord explicite du responsable du dépôt).
+
+gitleaks protect --staged --no-banner --redact
+npx lint-staged
