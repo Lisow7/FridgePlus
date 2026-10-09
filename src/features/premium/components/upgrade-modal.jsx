@@ -32,6 +32,7 @@ const I18N = {
     title:    'Fridge+ Premium',
     monthly:  'Mensuel',
     annual:   'Annuel',
+    planGroup: 'Formule',
     popular:  '★ Populaire',
     save:     'Économise 42 %',
     perMonth: '/ mois',
@@ -62,6 +63,7 @@ const I18N = {
     title:    'Fridge+ Premium',
     monthly:  'Monthly',
     annual:   'Annual',
+    planGroup: 'Plan',
     popular:  '★ Popular',
     save:     'Save 42%',
     perMonth: '/ month',
@@ -122,6 +124,8 @@ export default function UpgradeModal({ isOpen, onClose, lang = 'fr', darkMode = 
       return
     }
     setDisplayText(taglinesRef.current[0] ?? '')
+    // Mouvement réduit : l'accroche reste en place (audit du 2026-10-04, PREM-15).
+    if (window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches) return
     // eslint-disable-next-line react-hooks/immutability
     scheduleNext(4000)
     return () => clearTimeout(animRef.current)
@@ -323,7 +327,7 @@ export default function UpgradeModal({ isOpen, onClose, lang = 'fr', darkMode = 
             }}>
               {t.popular}
             </div>
-          <div style={{
+          <div role="radiogroup" aria-label={t.planGroup} style={{
             display: 'flex', gap: '8px',
             background: subtle, borderRadius: '13px', padding: '4px',
           }}>

@@ -197,9 +197,9 @@ export function RecipeDetailBody({
                     </span>
                   )}
                 </span>
-                {/* Bouton IA "Substituts" — uniquement si ingrédient ABSENT et REQUIS.
-                    Click → ouvre popover gpt-4o-mini avec 3 suggestions (cached agressif). */}
-                {!has && ingRequired && (
+                {/* Bouton IA "Substituts" — si ingrédient ABSENT et REQUIS, et pour un COMPTE
+                    seulement (entrée Premium : ADR 0006, PREM-08). Click → popover IA, 3 suggestions. */}
+                {!has && ingRequired && !!user && (
                   <button
                     type="button"
                     onClick={(e) => {

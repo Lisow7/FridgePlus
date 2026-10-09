@@ -294,7 +294,9 @@ export default function HelpGuide({
 
               {exploreOpen && (
                 <div style={{ marginBottom: 16 }}>
-                  {GROUP_ORDER.map(groupKey => (
+                  {/* Un visiteur ne voit pas « Ce qui arrive » : aucun point
+                      d'entrée Premium pour lui (ADR 0006 ; audit PREM-08). */}
+                  {(user ? GROUP_ORDER : GROUP_ORDER.filter((g) => g !== 'soon')).map(groupKey => (
                     <div key={groupKey} style={{ marginBottom: 4 }}>
                       <div style={{
                         fontSize: 10, fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase',

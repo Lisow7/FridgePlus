@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 // Hooks pour les "URL boot effects" — lecture de paramètres URL au
 // premier rendu, action correspondante, et nettoyage immédiat de l'URL
@@ -31,36 +31,40 @@ export function useSharedBasketId() {
 
 // ── Retour Stripe Checkout (?subscription=activated) + deep link ───────
 //
-// Aussi gère `?modal=upgrade` (deep link app mobile).
+// Aussi gère `?modal=upgrade` (deep link app mobile). La fenêtre Premium
+// n'est pas un point d'entrée pour un visiteur sans compte (ADR 0006 ; audit
+// du 2026-10-04, PREM-08) : le paramètre est lu et retiré tout de suite, et
+// l'ouverture attend que la session soit connue — pour un compte seulement.
 //
 // Usage :
 //   const subscriptionToast = useSubscriptionActivated({
-//     refreshProfile, openUpgradeModal
+//     refreshProfile, openUpgradeModal, user, loading
 //   })
-export function useSubscriptionActivated({ refreshProfile, openUpgradeModal }) {
+export function useSubscriptionActivated({ refreshProfile, openUpgradeModal, user, loading }) {
   const [toast, setToast] = useState(false)
+  const upgradeDemande = useRef(new URLSearchParams(window.location.search).get('modal') === 'upgrade')
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search)
     const activated  = params.get('subscription')
     const modalParam = params.get('modal')
-
     if (activated === 'activated' || modalParam === 'upgrade') {
       cleanParam('subscription')
       cleanParam('modal')
     }
-
     if (activated === 'activated') {
       setToast(true)
       setTimeout(() => setToast(false), 5000)
       refreshProfile?.()
     }
-
-    if (modalParam === 'upgrade') {
-      openUpgradeModal()
-    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  useEffect(() => {
+    if (!upgradeDemande.current || loading) return
+    upgradeDemande.current = false
+    if (user) openUpgradeModal()
+  }, [loading, user, openUpgradeModal])
 
   return toast
 }

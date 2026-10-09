@@ -4,7 +4,8 @@ import { MemoryRouter } from 'react-router-dom'
 
 vi.mock('@shared/hooks/use-close-on-back-button', () => ({ useCloseOnBackButton: vi.fn() }))
 vi.mock('@shared/lib/observability/track', () => ({ track: vi.fn(), trackOnce: vi.fn() }))
-vi.mock('@shared/contexts/auth-provider', () => ({ useAuth: () => ({ user: null }) }))
+let mockUser = null
+vi.mock('@shared/contexts/auth-provider', () => ({ useAuth: () => ({ user: mockUser }) }))
 vi.mock('@shared/contexts/data-provider', () => ({
   useIngredients: () => ({
     frais: [
@@ -82,5 +83,25 @@ describe('RecipeModal — ingrédients groupés', () => {
     renderModal(onToggleIngredient)
     fireEvent.click(screen.getByText('Lait', { exact: false }))
     expect(onToggleIngredient).toHaveBeenCalledWith('fr-lait')
+  })
+
+  // Les ingrédients manquent tous (stock vide) : le bouton « Substituts IA »
+  // (Premium) accompagnait chacun, même pour un visiteur sans compte — qui ne
+  // doit rencontrer aucun point d'entrée Premium (ADR 0006 ; audit du
+  // 2026-10-04, PREM-08).
+  it('visiteur : aucun bouton « Substituts IA »', () => {
+    mockUser = null
+    renderModal()
+    expect(screen.queryAllByRole('button', { name: 'Substituts IA' })).toHaveLength(0)
+  })
+
+  it('compte connecté : les boutons « Substituts IA » sont là', () => {
+    mockUser = { id: 'u-1' }
+    try {
+      renderModal()
+      expect(screen.getAllByRole('button', { name: 'Substituts IA' }).length).toBeGreaterThan(0)
+    } finally {
+      mockUser = null
+    }
   })
 })
