@@ -50,7 +50,7 @@ md5 — le test `migrations-alignees` refuse qu'il bouge d'un octet.
 `20260517_db_refonte_s3_backfill_tracking.sql`) : leur fichier est le seul
 texte qui en reste.
 
-**16 fichiers n'ont pas d'entrée homonyme**, et c'est attendu :
+**17 fichiers n'ont pas d'entrée homonyme**, et c'est attendu :
 
 | Fichier | État (vérifié en lecture seule le 2026-10-08, sinon par l'audit) |
 |---|---|
@@ -66,6 +66,7 @@ texte qui en reste.
 | `20260708_receipt_scan_feature_flag.sql` | Appliqué hors registre : le drapeau `receipt_scan` existe. |
 | `20260808_guard_profiles_columns_restantes.sql` | Appliqué le 2026-08-13 sous le nom `guard_profiles_consentements` (fichier `20260813111101_…`). Son en-tête disait « non appliquée » : corrigé. |
 | `20261005_regle_du_pseudo_tenue_par_la_base.sql`, `20261006_allergenes_contrainte_apres_release.sql`, `20261008_retrait_admin_get_auth_users_apres_release.sql` | **En attente de release**, exprès : voir la section suivante. |
+| `20261009183000_notes_en_une_lecture.sql` | **En attente de la confirmation d'Antoine** (essai à blanc par sa sonde, puis `apply_migration`, qu'il confirme) : voir « En attente de la confirmation d'Antoine » plus bas. |
 
 **Rejouer le rapprochement** (le registre ne se lit pas depuis la CI) : copier la
 sortie de la requête ci-dessous dans un fichier, puis
@@ -89,6 +90,16 @@ recopier le SQL sous la ligne-repère (modèle : n'importe quel fichier à
 | `20261008_retrait_admin_get_auth_users_apres_release.sql` | Seconde moitié de `consultations_sensibles_tracees` (au registre, 20261008095232) : retire le droit d'appel à `admin_get_auth_users`, qui rapatrie les e-mails et dernières connexions de TOUS les comptes sans trace (audit ADM-05). La v0.145 en production l'appelle encore à l'ouverture de l'onglet Utilisateurs. | Juste après la mise en production de la version qui passe par `admin_reveler_compte`. Avant : `git grep -n "admin_get_auth_users" -- src supabase/functions` ne doit rien rendre. Après : rejouer sa sonde (2 sur 2 attendus) et renommer le fichier à sa version. |
 | `20261006_allergenes_contrainte_apres_release.sql` | Seconde moitié de `allergenes_avec_accord` (au registre) : la base refusera tout allergène enregistré sans accord. Avant la release, l'écran en production enregistre encore des allergènes sans demander l'accord. | Juste après la mise en production de la version qui demande l'accord (décision du 2026-10-06, « allergènes = case »). Lire son en-tête avant de l'appliquer. |
 | `20261005_regle_du_pseudo_tenue_par_la_base.sql` | Elle fait refuser par la base un pseudo hors règle ou réservé. L'écran « Choisis ton pseudo » de la v0.145 (en production) ne contrôle que la longueur : il répondrait « Impossible d'enregistrer » à « Zoé » sans dire pourquoi. | Juste après la mise en production de la version qui contient `src/shared/lib/auth/username-rules.js`. Essai à blanc déjà joué le 2026-10-04 (0 écart avec la précédente). Après application, rejouer `supabase/probes/20261004_inscription_sans_impasse.sql` : 0 écart attendu, puis mettre cette section à jour. |
+
+## ⏳ Une migration en attente de la confirmation d'Antoine (état au 2026-10-09)
+
+Compatible avec la v0.145 en production : elle n'attend PAS la release, seulement Antoine, qui confirme
+l'essai à blanc (bloc `DO` de la sonde) puis `apply_migration`. Ensuite : sonde « après », renommer le fichier à
+sa version (14 chiffres), compléter les RÉSULTATS de la sonde, `npm run db:types`.
+
+| Migration | Ce qu'elle fait | Vérifié avant (2026-10-09, lecture seule) |
+|---|---|---|
+| `20261009183000_notes_en_une_lecture.sql` (version provisoire = heure d'écriture, exigée à 14 chiffres par `migrations-alignees` ; à renommer à la version qu'inscrira `apply_migration`) | Vue `recipe_rating_aggregates` (`security_invoker`, lecture anon + authenticated) : moyenne au dixième et nombre d'avis vivants par recette, calculés par la base — le panneau des recettes la lit en une requête au lieu de six lectures ligne à ligne et de moyennes faites dans le navigateur (audit du 2026-10-04, PERF-12). | La vue n'existe pas ; 1 avis vivant, 1 recette notée. Sonde : `supabase/probes/20261009_notes_en_une_lecture.sql`. |
 
 ## ✅ Aucune autre migration en attente (état au 2026-08-13)
 
