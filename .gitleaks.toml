@@ -3,6 +3,12 @@ title = "Fridge+ gitleaks config"
 [extend]
 useDefault = true
 
+# Les deux valeurs factices de .env.test (placeholders pour Vitest) : exemptées
+# par chemin ET par clé — un vrai secret posé sous une autre clé dans ce
+# fichier serait vu (audit du 2026-10-04, ARCH-16 ; avant, le fichier entier
+# était exempté).
 [[allowlists]]
 description = "Placeholders de test versionnes (pas de vrais secrets)"
+matchCondition = "AND"
 paths = ['''\.env\.test$''']
+regexes = ['''VITE_SUPABASE_(URL|ANON_KEY)\s*=''']

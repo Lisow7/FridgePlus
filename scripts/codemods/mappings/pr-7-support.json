@@ -1,4 +1,0 @@
-[
-  {"from": "/^(\\.\\.?\\/)+components\\/support\\/SupportPanel$/", "to": "@features/support/components/support-panel"},
-  {"from": "/^(\\.\\.?\\/)+lib\\/db\\/support$/",                  "to": "@features/support/api/support"}
-]

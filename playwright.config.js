@@ -9,6 +9,10 @@ export default defineConfig({
   fullyParallel: false, // un seul navigateur à la fois pour la stabilité
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
+  // Un test qui ne passe qu'à la relance est instable : en CI, il fait échouer la
+  // suite au lieu de se fondre dans le vert (audit du 2026-10-04, ARCH-17). Les
+  // relances restent : leur trace dit lequel.
+  failOnFlakyTests: !!process.env.CI,
   workers: 1,
   reporter: [['list'], ['html', { open: 'never' }]],
   use: {

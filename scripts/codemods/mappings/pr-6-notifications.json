@@ -1,9 +1,0 @@
-[
-  {"from": "/^(\\.\\.?\\/)+components\\/notifications\\/NotificationsBell$/",  "to": "@features/notifications/components/notifications-bell"},
-  {"from": "/^(\\.\\.?\\/)+components\\/notifications\\/NotificationsPanel$/", "to": "@features/notifications/components/notifications-panel"},
-  {"from": "/^(\\.\\.?\\/)+components\\/notifications\\/notificationsI18n$/",  "to": "@features/notifications/i18n/notifications-i18n"},
-  {"from": "/^(\\.\\.?\\/)+notifications\\/notificationsI18n$/",               "to": "@features/notifications/i18n/notifications-i18n"},
-  {"from": "/^(\\.\\.?\\/)+hooks\\/useNotifications$/",                        "to": "@features/notifications/hooks/use-notifications"},
-  {"from": "/^(\\.\\.?\\/)+context\\/NotificationsContext$/",                  "to": "@features/notifications/providers/notifications-provider"},
-  {"from": "/^(\\.\\.?\\/)+lib\\/db\\/notifications$/",                        "to": "@features/notifications/api/notifications"}
-]
