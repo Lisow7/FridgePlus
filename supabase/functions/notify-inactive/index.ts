@@ -26,6 +26,8 @@
 
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.112.3'
 import { getCorsHeaders } from '../_shared/cors.ts'
+import { reponseErreur } from '../_shared/reponse-erreur.ts'
+import { memeSecret } from '../_shared/secrets.ts'
 import { sendEmail } from '../_shared/email.ts'
 
 const BATCH_SIZE = 50
@@ -119,11 +121,11 @@ Deno.serve(async (req: Request) => {
   // ── Auth : soit X-Cron-Secret, soit Authorization service_role ──────
   const cronSecretHeader = req.headers.get('x-cron-secret') ?? ''
   const cronSecretEnv = Deno.env.get('NOTIFY_INACTIVE_CRON_SECRET') ?? ''
-  const isCronCall = !!cronSecretEnv && cronSecretHeader === cronSecretEnv
+  const isCronCall = !!cronSecretEnv && memeSecret(cronSecretHeader, cronSecretEnv)
 
   const authHeader = req.headers.get('Authorization') ?? ''
   const serviceRoleKey = Deno.env.get('SB_SECRET_KEY') ?? Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
-  const isServiceRoleCall = !!serviceRoleKey && authHeader === `Bearer ${serviceRoleKey}`
+  const isServiceRoleCall = !!serviceRoleKey && memeSecret(authHeader, `Bearer ${serviceRoleKey}`)
 
   if (!isCronCall && !isServiceRoleCall) {
     return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401, headers: CORS })
@@ -155,9 +157,7 @@ Deno.serve(async (req: Request) => {
     .rpc('get_inactive_accounts_to_warn')
     .limit(BATCH_SIZE)
   if (viewErr) {
-    return new Response(JSON.stringify({ error: 'View read failed', detail: viewErr.message }), {
-      status: 500, headers: { 'Content-Type': 'application/json', ...CORS },
-    })
+    return reponseErreur('View read failed', 500, CORS, viewErr, 'notify-inactive')
   }
   if (!candidates || candidates.length === 0) {
     return new Response(JSON.stringify({ processed: 0, warned: 0, errors: 0, message: 'No inactive accounts to warn' }), {
@@ -185,7 +185,8 @@ Deno.serve(async (req: Request) => {
 
       if (!emailRes.ok) {
         errors++
-        errorDetails.push({ id: row.id, reason: `Resend ${emailRes.status}: ${(emailRes.error ?? '').slice(0, 200)}` })
+        console.error(`[notify-inactive] ${row.id}: Resend ${emailRes.status}: ${(emailRes.error ?? '').slice(0, 200)}`)
+        errorDetails.push({ id: row.id, reason: `resend_${emailRes.status}` })
         continue
       }
 
@@ -196,13 +197,15 @@ Deno.serve(async (req: Request) => {
         .eq('id', row.id)
       if (updErr) {
         errors++
-        errorDetails.push({ id: row.id, reason: `Update failed: ${updErr.message}` })
+        console.error(`[notify-inactive] ${row.id}: update failed: ${updErr.message}`)
+        errorDetails.push({ id: row.id, reason: 'update_failed' })
         continue
       }
       warned++
     } catch (e) {
       errors++
-      errorDetails.push({ id: row.id, reason: `Exception: ${(e as Error).message}` })
+      console.error(`[notify-inactive] ${row.id}: exception: ${(e as Error).message}`)
+      errorDetails.push({ id: row.id, reason: 'exception' })
     }
   }
 

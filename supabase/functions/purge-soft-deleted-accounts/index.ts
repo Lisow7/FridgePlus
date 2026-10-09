@@ -23,6 +23,8 @@
 
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.112.3'
 import { getCorsHeaders } from '../_shared/cors.ts'
+import { reponseErreur } from '../_shared/reponse-erreur.ts'
+import { memeSecret } from '../_shared/secrets.ts'
 import { applyRateLimit } from '../_shared/rate-limit.ts'
 
 const RETENTION_DAYS = 30
@@ -50,7 +52,7 @@ Deno.serve(async (req: Request) => {
   }
   const authHeader = req.headers.get('Authorization')
   const provided   = authHeader?.replace('Bearer ', '') ?? ''
-  if (provided !== expectedSecret) {
+  if (!memeSecret(provided, expectedSecret)) {
     return new Response(
       JSON.stringify({ error: 'forbidden' }),
       { status: 403, headers: { 'Content-Type': 'application/json', ...CORS } }
@@ -72,12 +74,7 @@ Deno.serve(async (req: Request) => {
     .not('deleted_at', 'is', null)
     .lt('deleted_at', cutoff)
 
-  if (listErr) {
-    return new Response(
-      JSON.stringify({ error: 'db_error', detail: listErr.message }),
-      { status: 500, headers: { 'Content-Type': 'application/json', ...CORS } }
-    )
-  }
+  if (listErr) return reponseErreur('db_error', 500, CORS, listErr, 'purge-soft-deleted-accounts')
 
   if (!rows || rows.length === 0) {
     return new Response(
@@ -114,7 +111,8 @@ Deno.serve(async (req: Request) => {
 
     const { error: delErr } = await supabaseAdmin.auth.admin.deleteUser(row.id)
     if (delErr) {
-      errors.push({ id: row.id, username: row.username, error: delErr.message })
+      console.error(`[purge-soft-deleted-accounts] deleteUser ${row.id}: ${delErr.message}`)
+      errors.push({ id: row.id, error: 'delete_failed' })
     } else {
       purged++
     }

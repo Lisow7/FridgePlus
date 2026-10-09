@@ -16,6 +16,7 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.112.3'
 import webpush from 'npm:web-push@3.6.7'
 import { getCorsHeaders } from '../_shared/cors.ts'
+import { reponseErreur } from '../_shared/reponse-erreur.ts'
 import { applyRateLimit } from '../_shared/rate-limit.ts'
 
 interface Payload {
@@ -100,9 +101,7 @@ Deno.serve(async (req: Request) => {
     .is('deleted_at', null)
     .eq('push_preferences->>announcements', 'true')
   if (candidatesErr) {
-    return new Response(JSON.stringify({ error: 'Candidates query failed', detail: candidatesErr.message }), {
-      status: 500, headers: { 'Content-Type': 'application/json', ...CORS },
-    })
+    return reponseErreur('Candidates query failed', 500, CORS, candidatesErr, 'send-announcement-push')
   }
   if (!candidates || candidates.length === 0) {
     return new Response(JSON.stringify({ processed: 0, sent: 0, errors: 0, message: 'No subscribed candidates' }), {
@@ -143,7 +142,8 @@ Deno.serve(async (req: Request) => {
           await supabaseAdmin.from('push_subscriptions').delete().eq('id', sub.id)
         } else {
           errors++
-          errorDetails.push({ id: sub.id, reason: `${(sendErr as Error).name}: ${(sendErr as Error).message?.slice(0, 200)}` })
+          console.error(`[send-announcement-push] ${sub.id}: ${(sendErr as Error).name}: ${(sendErr as Error).message?.slice(0, 200)}`)
+          errorDetails.push({ id: sub.id, reason: (sendErr as Error).name || 'error' })
         }
       }
     }

@@ -30,7 +30,7 @@
 //
 // Flow (texte seul, inchangé) :
 //   1. Auth obligatoire (JWT) → 2. Validation payload → 3. Rate limit
-//   → 4. Cache lookup (ai_cache) → 5. Appel OpenAI → 6. Log + retour
+//   → 4. Cache lookup (ai_cache, verdict seul) → 5. Appel OpenAI → 6. Log + retour
 //
 // Flow (avec image) : identique, puis si non flagged → strip EXIF → upload
 // review-photos → insert community_posts → renvoie { ...résultat, post }.
@@ -41,6 +41,8 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.112.3'
 import piexif from 'https://esm.sh/piexifjs@1.0.6'
 import { getCorsHeaders } from '../_shared/cors.ts'
+import { reponseErreur } from '../_shared/reponse-erreur.ts'
+import { runAfterResponse } from '../_shared/apres-reponse.ts'
 import { applyRateLimit } from '../_shared/rate-limit.ts'
 
 const MAX_CONTENT_LENGTH = 10_000
@@ -147,89 +149,94 @@ Deno.serve(async (req: Request) => {
 
   const cacheKey = await sha256Hex(`${MODEL}:${content}:${imageBase64 ?? ''}`)
 
-  // ─── 5. Cache lookup ─────────────────────────────────────────────────────
-  const { data: cached } = await supabaseAdmin
+  // ─── 5. Verdict : le cache, sinon OpenAI ─────────────────────────────────
+  // Le cache ne garde que le VERDICT (flagged, categories, category_scores),
+  // jamais le post créé à l'étape 7 : la clé ne dépend pas du compte, et un
+  // second envoi de la même photo par quelqu'un d'autre aurait reçu le post du
+  // premier — défaut latent, masqué tant que les écritures `void` ne partaient
+  // jamais (audit du 2026-10-04, BDD-18 (5)). Un cache atteint crée donc quand
+  // même le post. Les écritures partent APRÈS la réponse (`runAfterResponse`).
+  const journal = (outcome: string, cached: boolean, extra: Record<string, unknown> = {}) =>
+    runAfterResponse(supabaseAdmin.from('ai_usage_log').insert({
+      user_id: user.id, feature: 'moderation', model: MODEL, cost_cents: 0, cached,
+      metadata: { feature_hint: feature, outcome, ...extra },
+    }))
+
+  let verdict: OpenAIModerationResult
+  let cached = false
+  const { data: enCache } = await supabaseAdmin
     .from('ai_cache')
     .select('response')
     .eq('cache_key', cacheKey)
     .maybeSingle()
 
-  if (cached?.response) {
-    void supabaseAdmin
-      .from('ai_cache')
-      .update({ last_hit_at: new Date().toISOString() })
-      .eq('cache_key', cacheKey)
-    void supabaseAdmin.from('ai_usage_log').insert({
-      user_id: user.id,
+  if (enCache?.response?.categories) {
+    verdict = {
+      flagged: Boolean(enCache.response.flagged),
+      categories: enCache.response.categories,
+      category_scores: enCache.response.category_scores ?? {},
+    }
+    cached = true
+    runAfterResponse(supabaseAdmin.from('ai_cache').update({ last_hit_at: new Date().toISOString() }).eq('cache_key', cacheKey))
+  } else {
+    // ─── 6. Appel OpenAI Moderation API ────────────────────────────────────
+    const openaiKey = Deno.env.get('OPENAI_API_KEY')
+    if (!openaiKey) {
+      return reponseErreur('openai_key_missing', 500, CORS)
+    }
+
+    const moderationInput = imageBase64
+      ? [
+          ...(content ? [{ type: 'text', text: content }] : []),
+          { type: 'image_url', image_url: { url: `data:image/jpeg;base64,${imageBase64}` } },
+        ]
+      : content
+
+    let openaiResp: Response
+    try {
+      openaiResp = await fetch('https://api.openai.com/v1/moderations', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${openaiKey}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ model: MODEL, input: moderationInput }),
+      })
+    } catch (err) {
+      journal('error', false, { reason: 'openai_unreachable' })
+      return reponseErreur('openai_unreachable', 502, CORS, err, 'moderate-content')
+    }
+
+    if (!openaiResp.ok) {
+      const text = await openaiResp.text()
+      journal('error', false, { reason: `openai_error_${openaiResp.status}` })
+      return reponseErreur('openai_error', 502, CORS, text, 'moderate-content', { status: openaiResp.status })
+    }
+
+    const data: OpenAIModerationResponse = await openaiResp.json()
+    const result = data.results?.[0]
+    if (!result) {
+      journal('error', false, { reason: 'openai_invalid_response' })
+      return reponseErreur('openai_invalid_response', 502, CORS)
+    }
+    verdict = { flagged: result.flagged, categories: result.categories, category_scores: result.category_scores }
+
+    runAfterResponse(supabaseAdmin.from('ai_cache').upsert({
+      cache_key: cacheKey,
       feature: 'moderation',
       model: MODEL,
-      cost_cents: 0,
-      cached: true,
-      metadata: { feature_hint: feature, outcome: cached.response?.flagged ? 'flagged' : 'passed' },
-    })
-    return new Response(JSON.stringify(cached.response), { status: 200, headers: { ...CORS, 'Content-Type': 'application/json' } })
+      response: verdict,
+      last_hit_at: new Date().toISOString(),
+    }, { onConflict: 'cache_key' }))
   }
 
-  // ─── 6. Appel OpenAI Moderation API ──────────────────────────────────────
-  const openaiKey = Deno.env.get('OPENAI_API_KEY')
-  if (!openaiKey) {
-    return new Response(JSON.stringify({ error: 'openai_key_missing' }), { status: 500, headers: CORS })
-  }
-
-  const logModerationError = (reason: string) => {
-    void supabaseAdmin.from('ai_usage_log').insert({
-      user_id: user.id,
-      feature: 'moderation',
-      model: MODEL,
-      cost_cents: 0,
-      cached: false,
-      metadata: { feature_hint: feature, outcome: 'error', reason },
-    })
-  }
-
-  const moderationInput = imageBase64
-    ? [
-        ...(content ? [{ type: 'text', text: content }] : []),
-        { type: 'image_url', image_url: { url: `data:image/jpeg;base64,${imageBase64}` } },
-      ]
-    : content
-
-  let openaiResp: Response
-  try {
-    openaiResp = await fetch('https://api.openai.com/v1/moderations', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${openaiKey}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ model: MODEL, input: moderationInput }),
-    })
-  } catch (err) {
-    logModerationError('openai_unreachable')
-    return new Response(JSON.stringify({ error: 'openai_unreachable', detail: String(err) }), { status: 502, headers: CORS })
-  }
-
-  if (!openaiResp.ok) {
-    const text = await openaiResp.text()
-    logModerationError(`openai_error_${openaiResp.status}`)
-    return new Response(JSON.stringify({ error: 'openai_error', status: openaiResp.status, detail: text }), { status: 502, headers: CORS })
-  }
-
-  const data: OpenAIModerationResponse = await openaiResp.json()
-  const result = data.results?.[0]
-  if (!result) {
-    logModerationError('openai_invalid_response')
-    return new Response(JSON.stringify({ error: 'openai_invalid_response' }), { status: 502, headers: CORS })
-  }
-
-  let cleanResult: { flagged: boolean; categories: Record<string, boolean>; category_scores: Record<string, number>; post?: unknown } = {
-    flagged: result.flagged,
-    categories: result.categories,
-    category_scores: result.category_scores,
-  }
+  let cleanResult: OpenAIModerationResult & { post?: unknown } = { ...verdict }
 
   // ─── 7. Photo acceptée : strip EXIF, upload, crée le post ────────────────
-  if (imageBase64 && !result.flagged) {
+  if (imageBase64 && !verdict.flagged) {
+    // Le chemin déposé, pour retirer la photo du bucket si le post ne se crée
+    // pas : sinon un fichier orphelin reste public (BDD-18 (6)).
+    let cheminDepose: string | null = null
     try {
       // atob() produit une "binary string" (1 caractère = 1 octet) — format
       // natif attendu par piexifjs pour un JPEG.
@@ -242,9 +249,10 @@ Deno.serve(async (req: Request) => {
         .from('review-photos')
         .upload(path, bytes, { contentType: 'image/jpeg', upsert: false })
       if (uploadErr) {
-        logModerationError('storage_upload_failed')
-        return new Response(JSON.stringify({ error: 'storage_upload_failed', detail: uploadErr.message }), { status: 502, headers: CORS })
+        journal('error', cached, { reason: 'storage_upload_failed' })
+        return reponseErreur('storage_upload_failed', 502, CORS, uploadErr, 'moderate-content')
       }
+      cheminDepose = path
 
       const { data: { publicUrl } } = supabaseAdmin.storage.from('review-photos').getPublicUrl(path)
 
@@ -261,33 +269,20 @@ Deno.serve(async (req: Request) => {
         .select('id, user_id, category, title, body, recipe_id, photo_url, likes_count, replies_count, created_at, updated_at')
         .single()
       if (postErr) {
-        logModerationError('post_insert_failed')
-        return new Response(JSON.stringify({ error: 'post_insert_failed', detail: postErr.message }), { status: 502, headers: CORS })
+        runAfterResponse(supabaseAdmin.storage.from('review-photos').remove([path]))
+        journal('error', cached, { reason: 'post_insert_failed' })
+        return reponseErreur('post_insert_failed', 502, CORS, postErr, 'moderate-content')
       }
       cleanResult = { ...cleanResult, post }
     } catch (err) {
-      logModerationError('exif_strip_or_upload_exception')
-      return new Response(JSON.stringify({ error: 'photo_processing_failed', detail: String(err) }), { status: 502, headers: CORS })
+      if (cheminDepose) runAfterResponse(supabaseAdmin.storage.from('review-photos').remove([cheminDepose]))
+      journal('error', cached, { reason: 'exif_strip_or_upload_exception' })
+      return reponseErreur('photo_processing_failed', 502, CORS, err, 'moderate-content')
     }
   }
 
-  // ─── 8. Sauvegarde cache + log (fire & forget) ───────────────────────────
-  void supabaseAdmin.from('ai_cache').upsert({
-    cache_key: cacheKey,
-    feature: 'moderation',
-    model: MODEL,
-    response: cleanResult,
-    last_hit_at: new Date().toISOString(),
-  }, { onConflict: 'cache_key' })
-
-  void supabaseAdmin.from('ai_usage_log').insert({
-    user_id: user.id,
-    feature: 'moderation',
-    model: MODEL,
-    cost_cents: 0,
-    cached: false,
-    metadata: { feature_hint: feature, outcome: cleanResult.flagged ? 'flagged' : 'passed' },
-  })
+  // ─── 8. Journal d'usage, après la réponse ────────────────────────────────
+  journal(verdict.flagged ? 'flagged' : 'passed', cached)
 
   return new Response(JSON.stringify(cleanResult), { status: 200, headers: { ...CORS, 'Content-Type': 'application/json' } })
 })
