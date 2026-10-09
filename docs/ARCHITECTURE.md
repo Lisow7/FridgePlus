@@ -39,7 +39,7 @@ Commandes clés (cf. `package.json`) : `npm run dev | build | test | e2e | migra
   `shared/lib/version.js`, `shared/static/*`).
 - **`src/app/`** — bootstrap, contextes applicatifs, hooks de session.
 - **`src/routes/`** — déclaration des routes (`routes-config.js`, `index.jsx`) + **guards**
-  (`auth-guard`, `premium-guard`, `role-guard`, `recovery-guard`, `redirect-if-auth-guard`).
+  (`auth-guard`, `recovery-guard`, `redirect-if-auth-guard`).
 - **`src/test/`** — tests Vitest. **`src/App.jsx`** — l'écran d'accueil (panneaux, modales,
   navigation interne) ; il ne porte plus le stock ni les favoris (§4).
 - Règle : *les fichiers qui changent ensemble vivent ensemble* (découper par responsabilité, pas par couche).

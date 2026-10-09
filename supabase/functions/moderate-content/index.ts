@@ -1,8 +1,9 @@
 // Edge Function — modération de contenu UGC via OpenAI Moderation API.
 //
-// Appelée depuis le client React au moment de la soumission de contenu
-// utilisateur (recette custom, ticket support, bio profil, avis recette,
-// post communauté). Bloque le contenu inapproprié AVANT de l'insérer en BDD.
+// Appelée depuis le client React au moment de la soumission d'un contenu
+// utilisateur PUBLIC (recette custom, bio profil, avis recette, post
+// communauté — plus les demandes au support, RGPD-02). Bloque le contenu
+// inapproprié AVANT de l'insérer en BDD.
 //
 // Pourquoi pas côté client :
 //   • OPENAI_API_KEY est secret, ne doit jamais être exposée au browser
@@ -44,7 +45,10 @@ import { getCorsHeaders } from '../_shared/cors.ts'
 import { applyRateLimit } from '../_shared/rate-limit.ts'
 
 const MAX_CONTENT_LENGTH = 10_000
-const ALLOWED_FEATURES = new Set(['recipe', 'ticket', 'profile-bio', 'review', 'community-post'])
+// Textes PUBLICS seulement. `ticket` retiré le 2026-10-08 : une demande au
+// support ne passe plus par OpenAI (RGPD-02), mais un appel direct l'aurait
+// encore envoyée.
+const ALLOWED_FEATURES = new Set(['recipe', 'profile-bio', 'review', 'community-post'])
 // ~6 Mo d'image d'origine en base64 : marge confortable au-dessus du
 // plafond client de 2 Mo compressé (base64 gonfle la taille d'~33%).
 const MAX_IMAGE_BASE64_LENGTH = 8_000_000
@@ -53,7 +57,7 @@ const MODEL = 'omni-moderation-latest'
 
 interface ModerationPayload {
   content: string
-  feature: 'recipe' | 'ticket' | 'profile-bio' | 'review' | 'community-post'
+  feature: 'recipe' | 'profile-bio' | 'review' | 'community-post'
   image_base64?: string
   recipe_id?: string
   title?: string

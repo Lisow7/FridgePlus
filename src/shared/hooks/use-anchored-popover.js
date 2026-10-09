@@ -14,7 +14,7 @@ const MARGIN = 12  // marge mini par rapport aux bords du viewport
  * @param {number} width largeur logique (sert au clamp horizontal)
  * @returns {{left,top?,bottom?,width,maxH,placement}|null}
  */
-export function computeAnchoredPosition(anchor, width) {
+function computeAnchoredPosition(anchor, width) {
   if (!anchor) return null
   const r = anchor.getBoundingClientRect()
   const vw = window.innerWidth

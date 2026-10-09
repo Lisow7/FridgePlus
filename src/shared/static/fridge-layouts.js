@@ -140,7 +140,3 @@ export const FRIDGE_LAYOUTS = {
   },
 
 }
-
-export function getLayout(lang) {
-  return FRIDGE_LAYOUTS[lang] ?? FRIDGE_LAYOUTS.fr
-}

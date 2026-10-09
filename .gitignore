@@ -101,7 +101,7 @@ analysis_output.json
 lighthouse-report.*
 
 # ─── Divers (sécurité défensive) ───────────────────────────
-lib/*
+/lib/*
 
 # Audit recettes (rapport temporaire) + captures QA visuelle (Playwright)
 tmp-*

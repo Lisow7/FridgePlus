@@ -43,7 +43,7 @@ async function logAdminAction(action, targetId = null, targetType = null) {
 // Sprint 5f : ces fonctions orchestrent (repo BDD + activity_logs).
 // Le repo est responsable de la BDD pure, admin.js de l'audit.
 
-export async function adminCountRecipesByStatus(status) {
+async function adminCountRecipesByStatus(status) {
   return adminCountCommunityRecipesByStatus(status)
 }
 

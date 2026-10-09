@@ -1,4 +1,4 @@
-// Tests pour le hook useModeration et le helper moderateContent.
+// Tests des appels à la modération : moderateContent et submitPhotoPost.
 // Mock supabase.functions.invoke pour isoler la logique.
 
 import { describe, it, expect, vi, beforeEach } from 'vitest'
@@ -45,14 +45,16 @@ describe('moderateContent helper', () => {
 
   it('throw si Edge Function retourne une erreur', async () => {
     invokeMock.mockResolvedValueOnce({ data: null, error: { message: 'rate_limited' } })
-    await expect(moderateContent('test', 'ticket')).rejects.toMatchObject({ message: 'rate_limited' })
+    await expect(moderateContent('test', 'review')).rejects.toMatchObject({ message: 'rate_limited' })
   })
 
-  it('feature `ticket` accepté', async () => {
+  // `ticket` n'est plus une fonctionnalité : une demande au support ne passe
+  // plus par OpenAI (RGPD-02, cf. demandes-hors-openai.test.js).
+  it('transmet le texte et la fonctionnalité tels quels', async () => {
     invokeMock.mockResolvedValueOnce({ data: { flagged: false, categories: {}, category_scores: {} }, error: null })
-    await moderateContent('ticket support', 'ticket')
+    await moderateContent('Un avis sur la recette', 'review')
     expect(invokeMock).toHaveBeenCalledWith('moderate-content', {
-      body: { content: 'ticket support', feature: 'ticket' },
+      body: { content: 'Un avis sur la recette', feature: 'review' },
     })
   })
 })
