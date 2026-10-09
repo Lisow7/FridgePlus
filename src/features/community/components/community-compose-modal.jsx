@@ -4,7 +4,7 @@ import { LuX, LuFeather, LuUtensils } from 'react-icons/lu'
 import { moderateContent } from '@shared/hooks/use-moderation'
 import { CATEGORIES, categoryLabel } from '@shared/lib/i18n/community-i18n'
 import { canPost, createPost, updatePost } from '@shared/api/community'
-import leoProfanity from 'leo-profanity'
+import { containsProfanity } from '@shared/lib/moderation'
 import Button from '@shared/ui/button'
 import { useDialogue } from '@shared/hooks/use-dialogue'
 import { getC, catColor } from './community-theme'
@@ -67,7 +67,7 @@ export function ComposeModal({ initialPost, initialCategory, user, t, lang, dark
     if (title.length > 120)      { setError(t.titleTooLong(title.length)); return }
     if (body.trim().length < 10) { setError(t.bodyTooShort); return }
     if (body.length > 5000)      { setError(t.bodyTooLong(body.length)); return }
-    if (leoProfanity.check(`${title} ${body}`)) { setError(t.profanityWarning); return }
+    if (containsProfanity(`${title} ${body}`)) { setError(t.profanityWarning); return }
     if (!isEdit && !await canPost(user.id)) { setError(t.spamLimitPost); return }
     setSubmitting(true)
     try {

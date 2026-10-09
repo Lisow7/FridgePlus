@@ -5,7 +5,7 @@ import { LuImage, LuUser, LuMessageSquare, LuScroll, LuPanelTop } from 'react-ic
 import { useAuth } from '@shared/contexts/auth-provider'
 import AvatarImg from '@shared/ui/avatar-img'
 import Button from '@shared/ui/button'
-import leoProfanity from 'leo-profanity'
+import { containsProfanity } from '@shared/lib/moderation'
 import { moderateContent } from '@shared/hooks/use-moderation'
 import { acceptCommunityTerms, revokeCommunityTerms, updateCommunityBio } from '@shared/api/community'
 import { useConfirm } from '@shared/ui/confirm-dialog/confirm-provider'
@@ -126,7 +126,7 @@ export default function ProfileIdentityPage() {
       setPseudoError(regles.invalid)
       return
     }
-    if (leoProfanity.check(u)) {
+    if (containsProfanity(u)) {
       setPseudoError(t.pseudoProfanity)
       return
     }
@@ -170,7 +170,7 @@ export default function ProfileIdentityPage() {
   }, [profile])
 
   async function handleSaveBio() {
-    if (leoProfanity.check(bio)) {
+    if (containsProfanity(bio)) {
       setBioMsg({ type: 'error', text: t.bioProfanity })
       return
     }
