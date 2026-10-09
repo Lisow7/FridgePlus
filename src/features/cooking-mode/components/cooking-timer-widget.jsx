@@ -49,8 +49,12 @@ export default function CookingTimerWidget({ timer, lang = 'fr' }) {
         minWidth: '120px',
       }}
       role="timer"
-      aria-live={timer.state === 'running' ? 'off' : 'polite'}
+      aria-live="off"
     >
+      {/* La fin se dit dans une région vive PERMANENTE : allumer `aria-live`
+          dans le même rendu que « Terminé ! » ne l'annonçait jamais, et le
+          compte à rebours, lui, doit rester muet (audit du 2026-10-04, A11Y-17). */}
+      <span className="sr-only" role="status" aria-live="polite">{isDone ? t.done : ''}</span>
       {timer.label && (
         <span style={{ fontSize: '12px', color: 'var(--color-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
           {timer.label}
