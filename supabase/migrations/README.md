@@ -66,6 +66,7 @@ texte qui en reste.
 | `20260708_receipt_scan_feature_flag.sql` | Appliqué hors registre : le drapeau `receipt_scan` existe. |
 | `20260808_guard_profiles_columns_restantes.sql` | Appliqué le 2026-08-13 sous le nom `guard_profiles_consentements` (fichier `20260813111101_…`). Son en-tête disait « non appliquée » : corrigé. |
 | `20261005_regle_du_pseudo_tenue_par_la_base.sql`, `20261006_allergenes_contrainte_apres_release.sql`, `20261008_retrait_admin_get_auth_users_apres_release.sql` | **En attente de release**, exprès : voir la section suivante. |
+| `20261008_droits_en_base.sql`, `20261008_index_pseudo_en_double.sql` | **En attente de la confirmation d'Antoine** (essai à blanc puis `apply_migration`, qu'il confirme) : voir « En attente d'Antoine » plus bas. |
 
 **Rejouer le rapprochement** (le registre ne se lit pas depuis la CI) : copier la
 sortie de la requête ci-dessous dans un fichier, puis
@@ -89,6 +90,17 @@ recopier le SQL sous la ligne-repère (modèle : n'importe quel fichier à
 | `20261008_retrait_admin_get_auth_users_apres_release.sql` | Seconde moitié de `consultations_sensibles_tracees` (au registre, 20261008095232) : retire le droit d'appel à `admin_get_auth_users`, qui rapatrie les e-mails et dernières connexions de TOUS les comptes sans trace (audit ADM-05). La v0.145 en production l'appelle encore à l'ouverture de l'onglet Utilisateurs. | Juste après la mise en production de la version qui passe par `admin_reveler_compte`. Avant : `git grep -n "admin_get_auth_users" -- src supabase/functions` ne doit rien rendre. Après : rejouer sa sonde (2 sur 2 attendus) et renommer le fichier à sa version. |
 | `20261006_allergenes_contrainte_apres_release.sql` | Seconde moitié de `allergenes_avec_accord` (au registre) : la base refusera tout allergène enregistré sans accord. Avant la release, l'écran en production enregistre encore des allergènes sans demander l'accord. | Juste après la mise en production de la version qui demande l'accord (décision du 2026-10-06, « allergènes = case »). Lire son en-tête avant de l'appliquer. |
 | `20261005_regle_du_pseudo_tenue_par_la_base.sql` | Elle fait refuser par la base un pseudo hors règle ou réservé. L'écran « Choisis ton pseudo » de la v0.145 (en production) ne contrôle que la longueur : il répondrait « Impossible d'enregistrer » à « Zoé » sans dire pourquoi. | Juste après la mise en production de la version qui contient `src/shared/lib/auth/username-rules.js`. Essai à blanc déjà joué le 2026-10-04 (0 écart avec la précédente). Après application, rejouer `supabase/probes/20261004_inscription_sans_impasse.sql` : 0 écart attendu, puis mettre cette section à jour. |
+
+## ⏳ Deux migrations en attente de la confirmation d'Antoine (état au 2026-10-08)
+
+Compatibles avec la v0.145 en production : elles n'attendent PAS la release, seulement Antoine, qui confirme
+l'essai à blanc (bloc `DO` de la sonde) puis `apply_migration`. Ensuite : sonde « après », renommer le fichier à
+sa version (14 chiffres), compléter les RÉSULTATS de la sonde.
+
+| Migration | Ce qu'elle fait | Vérifié avant (2026-10-08, lecture seule) |
+|---|---|---|
+| `20261008_droits_en_base.sql` | Retire à `anon` l'exécution d'`admin_delete_notification_batch` (BDD-16), la lecture de `feature_flags.updated_by` (BDD-18 (4)) et celle d'`ai_cache` (BDD-21 (4)) ; garde ce qui sert (l'admin, la lecture des bascules, le serveur). Sonde : `supabase/probes/20261008_droits_en_base.sql`. | Prod v0.145 et dev : `admin_delete_notification_batch` appelée connecté ; bascules lues par `key, enabled, label, description` ; `ai_cache` jamais lue côté client. |
+| `20261008_index_pseudo_en_double.sql` | Retire `profiles_username_lower_idx`, index UNIQUE créé par aucune migration du dépôt, en double de `profiles_username_unique_lower` (décision du 2026-10-08, `index_double = oui`). Sonde : `supabase/probes/20261008_index_pseudo_en_double.sql`. | Les deux index existent ; le client ne lit que le code 23505. |
 
 ## ✅ Aucune autre migration en attente (état au 2026-08-13)
 
