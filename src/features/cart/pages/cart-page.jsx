@@ -20,6 +20,7 @@ import PricingSourcesModal from '@features/cart/components/pricing-sources-modal
 import { detectCartPhase } from '@features/cart/lib/cart-helpers'
 import { useDocumentTitle } from '@shared/hooks/use-document-title'
 import { titreDeRoute } from '@routes/route-title'
+import PageSkeleton from '@routes/page-skeleton'
 
 const I18N = {
   fr: { defaultListName: 'Courses' },
@@ -35,7 +36,7 @@ export default function CartPage({ lang = 'fr', darkMode = false }) {
   const t = I18N[lang] ?? I18N.fr
   const navigate = useNavigate()
   const { user } = useAuth()
-  const { hasPremiumAccess } = useSubscription()
+  const { hasPremiumAccess, profileLoading } = useSubscription()
   const ingredientsById = useIngredientsById()
   const { recipes: baseRecipes, recipeNames } = useBaseRecipes()
   const groupMaps = useGroupMaps()
@@ -164,6 +165,10 @@ export default function CartPage({ lang = 'fr', darkMode = false }) {
   const handleShowRecipes = useCallback(() => navigate('/'), [navigate])
 
   // ── Paywall inline ───────────────────────────────────────────────────────
+  // Le profil arrive après `loading` : sans cette attente, un abonné voyait le
+  // verrou un instant à chaque ouverture (audit du 2026-10-04, PREM-06).
+  if (profileLoading) return <PageSkeleton lang={lang} darkMode={darkMode} />
+
   if (!hasPremiumAccess) {
     return (
       <div

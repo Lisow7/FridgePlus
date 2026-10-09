@@ -11,7 +11,7 @@ import { UpgradeGate } from '@shared/ui/upgrade-gate'
 // cuisinent. `showModeCuisine` / `showCook` séparent les deux moitiés ; par
 // défaut (bureau), le pied est entier, comme avant.
 export function RecipeCookFooter({
-  recipe, recipeSteps, user, isMobile, hasPremiumAccess, darkMode, lang, t, navigate,
+  recipe, recipeSteps, user, isMobile, hasPremiumAccess, profileLoading = false, darkMode, lang, t, navigate,
   withdrawFeedback, setWithdrawFeedback, feedbackTimerRef,
   hasStockIngredients, enterWithdraw, logCookedWithoutWithdraw,
   showModeCuisine = true, showCook = true,
@@ -50,7 +50,8 @@ export function RecipeCookFooter({
           <div style={{ display: 'flex', flexDirection: cookButtonsRow ? 'row' : 'column', gap: '8px', alignItems: cookButtonsRow ? (bothCookButtons ? 'stretch' : 'flex-start') : 'stretch' }}>
           {showModeCuisine && recipeSteps.length > 0 && (
             <div style={itemStyle}>
-            {hasPremiumAccess ? (
+            {/* Profil pas encore là : ni bouton ni verrou (audit du 2026-10-04, PREM-06). */}
+            {profileLoading ? null : hasPremiumAccess ? (
             <Button onClick={() => navigate(`/cook/${recipe.id}`)}
               title={t.cookingMode} aria-label={t.cookingMode}
               className={`${bothCookButtons ? 'h-full' : 'h-auto'} w-full rounded-[10px] border-[1.5px] px-4 py-2.5 text-sm font-bold`}

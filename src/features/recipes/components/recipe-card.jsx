@@ -55,15 +55,15 @@ function RecipeCard({
   const [cartNotice, setCartNotice]     = useState(null) // 'added' | 'duplicate' | 'all_in_fridge'
   const cartNoticeRef                   = useRef(null)
   const [upgradeCartOpen, setUpgradeCartOpen] = useState(false)
-  const { hasPremiumAccess } = useSubscription()
+  const { hasPremiumAccess, profileLoading } = useSubscription()
   const { openUpgradeModal } = useUpgradeModal()
   const { user } = useAuth()
   const windowWidth = useWindowWidth()
   const isMobile = windowWidth < 640
 
-  // Non-premium connecté : affiche "Premium" sur hover au lieu du prix
+  // Non-premium connecté (profil connu — PREM-06) : "Premium" au survol au lieu du prix
   const showCostOnHover    = !!(costStr && !isInCart && !allInFridge && hasPremiumAccess)
-  const showPremiumOnHover = !hasPremiumAccess && !!user && !isInCart && !allInFridge
+  const showPremiumOnHover = !hasPremiumAccess && !profileLoading && !!user && !isInCart && !allInFridge
   const expandOnHover      = showCostOnHover || showPremiumOnHover || isInCart || allInFridge
 
   function showNotice(type) {

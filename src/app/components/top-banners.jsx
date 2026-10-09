@@ -23,6 +23,38 @@ const SUB_ACTIVATED_I18N = {
 
 const CLOSE_I18N = { fr: 'Fermer', en: 'Close' }
 
+// Le profil n'a pas pu être lu malgré les tentatives (audit du 2026-10-04,
+// CPT-12) : jusqu'ici la personne restait « connectée sans profil » sans un mot.
+const PROFIL_INDISPONIBLE_I18N = {
+  fr: { msg: 'Ton profil n’a pas pu être chargé.', retry: 'Réessayer' },
+  en: { msg: 'Your profile couldn’t be loaded.', retry: 'Retry' },
+}
+
+function BandeauProfilIndisponible({ lang, onRelancer }) {
+  const t = PROFIL_INDISPONIBLE_I18N[lang] ?? PROFIL_INDISPONIBLE_I18N.fr
+  return (
+    <div role="alert" style={{
+      ...CENTRE_EN_HAUT,
+      zIndex: Z_INDEX.TOAST,
+      padding: '12px 18px', borderRadius: '12px',
+      background: 'var(--color-danger)',
+      color: 'white', fontWeight: 700, fontSize: '14px',
+      display: 'flex', alignItems: 'center', gap: '10px',
+      boxShadow: '0 6px 18px rgba(0,0,0,0.18)',
+      animation: 'menu-slide-down 0.25s ease both',
+    }}>
+      <span style={{ lineHeight: 1.45 }}>{t.msg}</span>
+      <button
+        type="button"
+        onClick={onRelancer}
+        style={{ minHeight: '24px', padding: '4px 10px', borderRadius: '20px', border: '1.5px solid rgba(255,255,255,0.7)', background: 'transparent', color: 'white', fontSize: '12px', fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit', flexShrink: 0 }}
+      >
+        {t.retry}
+      </button>
+    </div>
+  )
+}
+
 // Centrage d'un bandeau fixe SANS `transform`. L'ancien `left: 50%` +
 // `translateX(-50%)` était écrasé par l'animation d'entrée
 // (`menu-slide-down` anime `transform` et le garde) : le bandeau partait du
@@ -40,6 +72,8 @@ export default function TopBanners({
   trialDaysLeft,
   onTrialActivate,
   onTrialDismiss,
+  profilIndisponible,
+  onRelancerLeProfil,
   lang,
 }) {
   return (
@@ -69,6 +103,10 @@ export default function TopBanners({
           </button>
         </div>
       )}
+
+      {/* Profil illisible après les tentatives : une alerte, et « Réessayer »
+          relance la lecture (audit du 2026-10-04, CPT-12). */}
+      {profilIndisponible && <BandeauProfilIndisponible lang={lang} onRelancer={onRelancerLeProfil} />}
 
       {/* v3.130.0 — Toast activation abonnement */}
       {subscriptionActivatedToast && (

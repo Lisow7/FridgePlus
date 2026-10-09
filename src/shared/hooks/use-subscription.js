@@ -8,7 +8,7 @@ import { useMemo } from 'react'
 import { useAuth } from '@shared/contexts/auth-provider'
 
 export function useSubscription() {
-  const { profile, isAdmin } = useAuth()
+  const { profile, isAdmin, profileLoading } = useAuth()
 
   return useMemo(() => {
     const status         = profile?.subscription_status ?? 'free'
@@ -44,6 +44,10 @@ export function useSubscription() {
       plan: profile?.subscription_plan ?? null,
       isSpecialAccess,
       specialRole,
+      // Compte connecté dont le profil n'est pas encore là : « pas Premium »
+      // serait un mensonge d'un instant — les pages attendent (audit du
+      // 2026-10-04, PREM-06).
+      profileLoading: !!profileLoading,
     }
-  }, [profile, isAdmin])
+  }, [profile, isAdmin, profileLoading])
 }

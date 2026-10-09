@@ -69,7 +69,7 @@ function AppInner() {
  if (import.meta.env.DEV && new URLSearchParams(window.location.search).has('crash')) {
  throw new Error('Dev crash trigger: app-level (ErrorBoundary global)')
  }
- const { user, profile, loading: authLoading, signOut, recoveryMode, isAdmin, allergenPrefs, restoreAccount, refreshProfile } = useAuth()
+ const { user, profile, loading: authLoading, signOut, recoveryMode, isAdmin, allergenPrefs, restoreAccount, refreshProfile, profilIndisponible, relancerLeProfil } = useAuth()
  const { isTrialing, trialDaysLeft, isPremium } = useSubscription()
  const { isUpgradeOpen, openUpgradeModal, closeUpgradeModal } = useUpgradeModal()
 
@@ -436,8 +436,8 @@ function AppInner() {
  <UndoProvider lang={lang} darkMode={darkMode}>
  <div className="min-h-dvh bg-[var(--color-cream)] flex flex-col overflow-hidden" style={{ height: '100dvh' }}>
  <TopBanners
- restoreBanner={restoreBanner}
- onRestoreBannerDismiss={dismissRestoreBanner}
+ restoreBanner={restoreBanner} onRestoreBannerDismiss={dismissRestoreBanner}
+ profilIndisponible={profilIndisponible} onRelancerLeProfil={relancerLeProfil}
  subscriptionActivatedToast={subscriptionActivatedToast}
  showTrialBanner={showTrialBanner}
  trialDaysLeft={trialDaysLeft}

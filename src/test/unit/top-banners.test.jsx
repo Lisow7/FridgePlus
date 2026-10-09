@@ -31,3 +31,20 @@ describe('TopBanners — bandeau d’un lien e-mail', () => {
     expect(container).toBeEmptyDOMElement()
   })
 })
+
+// Un profil qui ne charge pas : le dire, et proposer de relire (audit du
+// 2026-10-04, CPT-12). Une alerte : c'est la seule réponse que reçoit la personne.
+describe('TopBanners — profil indisponible', () => {
+  it('une alerte avec « Réessayer », qui relit le profil', () => {
+    const relire = vi.fn()
+    render(<TopBanners lang="fr" profilIndisponible onRelancerLeProfil={relire} />)
+    expect(screen.getByRole('alert')).toHaveTextContent(/profil/i)
+    fireEvent.click(screen.getByRole('button', { name: 'Réessayer' }))
+    expect(relire).toHaveBeenCalledTimes(1)
+  })
+
+  it('rien quand le profil va bien', () => {
+    const { container } = render(<TopBanners lang="fr" profilIndisponible={false} />)
+    expect(container).toBeEmptyDOMElement()
+  })
+})

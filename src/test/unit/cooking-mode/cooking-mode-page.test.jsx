@@ -116,6 +116,15 @@ describe('CookingModePage — branches', () => {
     expect(screen.getByTestId('upgrade-gate')).toHaveTextContent('voice-cooking')
   })
 
+  // Le profil arrive après `loading` : tant qu'on ne sait pas, le squelette —
+  // jamais le verrou pour un abonné (audit du 2026-10-04, PREM-06).
+  it('profil en cours de chargement → squelette, pas de verrou', () => {
+    mockSubscription = { hasPremiumAccess: false, profileLoading: true }
+    renderPage({ lang: 'fr' })
+    expect(screen.getByTestId('skeleton')).toBeInTheDocument()
+    expect(screen.queryByTestId('upgrade-gate')).not.toBeInTheDocument()
+  })
+
   // Recette embarquée montrée avant le catalogue : ses étapes arrivent avec la
   // fiche complète (audit du 2026-10-04, PERF-02). En attendant, on attend —
   // « introuvable » serait faux.

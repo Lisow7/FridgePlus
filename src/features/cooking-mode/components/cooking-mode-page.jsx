@@ -118,7 +118,7 @@ export default function CookingModePage({ lang = 'fr', darkMode = false }) {
   const navigate = useNavigate()
   const { recipe, status, pending } = useRecipeById(recipeId)
   const { recipeNames, recipes: baseRecipes } = useBaseRecipes()
-  const { hasPremiumAccess } = useSubscription()
+  const { hasPremiumAccess, profileLoading } = useSubscription()
   const { user } = useAuth()
   const celebrate = useBadgeCelebration()
   const signalerEchec = useSaveErrorToast()
@@ -134,7 +134,9 @@ export default function CookingModePage({ lang = 'fr', darkMode = false }) {
         : pickLocalizedName(recipeNames?.[recipe.id], null, lang, recipe.id))
   useDocumentTitle(nomPourOnglet ? nomPourOnglet + ' — Fridge+' : '')
 
-  if (status === 'loading') {
+  // Profil pas encore là : on attend aussi, sinon un abonné voyait le verrou
+  // un instant (audit du 2026-10-04, PREM-06).
+  if (status === 'loading' || profileLoading) {
     return <PageSkeleton lang={lang} darkMode={darkMode} />
   }
 
