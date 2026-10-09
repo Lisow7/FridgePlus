@@ -186,15 +186,27 @@ describe('Header', () => {
       expect(profileItem).toHaveAttribute('href', '/profile')
     })
 
-    it('affiche le badge panier « Prochainement » pour un user non-premium', async () => {
-      // Régression : le tier du panier doit être 'soon' (→ « Prochainement »),
+    // Décision du 2026-10-08 (2026-10-08, `nom_reglages = langue_theme`) : deux
+    // « Préférences » coexistaient — cette section du menu (langue, thème) et
+    // l'onglet du profil (pays, forme du frigo, allergènes, budget…).
+    it('UserMenu : la section des réglages s’appelle « Langue et thème », pas « Préférences »', async () => {
+      mockAuth = () => ({ user: { id: 'u-1' }, profile: { username: 'Alice', avatar_id: null }, isAdmin: false })
+      const user = userEvent.setup()
+      render(<Header {...defaultProps} />)
+      await user.click(screen.getByRole('button', { name: 'Menu utilisateur' }))
+      expect(screen.getByText('Langue et thème')).toBeInTheDocument()
+      expect(screen.queryByText('Préférences')).not.toBeInTheDocument()
+    })
+
+    it('affiche le badge panier « Bientôt » pour un user non-premium', async () => {
+      // Régression : le tier du panier doit être 'soon' (→ « Bientôt »),
       // pas 'cart' (clé inconnue de TierBadge = badge silencieusement absent).
       mockAuth = () => ({ user: { id: 'u-1' }, profile: { username: 'Alice', avatar_id: null }, isAdmin: false })
       const user = userEvent.setup()
       render(<Header {...defaultProps} />)
       // Le panier est dans le dropdown UserMenu — ouvrir via le trigger avatar (aria-label générique).
       await user.click(screen.getByRole('button', { name: 'Menu utilisateur' }))
-      expect(screen.getByText('Prochainement')).toBeInTheDocument()
+      expect(screen.getByText('Bientôt')).toBeInTheDocument()
     })
 
     it('affiche l\'avatar comme trigger même en mobile', () => {

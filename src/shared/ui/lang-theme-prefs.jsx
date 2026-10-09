@@ -32,7 +32,7 @@ export const FLAGS = {
 }
 
 const I18N = {
-  fr: { lang: 'Langues', theme: 'Thème', dark: 'Mode sombre', light: 'Mode clair', soon: 'Bientôt disponible' },
+  fr: { lang: 'Langues', theme: 'Thème', dark: 'Mode sombre', light: 'Mode clair', soon: 'Bientôt' },
   en: { lang: 'Languages', theme: 'Theme', dark: 'Dark mode', light: 'Light mode', soon: 'Coming soon' },
 }
 

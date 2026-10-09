@@ -7,8 +7,8 @@ import { groupShareRowsByAisle, formatShareQty } from '@features/cart/lib/share-
 // Composant React, pas chaîne HTML : chaque libellé est échappé par React
 // (audit du 2026-10-04 — l'ancienne version assemblait le document à la main).
 const I18N = {
-  fr: { title: 'Liste de courses', total: 'Total estimé', empty: 'Liste vide' },
-  en: { title: 'Shopping list', total: 'Estimated total', empty: 'Empty list' },
+  fr: { title: 'Panier', total: 'Total estimé', empty: 'Liste vide' },
+  en: { title: 'Cart', total: 'Estimated total', empty: 'Empty list' },
 }
 
 function formatTotal(total, lang) {

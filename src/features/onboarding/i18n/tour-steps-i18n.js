@@ -21,7 +21,7 @@
 export const TOUR_STEPS_I18N = {
   fr: {
     fab: {
-      title: 'Le bouton orange',
+      title: 'Le bouton orange, Actions rapides',
       subtitle: 'EN HAUT À DROITE DE L’ACCUEIL',
       desc: 'C\'est ton menu. Trois verbes, dans l\'ordre : Remplir, Vérifier, Cuisiner. Chaque entrée dit en une ligne ce qu\'elle fait.',
       tips: [
@@ -35,7 +35,7 @@ export const TOUR_STEPS_I18N = {
       options: [
         { icon: 'door',   t: 'Ouvre le frigo',           d: 'Coche ce que tu as, bac par bac' },
         { icon: 'search', t: 'Cherche un aliment',       d: 'Tape son nom : œufs, pâtes…' },
-        { icon: 'mic',    t: 'Dis-le au micro',          d: 'Dis tes courses, comme à un ami' },
+        { icon: 'mic',    t: 'À la voix',                d: 'Dis tes courses, comme à un ami' },
         { icon: 'camera', t: 'Photographie ton ticket',  d: 'Toutes tes courses d’un coup' },
       ],
       tips: [
@@ -91,7 +91,7 @@ export const TOUR_STEPS_I18N = {
       desc: 'Tu connais l\'essentiel. À toi de jouer, et régale-toi !',
       ctaLabel: 'Lancer Fridge+ →',
       tips: [
-        { i: '✨', t: 'Un guide dédié te présentera le panier, les coûts et la cuisine guidée.' },
+        { i: '✨', t: 'Un guide dédié te présentera le panier, les coûts et le mode cuisine.' },
         { i: '❓', t: 'Le bouton « ? » en haut regroupe l\'aide et toutes les fonctionnalités.' },
       ],
     },
@@ -99,7 +99,7 @@ export const TOUR_STEPS_I18N = {
 
   en: {
     fab: {
-      title: 'The orange button',
+      title: 'The orange button, Quick actions',
       subtitle: 'TOP RIGHT OF THE HOME SCREEN',
       desc: 'It\'s your menu. Three verbs, in order: Fill, Check, Cook. Each entry says in one line what it does.',
       tips: [
@@ -113,7 +113,7 @@ export const TOUR_STEPS_I18N = {
       options: [
         { icon: 'door',   t: 'Open the fridge',   d: 'Tick what you have, shelf by shelf' },
         { icon: 'search', t: 'Find a food',       d: 'Type its name: eggs, pasta…' },
-        { icon: 'mic',    t: 'Say it to the mic', d: 'Say your groceries, like to a friend' },
+        { icon: 'mic',    t: 'By voice', d: 'Say your groceries, like to a friend' },
         { icon: 'camera', t: 'Snap your receipt', d: 'All your groceries at once' },
       ],
       tips: [
@@ -169,7 +169,7 @@ export const TOUR_STEPS_I18N = {
       desc: 'You know the essentials. Over to you — enjoy!',
       ctaLabel: 'Launch Fridge+ →',
       tips: [
-        { i: '✨', t: 'A dedicated guide will walk you through the cart, costs and guided cooking.' },
+        { i: '✨', t: 'A dedicated guide will walk you through the cart, costs and cooking mode.' },
         { i: '❓', t: 'The "?" button at the top gathers help and all the features.' },
       ],
     },

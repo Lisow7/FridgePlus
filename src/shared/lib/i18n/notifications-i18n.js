@@ -17,7 +17,7 @@ export const NOTIF_I18N = {
     loadError:        'Tes notifications n\'ont pas pu être chargées.',
     retry:            'Réessayer',
     deleteAllRead:    'Effacer les notifications lues',
-    catSupport:       'Support',
+    catSupport:       'Mes demandes',
     catFridge:        'Ton frigo',
     catRecipes:       'Mes recettes',
     catCommunity:     'Communauté',

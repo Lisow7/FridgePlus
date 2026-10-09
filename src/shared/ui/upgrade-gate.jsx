@@ -12,7 +12,7 @@ const FEATURE_DATA = {
   basket: {
     emoji: '🛒',
     fr: {
-      title: 'Panier de courses',
+      title: 'Panier',
       accroche: 'Tout ce qu\'il te faut pour faire tes courses sereinement :',
       bullets: [
         'Ingrédients regroupés, quantités calculées automatiquement',
@@ -21,7 +21,7 @@ const FEATURE_DATA = {
       ],
     },
     en: {
-      title: 'Shopping basket',
+      title: 'Cart',
       accroche: 'Everything you need for a stress-free shopping trip:',
       bullets: [
         'Ingredients merged, quantities auto-calculated',
@@ -56,22 +56,22 @@ const FEATURE_DATA = {
   'voice-cooking': {
     emoji: '🎙️',
     fr: {
-      title: 'Mode cuisine vocal',
+      title: 'Mode cuisine, avec la voix',
       accroche: 'Les mains occupées ? Ta voix guide chaque étape. Cuisine sans jamais toucher ton écran.',
     },
     en: {
-      title: 'Hands-free cooking mode',
+      title: 'Cooking mode, with voice',
       accroche: 'Hands covered in dough? Your voice guides each step. Cook without ever touching your screen.',
     },
   },
   'shopping-lists': {
     emoji: '📋',
     fr: {
-      title: 'Listes sauvegardées',
+      title: 'Mes listes',
       accroche: 'Crée et retrouve tes listes à tout moment. Tes courses habituelles accessibles en un clic.',
     },
     en: {
-      title: 'Saved shopping lists',
+      title: 'My lists',
       accroche: 'Create and access your lists anytime. Your usual groceries available in one click.',
     },
   },
@@ -143,10 +143,10 @@ const SOFT_I18N = {
 }
 
 // Mode « Launch Free » : le premium est désactivé (PREMIUM_ENABLED=false), les
-// features sont teasées « Prochainement » sans parcours d'achat.
+// features sont teasées « Bientôt » sans parcours d'achat.
 const COMING_SOON_I18N = {
-  fr: { badge: 'Prochainement', cta: 'Bientôt disponible' },
-  en: { badge: 'Coming soon',   cta: 'Coming soon' },
+  fr: { badge: 'Bientôt',       cta: 'Cette fonctionnalité arrive bientôt.' },
+  en: { badge: 'Coming soon',   cta: 'This feature is coming soon.' },
 }
 
 /**

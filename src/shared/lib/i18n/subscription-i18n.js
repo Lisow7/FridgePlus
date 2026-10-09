@@ -3,7 +3,7 @@ export const SUB_I18N = {
     tabLabel: 'Abonnement',
     // Free
     freeTitle: 'Compte gratuit',
-    freeDesc:  'Débloque le panier de courses, le mode cuisine vocal, les listes sauvegardées et plus encore.',
+    freeDesc:  'Débloque le panier, la voix dans le mode cuisine, tes listes gardées et plus encore.',
     freeCta:   'Démarrer l\'essai gratuit 7 jours',
     // Trialing
     trialTitle: 'Essai Premium en cours',
@@ -32,7 +32,7 @@ export const SUB_I18N = {
   en: {
     tabLabel: 'Subscription',
     freeTitle: 'Free account',
-    freeDesc:  'Unlock the shopping basket, vocal cooking mode, saved lists and more.',
+    freeDesc:  'Unlock the cart, voice in cooking mode, your saved lists and more.',
     freeCta:   'Start 7-day free trial',
     trialTitle: 'Premium trial active',
     trialDays:  (n) => `${n} day${n > 1 ? 's' : ''} remaining`,

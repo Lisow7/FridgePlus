@@ -54,7 +54,7 @@ export const FORM_I18N = {
     publishBenefits:[
       { emoji:'📣', label:'Visibilité dans la communauté',  detail:'Vue, recherchable, scorée pour le frigo de chacun.' },
       { emoji:'🥗', label:'Nutrition & allergènes auto',      detail:'Calories, protéines, glucides, lipides et 14 allergènes UE calculés automatiquement.' },
-      { emoji:'⭐', label:'Avis & réactions',                 detail:'Likes, notes et commentaires de la communauté.' },
+      { emoji:'⭐', label:'Avis & réactions',                 detail:'J’aime, notes et commentaires de la communauté.' },
       { emoji:'🤝', label:'Tu contribues à la communauté',     detail:'Tu enrichis le catalogue Fridge+ pour tous les utilisateurs.' },
     ],
     publishTitle:'Critères de publication',

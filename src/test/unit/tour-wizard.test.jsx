@@ -86,7 +86,7 @@ describe('TourWizard — refonte visite courte (5 étapes constantes)', () => {
     render(<TourWizard lang="de" user={null} onClose={() => {}} onAction={{}} />)
     // langue non-fr → anglais
     expect(screen.getByText('STEP 1 / 5')).toBeInTheDocument()
-    expect(screen.getByText('The orange button')).toBeInTheDocument()
+    expect(screen.getByText('The orange button, Quick actions')).toBeInTheDocument()
   })
 
   it('l’étape 3 est « Vérifier » : inventaire et restes, avant les recettes', () => {

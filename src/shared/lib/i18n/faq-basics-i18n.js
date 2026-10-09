@@ -29,19 +29,19 @@ import { SEUIL_PRESQUE, enPourcent } from '@shared/lib/recipes/recipe-thresholds
 
 export const FAQ_BASICS_I18N = {
   fr: {
-    intro: 'Tout part du bouton orange, en haut à droite : Remplir, Vérifier, Cuisiner.',
+    intro: 'Tout part du bouton orange, Actions rapides, en haut à droite : Remplir, Vérifier, Cuisiner.',
     groups: { fill: 'Remplir', check: 'Vérifier', cook: 'Cuisiner', account: 'Compte & données' },
     questions: [
       // ── Remplir (étape 2 du guide) ──
       { group: 'fill', step: 2, q: 'Comment ajouter des ingrédients ?',
-        a: 'Quatre façons, toutes dans le bouton orange : ouvre le frigo et coche bac par bac, cherche un aliment par son nom, dis-les au micro, ou photographie ton ticket de caisse.' },
+        a: 'Quatre façons, toutes dans Actions rapides : ouvre le frigo et coche bac par bac, cherche un aliment par son nom, dicte-les à la voix, ou photographie ton ticket de caisse.' },
       { group: 'fill', step: 2, q: 'La photo du ticket, comment ça marche ?',
         a: 'Avec un compte, « Photo du ticket » lit les articles de ton ticket et te les montre à relire avant de les ajouter d’un coup. La caméra ne s’active que si tu l’autorises.' },
       { group: 'fill', step: 2, q: 'Le micro ne réagit pas ?',
         a: 'Vérifie que tu as autorisé le micro (au premier usage, ou dans Confidentialité) et que la langue de l’app est celle que tu parles. Il comprend le français et l’anglais.' },
       // ── Vérifier (étape 3) ──
       { group: 'check', step: 3, q: 'Où voir tout ce que j’ai ?',
-        a: 'Bouton orange → Inventaire : tout ton frigo en une liste, avec une recherche ; un tap sur un aliment le retire. C’est aussi là que tu peux vider le frigo, avec 10 secondes pour annuler.' },
+        a: 'Actions rapides → Inventaire : tout ton frigo en une liste, avec une recherche ; un tap sur un aliment le retire. C’est aussi là que tu peux vider le frigo, avec 10 secondes pour annuler.' },
       { group: 'check', step: 3, q: 'C’est quoi les « Restes », et comment éviter le gaspillage ?',
         a: 'Les restes sont tes plats cuisinés, avec le temps qui leur reste : vert, orange, rouge. L’app met les rouges en avant dans les recettes pour que tu les finisses à temps.' },
       // ── Cuisiner (étape 4) ──
@@ -59,21 +59,21 @@ export const FAQ_BASICS_I18N = {
       { group: 'account', step: 5, q: 'L’app existe-t-elle en anglais ?',
         a: 'Oui : le drapeau en haut bascule entre français et anglais, à tout moment.' },
       { group: 'account', step: 5, q: 'C’est quoi le premium ?',
-        a: 'Bientôt : panier, coûts, cuisine vocale. Pour l’instant, tout est gratuit.' },
+        a: 'Bientôt : panier, coûts, la voix dans le mode cuisine. Pour l’instant, tout est gratuit.' },
     ],
   },
   en: {
-    intro: 'Everything starts from the orange button, top right: Fill, Check, Cook.',
+    intro: 'Everything starts from the orange button, Quick actions, top right: Fill, Check, Cook.',
     groups: { fill: 'Fill', check: 'Check', cook: 'Cook', account: 'Account & data' },
     questions: [
       { group: 'fill', step: 2, q: 'How do I add ingredients?',
-        a: 'Four ways, all in the orange button: open the fridge and tick shelf by shelf, find a food by its name, say them to the mic, or snap a photo of your receipt.' },
+        a: 'Four ways, all in Quick actions: open the fridge and tick shelf by shelf, find a food by its name, dictate them by voice, or snap a photo of your receipt.' },
       { group: 'fill', step: 2, q: 'How does the receipt photo work?',
         a: 'With an account, "Receipt photo" reads the items on your receipt and shows them for review before adding them all at once. The camera only turns on if you allow it.' },
       { group: 'fill', step: 2, q: 'The mic isn\'t responding?',
         a: 'Check that you allowed the mic (on first use, or in Privacy) and that the app\'s language is the one you speak. It understands French and English.' },
       { group: 'check', step: 3, q: 'Where do I see everything I have?',
-        a: 'Orange button → Inventory: your whole fridge in one list, with a search; one tap on an item removes it. That\'s also where you can empty the fridge, with 10 seconds to undo.' },
+        a: 'Quick actions → Inventory: your whole fridge in one list, with a search; one tap on an item removes it. That\'s also where you can empty the fridge, with 10 seconds to undo.' },
       { group: 'check', step: 3, q: 'What are "Leftovers", and how do I avoid waste?',
         a: 'Leftovers are your cooked dishes, with the time they have left: green, orange, red. The app puts the red ones first in the recipes so you finish them in time.' },
       { group: 'cook', step: 4, q: 'I\'ve added my ingredients, now what?',
@@ -89,7 +89,7 @@ export const FAQ_BASICS_I18N = {
       { group: 'account', step: 5, q: 'Is the app available in English?',
         a: 'Yes: the flag at the top switches between French and English, anytime.' },
       { group: 'account', step: 5, q: 'What is premium?',
-        a: 'Soon: cart, costs, voice cooking. For now, everything is free.' },
+        a: 'Coming soon: cart, costs, voice in cooking mode. For now, everything is free.' },
     ],
   },
 }

@@ -27,7 +27,7 @@ const AISLE_EMOJI = {
 const I18N = {
   fr: {
     brand: 'Fridge+',
-    title: 'Liste de courses partagée',
+    title: 'Panier partagé',
     loading: 'Chargement de la liste…',
     notFound: 'Ce lien est introuvable ou a expiré.',
     error: 'Impossible de charger la liste.',
@@ -48,7 +48,7 @@ const I18N = {
   },
   en: {
     brand: 'Fridge+',
-    title: 'Shared shopping list',
+    title: 'Shared cart',
     loading: 'Loading list…',
     notFound: 'This link was not found or has expired.',
     error: 'Could not load the list.',

@@ -16,7 +16,7 @@ const I18N = {
     done: (n) => `🎉 Done! ${n} item${n > 1 ? 's' : ''} added to your fridge.`,
     empty: 'Finish your shopping to see your suggestions.',
     save: 'Save the list',
-    newBasket: 'Prepare a new basket',
+    newBasket: 'Prepare a new cart',
     back: 'Back to fridge',
   },
 }

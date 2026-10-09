@@ -16,8 +16,8 @@ const ERROR_I18N = {
   quota_exceeded: { fr: 'Quota mensuel de scans atteint — réessaie le mois prochain.', en: 'Monthly scan quota reached — try again next month.' },
   user_quota_exceeded: { fr: 'Tu as utilisé tes 30 scans du mois — réessaie le mois prochain.', en: 'You have used your 30 scans this month — try again next month.' },
   rate_limited:   { fr: 'Trop de scans en peu de temps — patiente un instant.', en: 'Too many scans in a short time — please wait a moment.' },
-  unauthorized:   { fr: 'Connecte-toi pour utiliser cette fonctionnalité.', en: 'Log in to use this feature.' },
-  invalid_token:  { fr: 'Connecte-toi pour utiliser cette fonctionnalité.', en: 'Log in to use this feature.' },
+  unauthorized:   { fr: 'Connecte-toi pour utiliser cette fonctionnalité.', en: 'Sign in to use this feature.' },
+  invalid_token:  { fr: 'Connecte-toi pour utiliser cette fonctionnalité.', en: 'Sign in to use this feature.' },
   vision_error:   { fr: "Impossible de lire ce ticket, réessaie avec une autre photo.", en: 'Could not read this receipt, try another photo.' },
   image_too_large: { fr: 'Photo trop volumineuse, réessaie avec une autre.', en: 'Photo too large, try another one.' },
   vision_unreachable: { fr: 'Problème de connexion, réessaie dans un instant.', en: 'Connection problem, try again in a moment.' },
@@ -29,8 +29,8 @@ const ERROR_I18N = {
 }
 
 const LOGIN_REQUIRED_I18N = {
-  fr: { text: 'Connecte-toi pour scanner ton ticket de caisse.', button: 'Se connecter', close: 'Fermer' },
-  en: { text: 'Log in to scan your receipt.', button: 'Log in', close: 'Close' },
+  fr: { text: 'Connecte-toi pour photographier ton ticket de caisse.', button: 'Se connecter', close: 'Fermer' },
+  en: { text: 'Sign in to snap your receipt.', button: 'Sign in', close: 'Close' },
 }
 
 const PROCESSING_I18N = { fr: 'Lecture du ticket…', en: 'Reading the receipt…' }

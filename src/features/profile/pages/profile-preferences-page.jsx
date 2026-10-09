@@ -83,7 +83,7 @@ const I18N = {
     allergenSaveBtn: 'Save',
     allergenSaved: 'Preferences saved.',
     budgetTitle: 'Shopping budget',
-    budgetDesc:  'An optional monthly limit. A progress bar appears in your basket to track spending.',
+    budgetDesc:  'An optional monthly limit. A progress bar appears in your cart to track spending.',
     budgetPlaceholder: 'e.g. 300',
     budgetLabel: 'Monthly budget (€)',
     perTripLabel: 'Per-trip limit (€)',

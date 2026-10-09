@@ -54,7 +54,7 @@ test.describe('Photo de ticket de caisse (invité)', () => {
     // visible sous le titre de section « Remplir » (2026-09-11 ; « Ajouter des ingrédients » avant).
     await page.getByText('Photo du ticket').click()
 
-    await expect(page.getByText('Connecte-toi pour scanner ton ticket de caisse.')).toBeVisible()
+    await expect(page.getByText('Connecte-toi pour photographier ton ticket de caisse.')).toBeVisible()
     await expect(page.getByText('On identifie tes ingrédients')).not.toBeVisible()
   })
 
@@ -69,8 +69,8 @@ test.describe('Photo de ticket de caisse (invité)', () => {
     // visible sous le titre de section « Remplir » (2026-09-11 ; « Ajouter des ingrédients » avant).
     await page.getByText('Photo du ticket').click()
 
-    await expect(page.getByText('Connecte-toi pour scanner ton ticket de caisse.')).toBeVisible()
+    await expect(page.getByText('Connecte-toi pour photographier ton ticket de caisse.')).toBeVisible()
     await page.getByRole('button', { name: 'Fermer' }).click()
-    await expect(page.getByText('Connecte-toi pour scanner ton ticket de caisse.')).not.toBeVisible()
+    await expect(page.getByText('Connecte-toi pour photographier ton ticket de caisse.')).not.toBeVisible()
   })
 })

@@ -19,18 +19,18 @@ describe('GettingStartedCard (coach)', () => {
     fireEvent.click(screen.getByRole('button', { name: /Voir la recette/ }))
     expect(onSeeRecipe).toHaveBeenCalledOnce()
   })
-  it('s2b : « Presque » + Voir mes recettes', () => {
+  it('s2b : « Presque » + Voir les recettes', () => {
     const onSeeRecipes = vi.fn()
     render(<GettingStartedCard {...base} stepsDone={1} state="s2b" onSeeRecipes={onSeeRecipes} />)
     expect(screen.getByText('Presque !')).toBeInTheDocument()
-    fireEvent.click(screen.getByRole('button', { name: /Voir mes recettes/ }))
+    fireEvent.click(screen.getByRole('button', { name: /Voir les recettes/ }))
     expect(onSeeRecipes).toHaveBeenCalledOnce()
   })
-  it('s2b : « Tout ajouter » et « Voir mes recettes » côte à côte, pas empilés (chantier H)', () => {
+  it('s2b : « Tout ajouter » et « Voir les recettes » côte à côte, pas empilés (chantier H)', () => {
     const onQuickAdd = vi.fn()
     render(<GettingStartedCard {...base} stepsDone={1} state="s2b" onQuickAdd={onQuickAdd} onSeeRecipes={() => {}} />)
     const addAllBtn = screen.getByRole('button', { name: 'Tout ajouter' })
-    const seeRecipesBtn = screen.getByRole('button', { name: /Voir mes recettes/ })
+    const seeRecipesBtn = screen.getByRole('button', { name: /Voir les recettes/ })
     expect(addAllBtn.parentElement).toBe(seeRecipesBtn.parentElement)
     expect(addAllBtn.parentElement).toHaveClass('flex')
     fireEvent.click(addAllBtn)
@@ -73,7 +73,7 @@ describe('GettingStartedCard (coach)', () => {
     render(<GettingStartedCard {...base} state="s1" />)
     expect(screen.getByText('Coche')).toBeInTheDocument()
     expect(screen.getByText('Cherche')).toBeInTheDocument()
-    expect(screen.getByText('Dis-le')).toBeInTheDocument()
+    expect(screen.getByText('À la voix')).toBeInTheDocument()
     expect(screen.getByText('Photographie ton ticket')).toBeInTheDocument()
     expect(screen.getByText(/bouton orange/)).toBeInTheDocument()
     expect(document.querySelector('[data-fab-glyph]')).not.toBeNull()

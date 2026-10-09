@@ -7,7 +7,7 @@ export { LANGUAGES, FLAGS } from '@shared/ui/lang-theme-prefs'
 export const SIGN_IN_LABEL = { fr: 'Se connecter', en: 'Sign in'}
 export const SIGN_OUT_LABEL = { fr: 'Se déconnecter', en: 'Sign out'}
 export const COMMUNITY_LABEL = { fr: 'Communauté', en: 'Community'}
-export const SUPPORT_LABEL = { fr: 'Support', en: 'Support'}
+export const SUPPORT_LABEL = { fr: 'Écrire au support', en: 'Support'}
 export const PROFILE_LABEL = { fr: 'Mon profil', en: 'My profile'}
 export const ADMIN_LABEL = { fr: 'Panneau admin', en: 'Admin panel'}
 export const CART_LABEL = { fr: 'Mon panier', en: 'My cart'}

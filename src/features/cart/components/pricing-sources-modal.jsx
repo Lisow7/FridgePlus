@@ -34,7 +34,7 @@ const I18N = {
   en: {
     title: 'Price Sources',
     close: 'Close',
-    indicativeNote: 'Prices shown in the basket are indicative estimates based on public data. They do not constitute a commercial offer and may vary by retailer, region, and period.',
+    indicativeNote: 'Prices shown in the cart are indicative estimates based on public data. They do not constitute a commercial offer and may vary by retailer, region, and period.',
     sourcesTitle: 'Data Sources',
     sources: [
       {

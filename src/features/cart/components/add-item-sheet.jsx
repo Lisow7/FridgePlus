@@ -32,7 +32,7 @@ const DUP_I18N = {
   },
   en: {
     confirm: (label, source) =>
-      `${label} already in your basket via ${source}. Add anyway?`,
+      `${label} already in your cart via ${source}. Add anyway?`,
     manualSource: '(added manually)',
   },
 }
