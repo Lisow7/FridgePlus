@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 500" width="1024" height="500">
+  <!-- ⚠️ Fond de l'IMAGE DE PRÉSENTATION Google Play (« feature graphic »).
+       La capture réelle de l'app est composée par-dessus par
+       scripts/generate-play-feature-graphic.mjs. Régénérer : `npm run play:graphic`.
+
+       Contraintes Play (vérifiées le 2026-09-12) : 1024×500 exactement, JPEG ou
+       PNG 24 bits **SANS canal alpha** — d'où le fond plein, jamais transparent.
+       Le cadrage varie selon les surfaces (jusqu'au 16:9 et superposition de
+       l'icône en bas à gauche) : rien d'essentiel à moins de 60 px des bords,
+       et coin bas-gauche laissé vide.
+
+       Politique de métadonnées : aucune mention de classement, de prix ni de
+       promotion (« n°1 », « gratuit », « -10 % ») — d'où les seules mentions
+       factuelles et vérifiables : le catalogue et les deux façons d'ajouter. -->
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1024" y2="500" gradientUnits="userSpaceOnUse">
+      <stop offset="0%"   stop-color="#FEF4E4"/>
+      <stop offset="55%"  stop-color="#FDFAF6"/>
+      <stop offset="100%" stop-color="#F5EDD8"/>
+    </linearGradient>
+    <linearGradient id="handle" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#F7A85E"/>
+      <stop offset="100%" stop-color="#D46A10"/>
+    </linearGradient>
+    <filter id="cardShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="12" stdDeviation="22" flood-color="#2C1A0E" flood-opacity="0.18"/>
+    </filter>
+  </defs>
+
+  <!-- Fond plein (pas d'alpha) + décor discret -->
+  <rect width="1024" height="500" fill="url(#bg)"/>
+  <circle cx="96" cy="118" r="54" fill="#F5A45A" opacity="0.10"/>
+  <circle cx="132" cy="424" r="78" fill="#7BB078" opacity="0.07"/>
+  <ellipse cx="790" cy="250" rx="300" ry="250" fill="#F5A45A" opacity="0.07"/>
+
+  <!-- ====== TEXTE (x 92 → 620, loin des bords) ====== -->
+  <text x="92" y="176" font-family="Georgia, serif" font-size="76" font-weight="700" letter-spacing="-1">
+    <tspan fill="#2C1A0E">Fridge</tspan><tspan fill="url(#handle)">+</tspan>
+  </text>
+
+  <text x="96" y="224" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" font-size="22" fill="#7A6050" font-weight="700">Cuisine avec ce que tu as déjà.</text>
+
+  <g font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" font-size="19" fill="#6B5040">
+    <circle cx="108" cy="288" r="12" fill="#D46A10" opacity="0.15"/>
+    <text x="102" y="295" font-size="15" fill="#B85A08" font-weight="700">✓</text>
+    <text x="132" y="295">Remplis ton frigo : coche, dicte ou photographie ton ticket</text>
+
+    <circle cx="108" cy="332" r="12" fill="#D46A10" opacity="0.15"/>
+    <text x="102" y="339" font-size="15" fill="#B85A08" font-weight="700">✓</text>
+    <text x="132" y="339">Vois d’un coup les recettes réalisables maintenant</text>
+
+    <circle cx="108" cy="376" r="12" fill="#D46A10" opacity="0.15"/>
+    <text x="102" y="383" font-size="15" fill="#B85A08" font-weight="700">✓</text>
+    <text x="132" y="383">Finis tes restes avant qu’ils ne se perdent</text>
+  </g>
+
+  <rect x="96" y="416" width="236" height="38" rx="19" fill="url(#handle)" opacity="0.16"/>
+  <text x="214" y="441" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" font-size="15" font-weight="700" fill="#B85A08" text-anchor="middle">515 recettes · 15 cuisines</text>
+
+  <!-- ====== EMPLACEMENT DE LA CAPTURE (ombre sous la carte) ======
+       Carte téléphone : 700,64 → 232×372, coins r=20. La capture réelle est
+       composée à ces coordonnées exactes par le script — les deux doivent
+       rester synchronisées. -->
+  <rect x="700" y="64" width="232" height="372" rx="20" fill="#2C1A0E" opacity="0.001" filter="url(#cardShadow)"/>
+</svg>

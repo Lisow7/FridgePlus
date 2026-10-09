@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="google" content="notranslate" />
+
+    <!-- v3.20.5 — Preconnect Supabase : ouvre la connexion TLS+H2 au plus tôt
+         pour économiser ~100-200 ms sur la première requête API (auth, stock).
+         dns-prefetch en fallback pour les anciens navigateurs sans preconnect. -->
+    <link rel="preconnect" href="https://bymuvgjghtupfzwjbice.supabase.co" crossorigin />
+    <link rel="dns-prefetch" href="https://bymuvgjghtupfzwjbice.supabase.co" />
+
+    <!-- Favicon & PWA (Vite injecte le base path automatiquement)
+         Le manifest est généré au build par vite-plugin-pwa et injecté ici
+         via le script du plugin — pas besoin de <link rel="manifest"> manuel. -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/icon-192.png" />
+    <meta name="theme-color" content="#E07820" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Fridge+" />
+
+    <!-- Primary Meta -->
+    <title>Fridge+ — Gère ton frigo, crée &amp; trouve des recettes</title>
+    <meta name="description" content="Fais l'inventaire de ton frigo et de ton garde-manger, puis crée et découvre instantanément des recettes avec ce que tu as déjà. Gratuit, simple et multilingue." />
+    <meta name="author" content="Fridge+" />
+    <meta name="robots" content="index, follow" />
+    <!-- Pas de `canonical` en dur — et c'est délibéré (2026-08-13).
+
+         Ce fichier est servi TEL QUEL pour TOUTES les routes (SPA + rewrite
+         Vercel). Un `canonical` fixé à `https://fridgeplus.app/` déclarait donc
+         chacune des 515 pages `/recipe/:id` comme un DOUBLON de l'accueil —
+         soit exactement le signal qui empêche Google de les indexer, alors que
+         ces URLs partageables sont la raison d'être de la page.
+
+         🔴 Ne PAS « corriger » en injectant le canonical en JavaScript.
+         Google (doc mise à jour en décembre 2025) demande de ne pas remplacer
+         par JS un canonical different de celui du HTML d'origine : la
+         canonicalisation se joue avant ET après rendu, et deux signaux
+         contradictoires donnent une indexation imprévisible.
+
+         Sans balise, chaque URL est self-canonical — c'est le comportement
+         voulu ici, et il ne crée aucun conflit.
+
+         Contrepartie MESURÉE, et acceptée : `/?recettes=1` peut désormais être
+         indexée à part. C'est la SEULE URL à paramètre atteignable par une
+         ancre crawlable (`recipe-detail-header.jsx:190`) ; les filtres passent
+         par `navigate()`, invisible aux crawlers.
+
+         La vraie solution complète (canonical + og par route, et surtout
+         aperçus de partage) demande un rendu serveur — voir
+         la note interne sur le pré-rendu SEO. Elle n'est PAS remplaçable par du JS.
+         Garde-fou : `src/test/unit/seo-pas-de-canonical-transversal.test.js` -->
+
+
+    <!-- Pas de hreflang — et c'est délibéré (2026-08-03, révise la tentative du
+         2026-07-22 qui déclarait les 6 langues sur cette même URL).
+
+         hreflang désigne des URLs ALTERNATIVES : chaque version linguistique doit
+         avoir son URL propre, et chacune doit lister toutes les autres. Or ici la
+         langue vient de `localStorage('fridge-lang')` et non de l'URL — aucune
+         route n'est préfixée par langue (cf. `src/routes/routes-config.js`).
+
+         Six annotations pointant toutes vers `https://fridgeplus.app/` ne
+         décrivent donc aucune alternative : Google les ignore, et au passage
+         annonce des variantes de langue qui ne sont pas atteignables par un
+         crawler. Les retirer ne perd rien.
+
+         ⚠️ Ne PAS les remettre sans avoir d'abord créé de vraies URLs par langue
+         (routes `/es/…` ou équivalent servant réellement ce contenu). Le
+         `lang` du <html> et les og:locale restent, eux, pertinents. -->
+
+    <!-- Open Graph -->
+    <meta property="og:type"              content="website" />
+    <!-- Pas d'`og:url` en dur, même raison que le `canonical` ci-dessus : fixé
+         à l'accueil, il faisait traiter le partage d'une recette comme un
+         partage de la page d'accueil — toutes les recettes fusionnées en un
+         seul objet côté réseaux. Sans la balise, les plateformes retiennent
+         l'URL réellement partagée. -->
+
+    <meta property="og:site_name"         content="Fridge+" />
+    <!-- Aperçu de lien 100 % FRANÇAIS (décision user 2026-08-27 : pas de
+         bilingue — le marché prioritaire est FR, l'anglais parasitait le
+         rendu Discord/WhatsApp). Le titre tient ENTIER sous la troncature
+         (~40-60 caractères selon la messagerie). ?v=3 : purge le cache des
+         messageries après chaque refonte du visuel. -->
+    <meta property="og:title"             content="Fridge+ — Cuisine avec ce que tu as déjà" />
+    <meta property="og:description"       content="Coche ce qu'il y a dans ton frigo, Fridge+ te dit quoi cuisiner. 515 recettes de 15 cuisines. Gratuit, sans pub, sans inscription." />
+    <meta property="og:image"             content="https://fridgeplus.app/og-image.png?v=3" />
+    <meta property="og:image:width"       content="1200" />
+    <meta property="og:image:height"      content="630" />
+    <meta property="og:image:alt"         content="L'app Fridge+ : un frigo interactif et des idées de recettes selon ce que tu as." />
+    <meta property="og:locale"            content="fr_FR" />
+    <meta property="og:locale:alternate"  content="en_US" />
+    <meta property="og:locale:alternate"  content="es_ES" />
+    <meta property="og:locale:alternate"  content="de_DE" />
+    <meta property="og:locale:alternate"  content="ja_JP" />
+
+    <!-- X (ex-Twitter) Card -->
+    <meta name="twitter:card"        content="summary_large_image" />
+    <meta name="twitter:title"       content="Fridge+ — Cuisine avec ce que tu as déjà" />
+    <meta name="twitter:description" content="Coche ce qu'il y a dans ton frigo, Fridge+ te dit quoi cuisiner. 515 recettes de 15 cuisines. Gratuit, sans pub, sans inscription." />
+    <meta name="twitter:image"       content="https://fridgeplus.app/og-image.png?v=3" />
+
+    <!-- JSON-LD Structured Data.
+         `alternateName` (ajouté le 2026-08-16) : la marque s'écrit « Fridge+ »
+         mais se CHERCHE « fridgeplus », « fridge plus », « fridgeplus.app ».
+         Le `+` n'est pas un caractère que les gens tapent, et sans ces variantes
+         rien ne relie la requête à l'entité.
+         ⚠️ Aucun balisage ne COMMANDE les liens de site (sitelinks) affichés
+         sous un résultat de marque : Google les choisit seul, à partir des
+         pages qu'il a indexées séparément. Ce qui les rend possibles, c'est le
+         reste du travail — des pages distinctes, avec chacune son titre dans le
+         HTML servi, déclarées au sitemap et liées depuis l'app. -->
+    <!-- Pas de `SearchAction` : il exige une URL de recherche, et la recherche
+         de Fridge+ est côté client, sans URL propre. Déclarer un motif qui ne
+         répond pas serait une fausse promesse au crawler. -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Fridge+",
+      "alternateName": ["Fridgeplus", "Fridge Plus", "fridgeplus.app"],
+      "url": "https://fridgeplus.app/",
+      "description": "Application web pour inventorier votre réfrigérateur et découvrir des recettes adaptées à vos ingrédients.",
+      "applicationCategory": "LifestyleApplication",
+      "applicationSubCategory": "Food &amp; Drink",
+      "operatingSystem": "All",
+      "browserRequirements": "Requires JavaScript",
+      "inLanguage": ["fr-FR", "en-US", "es-ES", "de-DE", "ja-JP"],
+      "isAccessibleForFree": true,
+      "offers": [
+        {
+          "@type": "Offer",
+          "name": "Fridge+ Gratuit",
+          "price": "0",
+          "priceCurrency": "EUR",
+          "description": "Inventaire frigo/garde-manger, recettes, multilingue. Plan gratuit pleinement fonctionnel."
+        },
+        {
+          "@type": "Offer",
+          "name": "Fridge+ Premium mensuel",
+          "price": "4.99",
+          "priceCurrency": "EUR",
+          "description": "Panier, budget mensuel, mode cuisine vocal, analyse des dépenses, anti-gaspillage.",
+          "category": "Subscription"
+        },
+        {
+          "@type": "Offer",
+          "name": "Fridge+ Premium annuel",
+          "price": "34.99",
+          "priceCurrency": "EUR",
+          "description": "Abonnement annuel (équivalent 2,91 €/mois, soit -42 % vs mensuel).",
+          "category": "Subscription"
+        }
+      ],
+      "featureList": [
+        "Gestion du contenu du réfrigérateur et du garde-manger",
+        "Suggestions de recettes personnalisées selon les ingrédients en stock",
+        "Reconnaissance vocale pour ajouter les ingrédients",
+        "Panier de courses avec calcul du coût (Premium)",
+        "Budget mensuel et analyse des dépenses (Premium)",
+        "Mode cuisine vocal pas-à-pas (Premium)",
+        "Anti-gaspillage : alerte sur les dates limites (Premium)",
+        "Support multilingue (FR, EN, ES, DE, JA)"
+      ]
+    }
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

@@ -1,0 +1,2574 @@
+{
+  "batchName": "recipes-batch-9-espagne",
+  "recipes": [
+    {
+      "id": "gambas-al-ajillo",
+      "name": {
+        "fr": "Gambas al ajillo",
+        "en": "Garlic prawns"
+      },
+      "description": {
+        "fr": "Des crevettes sautées dans une huile d'olive parfumée à l'ail et au piment — la tapa espagnole par excellence, à saucer avec du pain.",
+        "en": "Prawns sizzled in olive oil scented with garlic and chilli — the quintessential Spanish tapa, to mop up with bread."
+      },
+      "emoji": "🦐",
+      "time_min": 15,
+      "prep_time_min": 8,
+      "cook_time_min": 7,
+      "difficulty": "easy",
+      "type": "starter",
+      "servings": 4,
+      "country": "es",
+      "diet": [
+        "gluten-free",
+        "dairy-free"
+      ],
+      "allergens": [
+        "crustaceans"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "fr-crevettes",
+            "frz-crevettes"
+          ],
+          "qty": {
+            "amount": 500,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "500g de gambas",
+            "en": "500g prawns"
+          }
+        },
+        {
+          "ids": [
+            "vg-ail"
+          ],
+          "qty": {
+            "amount": 4,
+            "unit": "gousse"
+          },
+          "required": true,
+          "labels": {
+            "fr": "4 gousses d'ail",
+            "en": "4 garlic cloves"
+          }
+        },
+        {
+          "ids": [
+            "sp-huile-olive-vi",
+            "sp-huile-olive"
+          ],
+          "qty": {
+            "amount": 6,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "6 c. à soupe d'huile d'olive",
+            "en": "6 tbsp olive oil"
+          }
+        },
+        {
+          "ids": [
+            "sp-piment-cayenne",
+            "sp-piment-espelette"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cc"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 c. à café de piment",
+            "en": "1 tsp chilli"
+          }
+        },
+        {
+          "ids": [
+            "sp-persil"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "botte"
+          },
+          "required": false,
+          "labels": {
+            "fr": "Persil",
+            "en": "Parsley"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Chauffer l'huile d'olive avec l'ail émincé et le piment.",
+          "Dès que l'ail dore, ajouter les gambas.",
+          "Saisir 3-4 min jusqu'à ce qu'elles soient roses.",
+          "Saler et parsemer de persil.",
+          "Servir grésillant avec du pain pour saucer."
+        ],
+        "en": [
+          "Heat the olive oil with the sliced garlic and chilli.",
+          "As soon as the garlic colours, add the prawns.",
+          "Sear 3-4 min until pink.",
+          "Season with salt and scatter parsley.",
+          "Serve sizzling with bread to mop up."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "pan-con-tomate",
+      "name": {
+        "fr": "Pan con tomate",
+        "en": "Pan con tomate"
+      },
+      "description": {
+        "fr": "Du pain grillé frotté à l'ail et à la tomate mûre, arrosé d'huile d'olive — la tartine catalane la plus simple et la plus parfaite.",
+        "en": "Toasted bread rubbed with garlic and ripe tomato, drizzled with olive oil — the simplest, most perfect Catalan toast."
+      },
+      "emoji": "🍅",
+      "time_min": 10,
+      "prep_time_min": 5,
+      "cook_time_min": 5,
+      "difficulty": "very-easy",
+      "type": "starter",
+      "servings": 4,
+      "country": "es",
+      "diet": [
+        "vegan",
+        "vegetarian",
+        "dairy-free"
+      ],
+      "allergens": [
+        "gluten"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "gp-pain",
+            "gp-baguette",
+            "gp-pain-complet"
+          ],
+          "qty": {
+            "amount": 8,
+            "unit": "tranche"
+          },
+          "required": true,
+          "labels": {
+            "fr": "8 tranches de pain",
+            "en": "8 slices of bread"
+          }
+        },
+        {
+          "ids": [
+            "vg-tomate",
+            "vg-tomate-ronde"
+          ],
+          "qty": {
+            "amount": 3,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "3 tomates mûres",
+            "en": "3 ripe tomatoes"
+          }
+        },
+        {
+          "ids": [
+            "vg-ail"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "gousse"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 gousses d'ail",
+            "en": "2 garlic cloves"
+          }
+        },
+        {
+          "ids": [
+            "sp-huile-olive-vi",
+            "sp-huile-olive"
+          ],
+          "qty": {
+            "amount": 4,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Huile d'olive",
+            "en": "Olive oil"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Griller les tranches de pain.",
+          "Les frotter avec une gousse d'ail coupée.",
+          "Frotter ensuite la tomate coupée pour imprégner le pain.",
+          "Arroser généreusement d'huile d'olive et saler.",
+          "Servir aussitôt."
+        ],
+        "en": [
+          "Toast the slices of bread.",
+          "Rub them with a cut garlic clove.",
+          "Then rub the cut tomato over to soak the bread.",
+          "Drizzle generously with olive oil and salt.",
+          "Serve at once."
+        ]
+      },
+      "functional_tags": [
+        "anti_waste"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "patatas-bravas",
+      "name": {
+        "fr": "Patatas bravas",
+        "en": "Patatas bravas"
+      },
+      "description": {
+        "fr": "Des cubes de pommes de terre croustillants nappés d'une sauce tomate épicée — la tapa de bar incontournable des soirées espagnoles.",
+        "en": "Crispy potato cubes topped with a spicy tomato sauce — the essential bar tapa of Spanish nights."
+      },
+      "emoji": "🥔",
+      "time_min": 40,
+      "prep_time_min": 15,
+      "cook_time_min": 25,
+      "difficulty": "easy",
+      "type": "side",
+      "servings": 4,
+      "country": "es",
+      "diet": [
+        "vegan",
+        "vegetarian",
+        "gluten-free",
+        "dairy-free"
+      ],
+      "allergens": [],
+      "ingredients": [
+        {
+          "ids": [
+            "vg-pomme-terre"
+          ],
+          "qty": {
+            "amount": 800,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "800g de pommes de terre",
+            "en": "800g potatoes"
+          }
+        },
+        {
+          "ids": [
+            "gp-tomates-concas",
+            "gp-concentre-tom"
+          ],
+          "qty": {
+            "amount": 200,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "200g de tomates",
+            "en": "200g tomatoes"
+          }
+        },
+        {
+          "ids": [
+            "sp-paprika"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "cc"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 c. à café de paprika fumé",
+            "en": "2 tsp smoked paprika"
+          }
+        },
+        {
+          "ids": [
+            "sp-piment-cayenne",
+            "sp-tabasco"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cc"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 c. à café de piment",
+            "en": "1 tsp chilli"
+          }
+        },
+        {
+          "ids": [
+            "vg-ail",
+            "sp-huile-olive"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "gousse"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Ail et huile d'olive",
+            "en": "Garlic and olive oil"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Couper les pommes de terre en cubes.",
+          "Les rôtir au four ou les frire jusqu'à ce qu'elles soient bien dorées.",
+          "Préparer la sauce brava : tomate, paprika, ail et piment.",
+          "Dresser les pommes de terre dans un plat.",
+          "Napper de sauce brava et servir aussitôt."
+        ],
+        "en": [
+          "Cut the potatoes into cubes.",
+          "Roast or fry them until well golden.",
+          "Make the brava sauce: tomato, paprika, garlic and chilli.",
+          "Plate the potatoes.",
+          "Top with brava sauce and serve at once."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "croquetas-jambon",
+      "name": {
+        "fr": "Croquetas au jambon",
+        "en": "Ham croquettes"
+      },
+      "description": {
+        "fr": "Des croquettes crémeuses à la béchamel et au jambon, panées et frites jusqu'à être dorées — la tapa réconfortante par excellence.",
+        "en": "Creamy béchamel-and-ham croquettes, breaded and fried until golden — the ultimate comforting tapa."
+      },
+      "emoji": "🧆",
+      "time_min": 60,
+      "prep_time_min": 40,
+      "cook_time_min": 20,
+      "difficulty": "hard",
+      "type": "starter",
+      "servings": 4,
+      "country": "es",
+      "diet": [],
+      "allergens": [
+        "gluten",
+        "milk",
+        "eggs"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "fr-jambon-sec",
+            "fr-jambon-blanc"
+          ],
+          "qty": {
+            "amount": 150,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "150g de jambon",
+            "en": "150g ham"
+          }
+        },
+        {
+          "ids": [
+            "gp-farine"
+          ],
+          "qty": {
+            "amount": 100,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "100g de farine",
+            "en": "100g flour"
+          }
+        },
+        {
+          "ids": [
+            "fr-lait",
+            "fr-lait-entier"
+          ],
+          "qty": {
+            "amount": 50,
+            "unit": "cl"
+          },
+          "required": true,
+          "labels": {
+            "fr": "50 cl de lait",
+            "en": "500ml milk"
+          }
+        },
+        {
+          "ids": [
+            "fr-beurre"
+          ],
+          "qty": {
+            "amount": 50,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "50g de beurre",
+            "en": "50g butter"
+          }
+        },
+        {
+          "ids": [
+            "fr-oeuf"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 œufs",
+            "en": "2 eggs"
+          }
+        },
+        {
+          "ids": [
+            "gp-chapelure",
+            "gp-panko"
+          ],
+          "qty": {
+            "amount": 120,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "120g de chapelure",
+            "en": "120g breadcrumbs"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Préparer une béchamel épaisse avec le beurre, la farine et le lait.",
+          "Incorporer le jambon haché et laisser refroidir complètement.",
+          "Façonner des boudins puis les passer dans l'œuf et la chapelure.",
+          "Frire dans l'huile chaude jusqu'à dorure.",
+          "Égoutter et servir bien chaud."
+        ],
+        "en": [
+          "Make a thick béchamel with the butter, flour and milk.",
+          "Stir in the chopped ham and let cool completely.",
+          "Shape into logs then coat in egg and breadcrumbs.",
+          "Fry in hot oil until golden.",
+          "Drain and serve hot."
+        ]
+      },
+      "functional_tags": [
+        "freezer_friendly"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "albondigas",
+      "name": {
+        "fr": "Albóndigas (boulettes espagnoles)",
+        "en": "Albóndigas (Spanish meatballs)"
+      },
+      "description": {
+        "fr": "Des boulettes de viande mijotées dans une sauce tomate au vin et au paprika — un plat de tapas généreux à saucer avec du pain.",
+        "en": "Meatballs simmered in a tomato sauce with wine and paprika — a generous tapas dish to mop up with bread."
+      },
+      "emoji": "🍝",
+      "time_min": 45,
+      "prep_time_min": 20,
+      "cook_time_min": 25,
+      "difficulty": "medium",
+      "type": "main",
+      "servings": 4,
+      "country": "es",
+      "diet": [
+        "dairy-free"
+      ],
+      "allergens": [
+        "gluten",
+        "eggs",
+        "sulphites"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "fr-hache-boeuf",
+            "frz-boeuf-hache"
+          ],
+          "qty": {
+            "amount": 500,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "500g de viande hachée",
+            "en": "500g minced meat"
+          }
+        },
+        {
+          "ids": [
+            "fr-oeuf"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 œuf",
+            "en": "1 egg"
+          }
+        },
+        {
+          "ids": [
+            "gp-chapelure"
+          ],
+          "qty": {
+            "amount": 50,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "50g de chapelure",
+            "en": "50g breadcrumbs"
+          }
+        },
+        {
+          "ids": [
+            "gp-tomates-concas"
+          ],
+          "qty": {
+            "amount": 400,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "400g de tomates",
+            "en": "400g tomatoes"
+          }
+        },
+        {
+          "ids": [
+            "gp-vin-rouge-cuis"
+          ],
+          "qty": {
+            "amount": 10,
+            "unit": "cl"
+          },
+          "required": false,
+          "labels": {
+            "fr": "10 cl de vin blanc",
+            "en": "100ml white wine"
+          }
+        },
+        {
+          "ids": [
+            "sp-paprika",
+            "vg-oignon"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "cc"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Paprika et oignon",
+            "en": "Paprika and onion"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Mélanger la viande, l'œuf, la chapelure et l'assaisonnement.",
+          "Façonner des boulettes et les faire dorer.",
+          "Préparer la sauce : oignon, tomate, paprika et vin.",
+          "Plonger les boulettes dans la sauce et mijoter 20 min.",
+          "Servir avec du pain ou du riz."
+        ],
+        "en": [
+          "Mix the meat, egg, breadcrumbs and seasoning.",
+          "Shape into balls and brown them.",
+          "Make the sauce: onion, tomato, paprika and wine.",
+          "Drop the meatballs into the sauce and simmer 20 min.",
+          "Serve with bread or rice."
+        ]
+      },
+      "functional_tags": [
+        "batch_cooking"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "pollo-al-ajillo",
+      "name": {
+        "fr": "Pollo al ajillo (poulet à l'ail)",
+        "en": "Pollo al ajillo (garlic chicken)"
+      },
+      "description": {
+        "fr": "Des morceaux de poulet dorés et mijotés avec beaucoup d'ail, du vin blanc et du laurier — un plat espagnol rustique et parfumé.",
+        "en": "Chicken pieces browned and simmered with lots of garlic, white wine and bay — a rustic, fragrant Spanish dish."
+      },
+      "emoji": "🧄",
+      "time_min": 40,
+      "prep_time_min": 10,
+      "cook_time_min": 30,
+      "difficulty": "easy",
+      "type": "main",
+      "servings": 4,
+      "country": "es",
+      "diet": [
+        "gluten-free",
+        "dairy-free"
+      ],
+      "allergens": [
+        "sulphites"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "fr-cuisse-poulet",
+            "fr-poulet-entier"
+          ],
+          "qty": {
+            "amount": 800,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "800g de poulet en morceaux",
+            "en": "800g chicken pieces"
+          }
+        },
+        {
+          "ids": [
+            "vg-ail"
+          ],
+          "qty": {
+            "amount": 8,
+            "unit": "gousse"
+          },
+          "required": true,
+          "labels": {
+            "fr": "8 gousses d'ail",
+            "en": "8 garlic cloves"
+          }
+        },
+        {
+          "ids": [
+            "gp-vin-rouge-cuis"
+          ],
+          "qty": {
+            "amount": 15,
+            "unit": "cl"
+          },
+          "required": true,
+          "labels": {
+            "fr": "15 cl de vin blanc",
+            "en": "150ml white wine"
+          }
+        },
+        {
+          "ids": [
+            "sp-laurier",
+            "sp-thym"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Laurier et thym",
+            "en": "Bay and thyme"
+          }
+        },
+        {
+          "ids": [
+            "sp-huile-olive"
+          ],
+          "qty": {
+            "amount": 4,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "4 c. à soupe d'huile d'olive",
+            "en": "4 tbsp olive oil"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Faire dorer les morceaux de poulet dans l'huile d'olive.",
+          "Ajouter les gousses d'ail écrasées et le laurier.",
+          "Déglacer avec le vin blanc.",
+          "Couvrir et mijoter 25 min à feu doux.",
+          "Servir avec du pain ou des frites maison."
+        ],
+        "en": [
+          "Brown the chicken pieces in the olive oil.",
+          "Add the crushed garlic cloves and bay.",
+          "Deglaze with the white wine.",
+          "Cover and simmer 25 min over low heat.",
+          "Serve with bread or homemade fries."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "fabada-asturiana",
+      "name": {
+        "fr": "Fabada asturienne",
+        "en": "Asturian fabada"
+      },
+      "description": {
+        "fr": "Un ragoût copieux de gros haricots blancs, chorizo et lard, mijoté longuement — le plat d'hiver réconfortant des Asturies.",
+        "en": "A hearty stew of large white beans, chorizo and pork, slowly simmered — the comforting winter dish of Asturias."
+      },
+      "emoji": "🫘",
+      "time_min": 90,
+      "prep_time_min": 15,
+      "cook_time_min": 75,
+      "difficulty": "medium",
+      "type": "main",
+      "servings": 4,
+      "country": "es",
+      "diet": [
+        "gluten-free",
+        "dairy-free"
+      ],
+      "allergens": [
+        "sulphites"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "gp-haricots-bl"
+          ],
+          "qty": {
+            "amount": 500,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "500g de haricots blancs",
+            "en": "500g white beans"
+          }
+        },
+        {
+          "ids": [
+            "fr-chorizo"
+          ],
+          "qty": {
+            "amount": 200,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "200g de chorizo",
+            "en": "200g chorizo"
+          }
+        },
+        {
+          "ids": [
+            "fr-lardons",
+            "fr-echine"
+          ],
+          "qty": {
+            "amount": 150,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "150g de lard",
+            "en": "150g pork belly"
+          }
+        },
+        {
+          "ids": [
+            "vg-oignon",
+            "vg-ail"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Oignon et ail",
+            "en": "Onion and garlic"
+          }
+        },
+        {
+          "ids": [
+            "sp-paprika",
+            "sp-safran"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cc"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Paprika et safran",
+            "en": "Paprika and saffron"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Faire revenir l'oignon, l'ail, le chorizo et le lard.",
+          "Ajouter les haricots blancs (trempés la veille).",
+          "Couvrir d'eau, ajouter le paprika et le safran.",
+          "Mijoter 1h15 à feu très doux jusqu'à ce que les haricots soient fondants.",
+          "Laisser reposer puis servir bien chaud."
+        ],
+        "en": [
+          "Sauté the onion, garlic, chorizo and pork.",
+          "Add the white beans (soaked overnight).",
+          "Cover with water, add the paprika and saffron.",
+          "Simmer 1h15 over very low heat until the beans are tender.",
+          "Rest then serve hot."
+        ]
+      },
+      "functional_tags": [
+        "batch_cooking"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "calamares-romana",
+      "name": {
+        "fr": "Calamars à la romaine",
+        "en": "Fried calamari"
+      },
+      "description": {
+        "fr": "Des anneaux de calamar enrobés d'une pâte légère et frits jusqu'à être dorés et croustillants — une tapa à déguster avec un filet de citron.",
+        "en": "Calamari rings in a light batter, fried until golden and crisp — a tapa to enjoy with a squeeze of lemon."
+      },
+      "emoji": "🦑",
+      "time_min": 30,
+      "prep_time_min": 15,
+      "cook_time_min": 15,
+      "difficulty": "medium",
+      "type": "starter",
+      "servings": 4,
+      "country": "es",
+      "diet": [
+        "dairy-free"
+      ],
+      "allergens": [
+        "molluscs",
+        "gluten",
+        "eggs"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "fr-calmar",
+            "frz-calamars",
+            "fr-seiche"
+          ],
+          "qty": {
+            "amount": 500,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "500g de calamars",
+            "en": "500g squid"
+          }
+        },
+        {
+          "ids": [
+            "gp-farine"
+          ],
+          "qty": {
+            "amount": 150,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "150g de farine",
+            "en": "150g flour"
+          }
+        },
+        {
+          "ids": [
+            "fr-oeuf"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 œuf",
+            "en": "1 egg"
+          }
+        },
+        {
+          "ids": [
+            "fr-citron"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 citron",
+            "en": "1 lemon"
+          }
+        },
+        {
+          "ids": [
+            "sp-sel",
+            "sp-persil"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pm"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Sel et persil",
+            "en": "Salt and parsley"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Couper les calamars en anneaux.",
+          "Préparer une pâte légère avec la farine, l'œuf et un peu d'eau.",
+          "Tremper les anneaux dans la pâte.",
+          "Frire dans l'huile chaude 2-3 min jusqu'à dorure.",
+          "Égoutter, saler et servir avec du citron."
+        ],
+        "en": [
+          "Cut the squid into rings.",
+          "Make a light batter with the flour, egg and a little water.",
+          "Dip the rings in the batter.",
+          "Fry in hot oil 2-3 min until golden.",
+          "Drain, salt and serve with lemon."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "pulpo-gallega",
+      "name": {
+        "fr": "Poulpe à la galicienne",
+        "en": "Galician octopus"
+      },
+      "description": {
+        "fr": "Du poulpe tendre tranché sur un lit de pommes de terre, saupoudré de paprika fumé et arrosé d'huile d'olive — un grand classique de la Galice.",
+        "en": "Tender sliced octopus on a bed of potatoes, dusted with smoked paprika and drizzled with olive oil — a Galician classic."
+      },
+      "emoji": "🐙",
+      "time_min": 75,
+      "prep_time_min": 15,
+      "cook_time_min": 60,
+      "difficulty": "medium",
+      "type": "main",
+      "servings": 4,
+      "country": "es",
+      "diet": [
+        "gluten-free",
+        "dairy-free"
+      ],
+      "allergens": [
+        "molluscs"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "fr-poulpe"
+          ],
+          "qty": {
+            "amount": 1000,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 kg de poulpe",
+            "en": "1kg octopus"
+          }
+        },
+        {
+          "ids": [
+            "vg-pomme-terre"
+          ],
+          "qty": {
+            "amount": 500,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "500g de pommes de terre",
+            "en": "500g potatoes"
+          }
+        },
+        {
+          "ids": [
+            "sp-paprika"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "cc"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 c. à café de paprika fumé",
+            "en": "2 tsp smoked paprika"
+          }
+        },
+        {
+          "ids": [
+            "sp-huile-olive-vi"
+          ],
+          "qty": {
+            "amount": 4,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Huile d'olive vierge",
+            "en": "Virgin olive oil"
+          }
+        },
+        {
+          "ids": [
+            "sp-sel-gros",
+            "sp-fleur-sel"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pm"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Gros sel",
+            "en": "Coarse salt"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Cuire le poulpe à l'eau frémissante 45-50 min jusqu'à ce qu'il soit tendre.",
+          "Cuire les pommes de terre à l'eau, les couper en rondelles.",
+          "Trancher le poulpe en tronçons.",
+          "Dresser les pommes de terre puis le poulpe par-dessus.",
+          "Saupoudrer de paprika, arroser d'huile et de gros sel."
+        ],
+        "en": [
+          "Cook the octopus in gently simmering water 45-50 min until tender.",
+          "Boil the potatoes, slice them into rounds.",
+          "Cut the octopus into pieces.",
+          "Arrange the potatoes then the octopus on top.",
+          "Dust with paprika, drizzle with oil and coarse salt."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "arroz-negro",
+      "name": {
+        "fr": "Arroz negro (riz noir)",
+        "en": "Arroz negro (black rice)"
+      },
+      "description": {
+        "fr": "Un riz spectaculaire teinté à l'encre de seiche, parfumé aux fruits de mer et au safran — une paella noire intense et iodée.",
+        "en": "A spectacular rice tinted with squid ink, scented with seafood and saffron — an intense, briny black paella."
+      },
+      "emoji": "🍚",
+      "time_min": 60,
+      "prep_time_min": 20,
+      "cook_time_min": 40,
+      "difficulty": "hard",
+      "type": "main",
+      "servings": 4,
+      "country": "es",
+      "diet": [
+        "gluten-free",
+        "dairy-free"
+      ],
+      "allergens": [
+        "molluscs",
+        "crustaceans"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "gp-riz-rond"
+          ],
+          "qty": {
+            "amount": 350,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "350g de riz rond",
+            "en": "350g short-grain rice"
+          }
+        },
+        {
+          "ids": [
+            "fr-seiche",
+            "fr-calmar",
+            "frz-calamars"
+          ],
+          "qty": {
+            "amount": 400,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "400g de seiche",
+            "en": "400g cuttlefish"
+          }
+        },
+        {
+          "ids": [
+            "fr-crevettes",
+            "frz-crevettes"
+          ],
+          "qty": {
+            "amount": 200,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "200g de crevettes",
+            "en": "200g prawns"
+          }
+        },
+        {
+          "ids": [
+            "vg-oignon",
+            "vg-ail",
+            "vg-poivron"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Oignon, ail, poivron",
+            "en": "Onion, garlic, pepper"
+          }
+        },
+        {
+          "ids": [
+            "sp-safran",
+            "sp-paprika"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pm"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Safran et paprika",
+            "en": "Saffron and paprika"
+          }
+        },
+        {
+          "ids": [
+            "gp-concentre-tom"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Concentré de tomate",
+            "en": "Tomato paste"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Faire revenir l'oignon, l'ail, le poivron et la seiche.",
+          "Ajouter le concentré de tomate, le paprika et le safran.",
+          "Verser le riz et le nacrer, puis mouiller de bouillon (et d'encre de seiche).",
+          "Cuire 18 min sans remuer en disposant les crevettes.",
+          "Laisser reposer 5 min et servir."
+        ],
+        "en": [
+          "Sauté the onion, garlic, pepper and cuttlefish.",
+          "Add the tomato paste, paprika and saffron.",
+          "Add the rice and coat it, then pour in stock (and squid ink).",
+          "Cook 18 min without stirring, arranging the prawns.",
+          "Rest 5 min and serve."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "fideua",
+      "name": {
+        "fr": "Fideuà aux fruits de mer",
+        "en": "Seafood fideuà"
+      },
+      "description": {
+        "fr": "Une « paella » de petites pâtes dorées cuites avec des fruits de mer et du safran — une spécialité valencienne savoureuse et conviviale.",
+        "en": "A 'paella' of small golden noodles cooked with seafood and saffron — a tasty, convivial Valencian speciality."
+      },
+      "emoji": "🍝",
+      "time_min": 45,
+      "prep_time_min": 20,
+      "cook_time_min": 25,
+      "difficulty": "medium",
+      "type": "main",
+      "servings": 4,
+      "country": "es",
+      "diet": [
+        "dairy-free"
+      ],
+      "allergens": [
+        "gluten",
+        "crustaceans",
+        "molluscs"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "gp-vermicelles",
+            "gp-spaghetti"
+          ],
+          "qty": {
+            "amount": 350,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "350g de vermicelles",
+            "en": "350g short noodles"
+          }
+        },
+        {
+          "ids": [
+            "fr-fruits-mer",
+            "frz-fruits-mer"
+          ],
+          "qty": {
+            "amount": 300,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "300g de fruits de mer",
+            "en": "300g mixed seafood"
+          }
+        },
+        {
+          "ids": [
+            "fr-crevettes",
+            "frz-crevettes"
+          ],
+          "qty": {
+            "amount": 200,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "200g de crevettes",
+            "en": "200g prawns"
+          }
+        },
+        {
+          "ids": [
+            "vg-tomate",
+            "gp-concentre-tom"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Tomate",
+            "en": "Tomato"
+          }
+        },
+        {
+          "ids": [
+            "sp-safran",
+            "vg-ail"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pm"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Safran et ail",
+            "en": "Saffron and garlic"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Faire revenir l'ail, la tomate et le safran dans une grande poêle.",
+          "Ajouter les vermicelles et les faire dorer à sec.",
+          "Mouiller de bouillon de poisson chaud.",
+          "Disposer les fruits de mer et les crevettes par-dessus.",
+          "Cuire 12 min sans remuer jusqu'à absorption et servir."
+        ],
+        "en": [
+          "Sauté the garlic, tomato and saffron in a large pan.",
+          "Add the noodles and toast them dry.",
+          "Pour in hot fish stock.",
+          "Arrange the seafood and prawns on top.",
+          "Cook 12 min without stirring until absorbed and serve."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "bacalao-tomate",
+      "name": {
+        "fr": "Morue à la tomate",
+        "en": "Cod in tomato sauce"
+      },
+      "description": {
+        "fr": "Des dos de cabillaud mijotés dans une sauce tomate au poivron et au paprika — un plat de poisson espagnol simple, sain et savoureux.",
+        "en": "Cod fillets simmered in a tomato sauce with pepper and paprika — a simple, healthy and tasty Spanish fish dish."
+      },
+      "emoji": "🐟",
+      "time_min": 35,
+      "prep_time_min": 15,
+      "cook_time_min": 20,
+      "difficulty": "easy",
+      "type": "main",
+      "servings": 4,
+      "country": "es",
+      "diet": [
+        "gluten-free",
+        "dairy-free"
+      ],
+      "allergens": [
+        "fish"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "fr-cabillaud",
+            "frz-cabillaud",
+            "frz-colin"
+          ],
+          "qty": {
+            "amount": 600,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "600g de cabillaud",
+            "en": "600g cod"
+          }
+        },
+        {
+          "ids": [
+            "gp-tomates-concas"
+          ],
+          "qty": {
+            "amount": 400,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "400g de tomates",
+            "en": "400g tomatoes"
+          }
+        },
+        {
+          "ids": [
+            "vg-poivron"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 poivron",
+            "en": "1 bell pepper"
+          }
+        },
+        {
+          "ids": [
+            "vg-oignon",
+            "vg-ail"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Oignon et ail",
+            "en": "Onion and garlic"
+          }
+        },
+        {
+          "ids": [
+            "sp-paprika",
+            "sp-persil"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cc"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Paprika et persil",
+            "en": "Paprika and parsley"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Faire revenir l'oignon, l'ail et le poivron.",
+          "Ajouter les tomates et le paprika, mijoter 10 min.",
+          "Déposer les dos de cabillaud dans la sauce.",
+          "Couvrir et cuire 10 min à feu doux.",
+          "Parsemer de persil et servir avec du pain."
+        ],
+        "en": [
+          "Sauté the onion, garlic and pepper.",
+          "Add the tomatoes and paprika, simmer 10 min.",
+          "Set the cod fillets in the sauce.",
+          "Cover and cook 10 min over low heat.",
+          "Scatter parsley and serve with bread."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "pollo-chilindron",
+      "name": {
+        "fr": "Poulet chilindrón",
+        "en": "Chicken chilindrón"
+      },
+      "description": {
+        "fr": "Du poulet mijoté dans une sauce généreuse de poivrons, tomates et jambon — un plat aragonais rustique et coloré.",
+        "en": "Chicken braised in a generous sauce of peppers, tomatoes and ham — a rustic, colourful Aragonese dish."
+      },
+      "emoji": "🫑",
+      "time_min": 50,
+      "prep_time_min": 15,
+      "cook_time_min": 35,
+      "difficulty": "easy",
+      "type": "main",
+      "servings": 4,
+      "country": "es",
+      "diet": [
+        "gluten-free",
+        "dairy-free"
+      ],
+      "allergens": [
+        "sulphites"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "fr-cuisse-poulet",
+            "fr-poulet-entier"
+          ],
+          "qty": {
+            "amount": 800,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "800g de poulet",
+            "en": "800g chicken"
+          }
+        },
+        {
+          "ids": [
+            "vg-poivron"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 poivrons",
+            "en": "2 bell peppers"
+          }
+        },
+        {
+          "ids": [
+            "gp-tomates-concas"
+          ],
+          "qty": {
+            "amount": 400,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "400g de tomates",
+            "en": "400g tomatoes"
+          }
+        },
+        {
+          "ids": [
+            "fr-jambon-sec",
+            "fr-lardons"
+          ],
+          "qty": {
+            "amount": 80,
+            "unit": "g"
+          },
+          "required": false,
+          "labels": {
+            "fr": "80g de jambon sec",
+            "en": "80g cured ham"
+          }
+        },
+        {
+          "ids": [
+            "vg-oignon",
+            "vg-ail"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Oignon et ail",
+            "en": "Onion and garlic"
+          }
+        },
+        {
+          "ids": [
+            "sp-paprika",
+            "gp-vin-rouge-cuis"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cc"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Paprika et vin",
+            "en": "Paprika and wine"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Faire dorer le poulet, réserver.",
+          "Faire revenir l'oignon, l'ail, les poivrons et le jambon.",
+          "Ajouter les tomates, le paprika et un peu de vin.",
+          "Remettre le poulet, couvrir et mijoter 30 min.",
+          "Servir avec du pain ou du riz."
+        ],
+        "en": [
+          "Brown the chicken, set aside.",
+          "Sauté the onion, garlic, peppers and ham.",
+          "Add the tomatoes, paprika and a little wine.",
+          "Return the chicken, cover and simmer 30 min.",
+          "Serve with bread or rice."
+        ]
+      },
+      "functional_tags": [
+        "batch_cooking"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "lentejas-chorizo",
+      "name": {
+        "fr": "Lentilles au chorizo",
+        "en": "Lentils with chorizo"
+      },
+      "description": {
+        "fr": "Un ragoût de lentilles fondantes parfumé au chorizo, aux carottes et au paprika — le plat de cuillère espagnol par excellence.",
+        "en": "A stew of tender lentils flavoured with chorizo, carrots and paprika — the ultimate Spanish spoon dish."
+      },
+      "emoji": "🍲",
+      "time_min": 50,
+      "prep_time_min": 15,
+      "cook_time_min": 35,
+      "difficulty": "easy",
+      "type": "main",
+      "servings": 4,
+      "country": "es",
+      "diet": [
+        "gluten-free",
+        "dairy-free"
+      ],
+      "allergens": [
+        "sulphites"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "gp-lentilles",
+            "gp-lentilles-vert"
+          ],
+          "qty": {
+            "amount": 300,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "300g de lentilles",
+            "en": "300g lentils"
+          }
+        },
+        {
+          "ids": [
+            "fr-chorizo"
+          ],
+          "qty": {
+            "amount": 150,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "150g de chorizo",
+            "en": "150g chorizo"
+          }
+        },
+        {
+          "ids": [
+            "vg-carottes"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 carottes",
+            "en": "2 carrots"
+          }
+        },
+        {
+          "ids": [
+            "vg-oignon",
+            "vg-ail"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Oignon et ail",
+            "en": "Onion and garlic"
+          }
+        },
+        {
+          "ids": [
+            "sp-paprika",
+            "sp-laurier"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cc"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Paprika et laurier",
+            "en": "Paprika and bay"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Faire revenir l'oignon, l'ail, les carottes et le chorizo.",
+          "Ajouter les lentilles, le paprika et le laurier.",
+          "Couvrir d'eau et porter à ébullition.",
+          "Mijoter 30 min jusqu'à ce que les lentilles soient fondantes.",
+          "Rectifier l'assaisonnement et servir."
+        ],
+        "en": [
+          "Sauté the onion, garlic, carrots and chorizo.",
+          "Add the lentils, paprika and bay.",
+          "Cover with water and bring to a boil.",
+          "Simmer 30 min until the lentils are tender.",
+          "Adjust the seasoning and serve."
+        ]
+      },
+      "functional_tags": [
+        "batch_cooking",
+        "anti_waste"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "pisto-manchego",
+      "name": {
+        "fr": "Pisto manchego",
+        "en": "Pisto manchego"
+      },
+      "description": {
+        "fr": "Une poêlée fondante de courgettes, poivrons, tomates et oignons mijotés à l'huile d'olive — la ratatouille espagnole, végétalienne et anti-gaspi.",
+        "en": "A soft sauté of courgettes, peppers, tomatoes and onions cooked in olive oil — the Spanish ratatouille, vegan and waste-busting."
+      },
+      "emoji": "🍆",
+      "time_min": 40,
+      "prep_time_min": 15,
+      "cook_time_min": 25,
+      "difficulty": "easy",
+      "type": "side",
+      "servings": 4,
+      "country": "es",
+      "diet": [
+        "vegan",
+        "vegetarian",
+        "gluten-free",
+        "dairy-free"
+      ],
+      "allergens": [],
+      "ingredients": [
+        {
+          "ids": [
+            "vg-courgette"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 courgettes",
+            "en": "2 courgettes"
+          }
+        },
+        {
+          "ids": [
+            "vg-poivron"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 poivrons",
+            "en": "2 bell peppers"
+          }
+        },
+        {
+          "ids": [
+            "gp-tomates-concas",
+            "vg-tomate"
+          ],
+          "qty": {
+            "amount": 400,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "400g de tomates",
+            "en": "400g tomatoes"
+          }
+        },
+        {
+          "ids": [
+            "vg-oignon"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 oignon",
+            "en": "1 onion"
+          }
+        },
+        {
+          "ids": [
+            "sp-huile-olive"
+          ],
+          "qty": {
+            "amount": 4,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Huile d'olive",
+            "en": "Olive oil"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Couper tous les légumes en petits dés.",
+          "Faire revenir l'oignon et les poivrons dans l'huile d'olive.",
+          "Ajouter la courgette et cuire 10 min.",
+          "Incorporer les tomates et mijoter 15 min.",
+          "Saler, poivrer et servir tiède, éventuellement avec un œuf."
+        ],
+        "en": [
+          "Dice all the vegetables small.",
+          "Sauté the onion and peppers in olive oil.",
+          "Add the courgette and cook 10 min.",
+          "Stir in the tomatoes and simmer 15 min.",
+          "Season and serve warm, optionally with an egg."
+        ]
+      },
+      "functional_tags": [
+        "anti_waste"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "escalivada",
+      "name": {
+        "fr": "Escalivada",
+        "en": "Escalivada"
+      },
+      "description": {
+        "fr": "Des légumes rôtis au four — poivrons, aubergines et oignons — pelés et arrosés d'huile d'olive, servis tièdes ou froids. Fumé et végétalien.",
+        "en": "Oven-roasted vegetables — peppers, aubergines and onions — peeled and drizzled with olive oil, served warm or cold. Smoky and vegan."
+      },
+      "emoji": "🫑",
+      "time_min": 55,
+      "prep_time_min": 10,
+      "cook_time_min": 45,
+      "difficulty": "easy",
+      "type": "side",
+      "servings": 4,
+      "country": "es",
+      "diet": [
+        "vegan",
+        "vegetarian",
+        "gluten-free",
+        "dairy-free"
+      ],
+      "allergens": [],
+      "ingredients": [
+        {
+          "ids": [
+            "vg-poivron"
+          ],
+          "qty": {
+            "amount": 3,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "3 poivrons",
+            "en": "3 bell peppers"
+          }
+        },
+        {
+          "ids": [
+            "vg-aubergine"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 aubergines",
+            "en": "2 aubergines"
+          }
+        },
+        {
+          "ids": [
+            "vg-oignon"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 oignons",
+            "en": "2 onions"
+          }
+        },
+        {
+          "ids": [
+            "sp-huile-olive-vi"
+          ],
+          "qty": {
+            "amount": 4,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Huile d'olive vierge",
+            "en": "Virgin olive oil"
+          }
+        },
+        {
+          "ids": [
+            "vg-ail",
+            "sp-sel"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "gousse"
+          },
+          "required": false,
+          "labels": {
+            "fr": "Ail et sel",
+            "en": "Garlic and salt"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Disposer les légumes entiers sur une plaque.",
+          "Rôtir au four à 200°C 40 min en les retournant.",
+          "Laisser tiédir puis peler poivrons et aubergines.",
+          "Détailler en lanières et dresser sur un plat.",
+          "Arroser d'huile d'olive et d'ail, saler et servir."
+        ],
+        "en": [
+          "Place the whole vegetables on a tray.",
+          "Roast at 200°C for 40 min, turning them.",
+          "Let cool then peel the peppers and aubergines.",
+          "Cut into strips and arrange on a dish.",
+          "Drizzle with olive oil and garlic, salt and serve."
+        ]
+      },
+      "functional_tags": [
+        "anti_waste"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "espinacas-garbanzos",
+      "name": {
+        "fr": "Épinards aux pois chiches",
+        "en": "Spinach with chickpeas"
+      },
+      "description": {
+        "fr": "Des épinards et des pois chiches mijotés au cumin et au paprika — une tapa andalouse végétalienne, parfumée et nourrissante.",
+        "en": "Spinach and chickpeas simmered with cumin and paprika — an Andalusian vegan tapa, fragrant and nourishing."
+      },
+      "emoji": "🥬",
+      "time_min": 25,
+      "prep_time_min": 10,
+      "cook_time_min": 15,
+      "difficulty": "very-easy",
+      "type": "side",
+      "servings": 4,
+      "country": "es",
+      "diet": [
+        "vegan",
+        "vegetarian",
+        "dairy-free"
+      ],
+      "allergens": [
+        "gluten"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "vg-epinards",
+            "frz-epinards"
+          ],
+          "qty": {
+            "amount": 500,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "500g d'épinards",
+            "en": "500g spinach"
+          }
+        },
+        {
+          "ids": [
+            "gp-pois-chiches"
+          ],
+          "qty": {
+            "amount": 400,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "400g de pois chiches",
+            "en": "400g chickpeas"
+          }
+        },
+        {
+          "ids": [
+            "vg-ail"
+          ],
+          "qty": {
+            "amount": 3,
+            "unit": "gousse"
+          },
+          "required": true,
+          "labels": {
+            "fr": "3 gousses d'ail",
+            "en": "3 garlic cloves"
+          }
+        },
+        {
+          "ids": [
+            "sp-cumin",
+            "sp-paprika"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cc"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Cumin et paprika",
+            "en": "Cumin and paprika"
+          }
+        },
+        {
+          "ids": [
+            "gp-pain",
+            "gp-baguette"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "tranche"
+          },
+          "required": false,
+          "labels": {
+            "fr": "1 tranche de pain (liant)",
+            "en": "1 slice bread (to thicken)"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Faire revenir l'ail dans l'huile d'olive.",
+          "Ajouter le cumin, le paprika et un peu de pain émietté.",
+          "Incorporer les pois chiches et un peu d'eau.",
+          "Ajouter les épinards et cuire jusqu'à ce qu'ils tombent.",
+          "Mijoter 5 min et servir avec du pain."
+        ],
+        "en": [
+          "Sauté the garlic in olive oil.",
+          "Add the cumin, paprika and a little crumbled bread.",
+          "Stir in the chickpeas and a little water.",
+          "Add the spinach and cook until wilted.",
+          "Simmer 5 min and serve with bread."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "salmorejo",
+      "name": {
+        "fr": "Salmorejo",
+        "en": "Salmorejo"
+      },
+      "description": {
+        "fr": "Une soupe froide cordouane de tomate et de pain, plus épaisse et crémeuse que le gaspacho, arrosée d'huile d'olive — rafraîchissante et veloutée.",
+        "en": "A cold Cordoban soup of tomato and bread, thicker and creamier than gazpacho, drizzled with olive oil — refreshing and velvety."
+      },
+      "emoji": "🍅",
+      "time_min": 15,
+      "prep_time_min": 15,
+      "cook_time_min": 0,
+      "difficulty": "very-easy",
+      "type": "starter",
+      "servings": 4,
+      "country": "es",
+      "diet": [
+        "vegan",
+        "vegetarian",
+        "dairy-free"
+      ],
+      "allergens": [
+        "gluten",
+        "sulphites"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "vg-tomate",
+            "vg-tomate-ronde"
+          ],
+          "qty": {
+            "amount": 800,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "800g de tomates mûres",
+            "en": "800g ripe tomatoes"
+          }
+        },
+        {
+          "ids": [
+            "gp-pain",
+            "gp-baguette"
+          ],
+          "qty": {
+            "amount": 150,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "150g de pain rassis",
+            "en": "150g stale bread"
+          }
+        },
+        {
+          "ids": [
+            "vg-ail"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "gousse"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 gousse d'ail",
+            "en": "1 garlic clove"
+          }
+        },
+        {
+          "ids": [
+            "sp-huile-olive-vi"
+          ],
+          "qty": {
+            "amount": 6,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "6 c. à soupe d'huile d'olive",
+            "en": "6 tbsp olive oil"
+          }
+        },
+        {
+          "ids": [
+            "sp-vinaigre-xeres",
+            "sp-vinaigre-vin"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 c. à soupe de vinaigre de Xérès",
+            "en": "1 tbsp sherry vinegar"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Faire tremper le pain quelques minutes.",
+          "Mixer les tomates, le pain et l'ail.",
+          "Ajouter le vinaigre puis l'huile d'olive en filet en mixant.",
+          "Mixer jusqu'à obtenir une texture lisse et crémeuse.",
+          "Servir bien frais, arrosé d'huile d'olive."
+        ],
+        "en": [
+          "Soak the bread for a few minutes.",
+          "Blend the tomatoes, bread and garlic.",
+          "Add the vinegar then the olive oil in a stream while blending.",
+          "Blend to a smooth, creamy texture.",
+          "Serve well chilled, drizzled with olive oil."
+        ]
+      },
+      "functional_tags": [
+        "anti_waste"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "ensaladilla-rusa",
+      "name": {
+        "fr": "Ensaladilla rusa",
+        "en": "Spanish potato salad"
+      },
+      "description": {
+        "fr": "Une salade de pommes de terre, thon et légumes liés à la mayonnaise — la salade de tapas espagnole, fraîche et généreuse.",
+        "en": "A potato, tuna and vegetable salad bound with mayonnaise — the Spanish tapas salad, fresh and generous."
+      },
+      "emoji": "🥗",
+      "time_min": 30,
+      "prep_time_min": 20,
+      "cook_time_min": 10,
+      "difficulty": "easy",
+      "type": "salad",
+      "servings": 4,
+      "country": "es",
+      "diet": [
+        "gluten-free"
+      ],
+      "allergens": [
+        "fish",
+        "eggs"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "vg-pomme-terre"
+          ],
+          "qty": {
+            "amount": 600,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "600g de pommes de terre",
+            "en": "600g potatoes"
+          }
+        },
+        {
+          "ids": [
+            "gp-thon"
+          ],
+          "qty": {
+            "amount": 200,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "200g de thon",
+            "en": "200g tuna"
+          }
+        },
+        {
+          "ids": [
+            "gp-petits-pois",
+            "vg-carottes"
+          ],
+          "qty": {
+            "amount": 150,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "150g de petits pois et carottes",
+            "en": "150g peas and carrots"
+          }
+        },
+        {
+          "ids": [
+            "sp-mayonnaise"
+          ],
+          "qty": {
+            "amount": 4,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "4 c. à soupe de mayonnaise",
+            "en": "4 tbsp mayonnaise"
+          }
+        },
+        {
+          "ids": [
+            "fr-oeuf",
+            "gp-olives-vertes"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "pcs"
+          },
+          "required": false,
+          "labels": {
+            "fr": "Œufs durs et olives",
+            "en": "Boiled eggs and olives"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Cuire les pommes de terre et les légumes à l'eau, puis les couper en dés.",
+          "Égoutter et émietter le thon.",
+          "Mélanger pommes de terre, légumes et thon.",
+          "Lier avec la mayonnaise.",
+          "Décorer d'œuf dur et d'olives, servir frais."
+        ],
+        "en": [
+          "Boil the potatoes and vegetables, then dice them.",
+          "Drain and flake the tuna.",
+          "Mix the potatoes, vegetables and tuna.",
+          "Bind with the mayonnaise.",
+          "Decorate with boiled egg and olives, serve cold."
+        ]
+      },
+      "functional_tags": [
+        "anti_waste"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "crema-catalana",
+      "name": {
+        "fr": "Crema catalana",
+        "en": "Crema catalana"
+      },
+      "description": {
+        "fr": "Une crème onctueuse parfumée au citron et à la cannelle, caramélisée sur le dessus — la cousine catalane de la crème brûlée.",
+        "en": "A silky custard scented with lemon and cinnamon, caramelised on top — the Catalan cousin of crème brûlée."
+      },
+      "emoji": "🍮",
+      "time_min": 30,
+      "prep_time_min": 15,
+      "cook_time_min": 15,
+      "difficulty": "medium",
+      "type": "dessert",
+      "servings": 4,
+      "country": "es",
+      "diet": [
+        "vegetarian",
+        "gluten-free"
+      ],
+      "allergens": [
+        "milk",
+        "eggs"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "fr-lait",
+            "fr-lait-entier"
+          ],
+          "qty": {
+            "amount": 50,
+            "unit": "cl"
+          },
+          "required": true,
+          "labels": {
+            "fr": "50 cl de lait",
+            "en": "500ml milk"
+          }
+        },
+        {
+          "ids": [
+            "fr-oeuf"
+          ],
+          "qty": {
+            "amount": 4,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "4 jaunes d'œufs",
+            "en": "4 egg yolks"
+          }
+        },
+        {
+          "ids": [
+            "gp-sucre"
+          ],
+          "qty": {
+            "amount": 120,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "120g de sucre",
+            "en": "120g sugar"
+          }
+        },
+        {
+          "ids": [
+            "gp-fecule-mais"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 c. à soupe de fécule",
+            "en": "2 tbsp cornstarch"
+          }
+        },
+        {
+          "ids": [
+            "sp-cannelle",
+            "fr-citron"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cc"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Cannelle et zeste de citron",
+            "en": "Cinnamon and lemon zest"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Infuser le lait avec la cannelle et le zeste de citron.",
+          "Battre les jaunes avec le sucre et la fécule.",
+          "Verser le lait chaud dessus puis remettre sur le feu.",
+          "Cuire en remuant jusqu'à épaississement, puis verser en ramequins.",
+          "Réfrigérer, saupoudrer de sucre et caraméliser avant de servir."
+        ],
+        "en": [
+          "Infuse the milk with the cinnamon and lemon zest.",
+          "Beat the yolks with the sugar and cornstarch.",
+          "Pour the hot milk over then return to the heat.",
+          "Cook, stirring, until thickened, then pour into ramekins.",
+          "Chill, sprinkle with sugar and caramelise before serving."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "tarta-santiago",
+      "name": {
+        "fr": "Tarta de Santiago",
+        "en": "Tarta de Santiago"
+      },
+      "description": {
+        "fr": "Un gâteau galicien moelleux à base d'amandes et d'œufs, sans farine, parfumé au citron — naturellement sans gluten et fondant.",
+        "en": "A moist Galician almond-and-egg cake, flourless, scented with lemon — naturally gluten-free and tender."
+      },
+      "emoji": "🍰",
+      "time_min": 50,
+      "prep_time_min": 15,
+      "cook_time_min": 35,
+      "difficulty": "easy",
+      "type": "dessert",
+      "servings": 6,
+      "country": "es",
+      "diet": [
+        "vegetarian",
+        "gluten-free"
+      ],
+      "allergens": [
+        "nuts",
+        "eggs"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "gp-poudre-amande",
+            "gp-amandes"
+          ],
+          "qty": {
+            "amount": 250,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "250g de poudre d'amande",
+            "en": "250g ground almonds"
+          }
+        },
+        {
+          "ids": [
+            "fr-oeuf"
+          ],
+          "qty": {
+            "amount": 4,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "4 œufs",
+            "en": "4 eggs"
+          }
+        },
+        {
+          "ids": [
+            "gp-sucre"
+          ],
+          "qty": {
+            "amount": 200,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "200g de sucre",
+            "en": "200g sugar"
+          }
+        },
+        {
+          "ids": [
+            "fr-citron",
+            "fr-orange"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Zeste de citron",
+            "en": "Lemon zest"
+          }
+        },
+        {
+          "ids": [
+            "gp-sucre-glace",
+            "sp-cannelle"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "cs"
+          },
+          "required": false,
+          "labels": {
+            "fr": "Sucre glace (décor)",
+            "en": "Icing sugar (to dust)"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Battre les œufs avec le sucre jusqu'à ce que le mélange blanchisse.",
+          "Incorporer la poudre d'amande et le zeste de citron.",
+          "Verser dans un moule beurré.",
+          "Cuire 35 min à 175°C jusqu'à ce que le dessus soit doré.",
+          "Laisser refroidir et saupoudrer de sucre glace."
+        ],
+        "en": [
+          "Beat the eggs with the sugar until pale.",
+          "Fold in the ground almonds and lemon zest.",
+          "Pour into a buttered tin.",
+          "Bake 35 min at 175°C until the top is golden.",
+          "Cool and dust with icing sugar."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+[
+  {"from": "/^(\\.\\.?\\/)+components\\/consent\\/ConfidentialityPanel$/", "to": "@features/legal/components/confidentiality-panel"},
+  {"from": "/^(\\.\\.?\\/)+components\\/consent\\/CookieBanner$/",         "to": "@features/legal/components/cookie-banner"},
+  {"from": "/^(\\.\\.?\\/)+components\\/consent\\/CookieModal$/",          "to": "@features/legal/components/cookie-modal"},
+  {"from": "/^(\\.\\.?\\/)+components\\/consent\\/consentI18n$/",          "to": "@features/legal/i18n/consent-i18n"},
+  {"from": "/^(\\.\\.?\\/)+hooks\\/useConsent$/",                          "to": "@features/legal/hooks/use-consent"},
+  {"from": "/^(\\.\\.?\\/)+pages\\/LegalPage$/",                           "to": "@features/legal/pages/legal-page"},
+  {"from": "/^(\\.\\.?\\/)+data\\/legalContent$/",                         "to": "@features/legal/data/legal-content"},
+
+  {"from": "/^(\\.\\.?\\/)+components\\/help\\/HelpGuide$/",               "to": "@features/onboarding/components/help-guide"},
+  {"from": "/^(\\.\\.?\\/)+components\\/help\\/TourWizard$/",              "to": "@features/onboarding/components/tour-wizard"},
+
+  {"from": "/^(\\.\\.?\\/)+components\\/modal\\/ChangelogModal$/",         "to": "@features/changelog/components/changelog-modal"},
+  {"from": "/^(\\.\\.?\\/)+pages\\/ChangelogPage$/",                       "to": "@features/changelog/pages/changelog-page"},
+  {"from": "/^(\\.\\.?\\/)+data\\/changelog$/",                            "to": "@features/changelog/data/changelog"}
+]

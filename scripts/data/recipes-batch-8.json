@@ -1,0 +1,486 @@
+{
+  "batchName": "recipes-batch-8-mexique",
+  "recipes": [
+    {
+      "id": "tacos-boeuf",
+      "name": { "fr": "Tacos de bœuf", "en": "Beef tacos" },
+      "description": { "fr": "Des tortillas garnies de bœuf épicé, de tomate, d'oignon et de coriandre fraîche — le taco mexicain authentique à composer soi-même.", "en": "Tortillas filled with spiced beef, tomato, onion and fresh coriander — the authentic Mexican taco to build yourself." },
+      "emoji": "🌮", "time_min": 25, "prep_time_min": 15, "cook_time_min": 10, "difficulty": "easy", "type": "main", "servings": 4, "country": "mx",
+      "diet": ["dairy-free"], "allergens": [],
+      "ingredients": [
+        { "ids": ["gp-tortillas"], "qty": { "amount": 8, "unit": "pcs" }, "required": true, "labels": { "fr": "8 tortillas de maïs", "en": "8 corn tortillas" } },
+        { "ids": ["fr-hache-boeuf", "frz-boeuf-hache"], "qty": { "amount": 500, "unit": "g" }, "required": true, "labels": { "fr": "500g de bœuf haché", "en": "500g minced beef" } },
+        { "ids": ["vg-oignon", "vg-oignon-rouge"], "qty": { "amount": 1, "unit": "pcs" }, "required": true, "labels": { "fr": "1 oignon", "en": "1 onion" } },
+        { "ids": ["vg-tomate"], "qty": { "amount": 2, "unit": "pcs" }, "required": true, "labels": { "fr": "2 tomates", "en": "2 tomatoes" } },
+        { "ids": ["sp-cumin", "sp-paprika"], "qty": { "amount": 2, "unit": "cc" }, "required": true, "labels": { "fr": "2 c. à café de cumin et paprika", "en": "2 tsp cumin and paprika" } },
+        { "ids": ["sp-coriandre", "fr-citron-vert"], "qty": { "amount": 1, "unit": "botte" }, "required": false, "labels": { "fr": "Coriandre et citron vert", "en": "Coriander and lime" } }
+      ],
+      "steps": {
+        "fr": ["Faire revenir l'oignon émincé, ajouter le bœuf haché.", "Assaisonner de cumin, paprika, sel et poivre ; cuire 8 min.", "Réchauffer les tortillas à la poêle.", "Garnir chaque tortilla de bœuf, tomate et oignon.", "Parsemer de coriandre et arroser de citron vert."],
+        "en": ["Sauté the sliced onion, add the minced beef.", "Season with cumin, paprika, salt and pepper; cook 8 min.", "Warm the tortillas in a pan.", "Fill each tortilla with beef, tomato and onion.", "Scatter with coriander and squeeze over lime."]
+      },
+      "functional_tags": ["kids_friendly"], "status": "published"
+    },
+    {
+      "id": "quesadillas-fromage",
+      "name": { "fr": "Quesadillas au fromage", "en": "Cheese quesadillas" },
+      "description": { "fr": "Des tortillas pliées et dorées à la poêle, garnies de fromage fondant — un en-cas mexicain ultra-rapide et réconfortant.", "en": "Tortillas folded and pan-toasted around melting cheese — an ultra-quick, comforting Mexican snack." },
+      "emoji": "🫓", "time_min": 15, "prep_time_min": 5, "cook_time_min": 10, "difficulty": "very-easy", "type": "main", "servings": 4, "country": "mx",
+      "diet": ["vegetarian"], "allergens": ["milk"],
+      "ingredients": [
+        { "ids": ["gp-tortillas"], "qty": { "amount": 8, "unit": "pcs" }, "required": true, "labels": { "fr": "8 tortillas", "en": "8 tortillas" } },
+        { "ids": ["fr-cheddar", "fr-fromage-rape", "fr-emmental"], "qty": { "amount": 250, "unit": "g" }, "required": true, "labels": { "fr": "250g de fromage râpé", "en": "250g grated cheese" } },
+        { "ids": ["vg-poivron", "vg-oignon-vert"], "qty": { "amount": 1, "unit": "pcs" }, "required": false, "labels": { "fr": "1 poivron", "en": "1 bell pepper" } },
+        { "ids": ["sp-coriandre", "sp-paprika"], "qty": { "amount": 1, "unit": "cc" }, "required": false, "labels": { "fr": "Coriandre / paprika", "en": "Coriander / paprika" } }
+      ],
+      "steps": {
+        "fr": ["Répartir le fromage sur la moitié de chaque tortilla.", "Ajouter un peu de poivron si désiré et plier en deux.", "Dorer à la poêle 2 min de chaque côté jusqu'à ce que le fromage fonde.", "Couper en triangles.", "Servir chaud avec de la salsa ou du guacamole."],
+        "en": ["Spread the cheese over half of each tortilla.", "Add a little pepper if desired and fold in half.", "Toast in a pan 2 min per side until the cheese melts.", "Cut into triangles.", "Serve hot with salsa or guacamole."]
+      },
+      "functional_tags": ["kids_friendly"], "status": "published"
+    },
+    {
+      "id": "enchiladas-poulet",
+      "name": { "fr": "Enchiladas au poulet", "en": "Chicken enchiladas" },
+      "description": { "fr": "Des tortillas roulées garnies de poulet, nappées de sauce tomate épicée et de fromage gratiné — un plat mexicain généreux et réconfortant.", "en": "Rolled tortillas filled with chicken, smothered in spicy tomato sauce and gratinated cheese — a generous, comforting Mexican bake." },
+      "emoji": "🌶️", "time_min": 50, "prep_time_min": 20, "cook_time_min": 30, "difficulty": "medium", "type": "main", "servings": 4, "country": "mx",
+      "diet": [], "allergens": ["milk"],
+      "ingredients": [
+        { "ids": ["gp-tortillas"], "qty": { "amount": 8, "unit": "pcs" }, "required": true, "labels": { "fr": "8 tortillas", "en": "8 tortillas" } },
+        { "ids": ["fr-blanc-poulet"], "qty": { "amount": 500, "unit": "g" }, "required": true, "labels": { "fr": "500g de poulet", "en": "500g chicken" } },
+        { "ids": ["gp-tomates-concas", "sp-sauce-tomate"], "qty": { "amount": 400, "unit": "g" }, "required": true, "labels": { "fr": "400g de tomates concassées", "en": "400g crushed tomatoes" } },
+        { "ids": ["fr-cheddar", "fr-fromage-rape"], "qty": { "amount": 200, "unit": "g" }, "required": true, "labels": { "fr": "200g de fromage râpé", "en": "200g grated cheese" } },
+        { "ids": ["sp-paprika", "sp-cumin"], "qty": { "amount": 2, "unit": "cc" }, "required": true, "labels": { "fr": "Paprika et cumin", "en": "Paprika and cumin" } },
+        { "ids": ["vg-oignon"], "qty": { "amount": 1, "unit": "pcs" }, "required": true, "labels": { "fr": "1 oignon", "en": "1 onion" } }
+      ],
+      "steps": {
+        "fr": ["Cuire et effilocher le poulet, le mélanger avec l'oignon et les épices.", "Préparer une sauce tomate épicée.", "Garnir les tortillas de poulet, les rouler et les ranger dans un plat.", "Napper de sauce et de fromage râpé.", "Gratiner au four 20 min à 190°C et servir."],
+        "en": ["Cook and shred the chicken, mix with the onion and spices.", "Make a spicy tomato sauce.", "Fill the tortillas with chicken, roll them and line a dish.", "Top with sauce and grated cheese.", "Bake 20 min at 190°C until golden and serve."]
+      },
+      "functional_tags": ["batch_cooking"], "status": "published"
+    },
+    {
+      "id": "burritos-boeuf",
+      "name": { "fr": "Burritos au bœuf", "en": "Beef burritos" },
+      "description": { "fr": "De grandes tortillas roulées garnies de bœuf épicé, de riz, de haricots et de fromage — un repas mexicain complet à emporter.", "en": "Large rolled tortillas filled with spiced beef, rice, beans and cheese — a complete Mexican meal on the go." },
+      "emoji": "🌯", "time_min": 35, "prep_time_min": 15, "cook_time_min": 20, "difficulty": "easy", "type": "main", "servings": 4, "country": "mx",
+      "diet": [], "allergens": ["gluten", "milk"],
+      "ingredients": [
+        { "ids": ["gp-tortillas"], "qty": { "amount": 4, "unit": "pcs" }, "required": true, "labels": { "fr": "4 grandes tortillas de blé", "en": "4 large wheat tortillas" } },
+        { "ids": ["fr-hache-boeuf", "frz-boeuf-hache"], "qty": { "amount": 400, "unit": "g" }, "required": true, "labels": { "fr": "400g de bœuf haché", "en": "400g minced beef" } },
+        { "ids": ["gp-riz"], "qty": { "amount": 150, "unit": "g" }, "required": true, "labels": { "fr": "150g de riz", "en": "150g rice" } },
+        { "ids": ["gp-haricots-rouges"], "qty": { "amount": 200, "unit": "g" }, "required": true, "labels": { "fr": "200g de haricots rouges", "en": "200g red beans" } },
+        { "ids": ["fr-cheddar", "fr-fromage-rape"], "qty": { "amount": 150, "unit": "g" }, "required": true, "labels": { "fr": "150g de fromage râpé", "en": "150g grated cheese" } },
+        { "ids": ["sp-cumin", "sp-paprika"], "qty": { "amount": 2, "unit": "cc" }, "required": true, "labels": { "fr": "Cumin et paprika", "en": "Cumin and paprika" } }
+      ],
+      "steps": {
+        "fr": ["Cuire le riz. Faire revenir le bœuf avec les épices.", "Réchauffer les haricots rouges.", "Réchauffer les tortillas pour les assouplir.", "Garnir de riz, bœuf, haricots et fromage, puis rouler serré en repliant les côtés.", "Dorer brièvement les burritos à la poêle et servir."],
+        "en": ["Cook the rice. Sauté the beef with the spices.", "Warm the red beans.", "Warm the tortillas to soften them.", "Fill with rice, beef, beans and cheese, then roll tightly, folding in the sides.", "Briefly toast the burritos in a pan and serve."]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "chili-sin-carne",
+      "name": { "fr": "Chili sin carne", "en": "Chili sin carne" },
+      "description": { "fr": "Une version végétalienne du chili, riche en haricots rouges, maïs et tomates épicées — nourrissante, économique et pleine de saveur.", "en": "A vegan take on chili, loaded with red beans, corn and spiced tomatoes — hearty, budget-friendly and full of flavour." },
+      "emoji": "🌶️", "time_min": 40, "prep_time_min": 15, "cook_time_min": 25, "difficulty": "easy", "type": "main", "servings": 4, "country": "mx",
+      "diet": ["vegan", "vegetarian", "gluten-free", "dairy-free"], "allergens": [],
+      "ingredients": [
+        { "ids": ["gp-haricots-rouges"], "qty": { "amount": 400, "unit": "g" }, "required": true, "labels": { "fr": "400g de haricots rouges", "en": "400g red beans" } },
+        { "ids": ["gp-mais", "frz-mais"], "qty": { "amount": 200, "unit": "g" }, "required": true, "labels": { "fr": "200g de maïs", "en": "200g corn" } },
+        { "ids": ["gp-tomates-concas"], "qty": { "amount": 400, "unit": "g" }, "required": true, "labels": { "fr": "400g de tomates concassées", "en": "400g crushed tomatoes" } },
+        { "ids": ["vg-poivron"], "qty": { "amount": 1, "unit": "pcs" }, "required": true, "labels": { "fr": "1 poivron", "en": "1 bell pepper" } },
+        { "ids": ["vg-oignon"], "qty": { "amount": 1, "unit": "pcs" }, "required": true, "labels": { "fr": "1 oignon", "en": "1 onion" } },
+        { "ids": ["sp-cumin", "sp-paprika"], "qty": { "amount": 2, "unit": "cc" }, "required": true, "labels": { "fr": "Cumin et paprika fumé", "en": "Cumin and smoked paprika" } }
+      ],
+      "steps": {
+        "fr": ["Faire revenir l'oignon et le poivron en dés.", "Ajouter les épices et torréfier 1 min.", "Verser les tomates, les haricots et le maïs.", "Mijoter 20 min à feu doux jusqu'à épaississement.", "Rectifier l'assaisonnement et servir avec du riz."],
+        "en": ["Sauté the diced onion and pepper.", "Add the spices and toast 1 min.", "Pour in the tomatoes, beans and corn.", "Simmer 20 min over low heat until thickened.", "Adjust the seasoning and serve with rice."]
+      },
+      "functional_tags": ["batch_cooking", "anti_waste"], "status": "published"
+    },
+    {
+      "id": "tacos-poisson",
+      "name": { "fr": "Tacos de poisson", "en": "Fish tacos" },
+      "description": { "fr": "Des tortillas garnies de poisson doré, de chou croquant et d'une sauce crémeuse au citron vert — frais, léger et ensoleillé.", "en": "Tortillas filled with golden fish, crunchy cabbage and a creamy lime sauce — fresh, light and sunny." },
+      "emoji": "🌮", "time_min": 30, "prep_time_min": 15, "cook_time_min": 15, "difficulty": "medium", "type": "main", "servings": 4, "country": "mx",
+      "diet": [], "allergens": ["fish", "milk"],
+      "ingredients": [
+        { "ids": ["gp-tortillas"], "qty": { "amount": 8, "unit": "pcs" }, "required": true, "labels": { "fr": "8 tortillas de maïs", "en": "8 corn tortillas" } },
+        { "ids": ["fr-cabillaud", "frz-colin", "fr-lieu-jaune"], "qty": { "amount": 500, "unit": "g" }, "required": true, "labels": { "fr": "500g de cabillaud", "en": "500g cod" } },
+        { "ids": ["vg-chou", "vg-chou-rouge"], "qty": { "amount": 200, "unit": "g" }, "required": true, "labels": { "fr": "200g de chou", "en": "200g cabbage" } },
+        { "ids": ["fr-citron-vert"], "qty": { "amount": 1, "unit": "pcs" }, "required": true, "labels": { "fr": "1 citron vert", "en": "1 lime" } },
+        { "ids": ["sp-mayonnaise", "fr-creme-fraiche"], "qty": { "amount": 3, "unit": "cs" }, "required": true, "labels": { "fr": "3 c. à soupe de crème/mayonnaise", "en": "3 tbsp cream/mayo" } },
+        { "ids": ["sp-paprika", "sp-cumin"], "qty": { "amount": 1, "unit": "cc" }, "required": true, "labels": { "fr": "Paprika et cumin", "en": "Paprika and cumin" } }
+      ],
+      "steps": {
+        "fr": ["Assaisonner le poisson de paprika et de cumin, puis le poêler.", "Émincer le chou finement.", "Mélanger la crème avec le jus de citron vert pour la sauce.", "Réchauffer les tortillas.", "Garnir de poisson émietté, de chou et de sauce ; servir aussitôt."],
+        "en": ["Season the fish with paprika and cumin, then pan-fry it.", "Finely shred the cabbage.", "Mix the cream with lime juice for the sauce.", "Warm the tortillas.", "Fill with flaked fish, cabbage and sauce; serve at once."]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "burrito-bowl",
+      "name": { "fr": "Burrito bowl", "en": "Burrito bowl" },
+      "description": { "fr": "Tous les plaisirs d'un burrito dans un bol : riz, haricots, poulet, maïs, avocat et salsa — équilibré, coloré et personnalisable.", "en": "All the joys of a burrito in a bowl: rice, beans, chicken, corn, avocado and salsa — balanced, colourful and customisable." },
+      "emoji": "🥗", "time_min": 30, "prep_time_min": 20, "cook_time_min": 10, "difficulty": "easy", "type": "main", "servings": 4, "country": "mx",
+      "diet": ["gluten-free", "dairy-free"], "allergens": [],
+      "ingredients": [
+        { "ids": ["gp-riz", "gp-riz-complet"], "qty": { "amount": 250, "unit": "g" }, "required": true, "labels": { "fr": "250g de riz", "en": "250g rice" } },
+        { "ids": ["gp-haricots-rouges", "gp-haricots-bl"], "qty": { "amount": 250, "unit": "g" }, "required": true, "labels": { "fr": "250g de haricots rouges", "en": "250g red beans" } },
+        { "ids": ["fr-blanc-poulet"], "qty": { "amount": 400, "unit": "g" }, "required": true, "labels": { "fr": "400g de poulet", "en": "400g chicken" } },
+        { "ids": ["fr-avocat"], "qty": { "amount": 1, "unit": "pcs" }, "required": true, "labels": { "fr": "1 avocat", "en": "1 avocado" } },
+        { "ids": ["gp-mais", "vg-tomate"], "qty": { "amount": 150, "unit": "g" }, "required": true, "labels": { "fr": "150g de maïs", "en": "150g corn" } },
+        { "ids": ["fr-citron-vert", "sp-coriandre"], "qty": { "amount": 1, "unit": "pcs" }, "required": false, "labels": { "fr": "Citron vert et coriandre", "en": "Lime and coriander" } }
+      ],
+      "steps": {
+        "fr": ["Cuire le riz et l'assaisonner de coriandre et de citron vert.", "Cuire le poulet épicé et le couper en lanières.", "Réchauffer les haricots.", "Répartir le riz dans les bols, ajouter haricots, poulet, maïs et avocat.", "Arroser de citron vert et servir."],
+        "en": ["Cook the rice and season with coriander and lime.", "Cook the spiced chicken and slice it.", "Warm the beans.", "Divide the rice into bowls, add beans, chicken, corn and avocado.", "Squeeze over lime and serve."]
+      },
+      "functional_tags": ["batch_cooking"], "status": "published"
+    },
+    {
+      "id": "carnitas",
+      "name": { "fr": "Carnitas (porc effiloché)", "en": "Carnitas (pulled pork)" },
+      "description": { "fr": "Du porc mijoté longuement aux agrumes et aux épices puis effiloché et doré — fondant à cœur, croustillant en surface, parfait en tacos.", "en": "Pork slowly braised with citrus and spices then shredded and crisped — tender within, crunchy outside, perfect in tacos." },
+      "emoji": "🐖", "time_min": 150, "prep_time_min": 15, "cook_time_min": 135, "difficulty": "medium", "type": "main", "servings": 6, "country": "mx",
+      "diet": ["gluten-free", "dairy-free"], "allergens": [],
+      "ingredients": [
+        { "ids": ["fr-echine", "fr-filet-porc", "fr-travers-porc"], "qty": { "amount": 1200, "unit": "g" }, "required": true, "labels": { "fr": "1,2 kg d'échine de porc", "en": "1.2kg pork shoulder" } },
+        { "ids": ["fr-orange", "fr-citron-vert"], "qty": { "amount": 2, "unit": "pcs" }, "required": true, "labels": { "fr": "2 oranges", "en": "2 oranges" } },
+        { "ids": ["vg-oignon"], "qty": { "amount": 1, "unit": "pcs" }, "required": true, "labels": { "fr": "1 oignon", "en": "1 onion" } },
+        { "ids": ["vg-ail"], "qty": { "amount": 4, "unit": "gousse" }, "required": true, "labels": { "fr": "4 gousses d'ail", "en": "4 garlic cloves" } },
+        { "ids": ["sp-cumin", "sp-origan"], "qty": { "amount": 2, "unit": "cc" }, "required": true, "labels": { "fr": "Cumin et origan", "en": "Cumin and oregano" } }
+      ],
+      "steps": {
+        "fr": ["Couper le porc en gros morceaux et le placer dans une cocotte.", "Ajouter l'oignon, l'ail, le jus d'orange, les épices et de l'eau à mi-hauteur.", "Couvrir et cuire 2h à feu doux jusqu'à ce que la viande s'effiloche.", "Effilocher le porc puis le faire dorer à la poêle.", "Servir dans des tortillas avec oignon et coriandre."],
+        "en": ["Cut the pork into large chunks and place in a pot.", "Add the onion, garlic, orange juice, spices and water halfway up.", "Cover and cook 2h over low heat until the meat shreds.", "Shred the pork then crisp it in a pan.", "Serve in tortillas with onion and coriander."]
+      },
+      "functional_tags": ["batch_cooking"], "status": "published"
+    },
+    {
+      "id": "tinga-poulet",
+      "name": { "fr": "Tinga de poulet", "en": "Chicken tinga" },
+      "description": { "fr": "Du poulet effiloché mijoté dans une sauce tomate fumée au chipotle — relevé, parfumé et idéal sur des tostadas ou en tacos.", "en": "Shredded chicken simmered in a smoky chipotle tomato sauce — spicy, fragrant and ideal on tostadas or in tacos." },
+      "emoji": "🌶️", "time_min": 35, "prep_time_min": 15, "cook_time_min": 20, "difficulty": "easy", "type": "main", "servings": 4, "country": "mx",
+      "diet": ["gluten-free", "dairy-free"], "allergens": [],
+      "ingredients": [
+        { "ids": ["fr-blanc-poulet", "fr-cuisse-poulet"], "qty": { "amount": 500, "unit": "g" }, "required": true, "labels": { "fr": "500g de poulet", "en": "500g chicken" } },
+        { "ids": ["gp-tomates-concas"], "qty": { "amount": 400, "unit": "g" }, "required": true, "labels": { "fr": "400g de tomates", "en": "400g tomatoes" } },
+        { "ids": ["vg-oignon"], "qty": { "amount": 1, "unit": "pcs" }, "required": true, "labels": { "fr": "1 oignon", "en": "1 onion" } },
+        { "ids": ["sp-paprika", "sp-piment-cayenne"], "qty": { "amount": 2, "unit": "cc" }, "required": true, "labels": { "fr": "Paprika fumé et piment", "en": "Smoked paprika and chilli" } },
+        { "ids": ["vg-ail", "sp-origan"], "qty": { "amount": 2, "unit": "gousse" }, "required": true, "labels": { "fr": "Ail et origan", "en": "Garlic and oregano" } }
+      ],
+      "steps": {
+        "fr": ["Pocher le poulet puis l'effilocher.", "Mixer les tomates avec l'oignon, l'ail et les épices.", "Faire réduire cette sauce 10 min dans une poêle.", "Ajouter le poulet effiloché et mijoter 8 min.", "Servir sur des tostadas ou dans des tacos."],
+        "en": ["Poach the chicken then shred it.", "Blend the tomatoes with the onion, garlic and spices.", "Reduce this sauce 10 min in a pan.", "Add the shredded chicken and simmer 8 min.", "Serve on tostadas or in tacos."]
+      },
+      "functional_tags": ["batch_cooking"], "status": "published"
+    },
+    {
+      "id": "huevos-rancheros",
+      "name": { "fr": "Huevos rancheros", "en": "Huevos rancheros" },
+      "description": { "fr": "Des œufs au plat servis sur une tortilla croustillante, nappés de sauce tomate épicée et de haricots — le petit-déjeuner mexicain par excellence.", "en": "Fried eggs on a crisp tortilla, topped with spicy tomato sauce and beans — the quintessential Mexican breakfast." },
+      "emoji": "🥚", "time_min": 25, "prep_time_min": 10, "cook_time_min": 15, "difficulty": "easy", "type": "main", "servings": 4, "country": "mx",
+      "diet": ["vegetarian"], "allergens": ["eggs"],
+      "ingredients": [
+        { "ids": ["gp-tortillas"], "qty": { "amount": 4, "unit": "pcs" }, "required": true, "labels": { "fr": "4 tortillas de maïs", "en": "4 corn tortillas" } },
+        { "ids": ["fr-oeuf"], "qty": { "amount": 8, "unit": "pcs" }, "required": true, "labels": { "fr": "8 œufs", "en": "8 eggs" } },
+        { "ids": ["gp-tomates-concas"], "qty": { "amount": 400, "unit": "g" }, "required": true, "labels": { "fr": "400g de tomates", "en": "400g tomatoes" } },
+        { "ids": ["gp-haricots-rouges"], "qty": { "amount": 200, "unit": "g" }, "required": true, "labels": { "fr": "200g de haricots rouges", "en": "200g red beans" } },
+        { "ids": ["sp-piment-cayenne", "sp-cumin"], "qty": { "amount": 1, "unit": "cc" }, "required": true, "labels": { "fr": "Piment et cumin", "en": "Chilli and cumin" } },
+        { "ids": ["vg-oignon", "sp-coriandre"], "qty": { "amount": 1, "unit": "pcs" }, "required": false, "labels": { "fr": "Oignon et coriandre", "en": "Onion and coriander" } }
+      ],
+      "steps": {
+        "fr": ["Préparer une sauce tomate épicée avec l'oignon et le piment.", "Réchauffer les haricots rouges.", "Dorer légèrement les tortillas à la poêle.", "Cuire les œufs au plat.", "Dresser tortilla, haricots, œufs et sauce ; parsemer de coriandre."],
+        "en": ["Make a spicy tomato sauce with the onion and chilli.", "Warm the red beans.", "Lightly toast the tortillas in a pan.", "Fry the eggs.", "Layer tortilla, beans, eggs and sauce; scatter coriander."]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "fajitas-legumes",
+      "name": { "fr": "Fajitas de légumes", "en": "Vegetable fajitas" },
+      "description": { "fr": "Des poivrons et oignons sautés et épicés, servis grésillants avec des tortillas à garnir — une version végétalienne colorée et conviviale.", "en": "Sizzling spiced peppers and onions served with tortillas to fill — a colourful, convivial vegan version." },
+      "emoji": "🫑", "time_min": 25, "prep_time_min": 12, "cook_time_min": 13, "difficulty": "easy", "type": "main", "servings": 4, "country": "mx",
+      "diet": ["vegan", "vegetarian", "dairy-free"], "allergens": ["gluten"],
+      "ingredients": [
+        { "ids": ["gp-tortillas"], "qty": { "amount": 8, "unit": "pcs" }, "required": true, "labels": { "fr": "8 tortillas", "en": "8 tortillas" } },
+        { "ids": ["vg-poivron"], "qty": { "amount": 3, "unit": "pcs" }, "required": true, "labels": { "fr": "3 poivrons de couleurs", "en": "3 mixed peppers" } },
+        { "ids": ["vg-oignon", "vg-oignon-rouge"], "qty": { "amount": 2, "unit": "pcs" }, "required": true, "labels": { "fr": "2 oignons", "en": "2 onions" } },
+        { "ids": ["sp-paprika", "sp-cumin"], "qty": { "amount": 2, "unit": "cc" }, "required": true, "labels": { "fr": "Paprika et cumin", "en": "Paprika and cumin" } },
+        { "ids": ["fr-citron-vert", "sp-coriandre"], "qty": { "amount": 1, "unit": "pcs" }, "required": false, "labels": { "fr": "Citron vert et coriandre", "en": "Lime and coriander" } }
+      ],
+      "steps": {
+        "fr": ["Émincer les poivrons et les oignons.", "Les faire sauter à feu vif jusqu'à ce qu'ils soient grillés mais croquants.", "Assaisonner de paprika, cumin, sel et citron vert.", "Réchauffer les tortillas.", "Servir les légumes grésillants avec les tortillas à garnir."],
+        "en": ["Slice the peppers and onions.", "Stir-fry over high heat until charred but crunchy.", "Season with paprika, cumin, salt and lime.", "Warm the tortillas.", "Serve the sizzling vegetables with tortillas to fill."]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "tacos-crevettes",
+      "name": { "fr": "Tacos de crevettes", "en": "Shrimp tacos" },
+      "description": { "fr": "Des crevettes épicées poêlées, servies dans des tortillas avec du chou et une sauce crémeuse au citron vert — légers et pleins de fraîcheur.", "en": "Spiced pan-fried shrimp served in tortillas with cabbage and a creamy lime sauce — light and full of freshness." },
+      "emoji": "🌮", "time_min": 25, "prep_time_min": 15, "cook_time_min": 10, "difficulty": "easy", "type": "main", "servings": 4, "country": "mx",
+      "diet": [], "allergens": ["crustaceans", "milk"],
+      "ingredients": [
+        { "ids": ["gp-tortillas"], "qty": { "amount": 8, "unit": "pcs" }, "required": true, "labels": { "fr": "8 tortillas de maïs", "en": "8 corn tortillas" } },
+        { "ids": ["fr-crevettes", "frz-crevettes"], "qty": { "amount": 500, "unit": "g" }, "required": true, "labels": { "fr": "500g de crevettes", "en": "500g shrimp" } },
+        { "ids": ["vg-chou", "vg-chou-rouge"], "qty": { "amount": 200, "unit": "g" }, "required": true, "labels": { "fr": "200g de chou", "en": "200g cabbage" } },
+        { "ids": ["fr-citron-vert"], "qty": { "amount": 1, "unit": "pcs" }, "required": true, "labels": { "fr": "1 citron vert", "en": "1 lime" } },
+        { "ids": ["sp-mayonnaise", "fr-creme-fraiche"], "qty": { "amount": 3, "unit": "cs" }, "required": true, "labels": { "fr": "Sauce crémeuse", "en": "Creamy sauce" } },
+        { "ids": ["sp-paprika", "sp-piment-cayenne"], "qty": { "amount": 1, "unit": "cc" }, "required": true, "labels": { "fr": "Paprika et piment", "en": "Paprika and chilli" } }
+      ],
+      "steps": {
+        "fr": ["Assaisonner les crevettes de paprika et de piment.", "Les poêler 3 min jusqu'à ce qu'elles soient roses.", "Émincer le chou et préparer la sauce crème-citron vert.", "Réchauffer les tortillas.", "Garnir de crevettes, chou et sauce ; servir aussitôt."],
+        "en": ["Season the shrimp with paprika and chilli.", "Pan-fry 3 min until pink.", "Shred the cabbage and make the cream-lime sauce.", "Warm the tortillas.", "Fill with shrimp, cabbage and sauce; serve at once."]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "nachos-gratines",
+      "name": { "fr": "Nachos gratinés", "en": "Loaded nachos" },
+      "description": { "fr": "Des chips de tortilla recouvertes de fromage fondu, de haricots et de jalapeños, gratinées au four — l'apéritif mexicain à partager.", "en": "Tortilla chips smothered in melted cheese, beans and jalapeños, baked until bubbling — the Mexican sharing starter." },
+      "emoji": "🧀", "time_min": 20, "prep_time_min": 10, "cook_time_min": 10, "difficulty": "very-easy", "type": "starter", "servings": 4, "country": "mx",
+      "diet": ["vegetarian"], "allergens": ["milk"],
+      "ingredients": [
+        { "ids": ["gp-tortillas", "gp-crackers"], "qty": { "amount": 250, "unit": "g" }, "required": true, "labels": { "fr": "250g de chips de tortilla", "en": "250g tortilla chips" } },
+        { "ids": ["fr-cheddar", "fr-fromage-rape"], "qty": { "amount": 200, "unit": "g" }, "required": true, "labels": { "fr": "200g de cheddar râpé", "en": "200g grated cheddar" } },
+        { "ids": ["gp-haricots-rouges"], "qty": { "amount": 200, "unit": "g" }, "required": true, "labels": { "fr": "200g de haricots rouges", "en": "200g red beans" } },
+        { "ids": ["vg-tomate", "vg-oignon-rouge"], "qty": { "amount": 2, "unit": "pcs" }, "required": false, "labels": { "fr": "Tomate et oignon rouge", "en": "Tomato and red onion" } },
+        { "ids": ["sp-piment-cayenne", "gp-olives-vertes"], "qty": { "amount": 1, "unit": "cc" }, "required": false, "labels": { "fr": "Piment / jalapeños", "en": "Chilli / jalapeños" } }
+      ],
+      "steps": {
+        "fr": ["Étaler les chips de tortilla dans un plat.", "Répartir les haricots et le fromage par-dessus.", "Ajouter tomate, oignon et piment.", "Gratiner 8-10 min au four à 200°C jusqu'à ce que le fromage bulle.", "Servir aussitôt avec du guacamole ou de la crème."],
+        "en": ["Spread the tortilla chips in a dish.", "Scatter the beans and cheese over them.", "Add tomato, onion and chilli.", "Bake 8-10 min at 200°C until the cheese bubbles.", "Serve at once with guacamole or sour cream."]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "pico-de-gallo",
+      "name": { "fr": "Pico de gallo", "en": "Pico de gallo" },
+      "description": { "fr": "Une salsa fraîche de tomate, oignon, coriandre et citron vert, hachée minute — vive, croquante et parfaite avec des chips ou des tacos.", "en": "A fresh chopped salsa of tomato, onion, coriander and lime — vibrant, crunchy and perfect with chips or tacos." },
+      "emoji": "🍅", "time_min": 15, "prep_time_min": 15, "cook_time_min": 0, "difficulty": "very-easy", "type": "starter", "servings": 4, "country": "mx",
+      "diet": ["vegan", "vegetarian", "gluten-free", "dairy-free"], "allergens": [],
+      "ingredients": [
+        { "ids": ["vg-tomate", "vg-tomate-ronde"], "qty": { "amount": 400, "unit": "g" }, "required": true, "labels": { "fr": "400g de tomates", "en": "400g tomatoes" } },
+        { "ids": ["vg-oignon-rouge", "vg-oignon"], "qty": { "amount": 1, "unit": "pcs" }, "required": true, "labels": { "fr": "1 oignon rouge", "en": "1 red onion" } },
+        { "ids": ["sp-coriandre"], "qty": { "amount": 1, "unit": "botte" }, "required": true, "labels": { "fr": "1 bouquet de coriandre", "en": "1 bunch coriander" } },
+        { "ids": ["fr-citron-vert"], "qty": { "amount": 1, "unit": "pcs" }, "required": true, "labels": { "fr": "1 citron vert", "en": "1 lime" } },
+        { "ids": ["sp-piment-cayenne"], "qty": { "amount": 1, "unit": "pm" }, "required": false, "labels": { "fr": "1 pincée de piment", "en": "1 pinch chilli" } }
+      ],
+      "steps": {
+        "fr": ["Couper les tomates en petits dés et les égoutter légèrement.", "Ciseler finement l'oignon rouge et la coriandre.", "Mélanger le tout dans un bol.", "Assaisonner de jus de citron vert, de sel et de piment.", "Laisser reposer 10 min et servir frais."],
+        "en": ["Dice the tomatoes small and drain them lightly.", "Finely chop the red onion and coriander.", "Combine everything in a bowl.", "Season with lime juice, salt and chilli.", "Rest 10 min and serve cold."]
+      },
+      "functional_tags": ["anti_waste"], "status": "published"
+    },
+    {
+      "id": "sopa-azteca",
+      "name": { "fr": "Sopa azteca", "en": "Tortilla soup" },
+      "description": { "fr": "Une soupe mexicaine de tomate épicée garnie de lanières de tortilla croustillantes, d'avocat et de fromage — réconfortante et pleine de textures.", "en": "A spiced Mexican tomato soup topped with crisp tortilla strips, avocado and cheese — comforting and full of textures." },
+      "emoji": "🥣", "time_min": 35, "prep_time_min": 15, "cook_time_min": 20, "difficulty": "easy", "type": "starter", "servings": 4, "country": "mx",
+      "diet": ["vegetarian"], "allergens": ["milk"],
+      "ingredients": [
+        { "ids": ["gp-tomates-concas"], "qty": { "amount": 400, "unit": "g" }, "required": true, "labels": { "fr": "400g de tomates", "en": "400g tomatoes" } },
+        { "ids": ["gp-tortillas"], "qty": { "amount": 4, "unit": "pcs" }, "required": true, "labels": { "fr": "4 tortillas", "en": "4 tortillas" } },
+        { "ids": ["fr-avocat"], "qty": { "amount": 1, "unit": "pcs" }, "required": true, "labels": { "fr": "1 avocat", "en": "1 avocado" } },
+        { "ids": ["vg-oignon", "vg-ail"], "qty": { "amount": 1, "unit": "pcs" }, "required": true, "labels": { "fr": "Oignon et ail", "en": "Onion and garlic" } },
+        { "ids": ["sp-piment-cayenne", "sp-cumin"], "qty": { "amount": 1, "unit": "cc" }, "required": true, "labels": { "fr": "Piment et cumin", "en": "Chilli and cumin" } },
+        { "ids": ["fr-feta", "fr-fromage-frais"], "qty": { "amount": 80, "unit": "g" }, "required": false, "labels": { "fr": "80g de fromage frais", "en": "80g fresh cheese" } }
+      ],
+      "steps": {
+        "fr": ["Mixer et faire revenir les tomates avec l'oignon, l'ail et les épices.", "Ajouter 1 L de bouillon et mijoter 15 min.", "Couper les tortillas en lanières et les frire jusqu'à ce qu'elles soient croustillantes.", "Servir la soupe dans des bols.", "Garnir de lanières de tortilla, d'avocat et de fromage."],
+        "en": ["Blend and sauté the tomatoes with the onion, garlic and spices.", "Add 1 L stock and simmer 15 min.", "Cut the tortillas into strips and fry until crisp.", "Serve the soup in bowls.", "Top with tortilla strips, avocado and cheese."]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "tostadas-haricots",
+      "name": { "fr": "Tostadas aux haricots", "en": "Bean tostadas" },
+      "description": { "fr": "Des tortillas croustillantes tartinées de haricots, garnies de légumes frais et de fromage — une entrée mexicaine légère et croquante.", "en": "Crisp tortillas spread with beans, topped with fresh vegetables and cheese — a light, crunchy Mexican starter." },
+      "emoji": "🫓", "time_min": 20, "prep_time_min": 12, "cook_time_min": 8, "difficulty": "easy", "type": "starter", "servings": 4, "country": "mx",
+      "diet": ["vegetarian"], "allergens": ["milk"],
+      "ingredients": [
+        { "ids": ["gp-tortillas"], "qty": { "amount": 8, "unit": "pcs" }, "required": true, "labels": { "fr": "8 tortillas de maïs", "en": "8 corn tortillas" } },
+        { "ids": ["gp-haricots-rouges", "gp-haricots-bl"], "qty": { "amount": 300, "unit": "g" }, "required": true, "labels": { "fr": "300g de haricots", "en": "300g beans" } },
+        { "ids": ["vg-laitue", "vg-salade"], "qty": { "amount": 100, "unit": "g" }, "required": true, "labels": { "fr": "100g de laitue", "en": "100g lettuce" } },
+        { "ids": ["vg-tomate"], "qty": { "amount": 2, "unit": "pcs" }, "required": true, "labels": { "fr": "2 tomates", "en": "2 tomatoes" } },
+        { "ids": ["fr-feta", "fr-fromage-frais"], "qty": { "amount": 100, "unit": "g" }, "required": true, "labels": { "fr": "100g de fromage frais", "en": "100g fresh cheese" } }
+      ],
+      "steps": {
+        "fr": ["Dorer les tortillas au four jusqu'à ce qu'elles soient croustillantes.", "Écraser les haricots en purée tiède épicée.", "Tartiner les tostadas de haricots.", "Garnir de laitue, tomate et fromage émietté.", "Servir aussitôt pour garder le croquant."],
+        "en": ["Crisp the tortillas in the oven until crunchy.", "Mash the beans into a warm spiced purée.", "Spread the tostadas with beans.", "Top with lettuce, tomato and crumbled cheese.", "Serve at once to keep them crisp."]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "salsa-verde-mexicaine",
+      "name": { "fr": "Salsa verde", "en": "Salsa verde" },
+      "description": { "fr": "Une salsa verte fraîche et acidulée à base de tomates vertes, piment et coriandre — parfaite pour relever tacos et grillades.", "en": "A fresh, tangy green salsa of green tomatoes, chilli and coriander — perfect to lift tacos and grills." },
+      "emoji": "🌿", "time_min": 15, "prep_time_min": 10, "cook_time_min": 5, "difficulty": "very-easy", "type": "starter", "servings": 4, "country": "mx",
+      "diet": ["vegan", "vegetarian", "gluten-free", "dairy-free"], "allergens": [],
+      "ingredients": [
+        { "ids": ["vg-tomate", "vg-tomate-cerise"], "qty": { "amount": 400, "unit": "g" }, "required": true, "labels": { "fr": "400g de tomates vertes", "en": "400g green tomatoes" } },
+        { "ids": ["sp-coriandre"], "qty": { "amount": 1, "unit": "botte" }, "required": true, "labels": { "fr": "1 bouquet de coriandre", "en": "1 bunch coriander" } },
+        { "ids": ["vg-oignon"], "qty": { "amount": 1, "unit": "pcs" }, "required": true, "labels": { "fr": "1 oignon", "en": "1 onion" } },
+        { "ids": ["fr-citron-vert"], "qty": { "amount": 1, "unit": "pcs" }, "required": true, "labels": { "fr": "1 citron vert", "en": "1 lime" } },
+        { "ids": ["sp-piment-cayenne"], "qty": { "amount": 1, "unit": "cc" }, "required": false, "labels": { "fr": "1 c. à café de piment", "en": "1 tsp chilli" } }
+      ],
+      "steps": {
+        "fr": ["Faire revenir brièvement les tomates et l'oignon.", "Les mixer avec la coriandre et le piment.", "Ajouter le jus de citron vert et le sel.", "Mixer jusqu'à obtenir une sauce homogène.", "Laisser refroidir et servir avec des chips ou des tacos."],
+        "en": ["Briefly sauté the tomatoes and onion.", "Blend them with the coriander and chilli.", "Add the lime juice and salt.", "Blend to a smooth sauce.", "Let cool and serve with chips or tacos."]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "frijoles-refritos",
+      "name": { "fr": "Frijoles refritos", "en": "Refried beans" },
+      "description": { "fr": "Des haricots rouges écrasés et revenus à la poêle, fondants et parfumés — l'accompagnement mexicain incontournable, végétalien et économique.", "en": "Red beans mashed and fried until soft and fragrant — the essential Mexican side, vegan and budget-friendly." },
+      "emoji": "🫘", "time_min": 20, "prep_time_min": 5, "cook_time_min": 15, "difficulty": "very-easy", "type": "side", "servings": 4, "country": "mx",
+      "diet": ["vegan", "vegetarian", "gluten-free", "dairy-free"], "allergens": [],
+      "ingredients": [
+        { "ids": ["gp-haricots-rouges"], "qty": { "amount": 500, "unit": "g" }, "required": true, "labels": { "fr": "500g de haricots rouges", "en": "500g red beans" } },
+        { "ids": ["vg-oignon"], "qty": { "amount": 1, "unit": "pcs" }, "required": true, "labels": { "fr": "1 oignon", "en": "1 onion" } },
+        { "ids": ["vg-ail"], "qty": { "amount": 2, "unit": "gousse" }, "required": true, "labels": { "fr": "2 gousses d'ail", "en": "2 garlic cloves" } },
+        { "ids": ["sp-cumin"], "qty": { "amount": 1, "unit": "cc" }, "required": true, "labels": { "fr": "1 c. à café de cumin", "en": "1 tsp cumin" } }
+      ],
+      "steps": {
+        "fr": ["Faire revenir l'oignon et l'ail dans un peu d'huile.", "Ajouter les haricots égouttés et le cumin.", "Écraser les haricots à la fourchette ou au presse-purée.", "Ajouter un peu d'eau et cuire 8 min en remuant.", "Servir en accompagnement ou sur des tostadas."],
+        "en": ["Sauté the onion and garlic in a little oil.", "Add the drained beans and cumin.", "Mash the beans with a fork or potato masher.", "Add a little water and cook 8 min, stirring.", "Serve as a side or on tostadas."]
+      },
+      "functional_tags": ["anti_waste"], "status": "published"
+    },
+    {
+      "id": "riz-mexicain",
+      "name": { "fr": "Riz mexicain", "en": "Mexican rice" },
+      "description": { "fr": "Un riz doré cuit dans une base de tomate et d'épices, moelleux et coloré — l'accompagnement parfait de tout repas tex-mex.", "en": "Golden rice cooked in a tomato-and-spice base, fluffy and colourful — the perfect side for any tex-mex meal." },
+      "emoji": "🍚", "time_min": 30, "prep_time_min": 8, "cook_time_min": 22, "difficulty": "easy", "type": "side", "servings": 4, "country": "mx",
+      "diet": ["vegan", "vegetarian", "gluten-free", "dairy-free"], "allergens": [],
+      "ingredients": [
+        { "ids": ["gp-riz"], "qty": { "amount": 300, "unit": "g" }, "required": true, "labels": { "fr": "300g de riz", "en": "300g rice" } },
+        { "ids": ["gp-concentre-tom", "gp-tomates-concas"], "qty": { "amount": 3, "unit": "cs" }, "required": true, "labels": { "fr": "3 c. à soupe de concentré de tomate", "en": "3 tbsp tomato paste" } },
+        { "ids": ["vg-oignon", "vg-ail"], "qty": { "amount": 1, "unit": "pcs" }, "required": true, "labels": { "fr": "Oignon et ail", "en": "Onion and garlic" } },
+        { "ids": ["gp-petits-pois", "gp-mais", "vg-carottes"], "qty": { "amount": 100, "unit": "g" }, "required": false, "labels": { "fr": "100g de légumes", "en": "100g vegetables" } },
+        { "ids": ["sp-cumin", "sp-paprika"], "qty": { "amount": 1, "unit": "cc" }, "required": true, "labels": { "fr": "Cumin et paprika", "en": "Cumin and paprika" } }
+      ],
+      "steps": {
+        "fr": ["Faire revenir l'oignon, l'ail et le riz jusqu'à ce qu'il soit nacré.", "Ajouter le concentré de tomate et les épices.", "Verser 60 cl d'eau ou de bouillon.", "Couvrir et cuire 18 min à feu doux jusqu'à absorption.", "Aérer à la fourchette et servir."],
+        "en": ["Sauté the onion, garlic and rice until the grains turn translucent.", "Add the tomato paste and spices.", "Pour in 600ml water or stock.", "Cover and cook 18 min over low heat until absorbed.", "Fluff with a fork and serve."]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "esquites",
+      "name": { "fr": "Esquites (maïs crémeux)", "en": "Esquites (creamy corn)" },
+      "description": { "fr": "Du maïs sauté servi crémeux avec du fromage, du citron vert et du piment — la street food mexicaine la plus addictive, en version cuillère.", "en": "Sautéed corn served creamy with cheese, lime and chilli — the most addictive Mexican street food, in a cup." },
+      "emoji": "🌽", "time_min": 15, "prep_time_min": 5, "cook_time_min": 10, "difficulty": "very-easy", "type": "side", "servings": 4, "country": "mx",
+      "diet": ["vegetarian", "gluten-free"], "allergens": ["milk"],
+      "ingredients": [
+        { "ids": ["gp-mais", "frz-mais"], "qty": { "amount": 400, "unit": "g" }, "required": true, "labels": { "fr": "400g de maïs", "en": "400g corn" } },
+        { "ids": ["sp-mayonnaise", "fr-creme-fraiche"], "qty": { "amount": 3, "unit": "cs" }, "required": true, "labels": { "fr": "3 c. à soupe de mayonnaise", "en": "3 tbsp mayonnaise" } },
+        { "ids": ["fr-feta", "fr-parmesan"], "qty": { "amount": 80, "unit": "g" }, "required": true, "labels": { "fr": "80g de fromage émietté", "en": "80g crumbled cheese" } },
+        { "ids": ["fr-citron-vert"], "qty": { "amount": 1, "unit": "pcs" }, "required": true, "labels": { "fr": "1 citron vert", "en": "1 lime" } },
+        { "ids": ["sp-paprika", "sp-piment-cayenne"], "qty": { "amount": 1, "unit": "cc" }, "required": true, "labels": { "fr": "Paprika / piment", "en": "Paprika / chilli" } }
+      ],
+      "steps": {
+        "fr": ["Faire sauter le maïs à feu vif jusqu'à ce qu'il colore.", "Hors du feu, ajouter la mayonnaise et mélanger.", "Incorporer le fromage émietté.", "Assaisonner de jus de citron vert et de piment.", "Servir tiède dans des verrines ou des bols."],
+        "en": ["Sauté the corn over high heat until it colours.", "Off the heat, add the mayonnaise and mix.", "Stir in the crumbled cheese.", "Season with lime juice and chilli.", "Serve warm in cups or bowls."]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "salade-mexicaine-haricots",
+      "name": { "fr": "Salade mexicaine aux haricots", "en": "Mexican bean salad" },
+      "description": { "fr": "Une salade colorée de haricots, maïs, poivron et avocat dans une vinaigrette au citron vert — fraîche, complète et végétalienne.", "en": "A colourful salad of beans, corn, pepper and avocado in a lime dressing — fresh, complete and vegan." },
+      "emoji": "🥗", "time_min": 15, "prep_time_min": 15, "cook_time_min": 0, "difficulty": "very-easy", "type": "salad", "servings": 4, "country": "mx",
+      "diet": ["vegan", "vegetarian", "gluten-free", "dairy-free"], "allergens": [],
+      "ingredients": [
+        { "ids": ["gp-haricots-rouges", "gp-haricots-bl"], "qty": { "amount": 250, "unit": "g" }, "required": true, "labels": { "fr": "250g de haricots rouges", "en": "250g red beans" } },
+        { "ids": ["gp-mais", "frz-mais"], "qty": { "amount": 200, "unit": "g" }, "required": true, "labels": { "fr": "200g de maïs", "en": "200g corn" } },
+        { "ids": ["vg-poivron"], "qty": { "amount": 1, "unit": "pcs" }, "required": true, "labels": { "fr": "1 poivron", "en": "1 bell pepper" } },
+        { "ids": ["fr-avocat"], "qty": { "amount": 1, "unit": "pcs" }, "required": true, "labels": { "fr": "1 avocat", "en": "1 avocado" } },
+        { "ids": ["fr-citron-vert", "sp-coriandre"], "qty": { "amount": 1, "unit": "pcs" }, "required": true, "labels": { "fr": "Citron vert et coriandre", "en": "Lime and coriander" } }
+      ],
+      "steps": {
+        "fr": ["Égoutter et rincer les haricots et le maïs.", "Couper le poivron et l'avocat en dés.", "Mélanger le tout dans un saladier.", "Assaisonner de jus de citron vert, d'huile et de coriandre.", "Servir frais."],
+        "en": ["Drain and rinse the beans and corn.", "Dice the pepper and avocado.", "Combine everything in a bowl.", "Dress with lime juice, oil and coriander.", "Serve cold."]
+      },
+      "functional_tags": ["anti_waste"], "status": "published"
+    },
+    {
+      "id": "agua-fresca-pasteque",
+      "name": { "fr": "Agua fresca de pastèque", "en": "Watermelon agua fresca" },
+      "description": { "fr": "Une boisson mexicaine désaltérante de pastèque mixée, d'eau fraîche et de citron vert — légère, à peine sucrée et idéale en été.", "en": "A refreshing Mexican drink of blended watermelon, cold water and lime — light, barely sweet and perfect in summer." },
+      "emoji": "🍉", "time_min": 10, "prep_time_min": 10, "cook_time_min": 0, "difficulty": "very-easy", "type": "drink", "servings": 4, "country": "mx",
+      "diet": ["vegan", "vegetarian", "gluten-free", "dairy-free"], "allergens": [],
+      "ingredients": [
+        { "ids": ["fr-pasteque"], "qty": { "amount": 800, "unit": "g" }, "required": true, "labels": { "fr": "800g de pastèque", "en": "800g watermelon" } },
+        { "ids": ["fr-citron-vert"], "qty": { "amount": 2, "unit": "pcs" }, "required": true, "labels": { "fr": "2 citrons verts", "en": "2 limes" } },
+        { "ids": ["gp-sucre", "gp-miel"], "qty": { "amount": 2, "unit": "cs" }, "required": false, "labels": { "fr": "2 c. à soupe de sucre", "en": "2 tbsp sugar" } },
+        { "ids": ["sp-menthe"], "qty": { "amount": 1, "unit": "botte" }, "required": false, "labels": { "fr": "Quelques feuilles de menthe", "en": "A few mint leaves" } }
+      ],
+      "steps": {
+        "fr": ["Couper la pastèque en morceaux en retirant les pépins.", "La mixer avec le jus de citron vert.", "Ajouter 50 cl d'eau fraîche et le sucre.", "Filtrer si désiré pour une texture lisse.", "Servir bien frais avec des glaçons et de la menthe."],
+        "en": ["Cut the watermelon into chunks, removing the seeds.", "Blend it with the lime juice.", "Add 500ml cold water and the sugar.", "Strain if desired for a smooth texture.", "Serve well chilled with ice and mint."]
+      },
+      "functional_tags": ["kids_friendly"], "status": "published"
+    },
+    {
+      "id": "horchata",
+      "name": { "fr": "Horchata", "en": "Horchata" },
+      "description": { "fr": "Une boisson crémeuse à base de riz et de cannelle, douce et rafraîchissante — la boisson lactée mexicaine la plus aimée.", "en": "A creamy rice-and-cinnamon drink, sweet and refreshing — Mexico's best-loved milky beverage." },
+      "emoji": "🥛", "time_min": 15, "prep_time_min": 15, "cook_time_min": 0, "difficulty": "easy", "type": "drink", "servings": 4, "country": "mx",
+      "diet": ["vegetarian", "gluten-free"], "allergens": ["milk"],
+      "ingredients": [
+        { "ids": ["gp-riz", "gp-riz-rond"], "qty": { "amount": 150, "unit": "g" }, "required": true, "labels": { "fr": "150g de riz", "en": "150g rice" } },
+        { "ids": ["fr-lait", "fr-lait-riz", "fr-lait-amande"], "qty": { "amount": 50, "unit": "cl" }, "required": true, "labels": { "fr": "50 cl de lait", "en": "500ml milk" } },
+        { "ids": ["sp-cannelle"], "qty": { "amount": 1, "unit": "cc" }, "required": true, "labels": { "fr": "1 c. à café de cannelle", "en": "1 tsp cinnamon" } },
+        { "ids": ["gp-sucre"], "qty": { "amount": 80, "unit": "g" }, "required": true, "labels": { "fr": "80g de sucre", "en": "80g sugar" } },
+        { "ids": ["gp-extrait-vanille"], "qty": { "amount": 1, "unit": "cc" }, "required": false, "labels": { "fr": "1 c. à café de vanille", "en": "1 tsp vanilla" } }
+      ],
+      "steps": {
+        "fr": ["Faire tremper le riz et la cannelle dans 50 cl d'eau plusieurs heures.", "Mixer finement le mélange.", "Filtrer à travers un linge pour retirer les résidus.", "Ajouter le lait, le sucre et la vanille.", "Servir très frais sur des glaçons."],
+        "en": ["Soak the rice and cinnamon in 500ml water for several hours.", "Blend the mixture finely.", "Strain through a cloth to remove the solids.", "Add the milk, sugar and vanilla.", "Serve very cold over ice."]
+      },
+      "functional_tags": ["kids_friendly"], "status": "published"
+    },
+    {
+      "id": "churros",
+      "name": { "fr": "Churros", "en": "Churros" },
+      "description": { "fr": "Des beignets allongés et cannelés, croustillants et roulés dans le sucre à la cannelle — irrésistibles trempés dans du chocolat chaud.", "en": "Long ridged fritters, crisp and rolled in cinnamon sugar — irresistible dipped in hot chocolate." },
+      "emoji": "🍩", "time_min": 30, "prep_time_min": 15, "cook_time_min": 15, "difficulty": "medium", "type": "dessert", "servings": 4, "country": "mx",
+      "diet": ["vegetarian"], "allergens": ["gluten", "eggs"],
+      "ingredients": [
+        { "ids": ["gp-farine"], "qty": { "amount": 250, "unit": "g" }, "required": true, "labels": { "fr": "250g de farine", "en": "250g flour" } },
+        { "ids": ["fr-oeuf"], "qty": { "amount": 2, "unit": "pcs" }, "required": true, "labels": { "fr": "2 œufs", "en": "2 eggs" } },
+        { "ids": ["gp-sucre"], "qty": { "amount": 80, "unit": "g" }, "required": true, "labels": { "fr": "80g de sucre", "en": "80g sugar" } },
+        { "ids": ["sp-cannelle"], "qty": { "amount": 2, "unit": "cc" }, "required": true, "labels": { "fr": "2 c. à café de cannelle", "en": "2 tsp cinnamon" } },
+        { "ids": ["gp-choco-noir", "gp-chocolat"], "qty": { "amount": 100, "unit": "g" }, "required": false, "labels": { "fr": "100g de chocolat (sauce)", "en": "100g chocolate (dip)" } }
+      ],
+      "steps": {
+        "fr": ["Porter 25 cl d'eau avec une pincée de sel et un peu d'huile à ébullition.", "Hors du feu, ajouter la farine d'un coup et mélanger, puis incorporer les œufs.", "Mettre la pâte dans une poche à douille cannelée.", "Pocher des bâtonnets dans l'huile chaude et frire jusqu'à dorure.", "Rouler dans le sucre à la cannelle et servir avec le chocolat fondu."],
+        "en": ["Bring 250ml water with a pinch of salt and a little oil to a boil.", "Off the heat, add the flour all at once and mix, then beat in the eggs.", "Put the dough in a star-nozzle piping bag.", "Pipe sticks into hot oil and fry until golden.", "Roll in cinnamon sugar and serve with melted chocolate."]
+      },
+      "functional_tags": ["kids_friendly"], "status": "published"
+    },
+    {
+      "id": "flan-mexicain",
+      "name": { "fr": "Flan mexicain", "en": "Mexican flan" },
+      "description": { "fr": "Un flan onctueux au caramel, plus dense et crémeux que sa version française, parfumé à la vanille — un grand classique des fins de repas.", "en": "A silky caramel flan, denser and creamier than its French cousin, scented with vanilla — a classic dessert finish." },
+      "emoji": "🍮", "time_min": 70, "prep_time_min": 20, "cook_time_min": 50, "difficulty": "medium", "type": "dessert", "servings": 6, "country": "mx",
+      "diet": ["vegetarian", "gluten-free"], "allergens": ["milk", "eggs"],
+      "ingredients": [
+        { "ids": ["fr-lait", "fr-lait-entier"], "qty": { "amount": 50, "unit": "cl" }, "required": true, "labels": { "fr": "50 cl de lait", "en": "500ml milk" } },
+        { "ids": ["fr-oeuf"], "qty": { "amount": 5, "unit": "pcs" }, "required": true, "labels": { "fr": "5 œufs", "en": "5 eggs" } },
+        { "ids": ["gp-sucre"], "qty": { "amount": 200, "unit": "g" }, "required": true, "labels": { "fr": "200g de sucre", "en": "200g sugar" } },
+        { "ids": ["gp-extrait-vanille", "gp-vanille-gousse"], "qty": { "amount": 1, "unit": "cc" }, "required": true, "labels": { "fr": "1 c. à café de vanille", "en": "1 tsp vanilla" } },
+        { "ids": ["fr-creme-liquide"], "qty": { "amount": 10, "unit": "cl" }, "required": false, "labels": { "fr": "10 cl de crème", "en": "100ml cream" } }
+      ],
+      "steps": {
+        "fr": ["Préparer un caramel avec la moitié du sucre et le verser au fond d'un moule.", "Battre les œufs avec le reste du sucre, le lait, la crème et la vanille.", "Verser l'appareil sur le caramel.", "Cuire au bain-marie 50 min à 160°C.", "Laisser refroidir, démouler et servir bien frais."],
+        "en": ["Make a caramel with half the sugar and pour it into a mould.", "Beat the eggs with the rest of the sugar, the milk, cream and vanilla.", "Pour the mixture over the caramel.", "Bake in a water bath 50 min at 160°C.", "Cool, turn out and serve well chilled."]
+      },
+      "functional_tags": [], "status": "published"
+    }
+  ]
+}

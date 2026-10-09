@@ -1,0 +1,7 @@
+# Code owners — routage des revues de PR.
+# INACTIF tant que solo : la revue code-owner N'EST PAS activee dans le ruleset
+# (require_code_owner_review = false). NE PAS l'activer a moins de 2 personnes :
+# l'unique code owner ne peut pas approuver ses propres PR -> lock-out du merge.
+# Affiner par domaine quand l'equipe arrive (ex: /supabase/ @data-lead).
+
+* @Lisow7

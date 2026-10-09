@@ -1,0 +1,107 @@
+{
+  "_comment": "Mapping Eurostat HICP → groupes d'ingrédients Fridge+. Chaque catégorie liste des sous-chaînes de l'ID ingrédient. La première catégorie dont un pattern correspond gagne (ordre = priorité). Source : Eurostat HICP COICOP — CC-BY 4.0 (https://ec.europa.eu/eurostat/web/hicp).",
+  "categories": [
+    {
+      "coicop": "CP0114",
+      "label_fr": "Lait, fromage et œufs",
+      "label_en": "Milk, cheese and eggs",
+      "match_id_contains": [
+        "oeufs", "oeuf", "lait", "beurre", "creme", "gruyere", "mozzarella", "parmesan",
+        "emmental", "comte", "cheddar", "chevre", "feta", "mascarpone", "ricotta",
+        "roquefort", "grana-padano", "yaourt", "fromage", "margarine", "petits-suisses",
+        "skyr", "ghee", "kefir", "labneh", "brie", "camembert", "fourme", "mimolette",
+        "raclette", "reblochon", "burrata", "saint-nectaire", "tonyu"
+      ]
+    },
+    {
+      "coicop": "CP0112",
+      "label_fr": "Viandes",
+      "label_en": "Meat",
+      "match_id_contains": [
+        "jambon", "lardons", "blanc-poulet", "poulet", "hache-boeuf", "bacon",
+        "boeuf", "bavette", "entrecote", "filet-boeuf", "paleron", "steak-boeuf",
+        "roti-boeuf", "cote-porc", "filet-porc", "travers-porc", "echine", "porc",
+        "escalope-veau", "jarret-veau", "veau", "magret", "cuisse-canard", "canard",
+        "cote-agneau", "gigot", "epaule-agneau", "agneau", "dinde", "lapin",
+        "foie-volaille", "foie-veau", "foie", "cuisse-poulet", "poulet-entier",
+        "mortadelle", "saucisse-seche", "chorizo", "saucisson", "rosette", "andouille",
+        "pate-campagne", "rillettes", "terrine", "andouillette", "pate-terrine",
+        "mousse-canard", "nuggets", "cordon-bleu", "boeuf-hache", "steaks-haches",
+        "saucisses", "merguez", "boulettes", "cassoulet", "blanquette",
+        "frz-boeuf", "frz-porc", "frz-poulet", "frz-cuisses", "frz-escalope"
+      ]
+    },
+    {
+      "coicop": "CP0113",
+      "label_fr": "Poissons et fruits de mer",
+      "label_en": "Fish and seafood",
+      "match_id_contains": [
+        "saumon", "thon", "crevettes", "moules", "cabillaud", "daurade", "lieu-jaune",
+        "maquereau", "sole", "truite", "huitres", "calmar", "saumon-fume", "truite-fumee",
+        "poulpe", "homard", "seiche", "poissons-fumes", "hareng-fume", "sardines",
+        "anchois", "colin", "pangasius", "thon-steak", "fruits-mer", "coquilles",
+        "calamars", "surimi", "bar", "poissons-panes", "poissons-cons",
+        "frz-saumon", "frz-cabillaud", "frz-colin", "frz-daurade", "frz-pangasius",
+        "frz-crevettes", "frz-moules", "frz-calamars", "frz-sole"
+      ]
+    },
+    {
+      "coicop": "CP0116",
+      "label_fr": "Fruits",
+      "label_en": "Fruit",
+      "match_id_contains": [
+        "fr-citron", "fr-pomme", "fr-poire", "fr-banane", "fr-fraise", "fr-avocat",
+        "fr-kiwi", "fr-mangue", "fr-orange", "fr-pasteque", "fr-melon", "fr-ananas",
+        "fr-mandarine", "fr-clem", "fr-framboise", "fr-myrtille", "fr-cerise",
+        "fr-peche", "fr-abricot", "fr-nectarine", "fr-prune", "fr-raisin",
+        "fr-citron-vert", "fr-papaye", "fr-noix-coco", "fr-litchi", "fr-groseille",
+        "fr-jackfruit", "fr-passion", "fr-agrumes", "fr-baies", "fr-fruits-noyaux",
+        "fr-fruits-pepins", "fr-fruits-tropicaux",
+        "raisins-secs", "dattes", "figues-seches", "fruits-secs"
+      ]
+    },
+    {
+      "coicop": "CP0117",
+      "label_fr": "Légumes",
+      "label_en": "Vegetables",
+      "match_id_contains": [
+        "vg-",
+        "frz-petits-pois", "frz-haricots-v", "frz-epinards", "frz-brocoli",
+        "frz-carottes", "frz-champignons", "frz-chou", "frz-edamame",
+        "frz-legumes", "frz-mais", "frz-poireaux", "frz-poivrons", "frz-pommes-terre",
+        "frz-wok", "frz-ratatouille",
+        "gp-tomates-pelees", "gp-tomates-concas", "gp-tomate",
+        "gp-petits-pois", "gp-haricots-verts-cons", "gp-haricots-bl",
+        "gp-haricots-rouges", "gp-haricots-rouges",
+        "gp-champignons", "gp-mais", "gp-olive", "gp-olives",
+        "gp-lentilles", "gp-pois-chiches", "gp-pois-ch", "gp-pois-casses",
+        "gp-feves", "gp-legumineuses", "gp-jackfruit",
+        "jp-edamame-fresh"
+      ]
+    },
+    {
+      "coicop": "CP0111",
+      "label_fr": "Pain et céréales",
+      "label_en": "Bread and cereals",
+      "match_id_contains": [
+        "spaghetti", "penne", "fusilli", "coquillettes", "tagliatelles", "lasagnes",
+        "farfalle", "orzo", "vermicelles", "gp-pates", "nouilles-asie",
+        "riz-basmati", "riz-rond", "gp-riz", "couscous", "quinoa",
+        "gp-avoine", "flocons-avoine", "ble-ebly", "semoule", "boulgour", "sarrasin",
+        "gp-millet", "cereales-matin", "granola", "muesli", "mais-souffle",
+        "gp-farine", "gp-fecule", "gp-levure", "gp-levures", "gp-liants",
+        "gp-pain", "baguette-fraiche", "gp-baguette",
+        "crackers", "biscottes", "grissini", "galettes-riz", "chapelure",
+        "tortillas", "gp-panko", "gp-brioche-fraiche", "croissant-frais",
+        "gp-pain-choc-frais", "gp-chausson-frais", "viennois-frais",
+        "frz-croissant", "frz-chocolatine", "frz-chausson", "frz-brioche",
+        "frz-baguette", "frz-pain", "frz-pains-cong", "frz-paton-pizza",
+        "frz-viennoiseries",
+        "fr-pate-feuilletee", "fr-pate-brisee", "fr-pate-sablee",
+        "jp-hakumai", "jp-mochigome", "jp-udon", "jp-soba", "jp-ramen",
+        "jp-somen", "jp-harusame", "jp-yakisoba", "jp-bifun", "jp-katakuriko",
+        "jp-nouilles"
+      ]
+    }
+  ]
+}

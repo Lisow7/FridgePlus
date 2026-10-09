@@ -1,0 +1,16 @@
+[
+  {"from": "/^(\\.\\.?\\/)+components\\/fridge\\/Fridge$/",                "to": "@features/fridge/components/fridge"},
+  {"from": "/^(\\.\\.?\\/)+components\\/fridge\\/FridgeFAB$/",             "to": "@features/fridge/components/fridge-fab"},
+  {"from": "/^(\\.\\.?\\/)+components\\/fridge\\/FridgeMultiDoor$/",       "to": "@features/fridge/components/fridge-multi-door"},
+  {"from": "/^(\\.\\.?\\/)+components\\/fridge\\/FridgeSideBySide$/",      "to": "@features/fridge/components/fridge-side-by-side"},
+  {"from": "/^(\\.\\.?\\/)+components\\/fridge\\/FridgeStandard$/",        "to": "@features/fridge/components/fridge-standard"},
+  {"from": "/^(\\.\\.?\\/)+components\\/fridge\\/FridgeTagline$/",         "to": "@features/fridge/components/fridge-tagline"},
+  {"from": "/^(\\.\\.?\\/)+components\\/fridge\\/FridgeToolbar$/",         "to": "@features/fridge/components/fridge-toolbar"},
+  {"from": "/^(\\.\\.?\\/)+components\\/fridge\\/LeftoversModal$/",        "to": "@features/fridge/components/leftovers-modal"},
+  {"from": "/^(\\.\\.?\\/)+components\\/fridge\\/WastePreventionModal$/",  "to": "@features/fridge/components/waste-prevention-modal"},
+  {"from": "/^(\\.\\.?\\/)+components\\/pantry\\/PantryShelf$/",           "to": "@features/fridge/components/pantry-shelf"},
+
+  {"from": "/^(\\.\\.?\\/)+lib\\/db\\/stock$/",     "to": "@features/fridge/api/stock"},
+  {"from": "/^(\\.\\.?\\/)+lib\\/db\\/leftovers$/", "to": "@features/fridge/api/leftovers"},
+  {"from": "/^(\\.\\.?\\/)+lib\\/wastePrevention$/","to": "@features/fridge/lib/waste-prevention"}
+]

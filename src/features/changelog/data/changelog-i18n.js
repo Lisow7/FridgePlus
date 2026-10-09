@@ -1,0 +1,142 @@
+// i18n du changelog (titres de version + dates).
+// Les `name`/`date` des entrées CHANGELOG sont stockés en FR (source).
+// Ici : table de traduction EN des titres (clé = nom FR) + helpers de
+// résolution, pour afficher le journal des versions en anglais sans
+// toucher au gros fichier changelog.js.
+
+// Titres de version : FR (clé) → EN (valeur). Fallback = le titre FR.
+export const RELEASE_NAMES_EN = {
+  "Le bouton qui compte reste sous ton pouce": "The button that matters stays under your thumb",
+  "Tout se comprend du premier coup": "Everything makes sense the first time",
+  "Chacun à sa place": "Everything in its place",
+  "Plus rien ne tombe hors de l’écran": "Nothing falls off the screen any more",
+  "Le bouton orange raconte enfin ce qu’il fait": "The orange button finally says what it does",
+  "Plus rien ne se met en travers": "Nothing gets in the way any more",
+  "Le premier pas ne bute plus": "The first step no longer stumbles",
+  "Un frigo à ta main": "A fridge that fits you",
+  "L’aperçu montre la vraie app": "The preview shows the real app",
+  "Un lien qui se présente bien": "A link that makes a good first impression",
+  "Chaque ingrédient a son icône": "Every ingredient gets its icon",
+  "Le panneau des recettes retrouve sa fluidité": "The recipe panel is smooth again",
+  "Chaque plat a son visage": "Every dish gets a face",
+  "Chaque mot dans ta langue": "Every word in your language",
+  "Le clavier ne reste plus coincé": "The keyboard no longer gets stuck",
+  "Les badges des recettes se lisent enfin": "Recipe badges are finally readable",
+  "Le thème bascule d’un bloc": "The theme switches as one",
+  "Plus besoin de plisser les yeux": "No more squinting",
+  "Chaque page dit son nom": "Every page says its name",
+  "Ton frigo te suit": "Your fridge follows you",
+  "La suite est à un clic": "The next step is one click away",
+  "Les réponses ne se cachent plus": "Answers stop hiding",
+  "Un lien qui donne faim": "A link that makes you hungry",
+  "Rien ne se perd en route": "Nothing gets lost along the way",
+  "Une liste partagée qui dit vrai": "A shared list that tells you the truth",
+  "Jusqu'aux jours, dans ta langue": "Right down to the days, in your language",
+  "Une liste de recettes qui ne bronche plus": "A recipe list that never stutters",
+  "Toute l'app parle ta langue": "The whole app speaks your language",
+  "Les recettes parlent ta langue": "Recipes speak your language",
+  "L'espace communauté dans ta langue": "The community space in your language",
+  "Coulisses fiabilisées": "Reliable behind the scenes",
+  "Ta progression, tes avis": "Your progress, your reviews",
+  "Des recettes qui se retrouvent entre elles": "Recipes that find each other",
+  "Un frigo qui retrouve tout": "A fridge that finds everything",
+  "Un scan de ticket, un frigo plus lisible": "A receipt scan, a clearer fridge",
+  "Un frigo plus intuitif": "A more intuitive fridge",
+  "Reste informé, même l'app fermée": "Stay in the loop, even with the app closed",
+  "Illustrations plus légères": "Lighter illustrations",
+  "Ton frigo, en un coup d'œil": "Your fridge, at a glance",
+  "Mieux accueilli, mieux guidé": "A warmer welcome, clearer guidance",
+  "Cuisiner plus simplement": "Cooking made simpler",
+  "Le guide « Bien démarrer » va plus loin": "The “Get started” guide goes further",
+  "Le guide « Bien démarrer »": "The “Get started” guide",
+  "Mode invité : ton frigo est conservé": "Guest mode: your fridge is kept",
+  "Allergènes : traces signalées": "Allergen traces flagged",
+  "Allergènes : sécurité renforcée": "Allergens: stronger safety",
+  "Allergènes des recettes plus justes": "More accurate recipe allergens",
+  "Recettes plus fidèles": "More faithful recipes",
+  "Nouveaux ingrédients": "New ingredients",
+  "Tri des recettes plus clair": "Clearer recipe sorting",
+  "Recettes plus claires": "Clearer recipes",
+  "Journal des versions en anglais": "Version history in English",
+  "Allergènes des recettes plus complets": "More complete recipe allergens",
+  "Tour du monde des recettes": "Recipes from around the world",
+  "Chargement plus rapide des illustrations": "Faster illustration loading",
+  "Inscription Google : consentement aligné": "Google sign-up: aligned consent",
+  "Inscription & cookies clarifiés": "Sign-up & cookies clarified",
+  "Saisie du code 2FA corrigée": "2FA code entry fixed",
+  "Anti-gaspi : ton score dans le profil": "Anti-waste: your score in your profile",
+  "Anti-gaspi : alertes de péremption": "Anti-waste: expiry alerts",
+  "Anti-gaspi : que cuisiner d'abord": "Anti-waste: what to cook first",
+  "Anti-gaspi : ton score": "Anti-waste: your score",
+  "Anti-gaspi : fraîcheur des ingrédients": "Anti-waste: ingredient freshness",
+  "Quêtes & bannières à débloquer": "Quests & unlockable banners",
+  "Profil : bannières personnalisables": "Profile: customizable banners",
+  "Profil : onglet Récompenses": "Profile: Rewards tab",
+  "Profil : pseudo au rafraîchissement": "Profile: username on refresh",
+  "Profil : changement d'avatar": "Profile: avatar change",
+  "Profil : finitions d'affichage": "Profile: display polish",
+  "Aide rapide dans le support": "Quick help in support",
+  "Fridge+ en anglais": "Fridge+ in English",
+  "Adresse de contact officielle": "Official contact address",
+  "Connexion avec Google": "Google sign-in",
+  "Réinitialisation de mot de passe fiabilisée": "More reliable password reset",
+  "Correction d'affichage": "Display fix",
+  "Termes de cuisine expliqués": "Cooking terms explained",
+  "Célébration des badges": "Badge celebrations",
+  "Séries & badges de cuisine": "Cooking streaks & badges",
+  "Changement de mot de passe plus clair": "Clearer password change",
+  "Bouton d'actions plus stable": "More stable action button",
+  "Aide & infos : ne soyez jamais perdu": "Help & info: never get lost",
+  "Barre allégée, menu plus pratique": "Leaner bar, handier menu",
+  "Un guide plus clair": "A clearer guide",
+  "Moins de doublons": "Fewer duplicates",
+  "Recettes plus complètes": "More complete recipes",
+  "Publication de recettes plus claire": "Clearer recipe publishing",
+  "Lancement gratuit": "Free launch",
+  "Anti-gaspillage simplifié": "Simplified anti-waste",
+  "Modération des recettes — fiabilité renforcée": "Recipe moderation — improved reliability",
+  "Création de recette — brouillon enregistré tout seul": "Recipe creation — auto-saved draft",
+  "Publier une recette — ce que tu y gagnes": "Publishing a recipe — what you gain",
+  "Inscription — exemple de pseudo neutre": "Sign-up — neutral username example",
+  "Catalogue ingrédients fiabilisé": "More reliable ingredient catalog",
+  "Frigo — compteurs justes": "Fridge — accurate counters",
+  "Micro — catégories plus claires": "Mic — clearer categories",
+  "Consentement vocal — mode cuisine": "Voice consent — cooking mode",
+  "Confidentialité renforcée": "Strengthened privacy",
+  "Suivi des dépenses fiabilisé": "More reliable spending tracking",
+  "Recettes : navigation en pleine page": "Recipes: full-page navigation",
+  "Ajout au panier depuis la recette": "Add to cart from the recipe",
+  "Panier — Et après ?": "Cart — What's next?",
+  "Partage de recette": "Recipe sharing",
+  "Panier — Phase Préparer refondue ingrédients-first": "Cart — Prepare phase, ingredients-first",
+  "Mode cuisine vocal": "Voice cooking mode",
+  "Filtres avancés": "Advanced filters",
+  "Filtres recettes": "Recipe filters",
+  "Panier repensé": "Cart redesigned",
+  "Panier": "Cart",
+  "Accès spécial": "Special access",
+  "Bêta": "Beta",
+}
+
+// Résout le titre d'une entrée selon la langue (fallback FR).
+export function pickReleaseName(entry, lang = 'fr') {
+  const fr = entry?.name ?? ''
+  if (lang !== 'en') return fr
+  return RELEASE_NAMES_EN[fr] ?? fr
+}
+
+// Traduit le mois d'une date FR (« juin 2026 ») vers l'anglais.
+const FR_TO_EN_MONTH = {
+  janvier: 'January', février: 'February', mars: 'March', avril: 'April',
+  mai: 'May', juin: 'June', juillet: 'July', août: 'August',
+  septembre: 'September', octobre: 'October', novembre: 'November', décembre: 'December',
+}
+
+// Résout la date d'une entrée selon la langue (FR source → EN au besoin).
+export function localizeReleaseDate(date, lang = 'fr') {
+  if (lang !== 'en' || typeof date !== 'string') return date
+  return date.replace(
+    /\b(janvier|février|mars|avril|mai|juin|juillet|août|septembre|octobre|novembre|décembre)\b/i,
+    (m) => FR_TO_EN_MONTH[m.toLowerCase()] ?? m,
+  )
+}

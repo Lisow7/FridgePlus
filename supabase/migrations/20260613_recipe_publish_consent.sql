@@ -1,0 +1,13 @@
+-- 20260613 — SUPERSÉDÉ par 20260615_fix_recipe_view_consent_aimod.sql.
+-- ----------------------------------------------------------------------
+-- Le contenu original faisait `ALTER TABLE public.custom_recipes ADD COLUMN …`,
+-- ce qui est INVALIDE : `custom_recipes` est une VUE sur `recipes_unified`
+-- (refonte BDD), pas une table → l'opération échoue.
+--
+-- La correction (colonnes published_consent_at/version sur recipes_unified +
+-- mise à jour de la vue et des triggers INSTEAD OF) vit dans
+-- 20260615_fix_recipe_view_consent_aimod.sql.
+--
+-- Ce fichier est conservé en no-op pour ne pas trouer l'historique des
+-- migrations (il n'a jamais été appliqué).
+SELECT 1;

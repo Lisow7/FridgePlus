@@ -1,0 +1,507 @@
+{
+  "batchName": "recipes-batch-14-france",
+  "recipes": [
+    {
+      "id": "pot-au-feu",
+      "name": { "fr": "Pot-au-feu", "en": "Pot-au-feu" },
+      "description": { "fr": "Un grand classique français : du bœuf et des légumes mijotés longuement dans un bouillon parfumé — réconfortant, généreux et anti-gaspi.", "en": "A great French classic: beef and vegetables slowly simmered in a fragrant broth — comforting, generous and waste-busting." },
+      "emoji": "🍲", "time_min": 180, "prep_time_min": 30, "cook_time_min": 150, "difficulty": "hard", "type": "main", "servings": 6, "country": "fr",
+      "diet": ["gluten-free", "dairy-free"], "allergens": ["celery"],
+      "ingredients": [
+        { "ids": ["fr-paleron", "fr-boeuf", "fr-jarret-veau"], "qty": { "amount": 1200, "unit": "g" }, "required": true, "labels": { "fr": "1,2 kg de bœuf à braiser", "en": "1.2kg braising beef" } },
+        { "ids": ["vg-carottes"], "qty": { "amount": 6, "unit": "pcs" }, "required": true, "labels": { "fr": "6 carottes", "en": "6 carrots" } },
+        { "ids": ["vg-poireau"], "qty": { "amount": 3, "unit": "pcs" }, "required": true, "labels": { "fr": "3 poireaux", "en": "3 leeks" } },
+        { "ids": ["vg-navet", "vg-pomme-terre"], "qty": { "amount": 4, "unit": "pcs" }, "required": true, "labels": { "fr": "4 navets", "en": "4 turnips" } },
+        { "ids": ["vg-celeri", "vg-oignon"], "qty": { "amount": 2, "unit": "pcs" }, "required": true, "labels": { "fr": "Céleri et oignon", "en": "Celery and onion" } },
+        { "ids": ["sp-laurier", "sp-thym"], "qty": { "amount": 2, "unit": "pcs" }, "required": true, "labels": { "fr": "Bouquet garni", "en": "Bouquet garni" } }
+      ],
+      "steps": {
+        "fr": ["Mettre la viande dans une grande marmite d'eau froide, porter à ébullition et écumer.", "Ajouter l'oignon, le céleri et le bouquet garni ; mijoter 2h.", "Ajouter carottes, poireaux et navets, cuire 45 min.", "Ajouter les pommes de terre en fin de cuisson.", "Servir la viande et les légumes nappés de bouillon, avec moutarde et cornichons."],
+        "en": ["Put the meat in a large pot of cold water, bring to a boil and skim.", "Add the onion, celery and bouquet garni; simmer 2h.", "Add carrots, leeks and turnips, cook 45 min.", "Add the potatoes near the end.", "Serve the meat and vegetables with broth, mustard and pickles."]
+      },
+      "functional_tags": ["batch_cooking", "anti_waste"], "status": "published"
+    },
+    {
+      "id": "coq-au-vin",
+      "name": { "fr": "Coq au vin", "en": "Coq au vin" },
+      "description": { "fr": "Du poulet mijoté dans du vin rouge avec lardons, champignons et petits oignons — un grand plat bourguignon, profond et réconfortant.", "en": "Chicken braised in red wine with lardons, mushrooms and baby onions — a great Burgundian dish, deep and comforting." },
+      "emoji": "🍷", "time_min": 90, "prep_time_min": 25, "cook_time_min": 65, "difficulty": "hard", "type": "main", "servings": 4, "country": "fr",
+      "diet": ["dairy-free"], "allergens": ["gluten", "sulphites"],
+      "ingredients": [
+        { "ids": ["fr-cuisse-poulet", "fr-poulet-entier"], "qty": { "amount": 1000, "unit": "g" }, "required": true, "labels": { "fr": "1 kg de poulet", "en": "1kg chicken" } },
+        { "ids": ["gp-vin-rouge-cuis"], "qty": { "amount": 50, "unit": "cl" }, "required": true, "labels": { "fr": "50 cl de vin rouge", "en": "500ml red wine" } },
+        { "ids": ["fr-lardons"], "qty": { "amount": 150, "unit": "g" }, "required": true, "labels": { "fr": "150g de lardons", "en": "150g lardons" } },
+        { "ids": ["vg-champignons", "gp-champignons"], "qty": { "amount": 250, "unit": "g" }, "required": true, "labels": { "fr": "250g de champignons", "en": "250g mushrooms" } },
+        { "ids": ["vg-oignon", "gp-farine"], "qty": { "amount": 200, "unit": "g" }, "required": true, "labels": { "fr": "Petits oignons et farine", "en": "Baby onions and flour" } },
+        { "ids": ["sp-laurier", "sp-thym", "vg-ail"], "qty": { "amount": 2, "unit": "pcs" }, "required": true, "labels": { "fr": "Bouquet garni et ail", "en": "Bouquet garni and garlic" } }
+      ],
+      "steps": {
+        "fr": ["Faire dorer le poulet fariné, réserver.", "Faire revenir lardons, oignons et champignons.", "Remettre le poulet, verser le vin et le bouquet garni.", "Couvrir et mijoter 1h à feu doux.", "Faire réduire la sauce et servir avec des pommes de terre."],
+        "en": ["Brown the floured chicken, set aside.", "Sauté the lardons, onions and mushrooms.", "Return the chicken, pour in the wine and bouquet garni.", "Cover and simmer 1h over low heat.", "Reduce the sauce and serve with potatoes."]
+      },
+      "functional_tags": ["batch_cooking"], "status": "published"
+    },
+    {
+      "id": "navarin-agneau",
+      "name": { "fr": "Navarin d'agneau", "en": "Lamb navarin" },
+      "description": { "fr": "Un ragoût d'agneau printanier mijoté avec carottes, navets et petits pois — tendre, parfumé et délicatement sucré.", "en": "A spring lamb stew simmered with carrots, turnips and peas — tender, fragrant and gently sweet." },
+      "emoji": "🍲", "time_min": 100, "prep_time_min": 20, "cook_time_min": 80, "difficulty": "medium", "type": "main", "servings": 4, "country": "fr",
+      "diet": ["dairy-free", "halal"], "allergens": ["gluten"],
+      "ingredients": [
+        { "ids": ["fr-epaule-agneau", "fr-agneau"], "qty": { "amount": 900, "unit": "g" }, "required": true, "labels": { "fr": "900g d'épaule d'agneau", "en": "900g lamb shoulder" } },
+        { "ids": ["vg-carottes", "vg-navet"], "qty": { "amount": 500, "unit": "g" }, "required": true, "labels": { "fr": "Carottes et navets", "en": "Carrots and turnips" } },
+        { "ids": ["vg-petits-pois", "frz-petits-pois"], "qty": { "amount": 150, "unit": "g" }, "required": true, "labels": { "fr": "150g de petits pois", "en": "150g peas" } },
+        { "ids": ["gp-concentre-tom", "gp-farine"], "qty": { "amount": 2, "unit": "cs" }, "required": true, "labels": { "fr": "Concentré de tomate et farine", "en": "Tomato paste and flour" } },
+        { "ids": ["vg-oignon", "sp-thym"], "qty": { "amount": 1, "unit": "pcs" }, "required": true, "labels": { "fr": "Oignon et thym", "en": "Onion and thyme" } }
+      ],
+      "steps": {
+        "fr": ["Faire dorer l'agneau, le saupoudrer de farine.", "Ajouter le concentré de tomate et mouiller d'eau.", "Ajouter l'oignon, le thym, couvrir et mijoter 1h.", "Ajouter carottes et navets, cuire 30 min.", "Ajouter les petits pois en fin de cuisson et servir."],
+        "en": ["Brown the lamb, dust with flour.", "Add the tomato paste and cover with water.", "Add the onion, thyme, cover and simmer 1h.", "Add carrots and turnips, cook 30 min.", "Add the peas near the end and serve."]
+      },
+      "functional_tags": ["batch_cooking"], "status": "published"
+    },
+    {
+      "id": "cassoulet",
+      "name": { "fr": "Cassoulet", "en": "Cassoulet" },
+      "description": { "fr": "Un plat du Sud-Ouest de haricots blancs mijotés avec saucisse et confit, gratiné lentement au four — généreux, fondant et réconfortant.", "en": "A South-West dish of white beans simmered with sausage and confit, slowly baked — generous, tender and comforting." },
+      "emoji": "🫘", "time_min": 120, "prep_time_min": 25, "cook_time_min": 95, "difficulty": "hard", "type": "main", "servings": 6, "country": "fr",
+      "diet": ["dairy-free"], "allergens": ["sulphites"],
+      "ingredients": [
+        { "ids": ["gp-haricots-bl"], "qty": { "amount": 600, "unit": "g" }, "required": true, "labels": { "fr": "600g de haricots blancs", "en": "600g white beans" } },
+        { "ids": ["frz-saucisses", "fr-saucisse-seche"], "qty": { "amount": 4, "unit": "pcs" }, "required": true, "labels": { "fr": "4 saucisses", "en": "4 sausages" } },
+        { "ids": ["fr-cuisse-canard", "fr-canard"], "qty": { "amount": 4, "unit": "pcs" }, "required": true, "labels": { "fr": "4 cuisses de canard confites", "en": "4 duck confit legs" } },
+        { "ids": ["fr-lardons", "fr-echine"], "qty": { "amount": 150, "unit": "g" }, "required": true, "labels": { "fr": "150g de lard", "en": "150g pork belly" } },
+        { "ids": ["gp-tomates-concas", "vg-oignon", "vg-ail"], "qty": { "amount": 200, "unit": "g" }, "required": true, "labels": { "fr": "Tomate, oignon, ail", "en": "Tomato, onion, garlic" } }
+      ],
+      "steps": {
+        "fr": ["Précuire les haricots avec l'oignon, l'ail et les tomates.", "Faire dorer les saucisses, le lard et le canard.", "Disposer haricots et viandes en couches dans une cassole.", "Couvrir de bouillon et enfourner 1h30 à 150°C.", "Casser la croûte plusieurs fois et servir bien chaud."],
+        "en": ["Pre-cook the beans with the onion, garlic and tomatoes.", "Brown the sausages, pork and duck.", "Layer beans and meats in a casserole.", "Cover with stock and bake 1h30 at 150°C.", "Break the crust several times and serve hot."]
+      },
+      "functional_tags": ["batch_cooking"], "status": "published"
+    },
+    {
+      "id": "choucroute-garnie",
+      "name": { "fr": "Choucroute garnie", "en": "Choucroute garnie" },
+      "description": { "fr": "Du chou fermenté mijoté au vin blanc avec saucisses, lard et pommes de terre — le plat alsacien convivial par excellence.", "en": "Fermented cabbage simmered in white wine with sausages, pork and potatoes — the convivial Alsatian dish par excellence." },
+      "emoji": "🥬", "time_min": 90, "prep_time_min": 20, "cook_time_min": 70, "difficulty": "medium", "type": "main", "servings": 6, "country": "fr",
+      "diet": ["dairy-free"], "allergens": ["sulphites"],
+      "ingredients": [
+        { "ids": ["sp-choucroute", "vg-chou"], "qty": { "amount": 1500, "unit": "g" }, "required": true, "labels": { "fr": "1,5 kg de choucroute crue", "en": "1.5kg raw sauerkraut" } },
+        { "ids": ["frz-saucisses", "fr-saucisse-seche"], "qty": { "amount": 6, "unit": "pcs" }, "required": true, "labels": { "fr": "Saucisses variées", "en": "Assorted sausages" } },
+        { "ids": ["fr-echine", "fr-lardons"], "qty": { "amount": 400, "unit": "g" }, "required": true, "labels": { "fr": "400g de porc/lard", "en": "400g pork" } },
+        { "ids": ["vg-pomme-terre"], "qty": { "amount": 600, "unit": "g" }, "required": true, "labels": { "fr": "600g de pommes de terre", "en": "600g potatoes" } },
+        { "ids": ["gp-vin-rouge-cuis", "sp-graines"], "qty": { "amount": 25, "unit": "cl" }, "required": true, "labels": { "fr": "Vin blanc et baies de genièvre", "en": "White wine and juniper" } }
+      ],
+      "steps": {
+        "fr": ["Rincer la choucroute et l'égoutter.", "La mettre dans une cocotte avec le vin, l'oignon et les épices.", "Enfouir le lard et le porc, mijoter 1h.", "Ajouter les saucisses et les pommes de terre, cuire 30 min.", "Servir bien chaud avec de la moutarde."],
+        "en": ["Rinse the sauerkraut and drain it.", "Put it in a pot with the wine, onion and spices.", "Bury the pork in it, simmer 1h.", "Add the sausages and potatoes, cook 30 min.", "Serve hot with mustard."]
+      },
+      "functional_tags": ["batch_cooking"], "status": "published"
+    },
+    {
+      "id": "magret-sauce-poivre",
+      "name": { "fr": "Magret de canard sauce au poivre", "en": "Duck breast in pepper sauce" },
+      "description": { "fr": "Un magret de canard rôti à la peau croustillante, nappé d'une sauce crémeuse au poivre vert — élégant et rapide pour un dîner de fête.", "en": "A roasted duck breast with crispy skin, in a creamy green peppercorn sauce — elegant and quick for a special dinner." },
+      "emoji": "🦆", "time_min": 30, "prep_time_min": 10, "cook_time_min": 20, "difficulty": "medium", "type": "main", "servings": 4, "country": "fr",
+      "diet": ["gluten-free"], "allergens": ["milk", "sulphites"],
+      "ingredients": [
+        { "ids": ["fr-magret", "fr-canard"], "qty": { "amount": 2, "unit": "pcs" }, "required": true, "labels": { "fr": "2 magrets de canard", "en": "2 duck breasts" } },
+        { "ids": ["fr-creme-liquide", "fr-creme"], "qty": { "amount": 20, "unit": "cl" }, "required": true, "labels": { "fr": "20 cl de crème", "en": "200ml cream" } },
+        { "ids": ["sp-poivre-rose", "sp-poivre-noir"], "qty": { "amount": 2, "unit": "cs" }, "required": true, "labels": { "fr": "2 c. à soupe de poivre vert", "en": "2 tbsp green peppercorns" } },
+        { "ids": ["gp-vin-rouge-cuis", "vg-echalote"], "qty": { "amount": 10, "unit": "cl" }, "required": true, "labels": { "fr": "Cognac et échalote", "en": "Brandy and shallot" } }
+      ],
+      "steps": {
+        "fr": ["Quadriller la peau des magrets et les saisir côté peau.", "Cuire 6-8 min selon la cuisson désirée, réserver.", "Faire revenir l'échalote, déglacer, ajouter le poivre.", "Verser la crème et laisser réduire.", "Trancher les magrets et napper de sauce."],
+        "en": ["Score the duck skin and sear it skin-side down.", "Cook 6-8 min to desired doneness, rest.", "Sauté the shallot, deglaze, add the peppercorns.", "Pour in the cream and reduce.", "Slice the duck and spoon over the sauce."]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "lapin-moutarde",
+      "name": { "fr": "Lapin à la moutarde", "en": "Rabbit in mustard sauce" },
+      "description": { "fr": "Du lapin mijoté dans une sauce crémeuse à la moutarde et au vin blanc — un plat familial français tendre et savoureux.", "en": "Rabbit braised in a creamy mustard and white wine sauce — a tender, tasty French family dish." },
+      "emoji": "🐰", "time_min": 70, "prep_time_min": 15, "cook_time_min": 55, "difficulty": "medium", "type": "main", "servings": 4, "country": "fr",
+      "diet": ["gluten-free"], "allergens": ["milk", "mustard", "sulphites"],
+      "ingredients": [
+        { "ids": ["fr-lapin"], "qty": { "amount": 1200, "unit": "g" }, "required": true, "labels": { "fr": "1 lapin en morceaux", "en": "1 rabbit, jointed" } },
+        { "ids": ["sp-moutarde"], "qty": { "amount": 4, "unit": "cs" }, "required": true, "labels": { "fr": "4 c. à soupe de moutarde", "en": "4 tbsp mustard" } },
+        { "ids": ["fr-creme-fraiche", "fr-creme"], "qty": { "amount": 20, "unit": "cl" }, "required": true, "labels": { "fr": "20 cl de crème", "en": "200ml cream" } },
+        { "ids": ["gp-vin-rouge-cuis"], "qty": { "amount": 15, "unit": "cl" }, "required": true, "labels": { "fr": "15 cl de vin blanc", "en": "150ml white wine" } },
+        { "ids": ["vg-echalote", "sp-thym"], "qty": { "amount": 2, "unit": "pcs" }, "required": true, "labels": { "fr": "Échalote et thym", "en": "Shallot and thyme" } }
+      ],
+      "steps": {
+        "fr": ["Badigeonner les morceaux de lapin de moutarde.", "Les faire dorer, ajouter les échalotes.", "Déglacer au vin blanc.", "Couvrir et mijoter 45 min.", "Ajouter la crème et le reste de moutarde, servir nappé."],
+        "en": ["Brush the rabbit pieces with mustard.", "Brown them, add the shallots.", "Deglaze with white wine.", "Cover and simmer 45 min.", "Stir in the cream and remaining mustard, serve coated."]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "daube-provencale",
+      "name": { "fr": "Daube provençale", "en": "Provençal beef daube" },
+      "description": { "fr": "Du bœuf mijoté très longuement au vin rouge avec olives, orange et herbes de Provence — fondant, parfumé et encore meilleur réchauffé.", "en": "Beef braised very slowly in red wine with olives, orange and Provençal herbs — tender, fragrant and even better reheated." },
+      "emoji": "🍷", "time_min": 200, "prep_time_min": 30, "cook_time_min": 170, "difficulty": "medium", "type": "main", "servings": 6, "country": "fr",
+      "diet": ["gluten-free", "dairy-free"], "allergens": ["sulphites"],
+      "ingredients": [
+        { "ids": ["fr-paleron", "fr-boeuf"], "qty": { "amount": 1200, "unit": "g" }, "required": true, "labels": { "fr": "1,2 kg de bœuf à braiser", "en": "1.2kg braising beef" } },
+        { "ids": ["gp-vin-rouge-cuis"], "qty": { "amount": 50, "unit": "cl" }, "required": true, "labels": { "fr": "50 cl de vin rouge", "en": "500ml red wine" } },
+        { "ids": ["vg-carottes", "vg-oignon"], "qty": { "amount": 400, "unit": "g" }, "required": true, "labels": { "fr": "Carottes et oignons", "en": "Carrots and onions" } },
+        { "ids": ["gp-olives-noires"], "qty": { "amount": 100, "unit": "g" }, "required": true, "labels": { "fr": "100g d'olives noires", "en": "100g black olives" } },
+        { "ids": ["fr-orange", "sp-herbes-prov"], "qty": { "amount": 1, "unit": "pcs" }, "required": true, "labels": { "fr": "Orange et herbes de Provence", "en": "Orange and Provençal herbs" } }
+      ],
+      "steps": {
+        "fr": ["Mariner le bœuf au vin rouge une nuit (facultatif).", "Faire dorer la viande, ajouter carottes et oignons.", "Verser le vin, le zeste d'orange et les herbes.", "Couvrir et mijoter 2h30 à feu très doux.", "Ajouter les olives en fin de cuisson et servir avec des pâtes."],
+        "en": ["Marinate the beef in red wine overnight (optional).", "Brown the meat, add carrots and onions.", "Pour in the wine, orange zest and herbs.", "Cover and braise 2h30 over very low heat.", "Add the olives near the end and serve with pasta."]
+      },
+      "functional_tags": ["batch_cooking"], "status": "published"
+    },
+    {
+      "id": "tomates-farcies",
+      "name": { "fr": "Tomates farcies", "en": "Stuffed tomatoes" },
+      "description": { "fr": "Des tomates évidées et farcies de chair à saucisse aux herbes, rôties au four sur un lit de riz — un classique familial anti-gaspi.", "en": "Tomatoes hollowed and filled with herby sausage meat, baked over a bed of rice — a waste-busting family classic." },
+      "emoji": "🍅", "time_min": 70, "prep_time_min": 25, "cook_time_min": 45, "difficulty": "easy", "type": "main", "servings": 4, "country": "fr",
+      "diet": ["dairy-free"], "allergens": ["gluten", "sulphites"],
+      "ingredients": [
+        { "ids": ["vg-tomate", "vg-tomate-ronde"], "qty": { "amount": 8, "unit": "pcs" }, "required": true, "labels": { "fr": "8 grosses tomates", "en": "8 large tomatoes" } },
+        { "ids": ["fr-hache-boeuf", "frz-saucisses", "fr-echine"], "qty": { "amount": 500, "unit": "g" }, "required": true, "labels": { "fr": "500g de chair à saucisse", "en": "500g sausage meat" } },
+        { "ids": ["gp-riz"], "qty": { "amount": 200, "unit": "g" }, "required": true, "labels": { "fr": "200g de riz", "en": "200g rice" } },
+        { "ids": ["vg-oignon", "vg-ail", "sp-persil"], "qty": { "amount": 1, "unit": "pcs" }, "required": true, "labels": { "fr": "Oignon, ail, persil", "en": "Onion, garlic, parsley" } }
+      ],
+      "steps": {
+        "fr": ["Évider les tomates et réserver les chapeaux.", "Mélanger la chair à saucisse, l'oignon, l'ail et le persil.", "Farcir les tomates et les poser sur un lit de riz.", "Arroser d'eau et d'huile.", "Cuire 45 min à 180°C et servir."],
+        "en": ["Hollow out the tomatoes and keep the caps.", "Mix the sausage meat, onion, garlic and parsley.", "Stuff the tomatoes and set them on a bed of rice.", "Drizzle with water and oil.", "Bake 45 min at 180°C and serve."]
+      },
+      "functional_tags": ["anti_waste"], "status": "published"
+    },
+    {
+      "id": "chou-farci",
+      "name": { "fr": "Chou farci", "en": "Stuffed cabbage" },
+      "description": { "fr": "Des feuilles de chou enroulées autour d'une farce à la viande et au riz, mijotées dans un bouillon tomaté — rustique et réconfortant.", "en": "Cabbage leaves wrapped around a meat-and-rice filling, simmered in a tomato broth — rustic and comforting." },
+      "emoji": "🥬", "time_min": 90, "prep_time_min": 30, "cook_time_min": 60, "difficulty": "medium", "type": "main", "servings": 4, "country": "fr",
+      "diet": ["dairy-free"], "allergens": ["gluten"],
+      "ingredients": [
+        { "ids": ["vg-chou-vert", "vg-chou"], "qty": { "amount": 1, "unit": "pcs" }, "required": true, "labels": { "fr": "1 chou vert", "en": "1 green cabbage" } },
+        { "ids": ["fr-hache-boeuf", "fr-echine"], "qty": { "amount": 400, "unit": "g" }, "required": true, "labels": { "fr": "400g de viande hachée", "en": "400g minced meat" } },
+        { "ids": ["gp-riz"], "qty": { "amount": 100, "unit": "g" }, "required": true, "labels": { "fr": "100g de riz", "en": "100g rice" } },
+        { "ids": ["gp-tomates-concas"], "qty": { "amount": 400, "unit": "g" }, "required": true, "labels": { "fr": "400g de tomates", "en": "400g tomatoes" } },
+        { "ids": ["vg-oignon", "vg-ail"], "qty": { "amount": 1, "unit": "pcs" }, "required": true, "labels": { "fr": "Oignon et ail", "en": "Onion and garlic" } }
+      ],
+      "steps": {
+        "fr": ["Blanchir les feuilles de chou pour les assouplir.", "Mélanger la viande, le riz précuit, l'oignon et l'ail.", "Garnir chaque feuille et la rouler en paquet.", "Disposer dans une cocotte avec la sauce tomate.", "Mijoter 50 min à couvert et servir."],
+        "en": ["Blanch the cabbage leaves to soften them.", "Mix the meat, pre-cooked rice, onion and garlic.", "Fill each leaf and roll into a parcel.", "Arrange in a pot with the tomato sauce.", "Simmer 50 min covered and serve."]
+      },
+      "functional_tags": ["batch_cooking"], "status": "published"
+    },
+    {
+      "id": "brandade-morue",
+      "name": { "fr": "Brandade de morue", "en": "Salt cod brandade" },
+      "description": { "fr": "Une purée onctueuse de morue, pommes de terre, ail et huile d'olive, gratinée au four — un classique nîmois fondant et parfumé.", "en": "A smooth purée of salt cod, potatoes, garlic and olive oil, baked golden — a creamy, fragrant classic from Nîmes." },
+      "emoji": "🐟", "time_min": 50, "prep_time_min": 20, "cook_time_min": 30, "difficulty": "medium", "type": "main", "servings": 4, "country": "fr",
+      "diet": ["gluten-free"], "allergens": ["fish", "milk"],
+      "ingredients": [
+        { "ids": ["fr-cabillaud", "frz-cabillaud", "frz-colin"], "qty": { "amount": 600, "unit": "g" }, "required": true, "labels": { "fr": "600g de morue/cabillaud", "en": "600g cod" } },
+        { "ids": ["vg-pomme-terre"], "qty": { "amount": 500, "unit": "g" }, "required": true, "labels": { "fr": "500g de pommes de terre", "en": "500g potatoes" } },
+        { "ids": ["vg-ail"], "qty": { "amount": 3, "unit": "gousse" }, "required": true, "labels": { "fr": "3 gousses d'ail", "en": "3 garlic cloves" } },
+        { "ids": ["sp-huile-olive", "fr-lait"], "qty": { "amount": 10, "unit": "cl" }, "required": true, "labels": { "fr": "Huile d'olive et lait", "en": "Olive oil and milk" } }
+      ],
+      "steps": {
+        "fr": ["Pocher le poisson, l'égoutter et l'effeuiller.", "Cuire et écraser les pommes de terre.", "Mélanger poisson, purée, ail, huile et lait tiède.", "Verser dans un plat et lisser.", "Gratiner 15 min à 200°C et servir."],
+        "en": ["Poach the fish, drain and flake it.", "Boil and mash the potatoes.", "Mix the fish, mash, garlic, oil and warm milk.", "Spread in a dish and smooth.", "Bake 15 min at 200°C and serve."]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "gratin-macaroni",
+      "name": { "fr": "Gratin de macaronis", "en": "Macaroni gratin" },
+      "description": { "fr": "Des macaronis enrobés de béchamel et de fromage, gratinés au four — le réconfort absolu, doré et bouillonnant.", "en": "Macaroni coated in béchamel and cheese, baked golden — absolute comfort, bubbling and golden." },
+      "emoji": "🧀", "time_min": 40, "prep_time_min": 15, "cook_time_min": 25, "difficulty": "easy", "type": "main", "servings": 4, "country": "fr",
+      "diet": ["vegetarian"], "allergens": ["gluten", "milk"],
+      "ingredients": [
+        { "ids": ["gp-coquillettes", "gp-pates", "gp-penne"], "qty": { "amount": 400, "unit": "g" }, "required": true, "labels": { "fr": "400g de macaronis", "en": "400g macaroni" } },
+        { "ids": ["fr-lait", "sp-bechamel"], "qty": { "amount": 50, "unit": "cl" }, "required": true, "labels": { "fr": "50 cl de lait (béchamel)", "en": "500ml milk (béchamel)" } },
+        { "ids": ["fr-fromage-rape", "fr-gruyere"], "qty": { "amount": 150, "unit": "g" }, "required": true, "labels": { "fr": "150g de fromage râpé", "en": "150g grated cheese" } },
+        { "ids": ["fr-beurre", "gp-farine"], "qty": { "amount": 40, "unit": "g" }, "required": true, "labels": { "fr": "Beurre et farine", "en": "Butter and flour" } },
+        { "ids": ["sp-muscade"], "qty": { "amount": 1, "unit": "pm" }, "required": false, "labels": { "fr": "Muscade", "en": "Nutmeg" } }
+      ],
+      "steps": {
+        "fr": ["Cuire les macaronis al dente.", "Préparer une béchamel à la muscade.", "Mélanger les pâtes, la béchamel et la moitié du fromage.", "Verser dans un plat, couvrir du reste de fromage.", "Gratiner 20 min à 200°C et servir."],
+        "en": ["Cook the macaroni al dente.", "Make a nutmeg béchamel.", "Mix the pasta, béchamel and half the cheese.", "Pour into a dish, top with the rest of the cheese.", "Bake 20 min at 200°C and serve."]
+      },
+      "functional_tags": ["kids_friendly"], "status": "published"
+    },
+    {
+      "id": "croziflette",
+      "name": { "fr": "Croziflette", "en": "Croziflette" },
+      "description": { "fr": "Une version savoyarde du gratin aux crozets (petites pâtes de sarrasin), lardons et reblochon fondu — riche, montagnard et réconfortant.", "en": "A Savoyard gratin of crozets (small buckwheat pasta), lardons and melted reblochon — rich, alpine and comforting." },
+      "emoji": "🧀", "time_min": 45, "prep_time_min": 15, "cook_time_min": 30, "difficulty": "easy", "type": "main", "servings": 4, "country": "fr",
+      "diet": [], "allergens": ["gluten", "milk"],
+      "ingredients": [
+        { "ids": ["gp-coquillettes", "gp-pates", "gp-sarrasin"], "qty": { "amount": 400, "unit": "g" }, "required": true, "labels": { "fr": "400g de crozets", "en": "400g crozets" } },
+        { "ids": ["fr-reblochon", "fr-raclette"], "qty": { "amount": 1, "unit": "pcs" }, "required": true, "labels": { "fr": "1 reblochon", "en": "1 reblochon" } },
+        { "ids": ["fr-lardons"], "qty": { "amount": 200, "unit": "g" }, "required": true, "labels": { "fr": "200g de lardons", "en": "200g lardons" } },
+        { "ids": ["fr-creme-fraiche", "vg-oignon"], "qty": { "amount": 20, "unit": "cl" }, "required": true, "labels": { "fr": "Crème et oignon", "en": "Cream and onion" } }
+      ],
+      "steps": {
+        "fr": ["Cuire les crozets.", "Faire revenir les lardons et l'oignon.", "Mélanger crozets, lardons et crème dans un plat.", "Couvrir de reblochon coupé en deux.", "Gratiner 20 min à 200°C et servir."],
+        "en": ["Cook the crozets.", "Sauté the lardons and onion.", "Mix crozets, lardons and cream in a dish.", "Top with the reblochon cut in half.", "Bake 20 min at 200°C and serve."]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "gougeres",
+      "name": { "fr": "Gougères", "en": "Gougères" },
+      "description": { "fr": "De petits choux soufflés au fromage, dorés et aériens — l'apéritif bourguignon parfait, à déguster tièdes.", "en": "Little cheese-flavoured choux puffs, golden and airy — the perfect Burgundian aperitif, best served warm." },
+      "emoji": "🧀", "time_min": 40, "prep_time_min": 20, "cook_time_min": 20, "difficulty": "medium", "type": "starter", "servings": 6, "country": "fr",
+      "diet": ["vegetarian"], "allergens": ["gluten", "milk", "eggs"],
+      "ingredients": [
+        { "ids": ["gp-farine"], "qty": { "amount": 150, "unit": "g" }, "required": true, "labels": { "fr": "150g de farine", "en": "150g flour" } },
+        { "ids": ["fr-oeuf"], "qty": { "amount": 4, "unit": "pcs" }, "required": true, "labels": { "fr": "4 œufs", "en": "4 eggs" } },
+        { "ids": ["fr-gruyere", "fr-comte", "fr-fromage-rape"], "qty": { "amount": 120, "unit": "g" }, "required": true, "labels": { "fr": "120g de gruyère", "en": "120g gruyère" } },
+        { "ids": ["fr-beurre"], "qty": { "amount": 80, "unit": "g" }, "required": true, "labels": { "fr": "80g de beurre", "en": "80g butter" } }
+      ],
+      "steps": {
+        "fr": ["Porter 25 cl d'eau avec le beurre et une pincée de sel à ébullition.", "Ajouter la farine d'un coup et dessécher la pâte.", "Incorporer les œufs un à un, puis le fromage.", "Dresser des petits tas sur une plaque.", "Cuire 20 min à 200°C jusqu'à ce qu'ils soient dorés et gonflés."],
+        "en": ["Bring 250ml water with the butter and a pinch of salt to a boil.", "Add the flour all at once and dry out the dough.", "Beat in the eggs one by one, then the cheese.", "Pipe small mounds onto a tray.", "Bake 20 min at 200°C until golden and puffed."]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "oeufs-meurette",
+      "name": { "fr": "Œufs en meurette", "en": "Eggs en meurette" },
+      "description": { "fr": "Des œufs pochés nappés d'une sauce au vin rouge, lardons et champignons, sur un toast frotté à l'ail — un grand classique bourguignon.", "en": "Poached eggs in a red wine sauce with lardons and mushrooms, on a garlic-rubbed toast — a great Burgundian classic." },
+      "emoji": "🥚", "time_min": 40, "prep_time_min": 15, "cook_time_min": 25, "difficulty": "medium", "type": "starter", "servings": 4, "country": "fr",
+      "diet": [], "allergens": ["eggs", "gluten", "sulphites"],
+      "ingredients": [
+        { "ids": ["fr-oeuf"], "qty": { "amount": 8, "unit": "pcs" }, "required": true, "labels": { "fr": "8 œufs", "en": "8 eggs" } },
+        { "ids": ["gp-vin-rouge-cuis"], "qty": { "amount": 30, "unit": "cl" }, "required": true, "labels": { "fr": "30 cl de vin rouge", "en": "300ml red wine" } },
+        { "ids": ["fr-lardons"], "qty": { "amount": 150, "unit": "g" }, "required": true, "labels": { "fr": "150g de lardons", "en": "150g lardons" } },
+        { "ids": ["vg-champignons", "vg-echalote"], "qty": { "amount": 200, "unit": "g" }, "required": true, "labels": { "fr": "Champignons et échalote", "en": "Mushrooms and shallot" } },
+        { "ids": ["gp-pain", "gp-baguette", "vg-ail"], "qty": { "amount": 4, "unit": "tranche" }, "required": true, "labels": { "fr": "Pain et ail", "en": "Bread and garlic" } }
+      ],
+      "steps": {
+        "fr": ["Faire revenir lardons, échalote et champignons.", "Verser le vin rouge et laisser réduire de moitié.", "Pocher les œufs dans de l'eau vinaigrée.", "Griller le pain et le frotter d'ail.", "Poser les œufs sur le toast et napper de sauce."],
+        "en": ["Sauté the lardons, shallot and mushrooms.", "Pour in the red wine and reduce by half.", "Poach the eggs in vinegared water.", "Toast the bread and rub with garlic.", "Set the eggs on the toast and coat with sauce."]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "tartine-chevre-miel",
+      "name": { "fr": "Tartine chèvre-miel", "en": "Goat cheese and honey toast" },
+      "description": { "fr": "Une tartine de pain grillé au chèvre fondant, nappée de miel et de thym — une entrée sucrée-salée express et élégante.", "en": "A toasted bread slice with melting goat cheese, drizzled with honey and thyme — a quick, elegant sweet-savoury starter." },
+      "emoji": "🧀", "time_min": 12, "prep_time_min": 5, "cook_time_min": 7, "difficulty": "very-easy", "type": "starter", "servings": 4, "country": "fr",
+      "diet": ["vegetarian"], "allergens": ["gluten", "milk", "nuts"],
+      "ingredients": [
+        { "ids": ["gp-pain", "gp-baguette", "gp-pain-complet"], "qty": { "amount": 8, "unit": "tranche" }, "required": true, "labels": { "fr": "8 tranches de pain", "en": "8 slices of bread" } },
+        { "ids": ["fr-chevre"], "qty": { "amount": 200, "unit": "g" }, "required": true, "labels": { "fr": "200g de chèvre", "en": "200g goat cheese" } },
+        { "ids": ["gp-miel"], "qty": { "amount": 3, "unit": "cs" }, "required": true, "labels": { "fr": "3 c. à soupe de miel", "en": "3 tbsp honey" } },
+        { "ids": ["gp-noix", "sp-thym"], "qty": { "amount": 50, "unit": "g" }, "required": false, "labels": { "fr": "Noix et thym", "en": "Walnuts and thyme" } }
+      ],
+      "steps": {
+        "fr": ["Disposer le chèvre sur les tranches de pain.", "Passer sous le gril 5 min jusqu'à ce que le chèvre dore.", "Arroser de miel.", "Parsemer de noix et de thym.", "Servir tiède avec une salade."],
+        "en": ["Lay the goat cheese on the bread slices.", "Grill 5 min until the cheese colours.", "Drizzle with honey.", "Scatter with walnuts and thyme.", "Serve warm with a salad."]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "soupe-cresson",
+      "name": { "fr": "Velouté de cresson", "en": "Watercress soup" },
+      "description": { "fr": "Un velouté vert vif de cresson et de pommes de terre, lié à la crème — fin, poivré et élégant.", "en": "A vivid green soup of watercress and potatoes, finished with cream — delicate, peppery and elegant." },
+      "emoji": "🥬", "time_min": 30, "prep_time_min": 10, "cook_time_min": 20, "difficulty": "easy", "type": "starter", "servings": 4, "country": "fr",
+      "diet": ["vegetarian", "gluten-free"], "allergens": ["milk"],
+      "ingredients": [
+        { "ids": ["vg-salade", "vg-roquette", "vg-epinards"], "qty": { "amount": 300, "unit": "g" }, "required": true, "labels": { "fr": "300g de cresson", "en": "300g watercress" } },
+        { "ids": ["vg-pomme-terre"], "qty": { "amount": 300, "unit": "g" }, "required": true, "labels": { "fr": "300g de pommes de terre", "en": "300g potatoes" } },
+        { "ids": ["vg-oignon", "gp-bouillon-cube"], "qty": { "amount": 1, "unit": "pcs" }, "required": true, "labels": { "fr": "Oignon et bouillon", "en": "Onion and stock" } },
+        { "ids": ["fr-creme-liquide", "fr-creme"], "qty": { "amount": 10, "unit": "cl" }, "required": true, "labels": { "fr": "10 cl de crème", "en": "100ml cream" } }
+      ],
+      "steps": {
+        "fr": ["Faire revenir l'oignon, ajouter les pommes de terre en dés.", "Couvrir de bouillon et cuire 15 min.", "Ajouter le cresson et cuire 3 min pour garder la couleur.", "Mixer finement.", "Incorporer la crème et servir."],
+        "en": ["Sauté the onion, add the diced potatoes.", "Cover with stock and cook 15 min.", "Add the watercress and cook 3 min to keep the colour.", "Blend until smooth.", "Stir in the cream and serve."]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "salade-lyonnaise",
+      "name": { "fr": "Salade lyonnaise", "en": "Lyonnaise salad" },
+      "description": { "fr": "Une salade frisée garnie de lardons croustillants, de croûtons et d'un œuf poché coulant — un grand bistrot dans l'assiette.", "en": "A frisée salad with crispy lardons, croutons and a runny poached egg — a bistro classic on a plate." },
+      "emoji": "🥗", "time_min": 25, "prep_time_min": 15, "cook_time_min": 10, "difficulty": "medium", "type": "salad", "servings": 4, "country": "fr",
+      "diet": [], "allergens": ["eggs", "gluten", "mustard"],
+      "ingredients": [
+        { "ids": ["vg-salade-verte", "vg-salade", "vg-mache"], "qty": { "amount": 200, "unit": "g" }, "required": true, "labels": { "fr": "200g de frisée", "en": "200g frisée" } },
+        { "ids": ["fr-lardons"], "qty": { "amount": 200, "unit": "g" }, "required": true, "labels": { "fr": "200g de lardons", "en": "200g lardons" } },
+        { "ids": ["fr-oeuf"], "qty": { "amount": 4, "unit": "pcs" }, "required": true, "labels": { "fr": "4 œufs", "en": "4 eggs" } },
+        { "ids": ["gp-pain", "gp-croûtons"], "qty": { "amount": 100, "unit": "g" }, "required": true, "labels": { "fr": "100g de croûtons", "en": "100g croutons" } },
+        { "ids": ["sp-moutarde", "sp-vinaigre-vin"], "qty": { "amount": 2, "unit": "cs" }, "required": true, "labels": { "fr": "Moutarde et vinaigre", "en": "Mustard and vinegar" } }
+      ],
+      "steps": {
+        "fr": ["Faire rissoler les lardons et les croûtons.", "Pocher les œufs.", "Préparer une vinaigrette moutarde-vinaigre.", "Dresser la frisée avec lardons et croûtons.", "Poser un œuf poché par assiette et arroser de vinaigrette."],
+        "en": ["Crisp the lardons and croutons.", "Poach the eggs.", "Make a mustard-vinegar dressing.", "Arrange the frisée with lardons and croutons.", "Top each plate with a poached egg and drizzle with dressing."]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "gratin-poireaux",
+      "name": { "fr": "Gratin de poireaux", "en": "Leek gratin" },
+      "description": { "fr": "Des poireaux fondants nappés de béchamel et gratinés au fromage — un accompagnement doux et réconfortant, anti-gaspi.", "en": "Tender leeks in béchamel, baked golden with cheese — a soft, comforting and waste-busting side." },
+      "emoji": "🧀", "time_min": 45, "prep_time_min": 15, "cook_time_min": 30, "difficulty": "easy", "type": "side", "servings": 4, "country": "fr",
+      "diet": ["vegetarian"], "allergens": ["gluten", "milk"],
+      "ingredients": [
+        { "ids": ["vg-poireau", "frz-poireaux"], "qty": { "amount": 800, "unit": "g" }, "required": true, "labels": { "fr": "800g de poireaux", "en": "800g leeks" } },
+        { "ids": ["fr-lait", "sp-bechamel"], "qty": { "amount": 40, "unit": "cl" }, "required": true, "labels": { "fr": "40 cl de lait (béchamel)", "en": "400ml milk (béchamel)" } },
+        { "ids": ["fr-fromage-rape", "fr-gruyere"], "qty": { "amount": 100, "unit": "g" }, "required": true, "labels": { "fr": "100g de fromage râpé", "en": "100g grated cheese" } },
+        { "ids": ["fr-beurre", "gp-farine"], "qty": { "amount": 40, "unit": "g" }, "required": true, "labels": { "fr": "Beurre et farine", "en": "Butter and flour" } }
+      ],
+      "steps": {
+        "fr": ["Émincer et cuire les poireaux à l'eau ou à la vapeur.", "Bien les égoutter.", "Préparer une béchamel.", "Mélanger poireaux et béchamel dans un plat, couvrir de fromage.", "Gratiner 20 min à 200°C et servir."],
+        "en": ["Slice and cook the leeks in water or steam.", "Drain them well.", "Make a béchamel.", "Mix leeks and béchamel in a dish, top with cheese.", "Bake 20 min at 200°C and serve."]
+      },
+      "functional_tags": ["anti_waste"], "status": "published"
+    },
+    {
+      "id": "puree-celeri-rave",
+      "name": { "fr": "Purée de céleri-rave", "en": "Celeriac purée" },
+      "description": { "fr": "Une purée veloutée de céleri-rave et de pommes de terre, fine et parfumée — un accompagnement élégant qui change de l'ordinaire.", "en": "A velvety celeriac and potato purée, smooth and fragrant — an elegant side that breaks from the ordinary." },
+      "emoji": "🥔", "time_min": 30, "prep_time_min": 10, "cook_time_min": 20, "difficulty": "very-easy", "type": "side", "servings": 4, "country": "fr",
+      "diet": ["vegetarian", "gluten-free"], "allergens": ["milk", "celery"],
+      "ingredients": [
+        { "ids": ["vg-celeri-rave"], "qty": { "amount": 600, "unit": "g" }, "required": true, "labels": { "fr": "600g de céleri-rave", "en": "600g celeriac" } },
+        { "ids": ["vg-pomme-terre"], "qty": { "amount": 300, "unit": "g" }, "required": true, "labels": { "fr": "300g de pommes de terre", "en": "300g potatoes" } },
+        { "ids": ["fr-creme", "fr-lait"], "qty": { "amount": 15, "unit": "cl" }, "required": true, "labels": { "fr": "15 cl de crème", "en": "150ml cream" } },
+        { "ids": ["fr-beurre", "sp-muscade"], "qty": { "amount": 40, "unit": "g" }, "required": true, "labels": { "fr": "Beurre et muscade", "en": "Butter and nutmeg" } }
+      ],
+      "steps": {
+        "fr": ["Éplucher et couper le céleri-rave et les pommes de terre.", "Les cuire à l'eau bouillante salée 20 min.", "Égoutter et écraser.", "Incorporer la crème, le beurre et la muscade.", "Rectifier l'assaisonnement et servir."],
+        "en": ["Peel and cut the celeriac and potatoes.", "Boil in salted water 20 min.", "Drain and mash.", "Stir in the cream, butter and nutmeg.", "Adjust the seasoning and serve."]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "haricots-verts-ail",
+      "name": { "fr": "Haricots verts à l'ail", "en": "Garlic green beans" },
+      "description": { "fr": "Des haricots verts croquants poêlés à l'ail et au persil — un accompagnement simple, frais et plein de saveur.", "en": "Crunchy green beans pan-fried with garlic and parsley — a simple, fresh and flavourful side." },
+      "emoji": "🫛", "time_min": 20, "prep_time_min": 5, "cook_time_min": 15, "difficulty": "very-easy", "type": "side", "servings": 4, "country": "fr",
+      "diet": ["vegan", "vegetarian", "gluten-free", "dairy-free"], "allergens": [],
+      "ingredients": [
+        { "ids": ["vg-haricots-v", "frz-haricots-v", "gp-haricots-verts-cons"], "qty": { "amount": 600, "unit": "g" }, "required": true, "labels": { "fr": "600g de haricots verts", "en": "600g green beans" } },
+        { "ids": ["vg-ail"], "qty": { "amount": 3, "unit": "gousse" }, "required": true, "labels": { "fr": "3 gousses d'ail", "en": "3 garlic cloves" } },
+        { "ids": ["sp-persil"], "qty": { "amount": 1, "unit": "botte" }, "required": true, "labels": { "fr": "Persil", "en": "Parsley" } },
+        { "ids": ["sp-huile-olive", "fr-beurre"], "qty": { "amount": 2, "unit": "cs" }, "required": true, "labels": { "fr": "Huile ou beurre", "en": "Oil or butter" } }
+      ],
+      "steps": {
+        "fr": ["Cuire les haricots verts à l'eau bouillante 8 min, les garder croquants.", "Les égoutter.", "Faire revenir l'ail émincé dans l'huile.", "Ajouter les haricots et faire sauter 3 min.", "Parsemer de persil et servir."],
+        "en": ["Boil the green beans 8 min, keeping them crunchy.", "Drain them.", "Sauté the sliced garlic in the oil.", "Add the beans and stir-fry 3 min.", "Scatter parsley and serve."]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "petits-pois-lardons",
+      "name": { "fr": "Petits pois à la française", "en": "French-style peas" },
+      "description": { "fr": "Des petits pois mijotés avec laitue, oignons et lardons — un accompagnement printanier doux et fondant, typiquement français.", "en": "Peas braised with lettuce, onions and lardons — a soft, tender spring side, typically French." },
+      "emoji": "🫛", "time_min": 25, "prep_time_min": 10, "cook_time_min": 15, "difficulty": "easy", "type": "side", "servings": 4, "country": "fr",
+      "diet": ["gluten-free", "dairy-free"], "allergens": [],
+      "ingredients": [
+        { "ids": ["vg-petits-pois", "frz-petits-pois", "gp-petits-pois"], "qty": { "amount": 500, "unit": "g" }, "required": true, "labels": { "fr": "500g de petits pois", "en": "500g peas" } },
+        { "ids": ["fr-lardons"], "qty": { "amount": 100, "unit": "g" }, "required": false, "labels": { "fr": "100g de lardons", "en": "100g lardons" } },
+        { "ids": ["vg-laitue", "vg-salade"], "qty": { "amount": 1, "unit": "pcs" }, "required": true, "labels": { "fr": "1 cœur de laitue", "en": "1 lettuce heart" } },
+        { "ids": ["vg-oignon"], "qty": { "amount": 12, "unit": "pcs" }, "required": true, "labels": { "fr": "Petits oignons", "en": "Baby onions" } }
+      ],
+      "steps": {
+        "fr": ["Faire revenir les lardons et les petits oignons.", "Ajouter les petits pois et un peu d'eau.", "Ajouter la laitue émincée.", "Couvrir et mijoter 12 min.", "Rectifier l'assaisonnement et servir."],
+        "en": ["Sauté the lardons and baby onions.", "Add the peas and a little water.", "Add the shredded lettuce.", "Cover and simmer 12 min.", "Adjust the seasoning and serve."]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "ile-flottante",
+      "name": { "fr": "Île flottante", "en": "Floating island" },
+      "description": { "fr": "Des blancs en neige pochés flottant sur une crème anglaise vanillée, nappés de caramel — un dessert français aérien et nostalgique.", "en": "Poached meringue floating on a vanilla custard, drizzled with caramel — an airy, nostalgic French dessert." },
+      "emoji": "🍮", "time_min": 40, "prep_time_min": 20, "cook_time_min": 20, "difficulty": "medium", "type": "dessert", "servings": 4, "country": "fr",
+      "diet": ["vegetarian", "gluten-free"], "allergens": ["milk", "eggs"],
+      "ingredients": [
+        { "ids": ["fr-oeuf"], "qty": { "amount": 4, "unit": "pcs" }, "required": true, "labels": { "fr": "4 œufs", "en": "4 eggs" } },
+        { "ids": ["fr-lait", "fr-lait-entier"], "qty": { "amount": 50, "unit": "cl" }, "required": true, "labels": { "fr": "50 cl de lait", "en": "500ml milk" } },
+        { "ids": ["gp-sucre"], "qty": { "amount": 150, "unit": "g" }, "required": true, "labels": { "fr": "150g de sucre", "en": "150g sugar" } },
+        { "ids": ["gp-vanille-gousse", "gp-extrait-vanille"], "qty": { "amount": 1, "unit": "pcs" }, "required": true, "labels": { "fr": "1 gousse de vanille", "en": "1 vanilla pod" } }
+      ],
+      "steps": {
+        "fr": ["Préparer une crème anglaise avec le lait, les jaunes, le sucre et la vanille.", "Monter les blancs en neige avec un peu de sucre.", "Les pocher dans du lait frémissant quelques minutes.", "Répartir la crème anglaise dans les coupes, poser les blancs.", "Napper de caramel et servir bien frais."],
+        "en": ["Make a custard with the milk, yolks, sugar and vanilla.", "Whisk the egg whites to stiff peaks with a little sugar.", "Poach them in simmering milk for a few minutes.", "Pour the custard into bowls, set the meringues on top.", "Drizzle with caramel and serve well chilled."]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "profiteroles",
+      "name": { "fr": "Profiteroles", "en": "Profiteroles" },
+      "description": { "fr": "De petits choux garnis de glace à la vanille et nappés de chocolat chaud — un dessert français gourmand et spectaculaire.", "en": "Little choux puffs filled with vanilla ice cream and drenched in hot chocolate — an indulgent, spectacular French dessert." },
+      "emoji": "🍫", "time_min": 50, "prep_time_min": 30, "cook_time_min": 20, "difficulty": "hard", "type": "dessert", "servings": 6, "country": "fr",
+      "diet": ["vegetarian"], "allergens": ["gluten", "milk", "eggs"],
+      "ingredients": [
+        { "ids": ["gp-farine"], "qty": { "amount": 150, "unit": "g" }, "required": true, "labels": { "fr": "150g de farine", "en": "150g flour" } },
+        { "ids": ["fr-oeuf"], "qty": { "amount": 4, "unit": "pcs" }, "required": true, "labels": { "fr": "4 œufs", "en": "4 eggs" } },
+        { "ids": ["fr-beurre"], "qty": { "amount": 80, "unit": "g" }, "required": true, "labels": { "fr": "80g de beurre", "en": "80g butter" } },
+        { "ids": ["frz-bac-vanille"], "qty": { "amount": 500, "unit": "ml" }, "required": true, "labels": { "fr": "500ml de glace vanille", "en": "500ml vanilla ice cream" } },
+        { "ids": ["gp-choco-noir", "gp-chocolat"], "qty": { "amount": 150, "unit": "g" }, "required": true, "labels": { "fr": "150g de chocolat", "en": "150g chocolate" } }
+      ],
+      "steps": {
+        "fr": ["Préparer une pâte à choux et pocher de petites boules.", "Cuire 20 min à 200°C jusqu'à ce qu'elles soient dorées.", "Laisser refroidir puis les ouvrir.", "Les garnir de glace à la vanille.", "Napper de chocolat chaud et servir aussitôt."],
+        "en": ["Make a choux pastry and pipe small balls.", "Bake 20 min at 200°C until golden.", "Let cool then split them.", "Fill with vanilla ice cream.", "Drench in hot chocolate and serve at once."]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "eclairs-chocolat",
+      "name": { "fr": "Éclairs au chocolat", "en": "Chocolate éclairs" },
+      "description": { "fr": "Des éclairs de pâte à choux garnis de crème pâtissière au chocolat et glacés de fondant — la pâtisserie française élégante par excellence.", "en": "Choux pastry éclairs filled with chocolate pastry cream and topped with fondant icing — the elegant French pastry classic." },
+      "emoji": "🍫", "time_min": 70, "prep_time_min": 45, "cook_time_min": 25, "difficulty": "hard", "type": "dessert", "servings": 6, "country": "fr",
+      "diet": ["vegetarian"], "allergens": ["gluten", "milk", "eggs"],
+      "ingredients": [
+        { "ids": ["gp-farine"], "qty": { "amount": 150, "unit": "g" }, "required": true, "labels": { "fr": "150g de farine", "en": "150g flour" } },
+        { "ids": ["fr-oeuf"], "qty": { "amount": 4, "unit": "pcs" }, "required": true, "labels": { "fr": "4 œufs", "en": "4 eggs" } },
+        { "ids": ["fr-lait"], "qty": { "amount": 50, "unit": "cl" }, "required": true, "labels": { "fr": "50 cl de lait", "en": "500ml milk" } },
+        { "ids": ["gp-choco-noir", "gp-cacao-poudre"], "qty": { "amount": 150, "unit": "g" }, "required": true, "labels": { "fr": "150g de chocolat", "en": "150g chocolate" } },
+        { "ids": ["fr-beurre", "gp-sucre"], "qty": { "amount": 80, "unit": "g" }, "required": true, "labels": { "fr": "Beurre et sucre", "en": "Butter and sugar" } }
+      ],
+      "steps": {
+        "fr": ["Préparer une pâte à choux et pocher des éclairs.", "Cuire 25 min à 190°C.", "Préparer une crème pâtissière au chocolat.", "Garnir les éclairs refroidis de crème.", "Glacer le dessus de chocolat et laisser prendre."],
+        "en": ["Make a choux pastry and pipe éclairs.", "Bake 25 min at 190°C.", "Make a chocolate pastry cream.", "Fill the cooled éclairs with cream.", "Glaze the top with chocolate and let set."]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "mousse-citron",
+      "name": { "fr": "Mousse au citron", "en": "Lemon mousse" },
+      "description": { "fr": "Une mousse légère et acidulée au citron, aérienne grâce aux blancs montés — un dessert frais qui termine joliment un repas.", "en": "A light, tangy lemon mousse, airy thanks to whipped whites — a fresh dessert to finish a meal beautifully." },
+      "emoji": "🍋", "time_min": 25, "prep_time_min": 25, "cook_time_min": 0, "difficulty": "easy", "type": "dessert", "servings": 4, "country": "fr",
+      "diet": ["vegetarian", "gluten-free"], "allergens": ["eggs", "milk"],
+      "ingredients": [
+        { "ids": ["fr-citron"], "qty": { "amount": 3, "unit": "pcs" }, "required": true, "labels": { "fr": "3 citrons", "en": "3 lemons" } },
+        { "ids": ["fr-oeuf"], "qty": { "amount": 4, "unit": "pcs" }, "required": true, "labels": { "fr": "4 œufs", "en": "4 eggs" } },
+        { "ids": ["gp-sucre"], "qty": { "amount": 120, "unit": "g" }, "required": true, "labels": { "fr": "120g de sucre", "en": "120g sugar" } },
+        { "ids": ["fr-creme-liquide", "fr-mascarpone"], "qty": { "amount": 15, "unit": "cl" }, "required": false, "labels": { "fr": "15 cl de crème", "en": "150ml cream" } }
+      ],
+      "steps": {
+        "fr": ["Battre les jaunes avec le sucre et le jus des citrons.", "Cuire doucement au bain-marie jusqu'à épaississement (lemon curd).", "Laisser refroidir.", "Monter les blancs en neige et les incorporer délicatement.", "Répartir en coupes et réfrigérer 2h."],
+        "en": ["Beat the yolks with the sugar and lemon juice.", "Cook gently in a water bath until thickened (lemon curd).", "Let cool.", "Whisk the whites to peaks and fold in gently.", "Divide into bowls and chill 2h."]
+      },
+      "functional_tags": [], "status": "published"
+    },
+    {
+      "id": "crepes-suzette",
+      "name": { "fr": "Crêpes Suzette", "en": "Crêpes Suzette" },
+      "description": { "fr": "Des crêpes fines nappées d'une sauce au beurre, sucre et orange, flambées au Grand Marnier — un dessert français spectaculaire et parfumé.", "en": "Thin crêpes in a butter, sugar and orange sauce, flambéed with Grand Marnier — a spectacular, fragrant French dessert." },
+      "emoji": "🍊", "time_min": 40, "prep_time_min": 20, "cook_time_min": 20, "difficulty": "medium", "type": "dessert", "servings": 4, "country": "fr",
+      "diet": ["vegetarian"], "allergens": ["gluten", "milk", "eggs"],
+      "ingredients": [
+        { "ids": ["gp-farine"], "qty": { "amount": 200, "unit": "g" }, "required": true, "labels": { "fr": "200g de farine", "en": "200g flour" } },
+        { "ids": ["fr-oeuf"], "qty": { "amount": 3, "unit": "pcs" }, "required": true, "labels": { "fr": "3 œufs", "en": "3 eggs" } },
+        { "ids": ["fr-lait"], "qty": { "amount": 50, "unit": "cl" }, "required": true, "labels": { "fr": "50 cl de lait", "en": "500ml milk" } },
+        { "ids": ["fr-orange"], "qty": { "amount": 2, "unit": "pcs" }, "required": true, "labels": { "fr": "2 oranges", "en": "2 oranges" } },
+        { "ids": ["fr-beurre", "gp-sucre"], "qty": { "amount": 80, "unit": "g" }, "required": true, "labels": { "fr": "Beurre et sucre", "en": "Butter and sugar" } }
+      ],
+      "steps": {
+        "fr": ["Préparer une pâte à crêpes et cuire des crêpes fines.", "Faire fondre le beurre avec le sucre et le jus d'orange.", "Plier les crêpes dans la sauce.", "Faire chauffer puis flamber (facultatif).", "Servir aussitôt, nappées de sauce à l'orange."],
+        "en": ["Make a crêpe batter and cook thin crêpes.", "Melt the butter with the sugar and orange juice.", "Fold the crêpes into the sauce.", "Heat then flambé (optional).", "Serve at once, coated in orange sauce."]
+      },
+      "functional_tags": [], "status": "published"
+    }
+  ]
+}

@@ -1,0 +1,3962 @@
+[
+  {
+    "id": "affogato",
+    "description": {
+      "en": "A scoop of vanilla ice cream melted by a hot espresso shot — a two-minute Italian dessert.",
+      "fr": "Une boule de glace vanille fondue sous un espresso brûlant — dessert minute chaud-glacé."
+    }
+  },
+  {
+    "id": "agedashi-tofu",
+    "description": {
+      "en": "Silken tofu cubes dusted in starch and fried, served in a warm dashi broth — crisp outside, silky inside.",
+      "fr": "Cubes de tofu soyeux panés à la fécule et frits, baignés dans un bouillon dashi tiède."
+    }
+  },
+  {
+    "id": "agneau-four-grec",
+    "description": {
+      "en": "Slow-roasted leg of lamb with potatoes, lemon and oregano — the Greek Sunday feast dish.",
+      "fr": "Gigot d'agneau rôti lentement avec pommes de terre, citron et origan — fondant et parfumé."
+    }
+  },
+  {
+    "id": "agneau-rogan-josh",
+    "description": {
+      "en": "Kashmiri lamb curry slow-cooked with yogurt, cardamom and paprika — richly spiced and tender.",
+      "fr": "Curry d'agneau du Cachemire mijoté au yaourt et aux épices — profond, parfumé et fondant."
+    }
+  },
+  {
+    "id": "agua-fresca-pasteque",
+    "description": {
+      "en": "Blended watermelon with lime and a touch of sugar — a light, refreshing Mexican cooler.",
+      "fr": "Pastèque mixée, eau fraîche et citron vert — une boisson mexicaine légère et désaltérante."
+    }
+  },
+  {
+    "id": "albondigas",
+    "description": {
+      "en": "Meatballs simmered in a white wine and paprika tomato sauce — a generous Spanish tapa.",
+      "fr": "Boulettes de viande mijotées dans une sauce tomate au vin blanc et au paprika — à saucer avec du pain."
+    }
+  },
+  {
+    "id": "aloo-gobi",
+    "description": {
+      "en": "Potatoes and cauliflower sautéed with turmeric and Indian spices — a dry, plant-based curry.",
+      "fr": "Pommes de terre et chou-fleur revenus au curcuma et aux épices indiennes — un curry sec végétalien."
+    }
+  },
+  {
+    "id": "arancini",
+    "description": {
+      "en": "Breaded and fried risotto balls with a molten mozzarella centre — Sicilian street food at its best.",
+      "fr": "Boules de risotto panées et frites, fondantes au cœur de mozzarella — la street food sicilienne."
+    }
+  },
+  {
+    "id": "arroz-negro",
+    "description": {
+      "en": "Rice cooked in squid ink with seafood and saffron — a deeply flavoured black paella.",
+      "fr": "Riz teinté à l'encre de seiche, cuit avec seiche, crevettes et safran — intense et iodé."
+    }
+  },
+  {
+    "id": "aubergines-parmesan",
+    "description": {
+      "en": "Layered aubergine bake with tomato sauce, mozzarella and parmesan — a hearty Italian vegetarian classic.",
+      "fr": "Gratin d'aubergines à la sauce tomate, mozzarella et parmesan — végétarien et généreux."
+    }
+  },
+  {
+    "id": "aubergines-sichuan",
+    "description": {
+      "en": "Tender aubergines braised in a sweet-spicy garlic sauce — vegan, bold and richly flavoured.",
+      "fr": "Aubergines fondantes dans une sauce aigre-douce pimentée à l'ail — végétaliennes et intenses."
+    }
+  },
+  {
+    "id": "bacalao-tomate",
+    "description": {
+      "en": "Cod fillets simmered in a pepper and paprika tomato sauce — a simple, wholesome Spanish dish.",
+      "fr": "Dos de cabillaud mijoté dans une sauce tomate au poivron et au paprika — simple et savoureux."
+    }
+  },
+  {
+    "id": "baklava",
+    "description": {
+      "en": "Crisp filo pastry layered with nuts and soaked in a honey and cinnamon syrup — rich and golden.",
+      "fr": "Couches de pâte filo croustillante aux noix, imbibées de sirop au miel et à la cannelle."
+    }
+  },
+  {
+    "id": "banana-bread",
+    "description": {
+      "de": "Ein saftiger Bananenkuchen, ideal zum Verwerten überreifer Bananen — Anti-Verschwendung und köstlich.",
+      "en": "A moist loaf made from overripe bananas — a great way to use up fruit and feed a crowd.",
+      "es": "Un bizcocho jugoso de plátano, ideal para aprovechar los plátanos muy maduros — antidesperdicio y delicioso.",
+      "fr": "Un cake moelleux aux bananes trop mûres — anti-gaspi, généreux et facile à faire.",
+      "ja": "熟しすぎたバナナの活用に最適な、しっとりバナナケーキ。食品ロス対策にも。"
+    }
+  },
+  {
+    "id": "banh-mi",
+    "description": {
+      "en": "Crusty baguette filled with pork, pickled carrots, cucumber and coriander — a Franco-Vietnamese classic.",
+      "fr": "Baguette croustillante garnie de porc, carottes marinées, concombre et coriandre — l'alliance franco-vietnamienne."
+    }
+  },
+  {
+    "id": "banh-xeo",
+    "description": {
+      "en": "Crispy coconut milk crêpe with turmeric, pork, shrimp and bean sprouts — eaten wrapped in lettuce.",
+      "fr": "Crêpe croustillante au lait de coco et curcuma, garnie de porc, crevettes et germes de soja."
+    }
+  },
+  {
+    "id": "batata-harra",
+    "description": {
+      "en": "Crispy potato cubes tossed with garlic, chilli and fresh coriander — a punchy Lebanese mezze.",
+      "fr": "Dés de pommes de terre croustillants sautés à l'ail, au piment et à la coriandre fraîche."
+    }
+  },
+  {
+    "id": "bbq-ribs",
+    "description": {
+      "en": "Slow-cooked pork ribs glazed with barbecue sauce — tender, sticky and made for sharing.",
+      "fr": "Travers de porc cuits lentement puis laqués de sauce barbecue — fondants, caramélisés, à partager."
+    }
+  },
+  {
+    "id": "beignets-banane-sesame",
+    "description": {
+      "en": "Fried banana fritters rolled in sesame and drizzled with honey — crisp outside, soft inside.",
+      "fr": "Morceaux de banane en beignet frits, roulés dans le sésame et nappés de miel — fondants et dorés."
+    }
+  },
+  {
+    "id": "bibimbap",
+    "description": {
+      "en": "Korean rice bowl with sautéed vegetables, marinated beef and egg — stir in the spicy sauce.",
+      "fr": "Riz coréen garni de légumes sautés, bœuf mariné et œuf à mélanger avec la sauce pimentée."
+    }
+  },
+  {
+    "id": "biryani-legumes",
+    "description": {
+      "en": "Fragrant basmati rice layered with spiced vegetables, fried onions and saffron — a festive vegetarian dish.",
+      "fr": "Riz basmati parfumé cuit en couches avec légumes, épices entières, oignons frits et safran."
+    }
+  },
+  {
+    "id": "blanquette-poulet",
+    "description": {
+      "de": "Eine schnelle Variante der Blanquette: Hähnchen in einer cremigen Champignon-Karotten-Sauce.",
+      "en": "Chicken simmered in a creamy mushroom and carrot sauce — a quicker take on the French blanquette.",
+      "es": "Una versión rápida de la blanqueta: pollo cocido en una salsa cremosa de champiñones y zanahorias.",
+      "fr": "Poulet mijoté dans une sauce crémeuse aux champignons et carottes — une blanquette express.",
+      "ja": "定番ブランケットの時短版：鶏肉をきのことにんじんのクリームソースで煮込む。"
+    }
+  },
+  {
+    "id": "blanquette-veau",
+    "description": {
+      "de": "Der große Klassiker der französischen Familienküche mit cremiger weißer Soße.",
+      "en": "Veal braised in broth and finished with a rich cream and egg yolk sauce — the French family classic.",
+      "es": "El gran clásico de la cocina familiar francesa con cremosa salsa blanca.",
+      "fr": "Veau mijoté puis nappé d'une sauce blanche crémeuse aux carottes et champignons — le classique familial.",
+      "ja": "フランス家庭料理の偉大な定番、クリーミーなホワイトソース添え。"
+    }
+  },
+  {
+    "id": "blueberry-muffins",
+    "description": {
+      "en": "Fluffy muffins packed with juicy blueberries — golden-topped and perfect at breakfast.",
+      "fr": "Muffins moelleux parsemés de myrtilles juteuses — dorés, bombés, parfaits au petit-déjeuner."
+    }
+  },
+  {
+    "id": "bo-bun",
+    "description": {
+      "en": "Rice vermicelli with lemongrass beef, raw vegetables, fresh herbs and peanuts in nuoc-mâm dressing.",
+      "fr": "Vermicelles de riz, bœuf sauté à la citronnelle, crudités, herbes et cacahuètes au nuoc-mâm."
+    }
+  },
+  {
+    "id": "boeuf-bourguignon",
+    "description": {
+      "de": "Das große Klassikgericht, langsam in Burgunder-Rotwein geschmort.",
+      "en": "Beef slow-braised in red Burgundy wine with lardons, carrots and mushrooms — the French braise.",
+      "es": "El gran clásico cocinado a fuego lento con vino tinto de Borgoña.",
+      "fr": "Bœuf braisé au vin rouge de Bourgogne avec lardons, carottes et champignons — le mijoté français.",
+      "ja": "ブルゴーニュの赤ワインでじっくり煮込んだ偉大な定番料理。"
+    }
+  },
+  {
+    "id": "boeuf-brocoli",
+    "description": {
+      "en": "Beef strips and broccoli stir-fried in a glossy oyster and soy sauce — a Chinese takeaway classic.",
+      "fr": "Lamelles de bœuf et brocoli sautés dans une sauce soja-huître brillante — un wok express."
+    }
+  },
+  {
+    "id": "boeuf-carottes",
+    "description": {
+      "de": "Ein traditioneller Schmortopf: zartes Rindfleisch und Karotten, langsam in einer mit Lorbeer aromatisierten Brühe gegart.",
+      "en": "Braised beef cheek with meltingly soft carrots in a herb-scented broth — a French comfort classic.",
+      "es": "Un guiso tradicional: ternera tierna y zanahorias cocidas a fuego lento en un caldo aromatizado con laurel.",
+      "fr": "Paleron de bœuf mijoté avec des carottes fondantes dans un bouillon au laurier.",
+      "ja": "やわらかい牛肉とにんじんを、ローリエ香るだしでじっくり煮込んだ伝統的な一品。"
+    }
+  },
+  {
+    "id": "boeuf-loc-lac",
+    "description": {
+      "en": "Caramelised soy-glazed beef cubes on salad leaves with a lime and black pepper dipping sauce.",
+      "fr": "Dés de bœuf caramélisés à la sauce soja, servis sur salade avec une sauce citron vert-poivre."
+    }
+  },
+  {
+    "id": "boeuf-saute-gingembre",
+    "description": {
+      "en": "Sliced beef stir-fried with fresh ginger, spring onion and soy sauce — a quick Vietnamese wok dish.",
+      "fr": "Bœuf émincé sauté au gingembre frais, oignon et sauce soja — un wok vietnamien rapide et parfumé."
+    }
+  },
+  {
+    "id": "boeuf-saute-haricots-verts",
+    "description": {
+      "en": "Sliced beef and crisp green beans stir-fried in a soy and oyster sauce — quick and well-balanced.",
+      "fr": "Bœuf émincé sauté avec haricots verts croquants dans une sauce soja et huître — express et équilibré."
+    }
+  },
+  {
+    "id": "boeuf-sichuan",
+    "description": {
+      "en": "Sliced beef stir-fried with peppers in a spiced soy sauce — bold, garlicky and quick to make.",
+      "fr": "Bœuf émincé sauté avec poivrons dans une sauce pimentée au soja — relevé et parfumé."
+    }
+  },
+  {
+    "id": "boeuf-stroganoff",
+    "description": {
+      "en": "Beef strips in a creamy mushroom and mustard sauce — a comforting Russian-inspired classic.",
+      "fr": "Lamelles de bœuf dans une sauce crémeuse aux champignons et à la moutarde — un classique réconfortant."
+    }
+  },
+  {
+    "id": "boulettes-sauce-tomate",
+    "description": {
+      "de": "Zarte Rinderhackbällchen in hausgemachter Tomatensauce geschmort — köstlich mit Pasta oder Reis.",
+      "en": "Tender beef meatballs simmered in a homemade tomato sauce — great with pasta or rice.",
+      "es": "Albóndigas de ternera jugosas cocidas en salsa de tomate casera — deliciosas con pasta o arroz.",
+      "fr": "Boulettes de bœuf moelleuses mijotées dans une sauce tomate à l'oignon et à l'origan.",
+      "ja": "やわらかい牛肉のミートボールを自家製トマトソースで煮込んだ、パスタやご飯に合う一品。"
+    }
+  },
+  {
+    "id": "boulettes-vegetariennes",
+    "description": {
+      "en": "Chickpea patties simmered in a cumin-spiced tomato sauce — a satisfying vegetarian alternative.",
+      "fr": "Boulettes de pois chiches mijotées dans une sauce tomate au cumin — une alternative végétarienne savoureuse."
+    }
+  },
+  {
+    "id": "bowl-saumon-avocat",
+    "description": {
+      "en": "Rice bowl topped with salmon, avocado, cucumber and edamame, drizzled with soy-sesame dressing.",
+      "fr": "Riz garni de saumon, avocat, concombre et edamame, arrosé de sauce soja-sésame."
+    }
+  },
+  {
+    "id": "brandade-morue",
+    "description": {
+      "en": "Creamy baked purée of salt cod, potato, garlic and olive oil — a Provençal classic from Nîmes.",
+      "fr": "Purée onctueuse de morue, pommes de terre, ail et huile d'olive, gratinée au four."
+    }
+  },
+  {
+    "id": "briam",
+    "description": {
+      "en": "Courgettes, aubergine, potatoes and tomatoes slow-roasted in olive oil and oregano — Greek and vegan.",
+      "fr": "Courgettes, aubergines, pommes de terre et tomates rôties lentement à l'huile d'olive et à l'origan."
+    }
+  },
+  {
+    "id": "brocoli-citron",
+    "description": {
+      "de": "Gedämpfter Brokkoli mit einem Spritzer Zitronensaft.",
+      "en": "Steamed broccoli dressed with garlic, lemon, olive oil and toasted slivered almonds.",
+      "es": "Brócoli al vapor aliñado con un chorrito de limón.",
+      "fr": "Brocoli vapeur assaisonné d'ail, citron, huile d'olive et amandes effilées.",
+      "ja": "レモンをひとしぼりした蒸しブロッコリー。"
+    }
+  },
+  {
+    "id": "brownie",
+    "description": {
+      "de": "Saftiger Schokoladen-Brownie, dicht und unwiderstehlich.",
+      "en": "Dense dark chocolate brownie with walnuts — fudgy in the centre with a crackly top.",
+      "es": "Brownie fundente de chocolate, denso e irresistible.",
+      "fr": "Brownie dense au chocolat noir et aux noix — fondant à cœur, craquant en surface.",
+      "ja": "とろけるチョコレートブラウニー、濃厚でやみつきに。"
+    }
+  },
+  {
+    "id": "bruschetta-champignons",
+    "description": {
+      "en": "Grilled bread topped with garlic and thyme mushrooms — a simple, earthy Italian starter.",
+      "fr": "Pain grillé garni de champignons poêlés à l'ail, au persil et au thym — rustique et parfumé."
+    }
+  },
+  {
+    "id": "bruschetta-tomate",
+    "description": {
+      "de": "Knuspriger Toast mit frischer Tomate und Basilikum.",
+      "en": "Garlic-rubbed toast topped with fresh tomatoes, basil, mozzarella and a splash of balsamic.",
+      "es": "Tostada crujiente con tomate fresco y albahaca.",
+      "fr": "Toast croustillant frotté à l'ail, garni de tomates fraîches, basilic, mozzarella et balsamique.",
+      "ja": "新鮮なトマトとバジルのカリカリトースト。"
+    }
+  },
+  {
+    "id": "buddha-bowl",
+    "description": {
+      "en": "Quinoa, roasted vegetables, chickpeas and avocado with a creamy tahini dressing — vegan and colourful.",
+      "fr": "Quinoa, légumes rôtis, pois chiches et avocat avec une sauce crémeuse au tahini — végétalien et coloré."
+    }
+  },
+  {
+    "id": "buffalo-wings",
+    "description": {
+      "en": "Crispy chicken wings tossed in a buttery hot sauce — the classic American game-day snack.",
+      "fr": "Ailes de poulet croustillantes enrobées d'une sauce piquante au beurre — l'apéritif américain."
+    }
+  },
+  {
+    "id": "bulgogi-boeuf",
+    "description": {
+      "en": "Thin beef slices marinated in pear, soy and sesame, seared at high heat — tender and caramelised.",
+      "fr": "Lamelles de bœuf marinées à la poire, sauce soja et sésame, saisies à feu vif — tendres et caramélisées."
+    }
+  },
+  {
+    "id": "burger-maison",
+    "description": {
+      "de": "Saftiges Patty, geschmolzener Käse, alle Toppings nach Wahl — besser als Fast Food.",
+      "en": "Juicy beef patty with melted cheese, bacon and all the trimmings in a soft bun.",
+      "es": "Hamburguesa jugosa, queso fundido, todos los ingredientes a elegir — mejor que el fast food.",
+      "fr": "Steak haché juteux, fromage fondu, bacon et condiments au choix dans un pain moelleux.",
+      "ja": "ジューシーなパティ、とろけるチーズ、好みのトッピング——ファストフードより美味しい。"
+    }
+  },
+  {
+    "id": "burrata-tomates",
+    "description": {
+      "en": "Creamy burrata on ripe tomatoes with fresh basil and olive oil — simple and beautiful.",
+      "fr": "Burrata crémeuse sur tomates mûres, basilic et huile d'olive — d'une simplicité lumineuse."
+    }
+  },
+  {
+    "id": "burrito-bowl",
+    "description": {
+      "en": "Rice, beans, chicken, corn and avocado in a bowl — all the flavours of a burrito, deconstructed.",
+      "fr": "Riz, haricots, poulet, maïs et avocat dans un bol — tous les plaisirs du burrito, sans la tortilla."
+    }
+  },
+  {
+    "id": "burritos-boeuf",
+    "description": {
+      "en": "Large flour tortillas filled with spiced beef, rice, beans and melted cheese — a full Mexican meal.",
+      "fr": "Tortillas farcies de bœuf épicé, riz, haricots et fromage — un repas mexicain complet et généreux."
+    }
+  },
+  {
+    "id": "burritos-haricots",
+    "description": {
+      "en": "Flour tortillas filled with red beans, rice and cheddar — a simple, filling vegetarian burrito.",
+      "fr": "Tortillas garnies de haricots rouges, riz et cheddar — un burrito végétarien simple et rassasiant."
+    }
+  },
+  {
+    "id": "butter-chicken",
+    "description": {
+      "en": "Marinated chicken simmered in a creamy, butter-enriched tomato sauce with mild spices.",
+      "fr": "Poulet mariné mijoté dans une sauce tomate crémeuse au beurre et aux épices douces."
+    }
+  },
+  {
+    "id": "ca-kho-to",
+    "description": {
+      "en": "Fish simmered in a salty-sweet nuoc-mâm caramel with pepper — deeply savoury and comforting.",
+      "fr": "Poisson mijoté dans un caramel salé au nuoc-mâm et au poivre — intense et réconfortant."
+    }
+  },
+  {
+    "id": "cabillaud-legumes",
+    "description": {
+      "de": "Gebratener Kabeljaurücken auf einem Bett aus Tomaten und Zucchini mit Thymian — leicht, mediterran und bunt.",
+      "en": "Cod fillet roasted on a bed of tomatoes, courgette and onion with thyme — light and Mediterranean.",
+      "es": "Lomo de bacalao asado sobre un lecho de tomate y calabacín con tomillo — ligero, mediterráneo y colorido.",
+      "fr": "Dos de cabillaud rôti sur un lit de tomates, courgettes et oignon au thym — léger et méditerranéen.",
+      "ja": "トマトとズッキーニの上でたらを焼いた、タイム香る軽やかで彩り豊かな地中海風。"
+    }
+  },
+  {
+    "id": "cafe-vietnamien",
+    "description": {
+      "en": "Strong coffee sweetened with condensed milk and poured over ice — bold, sweet and refreshing.",
+      "fr": "Café fort adouci de lait concentré sucré, servi sur glace — corsé, sucré et rafraîchissant."
+    }
+  },
+  {
+    "id": "cake-citron",
+    "description": {
+      "en": "Moist lemon cake with juice and zest, finished with a lemon glaze — bright and crowd-pleasing.",
+      "fr": "Cake moelleux et acidulé au jus et zeste de citron, nappé d'un glaçage — le goûter citronné."
+    }
+  },
+  {
+    "id": "cake-marbre",
+    "description": {
+      "de": "Ein saftiger Kuchen aus zwei Teigen, Vanille und Schokolade, schön marmoriert — ein Klassiker zur Kaffeezeit.",
+      "en": "Soft marble cake swirled with vanilla and chocolate batters — a timeless afternoon treat.",
+      "es": "Un bizcocho jugoso de dos masas, vainilla y chocolate, bonitamente marmolado — un clásico de la merienda.",
+      "fr": "Gâteau moelleux marbré de pâtes vanille et chocolat — un classique du goûter toujours réussi.",
+      "ja": "バニラとチョコの2つの生地を美しくマーブルにしたしっとりケーキ。おやつの定番。"
+    }
+  },
+  {
+    "id": "calamares-romana",
+    "description": {
+      "en": "Light-battered squid rings fried until golden — a classic Spanish tapa served with lemon.",
+      "fr": "Anneaux de calamar en pâte légère, frits et dorés — une tapa espagnole à déguster avec du citron."
+    }
+  },
+  {
+    "id": "canard-laque-maison",
+    "description": {
+      "en": "Duck breast lacquered with hoisin and honey, sliced thin with spring onion and cucumber.",
+      "fr": "Magret de canard laqué au hoisin et au miel, servi avec oignon vert et concombre — façon pékinois."
+    }
+  },
+  {
+    "id": "cannelloni-ricotta-epinards",
+    "description": {
+      "en": "Pasta tubes stuffed with ricotta and spinach, topped with tomato sauce and gratinated with parmesan.",
+      "fr": "Cannelloni farcis de ricotta et d'épinards, nappés de tomate et gratinés au parmesan."
+    }
+  },
+  {
+    "id": "cannoli",
+    "description": {
+      "en": "Crisp pastry shells filled with sweetened ricotta and chocolate chips — the Sicilian pastry classic.",
+      "fr": "Tubes de pâte croustillants garnis d'une crème de ricotta aux pépites de chocolat — la pâtisserie sicilienne."
+    }
+  },
+  {
+    "id": "caponata",
+    "description": {
+      "en": "Sweet-and-sour aubergines with celery, tomatoes, olives and capers — Sicilian and better the next day.",
+      "fr": "Aubergines, céleri et tomates en aigre-doux avec olives et câpres — meilleure le lendemain."
+    }
+  },
+  {
+    "id": "carbonara",
+    "description": {
+      "de": "Ein cremiges italienisches Klassikgericht ohne Sahne.",
+      "en": "Spaghetti coated in eggs and parmesan, crispy lardons, generous black pepper — no cream.",
+      "es": "Un clásico italiano cremoso sin nata.",
+      "fr": "Spaghetti nappés d'œufs et parmesan fondus, lardons dorés, poivre généreux — sans crème.",
+      "ja": "クリームなしでクリーミーなイタリアの定番料理。"
+    }
+  },
+  {
+    "id": "carnitas",
+    "description": {
+      "en": "Pork slow-cooked with citrus and spices, shredded then crisped up — perfect in tacos.",
+      "fr": "Porc mijoté aux agrumes et épices, effiloché puis doré — fondant dedans, croustillant dehors."
+    }
+  },
+  {
+    "id": "carottes-rapees",
+    "description": {
+      "en": "Freshly grated carrots in a lemon and parsley dressing — crisp, healthy and budget-friendly.",
+      "fr": "Carottes râpées fraîches en vinaigrette au citron et persil — croquant, sain et économique."
+    }
+  },
+  {
+    "id": "carottes-roties-miel",
+    "description": {
+      "en": "Oven-roasted carrots glazed with honey and thyme — caramelised, tender and naturally sweet.",
+      "fr": "Carottes rôties au four et glacées au miel et thym — caramélisées et tendres."
+    }
+  },
+  {
+    "id": "carottes-vichy",
+    "description": {
+      "de": "Zart-weiche Karotten in Butter-Zucker-Glasur.",
+      "en": "Carrots simmered until tender and glazed with butter and sugar — a simple French side.",
+      "es": "Zanahorias tiernas glaseadas con mantequilla y azúcar.",
+      "fr": "Carottes fondantes glacées au beurre et au sucre — le classique accompagnement français.",
+      "ja": "バターと砂糖でグラッセした柔らかにんじん。"
+    }
+  },
+  {
+    "id": "carrot-cake",
+    "description": {
+      "en": "Moist spiced carrot cake topped with a creamy cream cheese frosting.",
+      "fr": "Gâteau moelleux à la carotte et à la cannelle, recouvert d'un glaçage au fromage frais."
+    }
+  },
+  {
+    "id": "cassoulet",
+    "description": {
+      "en": "White beans slow-cooked with sausage, duck confit and bacon, baked until golden — a Southwest French staple.",
+      "fr": "Haricots blancs mijotés avec saucisse, confit de canard et lard, gratinés au four — plat du Sud-Ouest."
+    }
+  },
+  {
+    "id": "caviar-aubergine",
+    "description": {
+      "en": "Smoky roasted aubergine blended with tahini and lemon — a simple, flavourful vegan dip.",
+      "fr": "Purée fumée d'aubergines rôties au tahini et citron — un dip végétalien plein de saveur."
+    }
+  },
+  {
+    "id": "chahan-riz-saute",
+    "description": {
+      "en": "Japanese fried rice with egg, ham and spring onion — the perfect way to use up leftover rice.",
+      "fr": "Riz sauté japonais avec œuf, jambon et oignon vert — le plat anti-gaspi idéal pour un reste de riz."
+    }
+  },
+  {
+    "id": "champignons-persillade",
+    "description": {
+      "de": "Sautierte Pilze mit Persillade, üppig und aromatisch.",
+      "en": "Mushrooms sautéed in butter with garlic, flat-leaf parsley and a squeeze of lemon.",
+      "es": "Champiñones salteados a la persillade, generosos y aromáticos.",
+      "fr": "Champignons sautés au beurre avec ail, persil plat et un filet de citron — un classique à la poêle.",
+      "ja": "パーシラードで炒めたきのこ、豊かで香り高い一品。"
+    }
+  },
+  {
+    "id": "champignons-toast",
+    "description": {
+      "de": "Knoblauch-gebratene Pilze auf geröstetem Toast.",
+      "en": "Garlic mushrooms with a touch of cream served on toasted bread — warm, simple and satisfying.",
+      "es": "Champiñones salteados al ajo sobre tostada a la parrilla.",
+      "fr": "Champignons sautés à l'ail et à la crème fraîche sur toast grillé — simple, chaud et réconfortant.",
+      "ja": "にんにく風味のソテーキノコのグリルトースト。"
+    }
+  },
+  {
+    "id": "chawarma-poulet",
+    "description": {
+      "en": "Spiced marinated chicken served in flatbread with fresh vegetables and garlic sauce.",
+      "fr": "Poulet mariné aux épices levantines, doré et servi en pain pita avec crudités et sauce à l'ail."
+    }
+  },
+  {
+    "id": "che-banane-coco",
+    "description": {
+      "en": "Bananas simmered in coconut milk with tapioca pearls and peanuts — a warm, comforting Vietnamese dessert.",
+      "fr": "Bananes mijotées dans du lait de coco avec des perles de tapioca et des cacahuètes — un dessert vietnamien chaud et doux."
+    }
+  },
+  {
+    "id": "cheesecake",
+    "description": {
+      "de": "Ein cremiger Käsekuchen auf buttrigem Keksboden — reichhaltig und verführerisch, ideal zum Vorbereiten.",
+      "en": "Creamy baked cheesecake on a buttery biscuit base — best made a day ahead.",
+      "es": "Una tarta de queso cremosa sobre base de galleta y mantequilla — untuosa y golosa, para preparar con antelación.",
+      "fr": "Fromage frais crémeux sur base de biscuit beurré, cuit au four — à préparer la veille pour un résultat parfait.",
+      "ja": "バター香るビスケット土台のクリーミーなチーズケーキ。濃厚で、前日に作れる。"
+    }
+  },
+  {
+    "id": "chia-pudding",
+    "description": {
+      "de": "Ein Chia-Pudding mit Pflanzenmilch, am Vorabend zubereitet — ein gesundes Frühstück ohne Kochen.",
+      "en": "Chia seeds soaked overnight in plant-based milk with maple syrup, topped with berries.",
+      "es": "Un pudin de semillas de chía con bebida vegetal, para preparar la víspera — un desayuno sano y sin cocción.",
+      "fr": "Graines de chia gonflées dans du lait végétal et du sirop d'érable, garnies de fruits rouges — à préparer la veille.",
+      "ja": "植物性ミルクで作る前夜仕込みのチアシードプディング。加熱不要のヘルシー朝食。"
+    }
+  },
+  {
+    "id": "chich-taouk",
+    "description": {
+      "en": "Chicken skewers marinated in yogurt, garlic and lemon, then grilled until tender and golden.",
+      "fr": "Brochettes de poulet marinées au yaourt, à l'ail et au citron, grillées jusqu'à être tendres et dorées."
+    }
+  },
+  {
+    "id": "chili-con-carne",
+    "description": {
+      "de": "Ein herzhafter Eintopf aus Rinderhackfleisch, Kidneybohnen und Tomaten, würzig — wohltuend und günstig.",
+      "en": "Ground beef, red beans and tomatoes slow-cooked with cumin, paprika and chilli.",
+      "es": "Un guiso generoso de carne picada, alubias rojas y tomate, con especias — reconfortante y económico.",
+      "fr": "Bœuf haché, haricots rouges et tomates mijotés avec cumin, paprika et piment.",
+      "ja": "牛ひき肉、赤いんげん豆、トマトをスパイスで煮込んだ、ボリューム満点で経済的な一品。"
+    }
+  },
+  {
+    "id": "chili-patate-douce",
+    "description": {
+      "en": "Sweet potatoes, kidney beans and corn simmered with cumin and smoked paprika — a hearty vegan chili.",
+      "fr": "Patates douces, haricots rouges et maïs mijotés au cumin et au paprika fumé — un chili végétalien coloré et nourrissant."
+    }
+  },
+  {
+    "id": "chili-sin-carne",
+    "description": {
+      "en": "Kidney beans, corn and tomatoes spiced with cumin and smoked paprika — a budget-friendly vegan chili.",
+      "fr": "Haricots rouges, maïs et tomates épicées au cumin et au paprika fumé — une version végétalienne économique et savoureuse."
+    }
+  },
+  {
+    "id": "chirashi-saumon",
+    "description": {
+      "en": "Vinegared rice topped with fresh salmon, avocado and nori — far simpler to make than sushi.",
+      "fr": "Riz vinaigré surmonté de saumon cru, d'avocat et d'algues nori — bien plus simple à faire que des sushis."
+    }
+  },
+  {
+    "id": "chocolat-chaud",
+    "description": {
+      "en": "Dark chocolate melted into warm milk — richer and creamier than any packet mix.",
+      "fr": "Chocolat noir fondu dans du lait chaud, plus onctueux et plus riche qu'un sachet — réconfortant en quelques minutes."
+    }
+  },
+  {
+    "id": "chou-farci",
+    "description": {
+      "en": "Cabbage leaves stuffed with meat and rice, braised in a tomato broth — rustic and warming.",
+      "fr": "Feuilles de chou enroulées autour d'une farce viande-riz, mijotées dans un bouillon tomaté — rustique et réconfortant."
+    }
+  },
+  {
+    "id": "chou-fleur-roti-curcuma",
+    "description": {
+      "en": "Cauliflower florets roasted with turmeric and cumin until golden and slightly crisp.",
+      "fr": "Fleurettes de chou-fleur rôties au curcuma et au cumin, dorées et légèrement croustillantes."
+    }
+  },
+  {
+    "id": "chou-rouge-braise",
+    "description": {
+      "de": "Rotkohl mit Äpfeln und milden Gewürzen geschmort.",
+      "en": "Red cabbage slow-cooked with apples, cider vinegar and cinnamon — sweet, tangy and tender.",
+      "es": "Col roja estofada con manzanas y especias suaves.",
+      "fr": "Chou rouge mijoté aux pommes, au vinaigre de cidre et à la cannelle — doux, acidulé et fondant.",
+      "ja": "りんごとマイルドなスパイスで煮込んだ赤キャベツ。"
+    }
+  },
+  {
+    "id": "choucroute-garnie",
+    "description": {
+      "en": "Fermented cabbage braised in white wine with sausages, bacon and potatoes — a hearty Alsatian classic.",
+      "fr": "Chou fermenté mijoté au vin blanc avec saucisses, lard et pommes de terre — le grand plat alsacien des tablées d'hiver."
+    }
+  },
+  {
+    "id": "chow-mein-boeuf",
+    "description": {
+      "en": "Chinese noodles stir-fried with beef and vegetables in soy and oyster sauce — ready in under 20 minutes.",
+      "fr": "Nouilles chinoises sautées au bœuf et aux légumes dans une sauce soja et huître — prêt en moins de 20 minutes."
+    }
+  },
+  {
+    "id": "chow-mein-legumes",
+    "description": {
+      "en": "Noodles stir-fried with vegetables, garlic and ginger in a soy-sesame sauce — vegan and quick.",
+      "fr": "Nouilles sautées aux légumes, à l'ail et au gingembre dans une sauce soja parfumée au sésame — végétalien et rapide."
+    }
+  },
+  {
+    "id": "churros",
+    "description": {
+      "en": "Crisp ridged fritters rolled in cinnamon sugar, served with a warm chocolate dipping sauce.",
+      "fr": "Beignets cannelés croustillants, roulés dans le sucre à la cannelle et trempés dans une sauce au chocolat chaud."
+    }
+  },
+  {
+    "id": "cinnamon-rolls",
+    "description": {
+      "en": "Cinnamon-sugar rolled buns topped with a cream cheese glaze — soft, fluffy and warmly spiced.",
+      "fr": "Brioches roulées à la cannelle et à la cassonade, nappées d'un glaçage au fromage frais — moelleuses et parfumées."
+    }
+  },
+  {
+    "id": "clafoutis",
+    "description": {
+      "de": "Kirsch-Clafoutis, weich und nach Vanille duftend.",
+      "en": "A soft vanilla-scented batter baked with apricots — simple and ideal for summer fruit.",
+      "es": "Flan de cerezas, esponjoso y perfumado a vainilla.",
+      "fr": "Flan aux abricots moelleux et parfumé à la vanille — simple, rapide et idéal pour les fruits d'été.",
+      "ja": "バニラ香るしっとりチェリーフラン。"
+    }
+  },
+  {
+    "id": "club-sandwich",
+    "description": {
+      "en": "Three layers of chicken, bacon, tomato, lettuce and mayo on toasted bread — hearty and classic.",
+      "fr": "Trois étages de poulet, bacon, tomate, laitue et mayonnaise entre des tranches de pain grillé — copieux et classique."
+    }
+  },
+  {
+    "id": "cobb-salad",
+    "description": {
+      "en": "Lettuce topped with chicken, bacon, hard-boiled eggs, avocado and blue cheese arranged in rows.",
+      "fr": "Laitue garnie de poulet, bacon, œufs durs, avocat et fromage bleu disposés en rangées — complète et généreuse."
+    }
+  },
+  {
+    "id": "coleslaw",
+    "description": {
+      "de": "Cremiger Salat aus gehobeltem Weißkohl und Karotten.",
+      "en": "Shredded cabbage and grated carrots in a creamy mayo, cider vinegar and mustard dressing.",
+      "es": "Ensalada cremosa de col blanca y zanahoria rallada.",
+      "fr": "Chou blanc et carottes râpés liés à la mayonnaise, au vinaigre de cidre et à la moutarde — croquant et frais.",
+      "ja": "白キャベツとすりおろしにんじんのクリーミーサラダ。"
+    }
+  },
+  {
+    "id": "compote-poire-vanille",
+    "description": {
+      "en": "Pears simmered with vanilla and a hint of cinnamon — no added sugar, great on its own or with yogurt.",
+      "fr": "Poires fondantes cuites avec de la vanille et une pointe de cannelle — sans sucre ajouté, parfaite nature ou sur un yaourt."
+    }
+  },
+  {
+    "id": "compote-pommes",
+    "description": {
+      "de": "Selbst gemachtes Apfelkompott, sanft und aromatisch.",
+      "en": "Apples and pears cooked down with cinnamon — a simple, naturally sweet homemade compote.",
+      "es": "Compota de manzana casera, suave y perfumada.",
+      "fr": "Pommes et poires fondantes cuites à la cannelle — une compote maison douce et sans complications.",
+      "ja": "手作りアップルコンポート、やさしく香り豊か。"
+    }
+  },
+  {
+    "id": "cookies-avoine-raisins",
+    "description": {
+      "en": "Soft oat and raisin cookies spiced with cinnamon — comforting and a little lighter than the classic.",
+      "fr": "Cookies moelleux aux flocons d'avoine, raisins secs et cannelle — réconfortants et légèrement moins sucrés qu'un cookie classique."
+    }
+  },
+  {
+    "id": "cookies-chocolat",
+    "description": {
+      "de": "Weiche Cookies mit zartschmelzendem Kern und Schokostückchen — ein gelingsicherer US-Klassiker.",
+      "en": "Chewy cookies with a soft centre and plenty of chocolate chips.",
+      "es": "Galletas blandas con centro fundente y chips de chocolate — un clásico americano infalible.",
+      "fr": "Cookies moelleux au cœur fondant, généreux en pépites de chocolat.",
+      "ja": "中はとろり、チョコチップたっぷりのソフトクッキー。失敗しないアメリカの定番。"
+    }
+  },
+  {
+    "id": "coq-au-vin",
+    "description": {
+      "en": "Chicken braised in red wine with bacon, mushrooms and pearl onions — a deep, warming Burgundy classic.",
+      "fr": "Poulet mijoté dans du vin rouge avec lardons, champignons et petits oignons — un plat bourguignon profond et réconfortant."
+    }
+  },
+  {
+    "id": "cornbread",
+    "description": {
+      "en": "Soft, lightly sweet cornbread baked until golden — the classic American side for stews and chili.",
+      "fr": "Pain de maïs moelleux et légèrement sucré, doré au four — l'accompagnement américain parfait des plats mijotés."
+    }
+  },
+  {
+    "id": "cornes-gazelle",
+    "description": {
+      "en": "Moroccan crescent pastries filled with orange blossom almond paste — delicate and melt-in-the-mouth.",
+      "fr": "Pâtisseries marocaines en croissant garnies d'une pâte d'amande à la fleur d'oranger et à la cannelle — fines et fondantes."
+    }
+  },
+  {
+    "id": "couscous-merguez",
+    "description": {
+      "en": "Semolina served with a vegetable broth, chickpeas and grilled merguez sausages — a crowd-pleasing couscous.",
+      "fr": "Semoule servie avec un bouillon de légumes, pois chiches et merguez grillées — le couscous convivial des grandes tablées."
+    }
+  },
+  {
+    "id": "couscous-nature",
+    "description": {
+      "de": "Gedämpfter Weizengrieß, leicht und vielseitig.",
+      "en": "Semolina steamed in hot broth with butter, coriander and ras el-hanout — light and versatile.",
+      "es": "Sémola de trigo esponjada al vapor, ligera y versátil.",
+      "fr": "Semoule gonflée au bouillon chaud, agrémentée de beurre, coriandre et ras-el-hanout — légère et polyvalente.",
+      "ja": "蒸して仕上げる軽くて万能な小麦セモリナ。"
+    }
+  },
+  {
+    "id": "couscous-poulet",
+    "description": {
+      "de": "Ein aromatischer Hähnchen-Gemüse-Couscous mit Ras el Hanout — ein geselliges Gericht zum Teilen.",
+      "en": "Fluffy semolina with chicken, carrots, zucchini and chickpeas seasoned with ras-el-hanout — a fragrant, shareable dish.",
+      "es": "Un cuscús aromático de pollo y verduras con ras el hanout — un plato para compartir.",
+      "fr": "Semoule moelleuse avec poulet, carottes, courgettes et pois chiches au ras-el-hanout — un couscous parfumé à partager.",
+      "ja": "ラスエルハヌート香る鶏肉と野菜のクスクス。みんなで囲む一皿。"
+    }
+  },
+  {
+    "id": "crema-catalana",
+    "description": {
+      "en": "Milk custard scented with lemon and cinnamon, finished with a caramelized sugar crust — Catalonia's answer to crème brûlée.",
+      "fr": "Crème au lait parfumée au citron et à la cannelle, avec une croûte de sucre caramélisé — la cousine catalane de la crème brûlée."
+    }
+  },
+  {
+    "id": "creme-brulee",
+    "description": {
+      "de": "Eine seidige Vanillecreme unter einer dünnen Schicht knackigem Karamell — das Bistro-Dessert schlechthin.",
+      "en": "Smooth vanilla custard beneath a thin layer of crackly caramel — an elegant, timeless bistro dessert.",
+      "es": "Una crema de vainilla untuosa bajo una fina capa de caramelo crujiente — el postre de bistró por excelencia.",
+      "fr": "Crème vanillée onctueuse sous une fine croûte de caramel craquant — un dessert de bistrot élégant et intemporel.",
+      "ja": "パリッとしたカラメルの下になめらかなバニラカスタード。ビストロ定番のデザート。"
+    }
+  },
+  {
+    "id": "crepes",
+    "description": {
+      "de": "Dünn, goldgelb, nach Belieben gefüllt.",
+      "en": "Thin, golden vanilla crêpes — fill them however you like.",
+      "es": "Finas, doradas, para rellenar a gusto.",
+      "fr": "Fines crêpes dorées à la vanille, à garnir selon ses envies.",
+      "ja": "薄くてきつね色、お好みでトッピングを。"
+    }
+  },
+  {
+    "id": "crepes-suzette",
+    "description": {
+      "en": "Thin crepes in a butter, sugar and orange sauce, flambéed with Grand Marnier — fragrant and festive.",
+      "fr": "Crêpes fines nappées d'une sauce beurre-sucre-orange et flambées au Grand Marnier — parfumées et festives."
+    }
+  },
+  {
+    "id": "crevettes-ail-persil",
+    "description": {
+      "de": "Garnelen mit Knoblauch und Petersilie, in 10 Min. fertig.",
+      "en": "Shrimp sautéed with garlic, butter and parsley, finished with lemon — ready in 10 minutes.",
+      "es": "Gambas salteadas con ajo y perejil, listas en 10 min.",
+      "fr": "Crevettes sautées à l'ail, au beurre et au persil, déglacées au citron — prêtes en 10 minutes.",
+      "ja": "にんにくとパセリのエビソテー、10分で完成。"
+    }
+  },
+  {
+    "id": "crevettes-citronnelle",
+    "description": {
+      "en": "Shrimp stir-fried with garlic and ginger, glazed with fish sauce and finished with lime and coriander.",
+      "fr": "Crevettes sautées à l'ail, au gingembre et laquées de nuoc-mâm, finies au citron vert et à la coriandre."
+    }
+  },
+  {
+    "id": "crevettes-sel-poivre",
+    "description": {
+      "en": "Cornstarch-coated shrimp stir-fried with garlic, spring onion and a punchy salt-and-pepper mix.",
+      "fr": "Crevettes enrobées de fécule, sautées avec ail, oignon vert et un mélange sel-poivre relevé — croustillantes et savoureuses."
+    }
+  },
+  {
+    "id": "croque-madame",
+    "description": {
+      "de": "Der Croque Monsieur, gekrönt von einem Spiegelei: noch reichhaltiger und wohltuender.",
+      "en": "Ham and béchamel toasted sandwich topped with a fried egg — the richer cousin of the croque-monsieur.",
+      "es": "El croque-monsieur coronado con un huevo frito: aún más goloso y reconfortante.",
+      "fr": "Pain de mie, jambon, béchamel et gruyère gratiné, coiffé d'un œuf au plat — encore plus gourmand que le monsieur.",
+      "ja": "クロックムッシュに目玉焼きをのせた、より濃厚で satisfying な一品。"
+    }
+  },
+  {
+    "id": "croque-monsieur",
+    "description": {
+      "de": "Das klassische französische heiße Sandwich: Toastbrot, Schinken, Béchamel und überbackener Käse.",
+      "en": "Ham, béchamel and gruyère on toast, baked golden — the French hot sandwich.",
+      "es": "El clásico sándwich caliente francés: pan de molde, jamón, bechamel y queso gratinado.",
+      "fr": "Pain de mie, jambon, béchamel et gruyère gratinés au four — le sandwich chaud.",
+      "ja": "フランス定番のホットサンド：食パン、ハム、ベシャメル、グラタンチーズ。"
+    }
+  },
+  {
+    "id": "croquetas-jambon",
+    "description": {
+      "en": "Creamy béchamel and ham croquettes, breaded and fried until golden — the ultimate comfort tapa.",
+      "fr": "Croquettes crémeuses à la béchamel et au jambon, panées et frites jusqu'à être bien dorées — la tapa réconfortante."
+    }
+  },
+  {
+    "id": "croziflette",
+    "description": {
+      "en": "Buckwheat pasta gratin with melted reblochon, bacon and cream — a rich, warming Savoyard dish.",
+      "fr": "Gratin de crozets au reblochon fondu, lardons et crème — le plat savoyard qui réchauffe les soirées d'hiver."
+    }
+  },
+  {
+    "id": "crumble-fruits",
+    "description": {
+      "de": "Saisonales Obstkrümmel, knusprig und wärmend.",
+      "en": "Tender apples under a crisp topping of flour, butter, brown sugar and ground almonds — an easy weekday crumble.",
+      "es": "Crumble de frutas de temporada, crujiente y reconfortante.",
+      "fr": "Pommes fondantes sous une pâte croustillante de farine, beurre, cassonade et poudre d'amandes — le crumble facile de la semaine.",
+      "ja": "旬の果物のクランブル、カリカリで温かい気持ちになる一品。"
+    }
+  },
+  {
+    "id": "crumble-pommes-avoine",
+    "description": {
+      "en": "Soft apples under an oat, flour and brown sugar topping, spiced with cinnamon — cozy and simple.",
+      "fr": "Pommes fondantes sous une pâte croustillante de flocons d'avoine, farine et cassonade — réconfortant et parfumé à la cannelle."
+    }
+  },
+  {
+    "id": "curry-crevettes-coco",
+    "description": {
+      "en": "Shrimp simmered in a coconut milk, curry and tomato sauce — fragrant and quick over rice.",
+      "fr": "Crevettes mijotées dans une sauce lait de coco, curry et tomate, à servir sur du riz — parfumé et rapide."
+    }
+  },
+  {
+    "id": "curry-legumes",
+    "description": {
+      "de": "Zartes Gemüse in gewürzter Kokosmilch — vegetarisch und aromatisch.",
+      "en": "Tender vegetables simmered in a coconut milk sauce spiced with curry, turmeric and ginger — vegan and satisfying.",
+      "es": "Verduras tiernas en leche de coco especiada — vegetariano y aromático.",
+      "fr": "Légumes fondants mijotés dans un lait de coco épicé au curry, curcuma et gingembre — végétalien et nourrissant.",
+      "ja": "スパイシーなココナッツミルクでとろける野菜——ベジタリアンで香り豊か。"
+    }
+  },
+  {
+    "id": "curry-pois-chiches",
+    "description": {
+      "en": "Chickpeas simmered in a coconut milk and tomato sauce seasoned with curry — vegan, filling and budget-friendly.",
+      "fr": "Pois chiches mijotés dans une sauce lait de coco et tomates au curry — végétalien, nourrissant et économique."
+    }
+  },
+  {
+    "id": "curry-rouge-tofu-thai",
+    "description": {
+      "en": "Tofu and vegetables simmered in a red curry coconut milk sauce — mellow, spiced and fully vegan.",
+      "fr": "Tofu et légumes mijotés dans une sauce lait de coco à la pâte de curry rouge — doux, épicé et végétalien."
+    }
+  },
+  {
+    "id": "curry-vert-poulet-thai",
+    "description": {
+      "en": "Chicken and vegetables braised in green curry coconut milk, finished with lime and Thai basil.",
+      "fr": "Poulet et légumes mijotés dans un lait de coco à la pâte de curry vert, finis au citron vert et au basilic thaï."
+    }
+  },
+  {
+    "id": "dahl-epinards",
+    "description": {
+      "en": "Red lentils and spinach simmered with Indian spices and tomato — vegan, filling and great for using up greens.",
+      "fr": "Lentilles corail et épinards mijotés aux épices indiennes et à la tomate — végétalien, nourrissant et anti-gaspi."
+    }
+  },
+  {
+    "id": "dahl-lentilles-coco",
+    "description": {
+      "de": "Ein cremiges Dahl aus roten Linsen mit Gewürzen und Kokosmilch — vegan, nahrhaft und günstig.",
+      "en": "Red lentils simmered in coconut milk with turmeric and cumin — a creamy, vegan dahl that comes together fast.",
+      "es": "Un dahl cremoso de lentejas rojas con especias y leche de coco — vegano, nutritivo y económico.",
+      "fr": "Lentilles corail mijotées au lait de coco, curcuma et cumin — un dahl crémeux, végétalien et vite prêt.",
+      "ja": "赤レンズ豆をスパイスとココナッツミルクで煮込んだクリーミーなダル。ヴィーガンで栄養満点、経済的。"
+    }
+  },
+  {
+    "id": "dakos",
+    "description": {
+      "en": "Barley rusk with grated tomato, feta and oregano in olive oil.",
+      "fr": "Biscotte d'orge à la tomate râpée, feta et origan, arrosée d'huile d'olive."
+    }
+  },
+  {
+    "id": "dal-makhani",
+    "description": {
+      "en": "Lentils slow-cooked with butter, cream, ginger and garam masala — a rich, silky Punjabi dal.",
+      "fr": "Lentilles mijotées longuement au beurre, à la crème, au gingembre et au garam masala — un dal riche et velouté du Pendjab."
+    }
+  },
+  {
+    "id": "daube-provencale",
+    "description": {
+      "en": "Beef slow-braised in red wine with black olives, orange and Provençal herbs — better the next day.",
+      "fr": "Bœuf braisé longuement au vin rouge avec olives noires, orange et herbes de Provence — fondant et encore meilleur le lendemain."
+    }
+  },
+  {
+    "id": "dorayaki",
+    "description": {
+      "en": "Two soft honey pancakes sandwiched around sweet red bean paste — a beloved Japanese treat.",
+      "fr": "Deux petits pancakes moelleux au miel fourrés d'une pâte de haricots azuki sucrée — la pâtisserie japonaise adorée des enfants."
+    }
+  },
+  {
+    "id": "eclairs-chocolat",
+    "description": {
+      "en": "Choux pastry filled with chocolate custard cream and glazed with fondant — an elegant French classic.",
+      "fr": "Pâte à choux garnie de crème pâtissière au chocolat et nappée de fondant — une pâtisserie française élégante et gourmande."
+    }
+  },
+  {
+    "id": "edamame-sel",
+    "description": {
+      "en": "Steamed soy pods sprinkled with sea salt — the minimalist Japanese snack, eaten straight from the pod.",
+      "fr": "Cosses de soja vapeur saupoudrées de fleur de sel — l'amuse-bouche japonais minimaliste à grignoter directement."
+    }
+  },
+  {
+    "id": "enchiladas-poulet",
+    "description": {
+      "en": "Chicken-filled tortillas smothered in spiced tomato sauce and baked with melted cheese.",
+      "fr": "Tortillas roulées au poulet, nappées de sauce tomate épicée et de fromage gratiné — un plat mexicain généreux."
+    }
+  },
+  {
+    "id": "endives-braisees",
+    "description": {
+      "de": "Zart-weiche Chicoree in Butter karamellisiert.",
+      "en": "Endives braised in butter and sugar until tender, then baked with ham and melted gruyère.",
+      "es": "Endivias tiernas caramelizadas en mantequilla.",
+      "fr": "Endives fondantes caramélisées au beurre et au sucre, gratinées avec jambon et gruyère.",
+      "ja": "バターでキャラメル状にした柔らかアンディーブ。"
+    }
+  },
+  {
+    "id": "energy-balls",
+    "description": {
+      "de": "Energiekugeln ohne Backen mit Datteln, Haferflocken und Kakao — ein gesunder, leckerer Snack.",
+      "en": "No-bake bites made from dates, oats, almonds and cocoa, rolled in coconut — a quick, wholesome snack.",
+      "es": "Bocaditos energéticos sin horno de dátiles, avena y cacao — un tentempié sano y rico.",
+      "fr": "Bouchées sans cuisson aux dattes, flocons d'avoine, amandes et cacao, roulées dans la noix de coco — un en-cas sain et rapide.",
+      "ja": "デーツ・オートミール・カカオの焼かないエナジーボール。ヘルシーで美味しい間食。"
+    }
+  },
+  {
+    "id": "ensaladilla-rusa",
+    "description": {
+      "en": "Potatoes, tuna, peas and carrots bound in mayonnaise — the fresh, generous Spanish tapas salad.",
+      "fr": "Pommes de terre, thon, petits pois et carottes liés à la mayonnaise — la salade de tapas espagnole fraîche et généreuse."
+    }
+  },
+  {
+    "id": "epinards-ail",
+    "description": {
+      "de": "Zarter Spinat mit Knoblauch gebraten, einfach und gesund.",
+      "en": "Wilted spinach sautéed with garlic, a touch of cream and a hint of nutmeg — simple and quick.",
+      "es": "Espinacas tiernas salteadas con ajo, simples y sanas.",
+      "fr": "Épinards fondants sautés à l'ail avec une pointe de crème fraîche et de muscade — simple, sain et rapide.",
+      "ja": "にんにく風味の柔らかほうれん草ソテー、シンプルでヘルシー。"
+    }
+  },
+  {
+    "id": "epinards-sesame-coreens",
+    "description": {
+      "en": "Blanched spinach seasoned with garlic, soy sauce and sesame oil — a healthy, flavourful Korean side.",
+      "fr": "Épinards blanchis assaisonnés d'ail, de sauce soja et d'huile de sésame — un banchan coréen sain et savoureux."
+    }
+  },
+  {
+    "id": "escalivada",
+    "description": {
+      "en": "Peppers, aubergines and onions roasted and peeled, drizzled with olive oil — smoky, vegan, hot or cold.",
+      "fr": "Poivrons, aubergines et oignons rôtis au four, pelés et arrosés d'huile d'olive — fumé, végétalien et servi tiède ou froid."
+    }
+  },
+  {
+    "id": "escalope-milanaise",
+    "description": {
+      "en": "Breaded veal escalope fried in butter and served with a lemon wedge — crisp outside, tender within.",
+      "fr": "Escalope de veau panée, dorée au beurre et servie avec un quartier de citron — croustillante dehors, tendre dedans."
+    }
+  },
+  {
+    "id": "espinacas-garbanzos",
+    "description": {
+      "en": "Spinach and chickpeas cooked with garlic, cumin and paprika — a fragrant, vegan Andalusian tapa.",
+      "fr": "Épinards et pois chiches mijotés au cumin et au paprika avec de l'ail — une tapa andalouse végétalienne et parfumée."
+    }
+  },
+  {
+    "id": "esquites",
+    "description": {
+      "en": "Sautéed corn served with mayo, crumbled cheese, lime and chili — Mexico's addictive cup corn street food.",
+      "fr": "Maïs sauté servi avec mayonnaise, fromage émietté, citron vert et piment — la street food mexicaine en version cuillère."
+    }
+  },
+  {
+    "id": "fabada-asturiana",
+    "description": {
+      "en": "Large white beans slow-cooked with chorizo, bacon, garlic and paprika — a hearty winter stew from Asturias.",
+      "fr": "Gros haricots blancs mijotés longuement avec chorizo, lard, ail et paprika — le ragoût d'hiver réconfortant des Asturies."
+    }
+  },
+  {
+    "id": "fajitas-legumes",
+    "description": {
+      "en": "Spiced peppers and onions served sizzling with tortillas to fill yourself — colourful, vegan and fun.",
+      "fr": "Poivrons et oignons sautés aux épices, servis avec des tortillas à garnir — coloré, végétalien et convivial."
+    }
+  },
+  {
+    "id": "fajitas-poulet",
+    "description": {
+      "de": "Hähnchen und Paprika mit Gewürzen gebraten, selbst in Tortillas gefüllt — gesellig und festlich.",
+      "en": "Chicken and peppers stir-fried with paprika and cumin, served with tortillas to build your own.",
+      "es": "Pollo y pimientos salteados con especias, para rellenar tortillas — un plato divertido para compartir.",
+      "fr": "Poulet et poivrons sautés au paprika et au cumin, à garnir soi-même dans des tortillas — convivial et festif.",
+      "ja": "鶏肉とパプリカをスパイスで炒め、トルティーヤに各自で巻く、にぎやかで楽しい一皿。"
+    }
+  },
+  {
+    "id": "falafel",
+    "description": {
+      "en": "Herby chickpea fritters with cumin — crisp outside, soft within.",
+      "fr": "Boulettes de pois chiches aux herbes et cumin, croustillantes dehors, moelleuses dedans."
+    }
+  },
+  {
+    "id": "far-breton",
+    "description": {
+      "en": "A dense, soft Breton custard flan with raisins — rustic, foolproof and best eaten warm.",
+      "fr": "Flan breton dense et moelleux aux raisins secs — rustique, inratable et meilleur tiède."
+    }
+  },
+  {
+    "id": "fasolada",
+    "description": {
+      "en": "White beans slow-cooked with carrots, celery and tomato in olive oil — the Greek national soup, entirely plant-based.",
+      "fr": "Haricots blancs mijotés avec carottes, céleri et tomate dans l'huile d'olive — la soupe nationale grecque, végétalienne."
+    }
+  },
+  {
+    "id": "fattoush",
+    "description": {
+      "en": "Fresh vegetables and toasted pita tossed with sumac and lemon — a crunchy, tangy Lebanese salad.",
+      "fr": "Légumes frais et pain pita grillé émiettés, relevés de sumac et de citron — une salade libanaise croquante et acidulée."
+    }
+  },
+  {
+    "id": "fenouil-braise",
+    "description": {
+      "de": "Geschmorter, zart-weiches Fenchel mit Olivenöl.",
+      "en": "Fennel bulbs braised in olive oil and lemony broth, finished with grated parmesan.",
+      "es": "Hinojo tierno braseado con aceite de oliva.",
+      "fr": "Bulbes de fenouil braisés à l'huile d'olive dans un bouillon citronné, finis au parmesan râpé.",
+      "ja": "オリーブオイルで煮込んだ柔らかなフェンネル。"
+    }
+  },
+  {
+    "id": "feta-au-four-miel",
+    "description": {
+      "en": "Feta wrapped in filo dough, baked golden and drizzled with honey and sesame seeds — a sweet-salty Greek meze.",
+      "fr": "Bloc de feta enveloppé de pâte filo, doré au four et arrosé de miel et de graines de sésame — mezze grec sucré-salé."
+    }
+  },
+  {
+    "id": "fideua",
+    "description": {
+      "en": "Golden vermicelli cooked with seafood, prawns and saffron — Valencia's pasta take on paella.",
+      "fr": "Vermicelles dorés cuits avec fruits de mer, crevettes et safran — la version valencienne de la paella, en pâtes."
+    }
+  },
+  {
+    "id": "financiers",
+    "description": {
+      "en": "Tender little almond-flour cakes with browned butter — golden, moist, perfect alongside coffee.",
+      "fr": "Petits gâteaux moelleux à la poudre d'amande et au beurre noisette — fondants, dorés, parfaits avec le café."
+    }
+  },
+  {
+    "id": "flan-mexicain",
+    "description": {
+      "en": "A richer, creamier caramel flan than the French version, delicately flavoured with vanilla.",
+      "fr": "Flan au caramel plus dense que la version française, crémeux et parfumé à la vanille — un classique mexicain."
+    }
+  },
+  {
+    "id": "flan-patissier",
+    "description": {
+      "de": "Cremiger Vanille-Flan, das Bäckerei-Genussstück.",
+      "en": "A pastry shell filled with a vanilla-scented milk, egg and cornstarch custard, baked until set — the classic bakery flan.",
+      "es": "Flan pastelero cremoso, la golosina de la panadería.",
+      "fr": "Pâte garnie d'un appareil lait-œufs-maïzena à la vanille, cuit au four jusqu'à prise ferme — le flan de la boulangerie.",
+      "ja": "クリーミーなバニラフラン、パン屋さんの定番スイーツ。"
+    }
+  },
+  {
+    "id": "focaccia",
+    "description": {
+      "en": "A leavened Italian flatbread, generously oiled and topped with rosemary and flaky salt — soft, airy crumb.",
+      "fr": "Pain plat italien levé, généreusement huilé et parfumé au romarin et à la fleur de sel — moelleux et alvéolé."
+    }
+  },
+  {
+    "id": "fondant-chocolat",
+    "description": {
+      "de": "Schokoladenkuchen mit flüssigem Kern, der Sonntagsnachtisch.",
+      "en": "Dark chocolate and butter cake baked briefly — set outside, molten inside.",
+      "es": "Coulant de chocolate, el postre del domingo.",
+      "fr": "Gâteau au chocolat noir et beurre à la cuisson courte — extérieur pris, cœur coulant.",
+      "ja": "チョコレートのとろけるケーキ、日曜日のデザート。"
+    }
+  },
+  {
+    "id": "frijoles-refritos",
+    "description": {
+      "en": "Red beans mashed and pan-fried with onion, garlic and cumin — a simple, plant-based Mexican staple.",
+      "fr": "Haricots rouges écrasés et revenus à la poêle avec oignon, ail et cumin — l'accompagnement mexicain végétalien, simple."
+    }
+  },
+  {
+    "id": "frites-au-four",
+    "description": {
+      "de": "Goldene hausgemachte Pommes aus dem Ofen mit wenig Öl — außen knusprig, innen weich.",
+      "en": "Potato fries baked in the oven with a drizzle of oil — crispy outside, tender inside.",
+      "es": "Patatas fritas caseras doradas al horno con poco aceite — crujientes por fuera y tiernas por dentro.",
+      "fr": "Pommes de terre en frites cuites au four avec un filet d'huile — croustillantes dehors, fondantes dedans.",
+      "ja": "少ない油でオーブン焼きにする黄金色の自家製フライドポテト。外はカリッ、中はホクホク。"
+    }
+  },
+  {
+    "id": "frittata-legumes",
+    "description": {
+      "de": "Ein dickes italienisches Omelett mit Gemüse und Parmesan — warm oder kalt ein Genuss, Anti-Verschwendung.",
+      "en": "A thick Italian omelette loaded with vegetables and parmesan — good warm or cold, great for leftovers.",
+      "es": "Una tortilla italiana gruesa con verduras y parmesano — perfecta templada o fría, antidesperdicio.",
+      "fr": "Omelette italienne épaisse aux légumes, liée au parmesan — bonne tiède ou froide, anti-gaspi.",
+      "ja": "野菜とパルメザンを入れた厚焼きイタリアンオムレツ。温冷どちらも美味、食品ロス対策にも。"
+    }
+  },
+  {
+    "id": "galette-complete",
+    "description": {
+      "en": "A buckwheat galette filled with egg, ham and melted cheese — the classic savoury Breton crepe.",
+      "fr": "Galette de sarrasin garnie d'un œuf, de jambon et de fromage fondu — la classique salée bretonne, croustillante."
+    }
+  },
+  {
+    "id": "gambas-al-ajillo",
+    "description": {
+      "en": "Prawns sautéed in olive oil with garlic and chilli, finished with parsley — a Spanish tapa made for mopping with bread.",
+      "fr": "Crevettes sautées dans une huile d'olive parfumée à l'ail et au piment, finies au persil — tapa espagnole à saucer."
+    }
+  },
+  {
+    "id": "gaspacho",
+    "description": {
+      "de": "Kalte andalusische Suppe, frisch und vitaminreich.",
+      "en": "Ripe tomatoes blended with cucumber, pepper, garlic and stale bread, sharpened with vinegar — Andalusian cold soup.",
+      "es": "Sopa fría andaluza, fresca y vitaminada.",
+      "fr": "Tomates mûres mixées avec concombre, poivron, ail et pain rassis, relevées de vinaigre — soupe froide andalouse.",
+      "ja": "アンダルシアの冷たいスープ、爽やかでビタミン豊富。"
+    }
+  },
+  {
+    "id": "gateau-banane-chocolat",
+    "description": {
+      "en": "A moist cake of overripe bananas and chocolate chips — a smart use of fruit that's past its best.",
+      "fr": "Gâteau moelleux aux bananes trop mûres et pépites de chocolat — anti-gaspi et gourmand."
+    }
+  },
+  {
+    "id": "gateau-yaourt",
+    "description": {
+      "de": "Der Joghurtkuchen aus der Kindheit, weich und einfach.",
+      "en": "A yogurt-pot cake measured by the carton — soft, vanilla-scented and effortless to make.",
+      "es": "El bizcocho de yogur de la infancia, esponjoso y sencillo.",
+      "fr": "Gâteau mesuré au pot de yaourt — moelleux, vanillé, enfantin à préparer.",
+      "ja": "幼い頃のヨーグルトケーキ、しっとりシンプル。"
+    }
+  },
+  {
+    "id": "gaufres",
+    "description": {
+      "de": "Goldene Waffeln, außen knusprig und innen weich — am besten lauwarm mit Puderzucker.",
+      "en": "Waffles golden and crisp on the outside, soft inside — best enjoyed warm with icing sugar.",
+      "es": "Gofres dorados, crujientes por fuera y tiernos por dentro — para disfrutar templados con azúcar glas.",
+      "fr": "Gaufres dorées et croustillantes dehors, moelleuses dedans — à savourer tièdes avec du sucre glace.",
+      "ja": "外はカリッと中はふわっと、黄金色のワッフル。粉砂糖をかけて温かいうちに。"
+    }
+  },
+  {
+    "id": "gemista",
+    "description": {
+      "en": "Tomatoes and peppers stuffed with herbed rice and roasted — a Greek vegetarian dish, good warm or at room temperature.",
+      "fr": "Tomates et poivrons farcis de riz aux herbes et rôtis au four — plat grec végétarien, bon tiède ou froid."
+    }
+  },
+  {
+    "id": "germes-soja-sautes",
+    "description": {
+      "en": "Bean sprouts stir-fried with spring onion, soy sauce and sesame oil — crunchy and ready in minutes.",
+      "fr": "Germes de soja sautés à vif avec oignon vert, sauce soja et huile de sésame — croquants et prêts en minutes."
+    }
+  },
+  {
+    "id": "germes-soja-sesame-coreens",
+    "description": {
+      "en": "Blanched bean sprouts seasoned with garlic, spring onion and sesame — a fresh, budget Korean side dish.",
+      "fr": "Germes de soja blanchis assaisonnés d'ail, d'oignon vert et de sésame — banchan coréen frais et économique."
+    }
+  },
+  {
+    "id": "gigantes-plaki",
+    "description": {
+      "en": "Giant white beans simmered in a tomato-dill-olive oil sauce then oven-roasted — a hearty Greek vegan dish.",
+      "fr": "Gros haricots blancs mijotés dans une sauce tomate à l'aneth et à l'huile d'olive, puis rôtis au four — végétalien et fondant."
+    }
+  },
+  {
+    "id": "gnocchi-gorgonzola",
+    "description": {
+      "en": "Gnocchi coated in a creamy melted gorgonzola and walnut sauce — rich and indulgent.",
+      "fr": "Gnocchi enrobés d'une sauce crémeuse au gorgonzola fondu et aux noix — riche et fondant."
+    }
+  },
+  {
+    "id": "gnocchi-tomate",
+    "description": {
+      "en": "Soft gnocchi in a basil-tomato sauce finished with parmesan — quick and comforting.",
+      "fr": "Gnocchi moelleux nappés d'une sauce tomate au basilic et au parmesan — rapide et réconfortant."
+    }
+  },
+  {
+    "id": "gougeres",
+    "description": {
+      "en": "Light gruyère choux puffs baked golden — the classic Burgundy aperitif bite, best served warm.",
+      "fr": "Petits choux au gruyère soufflés et dorés au four — l'apéritif bourguignon, à déguster tièdes."
+    }
+  },
+  {
+    "id": "granola-maison",
+    "description": {
+      "de": "Knuspriges Honig-Nuss-Granola, selbst gemacht.",
+      "en": "Oats toasted with honey, oil and almonds, scented with cinnamon — crunchy homemade granola.",
+      "es": "Granola crujiente de miel y frutos secos, casera.",
+      "fr": "Flocons d'avoine dorés au four avec miel, huile et amandes, parfumés à la cannelle — granola croustillant maison.",
+      "ja": "蜂蜜とナッツのカリカリ手作りグラノーラ。"
+    }
+  },
+  {
+    "id": "gratin-butternut",
+    "description": {
+      "en": "Butternut squash slices baked in cream with garlic and grated cheese — mild, tender and autumnal.",
+      "fr": "Tranches de courge butternut gratinées à la crème, à l'ail et au fromage râpé — doux, fondant, automnal."
+    }
+  },
+  {
+    "id": "gratin-chou-fleur",
+    "description": {
+      "de": "Zarter Blumenkohl in Béchamel und mit Käse überbacken — eine wohltuende Winterbeilage.",
+      "en": "Cauliflower coated in nutmeg béchamel and gratin-ed with gruyère — straightforward winter comfort food.",
+      "es": "Coliflor tierna cubierta de bechamel y gratinada con queso — una guarnición reconfortante de invierno.",
+      "fr": "Chou-fleur nappé de béchamel à la muscade et gratiné au gruyère — réconfortant et simple.",
+      "ja": "やわらかいカリフラワーをベシャメルで包み、チーズで焼いた、冬にうれしい付け合わせ。"
+    }
+  },
+  {
+    "id": "gratin-courgettes",
+    "description": {
+      "de": "Zarte Zucchini, cremiger Eierguss, goldbrauner Gruyère — einfach und köstlich.",
+      "en": "Tender courgettes bound in a cream-egg custard and gratin-ed with gruyère and herbs de Provence.",
+      "es": "Calabacines tiernos, aparejo cremoso, gruyère dorado — sencillo y delicioso.",
+      "fr": "Courgettes fondantes liées à un appareil crème-œufs et gratinées au gruyère avec herbes de Provence.",
+      "ja": "とろけるズッキーニ、クリーミーなキッシュ液、黄金色のグリュイエール——シンプルで美味。"
+    }
+  },
+  {
+    "id": "gratin-dauphinois",
+    "description": {
+      "de": "Zart-schmelzend, überbacken und das ganze Jahr über unwiderstehlich.",
+      "en": "Thin potato slices melted in garlicky cream with nutmeg, topped with gruyère until golden.",
+      "es": "Fundente, gratinado, irresistible en todas las estaciones.",
+      "fr": "Pommes de terre en fines couches fondues dans la crème à l'ail et muscade, gratinées au gruyère.",
+      "ja": "とろける食感、こんがりグラタン、一年中やみつきになる一品。"
+    }
+  },
+  {
+    "id": "gratin-endives-jambon",
+    "description": {
+      "de": "Geschmorter Chicorée in Schinken gewickelt, mit Béchamel überbacken — ein Klassiker aus Nordfrankreich.",
+      "en": "Braised endives wrapped in ham, coated in béchamel and baked until golden — a classic from northern France.",
+      "es": "Endivias braseadas envueltas en jamón, cubiertas de bechamel y gratinadas — un clásico del norte de Francia.",
+      "fr": "Endives braisées roulées dans du jambon, nappées de béchamel et gratinées — grand classique du Nord.",
+      "ja": "蒸し煮アンディーブをハムで巻き、ベシャメルで焼いた、フランス北部の定番。"
+    }
+  },
+  {
+    "id": "gratin-macaroni",
+    "description": {
+      "en": "Macaroni in a nutmeg béchamel, gratin-ed with cheese until bubbling and golden.",
+      "fr": "Macaronis liés à une béchamel à la muscade et gratinés au fromage — le réconfort, doré et bouillonnant."
+    }
+  },
+  {
+    "id": "gratin-pates",
+    "description": {
+      "de": "Nudeln in Béchamel und mit Käse überbacken — ein wohltuendes, günstiges Familiengericht.",
+      "en": "Pasta baked in béchamel and cheese — a family-friendly, budget-friendly comfort dish.",
+      "es": "Pasta ligada con bechamel y gratinada con queso — un plato familiar reconfortante y económico.",
+      "fr": "Pâtes liées à une béchamel et gratinées au fromage — familial, économique, réconfortant.",
+      "ja": "パスタをベシャメルでまとめ、チーズで焼いた、家庭向きで経済的な一品。"
+    }
+  },
+  {
+    "id": "gratin-poireaux",
+    "description": {
+      "en": "Tender leeks in béchamel, baked with cheese — a mild, waste-reducing side dish.",
+      "fr": "Poireaux fondants nappés de béchamel et gratinés au fromage — accompagnement doux et anti-gaspi."
+    }
+  },
+  {
+    "id": "guacamole",
+    "description": {
+      "de": "Eine frische Avocadocreme mit Limette, Tomate und Koriander — der unverzichtbare mexikanische Dip.",
+      "en": "Mashed avocado with lime juice, tomato, red onion and coriander — a fresh Mexican dip ready in minutes.",
+      "es": "Un puré de aguacate fresco con lima, tomate y cilantro — la salsa mexicana imprescindible.",
+      "fr": "Avocats écrasés avec jus de citron vert, tomate, oignon rouge et coriandre — la trempette mexicaine fraîche et rapide.",
+      "ja": "ライム・トマト・パクチーのフレッシュなアボカドディップ。メキシコの定番。"
+    }
+  },
+  {
+    "id": "gumbo",
+    "description": {
+      "en": "A thick Louisiana stew built on a dark roux with chicken, smoked sausage and prawns, spiced with okra and paprika.",
+      "fr": "Ragoût épais de Louisiane au roux brun, poulet, saucisse fumée et crevettes, parfumé au gombo et au paprika."
+    }
+  },
+  {
+    "id": "gyeran-jjim",
+    "description": {
+      "en": "A lightly salted steamed egg custard, pillow-soft and topped with spring onion — a gentle Korean side dish.",
+      "fr": "Crème d'œufs salée cuite à la vapeur, ultra-soufflée et parsemée d'oignon vert — accompagnement coréen doux."
+    }
+  },
+  {
+    "id": "gyros-poulet",
+    "description": {
+      "en": "Oregano-and-paprika marinated chicken, grilled and served in pita with tomato, onion and tzatziki.",
+      "fr": "Poulet mariné à l'origan et au paprika, doré et servi dans un pita avec tomate, oignon et tzatziki."
+    }
+  },
+  {
+    "id": "gyudon",
+    "description": {
+      "en": "A rice bowl topped with thinly sliced beef and onion simmered in a sweet soy-mirin sauce — quick and filling.",
+      "fr": "Bol de riz garni de bœuf et d'oignon émincés mijotés dans une sauce soja-mirin sucrée — rapide et nourrissant."
+    }
+  },
+  {
+    "id": "hachis-parmentier",
+    "description": {
+      "de": "Goldbraune Kartoffelpüree über zartem Hackfleisch — absoluter Komfort.",
+      "en": "Minced beef with garlic and tomato paste, topped with buttery mash and gratin-ed with gruyère.",
+      "es": "Puré dorado sobre carne picada tierna — reconfort absoluto.",
+      "fr": "Viande hachée à l'ail et au concentré de tomate, recouverte d'une purée beurrée et gratinée au gruyère.",
+      "ja": "とろけるひき肉の上にきつね色のマッシュポテト——究極の癒し料理。"
+    }
+  },
+  {
+    "id": "haricots-verts-ail",
+    "description": {
+      "en": "Crisp green beans pan-fried with garlic and parsley — a simple, fresh-tasting side.",
+      "fr": "Haricots verts croquants poêlés à l'ail et au persil — accompagnement simple et plein de fraîcheur."
+    }
+  },
+  {
+    "id": "haricots-verts-amandes",
+    "description": {
+      "de": "Knackige grüne Bohnen mit Mandelblättchen gebraten.",
+      "en": "Green beans sautéed in butter with flaked almonds and a squeeze of lemon.",
+      "es": "Judías verdes crujientes salteadas con almendras laminadas.",
+      "fr": "Haricots verts sautés au beurre et aux amandes effilées, relevés d'une pointe de citron.",
+      "ja": "スライスアーモンドと一緒に炒めたさやいんげん。"
+    }
+  },
+  {
+    "id": "harira",
+    "description": {
+      "en": "Lentils, chickpeas and tomatoes simmered with spices and herbs, thickened with vermicelli — a hearty Moroccan soup.",
+      "fr": "Lentilles, pois chiches et tomates mijotés aux épices et herbes, liés de vermicelles — soupe marocaine nourrissante."
+    }
+  },
+  {
+    "id": "horchata",
+    "description": {
+      "en": "A creamy rice-and-milk drink scented with cinnamon and vanilla — cool, mild and refreshing.",
+      "fr": "Boisson crémeuse de riz et de lait parfumée à la cannelle et à la vanille — douce et rafraîchissante."
+    }
+  },
+  {
+    "id": "hot-dog-maison",
+    "description": {
+      "en": "A sausage in a soft bun with caramelised onions, mustard and ketchup — build-your-own American comfort food.",
+      "fr": "Saucisse dans un pain moelleux, garnie d'oignons dorés, de moutarde et de ketchup — le snack américain à composer."
+    }
+  },
+  {
+    "id": "houmous",
+    "description": {
+      "de": "Ein samtiges Kichererbsenpüree mit Tahini und Zitrone — zum Streichen oder Dippen, vegan und proteinreich.",
+      "en": "Silky chickpea purée with tahini, lemon and cumin — great to spread or dip.",
+      "es": "Un puré sedoso de garbanzos con tahini y limón — para untar o mojar, vegano y proteico.",
+      "fr": "Purée onctueuse de pois chiches au tahini, citron et cumin — à tartiner ou tremper.",
+      "ja": "ひよこ豆をタヒニとレモンでなめらかにしたペースト。塗っても付けても。ヴィーガンで高たんぱく。"
+    }
+  },
+  {
+    "id": "houmous-betterave",
+    "description": {
+      "en": "Chickpeas blended with cooked beetroot, tahini, lemon and garlic — a vivid pink hummus, creamy with an earthy edge.",
+      "fr": "Pois chiches mixés avec betterave cuite, tahini, citron et ail — un houmous rose vif, crémeux et légèrement terreux."
+    }
+  },
+  {
+    "id": "huevos-rancheros",
+    "description": {
+      "en": "Fried eggs on a crisp tortilla, topped with spiced tomato sauce and red beans — a Mexican breakfast classic.",
+      "fr": "Œufs au plat sur tortilla croustillante, nappés de sauce tomate épicée et de haricots rouges — petit-déjeuner mexicain."
+    }
+  },
+  {
+    "id": "iced-tea-citron",
+    "description": {
+      "en": "Brewed black tea chilled and lightly sweetened, with lemon and mint — the American summer drink.",
+      "fr": "Thé noir infusé et refroidi, légèrement sucré, parfumé au citron et à la menthe — la boisson d'été américaine."
+    }
+  },
+  {
+    "id": "ile-flottante",
+    "description": {
+      "en": "Poached meringue floating on vanilla custard, drizzled with caramel — a light and nostalgic French dessert.",
+      "fr": "Blancs en neige pochés flottant sur une crème anglaise à la vanille, nappés de caramel — dessert français aérien."
+    }
+  },
+  {
+    "id": "jambalaya",
+    "description": {
+      "en": "Spiced Louisiana rice cooked with chicken, chorizo, prawns, peppers and tomatoes — generous and boldly flavoured.",
+      "fr": "Riz épicé de Louisiane mijoté avec poulet, chorizo, crevettes, poivrons et tomates — généreux et relevé."
+    }
+  },
+  {
+    "id": "japchae",
+    "description": {
+      "en": "Sweet potato glass noodles stir-fried with crunchy vegetables and beef in a soy-sesame sauce — a Korean celebration dish.",
+      "fr": "Nouilles de patate douce sautées avec légumes croquants et bœuf dans une sauce soja-sésame — plat coréen de fête."
+    }
+  },
+  {
+    "id": "jeyuk-bokkeum",
+    "description": {
+      "en": "Sliced pork stir-fried in a sweet-spicy gochujang marinade with onion and garlic — bold and glossy over rice.",
+      "fr": "Porc émincé sauté dans une marinade gochujang sucrée-pimentée avec oignon et ail — intense, brillant, parfait sur riz."
+    }
+  },
+  {
+    "id": "karaage",
+    "description": {
+      "en": "Chicken pieces marinated in soy and ginger, coated in starch and fried until ultra-crispy — squeeze lemon to serve.",
+      "fr": "Cubes de poulet marinés au soja et au gingembre, enrobés de fécule et frits — ultra-croustillants, à presser de citron."
+    }
+  },
+  {
+    "id": "katsudon",
+    "description": {
+      "en": "A breaded pork cutlet simmered with egg and onion in soy sauce, served over a bowl of rice.",
+      "fr": "Escalope de porc panée mijotée avec œuf et oignon dans une sauce soja, posée sur un bol de riz."
+    }
+  },
+  {
+    "id": "keftedes",
+    "description": {
+      "en": "Minced meat patties flavoured with mint and oregano, pan-fried golden — a Greek meze, good dipped in tzatziki.",
+      "fr": "Boulettes de viande hachée parfumées à la menthe et à l'origan, dorées à la poêle — mezze grec, à tremper dans le tzatziki."
+    }
+  },
+  {
+    "id": "key-lime-pie",
+    "description": {
+      "en": "A creamy, sharp lime tart on a biscuit base, cool and silky — Florida's signature dessert.",
+      "fr": "Tarte crémeuse et acidulée au citron vert sur une base de biscuits, fraîche et fondante — dessert de Floride."
+    }
+  },
+  {
+    "id": "khao-pad",
+    "description": {
+      "en": "Thai fried rice with chicken, egg and vegetables, seasoned with fish sauce and lime — quick and fridge-friendly.",
+      "fr": "Riz sauté thaï au poulet, œuf et légumes, parfumé au nuoc-mâm et au citron vert — rapide et anti-gaspi."
+    }
+  },
+  {
+    "id": "kheer",
+    "description": {
+      "en": "Rice simmered in milk until creamy, scented with cardamom and topped with pistachios and almonds.",
+      "fr": "Riz mijoté dans le lait jusqu'à consistance crémeuse, parfumé à la cardamome et garni de pistaches et d'amandes."
+    }
+  },
+  {
+    "id": "kibbeh",
+    "description": {
+      "en": "Fried bulgur-and-spiced-minced-meat croquettes seasoned with baharat and cinnamon — a crispy Levantine speciality.",
+      "fr": "Croquettes de boulgour et viande hachée épicée aux épices baharat et cannelle, frites — spécialité levantine croustillante."
+    }
+  },
+  {
+    "id": "kimchi-fried-rice",
+    "description": {
+      "en": "Fried rice with tangy, spicy kimchi, topped with a fried egg — a punchy Korean way to use up leftover rice.",
+      "fr": "Riz sauté au kimchi acidulé et pimenté, couronné d'un œuf au plat — anti-gaspi coréen plein de caractère."
+    }
+  },
+  {
+    "id": "kimchi-jeon",
+    "description": {
+      "en": "A thick, crispy kimchi and spring onion pancake pan-fried until golden — a Korean starter made for sharing.",
+      "fr": "Crêpe épaisse et croustillante au kimchi et à l'oignon vert, dorée à la poêle — entrée coréenne à partager."
+    }
+  },
+  {
+    "id": "kimchi-jjigae",
+    "description": {
+      "en": "A bubbling Korean stew of kimchi, pork and tofu, spiked with gochujang — sour, warming and deeply satisfying.",
+      "fr": "Ragoût coréen mijoté de kimchi, porc et tofu, relevé de gochujang — bouillant, acidulé et réconfortant."
+    }
+  },
+  {
+    "id": "kolokithokeftedes",
+    "description": {
+      "en": "Courgette, feta and mint fritters fried until golden — a crispy Greek vegetarian meze, ideal with tzatziki.",
+      "fr": "Galettes de courgette, feta et menthe, dorées à la poêle — mezze grec végétarien croquant, à tremper dans le tzatziki."
+    }
+  },
+  {
+    "id": "korma-poulet",
+    "description": {
+      "en": "Chicken simmered in an almond, cardamom and cream sauce — a mild, velvety Indian curry.",
+      "fr": "Poulet mijoté dans une sauce aux amandes et à la cardamome, liée à la crème — curry indien doux et velouté."
+    }
+  },
+  {
+    "id": "labneh",
+    "description": {
+      "en": "Creamy, tangy Lebanese strained cheese drizzled with olive oil and za'atar — a no-cook meze to spread on bread.",
+      "fr": "Fromage frais libanais crémeux et acidulé, nappé d'huile d'olive et de za'atar — mezze sans cuisson à tartiner."
+    }
+  },
+  {
+    "id": "lapin-moutarde",
+    "description": {
+      "en": "Rabbit braised in a mustard, cream and white wine sauce with shallot and thyme — tender and full-flavoured.",
+      "fr": "Lapin mijoté dans une sauce à la moutarde, à la crème et au vin blanc avec échalote et thym — tendre et savoureux."
+    }
+  },
+  {
+    "id": "lasagnes-bolognaise",
+    "description": {
+      "de": "Ein großzügiges Nudelgericht mit Fleischsauce und Béchamel.",
+      "en": "Layers of minced beef in tomato sauce, nutmeg béchamel and pasta sheets, baked with cheese on top.",
+      "es": "Una lasaña generosa con capas de carne y bechamel.",
+      "fr": "Couches de bœuf haché en sauce tomate, béchamel à la muscade et pâtes, gratinées au fromage.",
+      "ja": "肉ソースとベシャメルが重なる贅沢なグラタン。"
+    }
+  },
+  {
+    "id": "lasagnes-legumes",
+    "description": {
+      "en": "Vegetarian lasagne layered with vegetables, tomato sauce and béchamel, baked with a cheesy top.",
+      "fr": "Lasagnes végétariennes en couches de légumes, sauce tomate et béchamel gratinée au fromage — généreuses et réconfortantes."
+    }
+  },
+  {
+    "id": "lassi-mangue",
+    "description": {
+      "en": "A smooth Indian drink of yogurt and mango scented with cardamom — cooling and refreshing alongside spicy food.",
+      "fr": "Boisson indienne onctueuse de yaourt et de mangue, parfumée à la cardamome — rafraîchissante, parfaite avec les plats épicés."
+    }
+  },
+  {
+    "id": "legumes-rotis-four",
+    "description": {
+      "en": "Mixed vegetables roasted with herbes de Provence and olive oil — crisp edges, tender inside.",
+      "fr": "Légumes variés rôtis aux herbes de Provence et à l'huile d'olive — dorés dehors, fondants dedans."
+    }
+  },
+  {
+    "id": "lentejas-chorizo",
+    "description": {
+      "en": "Lentils simmered with chorizo, carrots and paprika — a hearty Spanish stew.",
+      "fr": "Lentilles mijotées avec chorizo, carottes et paprika — un ragoût espagnol trapu et réconfortant."
+    }
+  },
+  {
+    "id": "lentilles-vinaigrette",
+    "description": {
+      "de": "Lauwarmer Linsensalat mit Senf-Vinaigrette.",
+      "en": "Warm Puy lentils with bacon and shallots, dressed in a mustardy vinaigrette.",
+      "es": "Ensalada tibia de lentejas con vinagreta de mostaza.",
+      "fr": "Lentilles vertes du Puy tièdes, lardons et échalotes, relevées d'une vinaigrette moutardée.",
+      "ja": "マスタードビネグレットのウォームレンズ豆サラダ。"
+    }
+  },
+  {
+    "id": "limonade-gingembre",
+    "description": {
+      "en": "Fresh lemon juice, ginger and mint — a bright, lightly spiced homemade lemonade.",
+      "fr": "Citron pressé, gingembre frais et menthe — une limonade maison vive et légèrement piquante."
+    }
+  },
+  {
+    "id": "limonade-maison",
+    "description": {
+      "en": "Freshly squeezed lemons, sugar and mint — a no-cook lemonade ready in five minutes.",
+      "fr": "Citrons pressés, sucre et menthe fraîche — une limonade sans cuisson prête en cinq minutes."
+    }
+  },
+  {
+    "id": "loukoumades",
+    "description": {
+      "en": "Small Greek fried dough balls dipped in honey and dusted with cinnamon and nuts.",
+      "fr": "Petits beignets grecs frits, trempés dans le miel et saupoudrés de cannelle et de noix."
+    }
+  },
+  {
+    "id": "mac-and-cheese",
+    "description": {
+      "en": "Macaroni in a creamy cheddar sauce, baked with a breadcrumb crust.",
+      "fr": "Macaronis nappés d'une sauce cheddar crémeuse et gratinés à la chapelure — le comfort food américain."
+    }
+  },
+  {
+    "id": "madeleines",
+    "description": {
+      "de": "Die kleinen weichen muschelförmigen Küchlein mit ihrem typischen Höcker — perfekt zum Nachmittagstee.",
+      "en": "Soft shell-shaped butter cakes with lemon zest and their signature dome.",
+      "es": "Los pastelitos esponjosos con forma de concha y su característico copete — perfectos para la merienda.",
+      "fr": "Petits gâteaux en coquillage moelleux au beurre et au zeste de citron, avec leur bosse caractéristique.",
+      "ja": "貝の形と特徴的な膨らみが愛らしい、ふんわり小さな焼き菓子。おやつにぴったり。"
+    }
+  },
+  {
+    "id": "magret-sauce-poivre",
+    "description": {
+      "en": "Duck breast with crispy skin, finished with a creamy green pepper and cognac sauce.",
+      "fr": "Magret de canard à la peau croustillante, nappé d'une sauce crémeuse au poivre vert et au cognac."
+    }
+  },
+  {
+    "id": "maki-saumon-avocat",
+    "description": {
+      "en": "Vinegared rice and nori rolls filled with salmon and avocado, sliced into pieces.",
+      "fr": "Rouleaux de riz vinaigré et nori garnis de saumon et d'avocat, tranchés en bouchées."
+    }
+  },
+  {
+    "id": "manakish-zaatar",
+    "description": {
+      "en": "Soft Levantine flatbread topped with za'atar and olive oil, baked until golden.",
+      "fr": "Galette levantine moelleuse nappée de za'atar et d'huile d'olive, dorée au four."
+    }
+  },
+  {
+    "id": "mapo-tofu",
+    "description": {
+      "en": "Silken tofu and minced pork in a spicy Sichuan sauce with garlic and ginger.",
+      "fr": "Tofu soyeux et porc haché dans une sauce sichuanaise pimentée à l'ail et au gingembre."
+    }
+  },
+  {
+    "id": "meatloaf",
+    "description": {
+      "en": "Baked ground meat loaf glazed with ketchup, seasoned with onion and garlic.",
+      "fr": "Pain de viande hachée au four, glacé d'une couche de ketchup sucré et parfumé à l'oignon et à l'ail."
+    }
+  },
+  {
+    "id": "milkshake-fraise",
+    "description": {
+      "en": "Fresh strawberries and vanilla ice cream blended with milk — a creamy fruit shake.",
+      "fr": "Fraises fraîches et glace vanille mixés avec du lait — un milkshake crémeux et fruité."
+    }
+  },
+  {
+    "id": "milkshake-vanille",
+    "description": {
+      "en": "Vanilla ice cream blended with milk until thick and frothy — simple and satisfying.",
+      "fr": "Glace vanille et lait mixés jusqu'à consistance épaisse et mousseuse — simple et gourmand."
+    }
+  },
+  {
+    "id": "minestrone",
+    "description": {
+      "en": "Hearty Italian soup with vegetables, beans and small pasta, fragrant with basil.",
+      "fr": "Soupe italienne généreuse de légumes, haricots et petites pâtes, parfumée au basilic."
+    }
+  },
+  {
+    "id": "moules-mariniere",
+    "description": {
+      "de": "Muscheln in Weißwein, einfach und schnell.",
+      "en": "Mussels steamed open in white wine with shallots, garlic and parsley.",
+      "es": "Mejillones al vino blanco, sencillos y rápidos.",
+      "fr": "Moules ouvertes au vin blanc avec échalotes, ail et persil — un classique rapide et savoureux.",
+      "ja": "白ワイン風味のムール貝、シンプルで手早く。"
+    }
+  },
+  {
+    "id": "moussaka",
+    "description": {
+      "en": "Layered bake of aubergine, minced meat in tomato sauce and golden béchamel with cinnamon.",
+      "fr": "Gratin d'aubergines, viande hachée à la tomate et béchamel dorée, parfumé à la cannelle."
+    }
+  },
+  {
+    "id": "mousse-chocolat",
+    "description": {
+      "de": "Leicht, luftig und intensiv schokoladig.",
+      "en": "Light and airy, deeply chocolatey thanks to dark chocolate and whipped eggs.",
+      "es": "Ligera, aérea e intensamente achocolatada.",
+      "fr": "Légère et aérienne, intensément chocolatée grâce au chocolat noir et aux œufs montés.",
+      "ja": "軽くてふわふわ、チョコレートの濃厚な風味。"
+    }
+  },
+  {
+    "id": "mousse-citron",
+    "description": {
+      "en": "Light, zesty lemon mousse lifted with whipped egg whites.",
+      "fr": "Mousse légère et acidulée au citron, aérienne grâce aux blancs montés en neige."
+    }
+  },
+  {
+    "id": "mousse-mangue",
+    "description": {
+      "en": "Blended mango folded with whipped cream and lime juice — a no-cook fruit mousse.",
+      "fr": "Mangues mixées avec crème fouettée et citron vert — une mousse fruitée sans cuisson."
+    }
+  },
+  {
+    "id": "moutabal",
+    "description": {
+      "en": "Grilled aubergine blended with tahini, garlic and lemon — a smoky, creamy mezze.",
+      "fr": "Aubergines grillées, tahini, ail et citron — un mezze libanais fumé et crémeux."
+    }
+  },
+  {
+    "id": "msemen",
+    "description": {
+      "en": "Flaky square Moroccan flatbread pan-fried and served with honey.",
+      "fr": "Crêpe marocaine feuilletée et carrée, dorée à la poêle, à déguster avec du miel."
+    }
+  },
+  {
+    "id": "muesli-maison",
+    "description": {
+      "en": "Oats, dried fruit, nuts and seeds combined — a customisable no-cook breakfast.",
+      "fr": "Flocons d'avoine, fruits secs, noix et graines mélangés — un petit-déjeuner personnalisable sans cuisson."
+    }
+  },
+  {
+    "id": "muffins-choco",
+    "description": {
+      "de": "Weiche Schoko-Muffins, perfekt für den Nachmittagssnack.",
+      "en": "Soft cocoa muffins studded with chocolate chips — a quick chocolatey snack.",
+      "es": "Magdalenas tiernas de chocolate, perfectas para la merienda.",
+      "fr": "Muffins moelleux au cacao et aux pépites de chocolat — un goûter chocolaté en une fournée.",
+      "ja": "しっとりチョコレートマフィン、おやつに最適。"
+    }
+  },
+  {
+    "id": "mug-cake-chocolat",
+    "description": {
+      "de": "Ein einzelner Schokokuchen in 2 Minuten in der Mikrowelle — der süße Heißhunger sofort gestillt.",
+      "en": "Flour, cocoa, sugar, milk and egg microwaved — a single-serving cake in two minutes.",
+      "es": "Un bizcocho de chocolate individual hecho en 2 minutos al microondas — el antojo dulce al instante.",
+      "fr": "Farine, cacao, sucre, lait et œuf cuits au micro-ondes — un gâteau individuel en deux minutes.",
+      "ja": "電子レンジで2分の一人分チョコケーキ。甘いものが欲しいときにすぐ。"
+    }
+  },
+  {
+    "id": "mujaddara",
+    "description": {
+      "en": "Green lentils and rice simmered together, topped with cumin-spiced caramelised onions.",
+      "fr": "Lentilles vertes et riz mijotés, coiffés d'oignons caramélisés au cumin — végétalien et nourrissant."
+    }
+  },
+  {
+    "id": "naan",
+    "description": {
+      "en": "Soft Indian flatbread cooked in a pan and brushed with garlic butter.",
+      "fr": "Pain indien moelleux à la poêle, badigeonné de beurre à l'ail — idéal pour saucer les currys."
+    }
+  },
+  {
+    "id": "nachos-gratines",
+    "description": {
+      "en": "Tortilla chips topped with melted cheddar, red beans and jalapeños, oven-grilled.",
+      "fr": "Chips de tortilla recouvertes de cheddar fondu, haricots rouges et jalapeños, gratinées au four."
+    }
+  },
+  {
+    "id": "navarin-agneau",
+    "description": {
+      "en": "Lamb shoulder braised with carrots, turnips and peas — a tender, fragrant springtime stew.",
+      "fr": "Épaule d'agneau mijotée avec carottes, navets et petits pois — un ragoût printanier fondant et parfumé."
+    }
+  },
+  {
+    "id": "nems",
+    "description": {
+      "en": "Rice paper rolls filled with minced pork, vermicelli and vegetables, deep-fried until crisp.",
+      "fr": "Galettes de riz farcies de porc haché, vermicelles et légumes, frites jusqu'à être croustillantes."
+    }
+  },
+  {
+    "id": "nikujaga",
+    "description": {
+      "en": "Sliced beef, potatoes and carrots simmered in a lightly sweet soy and mirin broth.",
+      "fr": "Bœuf émincé, pommes de terre et carottes mijotés dans un bouillon soja-mirin légèrement sucré."
+    }
+  },
+  {
+    "id": "nouilles-dan-dan",
+    "description": {
+      "en": "Noodles in a sesame-soy sauce with minced pork and chilli — rich and spicy, mix before eating.",
+      "fr": "Nouilles dans une sauce sésame-soja au porc haché et au piment — intense et crémeux à mélanger."
+    }
+  },
+  {
+    "id": "nouilles-sautees-legumes",
+    "description": {
+      "en": "Noodles stir-fried with peppers, carrots, bean sprouts, soy sauce and sesame oil.",
+      "fr": "Nouilles sautées au wok avec poivron, carottes, germes de soja, sauce soja et huile de sésame."
+    }
+  },
+  {
+    "id": "nouilles-sautees-vietnamiennes",
+    "description": {
+      "en": "Rice noodles stir-fried with chicken, vegetables and fish sauce, scattered with peanuts and lime.",
+      "fr": "Nouilles de riz sautées au poulet, légumes et nuoc-mâm, parsemées de cacahuètes et de citron vert."
+    }
+  },
+  {
+    "id": "oeufs-brouilles",
+    "description": {
+      "de": "Die französische Methode für Rührei: langsam, seidig und cremig. Das Geheimnis liegt im sehr niedrigen Feuer und ständigem Rühren.",
+      "en": "French-style scrambled eggs: slow-cooked with butter and cream, silky and tender.",
+      "es": "La técnica francesa para los huevos revueltos: lenta, sedosa y cremosa. El secreto es el fuego muy bajo y el movimiento constante.",
+      "fr": "Œufs brouillés à la française : cuisson lente au beurre et à la crème, soyeux et fondants.",
+      "ja": "フランス式スクランブルエッグ：低温でゆっくり、絹のようにとろりと仕上げる。秘訣はとても弱火と絶え間ない混ぜ続けること。"
+    }
+  },
+  {
+    "id": "oeufs-cocotte",
+    "description": {
+      "de": "Weiche Eier im Förmchen, in 12 Minuten fertig.",
+      "en": "Eggs baked in ramekins with cream, bacon and grated cheese — silky, done in twelve minutes.",
+      "es": "Huevos blandos en ramequín, listos en 12 minutos.",
+      "fr": "Œufs cuits en ramequin avec crème, lardons et fromage râpé — fondants, prêts en douze minutes.",
+      "ja": "ラムカンで焼く柔らかな卵、12分で完成。"
+    }
+  },
+  {
+    "id": "oeufs-meurette",
+    "description": {
+      "en": "Poached eggs on garlic toast, coated in a red wine sauce with bacon and mushrooms.",
+      "fr": "Œufs pochés sur pain à l'ail, nappés d'une sauce au vin rouge avec lardons et champignons."
+    }
+  },
+  {
+    "id": "oeufs-mimosa",
+    "description": {
+      "de": "Ein Aperitif-Klassiker, cremig und aromatisch.",
+      "en": "Hard-boiled eggs filled with a mayo and mustard mixture, dusted with paprika and chives.",
+      "es": "Un clásico de los aperitivos, cremoso y sabroso.",
+      "fr": "Œufs durs garnis d'une farce à la mayo et à la moutarde, saupoudrés de paprika et de ciboulette.",
+      "ja": "アペリティフの定番、クリーミーで風味豊か。"
+    }
+  },
+  {
+    "id": "okonomiyaki",
+    "description": {
+      "en": "Thick Japanese cabbage and egg pancake topped with pork, okonomiyaki sauce and mayo.",
+      "fr": "Galette japonaise épaisse de chou et d'œuf, garnie de porc et nappée de sauce et de mayo."
+    }
+  },
+  {
+    "id": "omelette-fromage",
+    "description": {
+      "de": "Schnell, sättigend und immer gelungen.",
+      "en": "Eggs cooked in butter with melted grated cheese — quick, simple and reliably good.",
+      "es": "Rápida, nutritiva y siempre lograda.",
+      "fr": "Œufs battus cuits au beurre avec du fromage râpé fondu — rapide, simple et toujours réussie.",
+      "ja": "手早く作れて食べ応えがあり、いつでも美味しい。"
+    }
+  },
+  {
+    "id": "omelette-legumes",
+    "description": {
+      "en": "Soft omelette filled with sautéed vegetables, onion and parsley — a quick, waste-reducing meal.",
+      "fr": "Omelette moelleuse garnie de légumes sautés, oignon et persil — un repas express anti-gaspi."
+    }
+  },
+  {
+    "id": "onigiri",
+    "description": {
+      "en": "Hand-shaped Japanese rice balls filled in the centre and wrapped in a strip of nori.",
+      "fr": "Boules de riz japonais façonnées à la main, garnies au cœur et enveloppées de nori."
+    }
+  },
+  {
+    "id": "onion-rings",
+    "description": {
+      "en": "Onion rings coated in a paprika breadcrumb batter and deep-fried until golden.",
+      "fr": "Rondelles d'oignon enrobées de pâte à la chapelure et au paprika, frites jusqu'à être dorées."
+    }
+  },
+  {
+    "id": "osso-buco",
+    "description": {
+      "en": "Veal shanks slowly braised in white wine and tomatoes, finished with lemony gremolata.",
+      "fr": "Jarrets de veau mijotés longuement au vin blanc et aux tomates, garnis de gremolata citronnée."
+    }
+  },
+  {
+    "id": "overnight-oats",
+    "description": {
+      "en": "Oats, chia seeds and fruit soaked in milk overnight — ready to eat at breakfast.",
+      "fr": "Flocons d'avoine, graines de chia et fruits trempés dans du lait une nuit — prêts au réveil."
+    }
+  },
+  {
+    "id": "oyakodon",
+    "description": {
+      "en": "Chicken and beaten egg simmered in a soy-mirin broth, served over a bowl of rice.",
+      "fr": "Poulet et œuf battus mijotés dans un bouillon soja-mirin, servis sur un bol de riz."
+    }
+  },
+  {
+    "id": "pad-krapow-poulet",
+    "description": {
+      "en": "Minced chicken stir-fried over high heat with garlic, chilli and basil, on rice with a fried egg.",
+      "fr": "Poulet haché sauté à feu vif avec ail, piment et basilic, sur riz avec un œuf au plat."
+    }
+  },
+  {
+    "id": "pad-thai",
+    "description": {
+      "de": "Das quintessenzielle thailändische Streetfood: gebratene Nudeln, Hähnchen, Ei und Erdnüsse.",
+      "en": "Stir-fried rice noodles with chicken, egg, bean sprouts, peanuts and tamarind sauce.",
+      "es": "El plato callejero tailandés por excelencia: fideos salteados, pollo, huevo y cacahuetes.",
+      "fr": "Nouilles de riz sautées avec poulet, œuf, germes de soja, cacahuètes et sauce tamarin.",
+      "ja": "タイストリートフードの代名詞：炒め麺、チキン、卵、ピーナッツ。"
+    }
+  },
+  {
+    "id": "paella",
+    "description": {
+      "en": "Saffron rice cooked with seafood, prawns, chicken, chorizo and peppers.",
+      "fr": "Riz safrané cuit avec fruits de mer, crevettes, poulet, chorizo et poivrons."
+    }
+  },
+  {
+    "id": "pain-d-epices",
+    "description": {
+      "en": "Soft honey cake spiced with cinnamon and ginger — fragrant and warming.",
+      "fr": "Cake moelleux au miel, à la cannelle et au gingembre — parfumé et réconfortant en hiver."
+    }
+  },
+  {
+    "id": "pain-perdu",
+    "description": {
+      "de": "Altes Brot in Vanille-Eiermilch getränkt und goldbraun gebraten, köstlich zum Frühstück.",
+      "en": "Day-old bread soaked in vanilla egg and milk, pan-fried in butter — a great breakfast.",
+      "es": "Pan duro pasado por un aparejo de vainilla y dorado, delicioso en el desayuno.",
+      "fr": "Tranches de pain rassis imbibées d'œuf et de lait vanillé, dorées au beurre — parfait au petit-déjeuner.",
+      "ja": "卵液にひたしてこんがり焼いた古いパン、朝食に最高。"
+    }
+  },
+  {
+    "id": "pak-choi-ail",
+    "description": {
+      "en": "Pak choi stir-fried with garlic, soy sauce and sesame oil — crunchy and ready in five minutes.",
+      "fr": "Pak-choï sauté à l'ail, à la sauce soja et à l'huile de sésame — croquant et prêt en cinq minutes."
+    }
+  },
+  {
+    "id": "pakoras",
+    "description": {
+      "en": "Vegetable fritters in spiced chickpea batter with turmeric, cumin and coriander, fried crisp.",
+      "fr": "Beignets de légumes à la farine de pois chiche épicée au curcuma, cumin et coriandre, frits croustillants."
+    }
+  },
+  {
+    "id": "pan-con-tomate",
+    "description": {
+      "en": "Grilled bread rubbed with garlic and ripe tomato, drizzled with olive oil — the Catalan classic.",
+      "fr": "Pain grillé frotté à l'ail et à la tomate mûre, arrosé d'huile d'olive — la tartine catalane."
+    }
+  },
+  {
+    "id": "pancakes",
+    "description": {
+      "de": "Dicke, fluffige Pancakes zum Frühstück — köstlich mit Ahornsirup oder Marmelade.",
+      "en": "Thick, fluffy pancakes pan-fried until golden — great with maple syrup or jam.",
+      "es": "Tortitas gruesas y esponjosas para el desayuno — deliciosas con sirope de arce o mermelada.",
+      "fr": "Pancakes épais et moelleux, dorés à la poêle — délicieux avec du sirop d'érable ou de la confiture.",
+      "ja": "朝食にうれしい厚みのあるふわふわパンケーキ。メープルシロップやジャムで。"
+    }
+  },
+  {
+    "id": "pancakes-banane",
+    "description": {
+      "en": "Mashed banana folded into a light batter — naturally sweet, fluffy pancakes.",
+      "fr": "Bananes écrasées incorporées à une pâte légère — des pancakes moelleux et naturellement sucrés."
+    }
+  },
+  {
+    "id": "panna-cotta",
+    "description": {
+      "de": "Seidige italienische Creme, mit einem Fruchtcoulis genießen.",
+      "en": "Vanilla cream set with gelatine and served with a raspberry coulis — silky and light.",
+      "es": "Crema italiana sedosa, para degustar con un coulis de frutas.",
+      "fr": "Crème liquide vanillée, gélatinée et servie avec un coulis de framboises — soyeuse et légère.",
+      "ja": "なめらかなイタリアンクリーム、フルーツクーリスと一緒に。"
+    }
+  },
+  {
+    "id": "panzanella",
+    "description": {
+      "de": "Toskanischer Salat mit altem Brot, Tomaten und Basilikum.",
+      "en": "Ripe tomatoes, stale bread, cucumber and basil marinated in olive oil and vinegar.",
+      "es": "Ensalada toscana de pan duro, tomates y albahaca.",
+      "fr": "Tomates mûres, pain rassis, concombre et basilic marinés à l'huile d'olive et au vinaigre.",
+      "ja": "固くなったパン、トマト、バジルのトスカーナ風サラダ。"
+    }
+  },
+  {
+    "id": "pasta-puttanesca",
+    "description": {
+      "en": "Spaghetti in a bold tomato sauce with black olives, capers, anchovies, garlic and chilli.",
+      "fr": "Spaghetti dans une sauce tomate intense aux olives noires, câpres, anchois, ail et piment."
+    }
+  },
+  {
+    "id": "pastilla-poulet",
+    "description": {
+      "en": "Moroccan brick pastry pie filled with chicken, almonds and cinnamon, dusted with icing sugar.",
+      "fr": "Tourte marocaine de feuilles de brick farcies de poulet, amandes et cannelle, saupoudrée de sucre glace."
+    }
+  },
+  {
+    "id": "pastitsio",
+    "description": {
+      "en": "Long pasta, minced meat in tomato and a cheesy béchamel baked until golden — a Greek pasta bake.",
+      "fr": "Pâtes longues, viande hachée à la tomate et béchamel au fromage gratinée — un gratin grec épicé à la cannelle."
+    }
+  },
+  {
+    "id": "patatas-bravas",
+    "description": {
+      "en": "Crispy potato cubes coated in a spiced tomato sauce with smoked paprika and chilli.",
+      "fr": "Cubes de pommes de terre croustillants nappés d'une sauce tomate épicée au paprika et au piment."
+    }
+  },
+  {
+    "id": "patates-douces-roties",
+    "description": {
+      "de": "Gewürzte geröstete Süßkartoffeln, süß und weich.",
+      "en": "Sweet potatoes roasted with oil, cumin, paprika and garlic — sweet and tender inside.",
+      "es": "Boniatos asados con especias, dulces y tiernos.",
+      "fr": "Patates douces rôties avec huile, cumin, paprika et ail — sucrées et fondantes au cœur.",
+      "ja": "スパイスをまとった甘くて柔らかなさつまいものロースト。"
+    }
+  },
+  {
+    "id": "patates-grecques-citron",
+    "description": {
+      "en": "Potato wedges roasted with lemon, garlic and oregano — golden outside, tender inside.",
+      "fr": "Quartiers de pommes de terre rôtis au citron, à l'ail et à l'origan — dorés dehors, fondants dedans."
+    }
+  },
+  {
+    "id": "pates-courgettes-ricotta",
+    "description": {
+      "en": "Pasta with soft courgette, ricotta, lemon, basil and parmesan — light and fresh.",
+      "fr": "Pâtes avec courgettes fondantes, ricotta, citron, basilic et parmesan — léger et frais."
+    }
+  },
+  {
+    "id": "pates-jambon",
+    "description": {
+      "de": "Das schnelle Abendessen, das alle lieben.",
+      "en": "Pasta in cream sauce with ham and grated cheese — a quick, comforting weeknight dinner.",
+      "es": "La cena express que todo el mundo adora.",
+      "fr": "Pâtes à la crème, jambon et fromage râpé — le repas du soir rapide et réconfortant.",
+      "ja": "誰もが大好きな時短夕食。"
+    }
+  },
+  {
+    "id": "pates-pesto",
+    "description": {
+      "en": "Pasta tossed with basil-parmesan pesto and cherry tomatoes — on the table in fifteen minutes.",
+      "fr": "Pâtes nappées de pesto basilic-parmesan et tomates cerises — prêtes en quinze minutes."
+    }
+  },
+  {
+    "id": "pates-saumon",
+    "description": {
+      "en": "Tagliatelle in a creamy sauce with salmon, shallot and dill — elegant and ready in twenty minutes.",
+      "fr": "Tagliatelles dans une sauce crémeuse au saumon, échalote et aneth — élégant et prêt en vingt minutes."
+    }
+  },
+  {
+    "id": "pates-thon-tomate",
+    "description": {
+      "en": "Pasta in a tomato sauce with tuna, garlic, olives and chilli — a speedy store-cupboard dish.",
+      "fr": "Pâtes dans une sauce tomate au thon, ail, olives et piment — un plat de placard rapide."
+    }
+  },
+  {
+    "id": "pates-tomate",
+    "description": {
+      "de": "Einfach, schnell und immer lecker.",
+      "en": "Pasta in a garlic and dried herb tomato sauce — simple, fast and reliably tasty.",
+      "es": "Simple, rápida y siempre sabrosa.",
+      "fr": "Pâtes dans une sauce tomate à l'ail et aux herbes sèches — simple, rapide et toujours bon.",
+      "ja": "シンプルで手早く、いつでも美味しい。"
+    }
+  },
+  {
+    "id": "peanut-butter-cookies",
+    "description": {
+      "en": "Peanut butter, sugar and egg mixed, fork-pressed and baked — a three-ingredient cookie.",
+      "fr": "Beurre de cacahuète, sucre et œuf mélangés, marqués à la fourchette et cuits — un cookie en trois ingrédients."
+    }
+  },
+  {
+    "id": "penne-arrabiata",
+    "description": {
+      "en": "Penne in a garlic and chilli tomato sauce, finished with parsley — sharp and direct.",
+      "fr": "Penne dans une sauce tomate relevée à l'ail et au piment, finie au persil — vive et directe."
+    }
+  },
+  {
+    "id": "petits-pois-lardons",
+    "description": {
+      "en": "Peas braised with bacon, lettuce and small onions — a soft, springlike French side dish.",
+      "fr": "Petits pois mijotés avec lardons, laitue et petits oignons — un accompagnement printanier fondant."
+    }
+  },
+  {
+    "id": "philly-cheesesteak",
+    "description": {
+      "en": "Thin-sliced beef, soft peppers and onions, melted cheese in a long roll — Philadelphia's signature sandwich.",
+      "fr": "Fines lamelles de bœuf, oignons et poivrons fondants, fromage fondu dans un pain long — la spécialité de Philadelphie."
+    }
+  },
+  {
+    "id": "pho-boeuf",
+    "description": {
+      "en": "Vietnamese broth spiced with star anise and ginger, served with rice noodles, beef and fresh herbs.",
+      "fr": "Bouillon vietnamien parfumé à l'anis et au gingembre, garni de nouilles de riz, de bœuf et d'herbes fraîches."
+    }
+  },
+  {
+    "id": "pho-legumes",
+    "description": {
+      "en": "Vegan phở: star anise broth with rice noodles, tofu and fresh herbs — light and fragrant.",
+      "fr": "Version végétalienne du phở : bouillon à l'anis étoilé, nouilles de riz, tofu et herbes fraîches."
+    }
+  },
+  {
+    "id": "pico-de-gallo",
+    "description": {
+      "en": "Fresh-chopped tomato, red onion, coriander and lime — a crisp Mexican salsa ready in minutes.",
+      "fr": "Tomate, oignon rouge, coriandre et citron vert hachés minute — une salsa fraîche et croquante à la mexicaine."
+    }
+  },
+  {
+    "id": "pisto-manchego",
+    "description": {
+      "en": "Courgettes, peppers, tomatoes and onion slow-cooked in olive oil — the Spanish take on ratatouille.",
+      "fr": "Courgettes, poivrons, tomates et oignons fondus à l'huile d'olive — la version espagnole végétalienne de la ratatouille."
+    }
+  },
+  {
+    "id": "pizza-maison",
+    "description": {
+      "en": "Pizza dough topped with tomato sauce, mozzarella and oregano — homemade and better than delivery.",
+      "fr": "Pâte à pizza, sauce tomate, mozzarella et origan — simple, rapide et bien meilleure qu'en livraison."
+    }
+  },
+  {
+    "id": "poele-legumes",
+    "description": {
+      "de": "Bunt und vitaminreich, perfekt als Beilage.",
+      "en": "Courgette, pepper, mushrooms and onion sautéed with garlic and herbs — a quick, colourful side.",
+      "es": "Colorida y vitaminada, perfecta como acompañamiento.",
+      "fr": "Courgette, poivron, champignons et oignon sautés à l'ail et aux herbes — un accompagnement coloré et rapide.",
+      "ja": "彩りとビタミンたっぷり、付け合わせに最適。"
+    }
+  },
+  {
+    "id": "poelee-gnocchi-legumes",
+    "description": {
+      "en": "Pan-fried gnocchi with vegetables and parmesan — crispy, comforting and done in one pan.",
+      "fr": "Gnocchi dorés à la poêle avec légumes et parmesan — croustillants et réconfortants en un seul plat."
+    }
+  },
+  {
+    "id": "poireaux-vinaigrette",
+    "description": {
+      "de": "Lauwarmer Lauch mit einer Senf-Vinaigrette — eine schlichte, raffinierte Bistro-Vorspeise.",
+      "en": "Warm leeks dressed in mustard vinaigrette — a simple, refined French bistro starter.",
+      "es": "Puerros tibios con una vinagreta a la mostaza — un entrante de bistró sencillo y refinado.",
+      "fr": "Poireaux tièdes nappés d'une vinaigrette moutarde — une entrée de bistrot sobre et bien calibrée.",
+      "ja": "温かいポロねぎにマスタードのビネグレットをかけた、シンプルで上品なビストロ前菜。"
+    }
+  },
+  {
+    "id": "pois-chiches-epices",
+    "description": {
+      "de": "Gewürzte geröstete Kichererbsen, knusprig und aromatisch.",
+      "en": "Chickpeas roasted with cumin, paprika and garlic, finished with lemon juice — crispy and aromatic.",
+      "es": "Garbanzos especiados y asados, crujientes y aromáticos.",
+      "fr": "Pois chiches rôtis au cumin, paprika et ail, avec un filet de citron — croustillants et parfumés.",
+      "ja": "スパイスでローストしたひよこ豆、カリカリで香り豊か。"
+    }
+  },
+  {
+    "id": "poke-bowl",
+    "description": {
+      "de": "Eine frische hawaiianische Bowl: Reis, marinierter roher Lachs, Avocado und Gurke — gesund, bunt und sättigend.",
+      "en": "Rice topped with soy-marinated raw salmon, avocado, cucumber and edamame — a fresh Hawaiian bowl.",
+      "es": "Un bol hawaiano fresco: arroz, salmón crudo marinado, aguacate y pepino — sano, colorido y saciante.",
+      "fr": "Riz, saumon cru mariné à la sauce soja, avocat, concombre et edamame — le bol hawaïen frais et rassasiant.",
+      "ja": "ご飯・漬けサーモン・アボカド・きゅうりの爽やかなハワイ風ボウル。ヘルシーで彩り豊か、満足感も。"
+    }
+  },
+  {
+    "id": "polenta-champignons",
+    "description": {
+      "en": "Creamy parmesan polenta topped with garlic-sautéed mushrooms and parsley.",
+      "fr": "Polenta onctueuse au parmesan, couronnée de champignons poêlés à l'ail et au persil."
+    }
+  },
+  {
+    "id": "polenta-cremeuse",
+    "description": {
+      "en": "Smooth polenta enriched with butter and parmesan — a creamy side that pairs well with saucy mains.",
+      "fr": "Polenta fondante enrichie de beurre et de parmesan — un accompagnement onctueux, idéal avec un plat en sauce."
+    }
+  },
+  {
+    "id": "pollo-al-ajillo",
+    "description": {
+      "en": "Chicken pieces browned then braised with garlic, white wine and bay leaf — a rustic Spanish classic.",
+      "fr": "Morceaux de poulet dorés mijotés avec beaucoup d'ail, vin blanc et laurier — rustique et parfumé à l'espagnole."
+    }
+  },
+  {
+    "id": "pollo-chilindron",
+    "description": {
+      "en": "Chicken braised in a sauce of peppers, tomatoes and cured ham — a colourful dish from Aragon.",
+      "fr": "Poulet mijoté dans une sauce de poivrons, tomates et jambon sec — un plat aragonais coloré et savoureux."
+    }
+  },
+  {
+    "id": "pommes-terre-sautees",
+    "description": {
+      "de": "Goldbraune, knusprige Bratkartoffeln.",
+      "en": "Potatoes pan-fried until golden and crispy, with garlic, onion and parsley.",
+      "es": "Patatas doradas y crujientes a la sartén.",
+      "fr": "Pommes de terre dorées et croustillantes à la poêle, avec ail, oignon et persil.",
+      "ja": "こんがりカリカリのフライドポテト（フライパン）。"
+    }
+  },
+  {
+    "id": "porc-gingembre-shogayaki",
+    "description": {
+      "en": "Thin pork slices stir-fried in a soy, ginger and mirin sauce, served with raw cabbage.",
+      "fr": "Fines tranches de porc sautées dans une sauce soja-gingembre-mirin, servies avec du chou cru."
+    }
+  },
+  {
+    "id": "porridge-avoine",
+    "description": {
+      "de": "Cremiger Haferbrei, das wärmende Frühstück.",
+      "en": "Oats cooked in milk, topped with strawberries and almonds — a warm, creamy breakfast.",
+      "es": "Gachas de avena cremosas, el desayuno reconfortante.",
+      "fr": "Flocons d'avoine cuits dans le lait, nappés de fraises et d'amandes — un petit-déjeuner crémeux et réconfortant.",
+      "ja": "クリーミーなオートミール、温かい朝食。"
+    }
+  },
+  {
+    "id": "porridge-banane",
+    "description": {
+      "en": "Oats cooked in milk with banana and cinnamon — a warm, naturally sweet breakfast.",
+      "fr": "Flocons d'avoine cuits dans le lait avec banane et cannelle — un petit-déjeuner chaud, crémeux et doux."
+    }
+  },
+  {
+    "id": "pot-au-feu",
+    "description": {
+      "en": "Beef and vegetables slow-cooked in a fragrant broth — France's great, generous one-pot classic.",
+      "fr": "Bœuf et légumes mijotés longuement dans un bouillon parfumé — le grand classique français généreux et anti-gaspi."
+    }
+  },
+  {
+    "id": "potage-saint-germain",
+    "description": {
+      "de": "Traditioneller Erbseneintopf, cremig und mild.",
+      "en": "Classic French split pea soup, smooth and mild, finished with butter and a hint of mint.",
+      "es": "Potaje tradicional de guisantes partidos, suave y aterciopelado.",
+      "fr": "Potage traditionnel aux pois cassés, doux et onctueux, relevé d'une touche de beurre et de menthe.",
+      "ja": "伝統的な割り豌豆のポタージュ、なめらかで優しい味。"
+    }
+  },
+  {
+    "id": "poulet-aigre-doux",
+    "description": {
+      "en": "Crispy chicken pieces coated in a sweet-and-sour sauce with pineapple and pepper.",
+      "fr": "Morceaux de poulet croustillants enrobés d'une sauce aigre-douce à l'ananas et au poivron."
+    }
+  },
+  {
+    "id": "poulet-basquaise",
+    "description": {
+      "de": "In einer Piperade aus Paprika und Tomaten geschmortes Hähnchen, gewürzt mit Espelette-Pfeffer.",
+      "en": "Chicken braised in a piperade of peppers and tomatoes, spiced with Espelette pepper and Bayonne ham.",
+      "es": "Pollo estofado en una piperade de pimientos y tomates, aromatizado con pimiento de Espelette.",
+      "fr": "Poulet mijoté dans une piperade de poivrons et tomates, parfumé au piment d'Espelette et au jambon de Bayonne.",
+      "ja": "ピーマンとトマトのピペラードでじっくり煮込み、エスプレット唐辛子で香り付けしたチキン。"
+    }
+  },
+  {
+    "id": "poulet-bowl-gochujang",
+    "description": {
+      "en": "Rice topped with gochujang-glazed chicken, cucumber and carrot — a balanced Korean sweet-spicy bowl.",
+      "fr": "Riz garni de poulet laqué au gochujang, de concombre et de carotte — un bol coréen sucré-pimenté et équilibré."
+    }
+  },
+  {
+    "id": "poulet-cajou",
+    "description": {
+      "en": "Chicken and cashews stir-fried in a lightly sweet soy sauce with pepper and spring onions.",
+      "fr": "Poulet et noix de cajou sautés dans une sauce soja légèrement sucrée avec poivron et oignons verts."
+    }
+  },
+  {
+    "id": "poulet-caramel-vietnamien",
+    "description": {
+      "en": "Chicken simmered in a salted caramel with fish sauce and ginger — amber, sweet and deeply fragrant.",
+      "fr": "Poulet mijoté dans un caramel salé au nuoc-mâm et au gingembre — ambré, sucré et parfumé, servi sur riz."
+    }
+  },
+  {
+    "id": "poulet-citron",
+    "description": {
+      "en": "Chicken thighs roasted with lemon, garlic and thyme — light, fragrant and unfussy.",
+      "fr": "Cuisses de poulet dorées au citron, à l'ail et au thym — léger et parfumé, prêt sans matière grasse superflue."
+    }
+  },
+  {
+    "id": "poulet-coreen-frit",
+    "description": {
+      "en": "Extra-crispy fried chicken coated in a sweet, spicy gochujang sauce and sesame seeds.",
+      "fr": "Poulet ultra-croustillant enrobé d'une sauce gochujang sucrée et pimentée, parsemé de sésame."
+    }
+  },
+  {
+    "id": "poulet-curry-coco",
+    "description": {
+      "de": "Hähnchenstücke in einer cremigen Curry-Kokos-Sauce geschmort — ein aromatischer, schneller Klassiker.",
+      "en": "Chicken pieces simmered in a coconut milk and curry sauce with onion, garlic and ginger.",
+      "es": "Trozos de pollo cocidos en una salsa cremosa de curry y leche de coco — un clásico aromático y rápido.",
+      "fr": "Morceaux de poulet mijotés dans une sauce curry et lait de coco, avec oignon, ail et gingembre.",
+      "ja": "鶏肉をカレーとココナッツミルクのクリーミーなソースで煮込んだ、香り高く手軽な定番。"
+    }
+  },
+  {
+    "id": "poulet-general-tso",
+    "description": {
+      "en": "Fried chicken bites coated in a sweet, tangy and mildly spiced soy sauce.",
+      "fr": "Bouchées de poulet frites nappées d'une sauce soja sucrée, acidulée et légèrement pimentée."
+    }
+  },
+  {
+    "id": "poulet-grille-citronnelle",
+    "description": {
+      "en": "Chicken thighs marinated in fish sauce, garlic and ginger, grilled until caramelised — juicy over rice.",
+      "fr": "Cuisses de poulet marinées au nuoc-mâm, ail et gingembre, grillées et caramélisées — juteuses, servies avec du riz."
+    }
+  },
+  {
+    "id": "poulet-herbes",
+    "description": {
+      "de": "Goldbraun, würzig, in unter 30 Minuten fertig.",
+      "en": "Chicken breast pan-fried with garlic, herbs and a squeeze of lemon — simple and quick.",
+      "es": "Dorado, aromático, listo en menos de 30 minutos.",
+      "fr": "Blanc de poulet doré à l'ail et aux herbes, avec un filet de citron — simple et prêt en 30 minutes.",
+      "ja": "こんがり黄金色、香り豊か、30分以内に完成。"
+    }
+  },
+  {
+    "id": "poulet-katsu-curry",
+    "description": {
+      "en": "Panko-breaded chicken cutlet topped with a mild Japanese curry sauce, served over rice.",
+      "fr": "Escalope de poulet panée au panko, nappée d'un curry japonais doux et épais, servie sur du riz."
+    }
+  },
+  {
+    "id": "poulet-kung-pao",
+    "description": {
+      "en": "Chicken, peanuts and pepper stir-fried in a spicy, slightly sweet soy sauce — Sichuan style.",
+      "fr": "Poulet, cacahuètes et poivrons sautés dans une sauce soja pimentée et légèrement sucrée à la sichuanaise."
+    }
+  },
+  {
+    "id": "poulet-roti",
+    "description": {
+      "de": "Der große Sonntagsklassiker, goldbraun und saftig.",
+      "en": "Golden, juicy roast chicken with butter, thyme, rosemary and garlic — the Sunday classic.",
+      "es": "El gran clásico del domingo, dorado y jugoso.",
+      "fr": "Poulet rôti doré et juteux, au beurre, thym, romarin et ail — le classique du dimanche.",
+      "ja": "日曜日の定番、こんがりジューシーなローストチキン。"
+    }
+  },
+  {
+    "id": "poulet-sesame",
+    "description": {
+      "en": "Crispy chicken coated in a glossy honey and toasted sesame sauce — sweet and satisfying.",
+      "fr": "Poulet croustillant enrobé d'une sauce brillante au miel et au sésame grillé — sucré et gourmand."
+    }
+  },
+  {
+    "id": "poulet-tandoori",
+    "description": {
+      "en": "Chicken marinated in yoghurt and spices, roasted until golden, juicy and fragrant.",
+      "fr": "Poulet mariné au yaourt et aux épices (cumin, paprika, coriandre), rôti jusqu'à être doré et juteux."
+    }
+  },
+  {
+    "id": "poulet-teriyaki",
+    "description": {
+      "en": "Chicken thighs glazed with teriyaki sauce and mirin, topped with sesame and spring onion, over rice.",
+      "fr": "Cuisses de poulet glacées à la sauce teriyaki et au mirin, parsemées de sésame et d'oignon vert, servies sur riz."
+    }
+  },
+  {
+    "id": "poulet-tikka-masala",
+    "description": {
+      "en": "Spiced yoghurt-marinated chicken simmered in a creamy tomato sauce with garam masala.",
+      "fr": "Poulet mariné au yaourt et aux épices, mijoté dans une sauce tomate crémeuse au garam masala."
+    }
+  },
+  {
+    "id": "profiteroles",
+    "description": {
+      "en": "Choux puffs filled with vanilla ice cream and topped with warm chocolate sauce — a French classic.",
+      "fr": "Petits choux garnis de glace vanille et nappés de chocolat chaud — un dessert français classique et généreux."
+    }
+  },
+  {
+    "id": "pulpo-gallega",
+    "description": {
+      "en": "Tender octopus sliced over potatoes, dusted with smoked paprika and drizzled with olive oil.",
+      "fr": "Poulpe tendre tranché sur pommes de terre, saupoudré de paprika fumé et arrosé d'huile d'olive — un classique galicien."
+    }
+  },
+  {
+    "id": "pumpkin-pie",
+    "description": {
+      "en": "Creamy spiced pumpkin tart in a crisp shortcrust shell — the classic Thanksgiving dessert.",
+      "fr": "Tarte crémeuse au potiron et aux épices douces, sur pâte brisée croustillante — le dessert de Thanksgiving."
+    }
+  },
+  {
+    "id": "puree-carottes",
+    "description": {
+      "de": "Ein süßes, samtiges Karottenpüree, nur mit Butter verfeinert — eine bunte Beilage, die Kindern schmeckt.",
+      "en": "Smooth carrot purée with butter and milk — naturally sweet, colourful and easy to love.",
+      "es": "Un puré de zanahoria dulce y aterciopelado, con un toque de mantequilla — una guarnición que encanta a los niños.",
+      "fr": "Purée de carottes veloutée, relevée de beurre et de lait — douce, colorée et appréciée de tous.",
+      "ja": "バターだけで仕上げた甘くなめらかなにんじんのピューレ。子どもにも人気の彩り副菜。"
+    }
+  },
+  {
+    "id": "puree-celeri-rave",
+    "description": {
+      "en": "Smooth celeriac and potato purée finished with cream and nutmeg — delicate and aromatic.",
+      "fr": "Purée veloutée de céleri-rave et pommes de terre, affinée à la crème et à la muscade — fine et parfumée."
+    }
+  },
+  {
+    "id": "puree-patate-douce",
+    "description": {
+      "en": "Smooth sweet potato purée with butter and nutmeg — naturally sweet and beautifully coloured.",
+      "fr": "Purée douce et veloutée de patate douce, au beurre et à la muscade — un accompagnement coloré et légèrement sucré."
+    }
+  },
+  {
+    "id": "puree-pois-casses",
+    "description": {
+      "en": "Smooth split pea purée cooked with carrot, onion and bay leaf — vegan, hearty and budget-friendly.",
+      "fr": "Purée onctueuse de pois cassés mijotés avec carotte, oignon et laurier — végétalienne, réconfortante et économique."
+    }
+  },
+  {
+    "id": "puree-pommes-terre",
+    "description": {
+      "de": "Cremiges, leichtes Kartoffelpüree, ein Klassiker.",
+      "en": "Potatoes mashed with butter, warm milk and cream, seasoned with a pinch of nutmeg.",
+      "es": "Puré cremoso y ligero, un imprescindible.",
+      "fr": "Pommes de terre écrasées au beurre, lait chaud et crème fraîche, relevées d'une pincée de muscade.",
+      "ja": "クリーミーで軽い、定番のマッシュポテト。"
+    }
+  },
+  {
+    "id": "quatre-quarts",
+    "description": {
+      "de": "Der bretonische Kuchen zu gleichen Teilen Butter, Zucker, Mehl und Eiern — saftig, einfach und gelingsicher.",
+      "en": "Equal parts butter, sugar, flour and eggs — the classic Breton pound cake, reliably good.",
+      "es": "El bizcocho bretón a partes iguales de mantequilla, azúcar, harina y huevos — jugoso, simple e infalible.",
+      "fr": "Beurre, sucre, farine et œufs à parts égales — le gâteau breton moelleux et inratable.",
+      "ja": "バター・砂糖・小麦粉・卵を同量で作るブルターニュの焼き菓子。しっとり簡単、失敗なし。"
+    }
+  },
+  {
+    "id": "quesadillas-fromage",
+    "description": {
+      "en": "Tortillas folded and pan-fried with melted cheese and pepper — quick, satisfying and fuss-free.",
+      "fr": "Tortillas pliées et dorées à la poêle, garnies de fromage fondant et de poivron — rapides et réconfortantes."
+    }
+  },
+  {
+    "id": "quiche-legumes",
+    "description": {
+      "en": "Shortcrust pastry filled with vegetables and a creamy egg custard — great for using up leftover veg.",
+      "fr": "Pâte brisée garnie de légumes et d'un appareil crémeux aux œufs — idéale pour utiliser les restes de légumes."
+    }
+  },
+  {
+    "id": "quiche-lorraine",
+    "description": {
+      "de": "Die unverzichtbare Quiche für Familienmahlzeiten.",
+      "en": "Golden lardons, cream, gruyère and nutmeg in a rich, tender quiche.",
+      "es": "La quiche imprescindible de las comidas familiares.",
+      "fr": "Lardons dorés, crème, gruyère et muscade dans une quiche généreuse et fondante.",
+      "ja": "家族の食卓に欠かせない定番キッシュ。"
+    }
+  },
+  {
+    "id": "quiche-saumon-epinards",
+    "description": {
+      "en": "Golden quiche with salmon and spinach in a creamy egg filling — just as good warm or cold.",
+      "fr": "Quiche dorée au saumon et aux épinards dans un appareil crémeux aux œufs — savoureuse tiède ou froide."
+    }
+  },
+  {
+    "id": "raclette",
+    "description": {
+      "en": "Melted raclette cheese over boiled potatoes and cured meats — the ultimate sharing meal.",
+      "fr": "Fromage à raclette fondu sur des pommes de terre et de la charcuterie — le repas convivial par définition."
+    }
+  },
+  {
+    "id": "raita",
+    "description": {
+      "en": "Yoghurt sauce with cucumber, mint and cumin — cool and soothing alongside spicy curries.",
+      "fr": "Sauce au yaourt avec concombre, menthe et cumin — fraîche et apaisante avec les currys épicés."
+    }
+  },
+  {
+    "id": "ramen-miso",
+    "description": {
+      "en": "Ramen noodles in a rich miso-dashi broth, topped with soft-boiled egg, sweetcorn and spring onion.",
+      "fr": "Nouilles ramen dans un bouillon riche au miso et dashi, garni d'œuf mollet, de maïs et d'oignon vert."
+    }
+  },
+  {
+    "id": "ratatouille",
+    "description": {
+      "de": "Das große provenzalische Klassikgericht mit Sommergemüse.",
+      "en": "Aubergine, courgettes, peppers and tomatoes slow-cooked in olive oil with Provençal herbs.",
+      "es": "El gran clásico provenzal de verduras de verano.",
+      "fr": "Aubergine, courgettes, poivrons et tomates mijotés à l'huile d'olive et aux herbes de Provence.",
+      "ja": "プロヴァンスの夏野菜を使った偉大な定番料理。"
+    }
+  },
+  {
+    "id": "ribollita",
+    "description": {
+      "en": "Thick Tuscan soup of stale bread, white beans and black kale, simmered twice — rustic and vegan.",
+      "fr": "Soupe toscane épaisse de pain rassis, haricots blancs et chou noir, mijotée puis rebouillie — rustique et végétalienne."
+    }
+  },
+  {
+    "id": "risotto-asperges",
+    "description": {
+      "en": "Creamy risotto with green asparagus and parmesan, deglazed with white wine — elegant and seasonal.",
+      "fr": "Risotto crémeux aux asperges vertes et au parmesan, déglacé au vin blanc — printanier et délicat."
+    }
+  },
+  {
+    "id": "risotto-champignons",
+    "description": {
+      "de": "Cremig und aromatisch, das ultimative Wohlfühlessen.",
+      "en": "Risotto rice cooked with mushrooms, parmesan and butter — creamy, flavourful and comforting.",
+      "es": "Cremoso y sabroso, el confort food por excelencia.",
+      "fr": "Riz à risotto cuisiné avec champignons, parmesan et beurre — crémeux, savoureux et réconfortant.",
+      "ja": "クリーミーで風味豊か、究極のコンフォートフード。"
+    }
+  },
+  {
+    "id": "risotto-fruits-mer",
+    "description": {
+      "en": "Creamy, briny risotto with seafood, white wine and parsley — generous and full of flavour.",
+      "fr": "Risotto crémeux et iodé aux fruits de mer, parfumé au vin blanc et au persil."
+    }
+  },
+  {
+    "id": "risotto-legumes",
+    "description": {
+      "de": "Ein cremiges Gemüserisotto mit Parmesan — herrlich samtig und wohltuend.",
+      "en": "Creamy arborio rice with seasonal vegetables and parmesan, finished with butter — smooth and satisfying.",
+      "es": "Un risotto cremoso de verduras de temporada con parmesano — sedoso y reconfortante.",
+      "fr": "Riz arborio crémeux aux légumes de saison et au parmesan, monté au beurre — onctueux et réconfortant.",
+      "ja": "季節野菜とパルメザンのクリーミーなリゾット。とろけるような口当たり。"
+    }
+  },
+  {
+    "id": "risotto-milanaise",
+    "description": {
+      "en": "Saffron-tinted risotto finished with butter and parmesan — Lombardy's golden, elegant classic.",
+      "fr": "Risotto crémeux teinté de safran, lié au beurre et au parmesan — l'élégance lombarde en toute simplicité."
+    }
+  },
+  {
+    "id": "riz-au-lait",
+    "description": {
+      "de": "Cremiger Vanille-Milchreis, Kindheitserinnerung.",
+      "en": "Round rice slow-cooked in milk with vanilla and sugar, finished with cream — a timeless comfort dessert.",
+      "es": "Arroz con leche cremoso a la vainilla, dulzura de la infancia.",
+      "fr": "Riz rond cuit longuement dans le lait avec vanille et sucre, affiné à la crème fraîche — la douceur de l'enfance.",
+      "ja": "バニラ風味のクリーミーなライスプディング、子ども時代の甘い記憶。"
+    }
+  },
+  {
+    "id": "riz-cantonais",
+    "description": {
+      "de": "Der klassische gebratene Reis mit Ei, Schinken und Erbsen — die beste Verwendung für Reisreste.",
+      "en": "Cooked rice stir-fried with egg, ham and peas in soy sauce — the ideal leftover rice fix.",
+      "es": "El imprescindible arroz frito con huevo, jamón y guisantes — la mejor forma de aprovechar arroz sobrante.",
+      "fr": "Riz cuit sauté au wok avec œuf, jambon et petits pois, assaisonné de sauce soja — anti-gaspi et rapide.",
+      "ja": "卵・ハム・グリーンピースの定番チャーハン。余ったご飯の最高の活用法。"
+    }
+  },
+  {
+    "id": "riz-coco",
+    "description": {
+      "en": "Basmati rice cooked in coconut milk — fragrant and tender, the natural partner for curries.",
+      "fr": "Riz basmati cuit dans le lait de coco — parfumé et moelleux, l'accompagnement des currys et plats épicés."
+    }
+  },
+  {
+    "id": "riz-gluant-mangue",
+    "description": {
+      "en": "Sticky rice topped with sweet coconut milk, ripe mango slices and a pinch of sesame.",
+      "fr": "Riz gluant nappé de lait de coco sucré, servi avec des tranches de mangue mûre et du sésame."
+    }
+  },
+  {
+    "id": "riz-mexicain",
+    "description": {
+      "en": "Rice toasted then cooked with tomato paste, cumin, paprika and vegetables — colourful and flavourful.",
+      "fr": "Riz doré cuit dans une base de concentré de tomate, cumin et paprika, avec légumes — coloré et parfumé."
+    }
+  },
+  {
+    "id": "riz-pilaf",
+    "description": {
+      "de": "Aromatischer Reis, in einer schmackhaften Brühe gegart.",
+      "en": "Long-grain rice cooked in a seasoned broth with onion and butter — simple and full of flavour.",
+      "es": "Arroz aromático cocido en un caldo sabroso.",
+      "fr": "Riz long cuit dans un bouillon parfumé avec oignon et beurre — simple, savoureux et moelleux.",
+      "ja": "風味豊かなブイヨンで炊いた香り米。"
+    }
+  },
+  {
+    "id": "riz-saute-crevettes",
+    "description": {
+      "en": "Wok-fried rice with prawns, egg and peas in soy sauce — a speedy leftover rice classic.",
+      "fr": "Riz sauté au wok avec crevettes, œuf et petits pois, assaisonné de sauce soja — prêt en 15 minutes."
+    }
+  },
+  {
+    "id": "riz-saute-legumes-oeuf",
+    "description": {
+      "en": "Fried rice with crunchy vegetables and scrambled egg, seasoned with soy sauce and sesame.",
+      "fr": "Riz sauté aux légumes croquants et à l'œuf brouillé, assaisonné de sauce soja et de sésame."
+    }
+  },
+  {
+    "id": "riz-vermicelles-libanais",
+    "description": {
+      "en": "Rice cooked with toasted vermicelli in butter — Lebanon's everyday side, simple and fragrant.",
+      "fr": "Riz agrémenté de vermicelles grillés, doré au beurre — l'accompagnement libanais quotidien, simple et parfumé."
+    }
+  },
+  {
+    "id": "rouleaux-printemps",
+    "description": {
+      "en": "Rice paper rolls filled with vermicelli, crunchy vegetables and fresh herbs, with a peanut dipping sauce.",
+      "fr": "Galettes de riz garnies de vermicelles, légumes croquants et herbes fraîches, servies avec une sauce aux cacahuètes."
+    }
+  },
+  {
+    "id": "rouleaux-printemps-crevettes",
+    "description": {
+      "en": "Fresh rice paper rolls with prawns, vermicelli, lettuce and mint, served with a peanut dipping sauce.",
+      "fr": "Galettes de riz fraîches garnies de crevettes, vermicelles, salade et menthe, avec une sauce aux cacahuètes."
+    }
+  },
+  {
+    "id": "saganaki",
+    "description": {
+      "en": "Greek frying cheese dredged in flour and pan-fried until golden, finished with a squeeze of lemon.",
+      "fr": "Fromage à frire grec enrobé de farine et doré à la poêle, arrosé de citron juste avant de servir."
+    }
+  },
+  {
+    "id": "salade-avocat-crevettes",
+    "description": {
+      "de": "Frischer Salat mit Avocado, Garnelen und Zitronen-Dressing.",
+      "en": "Cooked prawns and avocado on a bed of greens with a lemon and chive dressing.",
+      "es": "Ensalada fresca de aguacate, gambas y vinagreta de limón.",
+      "fr": "Crevettes cuites et avocat sur lit de salade verte, vinaigrette citron-ciboulette.",
+      "ja": "アボカド、エビ、レモンドレッシングの爽やかサラダ。"
+    }
+  },
+  {
+    "id": "salade-betterave-chevre",
+    "description": {
+      "de": "Geröstete Rote Bete und frischer Ziegenkäse, eine perfekte Kombination.",
+      "en": "Cooked beetroot, fresh goat's cheese and walnuts on greens, finished with honey and balsamic.",
+      "es": "Remolacha asada y queso de cabra fresco, una combinación perfecta.",
+      "fr": "Betteraves cuites, chèvre frais et noix sur mesclun, relevés d'un filet de miel et de balsamique.",
+      "ja": "ロースト赤カブとフレッシュシェーブルチーズの完璧な組み合わせ。"
+    }
+  },
+  {
+    "id": "salade-caprese",
+    "description": {
+      "de": "Tomaten-Mozzarella-Basilikum-Trio, italianische Frische.",
+      "en": "Sliced tomatoes, mozzarella and fresh basil dressed with olive oil and balsamic vinegar.",
+      "es": "Trío tomate-mozzarella-albahaca, la frescura italiana.",
+      "fr": "Tomates, mozzarella et basilic frais en tranches alternées, huile d'olive et balsamique.",
+      "ja": "トマト・モッツァレラ・バジルのトリオ、イタリアの爽やかさ。"
+    }
+  },
+  {
+    "id": "salade-carottes-orange",
+    "description": {
+      "en": "Grated carrots with orange segments, raisins and orange blossom water — sweet and bright.",
+      "fr": "Carottes râpées aux suprêmes d'orange, raisins secs et fleur d'oranger — douce et vive."
+    }
+  },
+  {
+    "id": "salade-cesar",
+    "description": {
+      "de": "Der klassische Caesar Salat: knackige Romanasalatherzen, goldene Croutons, Parmesanspäne und cremiges Anchovis-Dressing. Ein amerikanischer Klassiker, geboren in Tijuana.",
+      "en": "Crisp romaine, croutons, parmesan and a creamy garlic-lemon dressing.",
+      "es": "La clásica ensalada César: corazones de lechuga romana crujientes, croutons dorados, virutas de parmesano y aderezo cremoso de anchoas. Un clásico americano nacido en Tijuana.",
+      "fr": "Romaine croquante, croûtons, parmesan et sauce crémeuse à l'ail et au citron.",
+      "ja": "クラシックなシーザーサラダ：パリッとしたロメインハーツ、黄金色のクルトン、パルメザンチーズの削り節、クリーミーなアンチョビドレッシング。ティフアナ生まれのアメリカの定番。"
+    }
+  },
+  {
+    "id": "salade-chevre-chaud",
+    "description": {
+      "de": "Unverzichtbarer Bistro-Salat mit überbackenem Ziegenkäse.",
+      "en": "Mixed greens with grilled goat's cheese on toast, walnuts and a honey dressing.",
+      "es": "Ensalada de bistró imprescindible con queso de cabra gratinado.",
+      "fr": "Frisée et chèvre grillé sur toast, noix concassées, miel et vinaigrette — le bistrot dans l'assiette.",
+      "ja": "グリルしたシェーブルチーズのビストロサラダ。"
+    }
+  },
+  {
+    "id": "salade-chou-chinois-sesame",
+    "description": {
+      "en": "Shredded Chinese cabbage and carrot in a soy-sesame dressing — crisp and light.",
+      "fr": "Chou chinois et carotte râpés dans une vinaigrette soja-sésame — croquant et léger."
+    }
+  },
+  {
+    "id": "salade-concombre-coreenne",
+    "description": {
+      "en": "Cucumber seasoned with garlic, chilli and sesame in a soy-rice vinegar dressing — bold and crisp.",
+      "fr": "Concombre assaisonné d'ail, piment et sésame dans une vinaigrette soja-riz — vive et croquante."
+    }
+  },
+  {
+    "id": "salade-concombre-menthe",
+    "description": {
+      "de": "Erfrischender Salat mit Gurke, Minze und Joghurt.",
+      "en": "Cucumber with yoghurt, garlic and fresh mint — cool and creamy, ready in five minutes.",
+      "es": "Ensalada refrescante de pepino, menta y yogur.",
+      "fr": "Concombre, yaourt, ail et menthe fraîche — fraîche et crémeuse, prête en cinq minutes.",
+      "ja": "きゅうり、ミント、ヨーグルトの爽やかサラダ。"
+    }
+  },
+  {
+    "id": "salade-de-fruits",
+    "description": {
+      "en": "Apple, banana, oranges and strawberries with a squeeze of lemon and fresh mint.",
+      "fr": "Pomme, banane, oranges et fraises juste relevés de jus de citron et de menthe fraîche."
+    }
+  },
+  {
+    "id": "salade-endives-roquefort",
+    "description": {
+      "de": "Knackiger Chicoree mit Roquefort und Walnüssen, raffiniert.",
+      "en": "Crisp endives with crumbled roquefort and walnuts in a honey-vinegar dressing.",
+      "es": "Endivias crujientes con roquefort y nueces, refinada.",
+      "fr": "Endives croquantes, roquefort émietté et noix dans une vinaigrette miel-vinaigre.",
+      "ja": "ロックフォールとくるみのシャキシャキアンディーブ、上品な一品。"
+    }
+  },
+  {
+    "id": "salade-epinards-framboises",
+    "description": {
+      "de": "Frischer Spinatsalat mit Himbeeren und Balsamico-Dressing.",
+      "en": "Baby spinach, fresh raspberries, walnuts and goat's cheese with a honey-balsamic dressing.",
+      "es": "Ensalada de espinacas frescas con frambuesas y vinagreta balsámica.",
+      "fr": "Pousses d'épinards, framboises fraîches, noix et chèvre, vinaigrette balsamique-miel.",
+      "ja": "生ほうれん草とラズベリーのバルサミコドレッシングサラダ。"
+    }
+  },
+  {
+    "id": "salade-fruits-exotiques",
+    "description": {
+      "en": "Diced mango, pineapple and kiwi with lime juice and mint — vibrant and refreshing.",
+      "fr": "Mangue, ananas et kiwis en dés, citron vert et menthe — colorée et rafraîchissante."
+    }
+  },
+  {
+    "id": "salade-grecque",
+    "description": {
+      "de": "Knackiger Salat mit Oliven, Gurke und Feta.",
+      "en": "Tomatoes, cucumber, red onion, black olives and feta with olive oil and oregano.",
+      "es": "Ensalada crujiente con aceitunas, pepino y feta.",
+      "fr": "Tomates, concombre, oignon rouge, olives et feta, huile d'olive et origan — classique et croquante.",
+      "ja": "オリーブ、きゅうり、フェタチーズのシャキシャキサラダ。"
+    }
+  },
+  {
+    "id": "salade-haricots-blancs",
+    "description": {
+      "en": "White beans, tomatoes and red onion in a simple oil-vinegar dressing, scattered with parsley.",
+      "fr": "Haricots blancs, tomates et oignon rouge en vinaigrette huile-vinaigre, parsemés de persil."
+    }
+  },
+  {
+    "id": "salade-lentilles",
+    "description": {
+      "de": "Grüner Linsensalat mit knackigem Gemüse.",
+      "en": "Warm Puy lentils with carrot and onion, tossed in a mustard dressing.",
+      "es": "Ensalada de lentejas verdes con verduras crujientes.",
+      "fr": "Lentilles vertes du Puy tièdes, carottes et oignon, vinaigrette à la moutarde.",
+      "ja": "緑レンズ豆とシャキシャキ野菜のサラダ。"
+    }
+  },
+  {
+    "id": "salade-lentilles-feta",
+    "description": {
+      "en": "Green lentils, feta, tomatoes and red onion with a mustard dressing — hearty and fresh.",
+      "fr": "Lentilles vertes, feta, tomates et oignon rouge dans une vinaigrette moutardée — nourrissante et fraîche."
+    }
+  },
+  {
+    "id": "salade-lyonnaise",
+    "description": {
+      "en": "Frisée lettuce with crispy lardons, croutons and a runny poached egg — mustard vinaigrette.",
+      "fr": "Frisée, lardons croustillants et croûtons, surmontée d'un œuf poché coulant — vinaigrette moutardée."
+    }
+  },
+  {
+    "id": "salade-marocaine",
+    "description": {
+      "en": "Finely diced tomatoes and cucumber with coriander, parsley, lemon and cumin — fresh and aromatic.",
+      "fr": "Tomates et concombre en petits dés, coriandre, persil, citron et cumin — vive et parfumée."
+    }
+  },
+  {
+    "id": "salade-melon-jambon",
+    "description": {
+      "de": "Süß-salzige Kombination aus frischer Melone und Schinken.",
+      "en": "Ripe melon and cured ham on green salad with walnuts and balsamic — a sweet-savoury summer plate.",
+      "es": "Combinación dulce-salada de melón fresco y jamón.",
+      "fr": "Melon mûr et jambon cru sur salade verte, noix et vinaigre balsamique — sucré-salé estival.",
+      "ja": "フレッシュメロンとハムの甘じょっぱいコンビ。"
+    }
+  },
+  {
+    "id": "salade-mexicaine-haricots",
+    "description": {
+      "en": "Red beans, corn, pepper and avocado with a lime and coriander dressing.",
+      "fr": "Haricots rouges, maïs, poivron et avocat dans une vinaigrette au citron vert et coriandre."
+    }
+  },
+  {
+    "id": "salade-nicoise",
+    "description": {
+      "de": "Frisch, bunt, eine vollständige Mahlzeit für sich.",
+      "en": "Tuna, hard-boiled eggs, tomatoes and green salad with a lemon-olive oil dressing.",
+      "es": "Fresca, colorida, una comida completa por sí sola.",
+      "fr": "Thon, œufs durs, tomates et salade verte, vinaigrette citron-huile d'olive — un repas complet.",
+      "ja": "みずみずしく彩り豊か、それだけで完結した一皿。"
+    }
+  },
+  {
+    "id": "salade-orzo-legumes",
+    "description": {
+      "en": "Orzo with vegetables, lemon, fresh herbs and pine nuts — light and Mediterranean.",
+      "fr": "Orzo aux légumes, citron, herbes fraîches et pignons — léger et méditerranéen."
+    }
+  },
+  {
+    "id": "salade-pasta-pesto",
+    "description": {
+      "de": "Nudelsalat mit Pesto, Rucola und Kirschtomaten.",
+      "en": "Short pasta with pesto, cherry tomatoes, mozzarella and pine nuts — generous and fragrant.",
+      "es": "Ensalada de pasta al pesto, rúcula y tomates cherry.",
+      "fr": "Pâtes courtes, pesto, tomates cerises, mozzarella et pignons — généreuse et parfumée.",
+      "ja": "ペスト、ルッコラ、ミニトマトのパスタサラダ。"
+    }
+  },
+  {
+    "id": "salade-pasteque-feta",
+    "description": {
+      "en": "Watermelon with crumbled feta, black olives and mint — sweet, salty and refreshing.",
+      "fr": "Pastèque, feta émiettée, olives noires et menthe — fraîche et sucrée-salée, idéale en été."
+    }
+  },
+  {
+    "id": "salade-pates-thon",
+    "description": {
+      "en": "Cold pasta with tuna, corn, cherry tomatoes and olives in a light dressing — easy and filling.",
+      "fr": "Pâtes froides, thon, maïs, tomates cerises et olives en vinaigrette — complète et facile."
+    }
+  },
+  {
+    "id": "salade-pommes-de-terre",
+    "description": {
+      "de": "Lauwarmer Kartoffelsalat mit Senf-Schalotten-Vinaigrette — ein Picknick-Klassiker.",
+      "en": "Warm potatoes in a mustard and shallot dressing, scattered with chives.",
+      "es": "Ensalada de patata templada con vinagreta de mostaza y chalota — un clásico de picnic.",
+      "fr": "Pommes de terre tièdes en vinaigrette moutarde-échalote, parsemées de ciboulette.",
+      "ja": "マスタードとエシャロットのビネグレットで和える温かいポテトサラダ。ピクニックの定番。"
+    }
+  },
+  {
+    "id": "salade-poulet-avocat",
+    "description": {
+      "de": "Hauptgericht-Salat mit gegrilltem Hähnchen und cremiger Avocado.",
+      "en": "Cooked chicken, avocado, cherry tomatoes and green salad with a lemon dressing.",
+      "es": "Ensalada completa de pollo a la plancha y aguacate cremoso.",
+      "fr": "Poulet cuit, avocat, tomates cerises et salade verte dans une vinaigrette citronnée.",
+      "ja": "グリルチキンとクリーミーアボカドのボリュームサラダ。"
+    }
+  },
+  {
+    "id": "salade-quinoa-avocat",
+    "description": {
+      "en": "Quinoa with avocado, cherry tomatoes and cucumber in a lemon-coriander dressing.",
+      "fr": "Quinoa, avocats, tomates cerises et concombre dans une vinaigrette citron-coriandre."
+    }
+  },
+  {
+    "id": "salade-quinoa-feta",
+    "description": {
+      "en": "Quinoa with feta, cucumber and tomatoes in a lemon-mint dressing with olives.",
+      "fr": "Quinoa, feta, concombre et tomates dans une vinaigrette citron-menthe, garnie d'olives."
+    }
+  },
+  {
+    "id": "salade-quinoa-legumes",
+    "description": {
+      "de": "Vollständiger Salat mit Quinoa, buntem Gemüse und Feta.",
+      "en": "Quinoa with cucumber, cherry tomatoes and fresh herbs in a lemon dressing.",
+      "es": "Ensalada completa de quinoa, verduras coloridas y feta.",
+      "fr": "Quinoa, concombre, tomates cerises et herbes fraîches dans une vinaigrette citronnée.",
+      "ja": "キヌア、色鮮やかな野菜、フェタチーズの充実サラダ。"
+    }
+  },
+  {
+    "id": "salade-radis-concombre",
+    "description": {
+      "de": "Knackiger und bunter Salat mit Radieschen und Gurke.",
+      "en": "Crisp radishes and cucumber with a dill dressing and a creamy yoghurt sauce.",
+      "es": "Ensalada crujiente y colorida de rábanos y pepino.",
+      "fr": "Radis et concombre croquants en vinaigrette à l'aneth, avec une sauce crémeuse au yaourt.",
+      "ja": "大根とらっきょうのシャキシャキカラフルサラダ。"
+    }
+  },
+  {
+    "id": "salade-riz-thon",
+    "description": {
+      "de": "Ein vollwertiger Reissalat mit Thunfisch, Mais und Tomaten — frisch, sättigend und ideal für Picknicks.",
+      "en": "Rice with canned tuna, corn and tomatoes in a light oil-vinegar dressing — quick and filling.",
+      "es": "Una ensalada de arroz completa con atún, maíz y tomate — fresca, saciante e ideal para picnics.",
+      "fr": "Riz, thon en boîte, maïs et tomates en vinaigrette huile-vinaigre — complète et rapide.",
+      "ja": "ツナ・コーン・トマトの食べごたえある米サラダ。さっぱりしてピクニックにも最適。"
+    }
+  },
+  {
+    "id": "salade-roquette-parmesan",
+    "description": {
+      "de": "Ein schlichter, eleganter Salat: pfeffriger Rucola, Parmesanspäne und Balsamico-Dressing.",
+      "en": "Peppery rocket with parmesan shavings and pine nuts, balsamic vinaigrette — simple and elegant.",
+      "es": "Una ensalada sencilla y elegante: rúcula picante, virutas de parmesano y vinagreta balsámica.",
+      "fr": "Roquette poivrée, copeaux de parmesan et pignons, vinaigrette balsamique — simple et élégante.",
+      "ja": "ピリッとしたルッコラ、パルメザンの薄削り、バルサミコのシンプルで上品なサラダ。"
+    }
+  },
+  {
+    "id": "salade-thon-haricots",
+    "description": {
+      "de": "Proteinreicher Salat mit Thunfisch, weißen Bohnen und Zitrone.",
+      "en": "Tuna, white beans and red onion in a parsley-herb dressing — protein-rich and no-cook.",
+      "es": "Ensalada proteica de atún, alubias blancas y limón.",
+      "fr": "Thon, haricots blancs et oignon rouge dans une vinaigrette persillée — protéinée et sans cuisson.",
+      "ja": "ツナ、白いんげん豆、レモンのタンパク質たっぷりサラダ。"
+    }
+  },
+  {
+    "id": "salade-vietnamienne-poulet",
+    "description": {
+      "en": "Shredded chicken, cabbage, carrot, mint and coriander in a fish sauce-lime dressing, topped with peanuts.",
+      "fr": "Poulet effiloché, chou, carotte, menthe et coriandre dans une vinaigrette nuoc-mâm-citron vert, garnie de cacahuètes."
+    }
+  },
+  {
+    "id": "salade-wakame-concombre",
+    "description": {
+      "en": "Rehydrated wakame seaweed and sliced cucumber in a rice vinegar, soy and sesame dressing.",
+      "fr": "Algues wakamé réhydratées et concombre en tranches dans une vinaigrette vinaigre de riz-soja-sésame."
+    }
+  },
+  {
+    "id": "salade-waldorf",
+    "description": {
+      "de": "Amerikanischer Salat mit Äpfeln, Sellerie und Walnüssen.",
+      "en": "Crisp apples, celery and walnuts in a lightened mayonnaise and yoghurt dressing with lemon.",
+      "es": "Ensalada americana de manzana, apio y nueces.",
+      "fr": "Pommes croquantes, céleri et noix dans une sauce mayonnaise-yaourt citronnée.",
+      "ja": "りんご、セロリ、くるみのアメリカンサラダ。"
+    }
+  },
+  {
+    "id": "salmorejo",
+    "description": {
+      "en": "Cold Cordovan soup of blended tomatoes and bread with garlic and olive oil — thicker than gazpacho.",
+      "fr": "Soupe froide cordouane de tomates et de pain mixés à l'ail et à l'huile d'olive, plus épaisse que le gaspacho."
+    }
+  },
+  {
+    "id": "salsa-verde-mexicaine",
+    "description": {
+      "en": "Blended tomatillos, chilli, onion and coriander — a fresh, tangy salsa for tacos and grilled meats.",
+      "fr": "Tomates vertes, piment, oignon et coriandre mixés — une salsa fraîche et acidulée pour tacos et grillades."
+    }
+  },
+  {
+    "id": "saltimbocca",
+    "description": {
+      "en": "Veal escalopes topped with cured ham and sage, pan-fried and deglazed with white wine.",
+      "fr": "Escalopes de veau garnies de jambon cru et sauge, poêlées et déglacées au vin blanc."
+    }
+  },
+  {
+    "id": "samoussas-legumes",
+    "description": {
+      "en": "Crispy brick pastry triangles filled with spiced potato and peas seasoned with cumin and curry.",
+      "fr": "Triangles de brick croustillants garnis de pommes de terre et petits pois épicés au cumin et curry."
+    }
+  },
+  {
+    "id": "satay-poulet",
+    "description": {
+      "en": "Grilled chicken skewers marinated with curry spices, served with a creamy peanut and coconut sauce.",
+      "fr": "Brochettes de poulet marinées au curry et grillées, avec une sauce crémeuse aux cacahuètes et lait de coco."
+    }
+  },
+  {
+    "id": "saucisses-lentilles",
+    "description": {
+      "de": "Geräucherte Würstchen auf einem Bett aus Linsen mit Karotten — ein rustikales, nahrhaftes Wintergericht.",
+      "en": "Smoked sausages simmered with green lentils, carrots and onion — rustic and warming.",
+      "es": "Salchichas ahumadas sobre un lecho de lentejas con zanahorias — un plato de invierno rústico y nutritivo.",
+      "fr": "Saucisses fumées mijotées avec lentilles vertes, carottes et oignon — rustique et nourrissant.",
+      "ja": "にんじんと煮込んだレンズ豆に燻製ソーセージをのせた、素朴で栄養満点の冬の一皿。"
+    }
+  },
+  {
+    "id": "saumon-citron",
+    "description": {
+      "de": "Leicht, gesund und im Handumdrehen fertig.",
+      "en": "Salmon fillets pan-fried with garlic, lemon and herbs — healthy and ready in fifteen minutes.",
+      "es": "Ligero, sano y listo en un abrir y cerrar de ojos.",
+      "fr": "Pavés de saumon poêlés à l'ail, relevés de citron et herbes — sain et prêt en quinze minutes.",
+      "ja": "ヘルシーで軽く、あっという間に完成。"
+    }
+  },
+  {
+    "id": "saumon-miel-moutarde",
+    "description": {
+      "en": "Salmon fillets roasted under a honey-mustard glaze, finished with dill and lemon.",
+      "fr": "Pavés de saumon rôtis sous une glace miel-moutarde, garnis d'aneth et de citron."
+    }
+  },
+  {
+    "id": "saumon-papillote",
+    "description": {
+      "de": "Ein Lachsfilet in der Papillote mit Zucchini und Zitrone — gesund, ohne zugesetztes Fett und gelingsicher.",
+      "en": "Salmon baked en papillote with courgette, dill and lemon — light and virtually fat-free.",
+      "es": "Un lomo de salmón al papillote con calabacín y limón — sano, sin grasa añadida e infalible.",
+      "fr": "Saumon cuit en papillote avec courgette, aneth et citron — léger, sans matière grasse ajoutée.",
+      "ja": "鮭の切り身をズッキーニとレモンと一緒に包み焼きに。ヘルシーで油いらず、失敗なし。"
+    }
+  },
+  {
+    "id": "saumon-teriyaki",
+    "description": {
+      "en": "Salmon fillets glazed with teriyaki sauce and mirin, topped with sesame and spring onion.",
+      "fr": "Pavés de saumon laqués à la sauce teriyaki et au mirin, garnis de sésame et d'oignon vert."
+    }
+  },
+  {
+    "id": "saute-porc-caramel",
+    "description": {
+      "de": "Schweinefleischstücke in einem Soja-Ingwer-Karamell glasiert — süß-herzhaft auf asiatische Art.",
+      "en": "Pork sautéed in a caramel with soy sauce and ginger — sweet and salty with an Asian edge.",
+      "es": "Trozos de cerdo laqueados en un caramelo de soja y jengibre — agridulce al estilo asiático.",
+      "fr": "Porc sauté dans un caramel à la sauce soja et au gingembre — sucré-salé à l'asiatique.",
+      "ja": "醤油としょうがのカラメルで照り煮にした豚肉。アジア風の甘辛味。"
+    }
+  },
+  {
+    "id": "shakshuka",
+    "description": {
+      "de": "In einer würzigen Tomaten-Paprika-Sauce pochierte Eier — ein geselliges Gericht für jede Tageszeit.",
+      "en": "Eggs poached in a spiced tomato and pepper sauce with cumin and paprika — great for sharing.",
+      "es": "Huevos escalfados en una salsa de tomate y pimiento especiada — un plato para compartir a cualquier hora.",
+      "fr": "Œufs pochés dans une sauce tomate épicée aux poivrons, cumin et paprika — convivial à partager.",
+      "ja": "スパイシーなトマトとピーマンのソースで卵を半熟に仕上げる、いつでも楽しめるシェア向きの一品。"
+    }
+  },
+  {
+    "id": "sloppy-joe",
+    "description": {
+      "en": "Burger bun filled with ground beef simmered in a spiced tomato-ketchup sauce with paprika.",
+      "fr": "Pain à burger garni de bœuf haché mijoté dans une sauce tomate-ketchup épicée au paprika."
+    }
+  },
+  {
+    "id": "smoothie-bowl",
+    "description": {
+      "en": "Thick banana and berry smoothie served in a bowl, topped with granola, seeds and fresh fruit.",
+      "fr": "Smoothie épais banane-fruits rouges servi en bol, garni de granola, graines et fruits frais."
+    }
+  },
+  {
+    "id": "smoothie-fraise",
+    "description": {
+      "de": "Frisch, cremig und voller Vitamine.",
+      "en": "Blended strawberries with yoghurt, milk and honey — smooth, fresh and ready in two minutes.",
+      "es": "Fresco, untuoso y lleno de vitaminas.",
+      "fr": "Fraises mixées avec yaourt, lait et miel — onctueux, frais et prêt en deux minutes.",
+      "ja": "フレッシュでなめらか、ビタミンたっぷり。"
+    }
+  },
+  {
+    "id": "smoothie-mangue",
+    "description": {
+      "en": "Mango and banana blended with orange juice — smooth, vitamin-packed and ready in two minutes.",
+      "fr": "Mangue et banane mixées au jus d'orange — onctueux, vitaminé et prêt en deux minutes."
+    }
+  },
+  {
+    "id": "smoothie-vert",
+    "description": {
+      "en": "Spinach, banana, apple and lemon blended together — green, surprisingly mild and full of vitamins.",
+      "fr": "Épinards, banane, pomme et citron mixés — vert, doux et vitaminé, prêt en deux minutes."
+    }
+  },
+  {
+    "id": "soba-froides-tsuyu",
+    "description": {
+      "en": "Buckwheat noodles served cold with a tsuyu dipping sauce, nori and sesame.",
+      "fr": "Nouilles de sarrasin servies froides avec une sauce tsuyu à tremper, nori et sésame."
+    }
+  },
+  {
+    "id": "som-tam",
+    "description": {
+      "en": "Shredded green papaya with green beans, cherry tomatoes, lime, chilli and peanuts — crisp and tangy.",
+      "fr": "Papaye verte râpée avec haricots verts, tomates cerises, citron vert, piment et cacahuètes — croquante et acidulée."
+    }
+  },
+  {
+    "id": "somen-froides",
+    "description": {
+      "en": "Very thin wheat noodles served ice-cold with a mentsuyu dipping sauce and spring onion.",
+      "fr": "Très fines nouilles de blé servies glacées avec une sauce mentsuyu à tremper et oignon vert."
+    }
+  },
+  {
+    "id": "sopa-azteca",
+    "description": {
+      "en": "Spiced Mexican tomato soup topped with crispy tortilla strips, avocado and fresh cheese.",
+      "fr": "Soupe mexicaine de tomates épicée garnie de tortillas croustillantes, d'avocat et de fromage frais."
+    }
+  },
+  {
+    "id": "soupe-aigre-piquante",
+    "description": {
+      "en": "Chinese hot-and-sour soup with tofu, mushrooms and egg ribbons, thickened with starch.",
+      "fr": "Soupe chinoise acidulée et relevée au tofu, champignons et œuf en filaments, liée à la fécule."
+    }
+  },
+  {
+    "id": "soupe-avgolemono",
+    "description": {
+      "en": "Greek chicken and rice soup thickened with egg and lemon — silky, tangy and comforting.",
+      "fr": "Soupe grecque de poulet et riz liée à l'œuf et au citron — veloutée, acidulée et réconfortante."
+    }
+  },
+  {
+    "id": "soupe-courge-coco",
+    "description": {
+      "en": "Creamy squash soup with coconut milk, ginger and curry — smooth and warming in autumn.",
+      "fr": "Velouté de courge au lait de coco, gingembre et curry — onctueux et réconfortant en automne."
+    }
+  },
+  {
+    "id": "soupe-courgette-chevre",
+    "description": {
+      "en": "Smooth courgette soup enriched with fresh goat's cheese and mint — light and velvety.",
+      "fr": "Velouté de courgettes enrichi de chèvre frais et de menthe — léger et onctueux."
+    }
+  },
+  {
+    "id": "soupe-cresson",
+    "description": {
+      "en": "Watercress and potato soup finished with cream — bright, peppery and refined.",
+      "fr": "Velouté de cresson et pommes de terre lié à la crème — vif, poivré et élégant."
+    }
+  },
+  {
+    "id": "soupe-haricots-noirs",
+    "description": {
+      "en": "Thick black bean soup with cumin, paprika and lime — vegan and deeply satisfying.",
+      "fr": "Soupe épaisse de haricots noirs au cumin, paprika et citron vert — végétalienne et nourrissante."
+    }
+  },
+  {
+    "id": "soupe-legumes",
+    "description": {
+      "de": "Wärmend und voller Vitamine.",
+      "en": "Carrots, leek, potatoes and celery simmered with olive oil, thyme and bay — simple and nourishing.",
+      "es": "Reconfortante y llena de vitaminas.",
+      "fr": "Carottes, poireau, pommes de terre et céleri mijotés à l'huile d'olive avec thym et laurier.",
+      "ja": "体が温まる、ビタミン豊富なスープ。"
+    }
+  },
+  {
+    "id": "soupe-lentilles-coral",
+    "description": {
+      "de": "Samtige rote Linsensuppe mit milden Gewürzen.",
+      "en": "Red lentils, carrots and onion blended with cumin, turmeric and ginger, finished with lemon.",
+      "es": "Sopa aterciopelada de lentejas rojas y especias suaves.",
+      "fr": "Lentilles corail, carottes et oignon mixés au cumin, curcuma et gingembre, relevés de citron.",
+      "ja": "まろやかなスパイスの赤レンズ豆のビロードスープ。"
+    }
+  },
+  {
+    "id": "soupe-lentilles-curry",
+    "description": {
+      "en": "Red lentils and carrots simmered with curry, turmeric and coconut milk — smooth and vegan.",
+      "fr": "Lentilles corail et carottes mijotés au curry, curcuma et lait de coco — veloutée et végétalienne."
+    }
+  },
+  {
+    "id": "soupe-mais-poulet",
+    "description": {
+      "en": "Sweet corn soup with shredded chicken and egg ribbons, seasoned with soy sauce.",
+      "fr": "Soupe douce au maïs et poulet effiloché, liée à l'œuf et parfumée à la sauce soja."
+    }
+  },
+  {
+    "id": "soupe-miso",
+    "description": {
+      "de": "Wärmende japanische Miso-Suppe mit Tofu.",
+      "en": "Miso broth with silken tofu, spring onion and sesame — the everyday Japanese comfort soup.",
+      "es": "Reconfortante sopa japonesa de miso y tofu.",
+      "fr": "Bouillon de miso, tofu soyeux, oignons verts et sésame — la soupe japonaise du quotidien.",
+      "ja": "豆腐入りの温かい日本のみそ汁。"
+    }
+  },
+  {
+    "id": "soupe-miso-tofu",
+    "description": {
+      "en": "Miso-infused dashi broth with soft tofu, wakame seaweed and spring onion.",
+      "fr": "Bouillon dashi parfumé au miso, garni de tofu soyeux, d'algues wakamé et d'oignon vert."
+    }
+  },
+  {
+    "id": "soupe-oignon",
+    "description": {
+      "de": "Zart karamellisierte Zwiebeln, aromatische Brühe, überbackener Käse — ein Bistro-Klassiker.",
+      "en": "Caramelised onions, beef broth with thyme, topped with gruyère-melted baguette crouton.",
+      "es": "Cebollas tiernas caramelizadas, caldo aromático, gratinado de queso — un clásico de bistró.",
+      "fr": "Oignons caramélisés, bouillon de bœuf au thym, gratiné de gruyère sur croûton de baguette.",
+      "ja": "じっくりキャラメライズした玉ねぎ、香り豊かなブイヨン、チーズグラタン——ビストロの定番。"
+    }
+  },
+  {
+    "id": "soupe-pois-chiches",
+    "description": {
+      "en": "Chickpeas simmered with garlic, rosemary and tomato, partly blended for a creamy finish.",
+      "fr": "Pois chiches mijotés à l'ail, au romarin et à la tomate, partiellement mixés pour plus d'onctuosité."
+    }
+  },
+  {
+    "id": "soupe-potiron",
+    "description": {
+      "de": "Eine samtige Kürbissuppe, süß und wohltuend — der Herbstklassiker, in 30 Minuten fertig.",
+      "en": "Pumpkin blended into a smooth soup with onion, vegetable stock and a pinch of nutmeg.",
+      "es": "Una sopa aterciopelada de calabaza, dulce y reconfortante — el imprescindible del otoño, lista en 30 minutos.",
+      "fr": "Potiron mixé en velouté lisse avec oignon, bouillon de légumes et une touche de muscade.",
+      "ja": "甘くてほっとするなめらかなかぼちゃのスープ。秋の定番、30分で完成。"
+    }
+  },
+  {
+    "id": "soupe-tom-kha",
+    "description": {
+      "en": "Thai coconut broth with chicken or mushrooms, ginger, lime and fish sauce.",
+      "fr": "Bouillon thaï au lait de coco avec poulet ou champignons, gingembre, citron vert et nuoc-mâm."
+    }
+  },
+  {
+    "id": "soupe-tomate-basilic",
+    "description": {
+      "de": "Cremige Suppe aus frischen Tomaten und Basilikum.",
+      "en": "Tomatoes and basil simmered with garlic and onion, blended with a splash of cream.",
+      "es": "Sopa suave de tomate fresco y albahaca.",
+      "fr": "Tomates et basilic mijotés à l'ail et à l'oignon, mixés avec un filet de crème.",
+      "ja": "トマトとバジルの滑らかなスープ。"
+    }
+  },
+  {
+    "id": "soupe-vermicelles-poulet",
+    "description": {
+      "en": "Light chicken and vermicelli broth with ginger, fish sauce and fresh herbs.",
+      "fr": "Bouillon léger au poulet effiloché et vermicelles, relevé de gingembre, nuoc-mâm et herbes fraîches."
+    }
+  },
+  {
+    "id": "souvlaki-poulet",
+    "description": {
+      "en": "Chicken skewers marinated in lemon, garlic and oregano, grilled and served with tzatziki.",
+      "fr": "Brochettes de poulet marinées au citron, à l'ail et à l'origan, grillées et servies avec du tzatziki."
+    }
+  },
+  {
+    "id": "spaghetti-aglio-olio",
+    "description": {
+      "en": "Spaghetti coated in golden garlic, olive oil and chilli, finished with parsley.",
+      "fr": "Spaghetti enrobés d'ail doré, d'huile d'olive et de piment, finis au persil."
+    }
+  },
+  {
+    "id": "spaghetti-bolognaise",
+    "description": {
+      "de": "Spaghetti mit einer langsam geschmorten Fleisch-Tomaten-Sauce — der große Familienklassiker.",
+      "en": "Spaghetti topped with a meat sauce slow-cooked with tomato, onion and carrot.",
+      "es": "Espaguetis con una salsa de carne y tomate cocida a fuego lento — el gran clásico familiar.",
+      "fr": "Spaghetti nappés d'une sauce à la viande mijotée à la tomate, à l'oignon et à la carotte.",
+      "ja": "じっくり煮込んだ肉とトマトのソースをからめたスパゲッティ。家庭の定番。"
+    }
+  },
+  {
+    "id": "spaghetti-cacio-e-pepe",
+    "description": {
+      "en": "Spaghetti bound with pecorino cream and black pepper — three ingredients, no shortcuts.",
+      "fr": "Spaghetti liés à la crème de pecorino et au poivre noir — trois ingrédients, aucun compromis."
+    }
+  },
+  {
+    "id": "spanakopita",
+    "description": {
+      "en": "Crispy filo pastry pie filled with spinach, feta, eggs and dill.",
+      "fr": "Tourte de pâte filo croustillante garnie d'épinards, de feta, d'œufs et d'aneth."
+    }
+  },
+  {
+    "id": "steak-beurre-thym",
+    "description": {
+      "de": "Außen goldbraun, innen zart und saftig.",
+      "en": "Steak pan-seared in butter with thyme and garlic, finished with fleur de sel.",
+      "es": "Dorado por fuera, tierno por dentro.",
+      "fr": "Steak saisi au beurre avec thym et ail, fini à la fleur de sel.",
+      "ja": "表面はこんがり、中はとろける食感。"
+    }
+  },
+  {
+    "id": "taboule",
+    "description": {
+      "de": "Frisch und leicht, ideal im Sommer.",
+      "en": "Fine couscous tossed with tomato, cucumber, mint, parsley and lemon juice.",
+      "es": "Fresco y ligero, ideal en verano.",
+      "fr": "Couscous fin mêlé de tomate, concombre, menthe, persil et jus de citron.",
+      "ja": "爽やかで軽やか、夏にぴったり。"
+    }
+  },
+  {
+    "id": "tacos-boeuf",
+    "description": {
+      "en": "Corn tortillas filled with cumin-spiced beef, tomato, onion and fresh coriander.",
+      "fr": "Tortillas de maïs garnies de bœuf épicé au cumin, tomate, oignon et coriandre fraîche."
+    }
+  },
+  {
+    "id": "tacos-crevettes",
+    "description": {
+      "en": "Pan-fried spiced prawns in tortillas with cabbage and a creamy lime sauce.",
+      "fr": "Crevettes poêlées au paprika et piment, servies en tortillas avec chou et sauce crémeuse au citron vert."
+    }
+  },
+  {
+    "id": "tacos-poisson",
+    "description": {
+      "en": "Paprika-crusted cod in tortillas with crisp cabbage and a creamy lime dressing.",
+      "fr": "Cabillaud doré au paprika servi en tortillas avec chou croquant et sauce crémeuse au citron vert."
+    }
+  },
+  {
+    "id": "tagliatelles-champignons",
+    "description": {
+      "en": "Tagliatelle in a creamy mushroom and parmesan sauce with garlic and parsley.",
+      "fr": "Tagliatelles dans une sauce crémeuse aux champignons, parmesan, ail et persil."
+    }
+  },
+  {
+    "id": "tajine-agneau-pruneaux",
+    "description": {
+      "en": "Lamb shoulder slow-cooked with prunes, honey, cinnamon and ras-el-hanout, topped with almonds and sesame.",
+      "fr": "Épaule d'agneau mijotée avec pruneaux, miel, cannelle et ras-el-hanout, parsemée d'amandes et de sésame."
+    }
+  },
+  {
+    "id": "tajine-legumes",
+    "description": {
+      "en": "Vegetables and chickpeas braised with ras-el-hanout and preserved lemon, finished with coriander.",
+      "fr": "Légumes et pois chiches mijotés au ras-el-hanout et au citron confit, finis à la coriandre."
+    }
+  },
+  {
+    "id": "tajine-poulet",
+    "description": {
+      "de": "Eine Reise nach Marokko: zartes Hähnchen, eingelegte Zitronen und safranduftende Oliven.",
+      "en": "Tender chicken thighs with preserved lemons, olives, saffron and warming spices.",
+      "es": "Un viaje a Marruecos: pollo tierno, limones en conserva y aceitunas perfumadas con azafrán.",
+      "fr": "Cuisses de poulet fondantes aux citrons confits, olives, safran et épices douces.",
+      "ja": "モロッコへの旅：やわらかいチキン、レモンの塩漬け、サフランの香り漂うオリーブ。"
+    }
+  },
+  {
+    "id": "tamagoyaki",
+    "description": {
+      "en": "Layered Japanese rolled omelette, lightly sweetened with soy sauce and mirin.",
+      "fr": "Omelette japonaise roulée en couches, légèrement sucrée à la sauce soja et au mirin."
+    }
+  },
+  {
+    "id": "tarta-santiago",
+    "description": {
+      "en": "Moist Galician almond and egg cake flavoured with lemon zest, naturally gluten-free.",
+      "fr": "Gâteau galicien moelleux à la poudre d'amande et aux œufs, parfumé au zeste de citron, sans farine."
+    }
+  },
+  {
+    "id": "tartare-saumon",
+    "description": {
+      "de": "Rohes Lachstatar in Zitrusfrüchten mariniert, frisch und elegant.",
+      "en": "Raw salmon marinated in lemon and soy sauce, served with avocado, chives and dill.",
+      "es": "Salmón crudo marinado en cítricos, fresco y elegante.",
+      "fr": "Saumon cru mariné au citron et à la sauce soja, servi avec avocat, ciboulette et aneth.",
+      "ja": "柑橘でマリネした生サーモン、爽やかで上品。"
+    }
+  },
+  {
+    "id": "tarte-chocolat",
+    "description": {
+      "en": "Dark chocolate ganache on a shortcrust base — intense and smooth.",
+      "fr": "Ganache au chocolat noir sur pâte sablée — intense, fondante et sans fioriture."
+    }
+  },
+  {
+    "id": "tarte-citron",
+    "description": {
+      "de": "Zitronentarte mit Baiser, frisch-säuerlich und verführerisch.",
+      "en": "Sharp lemon curd tart on a buttery shortcrust, topped with golden meringue.",
+      "es": "Tarta de limón merengada, ácida y golosa.",
+      "fr": "Tarte à la crème de citron acidulée sur pâte sablée, garnie de meringue dorée.",
+      "ja": "メレンゲとレモンのタルト、さっぱりと贅沢な一品。"
+    }
+  },
+  {
+    "id": "tarte-fraises",
+    "description": {
+      "de": "Frische Erdbeertarte auf Vanillecreme, elegant.",
+      "en": "Sweet pastry shell filled with mascarpone cream and topped with fresh strawberries and jam glaze.",
+      "es": "Tarta de fresas frescas sobre crema pastelera, elegante.",
+      "fr": "Fond de pâte sucrée garni de crème au mascarpone et couvert de fraises fraîches nappées de confiture.",
+      "ja": "カスタードクリームの上に新鮮いちごを乗せた上品なタルト。"
+    }
+  },
+  {
+    "id": "tarte-poire-chocolat",
+    "description": {
+      "en": "Tender pears over almond cream and a chocolate layer in a shortcrust shell.",
+      "fr": "Poires fondantes sur crème d'amande et base de chocolat, dans une pâte sablée."
+    }
+  },
+  {
+    "id": "tarte-pommes",
+    "description": {
+      "de": "Dünn, goldgelb, Äpfel in Rosettenform — der französische Tarte par excellence.",
+      "en": "Apple rosette on a thin, golden pastry, fragrant with cinnamon and vanilla.",
+      "es": "Fina, dorada, las manzanas en roseta — la tarta francesa por excelencia.",
+      "fr": "Pommes en rosace sur une pâte fine et dorée, parfumée à la cannelle et à la vanille.",
+      "ja": "薄くてきつね色、バラ形に並べたリンゴ——フランスのタルトの真髄。"
+    }
+  },
+  {
+    "id": "tarte-tatin",
+    "description": {
+      "de": "Die berühmte gestürzte Tarte mit karamellisierten Äpfeln — unten knusprig, oben zart.",
+      "en": "Apples caramelised in butter and sugar, covered with shortcrust pastry and flipped after baking.",
+      "es": "La famosa tarta de manzana caramelizada al revés — crujiente abajo y fundente arriba.",
+      "fr": "Pommes caramélisées au beurre et au sucre, recouvertes de pâte brisée et retournées à la sortie du four.",
+      "ja": "有名な逆さまのキャラメルりんごタルト。下はサクッ、上はとろり。"
+    }
+  },
+  {
+    "id": "tartiflette",
+    "description": {
+      "en": "Potatoes, lardons and onions baked under melted reblochon and cream.",
+      "fr": "Pommes de terre, lardons et oignons gratinés sous un reblochon fondu et de la crème."
+    }
+  },
+  {
+    "id": "tartine-chevre-miel",
+    "description": {
+      "en": "Toasted bread topped with melted goat's cheese, honey, thyme and walnuts.",
+      "fr": "Pain grillé nappé de chèvre fondant, de miel et de thym, parsemé de noix."
+    }
+  },
+  {
+    "id": "tian-provencal",
+    "description": {
+      "de": "Südliche Gemüse in Lagen in einer Form geröstet.",
+      "en": "Sliced courgette, tomato and aubergine layered and roasted with olive oil and herbes de Provence.",
+      "es": "Verduras del sol asadas en capas en una fuente.",
+      "fr": "Courgettes, tomates et aubergine tranchées en couches, rôties à l'huile d'olive et aux herbes de Provence.",
+      "ja": "南仏の野菜を重ねてオーブンで焼いた一品。"
+    }
+  },
+  {
+    "id": "tinga-poulet",
+    "description": {
+      "en": "Shredded chicken simmered in a smoky tomato and chilli sauce, served on tostadas or in tacos.",
+      "fr": "Poulet effiloché mijoté dans une sauce tomate fumée au piment et à l'ail, servi sur tostadas ou en tacos."
+    }
+  },
+  {
+    "id": "tiramisu",
+    "description": {
+      "de": "Das unverzichtbare italienische Dessert: getränkte Löffelbiskuits, luftige Mascarpone-Creme, Kakao.",
+      "en": "Coffee-soaked ladyfingers, airy mascarpone cream with eggs, finished with cocoa.",
+      "es": "El postre italiano imprescindible: soletillas empapadas, crema de mascarpone aérea, cacao.",
+      "fr": "Boudoirs imbibés de café, crème mascarpone aérienne aux œufs, cacao en finition.",
+      "ja": "定番イタリアンデザート：コーヒー浸しビスケット、ふわふわマスカルポーネ、ココアパウダー。"
+    }
+  },
+  {
+    "id": "toast-avocat",
+    "description": {
+      "de": "Trendig, sättigend, in 5 Minuten fertig.",
+      "en": "Toasted bread spread with crushed avocado, lemon juice and a pinch of chilli.",
+      "es": "De moda, nutritivo, listo en 5 minutos.",
+      "fr": "Tartine de pain grillé à l'avocat écrasé, citronné et relevé d'une pincée de piment.",
+      "ja": "おしゃれで食べ応えあり、5分で完成。"
+    }
+  },
+  {
+    "id": "tofu-citronnelle",
+    "description": {
+      "en": "Golden fried tofu sautéed with garlic, ginger and soy sauce, lifted with lime and spring onion.",
+      "fr": "Tofu doré sauté avec ail, gingembre et sauce soja, relevé de citron vert et d'oignon vert."
+    }
+  },
+  {
+    "id": "tofu-curry-coco",
+    "description": {
+      "en": "Golden tofu simmered with vegetables in a coconut curry sauce with garlic and ginger.",
+      "fr": "Tofu doré mijoté avec légumes dans une sauce curry au lait de coco, parfumée à l'ail et au gingembre."
+    }
+  },
+  {
+    "id": "tofu-kimchi",
+    "description": {
+      "en": "Stir-fried kimchi and pork served over warm tofu with soy sauce and sesame oil.",
+      "fr": "Kimchi sauté avec du porc et servi sur du tofu chaud, assaisonné de sauce soja et d'huile de sésame."
+    }
+  },
+  {
+    "id": "tofu-saute-legumes-chinois",
+    "description": {
+      "en": "Golden tofu stir-fried with crunchy vegetables in a soy, ginger and sesame sauce.",
+      "fr": "Tofu doré sauté au wok avec légumes croquants dans une sauce soja, gingembre et huile de sésame."
+    }
+  },
+  {
+    "id": "tom-yum",
+    "description": {
+      "en": "Tangy, spicy Thai soup with prawns, mushrooms, ginger and lime.",
+      "fr": "Soupe thaïe acidulée et pimentée aux crevettes, champignons, gingembre et citron vert."
+    }
+  },
+  {
+    "id": "tomates-farcies",
+    "description": {
+      "en": "Hollowed tomatoes filled with herbed sausage meat and roasted over a bed of rice.",
+      "fr": "Tomates évidées farcies de chair à saucisse aux herbes, rôties sur un lit de riz."
+    }
+  },
+  {
+    "id": "tonkatsu",
+    "description": {
+      "en": "Pork cutlet coated in panko and fried until very crispy, served with shredded cabbage and tonkatsu sauce.",
+      "fr": "Escalope de porc panée au panko, frite jusqu'à être très croustillante, servie avec chou émincé et sauce tonkatsu."
+    }
+  },
+  {
+    "id": "torta-caprese",
+    "description": {
+      "en": "Neapolitan dark chocolate and almond cake, flour-free — dense and fudgy.",
+      "fr": "Gâteau napolitain au chocolat noir et à la poudre d'amande, sans farine — dense et fondant."
+    }
+  },
+  {
+    "id": "tortilla-espagnole",
+    "description": {
+      "de": "Das dicke spanische Omelett mit zarten Kartoffeln und Zwiebel — heiß oder kalt ein Genuss.",
+      "en": "Thick Spanish omelette with tender potato and onion, good warm or cold.",
+      "es": "La tortilla de patatas española, gruesa y jugosa con cebolla — deliciosa caliente o fría.",
+      "fr": "Épaisse omelette espagnole aux pommes de terre fondantes et à l'oignon, à servir chaude ou froide.",
+      "ja": "とろけるじゃがいもと玉ねぎの厚焼きスペイン風オムレツ。温かくても冷たくても美味。"
+    }
+  },
+  {
+    "id": "tostadas-haricots",
+    "description": {
+      "en": "Crispy corn tortillas spread with beans and topped with lettuce, tomato and fresh cheese.",
+      "fr": "Tortillas croustillantes tartinées de haricots, garnies de laitue, tomate et fromage frais."
+    }
+  },
+  {
+    "id": "travers-porc-hoisin",
+    "description": {
+      "en": "Tender pork ribs glazed with a hoisin, honey and soy sauce with garlic, ginger and five-spice.",
+      "fr": "Travers de porc fondants laqués d'une sauce hoisin-miel-soja avec ail, gingembre et cinq-épices."
+    }
+  },
+  {
+    "id": "tyropita",
+    "description": {
+      "en": "Golden filo pastry parcels filled with creamy feta and fresh cheese.",
+      "fr": "Feuilletés de pâte filo dorés garnis de feta crémeuse et de fromage frais."
+    }
+  },
+  {
+    "id": "tzatziki",
+    "description": {
+      "en": "Thick Greek yoghurt with grated cucumber, garlic, mint or dill and olive oil — great as a dip or with grilled meats.",
+      "fr": "Yaourt grec épais au concombre râpé, ail, menthe ou aneth et huile d'olive — idéal en dip ou avec des grillades."
+    }
+  },
+  {
+    "id": "udon-bouillon",
+    "description": {
+      "en": "Thick udon noodles in a soy and mentsuyu broth, topped with egg and spring onion.",
+      "fr": "Grosses nouilles udon servies dans un bouillon à la sauce soja et au mentsuyu, avec œuf et oignon vert."
+    }
+  },
+  {
+    "id": "veloute-asperges",
+    "description": {
+      "de": "Feiner Velouté aus weißem oder grünem Spargel.",
+      "en": "Asparagus blended with potato, stock, cream and butter into a silky, refined soup.",
+      "es": "Crema refinada de espárragos blancos o verdes.",
+      "fr": "Asperges mixées avec pomme de terre, bouillon, crème et beurre — un velouté raffiné et soyeux.",
+      "ja": "ホワイトまたはグリーンアスパラガスの上品なビロードスープ。"
+    }
+  },
+  {
+    "id": "veloute-brocoli",
+    "description": {
+      "de": "Leuchtend grüner Velouté, leicht und nahrhaft.",
+      "en": "Broccoli blended with potato, onion and stock, enriched with cream and grated cheese.",
+      "es": "Crema verde brillante, ligera y nutritiva.",
+      "fr": "Brocoli mixé avec pomme de terre, oignon et bouillon, enrichi d'un peu de crème et de fromage râpé.",
+      "ja": "鮮やかな緑のビロードスープ、軽くて栄養満点。"
+    }
+  },
+  {
+    "id": "veloute-butternut",
+    "description": {
+      "de": "Seidig glatt und leicht süß, eine sehr wärmende Herbstvorspeise.",
+      "en": "Butternut squash blended with onion, shallot and stock, seasoned with curry, ginger and nutmeg.",
+      "es": "Terciopelado sedoso y ligeramente dulce, una entrada otoñal muy reconfortante.",
+      "fr": "Butternut mixée avec oignon, échalote et bouillon, relevée de curry, gingembre et muscade.",
+      "ja": "なめらかでほのかに甘い、秋の体が温まるポタージュ。"
+    }
+  },
+  {
+    "id": "veloute-carottes-gingembre",
+    "description": {
+      "de": "Sanfter und würziger Velouté, sonnengelb.",
+      "en": "Carrots blended with coconut milk, fresh ginger, turmeric and a squeeze of lime.",
+      "es": "Crema suave y especiada, color sol.",
+      "fr": "Carottes mixées au lait de coco avec gingembre frais, curcuma et un filet de citron vert.",
+      "ja": "まろやかでスパイシー、太陽のような黄金色のスープ。"
+    }
+  },
+  {
+    "id": "veloute-champignons",
+    "description": {
+      "de": "Eine cremige Champignonsuppe, aromatisch und wohltuend — perfekt als Herbstvorspeise.",
+      "en": "Button mushrooms blended with onion, chicken stock and cream — gentle and comforting.",
+      "es": "Una crema de champiñones suave, aromática y reconfortante — perfecta como entrante de otoño.",
+      "fr": "Champignons de Paris mixés avec oignon, bouillon de volaille et crème — doux et réconfortant.",
+      "ja": "マッシュルームのクリーミーで香り高いポタージュ。秋の前菜にぴったり。"
+    }
+  },
+  {
+    "id": "veloute-petits-pois",
+    "description": {
+      "de": "Eine frühlingsgrüne Erbsensuppe mit Minze — frisch, süß und farbenfroh.",
+      "en": "Garden peas blended with onion, stock and a few fresh mint leaves.",
+      "es": "Una crema verde primaveral de guisantes a la menta — fresca, dulce y llena de color.",
+      "fr": "Petits pois mixés avec oignon, bouillon et quelques feuilles de menthe fraîche.",
+      "ja": "ミント香る春らしい緑のグリーンピースのポタージュ。爽やかで甘く、彩り豊か。"
+    }
+  },
+  {
+    "id": "veloute-poireaux",
+    "description": {
+      "de": "Weich und cremig, ideal für kühle Abende.",
+      "en": "Leek whites and potatoes blended with onion, stock, cream and butter.",
+      "es": "Suave y cremoso, ideal para las noches frescas.",
+      "fr": "Blancs de poireaux et pommes de terre mixés avec oignon, bouillon, crème et beurre.",
+      "ja": "やわらかくクリーミー、肌寒い夜にぴったり。"
+    }
+  },
+  {
+    "id": "veloute-tomate-roti",
+    "description": {
+      "en": "Oven-roasted tomatoes with garlic and onion, blended with basil and olive oil.",
+      "fr": "Tomates rôties au four avec ail et oignon, mixées avec basilic et huile d'olive."
+    }
+  },
+  {
+    "id": "verrine-avocat-crevettes",
+    "description": {
+      "en": "Layered glass of crushed avocado and prawns with cocktail sauce, lemon and chives.",
+      "fr": "Verrine d'avocat écrasé et de crevettes avec sauce cocktail, citron et ciboulette."
+    }
+  },
+  {
+    "id": "vitello-tonnato",
+    "description": {
+      "en": "Thin slices of cold veal coated in a creamy tuna, mayonnaise and caper sauce.",
+      "fr": "Fines tranches de veau froid nappées d'une sauce crémeuse au thon, à la mayonnaise et aux câpres."
+    }
+  },
+  {
+    "id": "wok-crevettes-legumes",
+    "description": {
+      "en": "Prawns stir-fried with crunchy vegetables in a soy, ginger and sesame sauce.",
+      "fr": "Crevettes sautées avec légumes croquants dans une sauce soja, gingembre et huile de sésame."
+    }
+  },
+  {
+    "id": "wok-poulet-legumes",
+    "description": {
+      "de": "Ein schnelles Pfannengericht aus Hähnchen und knackigem Gemüse mit Sojasauce — gesund, bunt und in 20 Minuten fertig.",
+      "en": "Chicken breast stir-fried with pepper, carrot and broccoli in a soy and ginger sauce.",
+      "es": "Un salteado rápido de pollo y verduras crujientes con salsa de soja — sano, colorido y listo en 20 minutos.",
+      "fr": "Blanc de poulet sauté au wok avec poivron, carottes et brocoli dans une sauce soja-gingembre.",
+      "ja": "鶏肉とシャキシャキ野菜を醤油で炒める時短メニュー。ヘルシーで彩り豊か、20分で完成。"
+    }
+  },
+  {
+    "id": "wrap-poulet",
+    "description": {
+      "de": "Ein Wrap gefüllt mit Hähnchen, Salat und Sauce — ein schnelles, frisches Mittagessen für unterwegs.",
+      "en": "Tortilla filled with cooked chicken, lettuce, tomato and mayonnaise — a quick, balanced lunch.",
+      "es": "Una tortilla rellena de pollo, verduras y salsa — un almuerzo rápido para llevar, fresco y completo.",
+      "fr": "Tortilla garnie de blanc de poulet cuit, salade, tomate et mayonnaise — un déjeuner rapide et complet.",
+      "ja": "鶏肉・生野菜・ソースを巻いた、手軽で爽やかな完全食ランチ。"
+    }
+  },
+  {
+    "id": "wrap-vegetarien",
+    "description": {
+      "en": "Large tortilla rolled with hummus, crunchy raw vegetables and feta — fresh and easy to take anywhere.",
+      "fr": "Grande tortilla roulée au houmous, crudités croquantes et feta — fraîche et nomade."
+    }
+  },
+  {
+    "id": "yakisoba",
+    "description": {
+      "en": "Yakisoba noodles stir-fried with cabbage, carrot and pork in a sweet-savoury sauce, topped with spring onion.",
+      "fr": "Nouilles yakisoba sautées avec chou, carotte, porc et sauce sucrée-salée, garnies d'oignon vert."
+    }
+  },
+  {
+    "id": "yaourt-grec-miel-noix",
+    "description": {
+      "en": "Thick Greek yoghurt drizzled with honey and scattered with crushed walnuts and cinnamon.",
+      "fr": "Yaourt grec épais nappé de miel doré et parsemé de noix concassées et de cannelle."
+    }
+  },
+  {
+    "id": "zaalouk",
+    "description": {
+      "en": "Aubergines and tomatoes melted down with garlic, cumin and paprika, finished with coriander — serve warm with bread.",
+      "fr": "Aubergines et tomates fondues à l'ail, au cumin et au paprika, finies à la coriandre — à servir tiède avec du pain."
+    }
+  }
+]

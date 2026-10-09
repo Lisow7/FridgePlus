@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <!-- ⚠️ Fond de l'image OG — la CAPTURE RÉELLE de l'app est composée par-dessus
+       par scripts/generate-og.mjs (public/og-app-capture.png, coins arrondis)
+       dans l'emplacement dessiné à droite. Régénérer : `npm run og`.
+       Deux cadrages à respecter : carte large 1200×630 entière, et vignette
+       CARRÉE (WhatsApp) = recadrage CENTRE ≈ x 285→915 — le texte et la
+       colonne frigo de la capture doivent tenir dans cette zone.
+       100 % FRANÇAIS (décision user 2026-08-27) — et l'app n'existe qu'en
+       FR + EN : ne JAMAIS re-mentionner ES/DE/JA ici (mensonge corrigé). -->
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1200" y2="630" gradientUnits="userSpaceOnUse">
+      <stop offset="0%"   stop-color="#FEF4E4"/>
+      <stop offset="55%"  stop-color="#FDFAF6"/>
+      <stop offset="100%" stop-color="#F5EDD8"/>
+    </linearGradient>
+    <linearGradient id="handle" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#F7A85E"/>
+      <stop offset="100%" stop-color="#D46A10"/>
+    </linearGradient>
+    <linearGradient id="strip" x1="0" y1="0" x2="1200" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0%"   stop-color="#F5A45A"/>
+      <stop offset="50%"  stop-color="#D46A10"/>
+      <stop offset="100%" stop-color="#F5A45A"/>
+    </linearGradient>
+    <filter id="cardShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="14" stdDeviation="26" flood-color="#2C1A0E" flood-opacity="0.18"/>
+    </filter>
+  </defs>
+
+  <!-- Fond -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <circle cx="105" cy="150" r="60" fill="#F5A45A" opacity="0.10"/>
+  <circle cx="150" cy="480" r="90" fill="#7BB078" opacity="0.07"/>
+  <ellipse cx="880" cy="320" rx="330" ry="280" fill="#F5A45A" opacity="0.07"/>
+
+  <!-- ====== TEXTE (zone carrée, x 300→630) ====== -->
+
+  <!-- Logo -->
+  <text x="298" y="178" font-family="Georgia, serif" font-size="84" font-weight="700" letter-spacing="-1">
+    <tspan fill="#2C1A0E">Fridge</tspan><tspan fill="url(#handle)">+</tspan>
+  </text>
+
+  <!-- Tagline (font 21 : doit finir AVANT la carte capture à x=650) -->
+  <text x="302" y="230" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" font-size="21" fill="#7A6050" font-weight="700">Cuisine avec ce que tu as déjà.</text>
+
+  <!-- Les 3 étapes, cochées -->
+  <g font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" font-size="20" fill="#6B5040">
+    <circle cx="314" cy="292" r="12" fill="#D46A10" opacity="0.15"/>
+    <text x="308" y="299" font-size="15" fill="#B85A08" font-weight="700">✓</text>
+    <text x="338" y="299">Remplis ton frigo virtuel</text>
+
+    <circle cx="314" cy="336" r="12" fill="#D46A10" opacity="0.15"/>
+    <text x="308" y="343" font-size="15" fill="#B85A08" font-weight="700">✓</text>
+    <text x="338" y="343">Découvre les recettes réalisables</text>
+
+    <circle cx="314" cy="380" r="12" fill="#D46A10" opacity="0.15"/>
+    <text x="308" y="387" font-size="15" fill="#B85A08" font-weight="700">✓</text>
+    <text x="338" y="387">Cuisine sans refaire les courses</text>
+  </g>
+
+  <!-- Pastilles factuelles -->
+  <rect x="302" y="422" width="230" height="40" rx="20" fill="url(#handle)" opacity="0.16"/>
+  <text x="417" y="447" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" font-size="15" font-weight="700" fill="#B85A08" text-anchor="middle">515 recettes · 15 cuisines</text>
+
+  <rect x="302" y="474" width="230" height="40" rx="20" fill="#2C1A0E" opacity="0.07"/>
+  <text x="417" y="499" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" font-size="15" font-weight="700" fill="#6B5040" text-anchor="middle">Gratuit · Sans inscription</text>
+
+  <!-- URL -->
+  <text x="302" y="566" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" font-size="20" fill="#B08850" font-weight="700" letter-spacing="0.02em">fridgeplus.app</text>
+
+  <!-- ====== EMPLACEMENT DE LA CAPTURE (ombre sous la carte) ======
+       Capture réelle format téléphone (650,100 260×403, coins r=22) — ENTIÈRE dans la zone carrée x≤915. Porte du
+       frigo FERMÉE avec le bouton FAB cerclé — composée par generate-og.mjs. -->
+  <rect x="650" y="100" width="260" height="403" rx="22" fill="#2C1A0E" opacity="0.001" filter="url(#cardShadow)"/>
+  <!-- Décor à droite du téléphone (visible carte large) -->
+  <circle cx="1090" cy="180" r="46" fill="#F0C040" opacity="0.10"/>
+  <circle cx="1120" cy="420" r="60" fill="#E85A5A" opacity="0.07"/>
+
+  <!-- Bandeau orange bas -->
+  <rect x="0" y="606" width="1200" height="24" fill="url(#strip)"/>
+</svg>

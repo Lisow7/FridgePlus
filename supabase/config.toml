@@ -1,0 +1,97 @@
+# Supabase CLI config — minimal, sections Edge Functions uniquement.
+#
+# Pourquoi ce fichier ? Pour figer `verify_jwt = false` sur les fonctions
+# qui doivent être appelables sans JWT Supabase (gateway laisse passer,
+# l'auth est faite par notre code applicatif). Sans cette config, tout
+# `supabase functions deploy <name>` ré-active le JWT verify de la gateway
+# et casse les appels externes.
+#
+# Cibles :
+#   - notify-inactive            : appelée par Vercel cron avec `X-Cron-Secret`
+#                                   (RGPD Art. 5.1.e — Sprint 10 S10.c.10/11)
+#   - stripe-webhook             : appelée par Stripe, signature `stripe-signature`
+#                                   (v3.x — V8 Stripe billing)
+#   - send-leftover-expiry-push   : appelée par pg_cron avec `X-Cron-Secret`
+#                                   (push péremption des restes, 2026-07-08)
+#   - send-weekly-metrics-digest  : appelée par pg_cron avec `X-Cron-Secret`
+#                                   (digest métriques hebdo, 2026-07-12)
+#   - purge-soft-deleted-accounts : appelée par cron-job.org avec
+#                                   `Authorization: Bearer <PURGE_CRON_SECRET>`
+#                                   (RGPD Art. 17 — purge J+30 des comptes
+#                                   soft-deleted). Le flag était posé à la main
+#                                   (--no-verify-jwt) mais absent d'ici : sans
+#                                   cette ligne, un futur `functions deploy`
+#                                   ré-activerait verify_jwt=true et casserait
+#                                   le cron (secret brut non-JWT -> 401 gateway).
+#                                   Codifié pour empêcher la dérive.
+#                                   Audit backend §1 (2026-07-22 ; état déployé
+#                                   vérifié par curl : fonction déjà joignable).
+#   - delete-account             : appelée par l'utilisateur authentifié qui
+#                                   supprime son compte ; valide elle-même le JWT
+#                                   via auth.getUser(). Même dérive que la purge :
+#                                   déployée en --no-verify-jwt à la main mais
+#                                   absente d'ici (401 applicatif observé par
+#                                   curl, pas 401 gateway). Codifié pour qu'un
+#                                   redeploy CLI préserve l'état (2026-07-22,
+#                                   audit backend §1/§2).
+#   - send-push-notification     : appelée par pg_cron (job `send_push_notifications`)
+#                                   via net.http_post avec `X-Cron-Secret`. Même
+#                                   dérive que ci-dessus : déployée --no-verify-jwt
+#                                   à la main mais absente d'ici (401 applicatif au
+#                                   curl). Sans cette ligne, un redeploy CLI
+#                                   casserait les push. Trouvé en dressant
+#                                   la note interne sur les crons (2026-07-22, audit repo §5.4).
+#   - send-ticket-notification   : notifie l'auteur d'un ticket support ; valide
+#                                   son auth applicativement. 4e dérive : déployée
+#                                   --no-verify-jwt à la main mais absente d'ici
+#                                   (401 applicatif au curl). Codifiée pour qu'un
+#                                   redeploy CLI préserve l'état (2026-07-23).
+#
+# Toutes les autres Edge Functions gardent le défaut Supabase (verify_jwt=true).
+
+project_id = "fridge-plus"
+
+[functions.notify-inactive]
+verify_jwt = false
+
+[functions.stripe-webhook]
+verify_jwt = false
+
+[functions.send-leftover-expiry-push]
+verify_jwt = false
+
+[functions.send-weekly-metrics-digest]
+verify_jwt = false
+
+[functions.purge-soft-deleted-accounts]
+verify_jwt = false
+
+[functions.delete-account]
+verify_jwt = false
+
+[functions.send-push-notification]
+verify_jwt = false
+
+[functions.send-ticket-notification]
+verify_jwt = false
+
+# ── Alignement sur l'état réel de la production (2026-08-03) ────────────────
+# Ces 4 fonctions tournent en `verify_jwt = false` en prod mais n'étaient pas
+# déclarées ici : un `supabase functions deploy` global les aurait basculées sur
+# le défaut (`true`), et la gateway aurait alors rejeté leurs appels AVANT
+# d'atteindre le code — exactement le bug qui bloquait la purge RGPD.
+#
+# Vérifié via l'API Supabase avant ajout : les 4 sont bien `verify_jwt: false`
+# et `ACTIVE` en production.
+
+[functions.restore-account]
+verify_jwt = false
+
+[functions.create-checkout-session]
+verify_jwt = false
+
+[functions.auto-translate-deepl]
+verify_jwt = false
+
+[functions.suggest-substitutes]
+verify_jwt = false

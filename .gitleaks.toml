@@ -1,0 +1,8 @@
+title = "Fridge+ gitleaks config"
+
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = "Placeholders de test versionnes (pas de vrais secrets)"
+paths = ['''\.env\.test$''']

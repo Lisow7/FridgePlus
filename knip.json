@@ -1,0 +1,12 @@
+{
+  "$schema": "https://unpkg.com/knip@6/schema.json",
+  "entry": [
+    "src/main.jsx",
+    "api/**/*.js",
+    "supabase/functions/**/index.ts",
+    "scripts/**/*.mjs",
+    "src/scripts/**/*.mjs",
+    "src/test/setup.js"
+  ],
+  "ignoreDependencies": ["lint-staged", "supabase"]
+}

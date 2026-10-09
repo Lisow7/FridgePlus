@@ -1,0 +1,3018 @@
+{
+  "batchName": "recipes-batch-6-japon",
+  "recipes": [
+    {
+      "id": "ramen-miso",
+      "name": {
+        "fr": "Ramen au miso",
+        "en": "Miso ramen"
+      },
+      "description": {
+        "fr": "Un bol de nouilles ramen dans un bouillon riche au miso, garni d'œuf mollet, de maïs et d'oignon vert — le réconfort japonais par excellence.",
+        "en": "A bowl of ramen noodles in a rich miso broth, topped with soft egg, corn and spring onion — Japan's ultimate comfort food."
+      },
+      "emoji": "🍜",
+      "time_min": 35,
+      "prep_time_min": 15,
+      "cook_time_min": 20,
+      "difficulty": "medium",
+      "type": "main",
+      "servings": 4,
+      "country": "jp",
+      "diet": [],
+      "allergens": [
+        "gluten",
+        "soybeans",
+        "eggs",
+        "fish"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "jp-ramen-sec"
+          ],
+          "qty": {
+            "amount": 320,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "320g de nouilles ramen",
+            "en": "320g ramen noodles"
+          }
+        },
+        {
+          "ids": [
+            "jp-miso",
+            "jp-miso-shiro"
+          ],
+          "qty": {
+            "amount": 4,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "4 c. à soupe de miso",
+            "en": "4 tbsp miso"
+          }
+        },
+        {
+          "ids": [
+            "jp-dashi-pack",
+            "gp-bouillon-cube"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 sachet de dashi",
+            "en": "1 dashi sachet"
+          }
+        },
+        {
+          "ids": [
+            "fr-oeuf"
+          ],
+          "qty": {
+            "amount": 4,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "4 œufs",
+            "en": "4 eggs"
+          }
+        },
+        {
+          "ids": [
+            "fr-echine",
+            "fr-blanc-poulet"
+          ],
+          "qty": {
+            "amount": 250,
+            "unit": "g"
+          },
+          "required": false,
+          "labels": {
+            "fr": "250g de porc",
+            "en": "250g pork"
+          }
+        },
+        {
+          "ids": [
+            "gp-mais",
+            "frz-mais"
+          ],
+          "qty": {
+            "amount": 100,
+            "unit": "g"
+          },
+          "required": false,
+          "labels": {
+            "fr": "100g de maïs",
+            "en": "100g corn"
+          }
+        },
+        {
+          "ids": [
+            "vg-oignon-vert"
+          ],
+          "qty": {
+            "amount": 3,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "3 oignons verts",
+            "en": "3 spring onions"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Préparer un bouillon avec le dashi et 1,5 L d'eau, puis y délayer le miso hors ébullition.",
+          "Cuire les œufs 6-7 min pour qu'ils soient mollets, les écaler et les couper en deux.",
+          "Faire revenir le porc émincé. Cuire les nouilles séparément selon le paquet.",
+          "Répartir les nouilles dans les bols, verser le bouillon chaud.",
+          "Garnir d'œuf, de porc, de maïs et d'oignon vert ; servir aussitôt."
+        ],
+        "en": [
+          "Make a broth with the dashi and 1.5 L water, then whisk in the miso off the boil.",
+          "Boil the eggs 6-7 min until soft, peel and halve them.",
+          "Sauté the sliced pork. Cook the noodles separately per the packet.",
+          "Divide the noodles into bowls, pour over the hot broth.",
+          "Top with egg, pork, corn and spring onion; serve immediately."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "yakisoba",
+      "name": {
+        "fr": "Yakisoba",
+        "en": "Yakisoba"
+      },
+      "description": {
+        "fr": "Des nouilles sautées à la japonaise avec du chou, des carottes et du porc, enrobées d'une sauce sucrée-salée — un plat de rue rapide et savoureux.",
+        "en": "Japanese stir-fried noodles with cabbage, carrots and pork, coated in a sweet-savoury sauce — a quick, tasty street-food dish."
+      },
+      "emoji": "🍝",
+      "time_min": 25,
+      "prep_time_min": 12,
+      "cook_time_min": 13,
+      "difficulty": "easy",
+      "type": "main",
+      "servings": 4,
+      "country": "jp",
+      "diet": [
+        "dairy-free"
+      ],
+      "allergens": [
+        "gluten",
+        "soybeans"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "jp-yakisoba-men",
+            "jp-ramen-sec"
+          ],
+          "qty": {
+            "amount": 350,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "350g de nouilles yakisoba",
+            "en": "350g yakisoba noodles"
+          }
+        },
+        {
+          "ids": [
+            "jp-okonomisauce",
+            "sp-sauce-soja"
+          ],
+          "qty": {
+            "amount": 4,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "4 c. à soupe de sauce yakisoba",
+            "en": "4 tbsp yakisoba sauce"
+          }
+        },
+        {
+          "ids": [
+            "vg-chou",
+            "vg-chou-vert"
+          ],
+          "qty": {
+            "amount": 200,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "200g de chou",
+            "en": "200g cabbage"
+          }
+        },
+        {
+          "ids": [
+            "vg-carottes"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 carotte",
+            "en": "1 carrot"
+          }
+        },
+        {
+          "ids": [
+            "fr-echine",
+            "fr-blanc-poulet",
+            "frz-crevettes"
+          ],
+          "qty": {
+            "amount": 250,
+            "unit": "g"
+          },
+          "required": false,
+          "labels": {
+            "fr": "250g de porc",
+            "en": "250g pork"
+          }
+        },
+        {
+          "ids": [
+            "vg-oignon-vert"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "pcs"
+          },
+          "required": false,
+          "labels": {
+            "fr": "2 oignons verts",
+            "en": "2 spring onions"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Émincer le chou, la carotte et le porc.",
+          "Saisir le porc dans une poêle bien chaude avec un peu d'huile.",
+          "Ajouter les légumes et faire sauter 4-5 min à feu vif.",
+          "Incorporer les nouilles précuites et la sauce yakisoba.",
+          "Sauter encore 2 min et servir parsemé d'oignon vert."
+        ],
+        "en": [
+          "Slice the cabbage, carrot and pork.",
+          "Sear the pork in a very hot pan with a little oil.",
+          "Add the vegetables and stir-fry 4-5 min over high heat.",
+          "Stir in the pre-cooked noodles and the yakisoba sauce.",
+          "Stir-fry 2 more min and serve scattered with spring onion."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "udon-bouillon",
+      "name": {
+        "fr": "Udon en bouillon",
+        "en": "Udon noodle soup"
+      },
+      "description": {
+        "fr": "De grosses nouilles udon servies dans un bouillon dashi parfumé, garnies d'oignon vert — un bol chaud, simple et réconfortant.",
+        "en": "Thick udon noodles in a fragrant dashi broth, topped with spring onion — a warm, simple and comforting bowl."
+      },
+      "emoji": "🍲",
+      "time_min": 20,
+      "prep_time_min": 5,
+      "cook_time_min": 15,
+      "difficulty": "easy",
+      "type": "main",
+      "servings": 4,
+      "country": "jp",
+      "diet": [
+        "dairy-free"
+      ],
+      "allergens": [
+        "gluten",
+        "soybeans",
+        "fish"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "jp-udon"
+          ],
+          "qty": {
+            "amount": 400,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "400g d'udon",
+            "en": "400g udon"
+          }
+        },
+        {
+          "ids": [
+            "jp-mentsuyu",
+            "jp-dashi-pack"
+          ],
+          "qty": {
+            "amount": 10,
+            "unit": "cl"
+          },
+          "required": true,
+          "labels": {
+            "fr": "10 cl de mentsuyu",
+            "en": "100ml mentsuyu"
+          }
+        },
+        {
+          "ids": [
+            "sp-sauce-soja"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 c. à soupe de sauce soja",
+            "en": "2 tbsp soy sauce"
+          }
+        },
+        {
+          "ids": [
+            "vg-oignon-vert"
+          ],
+          "qty": {
+            "amount": 3,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "3 oignons verts",
+            "en": "3 spring onions"
+          }
+        },
+        {
+          "ids": [
+            "fr-oeuf"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "pcs"
+          },
+          "required": false,
+          "labels": {
+            "fr": "2 œufs",
+            "en": "2 eggs"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Porter 1,2 L d'eau à ébullition avec le mentsuyu et la sauce soja.",
+          "Cuire les udon selon les indications du paquet.",
+          "Répartir les nouilles dans les bols.",
+          "Verser le bouillon chaud par-dessus.",
+          "Garnir d'oignon vert (et d'un œuf poché si désiré)."
+        ],
+        "en": [
+          "Bring 1.2 L water to a boil with the mentsuyu and soy sauce.",
+          "Cook the udon per the packet instructions.",
+          "Divide the noodles into bowls.",
+          "Pour the hot broth over them.",
+          "Top with spring onion (and a poached egg if desired)."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "soba-froides-tsuyu",
+      "name": {
+        "fr": "Soba froides au tsuyu",
+        "en": "Cold soba with tsuyu"
+      },
+      "description": {
+        "fr": "Des nouilles de sarrasin servies froides avec une sauce tsuyu à tremper, parsemées de nori et de sésame — rafraîchissant et idéal en été.",
+        "en": "Buckwheat noodles served cold with a tsuyu dipping sauce, sprinkled with nori and sesame — refreshing and perfect in summer."
+      },
+      "emoji": "🍜",
+      "time_min": 15,
+      "prep_time_min": 5,
+      "cook_time_min": 10,
+      "difficulty": "easy",
+      "type": "main",
+      "servings": 4,
+      "country": "jp",
+      "diet": [
+        "dairy-free"
+      ],
+      "allergens": [
+        "gluten",
+        "soybeans",
+        "fish",
+        "sesame"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "jp-soba"
+          ],
+          "qty": {
+            "amount": 320,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "320g de soba",
+            "en": "320g soba"
+          }
+        },
+        {
+          "ids": [
+            "jp-mentsuyu",
+            "jp-dashi-pack"
+          ],
+          "qty": {
+            "amount": 12,
+            "unit": "cl"
+          },
+          "required": true,
+          "labels": {
+            "fr": "12 cl de tsuyu",
+            "en": "120ml tsuyu"
+          }
+        },
+        {
+          "ids": [
+            "jp-nori"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": false,
+          "labels": {
+            "fr": "1 feuille de nori",
+            "en": "1 nori sheet"
+          }
+        },
+        {
+          "ids": [
+            "vg-oignon-vert"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 oignons verts",
+            "en": "2 spring onions"
+          }
+        },
+        {
+          "ids": [
+            "jp-goma",
+            "sp-sesame-blanc"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cs"
+          },
+          "required": false,
+          "labels": {
+            "fr": "1 c. à soupe de sésame",
+            "en": "1 tbsp sesame"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Cuire les soba dans l'eau bouillante, puis les rincer à l'eau froide.",
+          "Bien égoutter et dresser sur des assiettes.",
+          "Diluer le tsuyu avec un peu d'eau froide dans des bols individuels.",
+          "Parsemer les soba de nori émincé, d'oignon vert et de sésame.",
+          "Tremper les nouilles dans la sauce au moment de déguster."
+        ],
+        "en": [
+          "Cook the soba in boiling water, then rinse under cold water.",
+          "Drain well and arrange on plates.",
+          "Dilute the tsuyu with a little cold water in individual bowls.",
+          "Sprinkle the soba with shredded nori, spring onion and sesame.",
+          "Dip the noodles in the sauce as you eat."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "gyudon",
+      "name": {
+        "fr": "Gyudon (bol de bœuf)",
+        "en": "Gyudon (beef bowl)"
+      },
+      "description": {
+        "fr": "Un bol de riz garni de fines lamelles de bœuf et d'oignon mijotés dans une sauce soja-mirin sucrée — un plat japonais rapide et nourrissant.",
+        "en": "A rice bowl topped with thin slices of beef and onion simmered in a sweet soy-mirin sauce — a fast, hearty Japanese dish."
+      },
+      "emoji": "🍚",
+      "time_min": 25,
+      "prep_time_min": 10,
+      "cook_time_min": 15,
+      "difficulty": "easy",
+      "type": "main",
+      "servings": 4,
+      "country": "jp",
+      "diet": [
+        "dairy-free"
+      ],
+      "allergens": [
+        "gluten",
+        "soybeans"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "fr-boeuf",
+            "fr-bavette",
+            "frz-boeuf"
+          ],
+          "qty": {
+            "amount": 500,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "500g de bœuf émincé",
+            "en": "500g thinly sliced beef"
+          }
+        },
+        {
+          "ids": [
+            "vg-oignon"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 oignons",
+            "en": "2 onions"
+          }
+        },
+        {
+          "ids": [
+            "sp-sauce-soja"
+          ],
+          "qty": {
+            "amount": 5,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "5 c. à soupe de sauce soja",
+            "en": "5 tbsp soy sauce"
+          }
+        },
+        {
+          "ids": [
+            "jp-mirin",
+            "gp-sucre"
+          ],
+          "qty": {
+            "amount": 3,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "3 c. à soupe de mirin",
+            "en": "3 tbsp mirin"
+          }
+        },
+        {
+          "ids": [
+            "gp-riz",
+            "gp-riz-rond",
+            "jp-hakumai"
+          ],
+          "qty": {
+            "amount": 320,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "320g de riz",
+            "en": "320g rice"
+          }
+        },
+        {
+          "ids": [
+            "vg-oignon-vert"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "pcs"
+          },
+          "required": false,
+          "labels": {
+            "fr": "2 oignons verts",
+            "en": "2 spring onions"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Cuire le riz.",
+          "Émincer les oignons et les faire fondre dans une sauteuse.",
+          "Ajouter la sauce soja, le mirin et un peu d'eau, porter à frémissement.",
+          "Ajouter le bœuf émincé et cuire 5 min dans la sauce.",
+          "Servir sur le riz chaud, parsemé d'oignon vert."
+        ],
+        "en": [
+          "Cook the rice.",
+          "Slice the onions and soften them in a pan.",
+          "Add the soy sauce, mirin and a little water, bring to a simmer.",
+          "Add the thinly sliced beef and cook 5 min in the sauce.",
+          "Serve over the hot rice, scattered with spring onion."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "oyakodon",
+      "name": {
+        "fr": "Oyakodon (poulet & œuf)",
+        "en": "Oyakodon (chicken & egg)"
+      },
+      "description": {
+        "fr": "Un bol de riz japonais où poulet et œuf battu mijotent ensemble dans un bouillon sucré-salé — réconfortant, économique et prêt en 20 minutes.",
+        "en": "A Japanese rice bowl where chicken and beaten egg simmer together in a sweet-savoury broth — comforting, cheap and ready in 20 minutes."
+      },
+      "emoji": "🍚",
+      "time_min": 25,
+      "prep_time_min": 10,
+      "cook_time_min": 15,
+      "difficulty": "easy",
+      "type": "main",
+      "servings": 4,
+      "country": "jp",
+      "diet": [
+        "dairy-free"
+      ],
+      "allergens": [
+        "gluten",
+        "soybeans",
+        "eggs"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "fr-cuisse-poulet",
+            "fr-blanc-poulet"
+          ],
+          "qty": {
+            "amount": 400,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "400g de poulet",
+            "en": "400g chicken"
+          }
+        },
+        {
+          "ids": [
+            "fr-oeuf"
+          ],
+          "qty": {
+            "amount": 5,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "5 œufs",
+            "en": "5 eggs"
+          }
+        },
+        {
+          "ids": [
+            "vg-oignon"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 oignon",
+            "en": "1 onion"
+          }
+        },
+        {
+          "ids": [
+            "sp-sauce-soja"
+          ],
+          "qty": {
+            "amount": 4,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "4 c. à soupe de sauce soja",
+            "en": "4 tbsp soy sauce"
+          }
+        },
+        {
+          "ids": [
+            "jp-mirin",
+            "gp-sucre"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 c. à soupe de mirin",
+            "en": "2 tbsp mirin"
+          }
+        },
+        {
+          "ids": [
+            "gp-riz",
+            "jp-hakumai"
+          ],
+          "qty": {
+            "amount": 320,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "320g de riz",
+            "en": "320g rice"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Cuire le riz.",
+          "Faire mijoter l'oignon émincé dans la sauce soja, le mirin et un peu d'eau.",
+          "Ajouter le poulet en morceaux et cuire 8 min.",
+          "Verser les œufs battus en filet, couvrir et cuire 1-2 min (l'œuf reste baveux).",
+          "Faire glisser sur les bols de riz et servir aussitôt."
+        ],
+        "en": [
+          "Cook the rice.",
+          "Simmer the sliced onion in the soy sauce, mirin and a little water.",
+          "Add the diced chicken and cook 8 min.",
+          "Pour in the beaten eggs, cover and cook 1-2 min (keep the egg soft).",
+          "Slide onto the rice bowls and serve immediately."
+        ]
+      },
+      "functional_tags": [
+        "kids_friendly"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "katsudon",
+      "name": {
+        "fr": "Katsudon",
+        "en": "Katsudon"
+      },
+      "description": {
+        "fr": "Une escalope de porc panée et croustillante mijotée avec de l'œuf et de l'oignon, posée sur un bol de riz — le plat réconfortant des étudiants japonais.",
+        "en": "A crisp breaded pork cutlet simmered with egg and onion, set over a rice bowl — the comfort dish of Japanese students."
+      },
+      "emoji": "🍚",
+      "time_min": 40,
+      "prep_time_min": 15,
+      "cook_time_min": 25,
+      "difficulty": "medium",
+      "type": "main",
+      "servings": 4,
+      "country": "jp",
+      "diet": [
+        "dairy-free"
+      ],
+      "allergens": [
+        "gluten",
+        "soybeans",
+        "eggs"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "fr-echine",
+            "fr-filet-porc",
+            "fr-cote-porc"
+          ],
+          "qty": {
+            "amount": 500,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "4 escalopes de porc",
+            "en": "4 pork cutlets"
+          }
+        },
+        {
+          "ids": [
+            "gp-panko",
+            "gp-chapelure"
+          ],
+          "qty": {
+            "amount": 100,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "100g de panko",
+            "en": "100g panko"
+          }
+        },
+        {
+          "ids": [
+            "fr-oeuf"
+          ],
+          "qty": {
+            "amount": 6,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "6 œufs",
+            "en": "6 eggs"
+          }
+        },
+        {
+          "ids": [
+            "vg-oignon"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 oignon",
+            "en": "1 onion"
+          }
+        },
+        {
+          "ids": [
+            "sp-sauce-soja"
+          ],
+          "qty": {
+            "amount": 4,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "4 c. à soupe de sauce soja",
+            "en": "4 tbsp soy sauce"
+          }
+        },
+        {
+          "ids": [
+            "gp-riz",
+            "jp-hakumai"
+          ],
+          "qty": {
+            "amount": 320,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "320g de riz",
+            "en": "320g rice"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Paner les escalopes (farine, œuf battu, panko) et les frire jusqu'à coloration dorée.",
+          "Cuire le riz.",
+          "Mijoter l'oignon émincé dans la sauce soja, le mirin et un peu d'eau.",
+          "Déposer les escalopes tranchées dans la sauce, verser 2 œufs battus et couvrir 1 min.",
+          "Faire glisser sur les bols de riz et servir."
+        ],
+        "en": [
+          "Bread the cutlets (flour, beaten egg, panko) and fry until golden.",
+          "Cook the rice.",
+          "Simmer the sliced onion in soy sauce, mirin and a little water.",
+          "Place the sliced cutlets in the sauce, pour in 2 beaten eggs and cover 1 min.",
+          "Slide onto the rice bowls and serve."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "tonkatsu",
+      "name": {
+        "fr": "Tonkatsu",
+        "en": "Tonkatsu"
+      },
+      "description": {
+        "fr": "Une escalope de porc panée au panko, frite jusqu'à être ultra-croustillante, servie avec une sauce épaisse et du chou émincé — un grand classique japonais.",
+        "en": "A panko-breaded pork cutlet fried until extra crisp, served with a thick sauce and shredded cabbage — a great Japanese classic."
+      },
+      "emoji": "🍖",
+      "time_min": 30,
+      "prep_time_min": 15,
+      "cook_time_min": 15,
+      "difficulty": "medium",
+      "type": "main",
+      "servings": 4,
+      "country": "jp",
+      "diet": [
+        "dairy-free"
+      ],
+      "allergens": [
+        "gluten",
+        "eggs",
+        "soybeans"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "fr-echine",
+            "fr-cote-porc",
+            "fr-filet-porc"
+          ],
+          "qty": {
+            "amount": 600,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "4 côtes de porc",
+            "en": "4 pork loin steaks"
+          }
+        },
+        {
+          "ids": [
+            "gp-panko"
+          ],
+          "qty": {
+            "amount": 120,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "120g de panko",
+            "en": "120g panko"
+          }
+        },
+        {
+          "ids": [
+            "fr-oeuf"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 œufs",
+            "en": "2 eggs"
+          }
+        },
+        {
+          "ids": [
+            "gp-farine"
+          ],
+          "qty": {
+            "amount": 60,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "60g de farine",
+            "en": "60g flour"
+          }
+        },
+        {
+          "ids": [
+            "vg-chou",
+            "vg-chou-vert"
+          ],
+          "qty": {
+            "amount": 200,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "200g de chou",
+            "en": "200g cabbage"
+          }
+        },
+        {
+          "ids": [
+            "sp-sauce-bbq",
+            "jp-okonomisauce"
+          ],
+          "qty": {
+            "amount": 4,
+            "unit": "cs"
+          },
+          "required": false,
+          "labels": {
+            "fr": "Sauce tonkatsu",
+            "en": "Tonkatsu sauce"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Aplatir légèrement les côtes de porc et les saler.",
+          "Les passer dans la farine, l'œuf battu puis le panko.",
+          "Frire dans l'huile chaude 3-4 min par face jusqu'à dorure.",
+          "Égoutter sur du papier absorbant et trancher en lanières.",
+          "Servir avec le chou finement émincé et la sauce tonkatsu."
+        ],
+        "en": [
+          "Lightly flatten the pork steaks and season.",
+          "Coat in flour, beaten egg then panko.",
+          "Fry in hot oil 3-4 min per side until golden.",
+          "Drain on paper towel and slice into strips.",
+          "Serve with finely shredded cabbage and tonkatsu sauce."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "poulet-katsu-curry",
+      "name": {
+        "fr": "Poulet katsu curry",
+        "en": "Chicken katsu curry"
+      },
+      "description": {
+        "fr": "Une escalope de poulet panée et croustillante nappée d'un curry japonais doux et épais, servie sur du riz — gourmand et très populaire.",
+        "en": "A crisp breaded chicken cutlet smothered in a mild, thick Japanese curry, served over rice — indulgent and hugely popular."
+      },
+      "emoji": "🍛",
+      "time_min": 45,
+      "prep_time_min": 20,
+      "cook_time_min": 25,
+      "difficulty": "medium",
+      "type": "main",
+      "servings": 4,
+      "country": "jp",
+      "diet": [
+        "dairy-free"
+      ],
+      "allergens": [
+        "gluten",
+        "eggs"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "fr-blanc-poulet",
+            "frz-escalope"
+          ],
+          "qty": {
+            "amount": 4,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "4 escalopes de poulet",
+            "en": "4 chicken breasts"
+          }
+        },
+        {
+          "ids": [
+            "gp-panko"
+          ],
+          "qty": {
+            "amount": 120,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "120g de panko",
+            "en": "120g panko"
+          }
+        },
+        {
+          "ids": [
+            "fr-oeuf"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 œufs",
+            "en": "2 eggs"
+          }
+        },
+        {
+          "ids": [
+            "sp-curry"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 c. à soupe de curry japonais",
+            "en": "2 tbsp Japanese curry"
+          }
+        },
+        {
+          "ids": [
+            "vg-oignon",
+            "vg-carottes"
+          ],
+          "qty": {
+            "amount": 300,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 oignon + 1 carotte",
+            "en": "1 onion + 1 carrot"
+          }
+        },
+        {
+          "ids": [
+            "gp-riz",
+            "jp-hakumai"
+          ],
+          "qty": {
+            "amount": 320,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "320g de riz",
+            "en": "320g rice"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Préparer le curry : faire revenir oignon et carotte, ajouter le curry, la farine et de l'eau ; mijoter 15 min.",
+          "Paner les escalopes (farine, œuf, panko) et les frire jusqu'à dorure.",
+          "Cuire le riz.",
+          "Trancher les escalopes en lanières.",
+          "Dresser le riz, poser le poulet et napper généreusement de curry."
+        ],
+        "en": [
+          "Make the curry: sauté onion and carrot, add the curry, flour and water; simmer 15 min.",
+          "Bread the cutlets (flour, egg, panko) and fry until golden.",
+          "Cook the rice.",
+          "Slice the cutlets into strips.",
+          "Plate the rice, lay the chicken on top and ladle over plenty of curry."
+        ]
+      },
+      "functional_tags": [
+        "kids_friendly"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "onigiri",
+      "name": {
+        "fr": "Onigiri",
+        "en": "Onigiri"
+      },
+      "description": {
+        "fr": "Des boules de riz japonais façonnées à la main, garnies au cœur et enveloppées d'une bande de nori — l'en-cas nomade par excellence.",
+        "en": "Hand-shaped Japanese rice balls with a filling at the centre, wrapped in a strip of nori — the ultimate portable snack."
+      },
+      "emoji": "🍙",
+      "time_min": 25,
+      "prep_time_min": 20,
+      "cook_time_min": 5,
+      "difficulty": "easy",
+      "type": "starter",
+      "servings": 4,
+      "country": "jp",
+      "diet": [
+        "vegan",
+        "vegetarian",
+        "gluten-free",
+        "dairy-free"
+      ],
+      "allergens": [
+        "sesame"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "gp-riz-rond",
+            "jp-hakumai"
+          ],
+          "qty": {
+            "amount": 300,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "300g de riz rond",
+            "en": "300g short-grain rice"
+          }
+        },
+        {
+          "ids": [
+            "jp-nori"
+          ],
+          "qty": {
+            "amount": 3,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "3 feuilles de nori",
+            "en": "3 nori sheets"
+          }
+        },
+        {
+          "ids": [
+            "jp-goma",
+            "sp-sesame-noir"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cs"
+          },
+          "required": false,
+          "labels": {
+            "fr": "1 c. à soupe de sésame",
+            "en": "1 tbsp sesame"
+          }
+        },
+        {
+          "ids": [
+            "sp-sel"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pm"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Sel",
+            "en": "Salt"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Cuire le riz rond et le laisser tiédir.",
+          "Se mouiller les mains et les saler légèrement.",
+          "Former une boule de riz, creuser un puits et y déposer la garniture.",
+          "Refermer et façonner en triangle bien compact.",
+          "Entourer d'une bande de nori et parsemer de sésame."
+        ],
+        "en": [
+          "Cook the short-grain rice and let it cool slightly.",
+          "Wet your hands and lightly salt them.",
+          "Form a rice ball, make a well and add the filling.",
+          "Close it up and shape into a firm triangle.",
+          "Wrap with a strip of nori and sprinkle with sesame."
+        ]
+      },
+      "functional_tags": [
+        "kids_friendly"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "tamagoyaki",
+      "name": {
+        "fr": "Tamagoyaki",
+        "en": "Tamagoyaki"
+      },
+      "description": {
+        "fr": "Une omelette japonaise roulée en couches, légèrement sucrée et moelleuse — parfaite au petit-déjeuner ou dans une bento.",
+        "en": "A rolled Japanese omelette made in layers, lightly sweet and tender — perfect for breakfast or in a bento box."
+      },
+      "emoji": "🍥",
+      "time_min": 15,
+      "prep_time_min": 5,
+      "cook_time_min": 10,
+      "difficulty": "medium",
+      "type": "starter",
+      "servings": 2,
+      "country": "jp",
+      "diet": [
+        "vegetarian",
+        "dairy-free"
+      ],
+      "allergens": [
+        "eggs",
+        "soybeans",
+        "gluten"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "fr-oeuf"
+          ],
+          "qty": {
+            "amount": 4,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "4 œufs",
+            "en": "4 eggs"
+          }
+        },
+        {
+          "ids": [
+            "sp-sauce-soja"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cc"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 c. à café de sauce soja",
+            "en": "1 tsp soy sauce"
+          }
+        },
+        {
+          "ids": [
+            "jp-mirin",
+            "gp-sucre"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 c. à soupe de mirin",
+            "en": "1 tbsp mirin"
+          }
+        },
+        {
+          "ids": [
+            "sp-huile-tournesol",
+            "sp-huile-colza"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 c. à soupe d'huile",
+            "en": "1 tbsp oil"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Battre les œufs avec la sauce soja et le mirin.",
+          "Huiler légèrement une poêle et verser une fine couche d'œuf.",
+          "Dès qu'elle prend, la rouler vers soi.",
+          "Verser une nouvelle couche, soulever l'omelette pour qu'elle coule dessous, puis rouler à nouveau.",
+          "Répéter jusqu'à épuisement, puis trancher l'omelette roulée."
+        ],
+        "en": [
+          "Beat the eggs with the soy sauce and mirin.",
+          "Lightly oil a pan and pour in a thin layer of egg.",
+          "As soon as it sets, roll it towards you.",
+          "Pour in a new layer, lift the omelette so it flows underneath, then roll again.",
+          "Repeat until done, then slice the rolled omelette."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "chirashi-saumon",
+      "name": {
+        "fr": "Chirashi au saumon",
+        "en": "Salmon chirashi"
+      },
+      "description": {
+        "fr": "Un bol de riz vinaigré couronné de saumon cru, d'avocat et d'œufs de poisson — frais, coloré et bien plus simple à réaliser que des sushis.",
+        "en": "A bowl of vinegared rice topped with raw salmon, avocado and fish roe — fresh, colourful and far simpler than rolling sushi."
+      },
+      "emoji": "🍣",
+      "time_min": 30,
+      "prep_time_min": 25,
+      "cook_time_min": 5,
+      "difficulty": "easy",
+      "type": "main",
+      "servings": 4,
+      "country": "jp",
+      "diet": [
+        "dairy-free"
+      ],
+      "allergens": [
+        "fish",
+        "soybeans",
+        "sesame",
+        "gluten"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "gp-riz-rond",
+            "jp-hakumai"
+          ],
+          "qty": {
+            "amount": 300,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "300g de riz rond",
+            "en": "300g short-grain rice"
+          }
+        },
+        {
+          "ids": [
+            "fr-saumon"
+          ],
+          "qty": {
+            "amount": 400,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "400g de saumon très frais",
+            "en": "400g very fresh salmon"
+          }
+        },
+        {
+          "ids": [
+            "fr-avocat"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 avocat",
+            "en": "1 avocado"
+          }
+        },
+        {
+          "ids": [
+            "sp-vinaigre-riz"
+          ],
+          "qty": {
+            "amount": 3,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "3 c. à soupe de vinaigre de riz",
+            "en": "3 tbsp rice vinegar"
+          }
+        },
+        {
+          "ids": [
+            "sp-sauce-soja"
+          ],
+          "qty": {
+            "amount": 3,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Sauce soja",
+            "en": "Soy sauce"
+          }
+        },
+        {
+          "ids": [
+            "jp-nori",
+            "jp-goma"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": false,
+          "labels": {
+            "fr": "Nori et sésame",
+            "en": "Nori and sesame"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Cuire le riz rond, l'assaisonner tiède avec le vinaigre de riz, un peu de sucre et de sel.",
+          "Couper le saumon très frais en cubes ou en fines tranches.",
+          "Détailler l'avocat en lamelles.",
+          "Répartir le riz vinaigré dans des bols.",
+          "Disposer le saumon et l'avocat dessus, parsemer de nori et de sésame, servir avec la sauce soja."
+        ],
+        "en": [
+          "Cook the short-grain rice, season it warm with rice vinegar, a little sugar and salt.",
+          "Cut the very fresh salmon into cubes or thin slices.",
+          "Slice the avocado.",
+          "Divide the vinegared rice into bowls.",
+          "Arrange the salmon and avocado on top, scatter with nori and sesame, serve with soy sauce."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "maki-saumon-avocat",
+      "name": {
+        "fr": "Maki saumon-avocat",
+        "en": "Salmon-avocado maki"
+      },
+      "description": {
+        "fr": "Des rouleaux de riz vinaigré et de nori garnis de saumon et d'avocat, tranchés en bouchées — les sushis maison les plus accessibles.",
+        "en": "Rolls of vinegared rice and nori filled with salmon and avocado, sliced into bites — the most approachable homemade sushi."
+      },
+      "emoji": "🍣",
+      "time_min": 50,
+      "prep_time_min": 45,
+      "cook_time_min": 5,
+      "difficulty": "medium",
+      "type": "main",
+      "servings": 4,
+      "country": "jp",
+      "diet": [
+        "dairy-free"
+      ],
+      "allergens": [
+        "fish",
+        "soybeans"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "gp-riz-rond",
+            "jp-hakumai"
+          ],
+          "qty": {
+            "amount": 300,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "300g de riz rond",
+            "en": "300g short-grain rice"
+          }
+        },
+        {
+          "ids": [
+            "jp-nori"
+          ],
+          "qty": {
+            "amount": 6,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "6 feuilles de nori",
+            "en": "6 nori sheets"
+          }
+        },
+        {
+          "ids": [
+            "fr-saumon"
+          ],
+          "qty": {
+            "amount": 300,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "300g de saumon",
+            "en": "300g salmon"
+          }
+        },
+        {
+          "ids": [
+            "fr-avocat"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 avocat",
+            "en": "1 avocado"
+          }
+        },
+        {
+          "ids": [
+            "sp-vinaigre-riz"
+          ],
+          "qty": {
+            "amount": 4,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "4 c. à soupe de vinaigre de riz",
+            "en": "4 tbsp rice vinegar"
+          }
+        },
+        {
+          "ids": [
+            "sp-sauce-soja"
+          ],
+          "qty": {
+            "amount": 4,
+            "unit": "cs"
+          },
+          "required": false,
+          "labels": {
+            "fr": "Sauce soja",
+            "en": "Soy sauce"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Cuire le riz, l'assaisonner au vinaigre de riz et laisser tiédir.",
+          "Poser une feuille de nori sur un tapis, étaler le riz en laissant une bordure.",
+          "Disposer le saumon et l'avocat en bâtonnets sur le bord.",
+          "Rouler serré à l'aide du tapis, puis humidifier la bordure pour souder.",
+          "Trancher en bouchées avec un couteau humide ; servir avec la sauce soja."
+        ],
+        "en": [
+          "Cook the rice, season with rice vinegar and let cool slightly.",
+          "Lay a nori sheet on a mat, spread the rice leaving a border.",
+          "Arrange the salmon and avocado in sticks along the edge.",
+          "Roll tightly with the mat, then dampen the border to seal.",
+          "Slice into bites with a wet knife; serve with soy sauce."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "saumon-teriyaki",
+      "name": {
+        "fr": "Saumon teriyaki",
+        "en": "Teriyaki salmon"
+      },
+      "description": {
+        "fr": "Un pavé de saumon laqué d'une sauce teriyaki brillante, fondant à cœur et caramélisé en surface — élégant et prêt en 20 minutes.",
+        "en": "A salmon fillet glazed in glossy teriyaki sauce, tender inside and caramelised on top — elegant and ready in 20 minutes."
+      },
+      "emoji": "🐟",
+      "time_min": 20,
+      "prep_time_min": 5,
+      "cook_time_min": 15,
+      "difficulty": "easy",
+      "type": "main",
+      "servings": 4,
+      "country": "jp",
+      "diet": [
+        "dairy-free"
+      ],
+      "allergens": [
+        "fish",
+        "soybeans",
+        "gluten",
+        "sesame"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "fr-saumon",
+            "frz-saumon-pave"
+          ],
+          "qty": {
+            "amount": 4,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "4 pavés de saumon",
+            "en": "4 salmon fillets"
+          }
+        },
+        {
+          "ids": [
+            "sp-sauce-teriyaki",
+            "sp-sauce-soja"
+          ],
+          "qty": {
+            "amount": 5,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "5 c. à soupe de sauce teriyaki",
+            "en": "5 tbsp teriyaki sauce"
+          }
+        },
+        {
+          "ids": [
+            "jp-mirin",
+            "gp-miel"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 c. à soupe de mirin",
+            "en": "2 tbsp mirin"
+          }
+        },
+        {
+          "ids": [
+            "sp-gingembre"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cc"
+          },
+          "required": false,
+          "labels": {
+            "fr": "1 c. à café de gingembre",
+            "en": "1 tsp ginger"
+          }
+        },
+        {
+          "ids": [
+            "jp-goma",
+            "vg-oignon-vert"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cs"
+          },
+          "required": false,
+          "labels": {
+            "fr": "Sésame et oignon vert",
+            "en": "Sesame and spring onion"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Saisir les pavés de saumon côté peau dans une poêle chaude.",
+          "Retourner et cuire l'autre face 2 min.",
+          "Mélanger la sauce teriyaki, le mirin et le gingembre, verser dans la poêle.",
+          "Laisser réduire en arrosant le saumon jusqu'à ce qu'il soit laqué.",
+          "Parsemer de sésame et d'oignon vert ; servir avec du riz."
+        ],
+        "en": [
+          "Sear the salmon fillets skin-side down in a hot pan.",
+          "Flip and cook the other side 2 min.",
+          "Mix the teriyaki sauce, mirin and ginger, pour into the pan.",
+          "Reduce while basting the salmon until glazed.",
+          "Sprinkle with sesame and spring onion; serve with rice."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "porc-gingembre-shogayaki",
+      "name": {
+        "fr": "Porc au gingembre (shogayaki)",
+        "en": "Ginger pork (shogayaki)"
+      },
+      "description": {
+        "fr": "De fines tranches de porc sautées dans une sauce soja-gingembre, servies avec du chou cru — un plat familial japonais rapide et parfumé.",
+        "en": "Thin slices of pork stir-fried in a soy-ginger sauce, served with raw cabbage — a quick, fragrant Japanese family dish."
+      },
+      "emoji": "🐖",
+      "time_min": 20,
+      "prep_time_min": 10,
+      "cook_time_min": 10,
+      "difficulty": "easy",
+      "type": "main",
+      "servings": 4,
+      "country": "jp",
+      "diet": [
+        "dairy-free"
+      ],
+      "allergens": [
+        "soybeans",
+        "gluten"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "fr-echine",
+            "fr-filet-porc"
+          ],
+          "qty": {
+            "amount": 500,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "500g de porc en fines tranches",
+            "en": "500g thinly sliced pork"
+          }
+        },
+        {
+          "ids": [
+            "sp-gingembre"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 c. à soupe de gingembre râpé",
+            "en": "2 tbsp grated ginger"
+          }
+        },
+        {
+          "ids": [
+            "sp-sauce-soja"
+          ],
+          "qty": {
+            "amount": 4,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "4 c. à soupe de sauce soja",
+            "en": "4 tbsp soy sauce"
+          }
+        },
+        {
+          "ids": [
+            "jp-mirin",
+            "gp-sucre"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 c. à soupe de mirin",
+            "en": "2 tbsp mirin"
+          }
+        },
+        {
+          "ids": [
+            "vg-chou",
+            "vg-chou-vert"
+          ],
+          "qty": {
+            "amount": 200,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "200g de chou",
+            "en": "200g cabbage"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Mélanger le gingembre, la sauce soja et le mirin.",
+          "Saisir le porc en fines tranches dans une poêle chaude.",
+          "Verser la sauce et laisser glacer 2 min.",
+          "Émincer finement le chou cru.",
+          "Servir le porc nappé de sauce avec le chou et du riz."
+        ],
+        "en": [
+          "Mix the ginger, soy sauce and mirin.",
+          "Sear the thinly sliced pork in a hot pan.",
+          "Pour in the sauce and let it glaze 2 min.",
+          "Finely shred the raw cabbage.",
+          "Serve the pork in its sauce with the cabbage and rice."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "edamame-sel",
+      "name": {
+        "fr": "Edamame au sel",
+        "en": "Salted edamame"
+      },
+      "description": {
+        "fr": "Des cosses de soja vapeur saupoudrées de sel — l'amuse-bouche japonais minimaliste, à grignoter directement de la cosse.",
+        "en": "Steamed soybean pods sprinkled with salt — the minimalist Japanese nibble, eaten straight from the pod."
+      },
+      "emoji": "🫛",
+      "time_min": 10,
+      "prep_time_min": 2,
+      "cook_time_min": 8,
+      "difficulty": "very-easy",
+      "type": "starter",
+      "servings": 4,
+      "country": "jp",
+      "diet": [
+        "vegan",
+        "vegetarian",
+        "gluten-free",
+        "dairy-free"
+      ],
+      "allergens": [
+        "soybeans"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "frz-edamame",
+            "jp-edamame-fresh"
+          ],
+          "qty": {
+            "amount": 400,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "400g d'edamame",
+            "en": "400g edamame"
+          }
+        },
+        {
+          "ids": [
+            "sp-fleur-sel",
+            "sp-sel-gros"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 c. à soupe de fleur de sel",
+            "en": "1 tbsp flaky salt"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Porter une casserole d'eau salée à ébullition.",
+          "Plonger les edamame 5 min (ou cuire à la vapeur).",
+          "Égoutter soigneusement.",
+          "Saupoudrer généreusement de sel pendant qu'ils sont chauds.",
+          "Servir tiède, à déguster en pressant les cosses."
+        ],
+        "en": [
+          "Bring a pan of salted water to a boil.",
+          "Drop in the edamame for 5 min (or steam them).",
+          "Drain thoroughly.",
+          "Sprinkle generously with salt while hot.",
+          "Serve warm, eaten by squeezing the pods."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "salade-wakame-concombre",
+      "name": {
+        "fr": "Salade de wakamé et concombre",
+        "en": "Wakame & cucumber salad"
+      },
+      "description": {
+        "fr": "Une salade japonaise fraîche d'algues wakamé et de concombre dans une vinaigrette au vinaigre de riz et au sésame — légère et iodée.",
+        "en": "A fresh Japanese salad of wakame seaweed and cucumber in a rice vinegar and sesame dressing — light and briny."
+      },
+      "emoji": "🥗",
+      "time_min": 15,
+      "prep_time_min": 15,
+      "cook_time_min": 0,
+      "difficulty": "very-easy",
+      "type": "salad",
+      "servings": 4,
+      "country": "jp",
+      "diet": [
+        "vegan",
+        "vegetarian",
+        "dairy-free"
+      ],
+      "allergens": [
+        "soybeans",
+        "sesame",
+        "gluten"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "jp-wakame",
+            "jp-algues"
+          ],
+          "qty": {
+            "amount": 20,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "20g de wakamé séché",
+            "en": "20g dried wakame"
+          }
+        },
+        {
+          "ids": [
+            "vg-concombre"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 concombre",
+            "en": "1 cucumber"
+          }
+        },
+        {
+          "ids": [
+            "sp-vinaigre-riz"
+          ],
+          "qty": {
+            "amount": 3,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "3 c. à soupe de vinaigre de riz",
+            "en": "3 tbsp rice vinegar"
+          }
+        },
+        {
+          "ids": [
+            "sp-sauce-soja"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 c. à soupe de sauce soja",
+            "en": "1 tbsp soy sauce"
+          }
+        },
+        {
+          "ids": [
+            "jp-goma",
+            "sp-sesame-blanc"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 c. à soupe de sésame",
+            "en": "1 tbsp sesame"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Réhydrater le wakamé 10 min dans l'eau froide, puis l'égoutter.",
+          "Émincer le concombre finement et le saler 5 min pour le dégorger.",
+          "Préparer la vinaigrette : vinaigre de riz, sauce soja, un peu de sucre.",
+          "Mélanger le wakamé et le concombre avec la sauce.",
+          "Parsemer de sésame et servir frais."
+        ],
+        "en": [
+          "Rehydrate the wakame 10 min in cold water, then drain.",
+          "Thinly slice the cucumber and salt it 5 min to draw out water.",
+          "Make the dressing: rice vinegar, soy sauce, a little sugar.",
+          "Toss the wakame and cucumber with the dressing.",
+          "Sprinkle with sesame and serve cold."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "chahan-riz-saute",
+      "name": {
+        "fr": "Chahan (riz sauté japonais)",
+        "en": "Chahan (Japanese fried rice)"
+      },
+      "description": {
+        "fr": "Un riz sauté japonais bien doré avec œuf, jambon et oignon vert — le plat anti-gaspi idéal pour utiliser un reste de riz.",
+        "en": "A golden Japanese fried rice with egg, ham and spring onion — the perfect waste-busting way to use up leftover rice."
+      },
+      "emoji": "🍚",
+      "time_min": 15,
+      "prep_time_min": 5,
+      "cook_time_min": 10,
+      "difficulty": "easy",
+      "type": "main",
+      "servings": 4,
+      "country": "jp",
+      "diet": [
+        "dairy-free"
+      ],
+      "allergens": [
+        "eggs",
+        "soybeans",
+        "gluten"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "gp-riz",
+            "jp-hakumai"
+          ],
+          "qty": {
+            "amount": 400,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "400g de riz cuit",
+            "en": "400g cooked rice"
+          }
+        },
+        {
+          "ids": [
+            "fr-oeuf"
+          ],
+          "qty": {
+            "amount": 3,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "3 œufs",
+            "en": "3 eggs"
+          }
+        },
+        {
+          "ids": [
+            "fr-jambon",
+            "fr-lardons"
+          ],
+          "qty": {
+            "amount": 120,
+            "unit": "g"
+          },
+          "required": false,
+          "labels": {
+            "fr": "120g de jambon",
+            "en": "120g ham"
+          }
+        },
+        {
+          "ids": [
+            "vg-oignon-vert"
+          ],
+          "qty": {
+            "amount": 3,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "3 oignons verts",
+            "en": "3 spring onions"
+          }
+        },
+        {
+          "ids": [
+            "sp-sauce-soja"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 c. à soupe de sauce soja",
+            "en": "2 tbsp soy sauce"
+          }
+        },
+        {
+          "ids": [
+            "sp-huile-sesame"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cs"
+          },
+          "required": false,
+          "labels": {
+            "fr": "1 c. à soupe d'huile de sésame",
+            "en": "1 tbsp sesame oil"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Brouiller les œufs dans une poêle très chaude, réserver.",
+          "Faire sauter le jambon et le blanc des oignons.",
+          "Ajouter le riz cuit et bien le faire revenir à feu vif.",
+          "Incorporer les œufs, la sauce soja et l'huile de sésame.",
+          "Parsemer du vert des oignons et servir aussitôt."
+        ],
+        "en": [
+          "Scramble the eggs in a very hot pan, set aside.",
+          "Stir-fry the ham and the white part of the onions.",
+          "Add the cooked rice and fry well over high heat.",
+          "Stir in the eggs, soy sauce and sesame oil.",
+          "Scatter with the green of the onions and serve at once."
+        ]
+      },
+      "functional_tags": [
+        "anti_waste"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "somen-froides",
+      "name": {
+        "fr": "Somen froides",
+        "en": "Cold somen"
+      },
+      "description": {
+        "fr": "De très fines nouilles de blé servies glacées avec une sauce à tremper — le plat d'été japonais le plus rafraîchissant, prêt en un clin d'œil.",
+        "en": "Very thin wheat noodles served chilled with a dipping sauce — Japan's most refreshing summer dish, ready in a flash."
+      },
+      "emoji": "🍜",
+      "time_min": 12,
+      "prep_time_min": 5,
+      "cook_time_min": 7,
+      "difficulty": "easy",
+      "type": "main",
+      "servings": 4,
+      "country": "jp",
+      "diet": [
+        "dairy-free"
+      ],
+      "allergens": [
+        "gluten",
+        "soybeans",
+        "fish"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "jp-somen",
+            "jp-hiyamugi"
+          ],
+          "qty": {
+            "amount": 320,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "320g de somen",
+            "en": "320g somen"
+          }
+        },
+        {
+          "ids": [
+            "jp-mentsuyu",
+            "jp-dashi-pack"
+          ],
+          "qty": {
+            "amount": 12,
+            "unit": "cl"
+          },
+          "required": true,
+          "labels": {
+            "fr": "12 cl de mentsuyu",
+            "en": "120ml mentsuyu"
+          }
+        },
+        {
+          "ids": [
+            "vg-oignon-vert"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 oignons verts",
+            "en": "2 spring onions"
+          }
+        },
+        {
+          "ids": [
+            "sp-gingembre"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cc"
+          },
+          "required": false,
+          "labels": {
+            "fr": "1 c. à café de gingembre",
+            "en": "1 tsp ginger"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Cuire les somen 2-3 min seulement, puis les rincer à l'eau glacée.",
+          "Bien les égoutter et les dresser sur de la glace ou dans un saladier froid.",
+          "Diluer le mentsuyu avec de l'eau froide dans des bols.",
+          "Émincer l'oignon vert et râper le gingembre comme condiments.",
+          "Tremper les nouilles dans la sauce au fur et à mesure."
+        ],
+        "en": [
+          "Cook the somen for only 2-3 min, then rinse under iced water.",
+          "Drain well and arrange over ice or in a cold bowl.",
+          "Dilute the mentsuyu with cold water in bowls.",
+          "Slice the spring onion and grate the ginger as condiments.",
+          "Dip the noodles in the sauce as you go."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "agedashi-tofu",
+      "name": {
+        "fr": "Agedashi tofu",
+        "en": "Agedashi tofu"
+      },
+      "description": {
+        "fr": "Des cubes de tofu soyeux enrobés de fécule et frits, baignés dans un bouillon dashi tiède — croustillants dehors, fondants dedans.",
+        "en": "Cubes of silken tofu coated in starch and fried, bathed in a warm dashi broth — crisp outside, melting within."
+      },
+      "emoji": "🍢",
+      "time_min": 25,
+      "prep_time_min": 10,
+      "cook_time_min": 15,
+      "difficulty": "medium",
+      "type": "starter",
+      "servings": 4,
+      "country": "jp",
+      "diet": [
+        "dairy-free"
+      ],
+      "allergens": [
+        "soybeans",
+        "fish",
+        "gluten"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "jp-kinu-tofu",
+            "jp-tofu",
+            "vg-tofu"
+          ],
+          "qty": {
+            "amount": 400,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "400g de tofu soyeux",
+            "en": "400g silken tofu"
+          }
+        },
+        {
+          "ids": [
+            "jp-katakuriko",
+            "gp-fecule-mais"
+          ],
+          "qty": {
+            "amount": 4,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "4 c. à soupe de fécule",
+            "en": "4 tbsp potato starch"
+          }
+        },
+        {
+          "ids": [
+            "jp-dashi-pack",
+            "jp-mentsuyu"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 sachet de dashi",
+            "en": "1 dashi sachet"
+          }
+        },
+        {
+          "ids": [
+            "sp-sauce-soja"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 c. à soupe de sauce soja",
+            "en": "2 tbsp soy sauce"
+          }
+        },
+        {
+          "ids": [
+            "vg-oignon-vert",
+            "sp-gingembre"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "pcs"
+          },
+          "required": false,
+          "labels": {
+            "fr": "Oignon vert et gingembre",
+            "en": "Spring onion and ginger"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Égoutter le tofu et le couper en gros cubes.",
+          "Les enrober de fécule sur toutes les faces.",
+          "Les frire dans l'huile chaude jusqu'à ce qu'ils soient dorés et croustillants.",
+          "Préparer un bouillon tiède avec le dashi, la sauce soja et le mirin.",
+          "Déposer le tofu dans des bols, verser le bouillon et garnir d'oignon vert et de gingembre."
+        ],
+        "en": [
+          "Drain the tofu and cut into large cubes.",
+          "Coat them in starch on all sides.",
+          "Fry in hot oil until golden and crisp.",
+          "Make a warm broth with the dashi, soy sauce and mirin.",
+          "Place the tofu in bowls, pour over the broth and top with spring onion and ginger."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "nikujaga",
+      "name": {
+        "fr": "Nikujaga (ragoût bœuf-pommes de terre)",
+        "en": "Nikujaga (beef & potato stew)"
+      },
+      "description": {
+        "fr": "Un ragoût japonais réconfortant de bœuf, pommes de terre et carottes mijotés dans un bouillon soja-mirin légèrement sucré — un plat de maman.",
+        "en": "A comforting Japanese stew of beef, potatoes and carrots simmered in a lightly sweet soy-mirin broth — a homely classic."
+      },
+      "emoji": "🍲",
+      "time_min": 45,
+      "prep_time_min": 15,
+      "cook_time_min": 30,
+      "difficulty": "easy",
+      "type": "main",
+      "servings": 4,
+      "country": "jp",
+      "diet": [
+        "dairy-free"
+      ],
+      "allergens": [
+        "soybeans",
+        "gluten"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "fr-boeuf",
+            "fr-bavette",
+            "frz-boeuf"
+          ],
+          "qty": {
+            "amount": 400,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "400g de bœuf émincé",
+            "en": "400g thinly sliced beef"
+          }
+        },
+        {
+          "ids": [
+            "vg-pomme-terre"
+          ],
+          "qty": {
+            "amount": 500,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "500g de pommes de terre",
+            "en": "500g potatoes"
+          }
+        },
+        {
+          "ids": [
+            "vg-carottes"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 carottes",
+            "en": "2 carrots"
+          }
+        },
+        {
+          "ids": [
+            "vg-oignon"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 oignon",
+            "en": "1 onion"
+          }
+        },
+        {
+          "ids": [
+            "sp-sauce-soja"
+          ],
+          "qty": {
+            "amount": 5,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "5 c. à soupe de sauce soja",
+            "en": "5 tbsp soy sauce"
+          }
+        },
+        {
+          "ids": [
+            "jp-mirin",
+            "gp-sucre"
+          ],
+          "qty": {
+            "amount": 3,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "3 c. à soupe de mirin",
+            "en": "3 tbsp mirin"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Faire revenir l'oignon et le bœuf dans une cocotte.",
+          "Ajouter les pommes de terre et les carottes en gros morceaux.",
+          "Verser la sauce soja, le mirin et de l'eau à hauteur.",
+          "Couvrir et mijoter 25 min jusqu'à ce que les légumes soient fondants.",
+          "Laisser reposer 5 min pour que les saveurs se concentrent, puis servir."
+        ],
+        "en": [
+          "Sauté the onion and beef in a pot.",
+          "Add the potatoes and carrots in large chunks.",
+          "Pour in the soy sauce, mirin and enough water to cover.",
+          "Cover and simmer 25 min until the vegetables are tender.",
+          "Rest 5 min for the flavours to deepen, then serve."
+        ]
+      },
+      "functional_tags": [
+        "batch_cooking"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "karaage",
+      "name": {
+        "fr": "Karaage (poulet frit japonais)",
+        "en": "Karaage (Japanese fried chicken)"
+      },
+      "description": {
+        "fr": "Des morceaux de poulet marinés au soja et au gingembre, enrobés de fécule et frits jusqu'à être ultra-croustillants — irrésistibles avec un trait de citron.",
+        "en": "Chicken pieces marinated in soy and ginger, coated in starch and fried until extra crisp — irresistible with a squeeze of lemon."
+      },
+      "emoji": "🍗",
+      "time_min": 35,
+      "prep_time_min": 20,
+      "cook_time_min": 15,
+      "difficulty": "medium",
+      "type": "main",
+      "servings": 4,
+      "country": "jp",
+      "diet": [
+        "dairy-free"
+      ],
+      "allergens": [
+        "soybeans",
+        "gluten"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "fr-cuisse-poulet",
+            "fr-blanc-poulet"
+          ],
+          "qty": {
+            "amount": 700,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "700g de cuisses de poulet",
+            "en": "700g chicken thighs"
+          }
+        },
+        {
+          "ids": [
+            "sp-sauce-soja"
+          ],
+          "qty": {
+            "amount": 4,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "4 c. à soupe de sauce soja",
+            "en": "4 tbsp soy sauce"
+          }
+        },
+        {
+          "ids": [
+            "sp-gingembre"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 c. à soupe de gingembre",
+            "en": "1 tbsp ginger"
+          }
+        },
+        {
+          "ids": [
+            "vg-ail"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "gousse"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 gousses d'ail",
+            "en": "2 garlic cloves"
+          }
+        },
+        {
+          "ids": [
+            "jp-katakuriko",
+            "gp-fecule-mais"
+          ],
+          "qty": {
+            "amount": 6,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "6 c. à soupe de fécule",
+            "en": "6 tbsp potato starch"
+          }
+        },
+        {
+          "ids": [
+            "fr-citron"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": false,
+          "labels": {
+            "fr": "1 citron",
+            "en": "1 lemon"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Couper le poulet en morceaux et le mariner 15 min dans le soja, le gingembre et l'ail.",
+          "Égoutter puis enrober chaque morceau de fécule.",
+          "Frire dans l'huile chaude 4-5 min jusqu'à dorure.",
+          "Égoutter sur du papier absorbant.",
+          "Servir bien chaud avec des quartiers de citron."
+        ],
+        "en": [
+          "Cut the chicken into pieces and marinate 15 min in soy, ginger and garlic.",
+          "Drain then coat each piece in starch.",
+          "Fry in hot oil 4-5 min until golden.",
+          "Drain on paper towel.",
+          "Serve hot with lemon wedges."
+        ]
+      },
+      "functional_tags": [
+        "kids_friendly"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "okonomiyaki",
+      "name": {
+        "fr": "Okonomiyaki",
+        "en": "Okonomiyaki"
+      },
+      "description": {
+        "fr": "Une galette japonaise épaisse de chou et d'œuf, garnie de porc et nappée de sauce et de mayonnaise — la « pizza japonaise » conviviale.",
+        "en": "A thick Japanese cabbage-and-egg pancake topped with pork and drizzled with sauce and mayo — the convivial 'Japanese pizza'."
+      },
+      "emoji": "🥞",
+      "time_min": 35,
+      "prep_time_min": 20,
+      "cook_time_min": 15,
+      "difficulty": "medium",
+      "type": "main",
+      "servings": 4,
+      "country": "jp",
+      "diet": [],
+      "allergens": [
+        "gluten",
+        "eggs",
+        "soybeans",
+        "fish"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "vg-chou",
+            "vg-chou-vert"
+          ],
+          "qty": {
+            "amount": 400,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "400g de chou",
+            "en": "400g cabbage"
+          }
+        },
+        {
+          "ids": [
+            "gp-farine"
+          ],
+          "qty": {
+            "amount": 120,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "120g de farine",
+            "en": "120g flour"
+          }
+        },
+        {
+          "ids": [
+            "fr-oeuf"
+          ],
+          "qty": {
+            "amount": 3,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "3 œufs",
+            "en": "3 eggs"
+          }
+        },
+        {
+          "ids": [
+            "fr-lardons",
+            "fr-echine",
+            "fr-bacon"
+          ],
+          "qty": {
+            "amount": 150,
+            "unit": "g"
+          },
+          "required": false,
+          "labels": {
+            "fr": "150g de porc/lardons",
+            "en": "150g pork/bacon"
+          }
+        },
+        {
+          "ids": [
+            "jp-okonomisauce",
+            "sp-sauce-bbq"
+          ],
+          "qty": {
+            "amount": 4,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Sauce okonomiyaki",
+            "en": "Okonomiyaki sauce"
+          }
+        },
+        {
+          "ids": [
+            "sp-mayonnaise"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "cs"
+          },
+          "required": false,
+          "labels": {
+            "fr": "Mayonnaise",
+            "en": "Mayonnaise"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Émincer finement le chou.",
+          "Préparer une pâte avec la farine, les œufs et un peu d'eau, puis y mélanger le chou.",
+          "Verser dans une poêle huilée, poser des tranches de porc dessus.",
+          "Cuire 5-6 min par face jusqu'à coloration.",
+          "Napper de sauce okonomiyaki et de mayonnaise, puis servir."
+        ],
+        "en": [
+          "Finely shred the cabbage.",
+          "Make a batter with the flour, eggs and a little water, then fold in the cabbage.",
+          "Pour into an oiled pan, lay pork slices on top.",
+          "Cook 5-6 min per side until golden.",
+          "Drizzle with okonomiyaki sauce and mayonnaise, then serve."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "dorayaki",
+      "name": {
+        "fr": "Dorayaki",
+        "en": "Dorayaki"
+      },
+      "description": {
+        "fr": "Deux petits pancakes moelleux fourrés d'une pâte de haricots rouges sucrée — la pâtisserie japonaise préférée des enfants (et de Doraemon).",
+        "en": "Two fluffy little pancakes sandwiching a sweet red bean paste — the Japanese treat beloved by children (and Doraemon)."
+      },
+      "emoji": "🥞",
+      "time_min": 40,
+      "prep_time_min": 20,
+      "cook_time_min": 20,
+      "difficulty": "medium",
+      "type": "dessert",
+      "servings": 4,
+      "country": "jp",
+      "diet": [
+        "vegetarian"
+      ],
+      "allergens": [
+        "gluten",
+        "eggs"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "gp-haricots-rouges"
+          ],
+          "qty": {
+            "amount": 250,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "250g de haricots rouges (azuki)",
+            "en": "250g red beans (azuki)"
+          }
+        },
+        {
+          "ids": [
+            "gp-farine"
+          ],
+          "qty": {
+            "amount": 150,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "150g de farine",
+            "en": "150g flour"
+          }
+        },
+        {
+          "ids": [
+            "fr-oeuf"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 œufs",
+            "en": "2 eggs"
+          }
+        },
+        {
+          "ids": [
+            "gp-sucre"
+          ],
+          "qty": {
+            "amount": 120,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "120g de sucre",
+            "en": "120g sugar"
+          }
+        },
+        {
+          "ids": [
+            "gp-miel"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 c. à soupe de miel",
+            "en": "1 tbsp honey"
+          }
+        },
+        {
+          "ids": [
+            "gp-levure"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cc"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 c. à café de levure",
+            "en": "1 tsp baking powder"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Cuire les haricots rouges avec la moitié du sucre jusqu'à obtenir une pâte épaisse (anko) ; laisser refroidir.",
+          "Battre les œufs, le reste du sucre et le miel, puis incorporer farine et levure.",
+          "Cuire de petits pancakes à la poêle des deux côtés.",
+          "Étaler de la pâte de haricots rouges sur un pancake.",
+          "Refermer avec un second pancake et servir."
+        ],
+        "en": [
+          "Cook the red beans with half the sugar to a thick paste (anko); let cool.",
+          "Beat the eggs, remaining sugar and honey, then fold in flour and baking powder.",
+          "Cook small pancakes in a pan on both sides.",
+          "Spread red bean paste on one pancake.",
+          "Top with a second pancake and serve."
+        ]
+      },
+      "functional_tags": [
+        "kids_friendly"
+      ],
+      "status": "published"
+    }
+  ]
+}

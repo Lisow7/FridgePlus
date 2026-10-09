@@ -1,0 +1,12 @@
+[
+  {"from": "/^(\\.\\.?\\/)+components\\/subscription\\/UpgradeGate$/",   "to": "@features/premium/components/upgrade-gate"},
+  {"from": "/^(\\.\\.?\\/)+components\\/subscription\\/UpgradeModal$/",  "to": "@features/premium/components/upgrade-modal"},
+  {"from": "/^(\\.\\.?\\/)+components\\/subscription\\/subscriptionI18n$/", "to": "@features/premium/i18n/subscription-i18n"},
+  {"from": "/^(\\.\\.?\\/)+subscription\\/UpgradeGate$/",                "to": "@features/premium/components/upgrade-gate"},
+  {"from": "/^(\\.\\.?\\/)+subscription\\/UpgradeModal$/",               "to": "@features/premium/components/upgrade-modal"},
+  {"from": "/^(\\.\\.?\\/)+subscription\\/subscriptionI18n$/",           "to": "@features/premium/i18n/subscription-i18n"},
+  {"from": "/^(\\.\\.?\\/)+hooks\\/useSubscription$/",                   "to": "@features/premium/hooks/use-subscription"},
+  {"from": "/^(\\.\\.?\\/)+context\\/SubscriptionModalContext$/",        "to": "@features/premium/providers/subscription-modal-provider"},
+  {"from": "/^(\\.\\.?\\/)+lib\\/stripe$/",                              "to": "@features/premium/lib/stripe"},
+  {"from": "/^(\\.\\.?\\/)+lib\\/db\\/subscriptions$/",                  "to": "@features/premium/api/subscriptions"}
+]

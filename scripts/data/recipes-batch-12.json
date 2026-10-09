@@ -1,0 +1,1699 @@
+{
+  "batchName": "recipes-batch-12-coree",
+  "recipes": [
+    {
+      "id": "bibimbap",
+      "name": {
+        "fr": "Bibimbap",
+        "en": "Bibimbap"
+      },
+      "description": {
+        "fr": "Un bol de riz coréen couronné de légumes sautés, de bœuf mariné et d'un œuf, relevé de sauce pimentée à mélanger — coloré et équilibré.",
+        "en": "A Korean rice bowl crowned with sautéed vegetables, marinated beef and an egg, with a spicy sauce to mix in — colourful and balanced."
+      },
+      "emoji": "🍲",
+      "time_min": 45,
+      "prep_time_min": 30,
+      "cook_time_min": 15,
+      "difficulty": "medium",
+      "type": "main",
+      "servings": 4,
+      "country": "kr",
+      "diet": [
+        "dairy-free"
+      ],
+      "allergens": [
+        "soybeans",
+        "gluten",
+        "eggs",
+        "sesame"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "gp-riz",
+            "gp-riz-rond",
+            "jp-hakumai"
+          ],
+          "qty": {
+            "amount": 320,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "320g de riz",
+            "en": "320g rice"
+          }
+        },
+        {
+          "ids": [
+            "fr-boeuf",
+            "fr-bavette"
+          ],
+          "qty": {
+            "amount": 300,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "300g de bœuf",
+            "en": "300g beef"
+          }
+        },
+        {
+          "ids": [
+            "vg-carottes",
+            "vg-epinards",
+            "vg-champignons",
+            "vg-courgette"
+          ],
+          "qty": {
+            "amount": 400,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "400g de légumes variés",
+            "en": "400g mixed vegetables"
+          }
+        },
+        {
+          "ids": [
+            "fr-oeuf"
+          ],
+          "qty": {
+            "amount": 4,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "4 œufs",
+            "en": "4 eggs"
+          }
+        },
+        {
+          "ids": [
+            "sp-sambal-oelek",
+            "sp-sriracha"
+          ],
+          "qty": {
+            "amount": 3,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "3 c. à soupe de pâte de piment (gochujang)",
+            "en": "3 tbsp chilli paste (gochujang)"
+          }
+        },
+        {
+          "ids": [
+            "sp-huile-sesame",
+            "sp-sauce-soja"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Huile de sésame et sauce soja",
+            "en": "Sesame oil and soy sauce"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Cuire le riz. Mariner et saisir le bœuf émincé dans la sauce soja.",
+          "Faire sauter séparément chaque légume avec un peu d'huile de sésame.",
+          "Cuire les œufs au plat.",
+          "Dresser le riz dans les bols, disposer légumes, bœuf et œuf en cercles.",
+          "Ajouter la pâte de piment et mélanger avant de déguster."
+        ],
+        "en": [
+          "Cook the rice. Marinate and sear the sliced beef in soy sauce.",
+          "Stir-fry each vegetable separately with a little sesame oil.",
+          "Fry the eggs.",
+          "Plate the rice, arrange vegetables, beef and egg in circles.",
+          "Add the chilli paste and mix before eating."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "bulgogi-boeuf",
+      "name": {
+        "fr": "Bulgogi de bœuf",
+        "en": "Beef bulgogi"
+      },
+      "description": {
+        "fr": "De fines lamelles de bœuf marinées dans une sauce soja sucrée à la poire et au sésame, saisies à feu vif — tendres, caramélisées et parfumées.",
+        "en": "Thin slices of beef marinated in a sweet soy sauce with pear and sesame, seared over high heat — tender, caramelised and fragrant."
+      },
+      "emoji": "🥩",
+      "time_min": 35,
+      "prep_time_min": 25,
+      "cook_time_min": 10,
+      "difficulty": "easy",
+      "type": "main",
+      "servings": 4,
+      "country": "kr",
+      "diet": [
+        "dairy-free"
+      ],
+      "allergens": [
+        "soybeans",
+        "gluten",
+        "sesame"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "fr-boeuf",
+            "fr-bavette",
+            "fr-entrecote"
+          ],
+          "qty": {
+            "amount": 600,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "600g de bœuf émincé",
+            "en": "600g thinly sliced beef"
+          }
+        },
+        {
+          "ids": [
+            "sp-sauce-soja"
+          ],
+          "qty": {
+            "amount": 5,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "5 c. à soupe de sauce soja",
+            "en": "5 tbsp soy sauce"
+          }
+        },
+        {
+          "ids": [
+            "fr-poire",
+            "gp-sucre"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 poire râpée (ou sucre)",
+            "en": "1 grated pear (or sugar)"
+          }
+        },
+        {
+          "ids": [
+            "sp-huile-sesame"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 c. à soupe d'huile de sésame",
+            "en": "2 tbsp sesame oil"
+          }
+        },
+        {
+          "ids": [
+            "vg-ail",
+            "sp-gingembre"
+          ],
+          "qty": {
+            "amount": 3,
+            "unit": "gousse"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Ail et gingembre",
+            "en": "Garlic and ginger"
+          }
+        },
+        {
+          "ids": [
+            "vg-oignon-vert",
+            "sp-sesame-blanc"
+          ],
+          "qty": {
+            "amount": 3,
+            "unit": "pcs"
+          },
+          "required": false,
+          "labels": {
+            "fr": "Oignon vert et sésame",
+            "en": "Spring onion and sesame"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Mélanger sauce soja, poire râpée, huile de sésame, ail et gingembre.",
+          "Mariner le bœuf au moins 20 min.",
+          "Saisir le bœuf à feu très vif par petites quantités.",
+          "Laisser caraméliser légèrement.",
+          "Parsemer d'oignon vert et de sésame, servir avec du riz."
+        ],
+        "en": [
+          "Mix soy sauce, grated pear, sesame oil, garlic and ginger.",
+          "Marinate the beef for at least 20 min.",
+          "Sear the beef over very high heat in small batches.",
+          "Let it caramelise lightly.",
+          "Scatter spring onion and sesame, serve with rice."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "poulet-coreen-frit",
+      "name": {
+        "fr": "Poulet frit coréen",
+        "en": "Korean fried chicken"
+      },
+      "description": {
+        "fr": "Du poulet ultra-croustillant enrobé d'une sauce gochujang sucrée, collante et pimentée — le poulet frit le plus addictif qui soit.",
+        "en": "Ultra-crispy chicken coated in a sweet, sticky and spicy gochujang sauce — the most addictive fried chicken there is."
+      },
+      "emoji": "🍗",
+      "time_min": 45,
+      "prep_time_min": 20,
+      "cook_time_min": 25,
+      "difficulty": "medium",
+      "type": "main",
+      "servings": 4,
+      "country": "kr",
+      "diet": [
+        "dairy-free"
+      ],
+      "allergens": [
+        "gluten",
+        "soybeans",
+        "sesame"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "fr-cuisse-poulet",
+            "fr-blanc-poulet"
+          ],
+          "qty": {
+            "amount": 700,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "700g de poulet",
+            "en": "700g chicken"
+          }
+        },
+        {
+          "ids": [
+            "gp-fecule-mais"
+          ],
+          "qty": {
+            "amount": 100,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "100g de fécule",
+            "en": "100g cornstarch"
+          }
+        },
+        {
+          "ids": [
+            "sp-sambal-oelek",
+            "sp-sriracha"
+          ],
+          "qty": {
+            "amount": 3,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "3 c. à soupe de gochujang",
+            "en": "3 tbsp gochujang"
+          }
+        },
+        {
+          "ids": [
+            "gp-miel",
+            "gp-sucre"
+          ],
+          "qty": {
+            "amount": 3,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "3 c. à soupe de miel",
+            "en": "3 tbsp honey"
+          }
+        },
+        {
+          "ids": [
+            "sp-sauce-soja",
+            "vg-ail"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Sauce soja et ail",
+            "en": "Soy sauce and garlic"
+          }
+        },
+        {
+          "ids": [
+            "sp-sesame-blanc"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cs"
+          },
+          "required": false,
+          "labels": {
+            "fr": "Sésame",
+            "en": "Sesame seeds"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Enrober le poulet en morceaux de fécule.",
+          "Le frire deux fois pour qu'il soit très croustillant.",
+          "Préparer la sauce : gochujang, miel, sauce soja et ail.",
+          "Faire épaissir la sauce puis y enrober le poulet.",
+          "Parsemer de sésame et servir aussitôt."
+        ],
+        "en": [
+          "Coat the chicken pieces in cornstarch.",
+          "Fry them twice so they're very crispy.",
+          "Make the sauce: gochujang, honey, soy sauce and garlic.",
+          "Thicken the sauce then coat the chicken.",
+          "Sprinkle with sesame and serve at once."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "japchae",
+      "name": {
+        "fr": "Japchae",
+        "en": "Japchae"
+      },
+      "description": {
+        "fr": "Des nouilles translucides sautées avec des légumes croquants et du bœuf dans une sauce soja-sésame — un plat coréen de fête, brillant et savoureux.",
+        "en": "Glassy noodles stir-fried with crunchy vegetables and beef in a soy-sesame sauce — a glossy, tasty Korean party dish."
+      },
+      "emoji": "🍜",
+      "time_min": 35,
+      "prep_time_min": 20,
+      "cook_time_min": 15,
+      "difficulty": "medium",
+      "type": "main",
+      "servings": 4,
+      "country": "kr",
+      "diet": [
+        "dairy-free"
+      ],
+      "allergens": [
+        "soybeans",
+        "gluten",
+        "sesame"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "jp-harusame",
+            "gp-vermicelles"
+          ],
+          "qty": {
+            "amount": 250,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "250g de nouilles de patate douce",
+            "en": "250g glass noodles"
+          }
+        },
+        {
+          "ids": [
+            "fr-boeuf",
+            "fr-bavette"
+          ],
+          "qty": {
+            "amount": 250,
+            "unit": "g"
+          },
+          "required": false,
+          "labels": {
+            "fr": "250g de bœuf",
+            "en": "250g beef"
+          }
+        },
+        {
+          "ids": [
+            "vg-carottes",
+            "vg-epinards",
+            "vg-champignons",
+            "vg-poivron"
+          ],
+          "qty": {
+            "amount": 400,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "400g de légumes",
+            "en": "400g vegetables"
+          }
+        },
+        {
+          "ids": [
+            "sp-sauce-soja"
+          ],
+          "qty": {
+            "amount": 4,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "4 c. à soupe de sauce soja",
+            "en": "4 tbsp soy sauce"
+          }
+        },
+        {
+          "ids": [
+            "sp-huile-sesame",
+            "sp-sesame-blanc"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Huile et graines de sésame",
+            "en": "Sesame oil and seeds"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Cuire les nouilles, les égoutter et les couper.",
+          "Saisir le bœuf, réserver.",
+          "Faire sauter chaque légume séparément.",
+          "Tout mélanger avec la sauce soja, le sucre et l'huile de sésame.",
+          "Parsemer de sésame et servir tiède."
+        ],
+        "en": [
+          "Cook the noodles, drain and cut them.",
+          "Sear the beef, set aside.",
+          "Stir-fry each vegetable separately.",
+          "Combine everything with soy sauce, sugar and sesame oil.",
+          "Sprinkle with sesame and serve warm."
+        ]
+      },
+      "functional_tags": [
+        "batch_cooking"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "kimchi-fried-rice",
+      "name": {
+        "fr": "Riz sauté au kimchi",
+        "en": "Kimchi fried rice"
+      },
+      "description": {
+        "fr": "Un riz sauté coréen au kimchi acidulé et pimenté, couronné d'un œuf au plat — le plat anti-gaspi parfait, plein de caractère.",
+        "en": "A Korean fried rice with tangy, spicy kimchi, crowned with a fried egg — the perfect waste-busting dish, full of character."
+      },
+      "emoji": "🍚",
+      "time_min": 20,
+      "prep_time_min": 8,
+      "cook_time_min": 12,
+      "difficulty": "easy",
+      "type": "main",
+      "servings": 4,
+      "country": "kr",
+      "diet": [
+        "dairy-free"
+      ],
+      "allergens": [
+        "fish",
+        "soybeans",
+        "gluten",
+        "eggs",
+        "sesame"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "gp-riz",
+            "jp-hakumai"
+          ],
+          "qty": {
+            "amount": 400,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "400g de riz cuit",
+            "en": "400g cooked rice"
+          }
+        },
+        {
+          "ids": [
+            "sp-kimchi"
+          ],
+          "qty": {
+            "amount": 200,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "200g de kimchi",
+            "en": "200g kimchi"
+          }
+        },
+        {
+          "ids": [
+            "fr-oeuf"
+          ],
+          "qty": {
+            "amount": 4,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "4 œufs",
+            "en": "4 eggs"
+          }
+        },
+        {
+          "ids": [
+            "vg-oignon-vert",
+            "vg-oignon"
+          ],
+          "qty": {
+            "amount": 3,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Oignon vert",
+            "en": "Spring onion"
+          }
+        },
+        {
+          "ids": [
+            "sp-sauce-soja",
+            "sp-huile-sesame"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Sauce soja et huile de sésame",
+            "en": "Soy sauce and sesame oil"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Faire revenir le kimchi haché dans un wok chaud.",
+          "Ajouter le riz cuit et bien le faire sauter.",
+          "Assaisonner de sauce soja et d'huile de sésame.",
+          "Cuire les œufs au plat à part.",
+          "Servir le riz coiffé d'un œuf et parsemé d'oignon vert."
+        ],
+        "en": [
+          "Sauté the chopped kimchi in a hot wok.",
+          "Add the cooked rice and stir-fry well.",
+          "Season with soy sauce and sesame oil.",
+          "Fry the eggs separately.",
+          "Serve the rice topped with an egg and scattered with spring onion."
+        ]
+      },
+      "functional_tags": [
+        "anti_waste"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "jeyuk-bokkeum",
+      "name": {
+        "fr": "Porc sauté épicé coréen",
+        "en": "Korean spicy pork"
+      },
+      "description": {
+        "fr": "Du porc émincé sauté dans une marinade gochujang pimentée et sucrée, avec oignon et oignon vert — intense, brillant et parfait sur du riz.",
+        "en": "Sliced pork stir-fried in a spicy-sweet gochujang marinade with onion and spring onion — intense, glossy and perfect over rice."
+      },
+      "emoji": "🌶️",
+      "time_min": 30,
+      "prep_time_min": 20,
+      "cook_time_min": 10,
+      "difficulty": "easy",
+      "type": "main",
+      "servings": 4,
+      "country": "kr",
+      "diet": [
+        "dairy-free"
+      ],
+      "allergens": [
+        "soybeans",
+        "gluten",
+        "sesame"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "fr-echine",
+            "fr-filet-porc"
+          ],
+          "qty": {
+            "amount": 600,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "600g de porc émincé",
+            "en": "600g sliced pork"
+          }
+        },
+        {
+          "ids": [
+            "sp-sambal-oelek",
+            "sp-sriracha"
+          ],
+          "qty": {
+            "amount": 3,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "3 c. à soupe de gochujang",
+            "en": "3 tbsp gochujang"
+          }
+        },
+        {
+          "ids": [
+            "sp-sauce-soja"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 c. à soupe de sauce soja",
+            "en": "2 tbsp soy sauce"
+          }
+        },
+        {
+          "ids": [
+            "vg-oignon",
+            "vg-ail"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Oignon et ail",
+            "en": "Onion and garlic"
+          }
+        },
+        {
+          "ids": [
+            "sp-huile-sesame",
+            "gp-sucre"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Huile de sésame et sucre",
+            "en": "Sesame oil and sugar"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Mélanger gochujang, sauce soja, sucre, ail et huile de sésame.",
+          "Mariner le porc émincé 15 min.",
+          "Saisir le porc à feu vif avec l'oignon.",
+          "Laisser caraméliser la marinade 3 min.",
+          "Parsemer d'oignon vert et servir sur du riz."
+        ],
+        "en": [
+          "Mix gochujang, soy sauce, sugar, garlic and sesame oil.",
+          "Marinate the sliced pork 15 min.",
+          "Sear the pork over high heat with the onion.",
+          "Let the marinade caramelise 3 min.",
+          "Scatter spring onion and serve over rice."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "kimchi-jjigae",
+      "name": {
+        "fr": "Kimchi jjigae (ragoût de kimchi)",
+        "en": "Kimchi jjigae (kimchi stew)"
+      },
+      "description": {
+        "fr": "Un ragoût coréen mijoté de kimchi, porc et tofu — bouillant, acidulé et réconfortant, le plat d'hiver par excellence avec du riz.",
+        "en": "A simmered Korean stew of kimchi, pork and tofu — bubbling, tangy and comforting, the ultimate winter dish with rice."
+      },
+      "emoji": "🍲",
+      "time_min": 35,
+      "prep_time_min": 10,
+      "cook_time_min": 25,
+      "difficulty": "easy",
+      "type": "main",
+      "servings": 4,
+      "country": "kr",
+      "diet": [
+        "dairy-free"
+      ],
+      "allergens": [
+        "fish",
+        "soybeans",
+        "gluten"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "sp-kimchi"
+          ],
+          "qty": {
+            "amount": 300,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "300g de kimchi",
+            "en": "300g kimchi"
+          }
+        },
+        {
+          "ids": [
+            "fr-echine",
+            "fr-lardons"
+          ],
+          "qty": {
+            "amount": 250,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "250g de porc",
+            "en": "250g pork"
+          }
+        },
+        {
+          "ids": [
+            "vg-tofu",
+            "jp-kimomen-tofu"
+          ],
+          "qty": {
+            "amount": 200,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "200g de tofu",
+            "en": "200g tofu"
+          }
+        },
+        {
+          "ids": [
+            "vg-oignon",
+            "vg-oignon-vert"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Oignon et oignon vert",
+            "en": "Onion and spring onion"
+          }
+        },
+        {
+          "ids": [
+            "sp-sambal-oelek",
+            "sp-sauce-soja"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Gochujang et sauce soja",
+            "en": "Gochujang and soy sauce"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Faire revenir le porc et le kimchi dans une marmite.",
+          "Ajouter le gochujang et un peu de sucre.",
+          "Couvrir d'eau et porter à ébullition.",
+          "Ajouter le tofu en cubes et mijoter 15 min.",
+          "Parsemer d'oignon vert et servir avec du riz."
+        ],
+        "en": [
+          "Sauté the pork and kimchi in a pot.",
+          "Add the gochujang and a little sugar.",
+          "Cover with water and bring to a boil.",
+          "Add the cubed tofu and simmer 15 min.",
+          "Scatter spring onion and serve with rice."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "poulet-bowl-gochujang",
+      "name": {
+        "fr": "Bowl de poulet gochujang",
+        "en": "Gochujang chicken bowl"
+      },
+      "description": {
+        "fr": "Un bol de riz garni de poulet laqué au gochujang, de concombre et de carotte — un repas coréen équilibré, sucré-pimenté et rapide.",
+        "en": "A rice bowl topped with gochujang-glazed chicken, cucumber and carrot — a balanced, sweet-spicy and quick Korean meal."
+      },
+      "emoji": "🍚",
+      "time_min": 30,
+      "prep_time_min": 15,
+      "cook_time_min": 15,
+      "difficulty": "easy",
+      "type": "main",
+      "servings": 4,
+      "country": "kr",
+      "diet": [
+        "dairy-free"
+      ],
+      "allergens": [
+        "soybeans",
+        "gluten",
+        "sesame"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "fr-blanc-poulet",
+            "fr-cuisse-poulet"
+          ],
+          "qty": {
+            "amount": 600,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "600g de poulet",
+            "en": "600g chicken"
+          }
+        },
+        {
+          "ids": [
+            "sp-sambal-oelek",
+            "sp-sriracha"
+          ],
+          "qty": {
+            "amount": 3,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "3 c. à soupe de gochujang",
+            "en": "3 tbsp gochujang"
+          }
+        },
+        {
+          "ids": [
+            "gp-riz",
+            "jp-hakumai"
+          ],
+          "qty": {
+            "amount": 320,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "320g de riz",
+            "en": "320g rice"
+          }
+        },
+        {
+          "ids": [
+            "vg-concombre",
+            "vg-carottes"
+          ],
+          "qty": {
+            "amount": 200,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Concombre et carotte",
+            "en": "Cucumber and carrot"
+          }
+        },
+        {
+          "ids": [
+            "sp-sauce-soja",
+            "gp-miel",
+            "sp-huile-sesame"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Sauce soja, miel, sésame",
+            "en": "Soy sauce, honey, sesame"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Cuire le riz.",
+          "Mélanger gochujang, sauce soja et miel.",
+          "Saisir le poulet en morceaux, puis l'enrober de sauce.",
+          "Laisser glacer 3 min.",
+          "Dresser le riz, le poulet et les crudités en bol."
+        ],
+        "en": [
+          "Cook the rice.",
+          "Mix gochujang, soy sauce and honey.",
+          "Sear the chicken pieces, then coat in the sauce.",
+          "Let glaze 3 min.",
+          "Build the bowl with rice, chicken and raw vegetables."
+        ]
+      },
+      "functional_tags": [
+        "batch_cooking"
+      ],
+      "status": "published"
+    },
+    {
+      "id": "kimchi-jeon",
+      "name": {
+        "fr": "Galette de kimchi",
+        "en": "Kimchi pancake"
+      },
+      "description": {
+        "fr": "Une crêpe coréenne croustillante et moelleuse au kimchi, dorée à la poêle — une entrée acidulée à partager, à tremper dans la sauce soja.",
+        "en": "A crispy-yet-chewy Korean kimchi pancake, pan-fried golden — a tangy starter to share, to dip in soy sauce."
+      },
+      "emoji": "🥞",
+      "time_min": 20,
+      "prep_time_min": 10,
+      "cook_time_min": 10,
+      "difficulty": "easy",
+      "type": "starter",
+      "servings": 4,
+      "country": "kr",
+      "diet": [
+        "vegetarian",
+        "dairy-free"
+      ],
+      "allergens": [
+        "fish",
+        "gluten",
+        "soybeans"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "sp-kimchi"
+          ],
+          "qty": {
+            "amount": 250,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "250g de kimchi",
+            "en": "250g kimchi"
+          }
+        },
+        {
+          "ids": [
+            "gp-farine"
+          ],
+          "qty": {
+            "amount": 150,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "150g de farine",
+            "en": "150g flour"
+          }
+        },
+        {
+          "ids": [
+            "vg-oignon-vert"
+          ],
+          "qty": {
+            "amount": 3,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "3 oignons verts",
+            "en": "3 spring onions"
+          }
+        },
+        {
+          "ids": [
+            "sp-sauce-soja",
+            "sp-huile-sesame"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Sauce soja et huile de sésame",
+            "en": "Soy sauce and sesame oil"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Hacher le kimchi et l'oignon vert.",
+          "Mélanger avec la farine et de l'eau froide jusqu'à obtenir une pâte.",
+          "Verser une fine couche dans une poêle huilée bien chaude.",
+          "Cuire 4 min par face jusqu'à ce que ce soit croustillant.",
+          "Couper en parts et servir avec une sauce soja."
+        ],
+        "en": [
+          "Chop the kimchi and spring onion.",
+          "Mix with the flour and cold water into a batter.",
+          "Pour a thin layer into a hot oiled pan.",
+          "Cook 4 min per side until crisp.",
+          "Cut into pieces and serve with a soy dipping sauce."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "gyeran-jjim",
+      "name": {
+        "fr": "Œufs vapeur coréens",
+        "en": "Korean steamed eggs"
+      },
+      "description": {
+        "fr": "Une crème d'œufs salée cuite à la vapeur, ultra-moelleuse et soufflée, parsemée d'oignon vert — un accompagnement coréen doux et réconfortant.",
+        "en": "A savoury steamed egg custard, ultra-fluffy and puffed, scattered with spring onion — a soft, comforting Korean side."
+      },
+      "emoji": "🥚",
+      "time_min": 20,
+      "prep_time_min": 5,
+      "cook_time_min": 15,
+      "difficulty": "easy",
+      "type": "starter",
+      "servings": 4,
+      "country": "kr",
+      "diet": [
+        "vegetarian",
+        "gluten-free",
+        "dairy-free"
+      ],
+      "allergens": [
+        "eggs",
+        "sesame"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "fr-oeuf"
+          ],
+          "qty": {
+            "amount": 5,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "5 œufs",
+            "en": "5 eggs"
+          }
+        },
+        {
+          "ids": [
+            "vg-oignon-vert"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 oignons verts",
+            "en": "2 spring onions"
+          }
+        },
+        {
+          "ids": [
+            "sp-huile-sesame",
+            "sp-sesame-blanc"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Huile et graines de sésame",
+            "en": "Sesame oil and seeds"
+          }
+        },
+        {
+          "ids": [
+            "sp-sel"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "pm"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Sel",
+            "en": "Salt"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Battre les œufs avec un volume égal d'eau et une pincée de sel.",
+          "Filtrer pour une texture lisse.",
+          "Verser dans un bol résistant à la chaleur.",
+          "Cuire à la vapeur (ou au bain-marie couvert) 12-15 min.",
+          "Parsemer d'oignon vert et de sésame, servir aussitôt."
+        ],
+        "en": [
+          "Beat the eggs with an equal volume of water and a pinch of salt.",
+          "Strain for a smooth texture.",
+          "Pour into a heatproof bowl.",
+          "Steam (or covered water bath) 12-15 min.",
+          "Scatter spring onion and sesame, serve at once."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "salade-concombre-coreenne",
+      "name": {
+        "fr": "Salade de concombre coréenne",
+        "en": "Korean cucumber salad"
+      },
+      "description": {
+        "fr": "Du concombre croquant assaisonné d'ail, de piment et de sésame — une salade coréenne vive et rafraîchissante, prête en cinq minutes.",
+        "en": "Crunchy cucumber dressed with garlic, chilli and sesame — a vibrant, refreshing Korean salad ready in five minutes."
+      },
+      "emoji": "🥒",
+      "time_min": 10,
+      "prep_time_min": 10,
+      "cook_time_min": 0,
+      "difficulty": "very-easy",
+      "type": "salad",
+      "servings": 4,
+      "country": "kr",
+      "diet": [
+        "vegan",
+        "vegetarian",
+        "dairy-free"
+      ],
+      "allergens": [
+        "soybeans",
+        "gluten",
+        "sesame"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "vg-concombre"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "pcs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 concombres",
+            "en": "2 cucumbers"
+          }
+        },
+        {
+          "ids": [
+            "vg-ail"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "gousse"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 gousses d'ail",
+            "en": "2 garlic cloves"
+          }
+        },
+        {
+          "ids": [
+            "sp-sambal-oelek",
+            "sp-piment-cayenne"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cc"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 c. à café de piment",
+            "en": "1 tsp chilli flakes"
+          }
+        },
+        {
+          "ids": [
+            "sp-sauce-soja",
+            "sp-vinaigre-riz"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Sauce soja et vinaigre de riz",
+            "en": "Soy sauce and rice vinegar"
+          }
+        },
+        {
+          "ids": [
+            "sp-huile-sesame",
+            "sp-sesame-blanc"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Huile et graines de sésame",
+            "en": "Sesame oil and seeds"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Émincer les concombres en fines rondelles.",
+          "Les saler 5 min puis les essorer.",
+          "Mélanger avec l'ail, le piment et la sauce soja.",
+          "Ajouter le vinaigre et l'huile de sésame.",
+          "Parsemer de sésame et servir frais."
+        ],
+        "en": [
+          "Slice the cucumbers into thin rounds.",
+          "Salt them 5 min then squeeze out the water.",
+          "Toss with the garlic, chilli and soy sauce.",
+          "Add the vinegar and sesame oil.",
+          "Sprinkle with sesame and serve cold."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "epinards-sesame-coreens",
+      "name": {
+        "fr": "Épinards au sésame",
+        "en": "Sesame spinach (sigeumchi namul)"
+      },
+      "description": {
+        "fr": "Des épinards blanchis assaisonnés d'ail, de sauce soja et d'huile de sésame — un banchan coréen simple, sain et plein de saveur.",
+        "en": "Blanched spinach seasoned with garlic, soy sauce and sesame oil — a simple, healthy and flavourful Korean banchan."
+      },
+      "emoji": "🥬",
+      "time_min": 12,
+      "prep_time_min": 7,
+      "cook_time_min": 5,
+      "difficulty": "very-easy",
+      "type": "side",
+      "servings": 4,
+      "country": "kr",
+      "diet": [
+        "vegan",
+        "vegetarian",
+        "dairy-free"
+      ],
+      "allergens": [
+        "soybeans",
+        "gluten",
+        "sesame"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "vg-epinards",
+            "frz-epinards"
+          ],
+          "qty": {
+            "amount": 500,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "500g d'épinards",
+            "en": "500g spinach"
+          }
+        },
+        {
+          "ids": [
+            "vg-ail"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "gousse"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 gousses d'ail",
+            "en": "2 garlic cloves"
+          }
+        },
+        {
+          "ids": [
+            "sp-sauce-soja"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "2 c. à soupe de sauce soja",
+            "en": "2 tbsp soy sauce"
+          }
+        },
+        {
+          "ids": [
+            "sp-huile-sesame",
+            "sp-sesame-blanc"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Huile et graines de sésame",
+            "en": "Sesame oil and seeds"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Blanchir les épinards 1 min, puis les rafraîchir.",
+          "Bien les presser pour retirer l'eau.",
+          "Assaisonner d'ail, sauce soja et huile de sésame.",
+          "Mélanger délicatement.",
+          "Parsemer de sésame et servir tiède ou froid."
+        ],
+        "en": [
+          "Blanch the spinach 1 min, then refresh.",
+          "Squeeze well to remove the water.",
+          "Season with garlic, soy sauce and sesame oil.",
+          "Toss gently.",
+          "Sprinkle with sesame and serve warm or cold."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "germes-soja-sesame-coreens",
+      "name": {
+        "fr": "Germes de soja au sésame",
+        "en": "Sesame bean sprouts (kongnamul)"
+      },
+      "description": {
+        "fr": "Des germes de soja légèrement croquants assaisonnés d'ail, d'oignon vert et de sésame — un banchan coréen frais et économique.",
+        "en": "Lightly crunchy bean sprouts dressed with garlic, spring onion and sesame — a fresh, budget-friendly Korean banchan."
+      },
+      "emoji": "🌱",
+      "time_min": 12,
+      "prep_time_min": 5,
+      "cook_time_min": 7,
+      "difficulty": "very-easy",
+      "type": "side",
+      "servings": 4,
+      "country": "kr",
+      "diet": [
+        "vegan",
+        "vegetarian",
+        "dairy-free"
+      ],
+      "allergens": [
+        "sesame",
+        "soybeans"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "vg-germes-soja"
+          ],
+          "qty": {
+            "amount": 400,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "400g de germes de soja",
+            "en": "400g bean sprouts"
+          }
+        },
+        {
+          "ids": [
+            "vg-ail",
+            "vg-oignon-vert"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "gousse"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Ail et oignon vert",
+            "en": "Garlic and spring onion"
+          }
+        },
+        {
+          "ids": [
+            "sp-huile-sesame"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "1 c. à soupe d'huile de sésame",
+            "en": "1 tbsp sesame oil"
+          }
+        },
+        {
+          "ids": [
+            "sp-sesame-blanc",
+            "sp-sel"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Sésame et sel",
+            "en": "Sesame and salt"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Blanchir les germes de soja 3 min, puis les égoutter.",
+          "Les rafraîchir à l'eau froide.",
+          "Assaisonner d'ail, d'huile de sésame et de sel.",
+          "Ajouter l'oignon vert ciselé.",
+          "Parsemer de sésame et servir frais."
+        ],
+        "en": [
+          "Blanch the bean sprouts 3 min, then drain.",
+          "Refresh under cold water.",
+          "Season with garlic, sesame oil and salt.",
+          "Add the chopped spring onion.",
+          "Sprinkle with sesame and serve cold."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    },
+    {
+      "id": "tofu-kimchi",
+      "name": {
+        "fr": "Tofu au kimchi sauté",
+        "en": "Kimchi tofu (dubu kimchi)"
+      },
+      "description": {
+        "fr": "Du kimchi sauté servi avec du tofu chaud tranché — un contraste de textures et de températures, à la fois piquant et apaisant.",
+        "en": "Stir-fried kimchi served with warm sliced tofu — a contrast of textures and temperatures, both spicy and soothing."
+      },
+      "emoji": "🌶️",
+      "time_min": 20,
+      "prep_time_min": 8,
+      "cook_time_min": 12,
+      "difficulty": "easy",
+      "type": "main",
+      "servings": 4,
+      "country": "kr",
+      "diet": [
+        "dairy-free"
+      ],
+      "allergens": [
+        "fish",
+        "soybeans",
+        "gluten",
+        "sesame"
+      ],
+      "ingredients": [
+        {
+          "ids": [
+            "vg-tofu",
+            "jp-kimomen-tofu"
+          ],
+          "qty": {
+            "amount": 400,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "400g de tofu ferme",
+            "en": "400g firm tofu"
+          }
+        },
+        {
+          "ids": [
+            "sp-kimchi"
+          ],
+          "qty": {
+            "amount": 300,
+            "unit": "g"
+          },
+          "required": true,
+          "labels": {
+            "fr": "300g de kimchi",
+            "en": "300g kimchi"
+          }
+        },
+        {
+          "ids": [
+            "fr-echine",
+            "fr-lardons"
+          ],
+          "qty": {
+            "amount": 150,
+            "unit": "g"
+          },
+          "required": false,
+          "labels": {
+            "fr": "150g de porc",
+            "en": "150g pork"
+          }
+        },
+        {
+          "ids": [
+            "sp-huile-sesame",
+            "vg-oignon-vert"
+          ],
+          "qty": {
+            "amount": 2,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Huile de sésame et oignon vert",
+            "en": "Sesame oil and spring onion"
+          }
+        },
+        {
+          "ids": [
+            "gp-sucre",
+            "sp-sauce-soja"
+          ],
+          "qty": {
+            "amount": 1,
+            "unit": "cs"
+          },
+          "required": true,
+          "labels": {
+            "fr": "Sucre et sauce soja",
+            "en": "Sugar and soy sauce"
+          }
+        }
+      ],
+      "steps": {
+        "fr": [
+          "Couper le tofu en tranches et le pocher 3 min dans l'eau frémissante salée.",
+          "Faire sauter le kimchi (et le porc) avec un peu de sucre.",
+          "Ajouter l'huile de sésame en fin de cuisson.",
+          "Dresser le tofu tiède autour du kimchi sauté.",
+          "Parsemer d'oignon vert et servir avec du riz."
+        ],
+        "en": [
+          "Slice the tofu and poach it 3 min in gently salted water.",
+          "Stir-fry the kimchi (and pork) with a little sugar.",
+          "Add the sesame oil at the end.",
+          "Arrange the warm tofu around the stir-fried kimchi.",
+          "Scatter spring onion and serve with rice."
+        ]
+      },
+      "functional_tags": [],
+      "status": "published"
+    }
+  ]
+}

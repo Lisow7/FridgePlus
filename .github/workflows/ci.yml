@@ -1,0 +1,157 @@
+name: CI (lint + test + build)
+
+# v3.220.0 — Sprint 5 PR S5.b — pipeline CI sur chaque PR.
+#
+# Avant : seuls e2e.yml (Playwright) et deploy.yml (push main) tournaient.
+# Le lint Vitest et le build n'étaient validés qu'au mérite des reviewers
+# (souvent : pas du tout). Cette PR ajoute trois jobs parallèles qui
+# bloquent le merge dès qu'un PR casse les tests ou le build :
+#   • lint  — eslint . (continue-on-error: baseline imparfait, à durcir
+#             en S5.d une fois le baseline nettoyé)
+#   • test  — vitest run (497 tests, bloquant)
+#   • build — npm run build (bloquant, vérifie aussi PWA + bundle)
+#
+# Skipped pour push main : deploy.yml + e2e.yml couvrent déjà.
+#
+# Node 22 (2026-08-06) : `openai` v7 déclare `engines.node >= 22`. La CI
+# tournait en 20, et restait verte uniquement parce qu'aucun test n'importe
+# ce paquet — un vert trompeur. Node 20 est par ailleurs déprécié chez
+# Vercel (désactivé le 2026-10-01).
+#
+# Node 24 (2026-08-06, même jour) : le réglage Vercel du projet a été passé
+# à 24.x. La CI validait donc en 22 ce que la prod construit en 24. On
+# aligne : CI = poste de dev = build Vercel = Node 24 (LTS jusqu'en avril
+# 2028, contre avril 2027 pour la 22).
+#
+# ⚠️ Ne PAS déclarer `engines` dans package.json pour piloter ça : Vercel
+# lit ce champ et il SURCHARGE le réglage du projet. Deux sources de vérité
+# dont l'une masque l'autre. La version du build Vercel se règle dans
+# Settings → Node.js Version, et nulle part ailleurs.
+
+on:
+  pull_request:
+    branches: [dev, main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    name: ESLint
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run ESLint
+        # Bloquant (2026-06-23) : le baseline ~270 erreurs a ete nettoye -> 0 erreur.
+        # Toute NOUVELLE erreur fait echouer la PR. Les warnings (98 a ce jour :
+        # react-refresh/only-export-components + react-hooks/*) sont "ratchetes" a
+        # leur niveau exact, porte par `npm run lint` (source unique -> local == CI).
+        # Phase 2 (post-beta) = reduire 98 -> 0.
+        #
+        # Ce bloc portait la consigne « le plafond doit valoir EXACTEMENT le nombre
+        # de warnings, RESSERRER apres toute suppression », en majuscules et avec
+        # sa preuve par mutation du 2026-08-09. Elle a ete violee quand meme : le
+        # depot est descendu a 98, le plafond est reste a 100, et ce jeu de 2 a
+        # survecu deux releases. Un commentaire ne bloque rien.
+        #
+        # Depuis le 2026-08-28, `scripts/verifier-plafond-lint.mjs` echoue AUSSI
+        # quand le compte est SOUS le plafond, en indiquant la valeur a ecrire
+        # dans `lintWarningsPlafond` (package.json). Le cliquet s'entretient donc
+        # au moment ou le travail de reduction est fait. Prouve par mutation dans
+        # les trois etats : 97 -> exit 1, 98 -> exit 0, 100 -> exit 1.
+        run: npm run lint
+
+  test:
+    name: Vitest
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Vitest
+        run: npm run test
+        env:
+          CI: true
+          # Vitest importe les modules au moment du test ; certains modules
+          # (auth-provider, notifications-provider, leftovers, reports)
+          # tirent shared/lib/supabase/client.js qui appelle createClient()
+          # dès l'import. Sans URL, createClient jetterait « supabaseUrl is
+          # required » et Vitest casserait au chargement.
+          # ⚠️ CES DEUX SECRETS N'EXISTENT PAS dans le dépôt. Vérifié le 2026-08-20 :
+          # `gh secret list` ne rend que GPG_PUBLIC_KEY, GPG_RECIPIENT et
+          # SUPABASE_DB_URL. Or `${{ secrets.X }}` sur un secret absent s'évalue en
+          # chaîne VIDE, sans le moindre avertissement : ces deux lignes ressemblent
+          # à une injection de clés et n'injectent RIEN.
+          #
+          # 🔴 Ce qui empêche réellement `createClient` de jeter « supabaseUrl is
+          # required » au chargement, c'est le FALLBACK de
+          # `src/shared/lib/supabase/client.js` (`placeholder.supabase.co`). Ne pas
+          # le retirer en croyant que ces secrets font le travail : toute la CI
+          # casserait au premier import.
+          #
+          # 🥇 Conséquence à connaître avant de se fier au vert : LA CI NE PARLE
+          # JAMAIS AU VRAI SUPABASE. Elle ne prouve rien sur la base — seules la
+          # preview Vercel et la production le font.
+          #
+          # Les lignes sont conservées : le jour où les secrets seront définis,
+          # elles fonctionneront sans autre changement.
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
+
+  build:
+    name: Production build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+        env:
+          # ⚠️ CES DEUX SECRETS N'EXISTENT PAS dans le dépôt. Vérifié le 2026-08-20 :
+          # `gh secret list` ne rend que GPG_PUBLIC_KEY, GPG_RECIPIENT et
+          # SUPABASE_DB_URL. Or `${{ secrets.X }}` sur un secret absent s'évalue en
+          # chaîne VIDE, sans le moindre avertissement : ces deux lignes ressemblent
+          # à une injection de clés et n'injectent RIEN.
+          #
+          # 🔴 Ce qui empêche réellement `createClient` de jeter « supabaseUrl is
+          # required » au chargement, c'est le FALLBACK de
+          # `src/shared/lib/supabase/client.js` (`placeholder.supabase.co`). Ne pas
+          # le retirer en croyant que ces secrets font le travail : toute la CI
+          # casserait au premier import.
+          #
+          # 🥇 Conséquence à connaître avant de se fier au vert : LA CI NE PARLE
+          # JAMAIS AU VRAI SUPABASE. Elle ne prouve rien sur la base — seules la
+          # preview Vercel et la production le font.
+          #
+          # Les lignes sont conservées : le jour où les secrets seront définis,
+          # elles fonctionneront sans autre changement.
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}

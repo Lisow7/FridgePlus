@@ -1,0 +1,46 @@
+name: Release guard
+
+# Sur les PR vers main UNIQUEMENT : garantit qu'une release bumpe version + changelog.
+# Echappatoire : label 'skip-release-guard' (livraison sans changement utilisateur).
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened, labeled, unlabeled]
+
+permissions:
+  contents: read
+
+jobs:
+  guard:
+    name: Release guard
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Check version bump + changelog
+        env:
+          SKIP: ${{ contains(github.event.pull_request.labels.*.name, 'skip-release-guard') }}
+          BASE_REF: ${{ github.event.pull_request.base.ref }}
+        run: |
+          set -e
+          if [ "$SKIP" = "true" ]; then
+            echo "Label skip-release-guard present — garde ignoree."; exit 0
+          fi
+          git fetch origin "$BASE_REF" --depth=1
+          BASE="origin/$BASE_REF"
+          BASE_VER=$(git show "$BASE:src/shared/lib/version.js" | grep -oE "CURRENT_VERSION = '[^']+'" || true)
+          HEAD_VER=$(grep -oE "CURRENT_VERSION = '[^']+'" src/shared/lib/version.js || true)
+          if [ -z "$HEAD_VER" ]; then
+            echo "::error::CURRENT_VERSION introuvable dans src/shared/lib/version.js"; exit 1
+          fi
+          if [ "$BASE_VER" = "$HEAD_VER" ]; then
+            echo "::error::CURRENT_VERSION inchangee ($HEAD_VER). Bump version.js ou applique le label skip-release-guard."; exit 1
+          fi
+          if git diff --quiet "$BASE" HEAD -- src/features/changelog/data/changelog.js; then
+            echo "::error::changelog.js inchange. Ajoute une entree CHANGELOG ou applique le label skip-release-guard."; exit 1
+          fi
+          echo "Release guard OK: $BASE_VER -> $HEAD_VER ; changelog modifie."

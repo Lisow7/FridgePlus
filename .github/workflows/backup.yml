@@ -1,0 +1,150 @@
+name: Weekly Supabase backup (encrypted)
+
+# v3.6.2 — Backup hebdomadaire de la BDD Supabase, chiffré GPG.
+# Tourne tous les dimanches à 02:00 UTC — dans le dépôt privé (voir `on:` plus bas).
+# Le dump chiffré est stocké comme artifact GitHub (rétention 90j).
+#
+# Pour restaurer : voir la procédure interne de sauvegarde
+#
+# Secrets requis (Settings → Secrets and variables → Actions) :
+#   • SUPABASE_DB_URL  — connection string PG complète depuis Supabase Dashboard
+#                        (Project Settings → Database → Connection string → URI)
+#                        Format : postgresql://postgres:<password>@db.<ref>.supabase.co:5432/postgres
+#   • GPG_PUBLIC_KEY   — clé publique GPG du destinataire (export ASCII armored)
+#                        Génération : `gpg --export --armor your@email.com`
+#   • GPG_RECIPIENT    — email/uid associé à la clé publique (ex: admin@fridge.app)
+
+on:
+  # Pas de planification ici : la sauvegarde hebdomadaire tourne dans le dépôt
+  # privé, qui seul détient les secrets (SUPABASE_DB_URL, clé GPG). Ce fichier
+  # documente le flux et reste lançable à la main là où les secrets existent.
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Install postgresql-client 17 (pg_dump)
+        # La BDD Supabase tourne en Postgres 17 ; le postgresql-client par défaut
+        # d'Ubuntu (v16) refuse de dumper un serveur plus récent (« server version
+        # mismatch »). On installe le client v17 depuis le dépôt officiel PGDG.
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y curl ca-certificates lsb-release
+          sudo install -d /usr/share/postgresql-common/pgdg
+          sudo curl -fsSL -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc https://www.postgresql.org/media/keys/ACCC4CF8.asc
+          echo "deb [signed-by=/usr/share/postgresql-common/pgdg/apt.postgresql.org.asc] https://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" | sudo tee /etc/apt/sources.list.d/pgdg.list
+          sudo apt-get update
+          sudo apt-get install -y postgresql-client-17
+          # /usr/bin/pg_dump est un wrapper Ubuntu qui peut pointer vers un client
+          # plus ancien (v16) même quand v17 est installé → on appelle le binaire
+          # versionné directement dans le step de dump.
+          /usr/lib/postgresql/17/bin/pg_dump --version
+
+      - name: Verify required secrets
+        env:
+          SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+          GPG_PUBLIC_KEY:  ${{ secrets.GPG_PUBLIC_KEY }}
+          GPG_RECIPIENT:   ${{ secrets.GPG_RECIPIENT }}
+        run: |
+          [ -n "$SUPABASE_DB_URL" ] || (echo "❌ SUPABASE_DB_URL manquant"; exit 1)
+          [ -n "$GPG_PUBLIC_KEY"  ] || (echo "❌ GPG_PUBLIC_KEY manquant";  exit 1)
+          [ -n "$GPG_RECIPIENT"   ] || (echo "❌ GPG_RECIPIENT manquant";   exit 1)
+          echo "✓ Secrets présents"
+
+      - name: Import GPG public key
+        env:
+          GPG_PUBLIC_KEY: ${{ secrets.GPG_PUBLIC_KEY }}
+        run: |
+          echo "$GPG_PUBLIC_KEY" | gpg --import
+          # Marque la clé comme trusted (sinon gpg --encrypt demande confirmation)
+          echo -e "5\ny\n" | gpg --command-fd 0 --expert --edit-key "${{ secrets.GPG_RECIPIENT }}" trust quit || true
+
+      - name: Dump database (compressed)
+        env:
+          SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+        run: |
+          DATE=$(date -u +%Y%m%d_%H%M)
+          # --no-owner et --no-acl pour que le dump soit restorable sur n'importe
+          # quelle BDD postgres (pas dépendant des rôles Supabase spécifiques).
+          # --schema=public : on ne dump pas les schémas auth/storage qui sont
+          # gérés par Supabase et restaurables depuis le service admin.
+          /usr/lib/postgresql/17/bin/pg_dump "$SUPABASE_DB_URL" \
+            --no-owner --no-acl \
+            --schema=public \
+            --format=custom \
+            --file="fridge-backup-${DATE}.dump"
+          echo "BACKUP_FILE=fridge-backup-${DATE}.dump" >> $GITHUB_ENV
+          ls -lh fridge-backup-*.dump
+
+      # ── Le dump est-il un VRAI backup ? ──────────────────────────────────────
+      # 🔴 Ajouté le 2026-09-13, la veille d'une pause du projet. Jusqu'ici ce job
+      # passait au vert dès que `pg_dump` rendait 0 et qu'un fichier existait —
+      # un dump vide, tronqué ou réduit au schéma aurait été chiffré, téléversé
+      # et compté comme une sauvegarde. C'est la classe de défaut la plus
+      # fréquente de ce dépôt (une garantie qu'on croit avoir et qu'on n'a pas),
+      # dans le SEUL job qui tourne quand personne ne regarde.
+      #
+      # Trois contrôles, du plus structurel au plus grossier :
+      #   1. `pg_restore --list` lit la table des matières du dump : un fichier
+      #      corrompu ou qui n'est pas un dump échoue ici.
+      #   2. Le SOCLE est présent : `recipes_unified` et `ingredients` — les deux
+      #      tables sans lesquelles l'app n'a rien à afficher. Vérifiées par leur
+      #      NOM et non par un décompte de tables, qui se périmerait à la
+      #      prochaine fusion de tables (ce dépôt en a fait trois).
+      #   3. Un filet de taille : le format `custom` écrit sa table des matières
+      #      en tête, donc un fichier tronqué en queue passe le contrôle 1 avec
+      #      des données absentes. Le contrôle mesure le dump EN CLAIR, avant
+      #      GPG : 1 113 Ko au premier run vérifié (13/09/2026). Les artefacts
+      #      chiffrés — seule mesure disponible avant ce run — font 871 à 902 Ko
+      #      sur 8 semaines (19/07 → 06/09) et grossissent lentement ; GPG
+      #      compresse encore ~20 %, donc ils SOUS-estiment le clair. Un dump de
+      #      schéma seul tient en quelques dizaines de Ko. 500 Ko laisse 55 % de
+      #      marge sous le clair mesuré, 43 % sous le plus petit chiffré, et 10×
+      #      au-dessus du vide.
+      - name: Verify the dump is a real backup
+        run: |
+          echo "── 1. Le fichier est un dump PostgreSQL lisible"
+          /usr/lib/postgresql/17/bin/pg_restore --list "$BACKUP_FILE" > toc.txt
+          echo "   $(grep -c 'TABLE DATA' toc.txt) table(s) avec des données"
+
+          echo "── 2. Le socle est présent"
+          for table in recipes_unified ingredients; do
+            grep -qE "TABLE DATA public ${table} " toc.txt               || { echo "❌ La table ${table} n'a AUCUNE donnée dans le dump — ce n'est pas une sauvegarde."; exit 1; }
+            echo "   ✓ ${table}"
+          done
+
+          echo "── 3. La taille est plausible"
+          TAILLE=$(stat -c %s "$BACKUP_FILE")
+          PLANCHER=512000
+          [ "$TAILLE" -ge "$PLANCHER" ]             || { echo "❌ Dump de $((TAILLE/1024)) Ko, sous le plancher de $((PLANCHER/1024)) Ko — tronqué ou vidé."; exit 1; }
+          echo "   ✓ $((TAILLE/1024)) Ko"
+
+      - name: Encrypt with GPG
+        env:
+          GPG_RECIPIENT: ${{ secrets.GPG_RECIPIENT }}
+        run: |
+          gpg --trust-model always --output "${BACKUP_FILE}.gpg" --encrypt --recipient "$GPG_RECIPIENT" "$BACKUP_FILE"
+          # Supprime le dump non chiffré (sécurité défensive avant upload artifact)
+          shred -u "$BACKUP_FILE"
+          ls -lh *.dump.gpg
+
+      - name: Upload encrypted backup as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.BACKUP_FILE }}.gpg
+          path: ${{ env.BACKUP_FILE }}.gpg
+          retention-days: 90
+          if-no-files-found: error
+
+      - name: Summary
+        run: |
+          echo "## ✅ Backup créé" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Fichier : \`${BACKUP_FILE}.gpg\`" >> $GITHUB_STEP_SUMMARY
+          echo "Rétention artifact : 90 jours" >> $GITHUB_STEP_SUMMARY
+          echo "Procédure restauration : \la procédure interne de sauvegarde\`" >> $GITHUB_STEP_SUMMARY

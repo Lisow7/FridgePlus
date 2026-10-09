@@ -1,0 +1,10 @@
+[
+  {"from": "/^(\\.\\.?\\/)+components\\/community\\/CommunityPage$/",         "to": "@features/community/components/community-page"},
+  {"from": "/^(\\.\\.?\\/)+components\\/community\\/CommunityPanel$/",        "to": "@features/community/components/community-panel"},
+  {"from": "/^(\\.\\.?\\/)+components\\/community\\/CommunityProfileModal$/", "to": "@features/community/components/community-profile-modal"},
+  {"from": "/^(\\.\\.?\\/)+components\\/community\\/CommunityTermsModal$/",   "to": "@features/community/components/community-terms-modal"},
+  {"from": "/^(\\.\\.?\\/)+components\\/community\\/ReportModal$/",           "to": "@features/community/components/report-modal"},
+  {"from": "/^(\\.\\.?\\/)+components\\/community\\/communityI18n$/",         "to": "@features/community/i18n/community-i18n"},
+  {"from": "/^(\\.\\.?\\/)+community\\/communityI18n$/",                      "to": "@features/community/i18n/community-i18n"},
+  {"from": "/^(\\.\\.?\\/)+lib\\/db\\/community$/",                           "to": "@features/community/api/community"}
+]
