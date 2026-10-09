@@ -14,8 +14,13 @@
     <!-- Favicon & PWA (Vite injecte le base path automatiquement)
          Le manifest est généré au build par vite-plugin-pwa et injecté ici
          via le script du plugin — pas besoin de <link rel="manifest"> manuel. -->
+    <!-- favicon.ico pour les clients qui ne lisent pas le SVG ; icône tactile
+         OPAQUE à l'adresse que demande iOS de lui-même (audit SEO-12 : elle
+         pointait sur icon-192.png, dont les coins transparents deviennent noirs).
+         Les deux sortent de `npm run pwa-icons`. -->
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="apple-touch-icon" href="/icon-192.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <meta name="theme-color" content="#E07820" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -24,7 +29,7 @@
 
     <!-- Primary Meta -->
     <title>Fridge+ — Gère ton frigo, crée &amp; trouve des recettes</title>
-    <meta name="description" content="Fais l'inventaire de ton frigo et de ton garde-manger, puis crée et découvre instantanément des recettes avec ce que tu as déjà. Gratuit, simple et multilingue." />
+    <meta name="description" content="Fais l'inventaire de ton frigo et de ton garde-manger, puis crée et découvre instantanément des recettes avec ce que tu as déjà. Gratuit et simple." />
     <meta name="author" content="Fridge+" />
     <meta name="robots" content="index, follow" />
     <!-- Pas de `canonical` en dur — et c'est délibéré (2026-08-13).
@@ -94,9 +99,6 @@
     <meta property="og:image:alt"         content="L'app Fridge+ : un frigo interactif et des idées de recettes selon ce que tu as." />
     <meta property="og:locale"            content="fr_FR" />
     <meta property="og:locale:alternate"  content="en_US" />
-    <meta property="og:locale:alternate"  content="es_ES" />
-    <meta property="og:locale:alternate"  content="de_DE" />
-    <meta property="og:locale:alternate"  content="ja_JP" />
 
     <!-- X (ex-Twitter) Card -->
     <meta name="twitter:card"        content="summary_large_image" />
@@ -117,6 +119,13 @@
     <!-- Pas de `SearchAction` : il exige une URL de recherche, et la recherche
          de Fridge+ est côté client, sans URL propre. Déclarer un motif qui ne
          répond pas serait une fausse promesse au crawler. -->
+    <!-- Ce balisage dit ce qu'un visiteur trouve, rien de plus (audit du
+         2026-10-04, SEO-07) : il annonçait cinq langues, deux offres Premium
+         à 4,99 € et 34,99 € et quatre fonctions « (Premium) », alors que l'app
+         propose deux langues et qu'aucun paiement n'existe. Google demande que
+         les données structurées reflètent le contenu visible.
+         Rouvrir le Premium (PREMIUM_ENABLED) = revoir ces offres : le garde-fou
+         `src/test/unit/accueil-dit-vrai-aux-robots.test.js` tombe alors. -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -124,12 +133,12 @@
       "name": "Fridge+",
       "alternateName": ["Fridgeplus", "Fridge Plus", "fridgeplus.app"],
       "url": "https://fridgeplus.app/",
-      "description": "Application web pour inventorier votre réfrigérateur et découvrir des recettes adaptées à vos ingrédients.",
+      "description": "Application web pour inventorier ton réfrigérateur et découvrir des recettes adaptées à tes ingrédients.",
       "applicationCategory": "LifestyleApplication",
-      "applicationSubCategory": "Food &amp; Drink",
+      "applicationSubCategory": "Food & Drink",
       "operatingSystem": "All",
       "browserRequirements": "Requires JavaScript",
-      "inLanguage": ["fr-FR", "en-US", "es-ES", "de-DE", "ja-JP"],
+      "inLanguage": ["fr-FR", "en-US"],
       "isAccessibleForFree": true,
       "offers": [
         {
@@ -137,34 +146,15 @@
           "name": "Fridge+ Gratuit",
           "price": "0",
           "priceCurrency": "EUR",
-          "description": "Inventaire frigo/garde-manger, recettes, multilingue. Plan gratuit pleinement fonctionnel."
-        },
-        {
-          "@type": "Offer",
-          "name": "Fridge+ Premium mensuel",
-          "price": "4.99",
-          "priceCurrency": "EUR",
-          "description": "Panier, budget mensuel, mode cuisine vocal, analyse des dépenses, anti-gaspillage.",
-          "category": "Subscription"
-        },
-        {
-          "@type": "Offer",
-          "name": "Fridge+ Premium annuel",
-          "price": "34.99",
-          "priceCurrency": "EUR",
-          "description": "Abonnement annuel (équivalent 2,91 €/mois, soit -42 % vs mensuel).",
-          "category": "Subscription"
+          "description": "Inventaire du frigo et du garde-manger, recettes selon tes ingrédients, en français et en anglais."
         }
       ],
       "featureList": [
         "Gestion du contenu du réfrigérateur et du garde-manger",
         "Suggestions de recettes personnalisées selon les ingrédients en stock",
         "Reconnaissance vocale pour ajouter les ingrédients",
-        "Panier de courses avec calcul du coût (Premium)",
-        "Budget mensuel et analyse des dépenses (Premium)",
-        "Mode cuisine vocal pas-à-pas (Premium)",
-        "Anti-gaspillage : alerte sur les dates limites (Premium)",
-        "Support multilingue (FR, EN, ES, DE, JA)"
+        "Favoris, recettes personnelles et communauté avec un compte gratuit",
+        "Disponible en français et en anglais"
       ]
     }
     </script>

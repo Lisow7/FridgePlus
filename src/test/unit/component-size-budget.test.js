@@ -56,7 +56,7 @@ const SEUIL = 500
 //   support-section.jsx        538 /   8 / 497   ← code DÉJÀ conforme
 //   recipe-detail-header.jsx   519 /  17 / 487   ← code DÉJÀ conforme
 //   shopping-lists-modal.jsx   508 /  55 / 424   ← code DÉJÀ conforme
-//   App.jsx                    665 / 146 / 478   ← code DÉJÀ conforme
+//   App.jsx                    665 / 146 / 478   ← code DÉJÀ conforme (660 depuis le 2026-10-05)
 //
 // ⇒ **CINQ des neuf fichiers ne dépassent que par leur DOCUMENTATION.**
 // Les découper ne réduirait aucune complexité : soit on déplace du code déjà
@@ -76,7 +76,11 @@ const DETTE = {
   // que l'entrée périmée restait ici.
   // `voice-confirm-panel.jsx` en est SORTI le 2026-08-09 : 637 → 463 lignes,
   // par extraction de sa liste d'ingrédients reconnus (voice-matched-list.jsx).
-  'src/App.jsx': 665,
+  // 665 → 662 le 2026-10-04 : six lignes de commentaire redondantes sur le
+  // bandeau de restauration, réduites à trois. 660 → 659 le 2026-10-08 : le
+  // panneau des recettes vide le frigo par le même chemin annulable que le
+  // bouton orange (UX-06), ses trois fonctions passées sur une ligne.
+  'src/App.jsx': 659,
   // Découpage volontairement REFUSÉ, motif écrit dans l'en-tête du fichier
   // (~50 props à transmettre pour zéro gain au site d'appel). Lire cet en-tête
   // avant de le cibler. 622 → 539 le 2026-10-03 : seul le pied (« J'ai
@@ -85,9 +89,13 @@ const DETTE = {
   // `fridge-multi-door.jsx` en est SORTI le 2026-08-09 : 570 → 240 lignes, par
   // extraction de ses intérieurs (fridge-interiors.jsx) et de ses palettes
   // (fridge-door-colors.js), plus la suppression d'un `DoorShelves` mort.
-  'src/features/admin/components/sections/base-recipes-section.jsx': 550,
-  'src/features/admin/components/sections/support-section.jsx': 538,
-  'src/features/recipes/components/recipe-detail-header.jsx': 519,
+  // 550 → 549 le 2026-10-05 : son chargement est passé par `useReloader` (audit ADM-09).
+  // `support-section.jsx` en est SORTI le 2026-10-05 : 538 → 394 lignes, par
+  // extraction de sa vue « un ticket » (support-ticket-detail.jsx), qui devait
+  // apprendre à dire que les messages n'ont pas pu être lus (audit ADM-08).
+  // 519 → 518 le 2026-10-08 : son badge « Verrouillée » perd un nom en double
+  // posé sur un <span> sans rôle (lot 9e).
+  'src/features/recipes/components/recipe-detail-header.jsx': 518,
   'src/features/cart/components/shopping-lists-modal.jsx': 508,
 }
 

@@ -1609,7 +1609,7 @@ export const CHANGELOG = [
       {
         type: 'feat',
         label: {
-          fr: 'Changez de langue (français / anglais) directement depuis l\'en-tête.',
+          fr: 'Change de langue (français / anglais) directement depuis l\'en-tête.',
           en: 'Switch language (French / English) right from the header.',
         },
       },
@@ -1764,7 +1764,7 @@ export const CHANGELOG = [
   },
   {
     version: '0.41',
-    name: 'Aide & infos : ne soyez jamais perdu',
+    name: 'Aide & infos : ne sois jamais perdu',
     date: 'juin 2026',
     changes: [
       {

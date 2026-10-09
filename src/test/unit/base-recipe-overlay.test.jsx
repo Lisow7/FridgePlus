@@ -18,6 +18,7 @@ vi.mock('@features/recipes/components/recipe-modal', () => ({
         </button>
       )}
       <div data-testid="recipe-name">{recipe?.name?.fr ?? recipe?.id}</div>
+      <div data-testid="etapes">{recipe?.steps?.fr?.length ?? 0}</div>
       {lockedServings != null && <div data-testid="locked-servings">{lockedServings}</div>}
       {lockedByLabel != null && <div data-testid="locked-by-label">{lockedByLabel}</div>}
       {lockedOriginServings != null && <div data-testid="locked-origin-servings">{lockedOriginServings}</div>}
@@ -26,6 +27,18 @@ vi.mock('@features/recipes/components/recipe-modal', () => ({
       </button>
     </>
   ),
+}))
+
+// La fiche complète de la recette de base vient de useRecipeById : le catalogue
+// n'a plus les étapes (audit du 2026-10-04, PERF-01).
+const fiches = vi.hoisted(() => ({
+  'bechamel-maison': {
+    id: 'bechamel-maison', name: { fr: 'Béchamel maison' }, servings: 4,
+    steps: { fr: ['Fondre le beurre.', 'Ajouter la farine, puis le lait.'] },
+  },
+}))
+vi.mock('@features/recipes/hooks/use-recipe-by-id', () => ({
+  useRecipeById: (id) => (fiches[id] ? { recipe: fiches[id], status: 'ok' } : { recipe: null, status: 'not-found' }),
 }))
 
 vi.mock('@shared/contexts/data-provider', () => ({
@@ -72,6 +85,13 @@ describe('BaseRecipeOverlay', () => {
   it('affiche la recette de base résolue', () => {
     renderOverlay()
     expect(screen.getByText('Béchamel maison')).toBeInTheDocument()
+  })
+
+  // La version du catalogue (sans étapes) ne suffit pas : l'aperçu montre la
+  // fiche complète, comme la page d'une recette.
+  it('montre la fiche complète de la recette de base, avec ses étapes', () => {
+    renderOverlay()
+    expect(screen.getByTestId('etapes')).toHaveTextContent('2')
   })
 
   it('clic sur le bandeau appelle onClose', () => {

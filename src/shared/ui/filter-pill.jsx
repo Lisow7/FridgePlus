@@ -1,4 +1,5 @@
 import Button from '@shared/ui/button'
+import { texteLisible, fondTeinte } from '@shared/lib/couleurs/texte-lisible'
 
 // Primitive `FilterPill` — Sprint 9 S9.b.1.
 //
@@ -37,12 +38,16 @@ export default function FilterPill({
     <Button
       variant="ghost"
       aria-pressed={active}
-      className={`h-auto rounded-md border px-2.5 py-1 text-xs hover:bg-transparent ${className}`}
+      className={`h-auto min-h-6 rounded-md border px-2.5 py-1 text-xs hover:bg-transparent ${className}`}
       style={{
         fontWeight: active ? 700 : 500,
         borderColor: active ? color : border,
-        background: active ? `${color}18` : 'transparent',
-        color: active ? color : muted,
+        // Le texte actif : l'accent mêlé au charbon du thème, lisible des deux
+        // côtés (l'orange pur était à 2,9:1). Le fond : `${color}18` donnait
+        // `var(--…)18` avec la couleur par défaut, une valeur invalide — il
+        // n'apparaissait pas (audit A11Y-03, palette de l'admin, 2026-10-08).
+        background: active ? fondTeinte(color, 10) : 'transparent',
+        color: active ? texteLisible(color) : muted,
         transition: 'all 0.12s',
         ...style,
       }}
@@ -52,7 +57,7 @@ export default function FilterPill({
       {count != null && count > 0 && (
         <span style={{
           marginLeft: 5, padding: '1px 6px', borderRadius: 8,
-          background: active ? `${color}28` : 'rgba(0,0,0,0.08)',
+          background: active ? fondTeinte(color, 16) : 'rgba(0,0,0,0.08)',
           fontSize: 11,
         }}>
           {count}

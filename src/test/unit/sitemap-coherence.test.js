@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
-import { PAGES_STATIQUES } from '../../../scripts/lib/prerender-page.mjs'
+import { PAGES_STATIQUES, pagesAuPlanDuSite } from '../../../scripts/lib/prerender-page.mjs'
 
 // Garde-fou du sitemap généré par `npm run sitemap`.
 //
@@ -44,15 +44,20 @@ describe('sitemap.xml', () => {
     expect(etrangeres).toEqual([])
   })
 
-  it('déclare CHAQUE page statique pré-rendue', () => {
+  it('déclare chaque page statique pré-rendue — `/community` seulement si son fil a des messages', () => {
     // Cohérence avec `PAGES_STATIQUES`, la liste que lit aussi le pré-rendu.
     // Une page pré-rendue mais absente d'ici se priverait de sa découverte —
     // et le sitemap resterait un fichier parfaitement valide. Lire la liste
-    // plutôt que réécrire les 5 chemins : une liste recopiée finit décalée.
-    const manquantes = PAGES_STATIQUES
-      .map(p => `https://fridgeplus.app${p.chemin}`)
-      .filter(u => !locs.includes(u))
-    expect(manquantes).toEqual([])
+    // plutôt que réécrire les chemins : une liste recopiée finit décalée.
+    //
+    // Le test ne parle pas à la base : il encadre. Fil vide → le MINIMUM doit
+    // y être ; fil non vide → rien au-delà du MAXIMUM.
+    const url = p => `https://fridgeplus.app${p.chemin}`
+    const minimum = pagesAuPlanDuSite({ messagesCommunaute: 0 }).map(url)
+    const maximum = new Set(pagesAuPlanDuSite({ messagesCommunaute: 1 }).map(url))
+    expect(minimum.filter(u => !locs.includes(u))).toEqual([])
+    const statiques = new Set(PAGES_STATIQUES.map(url))
+    expect(locs.filter(u => statiques.has(u) && !maximum.has(u))).toEqual([])
   })
 
   it('les URLs de recette ont la forme attendue', () => {
@@ -74,10 +79,42 @@ describe('sitemap.xml', () => {
     expect(xml).toMatch(/hreflang/i)
   })
 
-  it('chaque url porte un lastmod au format ISO court', () => {
-    const lastmods = [...xml.matchAll(/<lastmod>([^<]+)<\/lastmod>/g)].map(m => m[1])
-    expect(lastmods.length).toBe(locs.length)
-    const invalides = lastmods.filter(d => !/^\d{4}-\d{2}-\d{2}$/.test(d))
-    expect(invalides).toEqual([])
+  // Audit du 2026-10-04, SEO-10 : l'accueil et les pages statiques portaient la
+  // date du jour de GÉNÉRATION, pas celle d'une modification. Google ignore un
+  // `lastmod` qu'il juge peu fiable — sur tout le fichier. Pas de date vaut
+  // mieux qu'une fausse.
+  const blocs = [...xml.matchAll(/<url>([\s\S]*?)<\/url>/g)].map(m => m[1])
+  const estRecette = bloc => /<loc>https:\/\/fridgeplus\.app\/recipe\//.test(bloc)
+
+  it('seules les recettes portent un lastmod (leur `updated_at`), au format ISO court', () => {
+    const recettes = blocs.filter(estRecette)
+    expect(recettes.length).toBeGreaterThan(100)
+    const sansDate = recettes.filter(b => !/<lastmod>\d{4}-\d{2}-\d{2}<\/lastmod>/.test(b))
+    expect(sansDate).toEqual([])
+    const autresDatees = blocs.filter(b => !estRecette(b) && /<lastmod>/.test(b))
+    expect(autresDatees).toEqual([])
+  })
+
+  it('ni changefreq ni priority : Google les ignore, ils ne disaient rien de vrai', () => {
+    expect(xml).not.toMatch(/<changefreq>|<priority>/)
+  })
+})
+
+describe('pagesAuPlanDuSite — ce que le générateur annonce', () => {
+  it('fil de la communauté vide → `/community` n’est pas annoncée', () => {
+    expect(pagesAuPlanDuSite({ messagesCommunaute: 0 }).map(p => p.chemin)).not.toContain('/community')
+  })
+
+  it('comptage en échec → pas annoncée non plus (on n’annonce que ce qu’on a vu)', () => {
+    expect(pagesAuPlanDuSite({ messagesCommunaute: null }).map(p => p.chemin)).not.toContain('/community')
+  })
+
+  it('un message visible suffit à l’annoncer', () => {
+    expect(pagesAuPlanDuSite({ messagesCommunaute: 1 }).map(p => p.chemin)).toContain('/community')
+  })
+
+  it('les autres pages statiques sont toujours annoncées', () => {
+    const autres = PAGES_STATIQUES.filter(p => p.chemin !== '/community').map(p => p.chemin)
+    expect(pagesAuPlanDuSite({ messagesCommunaute: 0 }).map(p => p.chemin)).toEqual(autres)
   })
 })

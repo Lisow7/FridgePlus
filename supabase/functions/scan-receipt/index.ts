@@ -17,6 +17,9 @@ import { applyRateLimit } from '../_shared/rate-limit.ts'
 
 const MODEL = 'google-vision-document-text-detection'
 const MONTHLY_FREE_QUOTA = 1000
+// Plafond PAR COMPTE (audit du 2026-10-04, BDD-08) : sans lui, un seul compte
+// épuisait les 1 000 scans du mois de toute l'app en moins de deux heures.
+const USER_MONTHLY_QUOTA = 30
 const MAX_BASE64_LENGTH = 7_000_000 // ~5 Mo décodé — l'image est déjà compressée côté client
 
 interface Vertex { x?: number; y?: number }
@@ -154,6 +157,22 @@ Deno.serve(async (req: Request) => {
   }
   if ((count ?? 0) >= MONTHLY_FREE_QUOTA) {
     return new Response(JSON.stringify({ error: 'quota_exceeded' }), { status: 429, headers: CORS })
+  }
+
+  // ─── 5b. Quota mensuel PAR COMPTE ──────────────────────────────────────
+  // Même lecture, mêmes propriétés (fail-closed, sans verrou), limitée aux
+  // scans de ce compte : `ai_usage_log.user_id` est écrit à chaque appel.
+  const { count: countUser, error: countUserErr } = await supabaseAdmin
+    .from('ai_usage_log')
+    .select('id', { count: 'exact', head: true })
+    .eq('feature', 'receipt_ocr')
+    .eq('user_id', user.id)
+    .gte('created_at', monthStart.toISOString())
+  if (countUserErr) {
+    return new Response(JSON.stringify({ error: 'quota_check_failed' }), { status: 500, headers: CORS })
+  }
+  if ((countUser ?? 0) >= USER_MONTHLY_QUOTA) {
+    return new Response(JSON.stringify({ error: 'user_quota_exceeded' }), { status: 429, headers: CORS })
   }
 
   // ─── 6. Appel Google Cloud Vision (DOCUMENT_TEXT_DETECTION) ──────────────

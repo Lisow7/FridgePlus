@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { LuShieldCheck, LuCheck } from 'react-icons/lu'
 import ReusableModal from '@shared/ui/reusable-modal'
 import { useMFA } from '@shared/hooks/use-mfa'
-import { listMFAFactors } from '@shared/api/mfa'
+import { getAAL } from '@shared/api/mfa'
 import { MFA_I18N } from '@shared/lib/i18n/mfa-i18n'
 import Button from '@shared/ui/button'
 
@@ -66,12 +66,18 @@ export default function MFAChallengeModal({
         return
       }
 
-      // Timeout → le challengeAndVerify hang malgré que le serveur ait
-      // probablement validé. On re-fetch et check si AAL est passé en aal2.
-      const list = await listMFAFactors()
-      void list   // sert juste à forcer un round-trip serveur
+      // Timeout → le challengeAndVerify a pu aboutir côté serveur sans que
+      // sa promesse rende la main. On ne laisse passer que sur la PREUVE que
+      // la session est montée en aal2 : avant le 2026-10-05, on appelait
+      // onChallenged() sans rien vérifier — bloquer la requête suffisait à
+      // passer (audit du 2026-10-04, CPT-01 a).
+      const { current } = await getAAL()
       await refresh()
       setSubmitting(false)
+      if (current !== 'aal2') {
+        setError(t.gateFailed)
+        return
+      }
       onChallenged?.()
       onClose?.()
     } catch (err) {
@@ -112,7 +118,7 @@ export default function MFAChallengeModal({
             onClick={handleVerify}
             loading={submitting}
             disabled={code.length !== 6 || submitting}
-            className="h-auto rounded-lg bg-[#E07820] px-4 py-2.5 text-[13px] font-bold text-white"
+            className="h-auto rounded-lg bg-[#B85000] px-4 py-2.5 text-[13px] font-bold text-white"
           >
             {!submitting && <LuCheck size={14} style={{ marginRight: 6, verticalAlign: 'text-bottom' }} />}
             {submitting ? t.challenging : t.challengeBtn}

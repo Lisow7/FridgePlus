@@ -1,4 +1,9 @@
 import { supabase } from '@shared/lib/supabase/client'
+import { auMoinsUneLigne } from '@shared/lib/supabase/rows-affected'
+import { versErreur } from '@shared/lib/supabase/lever-si-erreur'
+import { motifContient, motifDansOu } from '@shared/lib/supabase/motif-de-recherche'
+import { slugify } from '@features/admin/lib/slug'
+import { choisirUnIdLibre } from '@features/admin/lib/id-libre'
 import {
   publishStagingToRecipes,
   rejectStaging,
@@ -129,11 +134,9 @@ export async function adminGetUsers({ page = 0, search = '', filter = 'all', sor
 
   query = applyUserStatusFilter(query, filter)
 
-  // Neutralise les métacaractères LIKE/PostgREST pour préserver une recherche
-  // « contient » (comportement de l'ancien filtre client). Aligné sur
-  // adminGetIngredients.
-  const s = search.trim().replace(/[%_,()"\\]/g, '')
-  if (s) query = query.ilike('username', `%${s}%`)
+  // La saisie protégée, pas tronquée : retirer `_` rendait le pseudo
+  // « jean_dupont » introuvable (audit ADM-10).
+  if (search.trim()) query = query.ilike('username', motifContient(search))
 
   if (sort === 'az')          query = query.order('username',   { ascending: true })
   else if (sort === 'oldest') query = query.order('created_at', { ascending: true })
@@ -163,58 +166,52 @@ export async function adminGetUserCounts() {
   }
 }
 
-export async function adminGrantCompedAccess(userId, action) {
-  const { error } = await supabase.rpc('grant_comped_access', {
-    p_target_user_id: userId,
-    p_action:         action,   // 'grant' | 'revoke'
-  })
-  if (!error) {
-    await logAdminAction(
-      action === 'grant' ? 'user_comped_granted' : 'user_comped_revoked',
-      userId,
-      'user'
-    )
-  }
-  return { error }
-}
-
-export async function adminToggleBan(userId, banned) {
-  const { error } = await supabase
-    .from('profiles')
-    .update({ banned })
-    .eq('id', userId)
-  if (!error) await logAdminAction(banned ? 'user_banned' : 'user_unbanned', userId, 'user')
-  return { error }
-}
+// Les écritures de ce fichier demandent les lignes touchées : si la règle de
+// la base filtre la ligne, PostgREST répond sans erreur et 0 ligne — l'écran
+// annonçait un succès (audit ADM-26).
+// `adminToggleBan` (écrire `profiles.banned` seul) a été retiré le 2026-10-06 :
+// il bannissait sans motif, sans durée et sans couper la session. Bannir passe
+// par `admin_bannir` — `features/admin/api/bannissement.js` (lot 3c-3b).
 
 const ITEMS_PER_PAGE = 50
 
+// Lève si un comptage échoue : le fournisseur admin dit alors « les compteurs
+// n'ont pas pu être lus » au lieu d'afficher des zéros (audit ADM-08).
 export async function adminGetStats() {
-  const [{ count: ingCount }, recCount, { count: usersCount }, pending] =
+  const [{ count: ingCount, error: ingErr }, recCount, { count: usersCount, error: usersErr }, pending] =
     await Promise.all([
       supabase.from('ingredients').select('id', { count: 'exact', head: true }),
       countOfficialRecipes(),  // Sprint 5f : délégué au repository
       supabase.from('profiles').select('id', { count: 'exact', head: true }),
       adminCountRecipesByStatus('pending'),
     ])
+  if (ingErr || usersErr) throw versErreur(ingErr ?? usersErr)
   return { ingredients: ingCount ?? 0, baseRecipes: recCount, users: usersCount ?? 0, pending }
 }
 
-export async function adminGetIngredients({ page = 0, search = '', subcategory = '' } = {}) {
+// Le tri se fait ICI, sur tout le catalogue : à l'écran, il ne rangeait que les
+// 50 lignes de la page affichée (audit ADM-10). L'identifiant départage les
+// égalités, pour qu'une ligne ne saute pas d'une page à l'autre.
+const ORDRES_DES_INGREDIENTS = {
+  subcategory: ['subcategory', 'sort_order', 'id'],
+  name: ['labels->>fr', 'id'],
+  id: ['id'],
+}
+
+export async function adminGetIngredients({ page = 0, search = '', subcategory = '', sort = 'subcategory' } = {}) {
   let query = supabase
     .from('ingredients')
     // inclut les colonnes ajoutées en v3.3.12 (nutrition, pack_size,
     // allergens, breaks_diets, default_unit) pour permettre leur édition
     // dans IngredientForm sans appel supplémentaire.
     .select('id, labels, emoji, subcategory, storage, sort_order, group_id, price, nutrition, pack_size, allergens, breaks_diets, default_unit', { count: 'exact' })
-    .order('subcategory').order('sort_order')
     .range(page * ITEMS_PER_PAGE, (page + 1) * ITEMS_PER_PAGE - 1)
+  for (const colonne of ORDRES_DES_INGREDIENTS[sort] ?? ORDRES_DES_INGREDIENTS.subcategory) query = query.order(colonne)
   if (search.trim()) {
-    // Neutralise les métacaractères du filtre PostgREST `.or()` (%, virgule,
-    // parenthèses, guillemet, antislash) — sinon un terme comme `a,b` ou `a(b`
-    // casse la syntaxe du filtre. Aligné sur adminGetImportQueue.
-    const s = search.trim().replace(/[%,()"\\]/g, '')
-    query = query.or(`id.ilike.%${s}%,labels->>fr.ilike.%${s}%`)
+    // Une virgule ou une parenthèse reste ce qu'elle est (les retirer changeait
+    // la recherche) ; `%` et `_` aussi (audit ADM-10).
+    const m = motifDansOu(search)
+    query = query.or(`id.ilike.${m},labels->>fr.ilike.${m}`)
   }
   if (subcategory) query = query.eq('subcategory', subcategory)
   const { data, error, count } = await query
@@ -222,13 +219,31 @@ export async function adminGetIngredients({ page = 0, search = '', subcategory =
 }
 
 export async function adminUpsertIngredient({ _isNew, ...row }) {
-  const { error } = await supabase.from('ingredients').upsert(row, { onConflict: 'id' })
+  // Un NOUVEL ingrédient s'INSÈRE : l'upsert écrasait en silence celui qui
+  // portait déjà l'identifiant (libellés, nutrition, allergènes), et l'écran
+  // disait « Ingrédient ajouté » (audit du 2026-10-04, ADM-16). La base refuse
+  // désormais le doublon (23505), que le formulaire dit en clair.
+  const table = supabase.from('ingredients')
+  const { error } = await (_isNew ? table.insert(row) : table.upsert(row, { onConflict: 'id' }))
   if (!error) await logAdminAction(_isNew ? 'ingredient_added' : 'ingredient_updated', row.id, 'ingredient')
   return { error }
 }
 
+// Combien de recettes (officielles et de la communauté) se servent d'un
+// ingrédient : la confirmation de suppression le dit, au lieu de demander à
+// l'admin de « vérifier » sans liste ni compteur (ADM-16). Les références
+// vivent dans le jsonb `ingredients` ([{ ids: [...] }, …]) ; la contenance
+// s'écrit en TEXTE JSON — un tableau, postgrest-js l'encoderait en littéral de
+// tableau PostgreSQL (`cs.{…}`), faux pour du jsonb.
+export async function adminCountIngredientUsage(id) {
+  const { count, error } = await supabase.from('recipes_unified')
+    .select('id', { count: 'exact', head: true })
+    .contains('ingredients', JSON.stringify([{ ids: [id] }]))
+  return { count: count ?? 0, error }
+}
+
 export async function adminDeleteIngredient(id) {
-  const { error } = await supabase.from('ingredients').delete().eq('id', id)
+  const { error } = auMoinsUneLigne(await supabase.from('ingredients').delete().eq('id', id).select('id'))
   if (!error) await logAdminAction('ingredient_deleted', id, 'ingredient')
   return { error }
 }
@@ -285,9 +300,22 @@ export async function adminGetIngredientById(id) {
 }
 
 export async function adminUpsertBaseRecipe({ _isNew, ...row }) {
-  // Sprint 5f : délégué au repository (INSTEAD OF trigger gère ON CONFLICT).
-  const { error } = await adminUpsertOfficialRecipe(row)
-  if (!error) await logAdminAction(_isNew ? 'base_recipe_added' : 'base_recipe_updated', row.id, 'base_recipe')
+  // Une recette NEUVE n'avait pas d'identifiant : sa création échouait
+  // toujours (23502, vérifié sur la vraie base le 2026-10-08, ADM-16). Il se
+  // tire de son nom, et doit être LIBRE : la vue `base_recipes` (déclencheur
+  // INSTEAD OF qui gère ON CONFLICT) remplace la recette qui le porte déjà.
+  let ligne = row
+  if (_isNew) {
+    // Tirets de bord retirés : un nom fait d'espaces donnait l'identifiant « - ».
+    const base = slugify((row.name?.fr ?? '').trim()).replace(/^-+|-+$/g, '')
+    if (!base) return { error: { message: 'Le nom FR fait l\'identifiant de la recette : il est requis.' } }
+    const { data, error: lecture } = await supabase.from('base_recipes').select('id').like('id', `${base}%`)
+    if (lecture) return { error: lecture }
+    ligne = { ...row, id: choisirUnIdLibre(base, (data ?? []).map((r) => r.id)) }
+  }
+  // Sprint 5f : délégué au repository.
+  const { error } = await adminUpsertOfficialRecipe(ligne)
+  if (!error) await logAdminAction(_isNew ? 'base_recipe_added' : 'base_recipe_updated', ligne.id, 'base_recipe')
   return { error }
 }
 
@@ -297,21 +325,33 @@ export async function adminDeleteBaseRecipe(id) {
   return { error }
 }
 
-export async function adminGetAuthUsers() {
-  const { data, error } = await supabase.rpc('admin_get_auth_users')
-  if (error) return {}
-  return Object.fromEntries((data ?? []).map(u => [u.id, { email: u.email, lastSignIn: u.last_sign_in_at }]))
+// Les données sensibles d'UN compte — e-mail, dernière connexion, allergènes —
+// passent par la base, qui écrit la trace (motif compris) AVANT de les rendre
+// (audit du 2026-10-04, ADM-05 ; migration 20261008095232). L'écran ne les lit
+// plus autrement : `admin_get_auth_users` rapatriait les e-mails de TOUS les
+// comptes à l'ouverture de l'onglet, sans trace.
+// Rend `{ donnee, error }` : aucune ligne est une erreur, pas une donnée vide.
+export async function adminRevelerCompte(userId, motif) {
+  const { data, error } = await supabase.rpc('admin_reveler_compte', { p_user_id: userId, p_motif: motif })
+  if (error) return { donnee: null, error }
+  const ligne = data?.[0]
+  if (!ligne) return { donnee: null, error: { message: 'Compte introuvable' } }
+  return {
+    donnee: { email: ligne.email, derniereConnexion: ligne.derniere_connexion, allergenes: ligne.allergenes ?? [] },
+    error: null,
+  }
 }
 
+// La fiche d'un compte : ses favoris et ses recettes. Ses allergènes (donnée
+// potentiellement de santé) ne se lisent plus ici, mais derrière le rideau
+// « Données sensibles » (`adminRevelerCompte`), avec un motif et une trace.
 export async function adminGetUserProfile(userId) {
-  const [{ data: profile }, { data: favorites }, recipes] = await Promise.all([
-    supabase.from('profiles').select('allergen_prefs').eq('id', userId).single(),
+  const [{ data: favorites }, recipes] = await Promise.all([
     supabase.from('user_favorites').select('recipe_id').eq('user_id', userId),
     // Sprint 5f : délégué au repository
     adminFindRecentCommunityRecipesByUser(userId, 20),
   ])
   return {
-    allergens: profile?.allergen_prefs ?? [],
     favorites: (favorites ?? []).map(f => f.recipe_id),
     recipes,
   }
@@ -325,11 +365,31 @@ export async function adminGetFavoriteCountsByIds(ids) {
   return counts
 }
 
-export async function adminGetLogs(page = 0) {
+// Les filtres du journal, appliqués PAR LA BASE (audit ADM-10 : ils ne
+// portaient que sur les 50 lignes de la page affichée — une catégorie pouvait
+// dire « Aucune entrée » quand la page suivante en était pleine) :
+//   actions     : ne garder que ces actions (une catégorie) ;
+//   saufActions : écarter celles-ci (la catégorie « Autres ») ;
+//   auteur      : le pseudo de l'auteur, « contient ».
+export async function adminGetLogs(page = 0, { actions, saufActions, auteur } = {}) {
   const from = page * PER_PAGE
-  const { data, error, count } = await supabase
+  let auteurs = null
+  if (auteur?.trim()) {
+    const { data: trouves, error: lecture } = await supabase
+      .from('profiles').select('id').ilike('username', motifContient(auteur))
+    if (lecture) return { data: [], count: 0, error: lecture }
+    auteurs = (trouves ?? []).map((p) => p.id)
+    if (!auteurs.length) return { data: [], count: 0, error: null }
+  }
+  let query = supabase
     .from('activity_logs')
-    .select('id, action, user_id, target_id, target_type, created_at', { count: 'exact' })
+    // `metadata` : le motif d'une consultation de données sensibles (ADM-05).
+    .select('id, action, user_id, target_id, target_type, metadata, created_at', { count: 'exact' })
+  if (actions) query = query.in('action', actions)
+  // Noms d'actions en snake_case : rien à protéger dans la liste.
+  if (saufActions?.length) query = query.not('action', 'in', `(${saufActions.join(',')})`)
+  if (auteurs) query = query.in('user_id', auteurs)
+  const { data, error, count } = await query
     .order('created_at', { ascending: false })
     .range(from, from + PER_PAGE - 1)
   if (error || !data?.length) return { data: data ?? [], count: count ?? 0, error }
@@ -353,7 +413,9 @@ export async function adminGetLogs(page = 0) {
 // On fetch 2 ans max pour couvrir vue "Tout", agrégation côté client.
 export async function adminGetAnalyticsData() {
   const twoYearsAgo = new Date(Date.now() - 2 * 365 * 24 * 3600 * 1000).toISOString()
-  const [{ data: logs }, { data: users }, recipes] = await Promise.all([
+  // Lève sur erreur : le graphique (qui l'attrape) dit « échec » au lieu
+  // d'« Aucune donnée sur cette période » (audit ADM-08).
+  const [{ data: logs, error: logsErr }, { data: users, error: usersErr }, recipes] = await Promise.all([
     supabase.from('activity_logs')
       .select('created_at')
       .gte('created_at', twoYearsAgo)
@@ -365,6 +427,7 @@ export async function adminGetAnalyticsData() {
     // Sprint 5f : délégué au repository
     adminFindCommunityRecipeCreationsSince(twoYearsAgo),
   ])
+  if (logsErr || usersErr) throw versErreur(logsErr ?? usersErr)
   return { logs: logs ?? [], users: users ?? [], recipes }
 }
 
@@ -390,14 +453,14 @@ export async function adminRevokeSpecialAccess(userId) {
   return { error }
 }
 
-export async function adminClearSpecialAccessNote(userId) {
-  const { error } = await supabase.rpc('clear_special_access_note', {
-    p_user_id: userId,
-  })
-  if (!error) {
-    await logAdminAction('special_access_note_cleared', userId, 'user')
-  }
-  return { error }
+// La note interne d'un accès spécial en cours, lue quand on le modifie (ADM-13 :
+// la fenêtre n'offrait que « Révoquer » — changer de rôle ou de note imposait de
+// révoquer puis réattribuer). L'effacer = enregistrer une note vide :
+// `grant_special_access` met à jour rôle et note.
+export async function adminGetSpecialAccessNote(userId) {
+  const { data, error } = await supabase.from('special_access')
+    .select('note').eq('user_id', userId).is('revoked_at', null).maybeSingle()
+  return { note: data?.note ?? null, error }
 }
 
 // ─── Refonte Recettes Phase 5a — Admin Import Queue ─────────────────────────
@@ -432,8 +495,8 @@ export async function adminGetImportQueue({
   if (status && status !== 'all') query = query.eq('status', status)
   if (batchId)                    query = query.eq('batch_id', batchId)
   if (search.trim()) {
-    const s = search.trim().replace(/[%,()"\\]/g, '')
-    query = query.or(`external_key.ilike.%${s}%,parsed_data->>name.ilike.%${s}%`)
+    const m = motifDansOu(search)
+    query = query.or(`external_key.ilike.${m},parsed_data->>name.ilike.${m}`)
   }
 
   const { data, count, error } = await query
@@ -444,10 +507,11 @@ export async function adminGetImportQueue({
  * UPDATE errors persistantes + repasse status='pending' (admin corrige inline).
  */
 export async function adminUpdateStagingErrors(stagingId, newErrors) {
-  const { error } = await supabase
+  const { error } = auMoinsUneLigne(await supabase
     .from('recipe_imports_staging')
     .update({ errors: newErrors, status: 'pending' })
     .eq('id', stagingId)
+    .select('id'))
   return { error }
 }
 

@@ -1,11 +1,14 @@
+import { useId } from 'react'
 import { SUPPORT_I18N as I18N } from '@features/support/i18n/support-i18n'
 import { LuX, LuMessageSquare, LuPlus, LuChevronLeft, LuChevronRight, LuSend, LuTrash2, LuPencil, LuCheck } from 'react-icons/lu'
 import Button from '@shared/ui/button'
+import { useDialogue } from '@shared/hooks/use-dialogue'
 import { getSelfHelp } from '@features/support/data/support-self-help'
 import useSupportPanel from '@features/support/hooks/use-support-panel'
 import SupportFormView from './support-form-view'
 import SupportConfirmView from './support-confirm-view'
 import { formatDateTime } from '@shared/lib/format-date'
+import { MESSAGE_SUPPORT_MAX } from '@shared/lib/longueurs-maximales'
 
 // ─── Catégories du flux guidé ─────────────────────────────────────────────────
 const CATEGORIES = [
@@ -38,11 +41,13 @@ function fmtDate(str, lang = 'fr') { return str ? formatDateTime(str, lang) : ''
 
 export default function SupportPanel({ userId, lang = 'fr', darkMode = false, onClose, onUnreadChange }) {
   const t = I18N[lang] ?? I18N.fr
+  // Une vraie boîte de dialogue : rôle, nom, focus piégé, Échap (A11Y-01).
+  const dialogue = useDialogue({ onClose, nom: t.title })
 
   const modalBg = darkMode ? '#111B2A' : '#FDFAF6'
   const border  = darkMode ? '#1E2F45' : 'var(--color-border-warm)'
   const text    = darkMode ? '#C8D8E8' : '#2A1A0E'
-  const muted   = darkMode ? '#6A85A0' : '#9A8878'
+  const muted   = darkMode ? '#8FA5BC' : '#7E7062'
   const inputBg = darkMode ? '#141F2E' : '#FAF5EE'
   const rowBg   = darkMode ? '#141F2E' : '#FAF5EE'
   // Regroupées pour descendre en une prop vers les vues extraites, comme `ctx`.
@@ -51,6 +56,7 @@ export default function SupportPanel({ userId, lang = 'fr', darkMode = false, on
   // L'état, les effets et les actions vivent dans le hook : il retourne un objet
   // unique, destructuré ici pour que les vues gardent leurs noms de variables.
   const ctx = useSupportPanel({ userId, lang, onUnreadChange })
+  const champReponseId = useId()
   const {
     view, setView, tickets, selectedTicket, messages,
     replyContent, setReplyContent, sending, error, setError,
@@ -98,7 +104,7 @@ export default function SupportPanel({ userId, lang = 'fr', darkMode = false, on
           <div style={{ display:'flex', alignItems:'center', gap:8, flex:1, minWidth:0 }}>
             {editingTitle ? (
               <>
-                <input value={titleDraft} onChange={e => setTitleDraft(e.target.value)}
+                <input value={titleDraft} onChange={e => setTitleDraft(e.target.value)} aria-label={t.titleInputAria}
                   onKeyDown={e => { if (e.key === 'Enter') handleSaveTitle(); if (e.key === 'Escape') setEditingTitle(false) }}
                   autoFocus maxLength={120}
                   style={{ flex:1, minWidth:0, fontSize:13, fontWeight:600, color:text, background:inputBg, border:'1.5px solid var(--color-warm-400)', borderRadius:7, padding:'4px 9px', outline:'none', fontFamily:'inherit' }}
@@ -142,9 +148,17 @@ export default function SupportPanel({ userId, lang = 'fr', darkMode = false, on
 
   // ─── Vues ─────────────────────────────────────────────────────────────────
 
+  // Une action refusée (supprimer un ticket, un message) le dit, quelle que
+  // soit la vue. Jusqu'au 2026-10-05 l'erreur n'était affichée que dans le pied
+  // d'un ticket ouvert : depuis la liste, un refus ne se voyait pas.
+  const alerte = error && (
+    <p role="alert" style={{ fontSize:12, color:'var(--color-danger)', margin:'0 0 8px' }}>{error}</p>
+  )
+
   function renderList() {
     return (
       <div style={{ padding:'12px 16px 16px', display:'flex', flexDirection:'column', gap:8 }}>
+        {alerte}
         {tickets.length === 0 ? (
           <div style={{ textAlign:'center', padding:'48px 24px', color:muted }}>
             <div style={{ fontSize:32, marginBottom:12, opacity:0.3 }}>💬</div>
@@ -228,13 +242,17 @@ export default function SupportPanel({ userId, lang = 'fr', darkMode = false, on
 
         {selectedTicket.status === 'resolved' ? (
           <div style={{ padding:'14px 16px', borderTop:`1px solid ${border}`, textAlign:'center', flexShrink:0 }}>
+            {alerte}
             <span style={{ fontSize:12, color:muted, fontStyle:'italic' }}>{t.resolvedNotice}</span>
           </div>
         ) : (
           <div style={{ padding:'12px 16px', borderTop:`1px solid ${border}`, flexShrink:0 }}>
-            {error && <p style={{ fontSize:12, color:'var(--color-danger)', margin:'0 0 8px' }}>{error}</p>}
+            {alerte}
+            {/* Un libellé visible au-dessus de la ligne (champ + envoi), le texte
+                grisé en exemple (décision du 2026-10-06). */}
+            <label htmlFor={champReponseId} style={{ display:'block', fontSize:12, fontWeight:700, color:muted, marginBottom:6 }}>{t.replyAria}</label>
             <div style={{ display:'flex', gap:8, alignItems:'flex-end' }}>
-              <textarea value={replyContent} onChange={e => setReplyContent(e.target.value)} placeholder={t.reply} rows={2}
+              <textarea id={champReponseId} value={replyContent} onChange={e => setReplyContent(e.target.value)} placeholder={t.reply} rows={2} maxLength={MESSAGE_SUPPORT_MAX}
                 style={{ flex:1, borderRadius:10, border:`1.5px solid ${border}`, background:inputBg, color:text, fontSize:13, padding:'9px 12px', resize:'none', outline:'none', fontFamily:'inherit', transition:'border-color 0.15s' }}
                 onFocus={e => e.target.style.borderColor = 'var(--color-warm-400)'}
                 onBlur={e => e.target.style.borderColor = border}
@@ -334,8 +352,9 @@ export default function SupportPanel({ userId, lang = 'fr', darkMode = false, on
       style={{ padding:16, background:'rgba(18,10,4,0.60)', backdropFilter:'blur(6px)' }}
       onClick={onClose}>
       <div
+        {...dialogue.proprietes}
         className="fp-modal-panel"
-        style={{ width:540, maxWidth:'100%', maxHeight:'88vh', display:'flex', flexDirection:'column', background:modalBg, borderRadius:20, border:`1px solid ${border}`, boxShadow:darkMode ? '0 16px 48px rgba(0,0,0,0.55)' : '0 16px 48px rgba(0,0,0,0.15)', overflow:'hidden' }}
+        style={{ width:540, maxWidth:'100%', maxHeight:'88dvh', display:'flex', flexDirection:'column', background:modalBg, borderRadius:20, border:`1px solid ${border}`, boxShadow:darkMode ? '0 16px 48px rgba(0,0,0,0.55)' : '0 16px 48px rgba(0,0,0,0.15)', overflow:'hidden' }}
         onClick={e => e.stopPropagation()}>
 
         {/* Header */}

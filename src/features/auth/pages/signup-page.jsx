@@ -3,28 +3,35 @@ import { Link } from 'react-router-dom'
 import { LuMail, LuLock, LuUser, LuEye, LuEyeOff } from 'react-icons/lu'
 import { useAuth } from '@shared/contexts/auth-provider'
 import { containsProfanity } from '@shared/lib/moderation'
-import { supabase } from '@shared/lib/supabase/client'
+import {
+  isValidUsername, isUsernameAvailable, USERNAME_MESSAGES,
+} from '@shared/lib/auth/username-rules'
 import {
   validatePassword, PWD_SCORE_MAX, PWD_COLORS, PWD_STRENGTH_LABELS, PWD_HINT, PWD_ERROR_WEAK,
 } from '@shared/lib/auth/password-policy'
 import Button from '@shared/ui/button'
 import GoogleButton from '@shared/ui/google-button'
 import AuthLayout from '@features/auth/components/auth-layout'
+import ResendConfirmation from '@features/auth/components/resend-confirmation'
 import { useDocumentTitle } from '@shared/hooks/use-document-title'
 import { titreDeRoute } from '@routes/route-title'
+import { SUPPORT_EMAIL } from '@shared/lib/contact'
 
 // SignupPage — création de compte Fridge+.
 // Sprint 11 S11.b.3.
 //
 // 3 champs : pseudo, e-mail, mot de passe (avec strength meter).
-// Validations : pseudo 3-20 chars + profanity check + unicité BDD,
-// password policy partagée avec Supabase Auth (cf. password-policy.js).
-// Après succès : message « vérifie ta boîte de réception » (si confirm
-// email est activé côté Supabase Auth ; sinon login auto).
+// Validations : règle du pseudo et « est-il libre ? » (username-rules.js,
+// comme les deux autres écrans) + profanity check, password policy partagée
+// avec Supabase Auth (cf. password-policy.js).
+//
+// Après l'envoi : le service répond la MÊME chose pour une adresse neuve et
+// pour une adresse déjà inscrite (il ne dit pas qui a un compte). L'écran ne
+// peut donc pas affirmer « Compte créé ! » — il l'a fait jusqu'au 2026-10-04,
+// y compris à quelqu'un qui avait déjà un compte et ne recevait rien. Il dit
+// quoi faire dans les deux cas, et propose de renvoyer l'e-mail.
 //
 // Gated par RedirectIfAuthGuard : si user déjà loggé → redirect /.
-
-const USERNAME_REGEX = /^[a-zA-Z0-9_-]{3,20}$/
 
 const I18N = {
   fr: {
@@ -32,7 +39,6 @@ const I18N = {
     intro: 'Rejoins la communauté Fridge+ et cuisine mieux, sans limites.',
     usernameLabel: 'Pseudo',
     usernamePlaceholder: 'Foodie_42',
-    usernameHint: '3-20 caractères. Lettres, chiffres, _ et - uniquement.',
     emailLabel: 'E-mail',
     emailPlaceholder: 'ton.email@exemple.com',
     pwdLabel: 'Mot de passe',
@@ -43,13 +49,14 @@ const I18N = {
     pwdStrength: PWD_STRENGTH_LABELS.fr,
     submitBtn: 'Créer mon compte',
     loadingLabel: 'Création…',
-    verifyEmail: '✓ Compte créé ! Vérifie ta boîte de réception pour confirmer ton e-mail.',
-    errorUsernameInvalid: 'Pseudo invalide (3-20 caractères, lettres / chiffres / _ / -).',
+    emailSent: '✓ Ouvre l\'e-mail qu\'on vient de t\'envoyer pour confirmer ton adresse.',
+    emailSentHelp: 'Rien reçu au bout de quelques minutes ? Regarde dans les indésirables. Si tu as déjà un compte avec cette adresse, aucun e-mail ne part : ',
+    emailSentLogin: 'connecte-toi',
     errorUsernameProfanity: 'Ce pseudo n\'est pas autorisé.',
-    errorUsernameTaken: 'Ce pseudo est déjà pris.',
     errorWeak: PWD_ERROR_WEAK.fr,
     errorEmailInUse: 'Cette adresse e-mail est déjà utilisée.',
     errorGeneric: 'Une erreur est survenue. Réessaie plus tard.',
+    errorRefused: `Ce compte n’a pas pu être créé. Si ça recommence, écris à ${SUPPORT_EMAIL}.`,
     haveAccount: 'Déjà un compte ?',
     loginLink: 'Se connecter',
     continueWithGoogle: 'Continuer avec Google',
@@ -66,7 +73,6 @@ const I18N = {
     intro: 'Join the Fridge+ community and cook better, no limits.',
     usernameLabel: 'Username',
     usernamePlaceholder: 'Foodie_42',
-    usernameHint: '3-20 characters. Letters, digits, _ and - only.',
     emailLabel: 'E-mail',
     emailPlaceholder: 'your.email@example.com',
     pwdLabel: 'Password',
@@ -77,13 +83,14 @@ const I18N = {
     pwdStrength: PWD_STRENGTH_LABELS.en,
     submitBtn: 'Create my account',
     loadingLabel: 'Creating…',
-    verifyEmail: '✓ Account created! Check your inbox to confirm your e-mail.',
-    errorUsernameInvalid: 'Invalid username (3-20 chars, letters / digits / _ / -).',
+    emailSent: '✓ Open the e-mail we just sent you to confirm your address.',
+    emailSentHelp: 'Nothing after a few minutes? Check your spam folder. If you already have an account with this address, no e-mail is sent: ',
+    emailSentLogin: 'sign in',
     errorUsernameProfanity: 'This username is not allowed.',
-    errorUsernameTaken: 'This username is already taken.',
     errorWeak: PWD_ERROR_WEAK.en,
     errorEmailInUse: 'This e-mail address is already in use.',
     errorGeneric: 'An error occurred. Try again later.',
+    errorRefused: `This account could not be created. If it happens again, write to ${SUPPORT_EMAIL}.`,
     haveAccount: 'Already have an account?',
     loginLink: 'Sign in',
     continueWithGoogle: 'Continue with Google',
@@ -100,6 +107,7 @@ const I18N = {
 export default function SignupPage({ lang = 'fr', darkMode = false }) {
   useDocumentTitle(titreDeRoute('/signup', lang))
   const t = I18N[lang] ?? I18N.fr
+  const regles = USERNAME_MESSAGES[lang] ?? USERNAME_MESSAGES.fr
   const { signUpWithEmail, signInWithGoogle } = useAuth()
 
   const [username, setUsername] = useState('')
@@ -108,7 +116,7 @@ export default function SignupPage({ lang = 'fr', darkMode = false }) {
   const [showPwd, setShowPwd]   = useState(false)
   const [loading, setLoading]   = useState(false)
   const [error, setError]       = useState(null)
-  const [success, setSuccess]   = useState(null)
+  const [success, setSuccess]   = useState(false)
   const [googleLoading, setGoogleLoading] = useState(false)
   const [accepted, setAccepted] = useState(false)
 
@@ -125,26 +133,27 @@ export default function SignupPage({ lang = 'fr', darkMode = false }) {
   async function handleSubmit(e) {
     e.preventDefault()
     setError(null)
-    setSuccess(null)
+    setSuccess(false)
 
     // ── Validations client ────────────────────────────────────────────
     if (!accepted) { setError(t.errorAccept); return }
     const u = username.trim()
-    if (!USERNAME_REGEX.test(u)) { setError(t.errorUsernameInvalid); return }
+    if (!isValidUsername(u)) { setError(regles.invalid); return }
     if (containsProfanity(u))   { setError(t.errorUsernameProfanity); return }
     const { score } = validatePassword(password)
     if (score < PWD_SCORE_MAX)   { setError(t.errorWeak); return }
 
     setLoading(true)
     try {
-      // ── Check unicité pseudo BDD (case-insensitive) ────────────────
-      const { data: taken } = await supabase
-        .from('profiles')
-        .select('id').ilike('username', u).maybeSingle()
-      if (taken) { setError(t.errorUsernameTaken); setLoading(false); return }
+      // ── Le pseudo est-il libre ? ───────────────────────────────────
+      // `null` = on n'a pas pu le savoir : l'inscription part quand même,
+      // et la base donnera un pseudo d'attente si celui-ci est pris.
+      if (await isUsernameAvailable(u) === false) { setError(regles.taken); setLoading(false); return }
 
       // ── Signup Supabase Auth ───────────────────────────────────────
-      const { error: signUpError } = await signUpWithEmail(email, password, u, lang)
+      // `accepted` est vrai ici (contrôlé plus haut) : la base date cette
+      // acceptation, c'est la preuve demandée par le RGPD (art. 7).
+      const { error: signUpError } = await signUpWithEmail(email, password, u, lang, { consentAccepted: accepted })
       if (signUpError) {
         // v3.416 — détecter le 422 weak_password Supabase au cas où la
         // validation client serait contournée (script, edit DOM…) pour
@@ -152,11 +161,16 @@ export default function SignupPage({ lang = 'fr', darkMode = false }) {
         const msg = signUpError.message?.toLowerCase() ?? ''
         if (msg.includes('already'))      setError(t.errorEmailInUse)
         else if (msg.includes('weak'))    setError(t.errorWeak)
+        // Refus de la base (adresse effacée pendant un bannissement, ou autre
+        // échec à l'écriture du compte) : le service ne dit que « Database
+        // error saving new user ». « Réessaie plus tard » ferait réessayer
+        // sans fin — le support, lui, saura dire.
+        else if (msg.includes('database error')) setError(t.errorRefused)
         else                              setError(t.errorGeneric)
       } else {
         // Si Supabase « Confirm email » activé → user reçoit un e-mail.
         // Sinon → connecté automatiquement et RedirectIfAuthGuard redirect.
-        setSuccess(t.verifyEmail)
+        setSuccess(true)
       }
     } catch {
       setError(t.errorGeneric)
@@ -216,7 +230,7 @@ export default function SignupPage({ lang = 'fr', darkMode = false }) {
               style={inputStyle}
             />
           </div>
-          <span style={{ fontSize: '11px', color: mutedColor }}>{t.usernameHint}</span>
+          <span style={{ fontSize: '11px', color: mutedColor }}>{regles.hint}</span>
         </label>
 
         {/* E-mail */}
@@ -229,7 +243,8 @@ export default function SignupPage({ lang = 'fr', darkMode = false }) {
             <input
               type="email" required autoComplete="email"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              // Adresse corrigée après l'envoi : le formulaire redevient utilisable.
+              onChange={(e) => { setEmail(e.target.value); setSuccess(false) }}
               placeholder={t.emailPlaceholder}
               style={inputStyle}
             />
@@ -317,16 +332,23 @@ export default function SignupPage({ lang = 'fr', darkMode = false }) {
           </p>
         )}
         {success && (
-          <p role="status" aria-live="polite" style={{
-            margin: 0, padding: '10px 12px', borderRadius: '8px',
-            background: 'rgba(34,197,94,0.12)', color: '#16A34A',
-            fontSize: '13px', fontWeight: 600,
-          }}>
-            {success}
-          </p>
+          <>
+            <p role="status" aria-live="polite" style={{
+              margin: 0, padding: '10px 12px', borderRadius: '8px',
+              background: 'rgba(34,197,94,0.12)', color: '#16A34A',
+              fontSize: '13px', fontWeight: 600, lineHeight: 1.5,
+            }}>
+              {t.emailSent}{' '}
+              <span style={{ fontWeight: 500, color: textColor }}>
+                {t.emailSentHelp}
+                <Link to="/login" style={{ color: 'var(--color-warm-600)', fontWeight: 700, textDecoration: 'underline' }}>{t.emailSentLogin}</Link>.
+              </span>
+            </p>
+            <ResendConfirmation email={email} lang={lang} startCoolingDown />
+          </>
         )}
 
-        <Button type="submit" loading={loading} disabled={loading || !!success} className="w-full">
+        <Button type="submit" loading={loading} disabled={loading || success} className="w-full">
           {loading ? t.loadingLabel : t.submitBtn}
         </Button>
       </form>

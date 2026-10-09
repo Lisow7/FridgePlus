@@ -28,11 +28,13 @@
  * retombe sur la SPA comme aujourd'hui.
  */
 
-import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'fs'
+import { readFileSync, writeFileSync, mkdirSync, existsSync, readdirSync } from 'fs'
 import { fileURLToPath } from 'url'
 import { dirname, join } from 'path'
 import {
   construirePage, construirePageStatique, corpsRecette, jsonLdRecette, temoinsManquants, idValide, PAGES_STATIQUES,
+  baliseJsonLd, remplacerLitteral,
+  MORCEAUX_PAR_CHEMIN, trouverLeMorceau, dependancesDirectes, balisesDePrechargement,
 } from './lib/prerender-page.mjs'
 import { CORPS_PAR_CHEMIN } from '../dist-ssr/corps-statique.js'
 
@@ -40,6 +42,9 @@ const root = join(dirname(fileURLToPath(import.meta.url)), '..')
 const DIST = join(root, 'dist')
 const SOURCE = join(DIST, 'index.html')
 const MANIFESTE = join(root, 'scripts', 'data', 'prerender-manifest.json')
+// Ingrédients et étapes des fiches (SEO-06), produits par le même
+// `npm run prerender:data` et versionnés à côté du manifeste.
+const CONTENU = join(root, 'scripts', 'data', 'prerender-contenu.json')
 
 if (!existsSync(SOURCE)) {
   console.error(`❌  ${SOURCE} introuvable — lancer \`vite build\` avant le pré-rendu.`)
@@ -52,6 +57,11 @@ if (!existsSync(MANIFESTE)) {
 
 const gabarit = readFileSync(SOURCE, 'utf-8')
 const { recettes, lang } = JSON.parse(readFileSync(MANIFESTE, 'utf-8'))
+if (!existsSync(CONTENU)) {
+  console.error('❌  scripts/data/prerender-contenu.json introuvable — lancer `npm run prerender:data`.')
+  process.exit(1)
+}
+const contenus = JSON.parse(readFileSync(CONTENU, 'utf-8')).recettes
 
 if (!Array.isArray(recettes) || recettes.length === 0) {
   console.error('❌  Manifeste vide — rien à pré-rendre. Relancer `npm run prerender:data`.')
@@ -68,6 +78,25 @@ if (manquants.length > 0) {
   process.exit(1)
 }
 
+// Le fichier de la page (et ses imports) annoncé dans le HTML : le navigateur
+// le demande dès le début, au lieu de le découvrir après le fichier d'entrée
+// (audit du 2026-10-04, PERF-05). Le préfixe est celui du script d'entrée.
+const ASSETS = join(DIST, 'assets')
+const FICHIERS_ASSETS = readdirSync(ASSETS)
+const PREFIXE_ASSETS = (gabarit.match(/<script\b[^>]*\btype="module"[^>]*\bsrc="([^"]*\/)index-[^"/]+\.js"/) ?? [])[1]
+if (!PREFIXE_ASSETS) {
+  console.error("❌  Script d'entrée introuvable dans dist/index.html — préchargement des pages impossible.")
+  process.exit(1)
+}
+function prechargementPour(chemin) {
+  const noms = MORCEAUX_PAR_CHEMIN[chemin]
+  if (!noms) return ''
+  const pages = noms.map((nom) => trouverLeMorceau(FICHIERS_ASSETS, nom))
+  const dependances = pages.flatMap((p) => dependancesDirectes(readFileSync(join(ASSETS, p), 'utf-8')))
+  return balisesDePrechargement(PREFIXE_ASSETS, [...pages, ...dependances], gabarit)
+}
+const PRECHARGEMENT_FICHE = prechargementPour('/recipe')
+
 // Le conteneur que React monte. Sa forme exacte est vérifiée avant écriture :
 // s'il changeait dans `index.html`, l'injection deviendrait silencieusement
 // sans effet — le défaut qu'on corrige, mais en croyant l'avoir corrigé.
@@ -75,6 +104,7 @@ const RACINE_VIDE = '<div id="root"></div>'
 
 let ecrites = 0
 let corpsRecettesInjectes = 0
+let balisagesComplets = 0
 let balisagesRecette = 0
 const ignorees = []
 
@@ -94,7 +124,7 @@ for (const recette of recettes) {
   // portaient un titre juste et pas une ligne de contenu.
   const corps = corpsRecette(recette)
   if (html.includes(RACINE_VIDE)) {
-    html = html.replace(RACINE_VIDE, `<div id="root">${corps}</div>`)
+    html = remplacerLitteral(html, RACINE_VIDE, `<div id="root">${corps}</div>`)
     corpsRecettesInjectes++
   }
 
@@ -102,14 +132,14 @@ for (const recette of recettes) {
   // `null` quand la recette n'a pas de photo : Google exige `image` pour ce
   // résultat enrichi, et un balisage inéligible sur 411 pages ne ferait que
   // du bruit dans la Search Console.
-  const balisage = jsonLdRecette(recette)
+  const balisage = jsonLdRecette({ ...recette, ...contenus[recette.id] })
   if (balisage) {
-    html = html.replace(
-      '</head>',
-      `  <script type="application/ld+json" id="recipe-jsonld">${JSON.stringify(balisage)}</scr` + `ipt>\n  </head>`,
-    )
+    html = remplacerLitteral(html, '</head>', `  ${baliseJsonLd('recipe-jsonld', balisage)}\n  </head>`)
     balisagesRecette++
+    if (balisage.recipeIngredient || balisage.recipeInstructions) balisagesComplets++
   }
+
+  if (PRECHARGEMENT_FICHE) html = remplacerLitteral(html, '</head>', `  ${PRECHARGEMENT_FICHE}\n  </head>`)
 
   const dossier = join(DIST, 'recipe', recette.id)
   mkdirSync(dossier, { recursive: true })
@@ -123,6 +153,13 @@ if (ignorees.length > 0) {
 console.log(`✅  Pré-rendu : ${ecrites} pages recette écrites dans dist/recipe/<id>/index.html (langue : ${lang}).`)
 console.log(`✅  Corps servi dans le HTML pour ${corpsRecettesInjectes} page(s) recette.`)
 console.log(`✅  Balisage Recipe servi pour ${balisagesRecette} page(s) — les autres sont encore sans photo.`)
+console.log(`✅  Ingrédients et étapes servis pour ${balisagesComplets} page(s).`)
+// Le contenu existe mais n'atteint aucune page : le branchement est cassé.
+// Mieux vaut casser le build que livrer 515 fiches sans recette (SEO-06).
+if (balisagesRecette > 0 && Object.keys(contenus).length > 0 && balisagesComplets === 0) {
+  console.error('❌  prerender-contenu.json lu, mais aucune page ne porte ingrédients ni étapes — pré-rendu interrompu.')
+  process.exit(1)
+}
 
 // ── Pages statiques ────────────────────────────────────────────────────────
 // Mesuré en production le 2026-08-16 : `/legal`, `/changelog` et `/community`
@@ -166,15 +203,17 @@ for (const page of PAGES_STATIQUES) {
       console.error(`❌  ${page.chemin} : ${RACINE_VIDE} introuvable dans le gabarit — le corps ne serait allé nulle part.`)
       process.exit(1)
     }
-    html = html.replace(RACINE_VIDE, `<div id="root">${corps}</div>`)
+    html = remplacerLitteral(html, RACINE_VIDE, `<div id="root">${corps}</div>`)
 
     const donnees = generateur.jsonLd?.(LANGUE_PRERENDU)
     if (donnees) {
-      html = html.replace('</head>', `  <script type="application/ld+json" id="${generateur.jsonLdId ?? ''}">${JSON.stringify(donnees)}</scr` + `ipt>
-  </head>`)
+      html = remplacerLitteral(html, '</head>', `  ${baliseJsonLd(generateur.jsonLdId ?? '', donnees)}\n  </head>`)
     }
     corpsInjectes++
   }
+
+  const prechargement = prechargementPour(page.chemin)
+  if (prechargement) html = remplacerLitteral(html, '</head>', `  ${prechargement}\n  </head>`)
 
   const dossier = join(DIST, ...page.chemin.replace(/^\//, '').split('/'))
   mkdirSync(dossier, { recursive: true })

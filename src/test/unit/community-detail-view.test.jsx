@@ -24,7 +24,7 @@ vi.mock('@features/community/components/community-reply-card', () => ({
 import { DetailView } from '@features/community/components/community-detail-view'
 
 const t = {
-  deletedAuthor: 'Supprimé', deletedToast: 'Post supprimé', edit: 'Éditer', delete: 'Supprimer',
+  deletedAuthor: 'Supprimé', authorUnavailable: 'Auteur non chargé', deletedToast: 'Post supprimé', edit: 'Éditer', delete: 'Supprimer',
   report: 'Signaler', replyEmpty: 'Aucune réponse', replyPh: 'Ta réponse…', loginToPost: 'Connecte-toi',
   repliesCount: (n) => `${n} réponses`, mutedBanner: 'Tu es muté', termsDeclinedBanner: 'Charte refusée',
   profileViewBtn: (a) => `Profil de ${a}`, replyToUser: (a) => `à ${a}`, replyToCancel: 'Annuler',
@@ -65,6 +65,31 @@ describe('DetailView', () => {
     render(<DetailView {...base} />)
     expect(screen.getByText('Post supprimé')).toBeInTheDocument()
     expect(screen.queryByText('chargement')).not.toBeInTheDocument()
+  })
+
+  // Audit du 2026-10-04 (BDD-13, lot 7) : une lecture des profils ratée n'est
+  // pas un compte supprimé — ni pour l'auteur du post, ni dans la mention ↳.
+  it('auteurs pas chargés : « Auteur non chargé », pas « Supprimé »', () => {
+    hookState.current = state({
+      post: { ...post, profile: null, profileUnavailable: true },
+      replies: [
+        { id: 'r1', user_id: 'u3', body: 'Racine', parent_reply_id: null, profile: null, profileUnavailable: true },
+        { id: 'r2', user_id: 'u4', body: 'Enfant', parent_reply_id: 'r1', profile: null, profileUnavailable: true },
+      ],
+    })
+    render(<DetailView {...base} />)
+    expect(screen.getByText('Auteur non chargé')).toBeInTheDocument()
+    expect(screen.getByText('Enfant (↳ Auteur non chargé)')).toBeInTheDocument()
+    expect(screen.queryByText(/Supprimé/)).toBeNull()
+  })
+
+  it('la bannière « en réponse à » non plus ne dit pas « Supprimé » quand l’auteur n’est pas chargé', () => {
+    hookState.current = state({
+      replyToId: 'r1',
+      replies: [{ id: 'r1', user_id: 'u3', body: 'Racine', parent_reply_id: null, profile: null, profileUnavailable: true }],
+    })
+    render(<DetailView {...base} />)
+    expect(screen.getByText('↳ à Auteur non chargé')).toBeInTheDocument()
   })
 
   it('affiche le post complet et l’état vide du fil', () => {

@@ -55,7 +55,9 @@ export default defineConfig({
       // cf. la conception « pwa-update-prompt » du 2026-07-09)
       // qui comble ce trou indépendamment du mode choisi.
       registerType: 'prompt',
-      includeAssets: ['favicon.svg', 'og-image.svg'],
+      // `og-image.svg` en est sorti le 2026-10-08 (audit, SEO-11) : c'est la
+      // source de `npm run og`, jamais affichée par l'application.
+      includeAssets: ['favicon.svg'],
       manifest: {
         name: 'Fridge+',
         short_name: 'Fridge+',
@@ -112,6 +114,25 @@ export default defineConfig({
           // de fait (jpg absent de globPatterns), gardé EXPLICITE pour que
           // l'ajout futur de jpg au precache ne les embarque pas en silence.
           '**/screenshots/**',
+          // Les ~380 emoji hébergés par le site (1,4 Mo) : mis en cache à la
+          // demande ci-dessous, pas tous dès la première visite (2026-10-06).
+          '**/emoji/**',
+          // Audit du 2026-10-04, SEO-11 — 243 Ko compressés que l'application
+          // n'affiche jamais, téléchargés par chaque nouveau visiteur :
+          //   - images de partage (`og-image.*`, `og-app-capture.png`) : lues
+          //     par les robots des réseaux sociaux ;
+          //   - `404.html` : servie par Vercel pour un FICHIER introuvable ;
+          //   - icônes de notification : le navigateur les charge à
+          //     l'arrivée d'une notification, réseau présent par définition.
+          // `scripts/verifier-precache.mjs` refuse leur retour, en CI.
+          '**/og-*',
+          '**/404.html',
+          '**/icons/push-icon-*',
+          // SEO-12 (2026-10-08) : l'icône tactile d'iOS et favicon.ico sont
+          // demandés par le système ou le navigateur, en ligne ; l'application
+          // hors ligne a déjà favicon.svg.
+          '**/apple-touch-icon.png',
+          '**/favicon.ico',
         ],
         // Bumper la limite (notre bundle JS est ~967kB en raison du contenu
         // i18n × 5 langues + recettes statiques). À retirer quand la BDD
@@ -134,6 +155,17 @@ export default defineConfig({
           // exclure les requêtes Authenticated) si l'offline complet
           // devient un besoin.
           //
+          // Emoji hébergés par le site (public/emoji/) : en cache au premier
+          // affichage, disponibles hors ligne ensuite (2026-10-06).
+          {
+            urlPattern: /\/emoji\/(twemoji|fluent)\/[^/]+\.svg$/,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'emoji',
+              expiration: { maxEntries: 500, maxAgeSeconds: 365 * 24 * 60 * 60 },
+              cacheableResponse: { statuses: [0, 200] },
+            },
+          },
           // Polices Google Fonts si jamais utilisées (cache long).
           {
             urlPattern: /^https:\/\/fonts\.(googleapis|gstatic)\.com\/.*/i,
@@ -191,6 +223,14 @@ export default defineConfig({
           // ces paquets tomberaient dans le catch-all `return 'vendor'` du
           // bas — c'est-à-dire DANS le chunk de boot, l'inverse du but.
           if (id.includes('react-icons') || id.includes('fuse.js') || id.includes('leo-profanity')) return undefined
+          // Même raison, audit du 2026-10-04 (PERF-03) : les dépendances de
+          // recharts (d3, redux, immer…) n'ont pas « recharts » dans leur
+          // chemin, et le fourre-tout du bas les mettait DANS le fichier de
+          // démarrage — ≈ 45 Ko compressés pour les graphiques de l'admin et du
+          // profil. Idem pour les listes de gros mots que charge leo-profanity
+          // (français 76 Ko, russe 8 Ko), qui ne servent qu'au premier pseudo.
+          // Placées par consommateur, elles partent avec ce qui s'en sert.
+          if (/node_modules\/(victory-vendor|d3-[^/]+|@reduxjs|immer|redux|redux-thunk|react-redux|reselect|decimal\.js-light|es-toolkit|eventemitter3|internmap|tiny-invariant|use-sync-external-store|react-is|french-badwords-list|russian-bad-words)\//.test(id)) return undefined
           // 🔴 CONTRAINTE DURE : `vendor-recharts`, `vendor-sentry` et
           // `admin-panel` sont cités par les globIgnores de Workbox plus haut
           // dans ce fichier — ces trois noms doivent SURVIVRE, sinon

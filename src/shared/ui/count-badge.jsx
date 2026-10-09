@@ -6,6 +6,10 @@
 //   <CountBadge count={pendingCount} />
 //   <CountBadge count={basketCount} max={9} aria-label="3 articles" />
 //
+// `aria-label` : la phrase lue À LA PLACE du chiffre. Posé sur le <span> (sans
+// rôle), il était ignoré des lecteurs d'écran (lot 9e) : il devient un texte
+// `sr-only`, et le chiffre seul est caché d'eux.
+//
 // `style` permet un override ponctuel (positionnement absolu, etc.) sans
 // dupliquer le socle visuel (dégradé de marque + dimensions de la pastille).
 export default function CountBadge({ count = 0, max = 99, 'aria-label': ariaLabel, style }) {
@@ -13,9 +17,8 @@ export default function CountBadge({ count = 0, max = 99, 'aria-label': ariaLabe
   const text = count > max ? `${max}+` : String(count)
   return (
     <span
-      aria-label={ariaLabel}
       style={{
-        background: 'var(--gradient-warm)',
+        background: 'var(--gradient-deep)',
         color: 'white',
         fontSize: '11px', fontWeight: 700,
         minWidth: '20px', height: '20px',
@@ -24,7 +27,7 @@ export default function CountBadge({ count = 0, max = 99, 'aria-label': ariaLabe
         ...style,
       }}
     >
-      {text}
+      {ariaLabel ? <><span aria-hidden="true">{text}</span><span className="sr-only">{ariaLabel}</span></> : text}
     </span>
   )
 }

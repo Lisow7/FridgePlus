@@ -30,7 +30,7 @@ const I18N = {
   },
   en: {
     pageTitle: 'My spending',
-    pageIntro: 'Monthly tracking of your shopping with personalized recommendations. Captured on every « I did my shopping » click.',
+    pageIntro: 'Monthly tracking of your shopping with personalized recommendations. Captured on every « I\'m done shopping » tap.',
     sectionTitle: 'Premium analysis',
     sectionDesc:  'Your shopping spending over 12 months, with recommendations to optimize your budget.',
   },

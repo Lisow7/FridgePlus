@@ -423,7 +423,7 @@ export default function ShoppingPhase({
           style={{
             background: allDone
               ? 'linear-gradient(135deg, #16A34A, #15803D)'
-              : 'linear-gradient(135deg, #D46A10, #E07820)',
+              : 'var(--gradient-deep)',
             color: 'white',
             boxShadow: allDone
               ? '0 4px 16px rgba(22,163,74,0.30)'

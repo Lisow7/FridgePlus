@@ -6,6 +6,7 @@ import {
 import { LuActivity } from 'react-icons/lu'
 import { adminGetAnalyticsData } from '@features/admin/api/admin'
 import Button from '@shared/ui/button'
+import { texteLisible } from '@shared/lib/couleurs/texte-lisible'
 
 const PERIODS = [
   { key: '7j',  label: '7 jours' },
@@ -127,7 +128,8 @@ export default function AnalyticsChart({ darkMode = false, refreshKey = 0 }) {
   const border  = darkMode ? 'var(--color-dark-border)' : 'var(--color-border-warm)'
   const gridC   = darkMode ? '#1E3048' : '#F2EBE0'
   const cardBg  = darkMode ? '#1A2F48' : '#FFFFFF'
-  const groupLbl = darkMode ? '#4A6080' : '#9A8070'
+  // Le jeton atténué commun (A11Y-03 : #9A8070 à 3,7:1, #4A6080 à 2,1:1).
+  const groupLbl = 'var(--color-muted)'
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -189,7 +191,7 @@ export default function AnalyticsChart({ darkMode = false, refreshKey = 0 }) {
                   fontWeight: period === p.key ? 700 : 500,
                   borderColor: period === p.key ? 'var(--color-brand-500)' : border,
                   background: period === p.key ? 'rgba(224,120,32,0.12)' : 'transparent',
-                  color: period === p.key ? 'var(--color-brand-500)' : muted,
+                  color: period === p.key ? texteLisible('var(--color-brand-500)') : muted,
                   transition: 'all 0.15s',
                 }}
               >
@@ -208,8 +210,8 @@ export default function AnalyticsChart({ darkMode = false, refreshKey = 0 }) {
                   size="icon"
                   onClick={() => setExtraHeight(h => Math.min(MAX_EXTRA, Math.max(0, h + dir * HEIGHT_STEP)))}
                   disabled={disabled}
-                  aria-label={dir === -1 ? 'Reduce chart height' : 'Increase chart height'}
-                  className="h-[22px] w-[22px] rounded-md border bg-transparent text-sm font-bold leading-none hover:bg-transparent"
+                  aria-label={dir === -1 ? 'Réduire la hauteur du graphique' : 'Agrandir le graphique'}
+                  className="h-6 w-6 rounded-md border bg-transparent text-sm font-bold leading-none hover:bg-transparent"
                   style={{
                     borderColor: border,
                     color: muted,

@@ -1,5 +1,6 @@
 import { createPortal } from 'react-dom'
 import Button from '@shared/ui/button'
+import { useDialogue } from '@shared/hooks/use-dialogue'
 
 // Phase 8 launch (refonte Modales) PR 8.8.a. Extraction de
 // RecipeFormModal : dialog de confirmation à la publication d'une recette
@@ -27,16 +28,18 @@ export default function RecipeFormPublishDialog({
 }) {
   // R-03 — la publication exige les DEUX cases : acquittement + consentement.
   const canPublish = acknowledged && consent
+  // Une vraie boîte de dialogue : rôle, nom, focus piégé, Échap (A11Y-01).
+  const dialogue = useDialogue({ onClose: onCancel, actif: isOpen })
   if (!isOpen) return null
   const dm = darkMode
   const benefits = t.publishBenefits ?? []
   return createPortal(
     <div className="fixed inset-0 z-[70]" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(18,10,4,0.50)', backdropFilter: 'blur(4px)' }}>
-      <div style={{
+      <div {...dialogue.proprietes} style={{
         background: dm ? '#131E2C' : '#FDFAF6',
         borderRadius: '16px', padding: '28px 32px',
         maxWidth: '460px', width: '90%',
-        maxHeight: '90vh', overflowY: 'auto',
+        maxHeight: '90dvh', overflowY: 'auto',
         boxShadow: '0 8px 40px rgba(0,0,0,0.25)',
       }}>
         {benefits.length > 0 && (
@@ -65,7 +68,7 @@ export default function RecipeFormPublishDialog({
             </ul>
           </aside>
         )}
-        <p style={{
+        <p id={dialogue.titreId} style={{
           fontSize: '17px', fontWeight: 800, color: 'var(--color-charcoal)',
           margin: '0 0 16px 0', textTransform: 'uppercase', letterSpacing: '0.06em',
         }}>

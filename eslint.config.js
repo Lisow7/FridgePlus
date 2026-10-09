@@ -123,6 +123,19 @@ export default defineConfig([
       }],
     },
   },
+  // Audit du 2026-10-04, ARCH-08 : 158 fonctions de plus de 100 lignes dans
+  // src/ le 2026-10-08 (le cliquet de taille ne voyait que les FICHIERS .jsx).
+  // La règle les rend visibles ; `npm run lint` les compte À PART, au cran
+  // exact (`lintPlafondsParRegle` dans package.json) : pas une de plus, et le
+  // plafond se baisse à chaque fonction découpée. Hors tests : un `describe`
+  // est long par nature.
+  {
+    files: ['src/**/*.{js,jsx}'],
+    ignores: ['src/test/**'],
+    rules: {
+      'max-lines-per-function': ['warn', { max: 100, skipBlankLines: true, skipComments: true }],
+    },
+  },
   // Surcharge spécifique aux fichiers de test : globals vitest + node
   {
     files: ['src/test/**/*.{js,jsx}'],

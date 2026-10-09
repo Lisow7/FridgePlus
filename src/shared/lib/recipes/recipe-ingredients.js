@@ -123,6 +123,30 @@ export function getIngredientQty(item) {
 }
 
 /**
+ * Une ligne d'ingrédient pour le balisage Recipe : « 200 g de Spaghetti »,
+ * « 3 Œufs », « Poivre noir ». Le nom vient de la table des ingrédients
+ * (`ingredientsById`, une Map id → { labels }), comme sur la fiche ; à défaut,
+ * la ligne rédigée de la recette, puis l'identifiant.
+ *
+ * UNE seule écriture, partagée par le balisage injecté au montage
+ * (`recipe-to-schema-org.js`) et par le HTML pré-rendu
+ * (`scripts/lib/prerender-page.mjs`) : deux copies d'une même règle finissent
+ * par diverger (audit du 2026-10-04, SEO-06). Ce module n'importe rien : un
+ * script Node du build peut le lire tel quel.
+ */
+export function ligneIngredient(item, ingredientsById, lang = 'fr') {
+  const baseId = getIngredientIds(item)[0]
+  const baseInfo = ingredientsById?.get?.(baseId)
+  const nom = baseInfo?.labels?.[lang] ?? baseInfo?.labels?.fr
+    ?? item?.labels?.[lang] ?? item?.label ?? baseId ?? ''
+  const qty = getIngredientQty(item)
+  if (qty?.amount == null) return nom
+  const unite = qty.unit && qty.unit !== 'pcs' ? ` ${qty.unit}` : ''
+  const separateur = qty.unit === 'pcs' ? ' ' : ' de '
+  return `${qty.amount}${unite}${separateur}${nom}`.trim()
+}
+
+/**
  * True si l'item est marqué required.
  * Compat 2 formats : `item.required` est le même nom dans les 2.
  */

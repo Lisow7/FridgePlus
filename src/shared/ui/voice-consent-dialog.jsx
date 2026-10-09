@@ -75,7 +75,7 @@ export default function VoiceConsentDialog({ lang = 'fr', darkMode = false, onAc
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
           <Button
             onClick={onAccept}
-            className="h-auto w-full rounded-lg bg-[#E07820] px-4 py-2.5 text-[14px] font-bold text-white"
+            className="h-auto w-full rounded-lg bg-[#B85000] px-4 py-2.5 text-[14px] font-bold text-white"
           >
             {t.voiceConsentAccept}
           </Button>
@@ -92,7 +92,7 @@ export default function VoiceConsentDialog({ lang = 'fr', darkMode = false, onAc
               variant="ghost"
               onClick={onManage}
               className="mt-1 h-auto self-center rounded-none bg-transparent p-0 text-[12px] font-semibold underline hover:bg-transparent"
-              style={{ color: darkMode ? 'var(--color-brand-400)' : '#C05A10' }}
+              style={{ color: darkMode ? 'var(--color-brand-400)' : '#B85000' }}
             >
               {t.voiceConsentManage}
             </Button>

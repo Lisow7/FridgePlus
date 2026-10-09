@@ -24,7 +24,11 @@ vi.mock('@shared/contexts/data-provider', () => ({
   // wiring testé ici.
   useBaseRecipes: () => ({
     recipeNames: { lasagnes: { fr: 'Lasagnes maison' }, 'bechamel-maison': { fr: 'Béchamel maison' } },
-    recipes: [],
+    // L'aperçu lit la recette de base par useRecipeById (le catalogue n'a plus
+    // les étapes, audit du 2026-10-04, PERF-01) : catalogue arrivé, recette
+    // complète en mémoire.
+    recipes: [bechamelRecipe],
+    catalogStatus: 'ok',
     recipesById: new Map([['bechamel-maison', bechamelRecipe]]),
   }),
   useCountries: () => ({}), useDietTypes: () => ({}), useAllergenTypes: () => ({}),
@@ -39,6 +43,7 @@ vi.mock('@shared/ui/emoji', () => ({ default: ({ char }) => char }))
 vi.mock('@shared/ui/info-tooltip', () => ({ default: () => null }))
 vi.mock('@shared/hooks/use-badge-celebration', () => ({ useBadgeCelebration: () => ({ celebrate: () => {}, BadgeCelebrationModal: () => null }) }))
 vi.mock('@features/recipes/hooks/use-quick-rate-prompt', () => ({ useQuickRatePrompt: () => vi.fn() }))
+vi.mock('@shared/hooks/use-save-error-toast', () => ({ useSaveErrorToast: () => vi.fn() }))
 vi.mock('@shared/lib/pricing/open-prices', () => ({ refreshPrices: vi.fn().mockResolvedValue({}), clearPriceCache: vi.fn() }))
 vi.mock('@shared/api/cooking-logs', () => ({ logCooking: vi.fn().mockResolvedValue({}) }))
 vi.mock('@features/recipes/components/recipe-reviews-section', () => ({ default: () => null }))

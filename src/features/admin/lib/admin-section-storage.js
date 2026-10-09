@@ -5,7 +5,7 @@
 export const ADMIN_SECTIONS = [
   'dashboard', 'recipes', 'reports', 'reviews', 'community',
   'ingredients', 'base', 'pricing', 'quality', 'users', 'support',
-  'journal', 'notifications',
+  'journal', 'notifications', 'features',
 ]
 
 const SECTION_KEY = 'fridge-admin-section'

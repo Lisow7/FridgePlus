@@ -51,7 +51,7 @@ export default function RecipeFormModal({ initialRecipe = null, onSave, onClose,
   // objet unique, destructuré ici pour que le JSX garde ses noms de variables.
   const {
     t, user, dietTypes, allergenTypes,
-    form, errors, draftBanner,
+    form, errors, saveError, draftBanner,
     showEmojiPicker, setShowEmojiPicker, showCloseConfirm, setShowCloseConfirm,
     showPublishConfirm, setShowPublishConfirm, publishAcknowledged, setPublishAcknowledged,
     publishConsent, setPublishConsent, proposePublic, setProposePublic,
@@ -83,7 +83,7 @@ export default function RecipeFormModal({ initialRecipe = null, onSave, onClose,
         role="dialog"
         aria-modal="true"
         aria-label={initialRecipe ? t.editTitle : t.createTitle}
-        style={{ position:'fixed', top:0, right:0, width:'660px', maxWidth:'100vw', height:'100vh', display:'flex', flexDirection:'column', background: dm ? '#0F1923' : '#FDFAF6', boxShadow: dm ? '-8px 0 32px rgba(0,0,0,0.45)' : '-8px 0 32px rgba(0,0,0,0.16)', zIndex:60, animation:'panel-slide-in 0.32s cubic-bezier(0.34,1.06,0.64,1) both' }}>
+        style={{ position:'fixed', top:0, right:0, width:'660px', maxWidth:'100vw', height:'100dvh', display:'flex', flexDirection:'column', background: dm ? '#0F1923' : '#FDFAF6', boxShadow: dm ? '-8px 0 32px rgba(0,0,0,0.45)' : '-8px 0 32px rgba(0,0,0,0.16)', zIndex:60, animation:'panel-slide-in 0.32s cubic-bezier(0.34,1.06,0.64,1) both' }}>
 
         {/* Header */}
         <div style={{ padding:'16px 20px 14px', borderBottom: bd, flexShrink:0, display:'flex', alignItems:'center', gap:'10px', background: dm ? '#0F1923' : '#FDFAF6' }}>
@@ -110,6 +110,23 @@ export default function RecipeFormModal({ initialRecipe = null, onSave, onClose,
           onScroll={e => setShowScrollTop(e.currentTarget.scrollTop > 80)}
           style={{ flex:1, overflowY:'auto', padding:'20px 24px' }}
         >
+
+          {/* L'enregistrement a été refusé : dit en haut du formulaire, qui reste
+              ouvert avec tout ce qui est tapé (le hook y ramène le défilement). */}
+          {saveError && (
+            <div
+              role="alert"
+              style={{
+                marginBottom:'16px', padding:'10px 14px', borderRadius:'10px',
+                background: dm ? 'rgba(220,38,38,0.14)' : '#FEF2F2',
+                borderLeft:'3px solid #DC2626',
+                fontSize:'13px', fontWeight:600, lineHeight:1.45,
+                color: dm ? '#FCA5A5' : '#991B1B',
+              }}
+            >
+              {saveError === 'locked' ? t.saveLocked : t.saveFailed}
+            </div>
+          )}
 
           {/* R-02 — banner brouillon restauré (création uniquement, jamais en édition) */}
           {draftBanner && (

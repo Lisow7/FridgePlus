@@ -14,6 +14,7 @@ const ReceiptReviewPanel = lazy(() => import('@features/receipt-scan/components/
 
 const ERROR_I18N = {
   quota_exceeded: { fr: 'Quota mensuel de scans atteint — réessaie le mois prochain.', en: 'Monthly scan quota reached — try again next month.' },
+  user_quota_exceeded: { fr: 'Tu as utilisé tes 30 scans du mois — réessaie le mois prochain.', en: 'You have used your 30 scans this month — try again next month.' },
   rate_limited:   { fr: 'Trop de scans en peu de temps — patiente un instant.', en: 'Too many scans in a short time — please wait a moment.' },
   unauthorized:   { fr: 'Connecte-toi pour utiliser cette fonctionnalité.', en: 'Log in to use this feature.' },
   invalid_token:  { fr: 'Connecte-toi pour utiliser cette fonctionnalité.', en: 'Log in to use this feature.' },
@@ -94,7 +95,7 @@ export default function ReceiptScanOverlays({
       {receiptScanStage === 'processing' && (
         <div style={{ position: 'fixed', inset: 0, zIndex: Z_INDEX.MODAL, background: 'rgba(15,8,2,0.86)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <div style={{ textAlign: 'center' }}>
-            <div style={{ width: '44px', height: '44px', borderRadius: '50%', border: '4px solid rgba(247,168,94,0.18)', borderTopColor: '#F7A85E', margin: '0 auto 18px', animation: 'spin 1s linear infinite' }} />
+            <div className="animate-spin" style={{ width: '44px', height: '44px', borderRadius: '50%', border: '4px solid rgba(247,168,94,0.18)', borderTopColor: '#F7A85E', margin: '0 auto 18px' }} />
             <div style={{ fontSize: '14px', fontWeight: 700, color: '#F5EBDD' }}>{PROCESSING_I18N[lang] ?? PROCESSING_I18N.fr}</div>
           </div>
         </div>

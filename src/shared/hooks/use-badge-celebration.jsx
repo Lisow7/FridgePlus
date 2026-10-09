@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 import { useToast } from '@shared/ui/toast/toast-provider'
-import { listAllCookingLogs } from '@shared/api/cooking-logs'
+import { loadAllCookingLogs } from '@shared/api/cooking-logs'
 import { computeBadges, unlockedIds, BADGE_DEFINITIONS } from '@shared/lib/recipes/achievements'
 import { seedIfAbsent } from '@shared/lib/recipes/badges-seen'
 
@@ -46,7 +46,10 @@ export function useBadgeCelebration() {
   return useCallback(async (userId, { resolveCountry, lang = 'fr' } = {}) => {
     if (!userId) return
     try {
-      const logs = await listAllCookingLogs(userId)
+      // Journal pas chargé : ne rien conclure. Une liste vide « sèmerait » zéro
+      // badge, et le chargement suivant fêterait d'un coup tous ceux déjà acquis.
+      const { logs, error } = await loadAllCookingLogs(userId)
+      if (error) return
       const ids = unlockedIds(computeBadges(logs ?? [], resolveCountry))
       const { seeded, toCelebrate } = seedIfAbsent(ids)
       if (seeded) return

@@ -1,35 +1,16 @@
-import { createContext, useContext, useEffect, useMemo, useState } from 'react'
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { supabase } from '@shared/lib/supabase/client'
 import { createIngredientLookup } from '@shared/lib/ingredients/ingredient-lookup'
+import { OFFICIAL_RECIPE_COLUMNS, rowToOfficialRecipe } from '@shared/lib/recipes/official-recipe-rows'
 import { INGREDIENTS as STATIC_INGREDIENTS } from '@shared/static/ingredients'
 import { RECIPES as STATIC_RECIPES } from '@shared/static/recipes'
 import { RECIPE_NAMES as STATIC_RECIPE_NAMES } from '@shared/static/recipe-names'
 import { FRIDGE_LAYOUTS as STATIC_FRIDGE_LAYOUTS } from '@shared/static/fridge-layouts'
 
-export const DIFFICULTY_MAP = {
-  'very-easy': 'Très facile',
-  'easy':      'Facile',
-  'medium':    'Intermédiaire',
-  'hard':      'Difficile',
-}
-
-export const TYPE_MAP = {
-  'main':       'Plat principal',
-  'starter':    'Entrée & Soupe',
-  'side':       'Accompagnement',
-  'dessert':    'Dessert & Petit-déj',
-  'salad':      'Salade',
-  'drink':      'Boisson',
-  'sauce-base': 'Sauce & Base',
-}
-
-function formatTimeMin(minutes) {
-  if (!minutes) return null
-  if (minutes < 60) return `${minutes} min`
-  const h = Math.floor(minutes / 60)
-  const m = minutes % 60
-  return m > 0 ? `${h}h${String(m).padStart(2, '0')}` : `${h}h`
-}
+// Les libellés de difficulté et de type vivent avec la forme d'une recette
+// officielle (partagée avec la lecture d'une fiche seule) ; réexportés ici pour
+// les filtres, qui les lisent à cette adresse depuis toujours.
+export { DIFFICULTY_MAP, TYPE_MAP } from '@shared/lib/recipes/official-recipe-rows'
 
 export function rowsToIngredients(rows) {
   // Build DB result sorted by sort_order
@@ -115,39 +96,6 @@ function buildGroupMaps(ingredients) {
   return { groupMap, parentMap }
 }
 
-function rowsToRecipes(rows) {
-  return rows.map(row => ({
-    id:                   row.id,
-    emoji:                row.emoji,
-    time:                 formatTimeMin(row.time_min),
-    time_min:             row.time_min,
-    prep_time_min:        row.prep_time_min,
-    cook_time_min:        row.cook_time_min,
-    difficulty:           DIFFICULTY_MAP[row.difficulty] ?? row.difficulty,
-    type:                 TYPE_MAP[row.type] ?? row.type,
-    servings:             row.servings,
-    country:              row.country,
-    diet:                 row.diet ?? [],
-    allergens:            row.allergens ?? [],
-    ingredients:          row.ingredients ?? [],
-    description:          row.description ?? {},   // multilingue : {fr, en, es, de, ja}
-    steps:                row.steps ?? {},         // multilingue : {fr: [...], en: [...], ...}
-    image_url:            row.image_url,
-    status:               row.status ?? 'published',
-    // Hotfix v3.408 — flags promus pour le badge « Authentique » : si
-    // promoted_from_id est non-null, la recette a été promue par l'admin
-    // depuis custom_recipes (= recette d'origine communauté validée +
-    // promue dans la base officielle). On expose aussi original_author_*
-    // pour le crédit visible dans la fiche.
-    promoted_from_id:     row.promoted_from_id ?? null,
-    promoted_at:          row.promoted_at ?? null,
-    original_author_name: row.original_author_name ?? null,
-    original_author_id:   row.original_author_id ?? null,
-    created_at:           row.created_at ?? null,
-    functional_tags:      row.functional_tags ?? [],
-  }))
-}
-
 function rowsToRecipeNames(rows) {
   return Object.fromEntries(rows.map(row => [row.id, row.name]))
 }
@@ -195,6 +143,54 @@ function partitionTaxonomyRows(rows) {
   return { allergens, diets, countries }
 }
 
+// Les quatre lectures du démarrage. Chacune peut échouer seule : c'est elle
+// qu'on relance, pas les autres (audit du 2026-10-04, PERF-02).
+const LECTURES_DU_DEMARRAGE = {
+  ingredients: () => supabase.from('ingredients')
+    .select('id, labels, emoji, subcategory, sort_order, group_id, price, seasonal_months, image_url, nutrition, allergens, pack_size, breaks_diets, default_unit'),
+  // Refonte BDD Sprint 5 — PR-DB-12 : `base_recipes` → `recipes_unified`
+  // filtré par origin='official'. RLS publique filtre déjà
+  // status IN ('published','featured') donc le code app ne voit que
+  // les recettes publiables (admin verra tout via is_admin policy).
+  // Triggers de sync (PR-DB-11) garantissent que les writes admin
+  // sur base_recipes sont reflétés ici sans drift.
+  recettes: () => supabase.from('recipes_unified')
+    .select(OFFICIAL_RECIPE_COLUMNS)
+    .eq('origin', 'official'),
+  // Refonte BDD Sprint 4 — PR-DB-08 : 3 fetches anciens (allergen_types,
+  // diet_types, countries_master) → 1 fetch unifié sur la table
+  // `taxonomies` filtré par domain. Gain : -2 requêtes HTTP au boot.
+  taxonomies: () => supabase.from('taxonomies')
+    .select('domain, key, labels, metadata, sort_order')
+    .in('domain', ['allergen', 'diet', 'country'])
+    .order('sort_order'),
+  dispositions: () => supabase.from('fridge_layouts')
+    .select('language, structure'),
+}
+
+// Attente avant chaque nouvel essai d'une lecture refusée : trois essais en tout.
+const DELAIS_AVANT_NOUVEL_ESSAI = [2000, 6000]
+
+// Une lecture rend ses lignes, ou `null` si elle a échoué — jamais d'exception.
+// 🔴 Avant le 2026-10-05 : ni try/catch ni nouvel essai, et la promesse n'était
+// pas attendue. Une seule lecture qui échouait (même la petite
+// `fridge_layouts`), et l'app restait toute la session sur les 100 recettes
+// embarquées sur 515, sans que personne ne le sache : le panneau n'en montrait
+// que 100, et 81 % des liens directs restaient « Recette introuvable ».
+// supabase-js LÈVE sur une requête avortée (mesuré le 2026-08-07).
+async function lireUneFois(nom) {
+  try {
+    const { data, error } = await LECTURES_DU_DEMARRAGE[nom]()
+    if (error) return null
+    // Des recettes rendues vides ne sont pas un catalogue : la mémoire ne
+    // ferait pas foi, et une fiche conclurait « introuvable » à tort.
+    if (nom === 'recettes' && !data?.length) return null
+    return data ?? []
+  } catch {
+    return null
+  }
+}
+
 const DataContext = createContext(null)
 
 export function DataProvider({ children }) {
@@ -207,54 +203,59 @@ export function DataProvider({ children }) {
   const [allergenTypes, setAllergenTypes] = useState({})       // { gluten: { labels, icon }, ... }
   const [countries,     setCountries]     = useState({})       // { fr: { names, flag }, ... }
   const [fridgeLayouts, setFridgeLayouts] = useState(STATIC_FRIDGE_LAYOUTS)
+  // 'loading' tant que le catalogue n'est pas arrivé, 'ok' une fois là, 'error'
+  // quand les nouveaux essais n'y ont rien fait. Tant qu'il n'est pas 'ok', la
+  // mémoire ne contient que les 100 recettes embarquées sur 515, sans étapes
+  // ni descriptions : `useRecipeById` lit alors la fiche seule plutôt que de
+  // conclure « introuvable ».
+  const [catalogStatus, setCatalogStatus] = useState('loading')
 
   useEffect(() => {
     let cancelled = false
-    async function load() {
-      const [
-        { data: ingRows },
-        { data: recRows },
-        { data: taxonomyRows },
-        { data: layoutRows },
-      ] = await Promise.all([
-        supabase.from('ingredients')
-          .select('id, labels, emoji, subcategory, sort_order, group_id, price, seasonal_months, image_url, nutrition, allergens, pack_size, breaks_diets, default_unit'),
-        // Refonte BDD Sprint 5 — PR-DB-12 : `base_recipes` → `recipes_unified`
-        // filtré par origin='official'. RLS publique filtre déjà
-        // status IN ('published','featured') donc le code app ne voit que
-        // les recettes publiables (admin verra tout via is_admin policy).
-        // Triggers de sync (PR-DB-11) garantissent que les writes admin
-        // sur base_recipes sont reflétés ici sans drift.
-        supabase.from('recipes_unified')
-          .select('id, name, description, emoji, time_min, prep_time_min, cook_time_min, difficulty, type, servings, country, diet, allergens, ingredients, steps, image_url, status, promoted_from_id, promoted_at, original_author_id, original_author_name, created_at, functional_tags')
-          .eq('origin', 'official'),
-        // Refonte BDD Sprint 4 — PR-DB-08 : 3 fetches anciens (allergen_types,
-        // diet_types, countries_master) → 1 fetch unifié sur la table
-        // `taxonomies` filtré par domain. Gain : -2 requêtes HTTP au boot.
-        supabase.from('taxonomies')
-          .select('domain, key, labels, metadata, sort_order')
-          .in('domain', ['allergen', 'diet', 'country'])
-          .order('sort_order'),
-        supabase.from('fridge_layouts')
-          .select('language, structure'),
-      ])
-      if (cancelled) return
-      if (ingRows?.length) {
-        const parsed = rowsToIngredients(ingRows)
+    const minuteurs = new Set()
+
+    const appliquer = {
+      ingredients: (rows) => {
+        if (!rows.length) return
+        const parsed = rowsToIngredients(rows)
         setIngredients(parsed)
         setGroupMaps(buildGroupMaps(parsed))
-      }
-      if (recRows?.length) {
-        setRecipes(rowsToRecipes(recRows))
-        setRecipeNames(rowsToRecipeNames(recRows))
-      }
-      if (taxonomyRows?.length) {
-        const { allergens, diets, countries: taxCountries } = partitionTaxonomyRows(taxonomyRows)
+      },
+      recettes: (rows) => {
+        setRecipes(rows.map(rowToOfficialRecipe))
+        setRecipeNames(rowsToRecipeNames(rows))
+        setCatalogStatus('ok')
+      },
+      taxonomies: (rows) => {
+        const { allergens, diets, countries: taxCountries } = partitionTaxonomyRows(rows)
         if (Object.keys(allergens).length)   setAllergenTypes(allergens)
         if (Object.keys(diets).length)       setDietTypes(diets)
         if (Object.keys(taxCountries).length) setCountries(taxCountries)
+      },
+      dispositions: (rows) => { if (rows.length) setFridgeLayouts(rowsToLangMap(rows)) },
+    }
+
+    function traiter(nom, rows, essai) {
+      if (cancelled) return
+      if (rows) { appliquer[nom](rows); return }
+      if (essai < DELAIS_AVANT_NOUVEL_ESSAI.length) {
+        const minuteur = setTimeout(() => {
+          minuteurs.delete(minuteur)
+          if (cancelled) return
+          lireUneFois(nom).then((lignes) => traiter(nom, lignes, essai + 1))
+        }, DELAIS_AVANT_NOUVEL_ESSAI[essai])
+        minuteurs.add(minuteur)
+        return
       }
-      if (layoutRows?.length)   setFridgeLayouts(rowsToLangMap(layoutRows))
+      if (nom === 'recettes') setCatalogStatus('error')
+    }
+
+    // Premier passage : les quatre ensemble, appliquées dans le même tour pour
+    // un seul rendu — l'arrivée du catalogue re-rend toute l'app (PERF-10).
+    async function load() {
+      const noms = Object.keys(LECTURES_DU_DEMARRAGE)
+      const resultats = await Promise.all(noms.map(lireUneFois))
+      noms.forEach((nom, i) => traiter(nom, resultats[i], 0))
     }
 
     // Phase 11 PR P11.c.5 — Différer le fetch BDD après idle.
@@ -286,7 +287,17 @@ export function DataProvider({ children }) {
           clearTimeout(idleHandle)
         }
       }
+      for (const minuteur of minuteurs) clearTimeout(minuteur)
     }
+  }, [])
+
+  // Le nom d'une recette lue SEULE (lien direct, avant le catalogue) : le titre
+  // de l'onglet, la modale, l'impression le cherchent dans `recipeNames`.
+  // Même référence si le nom y est déjà : ni rendu de toute l'app, ni nouvelle
+  // lecture de la fiche.
+  const registerRecipeName = useCallback((id, name) => {
+    if (!id || !name) return
+    setRecipeNames((prev) => (prev[id] ? prev : { ...prev, [id]: name }))
   }, [])
 
   // Lookup factory + map id→ingredient — recalculés uniquement quand
@@ -307,7 +318,8 @@ export function DataProvider({ children }) {
     ingredients, recipes, recipeNames, groupMaps,
     dietTypes, allergenTypes, countries, fridgeLayouts,
     lookup, ingredientsById, recipesById,
-  }), [ingredients, recipes, recipeNames, groupMaps, dietTypes, allergenTypes, countries, fridgeLayouts, lookup, ingredientsById, recipesById])
+    catalogStatus, registerRecipeName,
+  }), [ingredients, recipes, recipeNames, groupMaps, dietTypes, allergenTypes, countries, fridgeLayouts, lookup, ingredientsById, recipesById, catalogStatus, registerRecipeName])
 
   return (
     <DataContext.Provider value={value}>
@@ -321,8 +333,8 @@ export function useIngredients() {
 }
 
 export function useBaseRecipes() {
-  const { recipes, recipeNames, recipesById } = useContext(DataContext)
-  return { recipes, recipeNames, recipesById }
+  const { recipes, recipeNames, recipesById, catalogStatus, registerRecipeName } = useContext(DataContext)
+  return { recipes, recipeNames, recipesById, catalogStatus, registerRecipeName }
 }
 
 export function useGroupMaps() {

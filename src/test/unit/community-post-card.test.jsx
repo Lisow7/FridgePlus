@@ -14,7 +14,7 @@ vi.mock('@features/community/components/community-emoji-reaction-bar', () => ({ 
 
 import { PostCard } from '@features/community/components/community-post-card'
 
-const t = { deletedAuthor: 'Supprimé', edit: 'Éditer', delete: 'Supprimer', report: 'Signaler', profileViewBtn: (a) => `Profil de ${a}` }
+const t = { deletedAuthor: 'Supprimé', authorUnavailable: 'Auteur non chargé', edit: 'Éditer', delete: 'Supprimer', report: 'Signaler', profileViewBtn: (a) => `Profil de ${a}` }
 const post = { category: 'general', title: 'Mon post', body: 'Le contenu', profile: { username: 'bob' }, created_at: '2026-07-25', likes_count: 3, replies_count: 2, user_id: 'u1' }
 const base = { post, idx: 0, t, lang: 'fr', darkMode: false, onReact: () => {}, canLike: true }
 
@@ -42,5 +42,13 @@ describe('PostCard', () => {
   it('affiche signaler si non-propriétaire et canReport', () => {
     render(<PostCard {...base} onOpen={() => {}} isOwn={false} canReport onReport={() => {}} />)
     expect(screen.getByRole('button', { name: 'Signaler' })).toBeInTheDocument()
+  })
+
+  // Audit du 2026-10-04 (BDD-13, lot 7) : une lecture des profils ratée n'est
+  // pas un compte supprimé.
+  it('auteur pas chargé : « Auteur non chargé », pas « Supprimé »', () => {
+    render(<PostCard {...base} post={{ ...post, profile: null, profileUnavailable: true }} onOpen={() => {}} isOwn={false} canReport={false} />)
+    expect(screen.getByText('Auteur non chargé')).toBeInTheDocument()
+    expect(screen.queryByText('Supprimé')).toBeNull()
   })
 })

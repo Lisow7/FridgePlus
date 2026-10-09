@@ -2,7 +2,9 @@ import { useState, useCallback, useEffect } from 'react'
 import { createPortal } from 'react-dom'
 import { LuBan, LuChevronDown, LuCopy, LuCheck, LuShieldPlus, LuShieldMinus } from 'react-icons/lu'
 import { useAllergenTypes } from '@shared/contexts/data-provider'
-import { adminGetUsers, adminGetUserCounts, adminToggleBan, adminGetAuthUsers, adminGetUserProfile, adminGrantSpecialAccess, adminRevokeSpecialAccess } from '@features/admin/api/admin'
+import { adminGetUsers, adminGetUserCounts, adminRevelerCompte, adminGetUserProfile, adminGrantSpecialAccess, adminRevokeSpecialAccess, adminGetSpecialAccessNote } from '@features/admin/api/admin'
+import { adminBannir, adminDebannir, notifierLeBannissement } from '@features/admin/api/bannissement'
+import FenetreDeBannissement from '../modals/fenetre-de-bannissement'
 import AvatarImg from '@shared/ui/avatar-img'
 import SensitiveDataToggle from '../shared/sensitive-data-toggle'
 import { ConfirmActionModal } from '@shared/ui/confirm-dialog/confirm-modals'
@@ -15,6 +17,11 @@ import SpecialAccessModal from '@features/admin/components/modals/special-access
 import SpecialRoleBadge from '@shared/ui/special-role-badge'
 import { formatDate } from '@shared/lib/format-date'
 import { useReloader } from '@shared/hooks/use-reloader'
+import { leverSiErreur } from '@shared/lib/supabase/lever-si-erreur'
+import FeedbackBanner from '../shared/feedback-banner'
+import ChargementRate from '../shared/chargement-rate'
+import { useFeedback } from '@features/admin/hooks/use-feedback'
+import { texteLisible } from '@shared/lib/couleurs/texte-lisible'
 
 const PER_PAGE = 30
 
@@ -44,8 +51,6 @@ export default function UsersSection({ lang = 'fr', darkMode = false }) {
   const [users,          setUsers]          = useState([])
   const [count,          setCount]          = useState(0)     // total du filtre+recherche courant (pagination)
   const [counts,         setCounts]         = useState({ all: 0, active: 0, banned: 0, admins: 0 }) // badges
-  const [userError,      setUserError]      = useState(false)
-  const [authUsers,      setAuthUsers]      = useState({})
   const [expandedUserId, setExpandedUserId] = useState(null)
   const [userDetails,    setUserDetails]    = useState({})
   const [search,         setSearch]         = useState('')
@@ -53,10 +58,12 @@ export default function UsersSection({ lang = 'fr', darkMode = false }) {
   const [filter,         setFilter]         = useState('all')
   const [sort,           setSort]           = useState('newest')
   const [page,           setPage]           = useState(0)
-  const [confirmBan,        setConfirmBan]        = useState(null)
+  const [confirmBan,        setConfirmBan]        = useState(null) // débannir : une confirmation
+  const [fenetreBan,        setFenetreBan]        = useState(null) // bannir : motif et durée (lot 3c-3b)
   const [specialAccessModal, setSpecialAccessModal] = useState(null)
   // { userId, username, currentRole: 'tester'|'support'|'influencer'|'partner'|null }
   const [copiedId,           setCopiedId]           = useState(null)
+  const [feedback,           showFeedback]          = useFeedback()
 
   // Debounce de la recherche : on n'interroge le serveur que 300 ms après la
   // dernière frappe, et on revient à la page 0.
@@ -69,11 +76,9 @@ export default function UsersSection({ lang = 'fr', darkMode = false }) {
   // `useReloader` garantit le `finally` (sans lui, une erreur réseau laissait
   // le voyant allumé pour toujours) et périme les réponses en retard : sans ça,
   // enchaîner deux filtres laissait la plus ancienne écraser la plus récente.
-  const { loading, reload: loadUsers } = useReloader(async (estObsolete) => {
-    setUserError(false)
-    const { data, count: total, error } = await adminGetUsers({ page, search: debouncedSearch, filter, sort })
+  const { loading, error: erreurChargement, reload: loadUsers } = useReloader(async (estObsolete) => {
+    const { data, count: total } = leverSiErreur(await adminGetUsers({ page, search: debouncedSearch, filter, sort }))
     if (estObsolete()) return
-    if (error) setUserError(true)
     setUsers(data ?? []); setCount(total ?? 0)
   }, [page, debouncedSearch, filter, sort])
 
@@ -83,44 +88,63 @@ export default function UsersSection({ lang = 'fr', darkMode = false }) {
   // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => { loadCounts() }, [loadCounts])
 
-  // Données auth (email, dernière connexion) chargées une fois : map globale
-  // par id, indépendante de la pagination des profils.
-  useEffect(() => {
-    let alive = true
-    adminGetAuthUsers().then(a => { if (alive) setAuthUsers(a ?? {}) })
-    return () => { alive = false }
-  }, [])
+  // E-mail, dernière connexion, allergènes : plus rien n'est chargé ici. Ils
+  // étaient lus pour TOUS les comptes à l'ouverture de l'onglet, sans trace ;
+  // ils se demandent maintenant un compte à la fois, avec un motif, derrière
+  // le rideau « Données sensibles » de la fiche (audit du 2026-10-04, ADM-05).
 
   const totalPages = Math.ceil(count / PER_PAGE)
 
-  async function handleToggleBan(userId, currentBanned) {
-    await adminToggleBan(userId, !currentBanned)
+  // Bannir PAR LA BASE (audit du 2026-10-04, lot 3c-3b) : motif montré à la
+  // personne, durée, session coupée, reconnexion refusée jusqu'à l'échéance.
+  // Un refus reste dans la fenêtre ; le succès la ferme et le dit.
+  async function handleBannir({ motif, jours }) {
+    const { userId, username } = fenetreBan
+    const { fin, error } = await adminBannir(userId, motif, jours)
+    if (error) return { error }
+    setFenetreBan(null)
+    const { envoye } = await notifierLeBannissement(userId)
+    const quand = fin
+      ? `${username} est banni jusqu’au ${new Date(fin).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}.`
+      : `${username} est banni, sans date de fin.`
+    showFeedback(true, `${quand} ${envoye ? 'Un e-mail lui a dit le motif et la date.' : 'L’e-mail n’a pas pu partir : préviens la personne autrement.'}`)
+    // Le statut déplace l'utilisateur entre buckets (actif/banni) et change les
+    // badges → on resynchronise page + compteurs depuis le serveur.
+    loadUsers(); loadCounts()
+    return { error: null }
+  }
+
+  async function handleDebannir(userId) {
+    const { error } = await adminDebannir(userId)
     setConfirmBan(null)
-    // Le statut ban déplace l'utilisateur entre buckets (actif/banni) et change
-    // les badges → on resynchronise page + compteurs depuis le serveur.
+    if (error) showFeedback(false, error.message)
     loadUsers(); loadCounts()
   }
 
+  // Les deux rendent `{ error }` : la fenêtre dit un refus et reste ouverte ;
+  // un succès la ferme et le dit (audit du 2026-10-04, ADM-13).
   async function handleGrantSpecialAccess(role, note) {
-    const { userId } = specialAccessModal
+    const { userId, username, currentRole } = specialAccessModal
     const { error } = await adminGrantSpecialAccess(userId, role, note)
-    if (!error) {
-      setUsers(u => u.map(x =>
-        x.id === userId ? { ...x, subscription_status: 'comped', special_role: role } : x
-      ))
-      setSpecialAccessModal(null)
-    }
+    if (error) return { error }
+    setUsers(u => u.map(x =>
+      x.id === userId ? { ...x, subscription_status: 'comped', special_role: role } : x
+    ))
+    setSpecialAccessModal(null)
+    showFeedback(true, currentRole ? `Accès spécial de ${username} modifié.` : `Accès spécial accordé à ${username}.`)
+    return { error: null }
   }
 
   async function handleRevokeSpecialAccess() {
-    const { userId } = specialAccessModal
+    const { userId, username } = specialAccessModal
     const { error } = await adminRevokeSpecialAccess(userId)
-    if (!error) {
-      setUsers(u => u.map(x =>
-        x.id === userId ? { ...x, subscription_status: 'free', special_role: null } : x
-      ))
-      setSpecialAccessModal(null)
-    }
+    if (error) return { error }
+    setUsers(u => u.map(x =>
+      x.id === userId ? { ...x, subscription_status: 'free', special_role: null } : x
+    ))
+    setSpecialAccessModal(null)
+    showFeedback(true, `Accès spécial de ${username} retiré.`)
+    return { error: null }
   }
 
   async function handleExpandUser(userId) {
@@ -142,20 +166,21 @@ export default function UsersSection({ lang = 'fr', darkMode = false }) {
 
   return (
     <div style={{ display:'flex', flexDirection:'column', gap:12 }}>
+      <FeedbackBanner feedback={feedback} />
       {confirmBan && createPortal(
         <ConfirmActionModal
           darkMode={darkMode}
-          title={confirmBan.currentBanned ? 'Débannir cet utilisateur ?' : 'Bannir cet utilisateur ?'}
-          body={confirmBan.currentBanned
-            ? `${confirmBan.username} pourra à nouveau se connecter.`
-            : `${confirmBan.username} ne pourra plus se connecter. Cette action est réversible.`
-          }
-          confirmLabel={confirmBan.currentBanned ? 'Débannir' : 'Bannir'}
+          title="Débannir cet utilisateur ?"
+          body={`${confirmBan.username} pourra à nouveau se connecter, publier et écrire au support.`}
+          confirmLabel="Débannir"
           cancelLabel="Annuler"
-          onConfirm={() => handleToggleBan(confirmBan.userId, confirmBan.currentBanned)}
+          onConfirm={() => handleDebannir(confirmBan.userId)}
           onCancel={() => setConfirmBan(null)}
         />,
         document.body
+      )}
+      {fenetreBan && (
+        <FenetreDeBannissement username={fenetreBan.username} darkMode={darkMode} onBannir={handleBannir} onClose={() => setFenetreBan(null)} />
       )}
 
       {specialAccessModal && (
@@ -166,13 +191,8 @@ export default function UsersSection({ lang = 'fr', darkMode = false }) {
           onConfirmGrant={handleGrantSpecialAccess}
           onConfirmRevoke={handleRevokeSpecialAccess}
           onCancel={() => setSpecialAccessModal(null)}
+          lireLaNote={() => adminGetSpecialAccessNote(specialAccessModal.userId)}
         />
-      )}
-
-      {userError && (
-        <div style={{ padding:'12px 14px', borderRadius:10, background:'rgba(239,68,68,0.08)', border:'1px solid rgba(239,68,68,0.2)', fontSize:12, color:'var(--color-danger)' }}>
-          <strong>Accès refusé.</strong> Vérifiez les policies RLS dans Supabase.
-        </div>
       )}
 
       {/* Barre de contrôle */}
@@ -188,13 +208,15 @@ export default function UsersSection({ lang = 'fr', darkMode = false }) {
               border={border}
               muted={muted}
             >
-              {f.label} <span style={{ opacity:0.65 }}>({counts[f.key]})</span>
+              {/* Le compteur se distingue par sa graisse, plus par une opacité qui le
+                  faisait tomber à 2-3,6:1 (audit A11Y-03, 2026-10-08). */}
+              {f.label} <span style={{ fontWeight:400 }}>({counts[f.key]})</span>
             </FilterPill>
           ))}
         </div>
 
         {/* Tri */}
-        <select value={sort} onChange={e => { setSort(e.target.value); setPage(0) }}
+        <select aria-label="Trier les comptes" value={sort} onChange={e => { setSort(e.target.value); setPage(0) }}
           style={{ padding:'5px 10px', borderRadius:8, border:`1px solid ${border}`, background: darkMode ? '#141F2E' : '#FBF8F3', color:textColor, fontSize:12, cursor:'pointer', outline:'none', fontFamily:'inherit' }}>
           <option value="newest">Récents</option>
           <option value="oldest">Anciens</option>
@@ -202,25 +224,28 @@ export default function UsersSection({ lang = 'fr', darkMode = false }) {
         </select>
 
         {/* Recherche */}
-        <SearchInput value={search} onChange={setSearch} placeholder="Rechercher un pseudo…" darkMode={darkMode} />
+        <SearchInput value={search} onChange={setSearch} label="Rechercher un pseudo" darkMode={darkMode} />
       </div>
 
       {/* Liste */}
       {loading
         ? <div style={{ textAlign:'center', padding:'40px', color:muted, fontSize:13 }}>Chargement…</div>
+        : erreurChargement
+        ? <ChargementRate error={erreurChargement} onRetry={loadUsers} lang={lang} />
         : users.length === 0
         ? <EmptyState muted={muted}>Aucun utilisateur.</EmptyState>
         : (
           <div style={{ display:'flex', flexDirection:'column', gap:6 }}>
             {users.map(u => {
               const isExpanded = expandedUserId === u.id
-              const auth = authUsers[u.id]
               const det  = userDetails[u.id]
               return (
                 <div key={u.id} style={{ borderRadius:12, background: u.banned ? 'rgba(239,68,68,0.06)' : rowBg, border:`1px solid ${u.banned ? 'rgba(239,68,68,0.25)' : border}`, overflow:'hidden' }}>
-                  <div style={{ padding:'12px 16px', display:'flex', alignItems:'center', gap:12 }}>
+                  {/* Trop étroit, les actions passent sous le pseudo : il tenait dans
+                      17 px à 360 px (mesuré le 2026-10-08). */}
+                  <div style={{ padding:'12px 16px', display:'flex', alignItems:'center', gap:12, flexWrap:'wrap' }}>
                     <AvatarImg avatarId={u.avatar_id} size={34} />
-                    <div style={{ flex:1, minWidth:0 }}>
+                    <div style={{ flex:'1 1 160px', minWidth:0 }}>
                       <div style={{ display:'flex', alignItems:'center', gap:6, flexWrap:'wrap' }}>
                         <span style={{ fontSize:15, fontWeight:700, color:textColor }}>{u.username}</span>
                         {u.role === 'admin' && <span style={{ fontSize:11, fontWeight:700, padding:'2px 6px', borderRadius:4, background:'rgba(124,92,175,0.18)', color:'#7C5CAF' }}>Admin</span>}
@@ -229,7 +254,6 @@ export default function UsersSection({ lang = 'fr', darkMode = false }) {
                       </div>
                       <div style={{ fontSize:11, color:muted, marginTop:3 }}>
                         Inscrit {fmtDate(u.created_at)}
-                        {auth?.lastSignIn && <>&nbsp;· Connexion {fmtDate(auth.lastSignIn)}</>}
                       </div>
                     </div>
                     <Button
@@ -237,8 +261,8 @@ export default function UsersSection({ lang = 'fr', darkMode = false }) {
                       size="icon"
                       onClick={() => handleExpandUser(u.id)}
                       aria-expanded={isExpanded}
-                      aria-label={isExpanded ? 'Collapse details' : 'Expand details'}
-                      className="h-auto w-auto rounded-md bg-transparent p-1 hover:bg-transparent"
+                      aria-label={`Détails de ${u.username}`}
+                      className="h-7 w-7 rounded-md bg-transparent hover:bg-transparent"
                       style={{ color: muted }}
                     >
                       <LuChevronDown size={15} style={{ transform: isExpanded ? 'rotate(180deg)' : 'none', transition:'transform 0.2s' }} />
@@ -251,7 +275,7 @@ export default function UsersSection({ lang = 'fr', darkMode = false }) {
                         style={{
                           gap: 4,
                           background: u.special_role ? 'rgba(212,106,16,0.12)' : 'rgba(212,106,16,0.06)',
-                          color: '#D46A10',
+                          color: texteLisible('#D46A10'),
                         }}
                       >
                         {u.special_role ? <LuShieldMinus size={13} /> : <LuShieldPlus size={13} />}
@@ -260,12 +284,12 @@ export default function UsersSection({ lang = 'fr', darkMode = false }) {
                     )}
                     {u.role !== 'admin' && (
                       <Button
-                        onClick={() => setConfirmBan({ userId: u.id, username: u.username, currentBanned: u.banned })}
+                        onClick={() => (u.banned ? setConfirmBan : setFenetreBan)({ userId: u.id, username: u.username })}
                         className="h-auto flex-shrink-0 rounded-lg px-2.5 py-1.5 text-xs font-bold"
                         style={{
                           gap: 4,
                           background: u.banned ? 'rgba(34,197,94,0.15)' : 'rgba(239,68,68,0.12)',
-                          color: u.banned ? 'var(--color-success)' : 'var(--color-danger)',
+                          color: texteLisible(u.banned ? 'var(--color-success)' : 'var(--color-danger)'),
                         }}
                       >
                         <LuBan size={13} />{u.banned ? 'Débannir' : 'Bannir'}
@@ -296,33 +320,37 @@ export default function UsersSection({ lang = 'fr', darkMode = false }) {
                             </Button>
                           </div>
 
-                          {/* Email */}
-                          {auth?.email && (
-                            <div style={{ display:'flex', alignItems:'center', gap:6, fontSize:13, padding:'6px 10px', borderRadius:8, background: darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.04)', border:`1px solid ${border}` }}>
-                              <span>📧</span>
-                              <span style={{ fontWeight:600, color:muted, fontSize:11, textTransform:'uppercase', letterSpacing:'0.05em' }}>Email</span>
-                              <SensitiveDataToggle resourceType="user" resourceId={u.id} fieldName="email" lang={lang} darkMode={darkMode}>
-                                <span style={{ color:textColor, fontFamily:'monospace', fontSize:13 }}>{auth.email}</span>
-                              </SensitiveDataToggle>
+                          {/* Données sensibles : e-mail, dernière connexion, allergènes.
+                              Rien n'est chargé avant : la base les rend, un compte à
+                              la fois, après avoir écrit la trace avec le motif
+                              (audit du 2026-10-04, ADM-05). */}
+                          <div style={{ display:'flex', flexDirection:'column', gap:6, fontSize:13, padding:'6px 10px', borderRadius:8, background: darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.04)', border:`1px solid ${border}` }}>
+                            <div style={{ display:'flex', alignItems:'center', gap:6, flexWrap:'wrap' }}>
+                              <span aria-hidden="true">🔒</span>
+                              <span style={{ fontWeight:600, color:muted, fontSize:11, textTransform:'uppercase', letterSpacing:'0.05em' }}>Données sensibles</span>
+                              <span style={{ fontSize:11, color:muted }}>e-mail, dernière connexion, allergènes</span>
                             </div>
-                          )}
-
-                          {/* Allergènes */}
-                          <div>
-                            <div style={{ fontSize:11, fontWeight:700, color:muted, textTransform:'uppercase', letterSpacing:'0.06em', marginBottom:5 }}>Allergènes</div>
-                            {!det.allergens?.length
-                              ? <span style={{ fontSize:12, color:muted, fontStyle:'italic' }}>Aucun allergène déclaré</span>
-                              : <div style={{ display:'flex', flexWrap:'wrap', gap:4 }}>
-                                  {det.allergens.map(key => {
-                                    const a = allergenTypes[key]
-                                    return a ? (
-                                      <span key={key} style={{ fontSize:12, padding:'2px 8px', borderRadius:4, background:'rgba(239,68,68,0.1)', color:'var(--color-danger)', border:'1px solid rgba(239,68,68,0.2)' }}>
-                                        {a.icon} {a.labels?.[lang] ?? a.labels?.fr ?? key}
+                            <SensitiveDataToggle charger={(motif) => adminRevelerCompte(u.id, motif)} lang={lang} darkMode={darkMode}>
+                              {(donnee) => (
+                                <span style={{ display:'flex', flexDirection:'column', gap:4 }}>
+                                  <span style={{ color:textColor, fontFamily:'monospace', fontSize:13 }}>{donnee.email}</span>
+                                  <span style={{ fontSize:12, color:muted }}>Dernière connexion : {donnee.derniereConnexion ? fmtDate(donnee.derniereConnexion) : 'jamais'}</span>
+                                  {donnee.allergenes.length === 0
+                                    ? <span style={{ fontSize:12, color:muted, fontStyle:'italic' }}>Aucun allergène déclaré</span>
+                                    : <span style={{ display:'flex', flexWrap:'wrap', gap:4 }}>
+                                        {donnee.allergenes.map(key => {
+                                          const a = allergenTypes[key]
+                                          return (
+                                            <span key={key} style={{ fontSize:12, padding:'2px 8px', borderRadius:4, background:'rgba(239,68,68,0.1)', color:'var(--color-danger)', border:'1px solid rgba(239,68,68,0.2)' }}>
+                                              {a?.icon} {a?.labels?.[lang] ?? a?.labels?.fr ?? key}
+                                            </span>
+                                          )
+                                        })}
                                       </span>
-                                    ) : null
-                                  })}
-                                </div>
-                            }
+                                  }
+                                </span>
+                              )}
+                            </SensitiveDataToggle>
                           </div>
 
                           {/* Favoris */}

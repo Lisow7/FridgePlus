@@ -5,10 +5,12 @@ import { savePanelScroll, peekPanelScroll, clearPanelScroll, findScrollAnchor, a
 import { useFocusTrap } from '@shared/hooks/use-focus-trap'
 import { useCloseOnBackButton } from '@shared/hooks/use-close-on-back-button'
 import { useAuth } from '@shared/contexts/auth-provider'
+import { useSubscription } from '@shared/hooks/use-subscription'
 import { useRecipeForm } from '@shared/contexts/recipe-form-context'
 import { useBaseRecipes } from '@shared/contexts/data-provider'
 import { useWindowWidth } from '@shared/hooks/use-window-width'
 import { useRecipeFilters } from '@features/recipes/hooks/use-recipe-filters'
+import { SEUIL_ROULETTE } from '@shared/lib/recipes/recipe-thresholds'
 import RecipeFiltersBar from './recipe-filters-bar'
 import RecipePanelHeader from './recipe-panel-header'
 import RecipePanelModals from './recipe-panel-modals'
@@ -59,6 +61,16 @@ export default function RecipePanel({
   // La consommation (clear) se fait dans un effet ci-dessous.
   const [initialRestore] = useState(() => peekPanelScroll(RECIPES_PANEL_SCROLL_KEY))
   const restorePending = useRef(!!initialRestore)
+  // La restauration se rejoue quand le panneau a fini d'entrer. Pendant qu'il
+  // glisse depuis le bas, la liste est hors écran : ses cartes
+  // (`content-visibility: auto`) n'ont pas leur vraie hauteur, la position
+  // calculée est fausse, et l'ancrage du navigateur garde ensuite la mauvaise
+  // carte. Les notes, en arrivant, la recalculaient ; sans base (réseau coupé,
+  // CI), rien ne le faisait (07/10 : 5 retours faux sur 5).
+  const rejouerLaRestauration = useCallback((e) => {
+    if (e.target !== e.currentTarget || !restorePending.current || !initialRestore) return
+    applyScrollRestore(scrollRef.current, initialRestore)
+  }, [initialRestore])
   // Pagination de la liste recettes (perf mobile).
   // Avant : tous les RecipeCard (jusqu'à 1700) rendus dans le DOM →
   // CPU/mémoire mobile bloquée. Maintenant : 50 visibles initialement,
@@ -99,10 +111,14 @@ export default function RecipePanel({
   // Sprint 11 S11.e.2 — prevActiveRef SUPPRIMÉ (was used to fetchRatings
   // when activeRecipe modal closed — activeRecipe state lui-même retiré).
 
+  // Le curseur de budget suit la visibilité des coûts (carte, onglet « Coût ») :
+  // Premium seulement (audit du 2026-10-04, UX-07).
+  const { hasPremiumAccess } = useSubscription()
   const filters = useRecipeFilters({
     recipes: RECIPES, stock, lang,
     favorites, customRecipes, publicRecipes, leftovers,
     RECIPE_NAMES,
+    budgetVisible: hasPremiumAccess,
   })
 
   const { filtered, criteriaKey, counts, readyCount, searchQuery, filter, resetFilters } = filters
@@ -138,7 +154,7 @@ export default function RecipePanel({
   // Options pays issues des recettes disponibles
 
   function pickRandomRecipe() {
-    const eligible = filtered.filter(r => r.matchPercent >= 0.70)
+    const eligible = filtered.filter(r => r.matchPercent >= SEUIL_ROULETTE)
     if (eligible.length === 0) { setShowRouletteAlert(true); return }
     // Sprint 11 S11.e.2 — navigate au lieu de setActiveRecipe : la
     // recette piochée s'ouvre en overlay /recipe/:id par-dessus le panel.
@@ -284,12 +300,13 @@ export default function RecipePanel({
       {/* Panel */}
       <div
         ref={panelRef}
+        onAnimationEnd={rejouerLaRestauration}
         role="dialog"
         aria-modal="true"
         aria-label={t.title}
         className="fixed flex flex-col overflow-hidden z-50"
         style={{
-          ...(isDesktop ? { top: 0, right: 0, width: '620px', height: '100vh' } : { inset: 0 }),
+          ...(isDesktop ? { top: 0, right: 0, width: '620px', height: '100dvh' } : { inset: 0 }),
           borderLeft: isDesktop ? '3px solid #E07820' : 'none',
           background: bgPanel,
           boxShadow: isDesktop ? (darkMode ? '-8px 0 32px rgba(0,0,0,0.45)' : '-8px 0 32px rgba(0,0,0,0.16)') : 'none',

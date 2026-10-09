@@ -10,6 +10,10 @@ vi.mock('@shared/contexts/auth-provider', () => ({
   }),
 }))
 
+// La page annonce une écriture refusée par un message éphémère ; ces tests ne
+// l'exercent pas (voir profile-preferences-ecriture-refusee.test.jsx).
+vi.mock('@shared/hooks/use-save-error-toast', () => ({ useSaveErrorToast: () => vi.fn() }))
+
 vi.mock('@shared/hooks/use-subscription', () => ({
   // Test user = Premium pour que la section Budget (Premium-gated) soit rendue.
   useSubscription: () => ({ hasPremiumAccess: true }),

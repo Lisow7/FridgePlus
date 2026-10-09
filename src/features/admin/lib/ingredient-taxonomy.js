@@ -42,8 +42,7 @@ export const SUBCAT_LABELS = {
   'oils':'🫒 Huiles / Vinaigres','basic':'🧴 Produits de base',
 }
 
-export function slugify(str) {
-  return str.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-').trim()
-}
+// Vit dans son propre module (l'API admin, chargée au démarrage, s'en sert).
+export { slugify } from './slug'
 
 export const norm = (s) => (s ?? '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').trim()

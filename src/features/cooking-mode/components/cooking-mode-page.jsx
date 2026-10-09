@@ -19,6 +19,7 @@ import { useSubscription } from '@shared/hooks/use-subscription'
 import { useAuth } from '@shared/contexts/auth-provider'
 import { logCooking } from '@shared/api/cooking-logs'
 import { useBadgeCelebration } from '@shared/hooks/use-badge-celebration'
+import { useSaveErrorToast } from '@shared/hooks/use-save-error-toast'
 import { pickLocalizedName } from '@shared/lib/recipes/recipe-i18n'
 import { UpgradeGate } from '@shared/ui/upgrade-gate'
 import Button from '@shared/ui/button'
@@ -28,6 +29,7 @@ import { useCookingMode } from '../hooks/use-cooking-mode'
 import VoiceConsentDialog from '@shared/ui/voice-consent-dialog'
 import { playReadyChime } from '../lib/earcon'
 import CookingHelpModal from './cooking-help-modal'
+import { useDialogue } from '@shared/hooks/use-dialogue'
 import CookingStepDisplay from './cooking-step-display'
 import CookingTimerWidget from './cooking-timer-widget'
 import CookingProgressDots from './cooking-progress-dots'
@@ -114,11 +116,12 @@ function normalizeSteps(recipe, lang) {
 export default function CookingModePage({ lang = 'fr', darkMode = false }) {
   const { recipeId } = useParams()
   const navigate = useNavigate()
-  const { recipe, status } = useRecipeById(recipeId)
+  const { recipe, status, pending } = useRecipeById(recipeId)
   const { recipeNames, recipes: baseRecipes } = useBaseRecipes()
   const { hasPremiumAccess } = useSubscription()
   const { user } = useAuth()
   const celebrate = useBadgeCelebration()
+  const signalerEchec = useSaveErrorToast()
   const t = I18N[lang] ?? I18N.fr
 
   // Le titre doit dire QUELLE recette on cuisine — le nom du plat, comme sur
@@ -149,6 +152,12 @@ export default function CookingModePage({ lang = 'fr', darkMode = false }) {
 
   const steps = normalizeSteps(recipe, lang)
 
+  // Recette embarquée montrée avant le catalogue : ses étapes arrivent avec sa
+  // fiche complète. « Introuvable » serait faux — on attend.
+  if (pending && steps.length === 0) {
+    return <PageSkeleton lang={lang} darkMode={darkMode} />
+  }
+
   if (status === 'not-found' || !recipe || steps.length === 0) {
     return (
       <div style={fullScreen}>
@@ -175,8 +184,13 @@ export default function CookingModePage({ lang = 'fr', darkMode = false }) {
   const onFinish = () => {
     track('cook_completed', { recipeId: recipe.id })
     if (user?.id) {
+      // La célébration ne part que si le plat est noté ; sinon on le dit (le
+      // message vit au-dessus des pages : il survit au retour en arrière).
       logCooking(user.id, { recipeId: recipe.id, recipeSource, servings: recipe.servings })
-        .then(() => celebrate(user.id, { resolveCountry: resolveCookCountry, lang }))
+        .then((resultat) => {
+          if (resultat?.error) { signalerEchec('cooking'); return }
+          celebrate(user.id, { resolveCountry: resolveCookCountry, lang })
+        })
     }
     navigate(-1)
   }
@@ -208,6 +222,9 @@ function CloseButton({ onClick, label }) {
 function CookingSession({ recipe, recipeName, lang, darkMode, t, onExit, onFinish }) {
   const { status, currentStep, progress, timer, speaking, muted, micEnabled, voiceConsentOpen, onVoiceConsentAccept, onVoiceConsentRefuse, handlers } = useCookingMode(recipe, lang)
   const [helpOpen, setHelpOpen] = useState(false)
+  // Plein écran par-dessus l'application : rôle, nom (le titre), focus piégé
+  // (A11Y-14). Pas d'Échap : on ne perd pas une session par accident.
+  const dialogue = useDialogue()
   const finishedRef = useRef(false)
   const finishOnce = () => {
     if (finishedRef.current) return
@@ -227,7 +244,7 @@ function CookingSession({ recipe, recipeName, lang, darkMode, t, onExit, onFinis
   }, [listening])
 
   return (
-    <div style={fullScreen}>
+    <div {...dialogue.proprietes} style={fullScreen}>
       <div style={{ position: 'absolute', top: '16px', left: '16px', zIndex: 1 }}>
         <Button variant="ghost" size="icon" aria-label={t.help} title={t.help} onClick={() => setHelpOpen(true)}>
           <LuCircleHelp size={22} />
@@ -246,7 +263,7 @@ function CookingSession({ recipe, recipeName, lang, darkMode, t, onExit, onFinis
 
       {/* Header : nom recette + progression + état micro */}
       <div style={{ padding: '20px 16px 0', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px' }}>
-        <h1 style={{ fontSize: '18px', fontWeight: 700, color: 'var(--color-charcoal)', margin: 0, textAlign: 'center' }}>
+        <h1 id={dialogue.titreId} style={{ fontSize: '18px', fontWeight: 700, color: 'var(--color-charcoal)', margin: 0, textAlign: 'center' }}>
           {recipeName}
         </h1>
         <CookingProgressDots current={progress.current} total={progress.total} />

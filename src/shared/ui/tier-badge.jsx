@@ -5,11 +5,14 @@ const I18N = {
   fr: { free: 'Gratuit', account: 'Compte', soon: 'Prochainement', premium: 'Premium' },
   en: { free: 'Free',    account: 'Account', soon: 'Coming soon',   premium: 'Premium' },
 }
+// Texte par jeton de thème (index.css) : la teinte pleine plafonnait sous
+// 4,5:1 sur son propre fond, en clair (3,6 à 4,4) comme en sombre (2,0 à 2,5)
+// — décision du 2026-10-06, « couleurs = profond ».
 const COLORS = {
-  free:    { bg: 'rgba(30,132,73,0.12)',  fg: '#1E8449' },
-  account: { bg: 'rgba(43,108,176,0.12)', fg: '#2B6CB0' },
-  soon:    { bg: 'rgba(212,106,16,0.14)', fg: '#C05A10' },
-  premium: { bg: 'rgba(202,138,4,0.16)',  fg: '#A16207' },
+  free:    { bg: 'rgba(30,132,73,0.12)',  fg: 'var(--badge-free-text)' },
+  account: { bg: 'rgba(43,108,176,0.12)', fg: 'var(--badge-account-text)' },
+  soon:    { bg: 'rgba(212,106,16,0.14)', fg: 'var(--color-warm-text)' },
+  premium: { bg: 'rgba(202,138,4,0.16)',  fg: 'var(--badge-premium-text)' },
 }
 
 export default function TierBadge({ tier, lang = 'fr' }) {

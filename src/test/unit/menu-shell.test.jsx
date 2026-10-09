@@ -13,6 +13,25 @@ describe('MenuShell', () => {
     expect(screen.getByRole('dialog', { name: 'Menu' })).toBeInTheDocument()
   })
 
+  // Audit du 2026-10-04, A11Y-19 : sur mobile, la feuille était un `dialog`
+  // dont les entrées restaient des `menuitem` — sans parent `menu` (axe :
+  // aria-required-parent, critique, 8 nœuds). Le menu est maintenant DANS la
+  // feuille ; une coque au rôle imposé par l'appelant n'en ajoute pas.
+  it('sur mobile, la feuille contient le menu : chaque entrée a son parent', () => {
+    mockWidth = 375
+    render(<MenuShell open onClose={() => {}} ariaLabel="Menu"><button role="menuitem">Profil</button></MenuShell>)
+    const feuille = screen.getByRole('dialog', { name: 'Menu' })
+    const menu = screen.getByRole('menu', { name: 'Menu' })
+    expect(feuille).toContainElement(menu)
+    expect(menu).toContainElement(screen.getByRole('menuitem', { name: 'Profil' }))
+  })
+
+  it('rôle imposé par l’appelant : pas de menu ajouté dedans', () => {
+    mockWidth = 375
+    render(<MenuShell open onClose={() => {}} ariaLabel="Menu" role="dialog"><p>contenu</p></MenuShell>)
+    expect(screen.queryByRole('menu')).toBeNull()
+  })
+
   it('rend en menu (dropdown) dès 640', () => {
     mockWidth = 1024
     render(<MenuShell open onClose={() => {}} ariaLabel="Menu" dropPos={{ top: 10, right: 10 }}><p>contenu</p></MenuShell>)

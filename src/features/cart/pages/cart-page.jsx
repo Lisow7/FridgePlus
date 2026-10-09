@@ -167,9 +167,12 @@ export default function CartPage({ lang = 'fr', darkMode = false }) {
   if (!hasPremiumAccess) {
     return (
       <div
-        className="min-h-screen flex items-center justify-center p-6"
+        className="min-h-dvh flex items-center justify-center p-6"
         style={{ background: darkMode ? '#0B1420' : '#F5EDE0' }}
       >
+        {/* Le titre de la page, ici aussi (audit A11Y-19 : sans Premium, la
+            page n'en avait aucun — `page-has-heading-one`). */}
+        <h1 className="sr-only">{titreDeRoute('/cart', lang).replace(' — Fridge+', '')}</h1>
         <div className="w-full max-w-sm">
           <UpgradeGate feature="basket" variant="hard" lang={lang} darkMode={darkMode} />
         </div>
@@ -179,7 +182,7 @@ export default function CartPage({ lang = 'fr', darkMode = false }) {
 
   return (
     <div
-      className="min-h-screen"
+      className="min-h-dvh"
       style={{ background: darkMode ? '#0B1420' : '#F5EDE0' }}
     >
       {/* Le stepper fait office de titre visuel ; la page n'avait donc aucun

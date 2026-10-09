@@ -35,8 +35,8 @@ export const SUPPORT_SELF_HELP = {
     {
       q: { fr: 'Combien de temps avant validation ?', en: 'How long before approval?' },
       a: {
-        fr: 'Les recettes de la communauté sont relues avant publication. En attendant, tu la retrouves dans ton espace, onglet « Mes recettes ».',
-        en: 'Community recipes are reviewed before going public. Meanwhile you\'ll find yours in your space, under "My recipes".',
+        fr: 'Les recettes de la communauté sont relues avant publication. En attendant, tu la retrouves dans le panneau Recettes, filtre « Mes recettes ».',
+        en: 'Community recipes are reviewed before going public. Meanwhile you\'ll find yours in the Recipes panel, "Mine" filter.',
       },
     },
   ],
@@ -44,8 +44,8 @@ export const SUPPORT_SELF_HELP = {
     {
       q: { fr: 'Mon frigo ou mes favoris semblent vides ?', en: 'My fridge or favorites look empty?' },
       a: {
-        fr: 'Assure-toi d\'être bien connecté au bon compte. Tes données se synchronisent à la connexion — un rafraîchissement de la page suffit le plus souvent.',
-        en: 'Make sure you\'re signed in to the right account. Your data syncs on login — refreshing the page usually does the trick.',
+        fr: 'Assure-toi d\'être bien connecté au bon compte. Si le chargement a échoué, un message rouge te le dit en bas de l\'écran, avec un bouton « Réessayer » : rien n\'est perdu, c\'est seulement l\'affichage qui n\'est pas à jour.',
+        en: 'Make sure you\'re signed in to the right account. If loading failed, a red message says so at the bottom of the screen, with a "Try again" button: nothing is lost, only the display is out of date.',
       },
     },
     {

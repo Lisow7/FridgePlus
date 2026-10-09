@@ -1,4 +1,5 @@
 import { lazy } from 'react'
+import { lazyPrechargeable } from '@shared/lib/lazy-prechargeable'
 import AuthGuard from '@routes/guards/auth-guard'
 import RedirectIfAuthGuard from '@routes/guards/redirect-if-auth-guard'
 import RecoveryGuard from '@routes/guards/recovery-guard'
@@ -23,8 +24,11 @@ import RecoveryGuard from '@routes/guards/recovery-guard'
 // Defense in depth (rappel) : les guards client sont UX. La sécurité
 // réelle vient des RLS Supabase + role check côté serveur.
 
-const LegalPage           = lazy(() => import('@features/legal/pages/legal-page'))
-const ChangelogPage       = lazy(() => import('@features/changelog/pages/changelog-page'))
+// Les pages pré-rendues sont préchargeables : `main.jsx` charge celle de la
+// route courante avant le premier rendu, pour qu'elle remplace le HTML servi
+// sans squelette entre les deux (audit du 2026-10-04, PERF-05).
+const LegalPage           = lazyPrechargeable(() => import('@features/legal/pages/legal-page'))
+const ChangelogPage       = lazyPrechargeable(() => import('@features/changelog/pages/changelog-page'))
 const NotFoundPage        = lazy(() => import('@app/pages/not-found-page'))
 const ProfilePage         = lazy(() => import('@features/profile/pages/profile-page'))
 const ProfileIdentityPage    = lazy(() => import('@features/profile/pages/profile-identity-page'))
@@ -40,10 +44,14 @@ const SignupPage             = lazy(() => import('@features/auth/pages/signup-pa
 const RecoveryPage           = lazy(() => import('@features/auth/pages/recovery-page'))
 
 // Sprint 11 S11.c.1 — page recette /recipe/:id (deep-linking).
-const RecipePage             = lazy(() => import('@features/recipes/pages/recipe-page'))
+// La page importe sa modale DIRECTEMENT (audit du 2026-10-04, PERF-02 et
+// PERF-05) : elles partent ensemble, sans cascade entrée → page → données →
+// modale (en production, la modale était demandée à 1,88 s) ni squelette
+// entre le HTML pré-rendu et la fiche.
+const RecipePage             = lazyPrechargeable(() => import('@features/recipes/pages/recipe-page'))
 
 // Sprint 11 S11.d — page communauté /community (migration modale → route).
-const CommunityPageRoute     = lazy(() => import('@features/community/pages/community-page-route'))
+const CommunityPageRoute     = lazyPrechargeable(() => import('@features/community/pages/community-page-route'))
 
 // Chantier A — page panier dédiée /cart (Premium-gated).
 const CartPage               = lazy(() => import('@features/cart/pages/cart-page'))
@@ -52,9 +60,9 @@ const CartPage               = lazy(() => import('@features/cart/pages/cart-page
 const CookingModePage        = lazy(() => import('@features/cooking-mode/components/cooking-mode-page'))
 
 // Pages de contenu public — sorties des modales pour être indexables.
-const FaqPage                = lazy(() => import('@features/legal/pages/faq-page'))
-const GuidePage              = lazy(() => import('@features/onboarding/pages/guide-page'))
-const AccountDeletionPage    = lazy(() => import('@features/legal/pages/account-deletion-page'))
+const FaqPage                = lazyPrechargeable(() => import('@features/legal/pages/faq-page'))
+const GuidePage              = lazyPrechargeable(() => import('@features/onboarding/pages/guide-page'))
+const AccountDeletionPage    = lazyPrechargeable(() => import('@features/legal/pages/account-deletion-page'))
 
 export const ROUTES = [
   {

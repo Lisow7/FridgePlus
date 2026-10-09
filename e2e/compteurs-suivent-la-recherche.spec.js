@@ -17,10 +17,10 @@ test('les compteurs des onglets suivent la recherche', async ({ page }) => {
   const avant = Number((await toutes.innerText()).match(/\d+/)[0])
   expect(avant).toBeGreaterThan(10)
 
-  await page.getByPlaceholder('Chercher une recette…').fill('zzzzqx')
+  await page.getByLabel('Chercher une recette').fill('zzzzqx')
   await expect(toutes).toHaveText(/^\s*0\s*Toutes/)
 
-  await page.getByPlaceholder('Chercher une recette…').fill('omelette')
+  await page.getByLabel('Chercher une recette').fill('omelette')
   const apres = Number((await toutes.innerText()).match(/\d+/)[0])
   expect(apres).toBeGreaterThan(0)
   expect(apres).toBeLessThan(avant)

@@ -9,13 +9,14 @@ vi.mock('@shared/contexts/auth-provider', () => ({
   useAuth: () => ({ user: { id: 'u1' } }),
 }))
 vi.mock('@features/recipes/api/recipe-reviews', () => ({
-  listReviews: vi.fn().mockResolvedValue([{ id: 'r1', user_id: 'u1', rating: 4, body: 'Top', profile: { username: 'Marie' }, created_at: '2026-01-01' }]),
+  loadReviews: vi.fn().mockResolvedValue({ reviews: [{ id: 'r1', user_id: 'u1', rating: 4, body: 'Top', profile: { username: 'Marie' }, created_at: '2026-01-01' }], error: null }),
   getMyReview: vi.fn().mockResolvedValue({ id: 'r1', user_id: 'u1', rating: 4, body: 'Top' }),
   upsertReview: vi.fn(),
   deleteReview: vi.fn().mockResolvedValue({}),
   aggregateReviews: () => ({ avg: 4, count: 1 }),
   reportReview: vi.fn(),
 }))
+vi.mock('@shared/hooks/use-save-error-toast', () => ({ useSaveErrorToast: () => vi.fn() }))
 vi.mock('@shared/api/community', () => ({
   getCommunityTermsAcceptedAt: vi.fn().mockResolvedValue('2026-01-01'),
 }))

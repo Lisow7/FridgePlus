@@ -337,6 +337,27 @@ export type Database = {
           },
         ]
       }
+      email_log: {
+        Row: {
+          created_at: string
+          id: number
+          kind: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: never
+          kind: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: never
+          kind?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       engagement: {
         Row: {
           body: string | null
@@ -632,9 +653,12 @@ export type Database = {
       }
       profiles: {
         Row: {
+          allergen_consent_at: string | null
           allergen_prefs: string[] | null
           avatar_id: string
           banned: boolean
+          banned_reason: string | null
+          banned_until: string | null
           banner_id: string | null
           community_bio: string | null
           community_muted_until: string | null
@@ -669,9 +693,12 @@ export type Database = {
           username_confirmed: boolean
         }
         Insert: {
+          allergen_consent_at?: string | null
           allergen_prefs?: string[] | null
           avatar_id?: string
           banned?: boolean
+          banned_reason?: string | null
+          banned_until?: string | null
           banner_id?: string | null
           community_bio?: string | null
           community_muted_until?: string | null
@@ -706,9 +733,12 @@ export type Database = {
           username_confirmed?: boolean
         }
         Update: {
+          allergen_consent_at?: string | null
           allergen_prefs?: string[] | null
           avatar_id?: string
           banned?: boolean
+          banned_reason?: string | null
+          banned_until?: string | null
           banner_id?: string | null
           community_bio?: string | null
           community_muted_until?: string | null
@@ -1746,6 +1776,11 @@ export type Database = {
         Args: { p_command: string; p_jobname: string; p_schedule: string }
         Returns: undefined
       }
+      accepter_l_enregistrement_des_allergenes: { Args: never; Returns: string }
+      admin_bannir: {
+        Args: { p_jours?: number; p_motif: string; p_user_id: string }
+        Returns: string
+      }
       admin_community_hard_delete_post: {
         Args: { p_post_id: string }
         Returns: undefined
@@ -1762,6 +1797,7 @@ export type Database = {
         Args: { p_reply_id: string }
         Returns: undefined
       }
+      admin_debannir: { Args: { p_user_id: string }; Returns: undefined }
       admin_delete_notification_batch: {
         Args: { p_notification_id: string }
         Returns: Json
@@ -1772,6 +1808,14 @@ export type Database = {
           email: string
           id: string
           last_sign_in_at: string
+        }[]
+      }
+      admin_reveler_compte: {
+        Args: { p_motif: string; p_user_id: string }
+        Returns: {
+          allergenes: string[]
+          derniere_connexion: string
+          email: string
         }[]
       }
       admin_review_hard_delete: {
@@ -1828,6 +1872,17 @@ export type Database = {
         }[]
       }
       get_monthly_ai_cost_cents: { Args: never; Returns: number }
+      get_public_profiles: {
+        Args: { p_ids: string[] }
+        Returns: {
+          avatar_id: string
+          banner_id: string
+          community_bio: string
+          created_at: string
+          id: string
+          username: string
+        }[]
+      }
       get_weekly_metrics_digest: {
         Args: never
         Returns: {
@@ -1850,6 +1905,17 @@ export type Database = {
       is_admin: { Args: never; Returns: boolean }
       is_profiling_opted_out: { Args: { p_user_id: string }; Returns: boolean }
       notify_stock_expiry_run: { Args: never; Returns: number }
+      ouvrir_ticket: {
+        Args: {
+          p_message?: string
+          p_reason_key?: string
+          p_target_id?: string
+          p_target_type?: string
+          p_title: string
+          p_type: string
+        }
+        Returns: string
+      }
       promote_recipe_to_base: { Args: { p_custom_id: string }; Returns: Json }
       recipe_imports_recheck_orphans: {
         Args: never
@@ -1859,17 +1925,31 @@ export type Database = {
         }[]
       }
       recipe_ingredient_items: { Args: { ing: Json }; Returns: Json }
+      record_signup_consent: { Args: never; Returns: string }
+      reserver_un_email: {
+        Args: { p_kind: string; p_max_par_jour?: number; p_user_id: string }
+        Returns: boolean
+      }
       reset_inactive_warning: {
         Args: { p_user_id: string }
         Returns: undefined
       }
+      retirer_l_accord_allergenes: { Args: never; Returns: undefined }
       revoke_special_access: { Args: { p_user_id: string }; Returns: undefined }
+      search_public_profiles: {
+        Args: { p_query: string }
+        Returns: {
+          id: string
+          username: string
+        }[]
+      }
       show_limit: { Args: never; Returns: number }
       show_trgm: { Args: { "": string }; Returns: string[] }
       subscribe_to_push: {
         Args: { p_auth_key: string; p_endpoint: string; p_p256dh: string }
         Returns: undefined
       }
+      username_available: { Args: { p_username: string }; Returns: boolean }
     }
     Enums: {
       [_ in never]: never

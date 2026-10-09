@@ -1,12 +1,18 @@
-import { useRef, useState } from 'react'
+import { lazy, Suspense, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { Link, useNavigate } from 'react-router-dom'
 import { LuTag } from 'react-icons/lu'
-import { CookieModal, CONSENT_I18N } from '@features/legal'
-import { CURRENT_VERSION } from '@shared/lib/version'
+// Importés par leur fichier, pas par les façades `@features/legal` et
+// `@features/changelog` : elles tiraient au démarrage les textes légaux (59 Ko)
+// et le journal complet (85 Ko) — audit du 2026-10-04, PERF-04.
+import { I18N as CONSENT_I18N } from '@features/legal/i18n/consent-i18n'
+import { CURRENT_VERSION, CURRENT_RELEASE_NAME } from '@shared/lib/version'
 import { useBottomInsetPublisher, FOOTER_HEIGHT_VAR } from '@shared/hooks/use-bottom-inset'
-import { useNewRelease } from '@features/changelog'
-import { pickReleaseName } from '@features/changelog/data/changelog-i18n'
+import { useNewRelease } from '@features/changelog/hooks/use-new-release'
+
+// La fenêtre des cookies et les textes de ses catégories se chargent au clic
+// sur « Cookies » : ils n'ont pas à peser sur le démarrage (2026-10-06).
+const CookieModal = lazy(() => import('@features/legal/components/cookie-modal'))
 import { useAuth } from '@shared/contexts/auth-provider'
 import { useFeatureFlag } from '@shared/contexts/feature-flags-provider'
 import { hasSeenWelcome } from '@features/onboarding/lib/welcome-storage'
@@ -119,9 +125,9 @@ function FooterButton({ onClick, children, className = '' }) {
  )
 }
 
-function VersionBadge({ to, version, release, lang = 'fr', hasNew, onSeen }) {
+function VersionBadge({ to, version, lang = 'fr', hasNew, onSeen }) {
  const tf = FOOTER_I18N[lang] ?? FOOTER_I18N.fr
- const releaseName = pickReleaseName(release, lang)
+ const releaseName = CURRENT_RELEASE_NAME[lang] ?? CURRENT_RELEASE_NAME.fr
  const label = releaseName
   ? `${releaseName} · v${version}${hasNew ? ' — ' + tf.whatsNew : ''}`
   : `Version ${version}`
@@ -218,7 +224,7 @@ export default function Footer({ darkMode = false, lang = 'fr', isHome = true })
  useBottomInsetPublisher(footerRef, true, FOOTER_HEIGHT_VAR)
  const navigate = useNavigate()
  const tf = FOOTER_I18N[lang] ?? FOOTER_I18N.fr
- const { hasNew, markSeen, latestRelease } = useNewRelease()
+ const { hasNew, markSeen } = useNewRelease()
  const tc = CONSENT_I18N[lang] ?? CONSENT_I18N.fr
 
  // Bouton fusée « Bien démarrer » : mêmes conditions d'existence que le guide
@@ -279,7 +285,7 @@ export default function Footer({ darkMode = false, lang = 'fr', isHome = true })
  discrète · ©). Logo retiré (déjà dans le header), fusée guide en FAB
  flottant, pilule inventaire déplacée dans le menu FridgeFAB (chantier D,
  2026-07-09) — allège le footer, pas de doublon d'accès. */}
- <div className="flex flex-col items-center gap-1.5 lg:hidden">
+ <div className="flex flex-col items-center gap-1.5 xl:hidden">
  <div className="flex items-center flex-wrap justify-center gap-x-2.5 gap-y-1 text-[12px]" style={{ color: 'var(--color-muted)' }}>
  <FooterLink to="/legal">{tf.footerBtn}</FooterLink>
  <Separator />
@@ -298,9 +304,11 @@ export default function Footer({ darkMode = false, lang = 'fr', isHome = true })
  </div>
  </div>
 
- {/* Desktop : ligne informationnelle centrée. La fusée guide est désormais
+ {/* Ordinateur (à partir de 1280 px) : ligne informationnelle centrée. Elle a
+ besoin d'environ 1170 px : à `lg` (1024 px) elle débordait des deux côtés
+ (audit 2026-10-04). Même seuil que la disposition ordinateur de l'app. La fusée guide est désormais
  un FAB flottant (hors footer), donc plus de justify-between. */}
- <div className="hidden lg:flex items-center gap-6 justify-center">
+ <div className="hidden xl:flex items-center gap-6 justify-center">
  <div className="flex items-center gap-3 text-[15px]" style={{ color: 'var(--color-muted)' }}>
  <FooterLogo />
  <Separator />
@@ -308,7 +316,7 @@ export default function Footer({ darkMode = false, lang = 'fr', isHome = true })
      · Côté visiteur : la ligne mobile a été volontairement épurée en
        juillet 2026 ; y rajouter deux entrées annulerait cette décision.
      · Côté robot : ces liens sont dans le DOM quelle que soit la
-       largeur (`hidden lg:flex` masque en CSS, ne démonte pas). Le
+       largeur (`hidden xl:flex` masque en CSS, ne démonte pas). Le
        maillage interne y gagne sans toucher au mobile.
      Le libellé est descriptif à dessein — c'est le texte du lien qui
      dit à Google de quoi parle la page d'arrivée, pas son URL. */}
@@ -320,7 +328,7 @@ export default function Footer({ darkMode = false, lang = 'fr', isHome = true })
  <Separator />
  <FooterButton onClick={() => setShowCookies(true)} className="whitespace-nowrap">{tc.footerBtn}</FooterButton>
  <Separator />
- <VersionBadge to="/changelog" version={CURRENT_VERSION} release={latestRelease} lang={lang} hasNew={hasNew} onSeen={markSeen} />
+ <VersionBadge to="/changelog" version={CURRENT_VERSION} lang={lang} hasNew={hasNew} onSeen={markSeen} />
  <Separator />
  <span className="whitespace-nowrap">© {new Date().getFullYear()}</span>
  </div>
@@ -333,12 +341,14 @@ export default function Footer({ darkMode = false, lang = 'fr', isHome = true })
  {showGuide && <GuideRocketFab label={tf.guideLabel} onClick={openGuide} darkMode={darkMode} />}
 
  {showCookies && (
+ <Suspense fallback={null}>
  <CookieModal
  lang={lang}
  darkMode={darkMode}
  onClose={() => setShowCookies(false)}
  onShowLegal={() => { setShowCookies(false); navigate('/legal') }}
  />
+ </Suspense>
  )}
  </>
  )

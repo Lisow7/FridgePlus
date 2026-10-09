@@ -1,8 +1,8 @@
-import { useEffect, useMemo, useState, useCallback, useRef } from 'react'
+import { useMemo, useState } from 'react'
 import { createPortal } from 'react-dom'
 import {
   LuCheck, LuClock, LuRefreshCw, LuTrash2, LuBan,
-  LuChevronDown, LuChevronUp, LuSend,
+  LuChevronDown, LuChevronUp,
 } from 'react-icons/lu'
 import {
   adminGetReports,
@@ -14,17 +14,20 @@ import {
 import {
   adminSetTicketStatus as adminUpdateReportStatus,
   adminDeleteTicket    as adminDeleteReport,
-  getTicketMessages, adminReplyTicket,
 } from '@features/support/api/support'
-import { adminToggleBan } from '@features/admin/api/admin'
+import { adminBannir, adminDebannir, notifierLeBannissement } from '@features/admin/api/bannissement'
+import FenetreDeBannissement from '../modals/fenetre-de-bannissement'
 import { useAdmin } from '../../providers/admin-provider'
 import { ConfirmDeleteModal, ConfirmActionModal } from '@shared/ui/confirm-dialog/confirm-modals'
 import BulkActionBar from '../shared/bulk-action-bar'
+import CaseDeSelection from '../shared/case-de-selection'
 import { appliquerEnLot, messageDeLot } from '@features/admin/lib/appliquer-en-lot'
 import { useSelection } from '@features/admin/hooks/use-selection'
 import Button from '@shared/ui/button'
 import { formatDateTime } from '@shared/lib/format-date'
 import { useReloader } from '@shared/hooks/use-reloader'
+import ReportThread from './report-thread'
+import { texteLisible, fondTeinte } from '@shared/lib/couleurs/texte-lisible'
 
 const REASON_LABELS = {
   spam:           'Spam',
@@ -49,92 +52,13 @@ const TARGET_LABELS = {
   ingredient:      '🥬 Ingrédient',
   community_post:  '📝 Post communauté',
   community_reply: '💬 Réponse communauté',
+  community_profile: '👤 Profil communauté',
+  recipe_review:   '⭐ Avis sur une recette',
 }
 
 // Delegue au module partage (audit 2026-08-28) : les 17 occurrences codaient
 // 'fr-FR' en dur, un admin anglophone lisait des dates francaises.
 function fmtDate(str, lang = 'fr') { return str ? formatDateTime(str, lang) : '' }
-
-// ── Conversation inline ───────────────────────────────────────────────────────
-
-function ReportThread({ reportId, lang, darkMode }) {
-  const [messages,  setMessages]  = useState([])
-  const [loading,   setLoading]   = useState(true)
-  const [reply,     setReply]     = useState('')
-  const [sending,   setSending]   = useState(false)
-  const [replyErr,  setReplyErr]  = useState(null)
-  const bottomRef = useRef(null)
-
-  const border = darkMode ? '#2A3A50' : '#D9CCBA'
-  const fg     = darkMode ? 'var(--color-bg-warm)' : '#2C1A0E'
-  const muted  = darkMode ? '#7A90A8' : '#5C4033'
-
-  const reload = useCallback(async () => {
-    const msgs = await getTicketMessages(reportId)
-    setMessages(msgs ?? [])
-    setLoading(false)
-  }, [reportId])
-
-  // eslint-disable-next-line react-hooks/set-state-in-effect
-  useEffect(() => { reload() }, [reload])
-  useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: 'smooth' }) }, [messages])
-
-  async function send() {
-    if (!reply.trim() || sending) return
-    setSending(true)
-    setReplyErr(null)
-    const { error } = await adminReplyTicket(reportId, null, reply.trim(), lang)
-    if (error) { setReplyErr('Erreur lors de l\'envoi.') }
-    else { setReply(''); reload() }
-    setSending(false)
-  }
-
-  if (loading) return <p style={{ fontSize: 12, color: muted, fontStyle: 'italic' }}>Chargement…</p>
-
-  return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 8 }}>
-      {messages.length === 0 ? (
-        <p style={{ fontSize: 12, color: muted, fontStyle: 'italic' }}>Aucun message — soyez le premier à répondre.</p>
-      ) : (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 7, maxHeight: 200, overflowY: 'auto', padding: '4px 0' }}>
-          {messages.map(msg => (
-            <div key={msg.id} style={{ display: 'flex', flexDirection: 'column', alignItems: msg.is_admin ? 'flex-end' : 'flex-start' }}>
-              <span style={{ fontSize: 10, color: muted, marginBottom: 2 }}>
-                {msg.is_admin ? 'Admin' : 'Utilisateur'} · {fmtDate(msg.created_at)}
-              </span>
-              <div style={{ maxWidth: '85%', padding: '7px 11px', borderRadius: msg.is_admin ? '12px 3px 12px 12px' : '3px 12px 12px 12px', background: msg.is_admin ? 'linear-gradient(135deg,#2E4A6A,#1A2F48)' : (darkMode ? '#253545' : 'var(--color-bg-warm)'), color: msg.is_admin ? 'white' : fg, fontSize: 12, lineHeight: 1.5, whiteSpace: 'pre-wrap', overflowWrap: 'break-word' }}>
-                {msg.content}
-              </div>
-            </div>
-          ))}
-          <div ref={bottomRef} />
-        </div>
-      )}
-      {replyErr && <p style={{ fontSize: 11, color: 'var(--color-danger)', margin: 0 }}>{replyErr}</p>}
-      <div style={{ display: 'flex', gap: 6, alignItems: 'flex-end' }}>
-        <textarea value={reply} onChange={e => setReply(e.target.value)} placeholder="Répondre au signalement…" rows={2}
-          style={{ flex: 1, borderRadius: 8, border: `1.5px solid ${border}`, background: darkMode ? '#141F2E' : '#FFF', color: fg, fontSize: 12, padding: '6px 10px', resize: 'none', outline: 'none', fontFamily: 'inherit' }}
-          onFocus={e => e.target.style.borderColor = 'var(--color-brand-500)'}
-          onBlur={e => e.target.style.borderColor = border}
-          onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send() } }}
-        />
-        <Button
-          onClick={send}
-          loading={sending}
-          disabled={!reply.trim() || sending}
-          aria-label="Envoyer"
-          className="h-9 w-9 flex-shrink-0 rounded-lg"
-          style={{
-            background: reply.trim() ? 'linear-gradient(135deg,#2E4A6A,#1A2F48)' : (darkMode ? 'var(--color-dark-surface)' : 'var(--color-border-warm)'),
-            color: reply.trim() ? 'white' : muted,
-          }}
-        >
-          {!sending && <LuSend size={13} />}
-        </Button>
-      </div>
-    </div>
-  )
-}
 
 // ── Section principale ────────────────────────────────────────────────────────
 
@@ -162,8 +86,8 @@ export default function ReportsSection({ lang = 'fr', darkMode = false }) {
   function pillStyle(active, accent = 'var(--color-brand-500)') {
     return {
       borderColor: active ? accent : border,
-      background: active ? `${accent}18` : 'transparent',
-      color: active ? accent : muted,
+      background: active ? fondTeinte(accent, 10) : 'transparent',
+      color: active ? texteLisible(accent) : muted,
       fontWeight: active ? 700 : 500,
       transition: 'all 0.12s',
     }
@@ -241,16 +165,29 @@ export default function ReportsSection({ lang = 'fr', darkMode = false }) {
     setConfirmBan(report)
   }
 
+  // Débannir : une confirmation. Bannir : la fenêtre motif + durée, par la
+  // base (audit du 2026-10-04, lot 3c-3b).
   async function confirmBanUser() {
     const report = confirmBan
     setConfirmBan(null)
     if (!report) return
     const uid = report.user_id
     setBanLoading(p => ({ ...p, [uid]: true }))
-    const { error: err } = await adminToggleBan(uid, !report.reporter_banned)
+    const { error: err } = await adminDebannir(uid)
     setBanLoading(p => ({ ...p, [uid]: false }))
     if (err) { setError(err.message); return }
-    setReports(rs => rs.map(r => r.user_id === uid ? { ...r, reporter_banned: !report.reporter_banned } : r))
+    setReports(rs => rs.map(r => r.user_id === uid ? { ...r, reporter_banned: false } : r))
+  }
+
+  async function bannirLeSignaleur({ motif, jours }) {
+    const uid = confirmBan.user_id
+    const { error: err } = await adminBannir(uid, motif, jours)
+    if (err) return { error: err }
+    setConfirmBan(null)
+    setReports(rs => rs.map(r => r.user_id === uid ? { ...r, reporter_banned: true } : r))
+    const { envoye } = await notifierLeBannissement(uid)
+    if (!envoye) setError('Le signaleur est banni, mais l’e-mail n’a pas pu partir : préviens-le autrement.')
+    return { error: null }
   }
 
   // ── Rendu ─────────────────────────────────────────────────────────────
@@ -283,14 +220,14 @@ export default function ReportsSection({ lang = 'fr', darkMode = false }) {
           >
             {cfg.label}
             {counts[key] > 0 && (
-              <span style={{ marginLeft: 5, padding: '1px 6px', borderRadius: 3, background: statusFilter === key ? `${cfg.color}28` : (darkMode ? '#2A4060' : 'var(--color-bg-warm)'), fontSize: 11 }}>
+              <span style={{ marginLeft: 5, padding: '1px 6px', borderRadius: 3, background: statusFilter === key ? fondTeinte(cfg.color, 16) : (darkMode ? '#2A4060' : 'var(--color-bg-warm)'), fontSize: 11 }}>
                 {counts[key]}
               </span>
             )}
           </Button>
         ))}
         {totalUnread > 0 && (
-          <span style={{ padding: '4px 10px', borderRadius: 4, background: 'rgba(229,53,53,0.12)', color: '#E53535', fontSize: 12, fontWeight: 700 }}>
+          <span style={{ padding: '4px 10px', borderRadius: 4, background: 'rgba(229,53,53,0.12)', color: texteLisible('#E53535'), fontSize: 12, fontWeight: 700 }}>
             🔴 {totalUnread} non lu{totalUnread > 1 ? 's' : ''}
           </span>
         )}
@@ -301,30 +238,24 @@ export default function ReportsSection({ lang = 'fr', darkMode = false }) {
           className="ml-auto h-auto flex-shrink-0 rounded-lg border px-3 py-1.5 text-xs hover:bg-transparent"
           style={{ ...pillStyle(false), gap: 5 }}
         >
-          <LuRefreshCw size={12} style={{ animation: loading ? 'spin 1s linear infinite' : 'none' }} />
-          <style>{`@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}`}</style>
+          <LuRefreshCw size={12} className={loading ? 'animate-spin' : undefined} />
           Recharger
         </Button>
       </div>
 
       {/* Filtres type + raison */}
       <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-        <select value={typeFilter} onChange={e => setTypeFilter(e.target.value)}
+        <select aria-label="Filtrer par cible" value={typeFilter} onChange={e => setTypeFilter(e.target.value)}
           style={{ flex: '1 1 160px', padding: '7px 10px', borderRadius: 8, border: `1px solid ${border}`, background: darkMode ? '#141F2E' : '#FFF', color: fg, fontSize: 12, outline: 'none', fontFamily: 'inherit' }}>
           <option value="">Toutes les cibles</option>
           {REPORT_TARGET_TYPES.map(t => <option key={t} value={t}>{TARGET_LABELS[t] ?? t}</option>)}
         </select>
-        <select value={reasonFilter} onChange={e => setReasonFilter(e.target.value)}
+        <select aria-label="Filtrer par raison" value={reasonFilter} onChange={e => setReasonFilter(e.target.value)}
           style={{ flex: '1 1 160px', padding: '7px 10px', borderRadius: 8, border: `1px solid ${border}`, background: darkMode ? '#141F2E' : '#FFF', color: fg, fontSize: 12, outline: 'none', fontFamily: 'inherit' }}>
           <option value="">Toutes les raisons</option>
           {REPORT_REASON_KEYS.map(k => <option key={k} value={k}>{REASON_LABELS[k]}</option>)}
         </select>
       </div>
-
-      {statusFilter === 'open' && (
-        <BulkActionBar count={sel.count} lang={lang} darkMode={darkMode} onClear={sel.clear}
-          actions={[{ label: lang === 'fr' ? 'Marquer résolu' : 'Mark resolved', onClick: handleBulkResolve }]} />
-      )}
 
       {/* Liste */}
       {loading ? (
@@ -347,8 +278,7 @@ export default function ReportsSection({ lang = 'fr', darkMode = false }) {
                 {/* Header condensé (+ case de sélection si file ouverte) */}
                 <div style={{ display: 'flex', alignItems: 'center' }}>
                 {statusFilter === 'open' && (
-                  <input type="checkbox" checked={sel.isSelected(r.id)} onChange={() => sel.toggle(r.id)}
-                    aria-label="Sélectionner ce signalement" style={{ flexShrink: 0, marginLeft: 12, width: 16, height: 16, cursor: 'pointer' }} />
+                  <CaseDeSelection cochee={sel.isSelected(r.id)} onBasculer={() => sel.toggle(r.id)} nom="Sélectionner ce signalement" style={{ marginLeft: 8 }} />
                 )}
                 <Button
                   variant="ghost"
@@ -358,7 +288,7 @@ export default function ReportsSection({ lang = 'fr', darkMode = false }) {
                   style={{ gap: 8, flex: 1, minWidth: 0 }}
                 >
                   {r.has_unread_admin && <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#E53535', flexShrink: 0 }} />}
-                  <span style={{ padding: '2px 8px', borderRadius: 4, background: sc.bg, color: sc.color, fontSize: 11, fontWeight: 700, flexShrink: 0 }}>{sc.label}</span>
+                  <span style={{ padding: '2px 8px', borderRadius: 4, background: sc.bg, color: texteLisible(sc.color), fontSize: 11, fontWeight: 700, flexShrink: 0 }}>{sc.label}</span>
                   <span style={{ fontSize: 12, color: muted, flexShrink: 0 }}>{TARGET_LABELS[r.target_type] ?? r.target_type}</span>
                   <span style={{ flex: 1, fontSize: 13, fontWeight: 600, color: fg, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                     {r.target_label ? `— ${r.target_label}` : r.title}
@@ -432,7 +362,10 @@ export default function ReportsSection({ lang = 'fr', darkMode = false }) {
                           className="h-auto flex-shrink-0 rounded-lg border px-3 py-1.5 text-xs hover:bg-transparent"
                           style={{ ...pillStyle(r.reporter_banned, 'var(--color-danger)'), gap: 5 }}
                         >
-                          <LuBan size={11} />{r.reporter_banned ? 'Débannir' : 'Bannir'}
+                          {/* Ce bouton agit sur l'auteur du SIGNALEMENT (`r.user_id`), pas sur
+                              celui du contenu signalé : le libellé le dit (audit 2026-10-04,
+                              ADM-15 — un clic de modération naturel bannissait le plaignant). */}
+                          <LuBan size={11} />{r.reporter_banned ? 'Débannir le signaleur' : 'Bannir le signaleur'}
                           {banLoading[r.user_id] && <span style={{ fontSize: 10 }}>…</span>}
                         </Button>
                       )}
@@ -463,6 +396,11 @@ export default function ReportsSection({ lang = 'fr', darkMode = false }) {
         </div>
       )}
 
+      {statusFilter === 'open' && (
+        <BulkActionBar count={sel.count} lang={lang} darkMode={darkMode} onClear={sel.clear}
+          actions={[{ label: lang === 'fr' ? 'Marquer résolu' : 'Mark resolved', onClick: handleBulkResolve }]} />
+      )}
+
       {/* Modales */}
       {confirmDelete && createPortal(
         <ConfirmDeleteModal
@@ -476,18 +414,20 @@ export default function ReportsSection({ lang = 'fr', darkMode = false }) {
         />, document.body
       )}
 
-      {confirmBan && createPortal(
+      {confirmBan?.reporter_banned && createPortal(
         <ConfirmActionModal
-          title={confirmBan.reporter_banned ? `Débannir ${confirmBan.reporter_username ?? 'cet utilisateur'} ?` : `Bannir ${confirmBan.reporter_username ?? 'cet utilisateur'} ?`}
-          body={confirmBan.reporter_banned
-            ? 'L\'utilisateur pourra à nouveau accéder à l\'application.'
-            : 'L\'utilisateur sera bloqué et ne pourra plus se connecter. Cette action est réversible.'}
-          confirmLabel={confirmBan.reporter_banned ? 'Débannir' : 'Bannir'}
+          title={`Débannir ${confirmBan.reporter_username ?? 'ce signaleur'} ?`}
+          body="La personne qui a fait ce signalement pourra à nouveau se connecter, publier et écrire au support."
+          confirmLabel="Débannir le signaleur"
           cancelLabel="Annuler"
           onConfirm={confirmBanUser}
           onCancel={() => setConfirmBan(null)}
           darkMode={darkMode}
         />, document.body
+      )}
+      {confirmBan && !confirmBan.reporter_banned && (
+        // Tu bannis la personne qui a FAIT ce signalement, pas l'auteur du contenu signalé.
+        <FenetreDeBannissement username={confirmBan.reporter_username ?? 'ce signaleur'} darkMode={darkMode} onBannir={bannirLeSignaleur} onClose={() => setConfirmBan(null)} />
       )}
     </div>
   )

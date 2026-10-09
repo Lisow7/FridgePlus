@@ -49,7 +49,7 @@ describe('BannedScreen', () => {
 
     it('ne montre pas la boîte de confirmation par défaut', () => {
       render(<BannedScreen {...defaultProps} />)
-      expect(screen.queryByText(/supprimer définitivement/i)).not.toBeInTheDocument()
+      expect(screen.queryByText('Supprimer ton compte ?')).not.toBeInTheDocument()
     })
   })
 
@@ -71,12 +71,11 @@ describe('BannedScreen', () => {
 
   // ─── Bouton support ──────────────────────────────────────────────────────────
   describe('bouton support', () => {
-    it('appelle onShowSupport au clic', async () => {
-      const onShowSupport = vi.fn()
-      const user = userEvent.setup()
-      render(<BannedScreen {...defaultProps} onShowSupport={onShowSupport} />)
-      await user.click(screen.getByText(/contacter le support/i))
-      expect(onShowSupport).toHaveBeenCalledOnce()
+    // Il ouvrait le formulaire de ticket, que la base refuse à un compte banni
+    // (`ouvrir_ticket`, lot 3c-3b-1) : il écrit désormais au support par e-mail.
+    it('écrit au support par e-mail', () => {
+      render(<BannedScreen {...defaultProps} />)
+      expect(screen.getByRole('link', { name: /contacter le support/i })).toHaveAttribute('href', expect.stringMatching(/^mailto:support@fridgeplus\.app/))
     })
   })
 
@@ -86,7 +85,7 @@ describe('BannedScreen', () => {
       const user = userEvent.setup()
       render(<BannedScreen {...defaultProps} />)
       await user.click(screen.getByText(/supprimer mon compte/i))
-      expect(screen.getByText(/supprimer définitivement/i)).toBeInTheDocument()
+      expect(screen.getByText('Supprimer ton compte ?')).toBeInTheDocument()
     })
 
     it('ferme la confirmation au clic "Annuler"', async () => {
@@ -94,7 +93,7 @@ describe('BannedScreen', () => {
       render(<BannedScreen {...defaultProps} />)
       await user.click(screen.getByText(/supprimer mon compte/i))
       await user.click(screen.getByText('Annuler'))
-      expect(screen.queryByText(/supprimer définitivement/i)).not.toBeInTheDocument()
+      expect(screen.queryByText('Supprimer ton compte ?')).not.toBeInTheDocument()
     })
 
     it('appelle deleteAccount en cliquant "Supprimer" dans la confirmation', async () => {

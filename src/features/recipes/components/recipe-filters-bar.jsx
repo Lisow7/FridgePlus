@@ -1,7 +1,8 @@
-import { useRef } from 'react'
+import { useRef, useId } from 'react'
 import { LuSearch, LuGrid2X2, LuHeart, LuBookOpen, LuSlidersHorizontal, LuArrowUpDown } from 'react-icons/lu'
 import Button from '@shared/ui/button'
 import { shouldShowReadyBadge } from '@features/recipes/lib/ready-badge'
+import { compterLesFiltresActifs } from '@features/recipes/lib/recipe-active-filters'
 import { ReadyBadgeDot } from './ready-badge-dot'
 
 /**
@@ -17,27 +18,13 @@ export default function RecipeFiltersBar({ filters, theme, t, stock, setFiltersD
   const {
     totalCount, readyCount, almostCount, favCount, customCount, priorityCount, priorityIds, counts,
     searchQuery, setSearchQuery, filter, setFilter, sortMode, setSortMode,
-    typeSet, difficultySet, dietSet, countrySet,
-    seasonalOnly, healthyOnly, noCookOnly, antiWasteOnly,
-    freezerFriendlyOnly, kidsFriendlyOnly, batchCookingOnly,
-    minProtein, maxCalories, maxBudget,
   } = filters
 
   const searchRef = useRef(null)
+  const champRechercheId = useId()
 
-  const activeFiltersCount =
-    typeSet.size + difficultySet.size + dietSet.size + countrySet.size
-    + (sortMode !== 'match' ? 1 : 0)
-    + (seasonalOnly ? 1 : 0)
-    + (healthyOnly ? 1 : 0)
-    + (noCookOnly ? 1 : 0)
-    + (antiWasteOnly ? 1 : 0)
-    + (freezerFriendlyOnly ? 1 : 0)
-    + (kidsFriendlyOnly ? 1 : 0)
-    + (batchCookingOnly ? 1 : 0)
-    + (minProtein != null ? 1 : 0)
-    + (maxCalories != null ? 1 : 0)
-    + (maxBudget != null ? 1 : 0)
+  // Le même compte que l'en-tête du tiroir (une seule fonction, UX-07).
+  const activeFiltersCount = compterLesFiltresActifs(filters)
 
   const FilterChipBtn = ({ isActive, onClick, icon, label, badge = 0, color, bg, className = '' }) => (
     <Button
@@ -73,7 +60,9 @@ export default function RecipeFiltersBar({ filters, theme, t, stock, setFiltersD
     className="shrink-0 px-4 flex flex-col gap-2.5 py-2.5"
     style={{ borderBottom: `1px solid ${borderPanel}` }}
   >
-    {/* 1. Recherche + tri */}
+    {/* 1. Recherche + tri — un libellé visible au-dessus du cadre (la loupe
+        vit dedans), le texte grisé en exemple (décision du 2026-10-06). */}
+    <label htmlFor={champRechercheId} className="text-xs font-bold" style={{ color: 'var(--color-muted)', marginBottom: '-6px' }}>{t.searchLabel}</label>
     <div
       className="flex items-center h-11 rounded-xl px-3.5 gap-2.5 transition-colors duration-150"
       style={{
@@ -83,11 +72,11 @@ export default function RecipeFiltersBar({ filters, theme, t, stock, setFiltersD
     >
       <LuSearch size={15} color={searchQuery ? 'var(--color-brand-500)' : (darkMode ? '#C07830' : '#B06828')} style={{ flexShrink: 0 }} />
       <input
+        id={champRechercheId}
         ref={searchRef}
         value={searchQuery}
         onChange={e => setSearchQuery(e.target.value)}
         placeholder={t.searchPlaceholder}
-        aria-label={t.searchPlaceholder}
         // Toute la hauteur du cadre (44 px) est cliquable, pas seulement la
         // ligne de texte (20 px) — WCAG 2.5.8, audit 2026-10-02.
         className="flex-1 min-w-0 self-stretch text-sm font-medium bg-transparent border-none outline-none"

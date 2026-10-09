@@ -1,3 +1,5 @@
+import { SUPPORT_EMAIL } from '@shared/lib/contact'
+
 // Libellés de la section « Avis » d'une recette.
 //
 // Extrait de `recipe-reviews-section.jsx` le 2026-07-31 (§2 audit front) —
@@ -34,9 +36,16 @@ export const REVIEWS_I18N = {
     shareTitle: 'J\'ai testé cette recette !',
     bodyTooLong: (n) => `Commentaire trop long (${n}/2000 caractères max).`,
     deletedAuthor: 'Anonyme',
+    authorUnavailable: 'Auteur non chargé',
     empty: 'Pas encore d\'avis. Sois le premier à noter !',
+    loadError: 'Les avis n\'ont pas pu être chargés.',
+    retry: 'Réessayer',
+    saveError: 'Pas enregistré : ton avis n\'a pas pu être publié. Réessaie.',
     reportTitle: 'Signaler cet avis',
     reportSent: 'Signalement envoyé.',
+    reportFailed: 'Le signalement n\'a pas pu être envoyé. Réessaie.',
+    reportMaxReports: 'Tu as déjà 10 signalements en attente : l\'équipe les traite, réessaie quand l\'un d\'eux sera fermé.',
+    reportRestricted: `Ton compte ne peut plus rien envoyer. Pour en parler : ${SUPPORT_EMAIL}`,
     reportSubmit: 'Envoyer',
     reportReasonSpam: 'Spam',
     reportReasonInappropriate: 'Contenu inapproprié',
@@ -71,9 +80,16 @@ export const REVIEWS_I18N = {
     shareTitle: 'I tried this recipe!',
     bodyTooLong: (n) => `Comment too long (${n}/2000 chars max).`,
     deletedAuthor: 'Anonymous',
+    authorUnavailable: 'Author not loaded',
     empty: 'No reviews yet. Be the first to rate!',
+    loadError: 'The reviews could not be loaded.',
+    retry: 'Try again',
+    saveError: 'Not saved: your review could not be published. Try again.',
     reportTitle: 'Report this review',
     reportSent: 'Report sent.',
+    reportFailed: 'The report could not be sent. Try again.',
+    reportMaxReports: 'You already have 10 reports waiting: the team is handling them, try again once one is closed.',
+    reportRestricted: `Your account can no longer send anything. To talk about it: ${SUPPORT_EMAIL}`,
     reportSubmit: 'Send',
     reportReasonSpam: 'Spam',
     reportReasonInappropriate: 'Inappropriate content',

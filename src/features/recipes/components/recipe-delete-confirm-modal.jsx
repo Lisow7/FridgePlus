@@ -96,7 +96,7 @@ export default function RecipeDeleteConfirmModal({
       setSubmitting(false)
       return
     }
-    onDeleted?.(data)
+    onDeleted?.(data, recipeId)
     onClose?.()
   }
 
@@ -126,7 +126,7 @@ export default function RecipeDeleteConfirmModal({
         style={{
           background: bg, color: fg,
           borderRadius: 14, maxWidth: 480, width: '100%',
-          maxHeight: '90vh', overflowY: 'auto',
+          maxHeight: '90dvh', overflowY: 'auto',
           border: `2px solid ${danger}33`,
           boxShadow: '0 24px 64px rgba(0,0,0,0.4)',
         }}

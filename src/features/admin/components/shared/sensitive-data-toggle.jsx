@@ -2,25 +2,25 @@ import { useState } from 'react'
 import { LuEye, LuEyeOff, LuLock, LuShieldAlert } from 'react-icons/lu'
 import ReusableModal from '@shared/ui/reusable-modal'
 import ReasonSelector, { isReasonValid, formatReason } from './reason-selector'
-import { logSensitiveDataAccess } from '@features/admin/api/sensitive-audit'
 import Button from '@shared/ui/button'
 
 // Composant qui cache une donnée sensible derrière un bouton.
 // Au clic, ouvre une modale qui demande à l'admin :
 //   1. Une raison normalisée (ReasonSelector — catégorie sensitive-data)
 //   2. Optionnellement des détails libres
-// Au confirme, logge l'accès dans activity_logs (RGPD : minimisation
-// + traçabilité), puis révèle les enfants.
+// Au confirme, `charger(motif)` demande la donnée À LA BASE, qui écrit la
+// trace AVANT de la rendre (audit du 2026-10-04, ADM-05). La donnée n'est
+// donc jamais dans la page avant ce moment — le rideau n'est plus un simple
+// rideau d'interface posé sur une donnée déjà chargée. Masquer l'oublie : la
+// revoir redemande un motif, et laisse une nouvelle trace.
 //
 // Utilisation :
 //   <SensitiveDataToggle
-//     resourceType="user"
-//     resourceId={userId}
-//     fieldName="email"
+//     charger={(motif) => adminRevelerCompte(userId, motif)}  // → { donnee, error }
 //     lang={lang}
 //     darkMode={darkMode}
 //   >
-//     <span>{user.email}</span>
+//     {(donnee) => <span>{donnee.email}</span>}
 //   </SensitiveDataToggle>
 
 const I18N = {
@@ -34,6 +34,7 @@ const I18N = {
     confirm:      'Afficher',
     submitting:   'Enregistrement…',
     accessed:     'Accédé',
+    logFailed:    "La consultation n'a pas pu être enregistrée au journal : la donnée reste masquée. Réessaie.",
   },
   en: {
     hidden:       'Hidden',
@@ -45,23 +46,24 @@ const I18N = {
     confirm:      'Reveal',
     submitting:   'Saving…',
     accessed:     'Accessed',
+    logFailed:    'The access could not be recorded in the audit log: the data stays hidden. Try again.',
   },
 }
 
 export default function SensitiveDataToggle({
-  resourceType,
-  resourceId,
-  fieldName,
+  charger,
   children,
   lang = 'fr',
   darkMode = false,
 }) {
   const t = I18N[lang] ?? I18N.fr
-  const [revealed,   setRevealed]   = useState(false)
+  // La donnée rendue par la base ; `null` tant qu'elle n'a pas été demandée.
+  const [donnee,     setDonnee]     = useState(null)
   const [modalOpen,  setModalOpen]  = useState(false)
   const [reason,     setReason]     = useState('')
   const [details,    setDetails]    = useState('')
   const [submitting, setSubmitting] = useState(false)
+  const [logError,   setLogError]   = useState(false)
 
   const fg     = darkMode ? 'var(--color-bg-warm)' : '#2C1A0E'
   const muted  = darkMode ? '#A0A8B8' : '#7A6A52'
@@ -70,32 +72,36 @@ export default function SensitiveDataToggle({
   function handleOpen() {
     setReason('')
     setDetails('')
+    setLogError(false)
     setModalOpen(true)
   }
 
   async function handleConfirm() {
     if (!isReasonValid({ value: reason, details, required: true })) return
     setSubmitting(true)
+    setLogError(false)
     const formatted = formatReason({ value: reason, details, lang })
-    await logSensitiveDataAccess({
-      resourceType,
-      resourceId,
-      fieldName,
-      reason: formatted,
-    })
+    let resultat
+    try {
+      resultat = await charger(formatted)
+    } catch (e) { resultat = { donnee: null, error: e ?? new Error('unknown') } }
     setSubmitting(false)
-    setRevealed(true)
+    // La trace est la CONDITION de l'affichage (audit ADM-02 / ADM-05) : la
+    // base ne rend la donnée qu'après l'avoir écrite. Sans donnée, rien n'est
+    // révélé.
+    if (resultat?.error || resultat?.donnee == null) { setLogError(true); return }
+    setDonnee(resultat.donnee)
     setModalOpen(false)
   }
 
-  if (revealed) {
+  if (donnee != null) {
     return (
-      <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-        {children}
+      <span style={{ display: 'inline-flex', alignItems: 'flex-start', gap: 6 }}>
+        {children(donnee)}
         <Button
           variant="ghost"
           size="icon"
-          onClick={() => setRevealed(false)}
+          onClick={() => setDonnee(null)}
           aria-label={t.hideBtn}
           aria-pressed
           title={t.hideBtn}
@@ -169,6 +175,11 @@ export default function SensitiveDataToggle({
           <p style={{ fontSize: 13, lineHeight: 1.55, color: muted, marginTop: 0 }}>
             {t.modalIntro}
           </p>
+          {logError && (
+            <p role="alert" style={{ fontSize: 13, lineHeight: 1.5, color: 'var(--color-danger)', fontWeight: 600, margin: '0 0 10px' }}>
+              {t.logFailed}
+            </p>
+          )}
           <ReasonSelector
             category="sensitive-data"
             value={reason}

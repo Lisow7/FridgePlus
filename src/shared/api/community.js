@@ -1,4 +1,6 @@
 import { supabase } from '@shared/lib/supabase/client'
+import { createReport } from '@shared/api/reports'
+import { loadPublicProfiles, withAuthorProfiles } from '@shared/api/public-profiles'
 import {
   findCommunityRecipesForResolution,
   findCommunityRecipeNamesByIds,
@@ -11,19 +13,17 @@ import {
 // Conventions :
 //   • Tous les `select` filtrent `deleted_at IS NULL` côté requête (la RLS
 //     l'impose aussi mais on rend l'intention explicite).
-//   • Auteur = jointure profile (username, avatar_id) — limited disclosure
-//     (pas d'email).
+//   • Auteur = `profile: { username, avatar_id }`, joint APRÈS la lecture par
+//     `withAuthorProfiles` (fonction `get_public_profiles` de la base). Pas de
+//     jointure `profiles!user_id` : la table ne se lit que pour sa propre
+//     ligne, et l'auteur revenait vide pour tout lecteur non admin (BDD-13).
 //   • Pagination simple via offset/limit. Pour un MVP avec quelques
 //     centaines de posts, suffisant. Cursor-based à voir si ça grossit.
 
-// embed profiles via FK explicite `!user_id` pour lever
-// l'ambiguïté quand Supabase détecte plusieurs relations entre les deux
-// tables (community_replies et community_likes pointent aussi vers
-// profiles). Sans cet hint, l'API renvoie l'erreur :
-// « Could not embed because more than one relationship was found »
-const POST_SELECT = 'id, user_id, category, title, body, recipe_id, likes_count, replies_count, created_at, updated_at, profile:profiles!user_id(username, avatar_id)'
+// Sans l'auteur : il est joint ensuite par `withAuthorProfiles` (voir en tête).
+const POST_SELECT = 'id, user_id, category, title, body, recipe_id, likes_count, replies_count, created_at, updated_at'
 // likes_count + parent_reply_id ajoutés
-const REPLY_SELECT = 'id, post_id, user_id, body, parent_reply_id, likes_count, created_at, updated_at, profile:profiles!user_id(username, avatar_id)'
+const REPLY_SELECT = 'id, post_id, user_id, body, parent_reply_id, likes_count, created_at, updated_at'
 
 const VALID_CATEGORIES = ['tips', 'questions', 'pride', 'feedback', 'general']
 
@@ -53,7 +53,7 @@ export async function listPosts({ category, sort = 'recent', offset = 0, limit =
     if (import.meta.env.DEV) console.error('[community] listPosts:', error.message)
     return []
   }
-  return data ?? []
+  return withAuthorProfiles(data ?? [])
 }
 
 export async function getPost(postId) {
@@ -67,7 +67,7 @@ export async function getPost(postId) {
     if (import.meta.env.DEV) console.error('[community] getPost:', error.message)
     return null
   }
-  return data
+  return data ? (await withAuthorProfiles([data]))[0] : null
 }
 
 // ── Posts : create / update / delete ───────────────────────────────────
@@ -82,7 +82,7 @@ export async function createPost(userId, { category, title, body, recipe_id }) {
     .select(POST_SELECT)
     .single()
   if (error) return { error: error.message }
-  return { data }
+  return { data: (await withAuthorProfiles([data]))[0] }
 }
 
 export async function updatePost(postId, { title, body, category, recipe_id }) {
@@ -98,7 +98,7 @@ export async function updatePost(postId, { title, body, category, recipe_id }) {
     .select(POST_SELECT)
     .single()
   if (error) return { error: error.message }
-  return { data }
+  return { data: (await withAuthorProfiles([data]))[0] }
 }
 
 /** Soft delete. L'auteur peut restaurer dans les 24h via restorePost. */
@@ -133,7 +133,7 @@ export async function listReplies(postId) {
     if (import.meta.env.DEV) console.error('[community] listReplies:', error.message)
     return []
   }
-  return data ?? []
+  return withAuthorProfiles(data ?? [])
 }
 
 /**
@@ -151,7 +151,7 @@ export async function createReply(userId, postId, body, parentReplyId = null) {
     .select(REPLY_SELECT)
     .single()
   if (error) return { error: error.message }
-  return { data }
+  return { data: (await withAuthorProfiles([data]))[0] }
 }
 
 export async function deleteReply(replyId) {
@@ -345,65 +345,45 @@ export async function canReply(userId) {
 
 const VALID_REPORT_REASONS = ['spam', 'inappropriate', 'harassment', 'plagiarism', 'wrong_info', 'other']
 
-/**
- * Signale un post à l'admin. Réutilise support_tickets (target_type =
- * 'community_post', reason_key, body optionnel comme contexte).
- */
-export async function reportPost(userId, postId, reasonKey, contextBody) {
-  if (!userId || !postId || !VALID_REPORT_REASONS.includes(reasonKey)) {
-    return { error: 'invalid' }
+// 🔴 Jusqu'au 2026-10-05, AUCUN de ces signalements n'aboutissait : ils
+// écrivaient eux-mêmes dans `support_tickets` une colonne `body` qui n'existe
+// pas, et oubliaient `title`, obligatoire (prouvé sur la vraie base). Ils
+// passent maintenant par `createReport` — un seul chemin pour tous les
+// signalements, qui joint le contexte au ticket d'un seul coup.
+//
+// Rendent `{ ok: true }`, ou `{ error }` avec un CODE que la fenêtre traduit :
+// 'invalid' | 'max_reports_reached' | 'account_restricted' | 'failed'. Jamais
+// le texte brut de la base, que la personne ne peut ni comprendre ni corriger.
+export async function signalerContenu(targetType, userId, targetId, reasonKey, contextBody) {
+  if (!userId || !targetId || !VALID_REPORT_REASONS.includes(reasonKey)) return { error: 'invalid' }
+  let resultat
+  try {
+    resultat = await createReport({ targetType, targetId, reasonKey, reasonDetails: contextBody })
+  } catch {
+    return { error: 'failed' }
   }
-  const { error } = await supabase.from('support_tickets').insert({
-    user_id: userId,
-    type: 'report',
-    target_type: 'community_post',
-    target_id: postId,
-    reason_key: reasonKey,
-    body: contextBody?.trim() || null,
-    status: 'open',
-  })
-  if (error) return { error: error.message }
-  return { ok: true }
+  const code = resultat?.error?.message
+  if (!resultat?.error) return { ok: true }
+  if (code === 'max_reports_reached' || code === 'account_restricted') return { error: code }
+  return { error: 'failed' }
+}
+
+/** Signale un post à l'équipe de modération. */
+export async function reportPost(userId, postId, reasonKey, contextBody) {
+  return signalerContenu('community_post', userId, postId, reasonKey, contextBody)
 }
 
 export async function reportReply(userId, replyId, reasonKey, contextBody) {
-  if (!userId || !replyId || !VALID_REPORT_REASONS.includes(reasonKey)) {
-    return { error: 'invalid' }
-  }
-  const { error } = await supabase.from('support_tickets').insert({
-    user_id: userId,
-    type: 'report',
-    target_type: 'community_reply',
-    target_id: replyId,
-    reason_key: reasonKey,
-    body: contextBody?.trim() || null,
-    status: 'open',
-  })
-  if (error) return { error: error.message }
-  return { ok: true }
+  return signalerContenu('community_reply', userId, replyId, reasonKey, contextBody)
 }
 
 /**
  * v3.166.3 — Signale le profil communauté d'un autre utilisateur.
- * Réutilise support_tickets, target_type='community_profile'.
- * Auto-signalement bloqué côté UI (bouton caché si current user).
+ * Auto-signalement bloqué ici aussi (le bouton est caché côté UI).
  */
 export async function reportProfile(userId, targetUserId, reasonKey, contextBody) {
-  if (!userId || !targetUserId || !VALID_REPORT_REASONS.includes(reasonKey)) {
-    return { error: 'invalid' }
-  }
-  if (userId === targetUserId) return { error: 'invalid' }
-  const { error } = await supabase.from('support_tickets').insert({
-    user_id: userId,
-    type: 'report',
-    target_type: 'community_profile',
-    target_id: targetUserId,
-    reason_key: reasonKey,
-    body: contextBody?.trim() || null,
-    status: 'open',
-  })
-  if (error) return { error: error.message }
-  return { ok: true }
+  if (userId && userId === targetUserId) return { error: 'invalid' }
+  return signalerContenu('community_profile', userId, targetUserId, reasonKey, contextBody)
 }
 
 /**
@@ -472,21 +452,23 @@ export async function revokeCommunityTerms(userId) {
 // ── Profil communauté (v3.166.0) ──────────────────────────────────────────────
 
 /**
- * Récupère les infos publiques affichées sur la page profil communauté.
- * @returns {Promise<{id, username, avatar_id, community_bio, created_at} | null>}
+ * Les infos publiques affichées sur la fiche profil communauté :
+ * `{ profile, error }`. `profile` est `null` si le compte n'existe plus ;
+ * `error` dit que la fiche n'a pas pu être lue — à ne pas afficher comme
+ * « Profil introuvable ».
+ *
+ * Par `get_public_profiles` : lue dans `profiles`, la fiche d'un autre compte
+ * était toujours « introuvable » (la table ne se lit que pour sa propre ligne).
+ * @returns {Promise<{ profile: {id, username, avatar_id, banner_id, community_bio, created_at} | null, error: unknown }>}
  */
 export async function getCommunityProfile(userId) {
-  if (!userId) return null
-  const { data, error } = await supabase
-    .from('profiles')
-    .select('id, username, avatar_id, banner_id, community_bio, created_at')
-    .eq('id', userId)
-    .maybeSingle()
+  if (!userId) return { profile: null, error: null }
+  const { profiles, error } = await loadPublicProfiles([userId])
   if (error) {
-    if (import.meta.env.DEV) console.error('[community] getCommunityProfile:', error.message)
-    return null
+    if (import.meta.env.DEV) console.error('[community] getCommunityProfile:', error.message ?? error)
+    return { profile: null, error }
   }
-  return data
+  return { profile: profiles.get(userId) ?? null, error: null }
 }
 
 /**

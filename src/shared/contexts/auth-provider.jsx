@@ -1,56 +1,27 @@
 import { createContext, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { supabase } from '@shared/lib/supabase/client'
 import { setSentryUser, clearSentryUser, logError } from '@shared/lib/observability/sentry'
+// Sortis de ce fichier (il franchissait 500 lignes) : la lecture du profil,
+// l'e-mail « ton profil a changé », le retour d'un lien e-mail (2026-10-04),
+// les préférences allergènes (2026-10-05).
+import { fetchProfile } from '@shared/lib/auth/fetch-profile'
+import { sendChangeNotification } from '@shared/lib/auth/profile-change-notification'
+import { useAuthLinkProblem } from '@shared/hooks/use-auth-link-problem'
+import { useAllergenPrefs } from '@shared/hooks/use-allergen-prefs'
+import { etatMfa, MFA_AUCUN } from '@shared/lib/auth/mfa-requis'
 
 const AuthContext = createContext(null)
 
-// Récupère la langue active depuis localStorage ; fallback 'fr'.
-// Utilisé pour passer la lang aux Edge Functions de notification.
-function getCurrentLang() {
-  try { return localStorage.getItem('fridge-lang') ?? 'fr' }
-  catch { return 'fr' }
+// `last_login_at` : une fois par session de navigateur (audit du 2026-10-04,
+// PERF-08). Un retour d'onglet ou un rechargement ne réécrivent pas le profil.
+// La clé garde l'identifiant du compte : un autre compte dans le même onglet
+// est horodaté à son tour.
+const CLE_CONNEXION_NOTEE = 'fridge-last-login-ecrit'
+function connexionDejaNotee(userId) {
+  try { return sessionStorage.getItem(CLE_CONNEXION_NOTEE) === userId } catch { return false }
 }
-
-// Envoi non bloquant d'une notification email après modification profil
-// (pseudo / email / password). En cas d'échec on log mais on n'interrompt
-// pas le flux : la modif est déjà appliquée en DB / auth, l'email est
-// purement informatif.
-async function sendChangeNotification(type, opts = {}) {
-  try {
-    await supabase.functions?.invoke('send-profile-change-notification', {
-      body: {
-        type,
-        lang: opts.lang ?? getCurrentLang(),
-        oldValue: opts.oldValue,
-        newValue: opts.newValue,
-      },
-    })
-  } catch (err) {
-    if (import.meta.env.DEV) console.warn('[AuthContext] notification', type, 'failed:', err)
-  }
-}
-
-// `restore_token` exclu délibérément (2026-07-19, suite audit export RGPD) :
-// c'est un credential de restauration de compte, jamais lu côté client (grep
-// vérifié) — aucune raison de le charger en mémoire navigateur. Contrairement
-// à l'export (allow-list stricte), cet état est consommé largement dans toute
-// l'app (rôle, abonnement, badges...) donc pas d'allow-list ici : si une
-// future colonne sensible est ajoutée à `profiles`, l'exclure explicitement.
-async function fetchProfile(userId) {
-  const { data, error } = await supabase
-    .from('profiles')
-    .select('id, username, avatar_id, role, banned, created_at, updated_at, ' +
-      'password_changed_at, allergen_prefs, deleted_at, language, last_login_at, ' +
-      'consent_terms_accepted_at, consent_privacy_accepted_at, community_muted_until, ' +
-      'community_terms_accepted_at, stripe_customer_id, subscription_status, trial_ends_at, ' +
-      'subscription_ends_at, subscription_plan, monthly_budget, community_bio, ' +
-      'profiling_opted_out, inactive_warned_at, per_trip_budget, special_role, ' +
-      'username_confirmed, banner_id, unlocked_banners, country_code, push_preferences, ' +
-      'push_last_variant_index, fridge_shape')
-    .eq('id', userId)
-    .single()
-  if (error && import.meta.env.DEV) console.error('[AuthContext] fetchProfile error:', error.message, error.code)
-  return data ?? null
+function noterLaConnexion(userId) {
+  try { sessionStorage.setItem(CLE_CONNEXION_NOTEE, userId) } catch { /* stockage indisponible : on réécrira, sans gravité */ }
 }
 
 export function AuthProvider({ children }) {
@@ -58,6 +29,12 @@ export function AuthProvider({ children }) {
   const [profile,      setProfile]      = useState(null)
   const [loading,      setLoading]      = useState(true)
   const [recoveryMode, setRecoveryMode] = useState(false)
+  const [mfa,          setMfa]          = useState(MFA_AUCUN) // code de double authentification dû ? (CPT-01)
+  const [compteDesactive, setCompteDesactive] = useState(null) // { effaceLe } après une suppression (CPT-04)
+
+  // Lien e-mail (ou retour de Google) qui n'aboutit pas : 'expired' | 'failed'
+  // | 'no-session' | null. Cf. shared/hooks/use-auth-link-problem.js.
+  const [authLinkProblem, clearAuthLinkProblem] = useAuthLinkProblem()
 
   // Référence du précédent user observé pour détecter un changement
   // d'email (event USER_UPDATED de Supabase) et déclencher une notif.
@@ -67,6 +44,7 @@ export function AuthProvider({ children }) {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
         if (event === 'PASSWORD_RECOVERY') {
+          setMfa(etatMfa(session)) // le lien « mot de passe oublié » ne passe plus sans le code (CPT-02)
           setRecoveryMode(true)
           setLoading(false)
           return
@@ -82,6 +60,15 @@ export function AuthProvider({ children }) {
           }
         }
         const currentUser = session?.user ?? null
+        // Retour sur l'onglet (audit du 2026-10-04, PERF-08) : supabase-js
+        // réémet SIGNED_IN avec la MÊME session dès que l'onglet redevient
+        // visible. Même compte, inchangé : rien à relire ni à réécrire — et
+        // surtout pas un nouvel objet `user`, qui re-rendait toute l'app.
+        const precedent = prevUserRef.current
+        if (event === 'SIGNED_IN' && currentUser && precedent
+          && precedent.id === currentUser.id && precedent.updated_at === currentUser.updated_at) {
+          return
+        }
         // Sprint 11 S11.b — détection switch user (signout puis signin
         // sur un autre compte). On reset le profile à null AVANT le
         // fetch pour éviter d'afficher les infos de l'ancien user
@@ -90,6 +77,7 @@ export function AuthProvider({ children }) {
         const prevUserId = prevUserRef.current?.id
         const isUserSwitch = currentUser && prevUserId && prevUserId !== currentUser.id
         if (isUserSwitch) setProfile(null)
+        setMfa(etatMfa(session)) // même rendu que l'utilisateur : jamais une image sans porte
         setUser(currentUser)
         prevUserRef.current = currentUser
         // Attacher l'id Supabase à Sentry (no-op si Sentry pas
@@ -120,7 +108,8 @@ export function AuthProvider({ children }) {
             // TOKEN_REFRESHED (refresh de fond) pour ne pas écrire à chaque
             // rafraîchissement de jeton. Débloque la mesure de rétention + le
             // mail RGPD d'inactivité (sa vue filtre last_login_at IS NOT NULL).
-            if (event === 'SIGNED_IN' || event === 'INITIAL_SESSION') {
+            if ((event === 'SIGNED_IN' || event === 'INITIAL_SESSION') && !connexionDejaNotee(currentUser.id)) {
+              noterLaConnexion(currentUser.id)
               supabase
                 .from('profiles')
                 .update({ last_login_at: new Date().toISOString() })
@@ -129,20 +118,11 @@ export function AuthProvider({ children }) {
                   if (error && import.meta.env.DEV) console.error('[AuthContext] last_login_at:', error.message)
                 })
             }
-            // Auto-restore d'un compte soft-deleted : si le user revient se
-            // connecter pendant la fenêtre de 30 jours, on annule la
-            // suppression (deleted_at + restore_token → NULL).
-            if (p?.deleted_at) {
-              const { error: restoreErr } = await supabase
-                .from('profiles')
-                .update({ deleted_at: null, restore_token: null })
-                .eq('id', currentUser.id)
-              if (!restoreErr) {
-                setProfile(prev => prev ? { ...prev, deleted_at: null, restore_token: null } : prev)
-              } else if (import.meta.env.DEV) {
-                console.error('[AuthContext] auto-restore failed:', restoreErr.message)
-              }
-            }
+            // Plus d'annulation automatique d'une suppression (audit du
+            // 2026-10-04, BDD-04) : elle s'exécutait à CHAQUE événement — un
+            // rechargement, un retour d'onglet, un jeton rafraîchi — et la purge
+            // à 30 jours ne trouvait plus rien. L'écran « en cours de
+            // suppression » propose le choix ; seul son bouton annule.
           }, 0)
         } else {
           setProfile(null)
@@ -206,30 +186,11 @@ export function AuthProvider({ children }) {
     return () => supabase.removeChannel(channel)
   }, [user?.id])
 
-  const isAdmin = profile?.role === 'admin'
+  const isAdmin = profile?.role === 'admin' && !mfa.requis
 
-  // ── Préférences allergènes ────────────────────────────────
-  // Invité → localStorage ; connecté → profile.allergen_prefs
-  const [allergenPrefs, setAllergenPrefs] = useState(() => {
-    try { return JSON.parse(localStorage.getItem('fridge-allergen-prefs') ?? '[]') }
-    catch { return [] }
-  })
-
-  useEffect(() => {
-    if (profile) {
-      setAllergenPrefs(profile.allergen_prefs ?? [])
-    } else if (!loading) {
-      try { setAllergenPrefs(JSON.parse(localStorage.getItem('fridge-allergen-prefs') ?? '[]')) }
-      catch { setAllergenPrefs([]) }
-    }
-  }, [profile, loading])
-
-  async function updateAllergenPrefs(prefs) {
-    setAllergenPrefs(prefs)
-    if (user) return updateProfile({ allergen_prefs: prefs })
-    localStorage.setItem('fridge-allergen-prefs', JSON.stringify(prefs))
-    return { error: null }
-  }
+  // Préférences allergènes — invité → localStorage ; connecté →
+  // profile.allergen_prefs. Cf. shared/hooks/use-allergen-prefs.js.
+  const allergenes = useAllergenPrefs({ user, profile, loading, updateProfile, setProfile })
 
   async function signInWithEmail(email, password) {
     try {
@@ -283,13 +244,53 @@ export function AuthProvider({ children }) {
   // `lang` est stocké dans user_metadata (options.data.lang) → les templates
   // d'emails Supabase Auth peuvent brancher dessus ({{ if eq .Data.lang "en" }})
   // pour envoyer confirmation / reset dans la langue de l'utilisateur (#6).
-  async function signUpWithEmail(email, password, username, lang = 'fr') {
+  //
+  // `consentAccepted` : la case « j'ai 16 ans et j'accepte… » du formulaire.
+  // Transmise, elle est DATÉE par le déclencheur `handle_new_user`, à l'heure
+  // du serveur. Jusqu'au 2026-10-04 elle ne faisait qu'autoriser le bouton et
+  // aucune preuve n'était enregistrée (audit CPT-06).
+  async function signUpWithEmail(email, password, username, lang = 'fr', { consentAccepted = false } = {}) {
     const { error } = await supabase.auth.signUp({
       email: email.trim(),
       password,
-      options: { data: { username: username.trim(), lang } },
+      options: {
+        data: { username: username.trim(), lang, ...(consentAccepted ? { consent_accepted: true } : {}) },
+      },
     })
     return { error }
+  }
+
+  // Renvoie l'e-mail de confirmation d'inscription : e-mail perdu, lien expiré
+  // ou ouvert dans un autre navigateur. Le service refuse plus d'une demande
+  // par minute et par adresse (l'erreur est rendue telle quelle).
+  async function resendSignupEmail(email) {
+    try {
+      const { error } = await supabase.auth.resend({ type: 'signup', email: email.trim() })
+      return { error: error ?? null }
+    } catch (err) {
+      return { error: { message: err?.message ?? 'unknown' } }
+    }
+  }
+
+  // Date l'acceptation des conditions pour un compte qui n'a pas pu la donner à
+  // l'inscription (parcours Google : c'est l'écran « Choisis ton pseudo » qui
+  // porte la case). La date est posée par la base, une seule fois ; le
+  // navigateur ne l'écrit jamais lui-même.
+  async function recordSignupConsent() {
+    try {
+      const { data, error } = await supabase.rpc('record_signup_consent')
+      if (error) return { error }
+      if (data) {
+        setProfile(p => (p ? {
+          ...p,
+          consent_terms_accepted_at: p.consent_terms_accepted_at ?? data,
+          consent_privacy_accepted_at: p.consent_privacy_accepted_at ?? data,
+        } : p))
+      }
+      return { error: null }
+    } catch (err) {
+      return { error: { message: err?.message ?? 'unknown' } }
+    }
   }
 
   async function signOut() {
@@ -318,6 +319,10 @@ export function AuthProvider({ children }) {
   async function updateProfile(fields) {
     // Capture l'ancien pseudo AVANT update pour la notif si nécessaire.
     const oldUsername = profile?.username
+    // Premier choix du pseudo (le pseudo d'attente d'un compte Google est
+    // remplacé) : ce n'est pas un changement à signaler. Sans cette garde,
+    // toute nouvelle inscription Google recevait l'alerte « pseudo modifié ».
+    const firstChoice = profile?.username_confirmed === false
     const { error } = await supabase
       .from('profiles')
       .update(fields)
@@ -328,7 +333,7 @@ export function AuthProvider({ children }) {
     if (!error) {
       setProfile(p => ({ ...p, ...fields }))
       // Si le pseudo a changé, envoie une notif email (non bloquant).
-      if (typeof fields.username === 'string' && fields.username !== oldUsername) {
+      if (typeof fields.username === 'string' && fields.username !== oldUsername && !firstChoice) {
         sendChangeNotification('pseudo', { oldValue: oldUsername, newValue: fields.username })
       }
     }
@@ -371,9 +376,11 @@ export function AuthProvider({ children }) {
   }
 
   // Demande à Supabase l'envoi d'un email "mot de passe oublié" pour le user
-  // actuel. Lien valide ~24h, même flow que la connexion. C'est désormais
-  // la SEULE voie de modification du mot de passe (la voie ancien + nouveau
-  // a été retirée pour ne pas avoir 2 chemins concurrents).
+  // actuel. Lien valable une heure, une seule fois (c'est ce que dit l'e-mail ;
+  // ce commentaire a affirmé « ~24h » jusqu'au 2026-10-04), même flow que la
+  // connexion. C'est désormais la SEULE voie de modification du mot de passe
+  // (la voie ancien + nouveau a été retirée pour ne pas avoir 2 chemins
+  // concurrents).
   async function requestPasswordResetEmail() {
     if (!user?.email) return { error: { message: 'Not authenticated' } }
     const { error } = await supabase.auth.resetPasswordForEmail(user.email, {
@@ -408,12 +415,6 @@ export function AuthProvider({ children }) {
     if (!user) return { error: { message: 'Not authenticated' } }
     const { data: { session } } = await supabase.auth.getSession()
     if (!session) return { error: { message: 'No active session' } }
-    await supabase.from('activity_logs').insert({
-      user_id: user.id,
-      action: 'account_soft_deleted',
-      target_id: user.id,
-      target_type: 'user',
-    })
     // Soft-delete via Edge Function : marque deleted_at = now() +
     // restore_token, sign out toutes les sessions, envoie un email de
     // confirmation avec lien d'annulation valide 30 jours.
@@ -450,9 +451,22 @@ export function AuthProvider({ children }) {
       logError(new Error(json.error ?? `HTTP ${res.status}`), { tag: 'auth.deleteAccount.serverError', status: res.status, userId: user.id })
       return { error: { message: json.error ?? 'Erreur suppression compte' } }
     }
-    setUser(null)
-    setProfile(null)
+    // La trace APRÈS le succès (elle existait même quand la suppression
+    // échouait), puis une VRAIE déconnexion : portée « global », elle révoque
+    // toutes les sessions du compte, autres appareils compris (BDD-04, CPT-04).
+    await supabase.from('activity_logs').insert({ user_id: user.id, action: 'account_soft_deleted', target_id: user.id, target_type: 'user' })
+    setCompteDesactive({ effaceLe: json.expiresAt })
+    await supabase.auth.signOut()
     return { error: null, retentionDays: json.retentionDays, expiresAt: json.expiresAt }
+  }
+
+  // Le bouton « Annuler la suppression » de l'écran « en cours de
+  // suppression » : le SEUL geste qui annule, depuis l'app (BDD-04).
+  async function annulerLaSuppression() {
+    if (!user) return { error: { message: 'Not authenticated' } }
+    const { error } = await supabase.from('profiles').update({ deleted_at: null, restore_token: null }).eq('id', user.id)
+    if (!error) setProfile((prev) => (prev ? { ...prev, deleted_at: null, restore_token: null } : prev))
+    return { error }
   }
 
   // Mémoïsation du value Provider. Avant : 16 valeurs
@@ -461,15 +475,17 @@ export function AuthProvider({ children }) {
   // ne change pas. Les callbacks (signIn, signOut, etc.) sont déjà
   // stables (définis dans le scope component sans deps).
   const value = useMemo(() => ({
-    user, profile, loading, isAdmin,
+    user, profile, loading, isAdmin, mfaRequired: mfa.requis, mfaFactorId: mfa.facteurId,
     recoveryMode,
-    allergenPrefs, updateAllergenPrefs,
-    signInWithEmail, signUpWithEmail, signInWithGoogle, signOut,
+    authLinkProblem, clearAuthLinkProblem,
+    ...allergenes,
+    signInWithEmail, signUpWithEmail, resendSignupEmail, recordSignupConsent, signInWithGoogle, signOut,
     resetPassword, updateProfile, refreshProfile, updateEmail,
     updatePassword, verifyCurrentPassword, requestPasswordResetEmail,
-    deleteAccount, restoreAccount, completePasswordReset,
+    deleteAccount, restoreAccount, completePasswordReset, annulerLaSuppression,
+    compteDesactive, oublierCompteDesactive: () => setCompteDesactive(null),
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }), [user, profile, loading, isAdmin, recoveryMode, allergenPrefs])
+  }), [user, profile, loading, isAdmin, mfa, recoveryMode, authLinkProblem, allergenes, compteDesactive])
 
   return (
     <AuthContext.Provider value={value}>

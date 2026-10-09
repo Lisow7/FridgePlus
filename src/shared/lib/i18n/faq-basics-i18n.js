@@ -1,3 +1,5 @@
+import { SEUIL_PRESQUE, enPourcent } from '@shared/lib/recipes/recipe-thresholds'
+
 // Les questions de prise en main — « comment je m'en sers ? ».
 //
 // Elles vivaient dans `HELP_I18N` (`features/onboarding`), qui les affichait en
@@ -46,14 +48,14 @@ export const FAQ_BASICS_I18N = {
       { group: 'cook', step: 4, q: 'J’ai mes ingrédients, et après ?',
         a: 'Ouvre les recettes : celles que tu peux cuisiner apparaissent en premier. Une petite jauge indique à quel point chacune est à ta portée.' },
       { group: 'cook', step: 4, q: '« Prêt » et « Presque », ça veut dire quoi ?',
-        a: '« Prêt » : tu as tout ce qu’il faut. « Presque » : il te manque un ou deux ingrédients, et la recette te dit lesquels.' },
+        a: `« Prêt » : tu as tout ce qu’il faut. « Presque » : tu as au moins ${enPourcent(SEUIL_PRESQUE)} % des ingrédients, et la recette te dit ce qui manque.` },
       { group: 'cook', step: 4, q: 'Que fait « J’ai cuisiné » ?',
         a: 'Tu décoches ce qu’il te reste, le reste sort de ton frigo automatiquement, et le plat rejoint tes restes pour ne pas l’oublier.' },
       // ── Compte & données (étape 5) ──
       { group: 'account', step: 5, q: 'Faut-il un compte ?',
-        a: 'Non. Le frigo, les recettes et le micro sont gratuits et sans compte ; un compte ajoute les favoris, la communauté, ton profil et la photo du ticket.' },
+        a: 'Non. Le frigo, les recettes et le micro sont gratuits et sans compte ; un compte retrouve tes favoris sur tous tes appareils et ajoute la communauté, ton profil et la photo du ticket.' },
       { group: 'account', step: 5, q: 'Ça marche sans réseau ?',
-        a: 'L’app s’installe sur ton téléphone et se souvient de ton frigo et des recettes déjà chargées. Ajouter à la voix ou par photo, en revanche, demande le réseau.' },
+        a: 'L’app s’installe sur ton téléphone et s’ouvre sans réseau, mais elle ne montre alors qu’une sélection de recettes ; avec un compte, ton frigo demande aussi une connexion. Ajouter à la voix ou par photo demande le réseau.' },
       { group: 'account', step: 5, q: 'L’app existe-t-elle en anglais ?',
         a: 'Oui : le drapeau en haut bascule entre français et anglais, à tout moment.' },
       { group: 'account', step: 5, q: 'C’est quoi le premium ?',
@@ -77,13 +79,13 @@ export const FAQ_BASICS_I18N = {
       { group: 'cook', step: 4, q: 'I\'ve added my ingredients, now what?',
         a: 'Open the recipes: the ones you can cook show up first. A small gauge tells how close each one is.' },
       { group: 'cook', step: 4, q: 'What do "Ready" and "Almost" mean?',
-        a: '"Ready": you have everything. "Almost": you\'re one or two ingredients short, and the recipe tells you which.' },
+        a: `"Ready": you have everything. "Almost": you have at least ${enPourcent(SEUIL_PRESQUE)}% of the ingredients, and the recipe tells you what's missing.` },
       { group: 'cook', step: 4, q: 'What does "I cooked this" do?',
         a: 'You untick what you have left, the rest leaves your fridge automatically, and the dish joins your leftovers so you don\'t forget it.' },
       { group: 'account', step: 5, q: 'Do I need an account?',
-        a: 'No. The fridge, recipes and mic are free and need no account; an account adds favorites, community, your profile and the receipt photo.' },
+        a: 'No. The fridge, recipes and mic are free and need no account; an account brings your favorites to all your devices and adds community, your profile and the receipt photo.' },
       { group: 'account', step: 5, q: 'Does it work offline?',
-        a: 'The app installs on your phone and remembers your fridge and the recipes already loaded. Adding by voice or photo, however, needs the network.' },
+        a: 'The app installs on your phone and opens without a connection, but then shows only a selection of recipes; with an account, your fridge needs a connection too. Adding by voice or photo needs the network.' },
       { group: 'account', step: 5, q: 'Is the app available in English?',
         a: 'Yes: the flag at the top switches between French and English, anytime.' },
       { group: 'account', step: 5, q: 'What is premium?',

@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useMemo } from 'react'
+import { useState, useRef, useEffect, useMemo, useId } from 'react'
 import { LuTrash2, LuMic } from 'react-icons/lu'
 import Button from '@shared/ui/button'
 import RecipeFormSelectDropdown from './recipe-form-select-dropdown'
@@ -22,6 +22,11 @@ export default function IngredientRow({ item, flatIngredients, groupedIngredient
   const [micListening, setMicListening] = useState(false)
   const ref = useRef(null)
   const searchRef = useRef(null)
+  // Libellés visibles (décision du 2026-10-06, « libellés = visibles »).
+  const rechercheId = useId()
+  const choixId = useId()
+  const qteId = useId()
+  const qteLibelleId = useId()
   const recognitionRef = useRef(null)
   const silenceTimerRef = useRef(null)
   const kuromojiRef = useRef(null)
@@ -159,6 +164,7 @@ export default function IngredientRow({ item, flatIngredients, groupedIngredient
     <div style={{ display:'flex', gap:'6px', alignItems:'center', marginBottom:'8px', flexWrap:'wrap' }}>
       <div ref={ref} style={{ position:'relative', flex:'2 1 160px', minWidth:0 }}>
         <Button
+          id={choixId}
           onClick={() => { setOpen(v => !v); setSearch('') }}
           aria-haspopup="listbox"
           aria-expanded={open}
@@ -177,8 +183,10 @@ export default function IngredientRow({ item, flatIngredients, groupedIngredient
         </Button>
         {open && (
           <div style={{ position:'absolute', top:'calc(100% + 4px)', left:0, right:0, zIndex:300, background: darkMode ? '#131E2C' : '#FDFAF6', border: darkMode ? '1.5px solid #1A2A3D' : '1.5px solid #EDE4D4', borderRadius:'10px', boxShadow:'0 4px 24px rgba(0,0,0,0.18)', overflow:'hidden' }}>
+            <label htmlFor={rechercheId} style={{ display:'block', fontSize:'11px', fontWeight:700, color:'var(--color-muted)', padding:'8px 12px 0' }}>{t.ingredientSearchAria}</label>
             <div style={{ display:'flex', alignItems:'center', borderBottom: darkMode ? '1px solid #1A2A3D' : '1px solid #EDE4D4', background: darkMode ? '#0F1923' : '#FFF' }}>
               <input
+                id={rechercheId}
                 ref={searchRef}
                 value={search}
                 onChange={e => { setSearch(e.target.value); if (micListening) stopMic() }}
@@ -236,8 +244,12 @@ export default function IngredientRow({ item, flatIngredients, groupedIngredient
         )}
       </div>
       <div style={{ display:'flex', gap:'6px', alignItems:'center', flexShrink:0 }}>
+        {/* « Qté » visible, à gauche ; le nom entendu dit aussi l'ingrédient. */}
+        <label id={qteLibelleId} htmlFor={qteId} style={{ fontSize: '11px', fontWeight: 700, color: 'var(--color-muted)' }}>{t.qtyShort}</label>
         <input
+          id={qteId}
           type="number" min="0" placeholder="0"
+          aria-labelledby={selected ? `${qteLibelleId} ${choixId}` : qteLibelleId}
           value={item.qty.amount}
           onChange={e => onUpdate(item._key, { qty: { ...item.qty, amount: e.target.value } })}
           style={{ width:'64px', padding:'8px 6px', borderRadius:'8px', border: darkMode ? '1.5px solid #1A2A3D' : '1.5px solid #E8E0D4', background: darkMode ? '#0F1923' : '#FFF', color:'var(--color-charcoal)', fontSize:'13px', outline:'none', flexShrink:0, textAlign:'center' }}

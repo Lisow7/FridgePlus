@@ -1,5 +1,5 @@
 // Events produit (funnel d'activation). Jumeau du pattern sentry.js : gaté
-// consentement « audience » (RGPD), no-op silencieux sinon, fire-and-forget
+// consentement « usage » (statistiques d'usage, RGPD), no-op silencieux sinon, fire-and-forget
 // (ne bloque jamais l'appelant, ne throw jamais). Écrit dans Supabase
 // `product_events` (RLS insert-only). Lecture analytique en SQL/admin.
 import { supabase } from '@shared/lib/supabase/client'
@@ -7,14 +7,14 @@ import { hasConsentedSync } from '@shared/hooks/use-consent'
 import { getAnonId } from './anon-id'
 
 export function track(event, props = {}) {
-  if (!hasConsentedSync('audience')) return
+  if (!hasConsentedSync('usage')) return
   void emit(event, props)
 }
 
 // Comme track, mais une seule fois par session (impressions : ex. l'Aha qui
 // se re-déclenche au render). Dédup via un flag sessionStorage.
 export function trackOnce(sessionKey, event, props = {}) {
-  if (!hasConsentedSync('audience')) return
+  if (!hasConsentedSync('usage')) return
   try {
     if (sessionStorage.getItem(sessionKey) === '1') return
     sessionStorage.setItem(sessionKey, '1')

@@ -3,6 +3,7 @@ import { LuMic } from 'react-icons/lu'
 import VoiceMiniPanel from '@features/voice/components/voice-mini-panel'
 import VoiceConsentDialog from '@shared/ui/voice-consent-dialog'
 import { Z_INDEX } from '@shared/lib/z-index'
+import { useDialogue } from '@shared/hooks/use-dialogue'
 
 const VoiceConfirmPanel = lazy(() => import('@features/voice/components/voice-confirm-panel'))
 
@@ -72,6 +73,8 @@ export default function VoiceOverlays({
   lang,
   darkMode,
 }) {
+  // Une vraie boîte de dialogue : rôle, nom, focus piégé, Échap (A11Y-01).
+  const dialogueMicro = useDialogue({ onClose: onVoiceModalClose, actif: voiceModalOpen })
   return (
     <>
       {voiceConsentOpen && (
@@ -115,12 +118,12 @@ export default function VoiceOverlays({
         const muted = darkMode ? '#7A90A8' : '#7A5F56'
         return (
           <div style={{ position: 'fixed', inset: 0, zIndex: Z_INDEX.MODAL, background: 'rgba(0,0,0,0.45)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}>
-            <div className="fp-modal-panel" style={{ background: bg, borderRadius: '16px', border: `1.5px solid ${brd}`, padding: '24px', maxWidth: '360px', width: '100%', boxShadow: '0 16px 48px rgba(0,0,0,0.25)' }}>
-              <h3 style={{ fontSize: '16px', fontWeight: 700, color: 'var(--color-charcoal)', marginBottom: '8px' }}>{mt.title}</h3>
+            <div {...dialogueMicro.proprietes} className="fp-modal-panel" style={{ background: bg, borderRadius: '16px', border: `1.5px solid ${brd}`, padding: '24px', maxWidth: '360px', width: '100%', boxShadow: '0 16px 48px rgba(0,0,0,0.25)' }}>
+              <h3 id={dialogueMicro.titreId} style={{ fontSize: '16px', fontWeight: 700, color: 'var(--color-charcoal)', marginBottom: '8px' }}>{mt.title}</h3>
               <p style={{ fontSize: '14px', color: muted, marginBottom: '20px', lineHeight: 1.5 }}>{mt.body}</p>
               <div style={{ display: 'flex', gap: '10px' }}>
                 <button onClick={onVoiceModalClose} style={{ flex: 1, padding: '11px', borderRadius: '10px', border: `1.5px solid ${brd}`, background: darkMode ? 'var(--color-dark-surface)' : '#F5EDE0', color: 'var(--color-charcoal)', fontSize: '14px', fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}>{mt.cancel}</button>
-                <button onClick={onVoiceModalConfirm} style={{ flex: 1, padding: '11px', borderRadius: '10px', border: 'none', background: 'linear-gradient(135deg, #E07820 0%, #C05A0A 100%)', color: 'white', fontSize: '14px', fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit' }}>{mt.confirm}</button>
+                <button onClick={onVoiceModalConfirm} style={{ flex: 1, padding: '11px', borderRadius: '10px', border: 'none', background: 'var(--gradient-deep)', color: 'white', fontSize: '14px', fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit' }}>{mt.confirm}</button>
               </div>
             </div>
           </div>

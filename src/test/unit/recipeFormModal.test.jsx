@@ -64,6 +64,7 @@ vi.mock('@shared/ui/emoji', () => ({
 }))
 
 import RecipeFormModal from '@features/recipes/components/recipe-form-modal'
+import { toFormState } from '@features/recipes/lib/recipe-form-state'
 
 const defaultProps = {
   initialRecipe: null,
@@ -235,7 +236,123 @@ describe('RecipeFormModal', () => {
       const user = userEvent.setup()
       render(<RecipeFormModal {...defaultProps} />)
       await user.click(screen.getByText(/ajouter une étape/i))
-      expect(screen.getByPlaceholderText(/décris cette étape/i)).toBeInTheDocument()
+      expect(screen.getByRole('textbox', { name: /étape 1/i })).toBeInTheDocument()
+    })
+  })
+
+  // ─── Enregistrement refusé ──────────────────────────────────────────────────
+  // Hors audit, trouvé le 2026-10-05. Le résultat de l'enregistrement n'était
+  // pas lu : une recette refusée par la base (réseau, session expirée) fermait
+  // le formulaire ET purgeait le brouillon. Une recette tapée en entier, perdue
+  // sans un mot.
+  describe('enregistrement refusé', () => {
+    const RECETTE = {
+      id: 'custom-1', name: 'Tarte fine', emoji: '🥧', time: '30 min', difficulty: 'Facile',
+      type: 'Dessert & Petit-déj', servings: 4, country: 'fr', diet: [], allergens: [],
+      ingredients: [{ ids: ['vg-tomate'], labels: { fr: 'Tomate' }, required: true, qty: { amount: 2, unit: 'pièce' } }],
+      steps: ['Étaler la pâte.'], isCustom: true,
+    }
+    const PANNE = { message: 'Failed to fetch' }
+    const CLE_BROUILLON = 'fridge-recipe-draft'
+    const poserUnBrouillon = () => localStorage.setItem(CLE_BROUILLON, JSON.stringify({
+      version: 1, savedAt: Date.now(), payload: toFormState(RECETTE),
+    }))
+
+    beforeEach(() => { localStorage.clear() })
+
+    it('témoin — enregistrement accepté : le formulaire se ferme', async () => {
+      const onSave = vi.fn().mockResolvedValue({ error: null })
+      const onClose = vi.fn()
+      const user = userEvent.setup()
+      render(<RecipeFormModal {...defaultProps} initialRecipe={RECETTE} onSave={onSave} onClose={onClose} />)
+      await user.click(screen.getByText('Enregistrer'))
+      await waitFor(() => expect(onClose).toHaveBeenCalledOnce())
+      expect(onSave).toHaveBeenCalledOnce()
+      expect(screen.queryByRole('alert')).toBeNull()
+    })
+
+    it('refusé : le formulaire reste ouvert, une alerte le dit, et rien de ce qui est tapé n’est perdu', async () => {
+      const onSave = vi.fn().mockResolvedValue({ error: PANNE })
+      const onClose = vi.fn()
+      const user = userEvent.setup()
+      render(<RecipeFormModal {...defaultProps} initialRecipe={RECETTE} onSave={onSave} onClose={onClose} />)
+      await user.click(screen.getByText('Enregistrer'))
+      const alerte = await screen.findByRole('alert')
+      expect(alerte).toHaveTextContent(/pas enregistrée/i)
+      expect(onClose).not.toHaveBeenCalled()
+      expect(screen.getByDisplayValue('Tarte fine')).toBeInTheDocument()
+      expect(screen.getByDisplayValue('Étaler la pâte.')).toBeInTheDocument()
+    })
+
+    it('refusé : le brouillon est GARDÉ (création)', async () => {
+      poserUnBrouillon()
+      const onSave = vi.fn().mockResolvedValue({ error: PANNE })
+      const user = userEvent.setup()
+      render(<RecipeFormModal {...defaultProps} onSave={onSave} />)
+      await user.click(screen.getByText('Enregistrer'))
+      await screen.findByRole('alert')
+      expect(onSave).toHaveBeenCalledOnce()
+      expect(localStorage.getItem(CLE_BROUILLON)).not.toBeNull()
+    })
+
+    it('témoin — accepté : le brouillon est purgé (création)', async () => {
+      poserUnBrouillon()
+      const onSave = vi.fn().mockResolvedValue({ error: null })
+      const onClose = vi.fn()
+      const user = userEvent.setup()
+      render(<RecipeFormModal {...defaultProps} onSave={onSave} onClose={onClose} />)
+      await user.click(screen.getByText('Enregistrer'))
+      await waitFor(() => expect(onClose).toHaveBeenCalledOnce())
+      expect(localStorage.getItem(CLE_BROUILLON)).toBeNull()
+    })
+
+    it('recette validée par la modération : le dit, au lieu d’un échec sans raison', async () => {
+      const verrou = Object.assign(new Error('approved_recipe_locked'), { code: 'approved_recipe_locked' })
+      const onSave = vi.fn().mockResolvedValue({ error: verrou })
+      const onClose = vi.fn()
+      const user = userEvent.setup()
+      render(<RecipeFormModal {...defaultProps} initialRecipe={RECETTE} onSave={onSave} onClose={onClose} />)
+      await user.click(screen.getByText('Enregistrer'))
+      expect(await screen.findByRole('alert')).toHaveTextContent(/validée par la modération/i)
+      expect(onClose).not.toHaveBeenCalled()
+    })
+
+    it('un enregistrement qui lève : même alerte, formulaire ouvert', async () => {
+      const onSave = vi.fn().mockRejectedValue(new TypeError('Failed to fetch'))
+      const onClose = vi.fn()
+      const user = userEvent.setup()
+      render(<RecipeFormModal {...defaultProps} initialRecipe={RECETTE} onSave={onSave} onClose={onClose} />)
+      await user.click(screen.getByText('Enregistrer'))
+      expect(await screen.findByRole('alert')).toHaveTextContent(/pas enregistrée/i)
+      expect(onClose).not.toHaveBeenCalled()
+    })
+
+    it('pendant un nouvel essai, l’alerte de l’essai précédent n’est plus affichée', async () => {
+      let trancher
+      const onSave = vi.fn()
+        .mockResolvedValueOnce({ error: PANNE })
+        .mockReturnValueOnce(new Promise((resolve) => { trancher = resolve }))
+      const user = userEvent.setup()
+      render(<RecipeFormModal {...defaultProps} initialRecipe={RECETTE} onSave={onSave} />)
+      await user.click(screen.getByText('Enregistrer'))
+      await screen.findByRole('alert')
+      await user.click(screen.getByText('Enregistrer'))
+      await waitFor(() => expect(onSave).toHaveBeenCalledTimes(2))
+      expect(screen.queryByRole('alert')).toBeNull()
+      trancher({ error: PANNE })
+      expect(await screen.findByRole('alert')).toBeInTheDocument()
+    })
+
+    it('un nouvel essai qui réussit ferme le formulaire', async () => {
+      const onSave = vi.fn().mockResolvedValueOnce({ error: PANNE }).mockResolvedValueOnce({ error: null })
+      const onClose = vi.fn()
+      const user = userEvent.setup()
+      render(<RecipeFormModal {...defaultProps} initialRecipe={RECETTE} onSave={onSave} onClose={onClose} />)
+      await user.click(screen.getByText('Enregistrer'))
+      await screen.findByRole('alert')
+      await user.click(screen.getByText('Enregistrer'))
+      await waitFor(() => expect(onClose).toHaveBeenCalledOnce())
+      expect(onSave).toHaveBeenCalledTimes(2)
     })
   })
 })

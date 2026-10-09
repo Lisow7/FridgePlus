@@ -4,6 +4,7 @@ import { adminGetStats, adminGetHealthChecks } from '@features/admin/api/admin'
 import { adminCountOpenTickets, adminCountUnreadTickets } from '@features/support/api/support'
 import { adminCountReports } from '@shared/api/reports'
 import { readStoredSection, storeSection } from '@features/admin/lib/admin-section-storage'
+import { versErreur } from '@shared/lib/supabase/lever-si-erreur'
 
 // Context partagé pour les sections du panel admin :
 //  - role courant ('admin' / 'moderator' / 'support' — futur ; pour l'instant 'admin')
@@ -35,6 +36,9 @@ export function AdminProvider({ children }) {
     ticketsUnread:     null,
   })
   const [statsLoading, setStatsLoading] = useState(false)
+  // Les compteurs n'ont pas pu être lus : le tableau de bord le dit (audit ADM-08).
+  // Avant, l'échec était avalé et les badges restaient à 0 — « rien à modérer ».
+  const [statsError, setStatsError] = useState(null)
 
   // Badge counts — exposés aux sections pour la sidebar et les mises à jour optimistes
   const [pendingCount,  setPendingCount]  = useState(0)
@@ -58,6 +62,8 @@ export function AdminProvider({ children }) {
         adminGetHealthChecks(),
         adminCountReports({ status: 'open' }),
       ])
+      if (reportsData?.error) throw versErreur(reportsData.error)
+      if (healthData?.error) throw versErreur(healthData.error)
       setStats({
         usersCount:       global.users ?? 0,
         recipesPending:   global.pending ?? 0,
@@ -70,8 +76,10 @@ export function AdminProvider({ children }) {
       setSupportBadge(ticketsUnread ?? 0)
       setHealthCount((healthData?.recipes?.length ?? 0) + (healthData?.ingredients?.length ?? 0))
       setReportsCount(reportsData?.count ?? 0)
+      setStatsError(null)
     } catch (err) {
       console.error('[AdminContext] refreshStats failed:', err)
+      setStatsError(versErreur(err))
     } finally {
       setStatsLoading(false)
     }
@@ -95,6 +103,7 @@ export function AdminProvider({ children }) {
     setSection,
     stats,
     statsLoading,
+    statsError,
     refreshStats,
     pendingCount,  setPendingCount,
     supportBadge,  setSupportBadge,
@@ -102,7 +111,7 @@ export function AdminProvider({ children }) {
     reportsCount,  setReportsCount,
     focusEditId,   setFocusEditId,
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }), [role, user?.id, section, stats, statsLoading, pendingCount, supportBadge, healthCount, reportsCount, focusEditId])
+  }), [role, user?.id, section, stats, statsLoading, statsError, pendingCount, supportBadge, healthCount, reportsCount, focusEditId])
 
   return (
     <AdminContext.Provider value={value}>

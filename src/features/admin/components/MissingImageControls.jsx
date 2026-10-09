@@ -1,4 +1,5 @@
 import { LuImageOff } from 'react-icons/lu'
+import { texteLisible } from '@shared/lib/couleurs/texte-lisible'
 
 const I18N = {
   fr: { count: (n) => `${n} sans image`, toggle: 'Sans image uniquement', badge: 'Sans image' },
@@ -41,7 +42,7 @@ export function MissingImageBadge({ lang = 'fr' }) {
       display: 'inline-flex', alignItems: 'center', gap: 4,
       fontSize: 10, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.04em',
       padding: '2px 6px', borderRadius: 5,
-      background: 'rgba(212,106,16,0.12)', color: 'var(--color-warm-600)', whiteSpace: 'nowrap',
+      background: 'rgba(212,106,16,0.12)', color: texteLisible('var(--color-warm-600)'), whiteSpace: 'nowrap',
     }}>
       <LuImageOff size={11} aria-hidden="true" />
       {t.badge}

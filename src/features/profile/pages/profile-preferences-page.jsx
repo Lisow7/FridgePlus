@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useId } from 'react'
 import { useOutletContext } from 'react-router-dom'
 import { LuGlobe, LuFlag, LuRefrigerator, LuTriangleAlert, LuWallet } from 'react-icons/lu'
 import { FRIDGE_SHAPES, DEFAULT_FRIDGE_SHAPE } from '@shared/lib/resolve-fridge-layout'
@@ -11,8 +11,10 @@ import { useAllergenTypes, useCountries } from '@shared/contexts/data-provider'
 import { useWindowWidth } from '@shared/hooks/use-window-width'
 import Button from '@shared/ui/button'
 import AllergenPicker from '@features/profile/components/allergen-picker'
+import AllergenConsent from '@shared/ui/allergen-consent'
 import ProfilePageIntro from '@features/profile/components/profile-page-intro'
 import ProfileSection  from '@features/profile/components/profile-section'
+import { useSaveErrorToast } from '@shared/hooks/use-save-error-toast'
 
 // Sprint 11 S11.a.3 — sous-page /profile/preferences.
 // Réglages perso : langue/dark mode, pays favori, allergens picker, budget mensuel.
@@ -32,7 +34,7 @@ const I18N = {
     countryDesc:  'Influence les recettes proposées.',
     countryNone: '— aucun —',
     shapeTitle: 'Forme du frigo',
-    shapeDesc:  'La disposition de ton frigo virtuel. Elle ne dépend plus de la langue : celle que tu choisis ici te suit partout.',
+    shapeDesc:  'La disposition de ton frigo virtuel. Celle que tu choisis ici te suit sur tous tes appareils.',
     shapeTopFreezer: 'Congélateur en haut',
     shapeSideBySide: 'Portes côte à côte',
     shapeSaved: 'Forme enregistrée.',
@@ -44,7 +46,9 @@ const I18N = {
     allergenSaved: 'Préférences enregistrées.',
     budgetTitle: 'Budget courses',
     budgetDesc:  'Une limite mensuelle optionnelle. Une barre de progression s\'affiche dans ton panier pour suivre tes dépenses.',
-    budgetPlaceholder: 'Montant',
+    budgetPlaceholder: 'ex. : 300',
+    budgetLabel: 'Budget du mois (€)',
+    perTripLabel: 'Plafond par course (€)',
     budgetSave:  'Enregistrer',
     budgetRemove: 'Supprimer la limite',
     budgetActive: (n) => `${Number(n).toLocaleString('fr-FR')} € / mois`,
@@ -68,7 +72,7 @@ const I18N = {
     countryDesc:  'Influences suggested recipes.',
     countryNone: '— none —',
     shapeTitle: 'Fridge shape',
-    shapeDesc:  'The layout of your virtual fridge. It no longer depends on the language: the shape you pick here follows you everywhere.',
+    shapeDesc:  'The layout of your virtual fridge. The one you pick here follows you on all your devices.',
     shapeTopFreezer: 'Freezer on top',
     shapeSideBySide: 'Side-by-side doors',
     shapeSaved: 'Shape saved.',
@@ -80,7 +84,9 @@ const I18N = {
     allergenSaved: 'Preferences saved.',
     budgetTitle: 'Shopping budget',
     budgetDesc:  'An optional monthly limit. A progress bar appears in your basket to track spending.',
-    budgetPlaceholder: 'Amount',
+    budgetPlaceholder: 'e.g. 300',
+    budgetLabel: 'Monthly budget (€)',
+    perTripLabel: 'Per-trip limit (€)',
     budgetSave:  'Save',
     budgetRemove: 'Remove limit',
     budgetActive: (n) => `${Number(n).toLocaleString('en-US')} € / month`,
@@ -97,7 +103,9 @@ const I18N = {
 export default function ProfilePreferencesPage() {
   const { lang = 'fr', darkMode = false, profile } = useOutletContext()
   const t = I18N[lang] ?? I18N.fr
-  const { updateProfile, allergenPrefs, updateAllergenPrefs } = useAuth()
+  const { updateProfile, allergenPrefs, updateAllergenPrefs, allergenConsentAt } = useAuth()
+  const champBudgetId = useId()
+  const champParCourseId = useId()
   const { hasPremiumAccess } = useSubscription()
   const { setLang } = useLang()
   const { toggleDarkMode } = useDarkMode()
@@ -107,6 +115,18 @@ export default function ProfilePreferencesPage() {
   const windowWidth = useWindowWidth()
   const isMobile = windowWidth < 640
 
+  // Enregistre un réglage. Si la base refuse (réseau, session expirée), le
+  // dit — « Pas enregistré » — et rend `false` : l'appelant n'affiche alors ni
+  // « ✓ » ni l'état d'après. Jusqu'au 2026-10-04 aucun des enregistrements de
+  // cette page ne disait rien en cas d'échec (audit CPT-11).
+  const signalerEchec = useSaveErrorToast()
+  async function enregistrer(ecriture) {
+    let erreur
+    try { erreur = (await ecriture())?.error } catch (err) { erreur = err ?? true }
+    if (erreur) signalerEchec('setting')
+    return !erreur
+  }
+
   // ── Pays ──────────────────────────────────────────────────────────────
   // Select CONTRÔLÉ (value=, pas defaultValue=) : `profile.country_code` est mis
   // à jour par updateProfile (setProfile dans auth-provider) → le choix reste
@@ -114,8 +134,7 @@ export default function ProfilePreferencesPage() {
   // resynchronisait jamais → toujours « aucun » (la colonne manquait aussi en BDD).
   const [countrySaved, setCountrySaved] = useState(false)
   async function handleSaveCountry(code) {
-    const { error } = await updateProfile({ country_code: code || null })
-    if (!error) {
+    if (await enregistrer(() => updateProfile({ country_code: code || null }))) {
       setCountrySaved(true)
       setTimeout(() => setCountrySaved(false), 2000)
     }
@@ -130,9 +149,9 @@ export default function ProfilePreferencesPage() {
   async function handleSaveShape(shape) {
     if (shape === currentShape || shapeSaving) return
     setShapeSaving(true)
-    const { error } = await updateProfile({ fridge_shape: shape })
+    const enregistre = await enregistrer(() => updateProfile({ fridge_shape: shape }))
     setShapeSaving(false)
-    if (!error) {
+    if (enregistre) {
       setShapeSaved(true)
       setTimeout(() => setShapeSaved(false), 2000)
     }
@@ -152,9 +171,9 @@ export default function ProfilePreferencesPage() {
 
   async function handleSaveAllergens() {
     setAllergenSaving(true)
-    const { error } = await updateAllergenPrefs(localAllergens)
+    const enregistre = await enregistrer(() => updateAllergenPrefs(localAllergens))
     setAllergenSaving(false)
-    if (!error) {
+    if (enregistre) {
       setAllergenSaved(true)
       setTimeout(() => setAllergenSaved(false), 2000)
     }
@@ -173,14 +192,14 @@ export default function ProfilePreferencesPage() {
     }
     setBudgetSaving(true)
     setBudgetError(null)
-    await updateProfile({ monthly_budget: n })
+    await enregistrer(() => updateProfile({ monthly_budget: n }))
     setBudgetSaving(false)
   }
 
   async function handleRemoveBudget() {
     setBudgetSaving(true)
-    await updateProfile({ monthly_budget: null })
-    setBudget('')
+    // Le champ n'est vidé que si la limite a vraiment été retirée.
+    if (await enregistrer(() => updateProfile({ monthly_budget: null }))) setBudget('')
     setBudgetSaving(false)
   }
 
@@ -199,14 +218,13 @@ export default function ProfilePreferencesPage() {
     }
     setPerTripSaving(true)
     setPerTripError(null)
-    await updateProfile({ per_trip_budget: n })
+    await enregistrer(() => updateProfile({ per_trip_budget: n }))
     setPerTripSaving(false)
   }
 
   async function handleRemovePerTripBudget() {
     setPerTripSaving(true)
-    await updateProfile({ per_trip_budget: null })
-    setPerTripBudget('')
+    if (await enregistrer(() => updateProfile({ per_trip_budget: null }))) setPerTripBudget('')
     setPerTripSaving(false)
   }
 
@@ -361,7 +379,10 @@ export default function ProfilePreferencesPage() {
           lang={lang}
           darkMode={darkMode}
         >
+          {/* L'accord d'abord : une donnée de santé (décision du 2026-10-06). */}
+          <AllergenConsent lang={lang} onRetire={() => setLocalAllergens([])} style={{ marginBottom: 12 }} />
           <AllergenPicker
+            disabled={!allergenConsentAt}
             allergens={allergenTypes}
             allergenKeys={ALLERGEN_KEYS}
             selectedKeys={localAllergens}
@@ -399,14 +420,15 @@ export default function ProfilePreferencesPage() {
                 ? t.budgetActive(profile.monthly_budget)
                 : t.budgetNoLimit}
             </p>
+            <label htmlFor={champBudgetId} style={{ fontSize: '12px', fontWeight: 700, color: mutedColor, marginBottom: '-4px' }}>{t.budgetLabel}</label>
             <div style={{ display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap' }}>
               <input
+                id={champBudgetId}
                 type="number"
                 min="1"
                 value={budget}
                 onChange={(e) => { setBudget(e.target.value); setBudgetError(null) }}
                 placeholder={t.budgetPlaceholder}
-                aria-label={t.budgetTitle}
                 style={{
                   padding: '8px 10px', borderRadius: '8px',
                   border: `1px solid ${budgetError ? '#DC2626' : border}`,
@@ -439,14 +461,15 @@ export default function ProfilePreferencesPage() {
                   ? t.perTripActive(profile.per_trip_budget)
                   : t.perTripNoLimit}
               </p>
-              <div style={{ display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap', marginTop: '8px' }}>
+              <label htmlFor={champParCourseId} style={{ display: 'block', fontSize: '12px', fontWeight: 700, color: mutedColor, marginTop: '8px' }}>{t.perTripLabel}</label>
+              <div style={{ display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap', marginTop: '6px' }}>
                 <input
+                  id={champParCourseId}
                   type="number"
                   min="1"
                   value={perTripBudget}
                   onChange={(e) => { setPerTripBudget(e.target.value); setPerTripError(null) }}
                   placeholder={t.budgetPlaceholder}
-                  aria-label={t.perTripTitle}
                   style={{
                     padding: '8px 10px', borderRadius: '8px',
                     border: `1px solid ${perTripError ? '#DC2626' : border}`,

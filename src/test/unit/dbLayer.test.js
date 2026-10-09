@@ -22,7 +22,7 @@ import {
 } from '@features/recipes/api/favorites'
 
 import {
-  getCustomRecipes,
+  loadCustomRecipes,
   saveCustomRecipe,
   deleteCustomRecipe,
   getPublicRecipes,
@@ -213,14 +213,14 @@ describe('recipes.js', () => {
   }
 
   describe('mode localStorage (userId = null)', () => {
-    it('getCustomRecipes retourne [] par défaut', async () => {
-      const result = await getCustomRecipes(null)
+    it('loadCustomRecipes retourne [] par défaut', async () => {
+      const { recipes: result } = await loadCustomRecipes(null)
       expect(result).toEqual([])
     })
 
     it('saveCustomRecipe ajoute la recette', async () => {
       await saveCustomRecipe(fakeRecipe, null)
-      const result = await getCustomRecipes(null)
+      const { recipes: result } = await loadCustomRecipes(null)
       expect(result).toHaveLength(1)
       expect(result[0].id).toBe('custom-123')
     })
@@ -228,7 +228,7 @@ describe('recipes.js', () => {
     it('saveCustomRecipe met à jour si id existe déjà', async () => {
       await saveCustomRecipe(fakeRecipe, null)
       await saveCustomRecipe({ ...fakeRecipe, name: 'Modifié' }, null)
-      const result = await getCustomRecipes(null)
+      const { recipes: result } = await loadCustomRecipes(null)
       expect(result).toHaveLength(1)
       expect(result[0].name).toBe('Modifié')
     })
@@ -236,13 +236,13 @@ describe('recipes.js', () => {
     it('deleteCustomRecipe retire la recette', async () => {
       await saveCustomRecipe(fakeRecipe, null)
       await deleteCustomRecipe('custom-123', null)
-      const result = await getCustomRecipes(null)
+      const { recipes: result } = await loadCustomRecipes(null)
       expect(result).toHaveLength(0)
     })
   })
 
   describe('mode Supabase (userId fourni)', () => {
-    it('getCustomRecipes appelle from("custom_recipes")', async () => {
+    it('loadCustomRecipes appelle from("custom_recipes")', async () => {
       const chain = {
         select: vi.fn(() => chain),
         eq:     vi.fn(() => chain),
@@ -250,11 +250,11 @@ describe('recipes.js', () => {
         order:  vi.fn(() => ok([])),
       }
       mockFrom.mockReturnValue(chain)
-      await getCustomRecipes('u-1')
+      await loadCustomRecipes('u-1')
       expect(mockFrom).toHaveBeenCalledWith('custom_recipes')
     })
 
-    it('getCustomRecipes mappe les champs correctement', async () => {
+    it('loadCustomRecipes mappe les champs correctement', async () => {
       const row = { id: 'r-1', data: { name: 'Test' }, moderation_status: 'private', is_public: false, admin_modified: false }
       const chain = {
         select: vi.fn(() => chain),
@@ -263,7 +263,7 @@ describe('recipes.js', () => {
         order:  vi.fn(() => ok([row])),
       }
       mockFrom.mockReturnValue(chain)
-      const result = await getCustomRecipes('u-1')
+      const { recipes: result } = await loadCustomRecipes('u-1')
       expect(result[0].id).toBe('r-1')
       expect(result[0].name).toBe('Test')
       expect(result[0].moderation_status).toBe('private')

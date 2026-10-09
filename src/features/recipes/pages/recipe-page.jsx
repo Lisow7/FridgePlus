@@ -1,9 +1,10 @@
 import { useParams, Link } from 'react-router-dom'
-import { Suspense, lazy } from 'react'
+import { Suspense } from 'react'
 import { LuArrowLeft, LuSearchX } from 'react-icons/lu'
 import { useRecipeById } from '@features/recipes/hooks/use-recipe-by-id'
 import { useSmartBack } from '@shared/hooks/use-smart-back'
 import { useDocumentTitle } from '@shared/hooks/use-document-title'
+import { useNoIndex } from '@shared/hooks/use-no-index'
 import { useStockSession, useFavoritesSession, useCartSession } from '@shared/contexts/session-state-context'
 import { useRecipeForm } from '@shared/contexts/recipe-form-context'
 import { useDeletingRecipe } from '@shared/contexts/deleting-recipe-context'
@@ -13,12 +14,13 @@ import { useIngredientsById, useBaseRecipes } from '@shared/contexts/data-provid
 // eslint-disable-next-line import/no-restricted-paths -- couche page (composition) : réutilise l'action panier testée (DRY) plutôt que de la dupliquer.
 import { useCartActions } from '@features/cart/hooks/use-cart-actions'
 import PageSkeleton from '@routes/page-skeleton'
-
-// RecipeModal volontairement lazy pour ne pas tirer 1705 L (modale +
-// ses dépendances) dans le chunk init de RecipePage. Les call-sites
-// SPA continuent à lazy-loader la même modale via leur propre flow,
-// donc pas de double chunk.
-const RecipeModal = lazy(() => import('@features/recipes/components/recipe-modal'))
+// La modale est importée DIRECTEMENT, plus en `lazy()` (audit du 2026-10-04,
+// PERF-02 et PERF-05). Elle est la page : rien ne s'affiche sans elle. Paresseuse,
+// son fichier n'était demandé qu'une fois la recette trouvée (une cascade), et
+// `lazy()` posait un squelette entre le HTML pré-rendu et la fiche. Importée,
+// elle part avec la page, et seule cette page (et l'aperçu imbriqué en elle)
+// s'en sert : rien de plus au démarrage.
+import RecipeModal from '@features/recipes/components/recipe-modal'
 
 // RecipePage — Sprint 11 S11.c.1 + S11.c.2.
 //
@@ -100,14 +102,22 @@ export default function RecipePage({ lang = 'fr', darkMode = false }) {
   const nomRecette = !recipe
     ? ''
     : (recipe.isCustom ? (recipe.name ?? '') : (RECIPE_NAMES?.[recipe.id]?.[lang] ?? ''))
-  useDocumentTitle(nomRecette ? `${nomRecette} — Fridge+` : '')
+  const t = I18N[lang] ?? I18N.fr
+  // Absente ou en panne, l'onglet le dit aussi, dans la langue affichée — il
+  // gardait le titre de l'accueil, en français (audit du 2026-10-04, P-09).
+  // Même condition que l'écran « introuvable » rendu plus bas.
+  const absente = status === 'not-found' || (!recipe && status !== 'loading' && status !== 'error')
+  const titreOnglet = status === 'error' ? t.errorTitle : absente ? t.notFoundTitle : nomRecette
+  useDocumentTitle(titreOnglet ? `${titreOnglet} — Fridge+` : '')
+  // Une fiche absente n'est pas référencée ; une PANNE (status 'error') ne
+  // déréférence pas une vraie fiche (audit du 2026-10-04, SEO-03).
+  useNoIndex(status === 'not-found')
   // « Toutes les recettes » : si on vient d'une navigation interne (panneau,
   // communauté, journal), navigate(-1) restaure l'URL précédente — donc les
   // filtres (URL-synced) ET le scroll (sessionStorage) du panneau. En
   // deep-link direct (pas d'historique interne), on ouvre le panneau via
   // /?recettes=1 (fallback). useSmartBack encapsule ce choix.
   const onAllRecipes = useSmartBack('/?recettes=1')
-  const t = I18N[lang] ?? I18N.fr
 
   // Sprint 11 S11.c.2 — session state via context (single source of
   // truth partagée avec App.jsx). Permet à la page cold-load d'avoir
@@ -214,7 +224,7 @@ function RecipeUnavailable({ t, darkMode, title, subtitle }) {
           display: 'inline-flex', alignItems: 'center', gap: '8px',
           padding: '12px 24px',
           borderRadius: '10px',
-          background: 'var(--gradient-warm)',
+          background: 'var(--gradient-deep)',
           color: '#FFFFFF',
           fontWeight: 600,
           textDecoration: 'none',

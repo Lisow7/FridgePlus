@@ -11,7 +11,7 @@ vi.mock('@shared/lib/i18n/notifications-i18n', () => ({ formatRelativeTime: () =
 import { ReplyCard } from '@features/community/components/community-reply-card'
 
 const t = {
-  deletedAuthor: 'Supprimé', delete: 'Supprimer', report: 'Signaler',
+  deletedAuthor: 'Supprimé', authorUnavailable: 'Auteur non chargé', delete: 'Supprimer', report: 'Signaler',
   replyToBtn: 'Répondre', profileViewBtn: (a) => `Profil de ${a}`,
 }
 const reply = { id: 'r1', user_id: 'u1', body: 'Ma réponse', likes_count: 4, created_at: '2026-07-25', profile: { username: 'bob' } }
@@ -55,5 +55,13 @@ describe('ReplyCard', () => {
     expect(screen.getByText('↳ @alice')).toBeInTheDocument()
     fireEvent.click(screen.getByRole('button', { name: 'Répondre' }))
     expect(onReplyTo).toHaveBeenCalled()
+  })
+
+  // Audit du 2026-10-04 (BDD-13, lot 7) : une lecture des profils ratée n'est
+  // pas un compte supprimé.
+  it('auteur pas chargé : « Auteur non chargé », pas « Supprimé »', () => {
+    render(<ReplyCard {...base} reply={{ ...reply, profile: null, profileUnavailable: true }} isOwn={false} canReport={false} />)
+    expect(screen.getByText('Auteur non chargé')).toBeInTheDocument()
+    expect(screen.queryByText('Supprimé')).toBeNull()
   })
 })

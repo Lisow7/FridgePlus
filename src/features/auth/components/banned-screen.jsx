@@ -1,151 +1,124 @@
 import { useState } from 'react'
-import { LuTrash2, LuMessageSquare } from 'react-icons/lu'
 import { useAuth } from '@shared/contexts/auth-provider'
 import Button from '@shared/ui/button'
+import { useDialogue } from '@shared/hooks/use-dialogue'
+import EcranDuCompte from './ecran-du-compte'
+import { couleursDuCompte, dateLongue, ORANGE_LISIBLE } from '../lib/ecrans-du-compte'
+
+// L'écran de la personne bannie (audit du 2026-10-04, lot 3c-3b ; maquette
+// validée par Antoine le 2026-10-05) : le motif et la date de fin — il ne
+// disait que « non-respect de nos conditions » —, et « Se déconnecter », qui
+// manquait. Visible tant que la session n'est pas coupée (au plus une heure :
+// `admin_bannir` coupe les jetons).
+//
+// « Contacter le support » ÉCRIT au support par e-mail : la base refuse
+// d'ouvrir un ticket à un compte banni (`ouvrir_ticket`, lot 3c-3b-1) — le
+// formulaire qu'ouvrait ce bouton menait à un refus.
+
+const SUPPORT = 'support@fridgeplus.app'
 
 const I18N = {
   fr: {
-    title: 'Compte suspendu',
-    message: "Ton compte a été suspendu suite à un non-respect de nos conditions d'utilisation. Si tu penses qu'il s'agit d'une erreur, tu peux nous contacter via le support.",
-    rgpd: 'Conformément au RGPD (article 17), tu gardes le droit de supprimer ton compte et toutes tes données personnelles à tout moment.',
-    deleteBtn: 'Supprimer mon compte',
+    aDroite: 'Compte',
+    titre: 'Compte suspendu',
+    titreDate: (date) => `Compte suspendu jusqu’au ${date}`,
+    motif: 'Motif',
+    texteDate: 'Tu ne peux rien publier ni écrire au support d’ici là.',
+    texteSansFin: 'Tu ne peux plus rien publier ni écrire au support.',
+    erreur: (adresse) => `Si tu penses que c’est une erreur, écris à ${adresse}.`,
+    rgpd: 'Tu gardes le droit de supprimer ton compte et tes données (RGPD, article 17). Seule une empreinte de ton adresse e-mail, qui ne permet pas de la retrouver, est gardée jusqu’à la fin de la suspension (3 ans au plus), pour empêcher une réinscription.',
     supportBtn: 'Contacter le support',
-    confirmTitle: 'Supprimer définitivement ?',
-    confirmMsg: 'Toutes tes données seront effacées de façon permanente. Cette action est irréversible.',
+    sujet: 'Mon compte est suspendu',
+    deconnecter: 'Se déconnecter',
+    deleteBtn: 'Supprimer mon compte',
+    confirmTitle: 'Supprimer ton compte ?',
+    confirmMsg: 'Ton compte est désactivé tout de suite, puis tes données sont effacées 30 jours plus tard.',
     cancel: 'Annuler',
     confirm: 'Supprimer',
     errorDelete: 'Une erreur est survenue. Réessaie.',
   },
   en: {
-    title: 'Account suspended',
-    message: 'Your account has been suspended for violating our terms of use. If you believe this is an error, you can contact us via support.',
-    rgpd: 'Under GDPR (Article 17), you retain the right to delete your account and all your personal data at any time.',
-    deleteBtn: 'Delete my account',
+    aDroite: 'Account',
+    titre: 'Account suspended',
+    titreDate: (date) => `Account suspended until ${date}`,
+    motif: 'Reason',
+    texteDate: 'You cannot post anything or write to support until then.',
+    texteSansFin: 'You can no longer post anything or write to support.',
+    erreur: (adresse) => `If you think this is a mistake, write to ${adresse}.`,
+    rgpd: 'You keep the right to delete your account and your data (GDPR, Article 17). Only a fingerprint of your e-mail address, from which it cannot be recovered, is kept until the suspension ends (3 years at most), to prevent signing up again.',
     supportBtn: 'Contact support',
-    confirmTitle: 'Permanently delete?',
-    confirmMsg: 'All your data will be permanently erased. This action is irreversible.',
+    sujet: 'My account is suspended',
+    deconnecter: 'Sign out',
+    deleteBtn: 'Delete my account',
+    confirmTitle: 'Delete your account?',
+    confirmMsg: 'Your account is deactivated straight away, then your data is erased 30 days later.',
     cancel: 'Cancel',
     confirm: 'Delete',
     errorDelete: 'An error occurred. Please try again.',
   },
 }
 
-export default function BannedScreen({ lang = 'fr', darkMode = false, onShowSupport }) {
+export default function BannedScreen({ lang = 'fr', darkMode = false }) {
   const t = I18N[lang] ?? I18N.fr
-  const { deleteAccount } = useAuth()
+  const c = couleursDuCompte(darkMode)
+  const { profile, deleteAccount, signOut } = useAuth()
   const [showConfirm, setShowConfirm] = useState(false)
-  const [deleting,    setDeleting]    = useState(false)
-  const [error,       setError]       = useState(null)
-
-  const bg        = darkMode ? '#0A1020' : '#FDFAF6'
-  const textColor = darkMode ? '#C8D8E8' : '#2A1A0E'
-  const muted     = darkMode ? '#6A85A0' : '#9A8878'
-  const border    = darkMode ? '#1E2F45' : 'var(--color-border-warm)'
+  const [deleting, setDeleting] = useState(false)
+  const [error, setError] = useState(null)
+  // Une vraie boîte de dialogue : rôle, nom, focus piégé, Échap (A11Y-01).
+  const dialogue = useDialogue({ onClose: () => setShowConfirm(false), actif: showConfirm })
+  const fin = profile?.banned_until ?? null
+  const motif = profile?.banned_reason ?? null
 
   async function handleDelete() {
     setDeleting(true)
     setError(null)
-    const { error: err } = await deleteAccount()
+    const { error: err } = await deleteAccount(lang)
     if (err) {
       setError(t.errorDelete)
       setDeleting(false)
     }
-    // succès : user → null, le composant se démonte naturellement
+    // Succès : la session se ferme et « Compte désactivé » prend la place.
   }
 
+  const bouton = 'h-auto w-full rounded-xl py-3 text-base font-bold'
   return (
-    <div style={{
-      position: 'fixed', inset: 0, zIndex: 200, background: bg,
-      display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-      padding: '24px',
-    }}>
-      <div style={{ maxWidth: '420px', width: '100%', textAlign: 'center' }}>
-        <div style={{ fontSize: '48px', marginBottom: '20px' }}>🚫</div>
-
-        <h2 style={{ fontSize: '22px', fontWeight: 700, color: textColor, marginBottom: '12px' }}>
-          {t.title}
-        </h2>
-
-        <p style={{ fontSize: '14px', color: muted, marginBottom: '14px', lineHeight: 1.6 }}>
-          {t.message}
+    <div style={{ position: 'fixed', inset: 0, zIndex: 200, overflowY: 'auto' }}>
+      <EcranDuCompte icone="🚫" titre={fin ? t.titreDate(dateLongue(fin, lang)) : t.titre} aDroite={t.aDroite} darkMode={darkMode}>
+        {motif && (
+          <div style={{ textAlign: 'left', padding: '12px 14px', borderRadius: 12, background: c.carte, border: `1px solid ${c.bord}` }}>
+            <p style={{ margin: 0, fontSize: 12, fontWeight: 800, letterSpacing: '0.06em', textTransform: 'uppercase', color: c.doux }}>{t.motif}</p>
+            <p style={{ margin: '4px 0 0', fontSize: 15, lineHeight: 1.45 }}>{motif}</p>
+          </div>
+        )}
+        <p style={{ margin: 0, fontSize: 15, lineHeight: 1.55, color: c.doux }}>
+          {fin ? t.texteDate : t.texteSansFin} {t.erreur(SUPPORT)}
         </p>
-
-        <div style={{
-          padding: '12px 16px', borderRadius: '10px', marginBottom: '28px',
-          background: darkMode ? 'rgba(59,130,246,0.08)' : 'rgba(59,130,246,0.06)',
-          border: '1px solid rgba(59,130,246,0.22)',
-        }}>
-          <p style={{ fontSize: '12px', color: darkMode ? '#93C5FD' : '#1D4ED8', lineHeight: 1.65, margin: 0 }}>
-            {t.rgpd}
-          </p>
-        </div>
-
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-          <Button
-            variant="ghost"
-            onClick={() => setShowConfirm(true)}
-            className="h-auto w-full rounded-[10px] border-[1.5px] px-4 py-3 text-sm font-semibold hover:bg-transparent"
-            style={{
-              gap: '7px',
-              borderColor: 'rgba(220,38,38,0.35)',
-              background: 'rgba(220,38,38,0.08)',
-              color: 'var(--color-danger)',
-            }}
-          >
-            <LuTrash2 size={15} />
-            {t.deleteBtn}
-          </Button>
-          <Button
-            variant="secondary"
-            onClick={onShowSupport}
-            className="h-auto w-full rounded-[10px] border-[1.5px] bg-transparent px-4 py-3 text-sm font-medium"
-            style={{
-              gap: '7px',
-              borderColor: border,
-              color: muted,
-            }}
-          >
-            <LuMessageSquare size={15} />
-            {t.supportBtn}
-          </Button>
-        </div>
-      </div>
+        <p style={{ margin: 0, padding: '12px 14px', borderRadius: 12, background: c.note, color: c.noteTexte, fontSize: 14, lineHeight: 1.5 }}>{t.rgpd}</p>
+        <a href={`mailto:${SUPPORT}?subject=${encodeURIComponent(t.sujet)}`}
+          className="block w-full rounded-xl py-3 text-base font-bold text-white no-underline" style={{ background: ORANGE_LISIBLE }}>
+          {t.supportBtn}
+        </a>
+        <Button variant="secondary" onClick={() => signOut()} className={`${bouton} border`} style={{ background: c.carte, borderColor: c.bord, color: c.texte }}>
+          {t.deconnecter}
+        </Button>
+        <Button variant="secondary" onClick={() => setShowConfirm(true)} className={`${bouton} border`}
+          style={{ background: c.carte, borderColor: darkMode ? 'rgba(245,155,155,0.4)' : 'rgba(180,35,24,0.3)', color: c.erreur }}>
+          {t.deleteBtn}
+        </Button>
+      </EcranDuCompte>
 
       {showConfirm && (
-        <div style={{
-          position: 'fixed', inset: 0, zIndex: 210,
-          background: 'rgba(0,0,0,0.55)', backdropFilter: 'blur(4px)',
-          display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px',
-        }}>
-          <div style={{
-            background: bg, borderRadius: '16px', border: `1.5px solid ${border}`,
-            padding: '24px', maxWidth: '340px', width: '100%',
-            boxShadow: '0 16px 48px rgba(0,0,0,0.30)',
-          }}>
-            <h3 style={{ fontSize: '16px', fontWeight: 700, color: textColor, marginBottom: '8px' }}>
-              {t.confirmTitle}
-            </h3>
-            <p style={{ fontSize: '13px', color: muted, marginBottom: '20px', lineHeight: 1.55 }}>
-              {t.confirmMsg}
-            </p>
-            {error && (
-              <p style={{ fontSize: '12px', color: 'var(--color-danger)', marginBottom: '12px' }}>{error}</p>
-            )}
-            <div style={{ display: 'flex', gap: '10px' }}>
-              <Button
-                variant="secondary"
-                onClick={() => setShowConfirm(false)}
-                className="h-auto flex-1 rounded-[10px] border-[1.5px] bg-transparent px-3 py-3 text-sm font-medium"
-                style={{ borderColor: border, color: textColor }}
-              >
+        <div style={{ position: 'fixed', inset: 0, zIndex: 210, background: 'rgba(0,0,0,0.55)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20 }}>
+          <div {...dialogue.proprietes} style={{ background: c.carte, color: c.texte, borderRadius: 16, border: `1.5px solid ${c.bord}`, padding: 24, maxWidth: 340, width: '100%', boxShadow: '0 16px 48px rgba(0,0,0,0.30)' }}>
+            <h3 id={dialogue.titreId} style={{ fontSize: 16, fontWeight: 700, margin: '0 0 8px' }}>{t.confirmTitle}</h3>
+            <p style={{ fontSize: 14, color: c.doux, margin: '0 0 16px', lineHeight: 1.55 }}>{t.confirmMsg}</p>
+            {error && <p role="alert" style={{ fontSize: 13, fontWeight: 600, color: c.erreur, margin: '0 0 12px' }}>{error}</p>}
+            <div style={{ display: 'flex', gap: 10 }}>
+              <Button variant="secondary" onClick={() => setShowConfirm(false)} className="h-auto flex-1 rounded-[10px] border-[1.5px] bg-transparent px-3 py-3 text-sm font-medium" style={{ borderColor: c.bord, color: c.texte }}>
                 {t.cancel}
               </Button>
-              <Button
-                onClick={handleDelete}
-                loading={deleting}
-                disabled={deleting}
-                className="h-auto flex-1 rounded-[10px] bg-[#DC2626] px-3 py-3 text-sm font-bold text-white"
-              >
+              <Button onClick={handleDelete} loading={deleting} disabled={deleting} className="h-auto flex-1 rounded-[10px] px-3 py-3 text-sm font-bold text-white" style={{ background: '#B42318' }}>
                 {t.confirm}
               </Button>
             </div>

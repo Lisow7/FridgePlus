@@ -2,6 +2,7 @@ import { LEFTOVERS_I18N as I18N } from '@features/fridge/i18n/leftovers-i18n'
 import { useState, useRef, useCallback, useMemo } from 'react'
 import { LuX, LuPlus } from 'react-icons/lu'
 import Button from '@shared/ui/button'
+import Field from '@shared/ui/field'
 import { useFocusTrap } from '@shared/hooks/use-focus-trap'
 import { useCloseOnBackButton } from '@shared/hooks/use-close-on-back-button'
 import { useIngredients, useBaseRecipes, useGroupMaps } from '@shared/contexts/data-provider'
@@ -319,6 +320,7 @@ export default function LeftoversModal({ view, leftovers: rawLeftovers, savedCou
               {/* Barre de recherche — vue "cette semaine" uniquement, à partir de 4 restes */}
               {view === 'thisweek' && viewLeftovers.length > 3 && (
                 <div style={{ marginBottom: '10px' }}>
+                  <Field label={t.searchLeftoverAria} labelStyle={{ display: 'block', fontSize: '12px', fontWeight: 700, color: muted, marginBottom: '6px' }}>
                   <input
                     type="search"
                     value={searchQ}
@@ -333,6 +335,7 @@ export default function LeftoversModal({ view, leftovers: rawLeftovers, savedCou
                       outline: 'none', fontFamily: 'inherit', boxSizing: 'border-box',
                     }}
                   />
+                  </Field>
                 </div>
               )}
               {/* Sélecteur de tri — uniquement vue "cette semaine" et au moins 1 reste */}

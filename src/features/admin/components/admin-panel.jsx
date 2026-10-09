@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import {
   LuX, LuShield, LuBookOpen,
   LuLayoutDashboard, LuUsers, LuLeaf, LuDatabase, LuActivity,
@@ -7,6 +7,7 @@ import {
 } from 'react-icons/lu'
 import { AdminProvider, useAdmin } from '../providers/admin-provider'
 import Button from '@shared/ui/button'
+import { useDialogue } from '@shared/hooks/use-dialogue'
 import Dashboard from './dashboard'
 import JournalSection from './sections/journal-section'
 import NotificationsSection from './sections/notifications-section'
@@ -92,9 +93,15 @@ function Badge({ count }) {
 
 // ── Sidebar (desktop) ─────────────────────────────────────────────────────────
 
-function Sidebar({ nav, activeKey, onSelect, darkMode }) {
+// Les sections se choisissent comme des pages : une navigation nommée, et la
+// section ouverte marquée `aria-current="page"` (audit du 2026-10-04, A11Y-10 :
+// c'étaient des onglets ARIA (rôle `tab`) sans `tablist`, sans `tabpanel`, sans flèches —
+// un motif ARIA promis et non tenu).
+function Sidebar({ nav, activeKey, onSelect, darkMode, nomNav }) {
   const bg        = darkMode ? '#0B1623' : '#F0E4D0'
-  const groupClr  = darkMode ? '#4A6080' : '#9A8070'
+  // Libellés de groupe : 2,9:1 en clair comme en sombre, mesuré par axe le
+  // 2026-10-08 → les teintes profondes (décision du 2026-10-06), ≥ 5,5:1.
+  const groupClr  = darkMode ? '#7A90A8' : '#6B5444'
   const textClr   = darkMode ? '#A8C0D4' : '#5A4030'
   const activeClr = darkMode ? '#C8D8E8' : '#2C1A0E'
   const activeBg  = darkMode ? 'rgba(224,120,32,0.12)' : 'rgba(224,120,32,0.10)'
@@ -105,8 +112,7 @@ function Sidebar({ nav, activeKey, onSelect, darkMode }) {
       <Button
         key={item.key}
         variant="ghost"
-        role="tab"
-        aria-selected={isActive}
+        aria-current={isActive ? 'page' : undefined}
         onClick={() => onSelect(item.key)}
         onMouseEnter={e => { if (!isActive) e.currentTarget.style.background = darkMode ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.04)' }}
         onMouseLeave={e => { if (!isActive) e.currentTarget.style.background = 'transparent' }}
@@ -130,7 +136,7 @@ function Sidebar({ nav, activeKey, onSelect, darkMode }) {
   }
 
   return (
-    <div style={{ width:188, flexShrink:0, background:bg, display:'flex', flexDirection:'column', gap:2, overflowY:'auto', padding:'8px 6px' }}>
+    <nav aria-label={nomNav} style={{ width:188, flexShrink:0, background:bg, display:'flex', flexDirection:'column', gap:2, overflowY:'auto', padding:'8px 6px' }}>
       {nav.map((entry, i) => {
         if (entry.key) return renderItem(entry)
         return (
@@ -143,30 +149,36 @@ function Sidebar({ nav, activeKey, onSelect, darkMode }) {
           </div>
         )
       })}
-    </div>
+    </nav>
   )
 }
 
 // ── Tab bar (mobile) ──────────────────────────────────────────────────────────
 
-function MobileTabBar({ nav, activeKey, onSelect, darkMode }) {
+function MobileTabBar({ nav, activeKey, onSelect, darkMode, nomNav }) {
   const bg      = darkMode ? '#0B1623' : '#F0E4D0'
   const textClr = darkMode ? '#A8C0D4' : '#5A4030'
   // eslint-disable-next-line no-unused-vars
   const activeClr = darkMode ? '#C8D8E8' : '#2C1A0E'
 
   const flatItems = nav.flatMap(entry => entry.key ? [entry] : (entry.items ?? []))
+  // La section ouverte est amenée en vue : 14 sections pour ~350 px, et la
+  // section mémorisée s'ouvrait hors de la barre (Journal à 782 px, mesuré le
+  // 2026-10-08). « nearest » en vertical : seule la barre défile.
+  const barre = useRef(null)
+  useEffect(() => {
+    barre.current?.querySelector('[aria-current="page"]')?.scrollIntoView?.({ block: 'nearest', inline: 'center' })
+  }, [activeKey])
 
   return (
-    <div style={{ display:'flex', overflowX:'auto', gap:2, background:bg, padding:'4px 6px', flexShrink:0, borderBottom: `1px solid ${darkMode ? '#1A2F48' : '#DDD0C0'}` }}>
+    <nav ref={barre} aria-label={nomNav} style={{ display:'flex', overflowX:'auto', gap:2, background:bg, padding:'4px 6px', flexShrink:0, borderBottom: `1px solid ${darkMode ? '#1A2F48' : '#DDD0C0'}` }}>
       {flatItems.map(item => {
         const isActive = item.key === activeKey
         return (
           <Button
             key={item.key}
             variant="ghost"
-            role="tab"
-            aria-selected={isActive}
+            aria-current={isActive ? 'page' : undefined}
             onClick={() => onSelect(item.key)}
             className="relative h-auto flex-shrink-0 flex-col items-center gap-0.5 rounded-lg px-2.5 py-1.5 text-[10px] hover:bg-transparent"
             style={{
@@ -185,7 +197,7 @@ function MobileTabBar({ nav, activeKey, onSelect, darkMode }) {
           </Button>
         )
       })}
-    </div>
+    </nav>
   )
 }
 
@@ -236,6 +248,10 @@ function AdminPanelInner({ onClose, lang = 'fr', darkMode = false }) {
   const isMobile = useIsMobile()
   const { section, setSection, pendingCount, supportBadge, healthCount, reportsCount, setFocusEditId } = useAdmin()
   const [showHelp, setShowHelp] = useState(false)
+  // Une vraie boîte de dialogue : rôle, nom, focus piégé, Échap (A11Y-01).
+  // L'aide s'ouvre par-dessus avec son propre piège : la pile des pièges
+  // (use-focus-trap) ne fait agir que le sommet.
+  const dialogue = useDialogue({ onClose, nom: 'Fridge+ Admin' })
 
   const modalBg   = darkMode ? '#111E2D' : '#FDFAF6'
   const border    = darkMode ? '#1E3048' : '#DDD0C0'
@@ -243,6 +259,7 @@ function AdminPanelInner({ onClose, lang = 'fr', darkMode = false }) {
   const muted     = darkMode ? '#7A90A8' : '#5C4033'
 
   const nav = buildNav(lang, { pendingCount, supportBadge, healthCount, reportsCount })
+  const nomNav = lang === 'fr' ? 'Sections du panneau admin' : 'Admin panel sections'
   const sectionTitles = SECTION_TITLES[lang] ?? SECTION_TITLES.fr
   const [sectionTitle, sectionDesc] = sectionTitles[section] ?? [section, '']
 
@@ -283,11 +300,13 @@ function AdminPanelInner({ onClose, lang = 'fr', darkMode = false }) {
         onClick={onClose}
       >
         <div
+          {...dialogue.proprietes}
           onClick={e => e.stopPropagation()}
           className="fp-modal-panel"
           style={{
             width: isMobile ? '100%' : '1100px', maxWidth:'100%',
-            height: isMobile ? '98vh' : '92vh',
+            // `dvh` : en `vh`, le bas du panneau passait sous la barre d'adresse.
+            height: isMobile ? '98dvh' : '92dvh',
             display:'flex', flexDirection:'column',
             background: modalBg,
             borderRadius: isMobile ? '16px' : '22px',
@@ -301,7 +320,7 @@ function AdminPanelInner({ onClose, lang = 'fr', darkMode = false }) {
             <div style={{ display:'flex', alignItems:'center', gap:8 }}>
               <LuShield size={16} style={{ color:'var(--color-brand-500)' }} />
               <span style={{ fontSize:15, fontWeight:800, color:textColor, letterSpacing:'-0.01em' }}>
-                Fridge+ <span style={{ color:'var(--color-brand-500)' }}>Admin</span>
+                Fridge+ <span style={{ color: darkMode ? 'var(--color-brand-500)' : 'var(--color-warm-600)' }}>Admin</span>
               </span>
             </div>
             <div style={{ display:'flex', alignItems:'center', gap:8 }}>
@@ -319,8 +338,8 @@ function AdminPanelInner({ onClose, lang = 'fr', darkMode = false }) {
                 variant="ghost"
                 size="icon"
                 onClick={onClose}
-                aria-label="Close"
-                className="h-auto w-auto bg-transparent p-0.5 opacity-65 hover:bg-transparent"
+                aria-label={lang === 'fr' ? 'Fermer le panneau admin' : 'Close the admin panel'}
+                className="h-auto w-auto bg-transparent p-1 opacity-65 hover:bg-transparent"
                 style={{ color: muted }}
               >
                 <LuX size={17} />
@@ -329,14 +348,14 @@ function AdminPanelInner({ onClose, lang = 'fr', darkMode = false }) {
           </div>
 
           {/* ── Mobile tab bar ── */}
-          {isMobile && <MobileTabBar nav={nav} activeKey={section} onSelect={setSection} darkMode={darkMode} />}
+          {isMobile && <MobileTabBar nav={nav} activeKey={section} onSelect={setSection} darkMode={darkMode} nomNav={nomNav} />}
 
           {/* ── Body ── */}
           <div style={{ flex:1, display:'flex', overflow:'hidden' }}>
 
             {/* Sidebar (desktop only) */}
             {!isMobile && (
-              <Sidebar nav={nav} activeKey={section} onSelect={setSection} darkMode={darkMode} />
+              <Sidebar nav={nav} activeKey={section} onSelect={setSection} darkMode={darkMode} nomNav={nomNav} />
             )}
 
             {/* Séparateur */}

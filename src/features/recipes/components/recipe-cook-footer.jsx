@@ -76,6 +76,9 @@ export function RecipeCookFooter({
           <div style={itemStyle}>
           <Button
             onClick={() => {
+              // Mesure : le geste, quel que soit le chemin qui suit ;
+              // `cook_completed` reste la confirmation (retrait ou non).
+              track('cook_started', { recipeId: recipe.id })
               if (hasStockIngredients) enterWithdraw()
               else if (user?.id) logCookedWithoutWithdraw()
               else {

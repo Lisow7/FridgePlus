@@ -1,10 +1,16 @@
-import { Suspense, lazy } from 'react'
-import { WelcomeScreen } from '@features/onboarding'
+import { Suspense, lazy, useEffect } from 'react'
+import { welcomeAudience, markWelcomeSeen } from '@features/onboarding/lib/welcome-storage'
 import CookieBanner from '@features/legal/components/cookie-banner'
 import { useConsent } from '@shared/hooks/use-consent'
 
 const UpdatePrompt = lazy(() => import('@features/pwa/components/update-prompt'))
 const UpgradeModal = lazy(() => import('@features/premium/components/upgrade-modal'))
+// L'écran de bienvenue ne sert qu'au premier passage : chargé à la demande, il
+// n'entraîne plus la visite guidée et ses textes dans le démarrage (2026-10-08).
+const WelcomeScreen = lazy(() => import('@features/onboarding/components/welcome-screen'))
+// « Confirme ton accord » (décision du 2026-10-07) : seuls les comptes d'avant le 4 octobre
+// en ont besoin — chargée à la demande.
+const AccordDesAnciensComptes = lazy(() => import('@features/auth/components/accord-des-anciens-comptes'))
 
 // Composant orchestrant les 4 surfaces globales rendues en
 // permanence ou conditionnellement par l'app shell, indépendamment
@@ -26,6 +32,8 @@ export default function GlobalOverlays({
   onSignUp,
   onShowCommunity,
   user,
+  profile,
+  authLoading,
   isPremium,
   // Upgrade
   isUpgradeOpen,
@@ -45,6 +53,21 @@ export default function GlobalOverlays({
   // Un visiteur qui a déjà décidé voit la bienvenue immédiatement, sans délai.
   const { hasDecided } = useConsent()
 
+  // Un compte ancien n'est pas un nouveau venu, même dans un navigateur neuf :
+  // pas d'écran de bienvenue, et on le note « vu » pour que le reste de
+  // l'accueil (guide, fusée) cesse de le traiter en premier venu. Tant qu'on ne
+  // sait pas qui est là, on attend. Cf. `welcomeAudience`.
+  const audience = welcomeAudience({ authLoading, user, profile })
+  // Le profil dit EXPLICITEMENT qu'il n'a pas de date d'accord (champ lu, vide) :
+  // un profil partiel, sans le champ, ne déclenche rien.
+  const accordManquant = !!user && profile?.consent_terms_accepted_at === null
+  useEffect(() => {
+    if (welcomeOpen && audience === 'skip') {
+      markWelcomeSeen()
+      onWelcomeClose?.()
+    }
+  }, [welcomeOpen, audience, onWelcomeClose])
+
   return (
     <>
       <Suspense fallback={null}>
@@ -52,28 +75,41 @@ export default function GlobalOverlays({
       </Suspense>
       <CookieBanner lang={lang} darkMode={darkMode} />
 
-      {welcomeOpen && hasDecided && (
-        <WelcomeScreen
-          lang={lang}
-          user={user}
-          isPremium={isPremium}
-          onClose={onWelcomeClose}
-          onAction={{
-            showRegister: () => { onSignUp?.() },
-            showCommunity: () => { onShowCommunity?.() },
-            showUpgrade: onShowUpgrade,
-          }}
-        />
+      {welcomeOpen && hasDecided && audience === 'show' && (
+        <Suspense fallback={null}>
+          <WelcomeScreen
+            lang={lang}
+            user={user}
+            isPremium={isPremium}
+            onClose={onWelcomeClose}
+            onAction={{
+              showRegister: () => { onSignUp?.() },
+              showCommunity: () => { onShowCommunity?.() },
+              showUpgrade: onShowUpgrade,
+            }}
+          />
+        </Suspense>
       )}
 
-      <Suspense fallback={null}>
-        <UpgradeModal
-          isOpen={isUpgradeOpen}
-          onClose={onUpgradeClose}
-          lang={lang}
-          darkMode={darkMode}
-        />
-      </Suspense>
+      {/* Après les cookies, comme la bienvenue : le bandeau la recouvrirait. */}
+      {accordManquant && hasDecided && (
+        <Suspense fallback={null}>
+          <AccordDesAnciensComptes lang={lang} />
+        </Suspense>
+      )}
+
+      {/* Montée seulement ouverte : fermée, elle faisait télécharger son
+          fichier ET Stripe à chaque visite (audit du 2026-10-04, PERF-07). */}
+      {isUpgradeOpen && (
+        <Suspense fallback={null}>
+          <UpgradeModal
+            isOpen
+            onClose={onUpgradeClose}
+            lang={lang}
+            darkMode={darkMode}
+          />
+        </Suspense>
+      )}
     </>
   )
 }

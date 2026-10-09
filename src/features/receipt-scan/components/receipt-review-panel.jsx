@@ -1,10 +1,11 @@
-import { useState, useMemo } from 'react'
+import { useId, useState, useMemo } from 'react'
 import { createPortal } from 'react-dom'
 import { LuX, LuCheck, LuSearch, LuPlus } from 'react-icons/lu'
 import { useIngredients } from '@shared/contexts/data-provider'
 import { useWindowWidth } from '@shared/hooks/use-window-width'
 import { useCloseOnBackButton } from '@shared/hooks/use-close-on-back-button'
 import Button from '@shared/ui/button'
+import { useDialogue } from '@shared/hooks/use-dialogue'
 import { Z_INDEX } from '@shared/lib/z-index'
 // Alias à l'import : garde le nom local `normalize`, donc 0 site d'usage touché.
 import { normalizeSearch as normalize } from '@shared/lib/matching/normalize-search'
@@ -15,7 +16,8 @@ const I18N = {
     addToFridge: 'Ajouter au frigo',
     cancel: 'Annuler',
     alreadyIn: 'Déjà dans ton frigo',
-    searchPlaceholder: 'Ajouter un ingrédient manuellement…',
+    searchPlaceholder: 'ex. : beurre',
+    searchAria: 'Ajouter un ingrédient manuellement',
     searchNoResults: 'Aucun résultat',
     unmatchedSummary: n => `${n} article${n > 1 ? 's' : ''} non reconnu${n > 1 ? 's' : ''} — ajoute-les manuellement ci-dessous si besoin.`,
     choose: 'Choisir',
@@ -27,7 +29,8 @@ const I18N = {
     addToFridge: 'Add to fridge',
     cancel: 'Cancel',
     alreadyIn: 'Already in your fridge',
-    searchPlaceholder: 'Add an ingredient manually…',
+    searchPlaceholder: 'e.g. butter',
+    searchAria: 'Add an ingredient manually',
     searchNoResults: 'No results',
     unmatchedSummary: n => `${n} item${n > 1 ? 's' : ''} unrecognised — add ${n > 1 ? 'them' : 'it'} manually below if needed.`,
     choose: 'Choose',
@@ -64,12 +67,15 @@ export default function ReceiptReviewPanel({
   const windowWidth = useWindowWidth()
   const isDesktop = windowWidth >= 1280
   useCloseOnBackButton(true, onCancel)
+  // Une vraie boîte de dialogue : rôle, nom, focus piégé, Échap (A11Y-01).
+  const dialogue = useDialogue({ onClose: onCancel })
 
   const [checkedIds, setCheckedIds] = useState(() => new Set(matched.filter(m => !stock.has(m.id)).map(m => m.id)))
   const [resolvedAmbiguous, setResolvedAmbiguous] = useState([]) // ingrédients résolus depuis un choix ambigu
   const [dismissedAmbigIdx, setDismissedAmbigIdx] = useState(() => new Set())
   const [manualAdded, setManualAdded] = useState([])
   const [searchQuery, setSearchQuery] = useState('')
+  const champId = useId()
   const [showSearch, setShowSearch] = useState(false)
 
   const flatList = useMemo(() => buildFlatList(allIngredients, lang), [allIngredients, lang])
@@ -126,7 +132,7 @@ export default function ReceiptReviewPanel({
   const textMuted = darkMode ? '#7A90A8' : '#7A5F56'
 
   const panelStyle = isDesktop ? {
-    position: 'fixed', top: 0, left: 0, width: '620px', height: '100vh',
+    position: 'fixed', top: 0, left: 0, width: '620px', height: '100dvh',
     zIndex: Z_INDEX.MODAL, background: bg, borderRight: `1px solid ${border}`,
     boxShadow: '4px 0 32px rgba(0,0,0,0.12)', display: 'flex', flexDirection: 'column',
   } : {
@@ -137,11 +143,11 @@ export default function ReceiptReviewPanel({
   return createPortal(
     <>
       {isDesktop && <div onClick={onCancel} style={{ position: 'fixed', inset: 0, zIndex: Z_INDEX.MODAL - 1, background: 'rgba(0,0,0,0.25)' }} />}
-      <div style={panelStyle}>
+      <div {...dialogue.proprietes} style={panelStyle}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '20px 20px 16px', borderBottom: `1px solid ${border}` }}>
-          <span style={{ fontSize: '22px' }}>🧾</span>
+          <span style={{ fontSize: '22px' }} aria-hidden="true">🧾</span>
           <div style={{ flex: 1 }}>
-            <h2 style={{ fontSize: '18px', fontWeight: 800, color: 'var(--color-charcoal)', margin: 0 }}>{t.title}</h2>
+            <h2 id={dialogue.titreId} style={{ fontSize: '18px', fontWeight: 800, color: 'var(--color-charcoal)', margin: 0 }}>{t.title}</h2>
           </div>
           <Button variant="ghost" size="icon" onClick={onCancel} aria-label={t.cancel} className="h-[42px] w-[42px] shrink-0 rounded-[10px] bg-transparent p-0 hover:bg-transparent" style={{ color: '#E53535' }}>
             <LuX size={20} aria-hidden="true" />
@@ -220,16 +226,21 @@ export default function ReceiptReviewPanel({
         </div>
 
         <div style={{ padding: '8px 20px 0', flexShrink: 0, position: 'relative' }}>
-          <LuSearch size={15} style={{ position: 'absolute', left: '32px', top: '50%', transform: 'translateY(-50%)', color: textMuted, pointerEvents: 'none', zIndex: 1 }} />
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={e => { setSearchQuery(e.target.value); setShowSearch(true) }}
-            onFocus={() => setShowSearch(true)}
-            onBlur={() => setTimeout(() => setShowSearch(false), 150)}
-            placeholder={t.searchPlaceholder}
-            style={{ width: '100%', padding: '10px 12px 10px 36px', borderRadius: '10px', border: `1.5px solid ${darkMode ? '#243650' : '#E2D8CC'}`, background: darkMode ? '#131E2C' : '#F5EDE0', color: 'var(--color-charcoal)', fontSize: '14px', outline: 'none', fontFamily: 'inherit' }}
-          />
+          {/* Un libellé visible, le texte grisé en exemple. */}
+          <label htmlFor={champId} style={{ display: 'block', fontSize: '12px', fontWeight: 700, color: textMuted, marginBottom: '6px' }}>{t.searchAria}</label>
+          <div style={{ position: 'relative' }}>
+            <LuSearch size={15} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: textMuted, pointerEvents: 'none', zIndex: 1 }} />
+            <input
+              id={champId}
+              type="text"
+              value={searchQuery}
+              onChange={e => { setSearchQuery(e.target.value); setShowSearch(true) }}
+              onFocus={() => setShowSearch(true)}
+              onBlur={() => setTimeout(() => setShowSearch(false), 150)}
+              placeholder={t.searchPlaceholder}
+              style={{ width: '100%', padding: '10px 12px 10px 36px', borderRadius: '10px', border: `1.5px solid ${darkMode ? '#243650' : '#E2D8CC'}`, background: darkMode ? '#131E2C' : '#F5EDE0', color: 'var(--color-charcoal)', fontSize: '14px', outline: 'none', fontFamily: 'inherit' }}
+            />
+          </div>
           {showSearch && searchResults.length > 0 && (
             <div style={{ position: 'absolute', bottom: 'calc(100% + 4px)', left: '20px', right: '20px', background: darkMode ? '#131E2C' : '#FDFAF6', border: `1.5px solid ${border}`, borderRadius: '10px', boxShadow: '0 4px 20px rgba(0,0,0,0.18)', overflow: 'hidden', zIndex: 10 }}>
               {searchResults.map(ing => (

@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event'
 
 vi.mock('@features/support/api/support', () => ({
   getUserTickets:         vi.fn().mockResolvedValue([]),
-  getTicketMessages:      vi.fn().mockResolvedValue([]),
+  getTicketMessages:      vi.fn().mockResolvedValue({ messages: [], error: null }),
   createTicket:           vi.fn().mockResolvedValue({ data: { id: 'ticket-1' }, error: null }),
   sendUserMessage:        vi.fn().mockResolvedValue({ error: null }),
   markTicketReadByUser:   vi.fn().mockResolvedValue(undefined),

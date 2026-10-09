@@ -1,5 +1,6 @@
 import { Suspense, lazy } from 'react'
 import ErrorBoundary from '@app/error/error-boundary'
+import { estBanni } from '@shared/lib/auth/est-banni'
 
 // AuthModal retiré Sprint 11 S11.b.5 — remplacé par les pages routées
 // /login, /signup, /auth/recovery (cf. routes-config.js).
@@ -59,7 +60,7 @@ export default function AppModalsRoot({
         </Suspense>
       )}
 
-      {user && profile?.banned && (
+      {user && estBanni(profile) && (
         <Suspense fallback={null}>
           <BannedScreen lang={lang} darkMode={darkMode} onShowSupport={() => modals.support.open()} />
         </Suspense>

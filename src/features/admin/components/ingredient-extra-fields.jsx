@@ -1,6 +1,8 @@
-import { useState } from 'react'
+import { useState, useId } from 'react'
 import { useAllergenTypes } from '@shared/contexts/data-provider'
 import Button from '@shared/ui/button'
+import Field from '@shared/ui/field'
+import PuceACocher from './shared/puce-a-cocher'
 
 // Composant des champs étendus d'un ingrédient (v3.3.12).
 // Couvre : default_unit, allergens[], breaks_diets[], nutrition (5 macros : cal/prot/carb/fat/fib).
@@ -42,6 +44,8 @@ export default function IngredientExtraFields({
   const allergenTypes = useAllergenTypes()
   const allergenKeys  = Object.keys(allergenTypes)
   const [expanded, setExpanded] = useState(false)
+  const allergenesId = useId()
+  const regimesId = useId()
 
   const inp  = { padding:'8px 11px', borderRadius:'8px', border:`1px solid ${border}`, background: darkMode ? '#141F2E' : '#FFF', color: textColor, fontSize:'15px', outline:'none', fontFamily:'inherit', width:'100%', boxSizing:'border-box' }
   const lbl  = { fontSize:'13px', color: muted, display:'block', marginBottom:'4px' }
@@ -87,16 +91,15 @@ export default function IngredientExtraFields({
         <div style={{ display:'flex', flexDirection:'column', gap:'12px', padding:'12px', borderRadius:'10px', background: darkMode ? 'rgba(0,0,0,0.2)' : 'rgba(0,0,0,0.03)', border:`1px solid ${border}` }}>
 
           {/* Unité par défaut */}
-          <div>
-            <label style={lbl}>Unité par défaut</label>
+          <Field label="Unité par défaut" labelStyle={lbl}>
             <select style={inp} value={defaultUnit ?? ''} onChange={e => setDefaultUnit(e.target.value || null)}>
               {UNIT_OPTIONS.map(u => <option key={u.value} value={u.value}>{u.label}</option>)}
             </select>
-          </div>
+          </Field>
 
           {/* Allergènes */}
-          <div>
-            <label style={lbl}>Allergènes — clique pour cocher / décocher</label>
+          <div role="group" aria-labelledby={allergenesId}>
+            <span id={allergenesId} style={lbl}>Allergènes — clique pour cocher / décocher</span>
             <div style={{ display:'flex', flexWrap:'wrap', gap:'6px' }}>
               {allergenKeys.length === 0
                 ? <span style={{ fontSize:'12px', color: muted }}>(chargement…)</span>
@@ -104,9 +107,9 @@ export default function IngredientExtraFields({
                     const meta = allergenTypes[key]
                     const active = allergens.includes(key)
                     return (
-                      <span key={key} style={chip(active)} onClick={() => toggleArrayItem(allergens, key, setAllergens)}>
+                      <PuceACocher key={key} cochee={active} style={chip(active)} onBasculer={() => toggleArrayItem(allergens, key, setAllergens)}>
                         {meta?.icon ? `${meta.icon} ` : ''}{meta?.labels?.fr ?? key}
-                      </span>
+                      </PuceACocher>
                     )
                   })
               }
@@ -114,15 +117,15 @@ export default function IngredientExtraFields({
           </div>
 
           {/* Régimes cassés */}
-          <div>
-            <label style={lbl}>Régimes incompatibles <span style={{ opacity:0.55 }}>— quels régimes cet ingrédient « casse »</span></label>
+          <div role="group" aria-labelledby={regimesId}>
+            <span id={regimesId} style={lbl}>Régimes incompatibles <span style={{ opacity:0.55 }}>— quels régimes cet ingrédient « casse »</span></span>
             <div style={{ display:'flex', flexWrap:'wrap', gap:'6px' }}>
               {DIET_KEYS.map(key => {
                 const active = breaksDiets.includes(key)
                 return (
-                  <span key={key} style={chip(active)} onClick={() => toggleArrayItem(breaksDiets, key, setBreaksDiets)}>
+                  <PuceACocher key={key} cochee={active} style={chip(active)} onBasculer={() => toggleArrayItem(breaksDiets, key, setBreaksDiets)}>
                     {key}
-                  </span>
+                  </PuceACocher>
                 )
               })}
             </div>
@@ -133,8 +136,7 @@ export default function IngredientExtraFields({
             <label style={lbl}>Nutrition <span style={{ opacity:0.55 }}>— pour 100g</span></label>
             <div style={{ display:'grid', gridTemplateColumns: isMobile ? '1fr 1fr' : 'repeat(3, 1fr)', gap:'8px' }}>
               {NUTRITION_FIELDS.map(f => (
-                <div key={f.key}>
-                  <div style={{ fontSize:'12px', color: muted, marginBottom:'2px' }}>{f.label} ({f.unit})</div>
+                <Field key={f.key} label={`${f.label} (${f.unit})`} labelStyle={{ fontSize:'12px', color: muted, marginBottom:'2px', display:'block' }}>
                   <input
                     style={inp}
                     type="number"
@@ -142,21 +144,20 @@ export default function IngredientExtraFields({
                     value={nutrition?.[f.key] ?? 0}
                     onChange={e => setNutritionField(f.key, e.target.value)}
                   />
-                </div>
+                </Field>
               ))}
             </div>
           </div>
 
           {/* Pack size — JSON brut */}
-          <div>
-            <label style={lbl}>Conditionnements <span style={{ opacity:0.55 }}>— JSON. Voir <code>packSizes.js</code> pour exemples.</span></label>
+          <Field label={<>Conditionnements <span style={{ opacity:0.55 }}>— JSON. Voir <code>packSizes.js</code> pour exemples.</span></>} labelStyle={lbl}>
             <textarea
               style={{ ...inp, fontFamily:'monospace', fontSize:'12px', minHeight:'80px', resize:'vertical' }}
               value={packSizeJson}
               onChange={e => handlePackSizeChange(e.target.value)}
               placeholder='{"fr": [{"size": 500, "unit": "g", "price": 2.50}]}'
             />
-          </div>
+          </Field>
         </div>
       )}
     </>

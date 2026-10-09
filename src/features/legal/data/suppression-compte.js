@@ -16,16 +16,21 @@
 // `src/test/unit/suppression-compte-coherence.test.js` refuse qu'une page
 // annonce un délai que ce fichier ne déclare pas.
 
-/** Le délai d'effacement définitif, en jours, sauvegardes comprises. */
-export const DELAI_EFFACEMENT_JOURS = 30
+/** Le délai d'effacement définitif, en jours, sauvegardes comprises.
+ *  Il vit dans `shared/` (l'écran de suppression en cours le lit aussi) :
+ *  réexporté ici, la source reste unique. */
+export { DELAI_EFFACEMENT_JOURS } from '@shared/lib/compte/delai-d-effacement'
 
 /** L'adresse de recours, pour qui n'a plus l'application installée. */
 export const EMAIL_SUPPRESSION = 'support@fridgeplus.app'
 
 /** Le chemin exact dans l'app, tel qu'il s'affiche à l'écran. */
+// Gardé par `suppression-compte-dit-vrai.test.js`, qui le compare aux VRAIS
+// libellés (il visait un onglet « Confidentialité » qui n'existait plus —
+// audit du 2026-10-04, CPT-07).
 export const CHEMIN_DANS_APP = {
-  fr: 'Profil → onglet « Confidentialité » → bouton « Supprimer mon compte »',
-  en: 'Profile → “Privacy” tab → “Delete my account” button',
+  fr: 'Profil → « Compte & sécurité » → « Zone de danger » → « Supprimer mon compte »',
+  en: 'Profile → “Account & security” → “Danger zone” → “Delete my account”',
 }
 
 /**
@@ -50,6 +55,7 @@ export const DONNEES = {
     conservees: [
       'Le journal d’audit des actions de modération, sans donnée personnelle, pour des raisons légales',
       'Les sauvegardes chiffrées, effacées à leur tour dans le même délai',
+      'Si ton compte était suspendu : une empreinte de ton adresse e-mail, qui ne permet pas de la retrouver, jusqu’à la fin de la suspension (3 ans au plus), pour empêcher une réinscription avec la même adresse',
     ],
   },
   en: {
@@ -68,6 +74,7 @@ export const DONNEES = {
     conservees: [
       'The audit log of moderation actions, with no personal data, for legal reasons',
       'Encrypted backups, erased in turn within the same period',
+      'If your account was suspended: a fingerprint of your email address, from which it cannot be recovered, until the suspension ends (3 years at most), to prevent signing up again with the same address',
     ],
   },
 }

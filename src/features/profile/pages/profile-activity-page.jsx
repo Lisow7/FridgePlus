@@ -2,6 +2,7 @@ import { useOutletContext, Link } from 'react-router-dom'
 import { LuChartBar, LuBookOpen } from 'react-icons/lu'
 import { useWindowWidth } from '@shared/hooks/use-window-width'
 import { useCookingLogs } from '@features/profile/hooks/use-cooking-logs'
+import ProfileLoadError from '@features/profile/components/profile-load-error'
 import ProfilePageIntro from '@features/profile/components/profile-page-intro'
 import ProfileSection  from '@features/profile/components/profile-section'
 import CookingStatsSection from '@features/profile/components/cooking-stats-section'
@@ -131,7 +132,8 @@ export default function ProfileActivityPage() {
   // Source unique des logs + dérivés (partagée avec /profile/recompenses).
   const {
     baseRecipes, recipeNames, countries, customRecipes,
-    journalLogs, cleanJournalLogs, cleanStatsLogs,
+    journalLogs, statsLogs, cleanJournalLogs, cleanStatsLogs,
+    journalError, statsError, reloadCookingLogs,
   } = useCookingLogs(user?.id)
 
   const textColor  = darkMode ? '#EBE4D8' : '#2d1b00'
@@ -150,20 +152,28 @@ export default function ProfileActivityPage() {
           lang={lang}
           darkMode={darkMode}
         >
-          <CookingStatsSection
-            logs={cleanStatsLogs}
-            t={t}
-            lang={lang}
-            isMobile={isMobile}
-            darkMode={darkMode}
-            border={border}
-            textColor={textColor}
-            mutedColor={mutedColor}
-            baseRecipes={baseRecipes}
-            baseRecipeNames={recipeNames}
-            customRecipes={customRecipes}
-            countries={countries}
-          />
+          {/* Trois écrans différents : pas chargé, en cours, chargé. Avant, les
+              deux premiers montraient « Aucune statistique pour l'instant ». */}
+          {statsError ? (
+            <ProfileLoadError lang={lang} onRetry={reloadCookingLogs} textColor={textColor} mutedColor={mutedColor} />
+          ) : statsLogs === null ? (
+            <p style={{ fontSize: '13px', color: mutedColor, margin: 0 }}>…</p>
+          ) : (
+            <CookingStatsSection
+              logs={cleanStatsLogs}
+              t={t}
+              lang={lang}
+              isMobile={isMobile}
+              darkMode={darkMode}
+              border={border}
+              textColor={textColor}
+              mutedColor={mutedColor}
+              baseRecipes={baseRecipes}
+              baseRecipeNames={recipeNames}
+              customRecipes={customRecipes}
+              countries={countries}
+            />
+          )}
         </ProfileSection>
 
         <ProfileSection
@@ -173,7 +183,9 @@ export default function ProfileActivityPage() {
           lang={lang}
           darkMode={darkMode}
         >
-          {journalLogs === null ? (
+          {journalError ? (
+            <ProfileLoadError lang={lang} onRetry={reloadCookingLogs} textColor={textColor} mutedColor={mutedColor} />
+          ) : journalLogs === null ? (
             <p style={{ fontSize: '13px', color: mutedColor, margin: 0 }}>…</p>
           ) : cleanJournalLogs.length === 0 ? (
             <p style={{ fontSize: '13px', color: mutedColor, margin: 0, fontStyle: 'italic' }}>

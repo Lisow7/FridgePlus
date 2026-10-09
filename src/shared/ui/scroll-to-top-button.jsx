@@ -79,7 +79,7 @@ export default function ScrollToTopButton({ lang = 'fr' }) {
  width: `${SIZE}px`, height: `${SIZE}px`,
  borderRadius: '14px',
  border: 'none',
- background: 'var(--gradient-warm)',
+ background: 'var(--gradient-deep)',
  color: 'white',
  cursor: 'pointer',
  display: 'flex', alignItems: 'center', justifyContent: 'center',

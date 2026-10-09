@@ -7,6 +7,7 @@ import ProfileSection from '@features/profile/components/profile-section'
 import StreakCard from '@features/profile/components/streak-card'
 import BadgesGrid from '@features/profile/components/badges-grid'
 import { useCookingLogs } from '@features/profile/hooks/use-cooking-logs'
+import ProfileLoadError from '@features/profile/components/profile-load-error'
 import { computeNewlyUnlocked, nextReward } from '@shared/lib/recipes/achievements'
 
 // Onglet « Récompenses » — foyer de la gamification (série de cuisine + une
@@ -55,7 +56,7 @@ export default function ProfileRewardsPage() {
   const { lang = 'fr', darkMode = false, user, profile } = useOutletContext()
   const t = I18N[lang] ?? I18N.fr
   const { updateProfile } = useAuth()
-  const { statsLogs, streak, badges } = useCookingLogs(user?.id)
+  const { statsLogs, statsError, reloadCookingLogs, streak, badges } = useCookingLogs(user?.id)
 
   const unlockedBanners = useMemo(() => profile?.unlocked_banners ?? [], [profile?.unlocked_banners])
   const next = useMemo(() => nextReward(badges, unlockedBanners), [badges, unlockedBanners])
@@ -121,7 +122,7 @@ export default function ProfileRewardsPage() {
         {justUnlocked.length > 0 && (
           <div role="status" style={{
             padding: '12px 16px', borderRadius: 12,
-            background: 'var(--gradient-warm)', color: '#fff',
+            background: 'var(--gradient-deep)', color: '#fff',
             fontSize: 14, fontWeight: 700, boxShadow: '0 2px 10px rgba(212,106,16,0.25)',
           }}>
             {t.celebration(justUnlocked.length)}
@@ -138,7 +139,11 @@ export default function ProfileRewardsPage() {
           />
         )}
 
-        {badges.length > 0 ? (
+        {/* Pas chargé : on le dit. En cours : rien. Sans cette garde, les paliers
+            s'affichaient TOUS verrouillés — pour quelqu'un qui en a dix. */}
+        {statsError ? (
+          <ProfileLoadError lang={lang} onRetry={reloadCookingLogs} textColor={textColor} mutedColor={mutedColor} />
+        ) : statsLogs === null ? null : badges.length > 0 ? (
           <ProfileSection
             Icon={LuAward}
             title={t.badgesSectionTitle}
@@ -159,7 +164,7 @@ export default function ProfileRewardsPage() {
               nextRewardId={next?.id}
             />
           </ProfileSection>
-        ) : statsLogs !== null && (
+        ) : (
           <p style={{ fontSize: 14, color: mutedColor, lineHeight: 1.6, margin: '4px 2px' }}>{t.empty}</p>
         )}
       </div>

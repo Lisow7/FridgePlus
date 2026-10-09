@@ -15,6 +15,7 @@ import Tooltip from '@shared/ui/tooltip'
 import FabGlyph from '@shared/ui/fab-glyph'
 import { FeatureIcon } from '@features/onboarding/lib/feature-icon'
 import { CURRENT_VERSION } from '@shared/lib/version'
+import { SUPPORT_EMAIL } from '@shared/lib/contact'
 // eslint-disable-next-line import/no-restricted-paths -- CTA PWA réutilisé (DRY), demandé bien visible à côté de la version (2026-07-11)
 import { InstallButton, usePwaInstallable } from '@features/pwa'
 
@@ -42,6 +43,26 @@ const GROUP_ORDER = ['free', 'account', 'soon']
 // utilisables sans compte (le compte ajoute sync/publication) → « Y aller ».
 // `receipt` : l'Edge Function scan-receipt exige un JWT (cf. use-receipt-scan-flow.js).
 const ACCOUNT_REQUIRED = new Set(['profile', 'receipt'])
+
+// ── Bloc « support » (bouton pour un compte, lien e-mail sans compte) ────────
+// Fond plein #B85000 (`--color-warm-600`) et texte blanc PLEIN : le dégradé et
+// l'opacité 0.85 utilisés avant tombaient sous le seuil de contraste AA.
+const SUPPORT_CLASS = 'h-auto w-full justify-start rounded-2xl bg-none bg-[#B85000] px-4 py-3.5'
+const SUPPORT_STYLE = { gap: 14, boxShadow: '0 5px 18px rgba(184,80,0,0.28)', transition: 'box-shadow .2s, transform .1s' }
+const supportHover = e => { e.currentTarget.style.boxShadow = '0 7px 26px rgba(184,80,0,0.45)'; e.currentTarget.style.transform = 'translateY(-1px)' }
+const supportLeave = e => { e.currentTarget.style.boxShadow = '0 5px 18px rgba(184,80,0,0.28)'; e.currentTarget.style.transform = 'none' }
+
+function SupportLabel({ title, sub }) {
+  return (
+    <>
+      <LuHeadphones size={22} aria-hidden="true" style={{ color: '#fff', flexShrink: 0 }} />
+      <span style={{ textAlign: 'left', display: 'block' }}>
+        <span style={{ display: 'block', fontSize: 14, fontWeight: 800, color: '#fff', lineHeight: 1.2 }}>{title}</span>
+        <span style={{ display: 'block', fontSize: 11.5, color: '#fff', marginTop: 2 }}>{sub}</span>
+      </span>
+    </>
+  )
+}
 
 // ── Composant principal ───────────────────────────────────────────────────────
 export default function HelpGuide({
@@ -176,7 +197,7 @@ export default function HelpGuide({
             className="fp-modal-panel"
             style={{
               width: '100%', maxWidth: 480,
-              maxHeight: '88vh',
+              maxHeight: '88dvh',
               background: modalBg,
               borderRadius: 22,
               boxShadow: darkMode ? '0 20px 60px rgba(0,0,0,0.6)' : '0 20px 60px rgba(0,0,0,0.14)',
@@ -377,36 +398,30 @@ export default function HelpGuide({
               padding: '14px 18px 18px',
               flexShrink: 0,
             }}>
-              {/* Bouton support — mis en évidence. Fond plein #B85000
-                  (`--color-warm-600`, doc "AA-compliant" dans button.jsx),
-                  pas le dégradé `#F7A85E → #D46A10` utilisé avant : blanc
-                  dessus tombait à ~2-3.6:1 selon la zone du dégradé, sous
-                  le seuil WCAG AA 4.5:1 — illisible par endroits (retour
-                  utilisateur 2026-07-11). Sous-titre repassé en blanc
-                  plein (l'opacité 0.85 précédente retombait à ~4:1, encore
-                  sous le seuil, même sur fond plein). */}
-              {onShowSupport && (
+              {/* Le panneau de support demande un compte. Sans compte
+                  (`onShowSupport` absent), le même emplacement écrit à l'adresse
+                  du support : ce bouton n'ouvrait rien pour un visiteur, puis
+                  faisait disparaître le bouton orange (audit 2026-10-04). */}
+              {onShowSupport ? (
                 <Button
                   onClick={() => { setOpen(false); onShowSupport() }}
-                  className="h-auto w-full justify-start rounded-2xl bg-none bg-[#B85000] px-4 py-3.5"
-                  style={{
-                    gap: 14,
-                    boxShadow: '0 5px 18px rgba(184,80,0,0.28)',
-                    transition: 'box-shadow .2s, transform .1s',
-                  }}
-                  onMouseEnter={e => { e.currentTarget.style.boxShadow = '0 7px 26px rgba(184,80,0,0.45)'; e.currentTarget.style.transform = 'translateY(-1px)' }}
-                  onMouseLeave={e => { e.currentTarget.style.boxShadow = '0 5px 18px rgba(184,80,0,0.28)'; e.currentTarget.style.transform = 'none' }}
+                  className={SUPPORT_CLASS}
+                  style={SUPPORT_STYLE}
+                  onMouseEnter={supportHover}
+                  onMouseLeave={supportLeave}
                 >
-                  <LuHeadphones size={22} aria-hidden="true" style={{ color: '#fff', flexShrink: 0 }} />
-                  <div style={{ textAlign: 'left' }}>
-                    <div style={{ fontSize: 14, fontWeight: 800, color: '#fff', lineHeight: 1.2 }}>
-                      {t.support_btn}
-                    </div>
-                    <div style={{ fontSize: 11.5, color: '#fff', marginTop: 2 }}>
-                      {t.support_sub}
-                    </div>
-                  </div>
+                  <SupportLabel title={t.support_btn} sub={t.support_sub} />
                 </Button>
+              ) : (
+                <a
+                  href={`mailto:${SUPPORT_EMAIL}`}
+                  className={`${SUPPORT_CLASS} inline-flex items-center font-semibold no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-warm-600)] focus-visible:ring-offset-2`}
+                  style={SUPPORT_STYLE}
+                  onMouseEnter={supportHover}
+                  onMouseLeave={supportLeave}
+                >
+                  <SupportLabel title={t.support_mail_btn} sub={`${SUPPORT_EMAIL} — ${t.support_mail_sub}`} />
+                </a>
               )}
 
               {/* Liens secondaires — centrés, discrets */}

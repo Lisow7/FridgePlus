@@ -1,36 +1,17 @@
 import { useState, useEffect, useRef } from 'react'
 import { HOME_LABEL } from './constants'
+import { TAGLINES } from '@shared/static/taglines'
 
 // Tagline typewriter rotative (même style que la modale Premium).
 // Efface lettre par lettre et tape la suivante, toutes les 4 s.
 // Visible uniquement en desktop (xl+, ≥1280px).
 
-const TAGLINES = {
- fr: [
- 'Cuisine mieux, sans limites.',
- 'Ton assistant cuisine personnel.',
- 'Planifie tes repas, simplifie tes courses.',
- 'La liste de courses qui se fait toute seule.',
- "Plus d'idées, moins de stress en cuisine.",
- 'Transforme tes restes en plats savoureux.',
- 'Des recettes sur mesure, chaque soir.',
- 'Moins de gaspillage, plus de créativité.',
- 'La cuisine du quotidien, enfin inspirante.',
- "Ouvre ton frigo. Trouve l'inspiration.",
- ],
- en: [
- 'Cook better, without limits.',
- 'Your personal kitchen assistant.',
- 'Plan your meals, simplify your shopping.',
- 'The shopping list that builds itself.',
- 'More ideas, less kitchen stress.',
- 'Turn your leftovers into delicious dishes.',
- 'Tailored recipes, every evening.',
- 'Less waste, more creativity.',
- 'Everyday cooking, finally inspiring.',
- 'Open your fridge. Find your inspiration.',
- ],
-}
+// Les phrases : `@shared/static/taglines` (une seule liste, UX-10).
+
+// Audit A11Y-11 : « réduire les animations » demandé au système → le slogan
+// reste fixe (il s'effaçait et se réécrivait en boucle, sur chaque page).
+const reduireLeMouvement = () =>
+ typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches === true
 
 export default function HeaderLogo({ lang = 'fr', onReset, darkMode = false }) {
  const getTaglines = () => TAGLINES[lang] ?? TAGLINES.fr
@@ -52,7 +33,7 @@ export default function HeaderLogo({ lang = 'fr', onReset, darkMode = false }) {
  isAnimRef.current = false
  setDisplayText(tl[0] ?? '')
  setIsTyping(false)
- scheduleNext(4000)
+ if (!reduireLeMouvement()) scheduleNext(4000)
  return () => clearTimeout(animRef.current)
  // eslint-disable-next-line react-hooks/exhaustive-deps
  }, [lang])
@@ -85,7 +66,9 @@ export default function HeaderLogo({ lang = 'fr', onReset, darkMode = false }) {
  isAnimRef.current = false
  setIsTyping(false)
  tagIdxRef.current = nextIdx
- scheduleNext(4000)
+ // Un seul tour, puis le premier slogan reste (WCAG 2.2.2 ; décision du
+ // 2026-10-06, choix d'Antoine) : il ne tournait jamais de lui-même.
+ if (nextIdx !== 0) scheduleNext(4000)
  }
  }
 

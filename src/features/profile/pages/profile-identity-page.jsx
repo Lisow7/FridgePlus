@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
+import Field from '@shared/ui/field'
 import { useOutletContext } from 'react-router-dom'
 import { LuImage, LuUser, LuMessageSquare, LuScroll, LuPanelTop } from 'react-icons/lu'
 import { useAuth } from '@shared/contexts/auth-provider'
@@ -13,6 +14,9 @@ import ProfilePageIntro from '@features/profile/components/profile-page-intro'
 import ProfileSection  from '@features/profile/components/profile-section'
 import ProfileBanner from '@shared/ui/profile-banner'
 import BannerPickerModal from '@features/profile/components/banner-picker-modal'
+import {
+  isValidUsername, isUsernameAvailable, usernameWriteProblem, USERNAME_MESSAGES,
+} from '@shared/lib/auth/username-rules'
 // Sprint 11 S11.a.2 — sous-page /profile/identite (« Profil »).
 // Identité publique : avatar, pseudo, bio communauté, charte communauté.
 
@@ -27,13 +31,15 @@ const I18N = {
     bannerDesc:  'L\'image d\'en-tête de ton profil public.',
     bannerBtn:   'Changer ma bannière',
     pseudoTitle: 'Pseudo',
-    pseudoDesc:  'Ton nom dans Fridge+. Doit être unique. 3-20 caractères, lettres, chiffres, _ et -.',
+    pseudoDesc:  'Ton nom dans Fridge+. Il doit être unique.',
     pseudoLabel: 'Pseudo',
     pseudoSave:  'Enregistrer',
+    pseudoError: 'Le pseudo n\'a pas pu être enregistré. Réessaie.',
     pseudoProfanity: 'Ce pseudo contient des termes inappropriés.',
     bioTitle:    'Ma bio',
     bioDesc:     'Une courte présentation visible quand quelqu\'un consulte ton profil dans la communauté.',
-    bioPlaceholder: 'Quelques mots sur toi (optionnel)…',
+    bioLabel: 'Ce que les autres membres liront (facultatif)',
+    bioPlaceholder: 'ex. : Fan de cuisine italienne, je cuisine pour quatre.',
     bioSave:     'Enregistrer la bio',
     bioMaxHint:  (n, max) => `${n} / ${max} caractères`,
     bioProfanity: 'Ta bio contient des termes inappropriés.',
@@ -64,13 +70,15 @@ const I18N = {
     bannerDesc:  'The header image of your public profile.',
     bannerBtn:   'Change my banner',
     pseudoTitle: 'Username',
-    pseudoDesc:  'Your name in Fridge+. Must be unique. 3-20 chars, letters, digits, _ and -.',
+    pseudoDesc:  'Your name in Fridge+. It must be unique.',
     pseudoLabel: 'Username',
     pseudoSave:  'Save',
+    pseudoError: 'The username could not be saved. Try again.',
     pseudoProfanity: 'This username contains inappropriate terms.',
     bioTitle:    'My bio',
     bioDesc:     'A short presentation visible when someone views your community profile.',
-    bioPlaceholder: 'A few words about you (optional)…',
+    bioLabel: 'What other members will read (optional)',
+    bioPlaceholder: 'e.g. Italian food fan, cooking for four.',
     bioSave:     'Save bio',
     bioMaxHint:  (n, max) => `${n} / ${max} characters`,
     bioProfanity: 'Your bio contains inappropriate language.',
@@ -98,11 +106,11 @@ const I18N = {
 const CHARTER_DISMISSED_KEY = 'fridge-community-charter-dismissed'
 
 const BIO_MAX = 280
-const USERNAME_REGEX = /^[a-zA-Z0-9_-]{3,20}$/
 
 export default function ProfileIdentityPage() {
   const { lang = 'fr', darkMode = false, profile, setAvatarModalOpen } = useOutletContext()
   const t = I18N[lang] ?? I18N.fr
+  const regles = USERNAME_MESSAGES[lang] ?? USERNAME_MESSAGES.fr
   const confirm = useConfirm()
   const { updateProfile } = useAuth()
   const { communityTermsAt, setCommunityTermsAt } = useProfileState({ enableCommunityTerms: true })
@@ -113,19 +121,33 @@ export default function ProfileIdentityPage() {
   const [pseudoSaving, setPseudoSaving] = useState(false)
 
   async function handleSavePseudo() {
-    if (!USERNAME_REGEX.test(username)) {
-      setPseudoError(t.pseudoDesc)
+    const u = username.trim()
+    if (!isValidUsername(u)) {
+      setPseudoError(regles.invalid)
       return
     }
-    if (leoProfanity.check(username)) {
+    if (leoProfanity.check(u)) {
       setPseudoError(t.pseudoProfanity)
       return
     }
     setPseudoSaving(true)
     setPseudoError(null)
-    const result = await updateProfile({ username })
+    // `null` = on n'a pas pu le savoir : l'écriture tranchera.
+    if (await isUsernameAvailable(u) === false) {
+      setPseudoSaving(false)
+      setPseudoError(regles.taken)
+      return
+    }
+    const result = await updateProfile({ username: u })
     setPseudoSaving(false)
-    if (result?.error) setPseudoError(result.error.message || t.bioError)
+    if (result?.error) {
+      // Jamais le message de la base : il affichait « duplicate key value
+      // violates unique constraint… » (audit du 2026-10-04, CPT-09).
+      const probleme = usernameWriteProblem(result.error)
+      setPseudoError(probleme ? regles[probleme] : t.pseudoError)
+      return
+    }
+    setUsername(u)
   }
 
   // ── Bio communauté ────────────────────────────────────────────────────
@@ -267,7 +289,7 @@ export default function ProfileIdentityPage() {
         <ProfileSection
           Icon={LuUser}
           title={t.pseudoTitle}
-          description={t.pseudoDesc}
+          description={`${t.pseudoDesc} ${regles.hint}`}
           lang={lang}
           darkMode={darkMode}
         >
@@ -283,9 +305,9 @@ export default function ProfileIdentityPage() {
                 fontSize: '14px',
               }}
             />
-            {pseudoError && <p style={{ color: '#DC2626', fontSize: '12px', margin: 0 }}>{pseudoError}</p>}
+            {pseudoError && <p role="alert" style={{ color: '#DC2626', fontSize: '12px', margin: 0 }}>{pseudoError}</p>}
             <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
-              <Button onClick={handleSavePseudo} loading={pseudoSaving} disabled={pseudoSaving || username === profile?.username}>
+              <Button onClick={handleSavePseudo} loading={pseudoSaving} disabled={pseudoSaving || username.trim() === profile?.username}>
                 {t.pseudoSave}
               </Button>
             </div>
@@ -300,6 +322,7 @@ export default function ProfileIdentityPage() {
           darkMode={darkMode}
         >
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <Field label={t.bioLabel} labelStyle={{ display: 'block', fontSize: '12px', fontWeight: 700, color: 'var(--color-muted)', marginBottom: '6px' }} style={{ display: 'flex', flexDirection: 'column' }}>
             <textarea
               value={bio}
               onChange={(e) => setBio(e.target.value.slice(0, BIO_MAX))}
@@ -311,6 +334,7 @@ export default function ProfileIdentityPage() {
                 fontSize: '14px', resize: 'vertical',
               }}
             />
+            </Field>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px', fontSize: '12px' }}>
               <Button onClick={handleSaveBio} loading={bioSaving} disabled={bioSaving || bio === (profile?.community_bio ?? '')}>
                 {t.bioSave}
@@ -351,7 +375,7 @@ export default function ProfileIdentityPage() {
               {charterState === 'not_signed' && (
                 <span style={{
                   display: 'inline-block', padding: '4px 10px', borderRadius: '6px',
-                  background: 'var(--gradient-warm)',
+                  background: 'var(--gradient-deep)',
                   color: '#FFFFFF', fontSize: '12px', fontWeight: 700,
                   letterSpacing: '0.02em',
                   boxShadow: '0 1px 4px rgba(212,106,16,0.30)',

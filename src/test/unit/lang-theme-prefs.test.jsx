@@ -3,10 +3,14 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import LangThemePrefs from '@shared/ui/lang-theme-prefs'
 
+// Audit du 2026-10-04, A11Y-19 : des `menuitemradio` dans un `radiogroup` —
+// parent que ce rôle n'admet pas (axe : `aria-required-parent`, critique). Dans
+// un menu, leur parent est un `group`.
 describe('LangThemePrefs', () => {
-  it('rend un radiogroup langue avec FR et EN', () => {
+  it('rend un groupe langue avec FR et EN', () => {
     render(<LangThemePrefs lang="fr" />)
-    expect(screen.getByRole('radiogroup')).toBeInTheDocument()
+    expect(screen.getByRole('group', { name: 'Langues' })).toBeInTheDocument()
+    expect(screen.queryByRole('radiogroup')).toBeNull()
     expect(screen.getByRole('menuitemradio', { name: 'Français' })).toBeInTheDocument()
     expect(screen.getByRole('menuitemradio', { name: /English/ })).toBeInTheDocument()
   })

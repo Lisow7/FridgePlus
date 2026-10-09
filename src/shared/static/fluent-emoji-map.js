@@ -4,12 +4,16 @@
 // (gpt-image-1 "flat 3D-soft icon"), garantissant la cohérence visuelle
 // pour les ingrédients qui n'ont pas encore d'image custom en BDD.
 //
-// CDN : https://api.iconify.design/fluent-emoji:{name}.svg?width=24
-// Style : 3D coloré par défaut. Style flat dispo via `fluent-emoji-flat:`.
+// Images HÉBERGÉES PAR LE SITE : public/emoji/fluent/{name}.svg (décision du 2026-10-06
+// du 2026-10-06, « emoji = sur_le_site » — elles étaient demandées à Iconify,
+// qui recevait l'adresse IP de chaque visiteur avant tout choix de cookies).
+// Style « Color » de Fluent Emoji.
 //
 // Note : ce mapping ne couvre pas TOUS les emojis du repertoire Unicode.
 // Pour les emojis non listés ici, le composant <Emoji> tombe sur Twemoji
-// (fallback existant). Ajouter au mapping uniquement les emojis fréquents.
+// (fallback existant). Ajouter au mapping uniquement les emojis fréquents —
+// et son fichier dans public/emoji/fluent/ (le test emoji-sur-le-site le
+// vérifie).
 
 export const FLUENT_EMOJI_MAP = {
   // ── Fruits ──────────────────────────────────────────────────────────
@@ -50,6 +54,9 @@ export const FLUENT_EMOJI_MAP = {
   '🌰': 'chestnut',
   '🫘': 'beans',
   '🍠': 'roasted-sweet-potato',
+  // Unicode 15 : absents de Twemoji 14, présents chez Fluent (2026-10-06).
+  '🫚': 'ginger-root',
+  '🫛': 'pea-pod',
 
   // ── Protéines (viandes, poissons) ───────────────────────────────────
   '🥩': 'cut-of-meat',
@@ -137,10 +144,10 @@ export const FLUENT_EMOJI_MAP = {
   // (🥗 déjà mappé dans la section Plats préparés)
 }
 
-const ICONIFY_CDN = 'https://api.iconify.design/fluent-emoji'
+const DOSSIER = `${import.meta.env.BASE_URL}emoji/fluent`
 
 /**
- * Retourne l'URL CDN Fluent Emoji pour un char, ou null si non mappé.
+ * Retourne l'URL (sur le site) de l'image Fluent Emoji d'un char, ou null si non mappé.
  * @param {string} char - emoji Unicode (peut inclure variation selectors fe0f)
  * @returns {string|null}
  */
@@ -150,5 +157,5 @@ export function getFluentEmojiUrl(char) {
   const normalized = [...char].filter(c => c.codePointAt(0) !== 0xfe0f && c.codePointAt(0) !== 0xfe0e).join('')
   const name = FLUENT_EMOJI_MAP[char] ?? FLUENT_EMOJI_MAP[normalized]
   if (!name) return null
-  return `${ICONIFY_CDN}:${name}.svg`
+  return `${DOSSIER}/${name}.svg`
 }

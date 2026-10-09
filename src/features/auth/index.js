@@ -13,10 +13,11 @@
 // code-splitting (Rollup INEFFECTIVE_DYNAMIC_IMPORT). Importer directement
 // '@features/auth/components/banned-screen' si besoin statique.
 
+// Les modales MFA, `useMFA`, l'API et les textes MFA ne sont PLUS réexportés
+// (2026-10-06) : main.jsx importait ce baril pour le seul AuthProvider, et ils
+// entraient au démarrage de chaque visiteur (~4 Ko compressés). Personne ne les
+// lisait par ici : les importer directement depuis `@shared/`.
+// Garde-fou : `src/test/unit/demarrage-sans-poids-mort.test.js`.
+
 // Re-exports depuis shared/ (Sprint 9)
 export { AuthProvider, useAuth }         from '@shared/contexts/auth-provider'
-export { default as MFAEnrollModal }     from '@shared/ui/mfa-enroll-modal'
-export { default as MFAChallengeModal }  from '@shared/ui/mfa-challenge-modal'
-export { useMFA }                        from '@shared/hooks/use-mfa'
-export * from '@shared/api/mfa'
-export { MFA_I18N }                      from '@shared/lib/i18n/mfa-i18n'

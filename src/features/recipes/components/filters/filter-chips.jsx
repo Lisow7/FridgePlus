@@ -1,6 +1,6 @@
 import Button from '@shared/ui/button'
 
-export default function FilterChips({ label, values, onToggle, options, getColor, darkMode, counts }) {
+export default function FilterChips({ label, values, onToggle, options, getColor, darkMode, counts, disabled = false }) {
   return (
     <div className="flex flex-col gap-2.5">
 
@@ -44,6 +44,7 @@ export default function FilterChips({ label, values, onToggle, options, getColor
               key={opt.value}
               onClick={() => onToggle(opt.value)}
               aria-pressed={sel}
+              disabled={disabled}
               className="h-auto rounded-lg border-[1.5px] px-3 py-1.5 text-sm font-semibold transition-all duration-150"
               style={{
                 borderColor: sel

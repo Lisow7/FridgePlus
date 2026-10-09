@@ -10,6 +10,7 @@ import { COMMUNITY_I18N } from '@shared/lib/i18n/community-i18n'
 import { getCommunityProfile, listUserPublishedRecipes, isUserBlocked, blockUser, unblockUser } from '@shared/api/community'
 import ReportModal from './report-modal'
 import Button from '@shared/ui/button'
+import LoadErrorNotice from '@shared/ui/load-error-notice'
 
 // Profil communauté (lecture seule).
 //
@@ -23,6 +24,9 @@ import Button from '@shared/ui/button'
 export default function CommunityProfileModal({ userId, currentUserId, lang = 'fr', darkMode = false, onClose, onShowRecipe, onBlockChange }) {
   const t = COMMUNITY_I18N[lang] ?? COMMUNITY_I18N.fr
   const [profile, setProfile] = useState(null)
+  // La fiche n'a pas pu être lue — à ne pas afficher « Profil introuvable ».
+  const [loadError, setLoadError] = useState(false)
+  const [tentative, setTentative] = useState(0)
   const [recipes, setRecipes] = useState(null)
   const [loading, setLoading] = useState(true)
   const [blocked, setBlocked] = useState(false)
@@ -51,13 +55,14 @@ export default function CommunityProfileModal({ userId, currentUserId, lang = 'f
     ])
       .then(([p, r, b]) => {
         if (cancelled) return
-        setProfile(p)
+        setProfile(p.profile)
+        setLoadError(!!p.error)
         setRecipes(r)
         setBlocked(b)
         setLoading(false)
       })
     return () => { cancelled = true }
-  }, [userId, currentUserId, isSelf])
+  }, [userId, currentUserId, isSelf, tentative])
 
   const handleToggleBlock = async () => {
     if (!currentUserId || isSelf || blockBusy) return
@@ -186,6 +191,11 @@ export default function CommunityProfileModal({ userId, currentUserId, lang = 'f
           {loading ? (
             <div style={{ padding: '32px 0', textAlign: 'center', color: muted, fontSize: '14px' }}>
               {t.profileLoading}
+            </div>
+          ) : loadError ? (
+            <div style={{ padding: '24px 0' }}>
+              <LoadErrorNotice message={t.profileLoadFailed} retryLabel={t.profileRetry}
+                onRetry={() => setTentative((n) => n + 1)} textColor={fg} mutedColor={muted} />
             </div>
           ) : !profile ? (
             <div style={{ padding: '32px 0', textAlign: 'center', color: muted, fontSize: '14px' }}>

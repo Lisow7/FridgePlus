@@ -67,7 +67,7 @@ describe('InventoryPanel', () => {
   it('recherche insensible aux accents : "creme" trouve "Crème fraîche" meme si pas encore au frigo', async () => {
     const user = userEvent.setup()
     render(<InventoryPanel lang="fr" onClose={vi.fn()} />)
-    await user.type(screen.getByPlaceholderText('Rechercher un aliment…'), 'creme')
+    await user.type(screen.getByLabelText('Rechercher un aliment'), 'creme')
     expect(screen.getByText('Crème fraîche')).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Ajouter Crème fraîche' })).toBeInTheDocument()
   })
@@ -78,7 +78,7 @@ describe('InventoryPanel', () => {
   it('ne montre jamais un parent, mais chercher la famille propose ses enfants', async () => {
     const user = userEvent.setup()
     render(<InventoryPanel lang="fr" onClose={vi.fn()} />)
-    await user.type(screen.getByPlaceholderText('Rechercher un aliment…'), 'fromage')
+    await user.type(screen.getByLabelText('Rechercher un aliment'), 'fromage')
     expect(screen.queryByText('Fromage')).not.toBeInTheDocument()
     expect(screen.getByText('Comté')).toBeInTheDocument()
   })
@@ -86,7 +86,7 @@ describe('InventoryPanel', () => {
   it('cherche en début de mot, pas au milieu (« oeuf » ne doit pas ramener « bœuf »)', async () => {
     const user = userEvent.setup()
     render(<InventoryPanel lang="fr" onClose={vi.fn()} />)
-    await user.type(screen.getByPlaceholderText('Rechercher un aliment…'), 'ou')
+    await user.type(screen.getByLabelText('Rechercher un aliment'), 'ou')
     expect(screen.queryByText('Yaourt nature')).not.toBeInTheDocument()
     expect(screen.getByText('Aucun aliment ne correspond à « ou ».')).toBeInTheDocument()
   })
@@ -128,7 +128,7 @@ describe('InventoryPanel', () => {
   it('ajouter ne propose pas d’annulation (rien n’est perdu)', async () => {
     const user = userEvent.setup()
     render(<InventoryPanel lang="fr" onClose={vi.fn()} />)
-    await user.type(screen.getByPlaceholderText('Rechercher un aliment…'), 'riz')
+    await user.type(screen.getByLabelText('Rechercher un aliment'), 'riz')
     await user.click(screen.getByRole('button', { name: 'Ajouter Riz basmati' }))
     expect(mockUndo).not.toHaveBeenCalled()
   })
@@ -143,7 +143,7 @@ describe('InventoryPanel', () => {
   it('le rond a cocher ajoute un aliment trouve par recherche mais pas encore au frigo', async () => {
     const user = userEvent.setup()
     render(<InventoryPanel lang="fr" onClose={vi.fn()} />)
-    await user.type(screen.getByPlaceholderText('Rechercher un aliment…'), 'riz')
+    await user.type(screen.getByLabelText('Rechercher un aliment'), 'riz')
     await user.click(screen.getByRole('button', { name: 'Ajouter Riz basmati' }))
     expect(mockToggle).toHaveBeenCalledWith('gp-riz')
   })
@@ -156,7 +156,7 @@ describe('InventoryPanel', () => {
   it('un filtre de categorie restreint les resultats de recherche a la vraie sous-categorie', async () => {
     const user = userEvent.setup()
     render(<InventoryPanel lang="fr" onClose={vi.fn()} />)
-    await user.type(screen.getByPlaceholderText('Rechercher un aliment…'), 'co')
+    await user.type(screen.getByLabelText('Rechercher un aliment'), 'co')
     expect(screen.getByText('Cordon bleu')).toBeInTheDocument()
     expect(screen.getByText('Comté')).toBeInTheDocument()
 
@@ -168,7 +168,7 @@ describe('InventoryPanel', () => {
   it('le filtre BOF matche les vraies sous-categories dairy/cheese/eggs (regression bug 2026-07-11, ex: mozzarella/comte non trouves)', async () => {
     const user = userEvent.setup()
     render(<InventoryPanel lang="fr" onClose={vi.fn()} />)
-    await user.type(screen.getByPlaceholderText('Rechercher un aliment…'), 'co')
+    await user.type(screen.getByLabelText('Rechercher un aliment'), 'co')
     await user.click(screen.getByRole('button', { name: /Beurre·Œufs·Fromage/ }))
     expect(screen.getByText('Comté')).toBeInTheDocument()
     expect(screen.queryByText('Cordon bleu')).not.toBeInTheDocument()
@@ -177,7 +177,7 @@ describe('InventoryPanel', () => {
   it('une sous-categorie reelle sans filtre dedie (ex: tofu) reste visible peu importe le filtre actif', async () => {
     const user = userEvent.setup()
     render(<InventoryPanel lang="fr" onClose={vi.fn()} />)
-    await user.type(screen.getByPlaceholderText('Rechercher un aliment…'), 'tofu')
+    await user.type(screen.getByLabelText('Rechercher un aliment'), 'tofu')
     expect(screen.getByText('Tofu nature')).toBeInTheDocument()
     await user.click(screen.getByRole('button', { name: /Viande/ }))
     expect(screen.getByText('Tofu nature')).toBeInTheDocument()
@@ -186,7 +186,7 @@ describe('InventoryPanel', () => {
   it('les filtres se reinitialisent quand la barre de recherche est revidee', async () => {
     const user = userEvent.setup()
     render(<InventoryPanel lang="fr" onClose={vi.fn()} />)
-    const input = screen.getByPlaceholderText('Rechercher un aliment…')
+    const input = screen.getByLabelText('Rechercher un aliment')
     await user.type(input, 'co')
     await user.click(screen.getByRole('button', { name: /Viande/ }))
     await user.clear(input)

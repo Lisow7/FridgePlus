@@ -3,7 +3,9 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 // Mock du client supabase avant l'import du module testé.
 const mockOrder = vi.fn()
 const mockSelect = vi.fn(() => ({ order: mockOrder }))
-const mockEq = vi.fn(() => ({ error: null }))
+// L'écriture demande la ligne touchée (audit ADM-26) : `.eq(...).select('key')`.
+const mockSelectApresMaj = vi.fn(() => Promise.resolve({ data: [{ key: 'scan_barcode' }], error: null }))
+const mockEq = vi.fn(() => ({ select: mockSelectApresMaj }))
 const mockUpdate = vi.fn(() => ({ eq: mockEq }))
 const mockGetUser = vi.fn(() => ({ data: { user: { id: 'admin-123' } } }))
 const mockFrom = vi.fn(() => ({ select: mockSelect, update: mockUpdate }))
@@ -36,5 +38,6 @@ describe('feature-flags API', () => {
       expect.objectContaining({ enabled: true, updated_by: 'admin-123' }),
     )
     expect(mockEq).toHaveBeenCalledWith('key', 'scan_barcode')
+    expect(mockSelectApresMaj).toHaveBeenCalledWith('key')
   })
 })

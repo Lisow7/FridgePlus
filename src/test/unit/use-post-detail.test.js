@@ -9,6 +9,7 @@ import { renderHook, act, waitFor } from '@testing-library/react'
 const confirmMock = vi.fn()
 vi.mock('@shared/ui/confirm-dialog/confirm-provider', () => ({ useConfirm: () => confirmMock }))
 vi.mock('leo-profanity', () => ({ default: { check: vi.fn(() => false) } }))
+vi.mock('@shared/hooks/use-save-error-toast', () => ({ useSaveErrorToast: () => vi.fn() }))
 
 const post = { id: 'p1', title: 'Mon post', likes_count: 2, category: 'general' }
 const reply = { id: 'r1', post_id: 'p1', user_id: 'u2', body: 'Une réponse', likes_count: 1 }

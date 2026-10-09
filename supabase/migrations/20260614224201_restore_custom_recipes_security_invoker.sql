@@ -1,0 +1,11 @@
+-- Reconstitué le 2026-10-08 depuis le registre de la base
+-- (supabase_migrations.schema_migrations, version 20260614224201) : appliquée
+-- sans fichier dans le dépôt (audit du 2026-10-04, BDD-19 / ARCH-10).
+-- Elle est en base : ne pas la rejouer.
+-- ── SQL du registre, recopié tel quel (md5 dfca0089ac8f2ba7c942e6163170a9f7) ──
+-- Le CREATE OR REPLACE VIEW de 20260615 a réinitialisé la vue en SECURITY DEFINER
+-- (perte du security_invoker posé par la refonte de mai) → la vue contournait la
+-- RLS de recipes_unified. On restaure security_invoker = true : la RLS du caller
+-- s'applique (is_admin OR officielles publiées OR community approuvées OR ses
+-- propres recettes), ce qui couvre tous les accès du code.
+ALTER VIEW public.custom_recipes SET (security_invoker = true);

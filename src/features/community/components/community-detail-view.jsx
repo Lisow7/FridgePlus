@@ -1,3 +1,4 @@
+import { useId } from 'react'
 import { LuPencil, LuTrash2, LuFlag, LuSend } from 'react-icons/lu'
 import AvatarImg from '@shared/ui/avatar-img'
 import Button from '@shared/ui/button'
@@ -10,6 +11,7 @@ import { RecipePreviewCard } from './community-recipe-preview-card'
 import { EmojiReactionBar } from './community-emoji-reaction-bar'
 import { ReplyCard } from './community-reply-card'
 import { usePostDetail } from '../hooks/use-post-detail'
+import { authorName } from '@shared/lib/author-name'
 
 // Vue détail d'un post communauté — extraite de community-page.jsx (2026-07-26,
 // audit front §2). Dernier composeur : rend le post complet, le fil de réponses
@@ -20,6 +22,7 @@ import { usePostDetail } from '../hooks/use-post-detail'
 // réponse), volontairement laissée dans la vue.
 export function DetailView({ postId, user, t, lang, isMobile, reactionsMap, onReact, onDelete, onEdit, onReport, muteStatus, canInteract, isOwn, darkMode, recipeNames, onShowRecipe, onShowProfile, blockedUserIds }) {
   const C = getC(darkMode)
+  const champReponseId = useId()
   const {
     post, replies, likedReplyIds,
     replyBody, setReplyBody,
@@ -42,7 +45,7 @@ export function DetailView({ postId, user, t, lang, isMobile, reactionsMap, onRe
   }
 
   const cc = catColor(post.category, darkMode)
-  const author = post.profile?.username ?? t.deletedAuthor
+  const author = authorName(post, t)
   const myReaction = reactionsMap.get(post.id)
   // Filtre les réponses des utilisateurs bloqués.
   const allUnfiltered = replies ?? []
@@ -207,7 +210,7 @@ export function DetailView({ postId, user, t, lang, isMobile, reactionsMap, onRe
                       liked={likedReplyIds.has(child.id)}
                       canLike={canInteract}
                       canReplyTo={false}
-                      replyToUsername={root.profile?.username ?? t.deletedAuthor}
+                      replyToUsername={authorName(root, t)}
                       onDelete={() => handleDeleteReply(child.id)}
                       onReport={() => onReport('community_reply', child.id)}
                       onToggleLike={() => handleToggleReplyLike(child.id)}
@@ -236,7 +239,7 @@ export function DetailView({ postId, user, t, lang, isMobile, reactionsMap, onRe
         <div style={{ flexShrink: 0, padding: '10px 14px', borderTop: `1px solid ${C.border}`, background: C.surface, display: 'flex', flexDirection: 'column', gap: '8px' }}>
           {targetReply && (
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '6px 10px', borderRadius: '6px', background: C.cyanDim, border: `1px solid ${C.cyan}44`, fontSize: '13px', fontWeight: 600, color: C.cyan }}>
-              <span style={{ flex: 1 }}>↳ {t.replyToUser(targetReply.profile?.username ?? t.deletedAuthor)}</span>
+              <span style={{ flex: 1 }}>↳ {t.replyToUser(authorName(targetReply, t))}</span>
               <Button variant="ghost"
                 onClick={() => setReplyToId(null)} type="button"
                 className="h-auto rounded-none px-1.5 py-0.5 text-[13px] font-bold hover:bg-transparent"
@@ -245,8 +248,11 @@ export function DetailView({ postId, user, t, lang, isMobile, reactionsMap, onRe
               </Button>
             </div>
           )}
+          {/* Un libellé visible au-dessus de la ligne (champ + bouton d'envoi). */}
+          <label htmlFor={champReponseId} style={{ display: 'block', fontSize: '12px', fontWeight: 700, color: C.mid, marginBottom: '6px' }}>{t.replyAria}</label>
           <div style={{ display: 'flex', gap: '8px', alignItems: 'flex-end' }}>
             <textarea
+              id={champReponseId}
               className="cp-textarea"
               value={replyBody}
               onChange={e => setReplyBody(e.target.value)}

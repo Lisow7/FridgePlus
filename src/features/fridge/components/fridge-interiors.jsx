@@ -4,6 +4,7 @@ import FoodIcon from '@shared/ui/food-icon'
 import { LuX } from 'react-icons/lu'
 import Button from '@shared/ui/button'
 import { COLORS, COLORS_DARK } from './fridge-door-colors'
+import { compterEnStock } from '@features/fridge/lib/compter-en-stock'
 
 // Intérieurs du frigo multi-portes, extraits de `fridge-multi-door.jsx` (570 l),
 // qui ne garde plus que le châssis et l'animation des portes.
@@ -61,7 +62,7 @@ export function DrawerSection({ c, openDrawerId, setOpenDrawerId, onSubcategoryC
   const colors = palette[c.id] ?? (darkMode ? { bg: '#1A2535', text: '#6B9BAE' } : { bg: '#EBF3FA', text: '#6B8E8E' })
   const isExpanded = openDrawerId === c.id
   const totalStock = c.subcategories.reduce(
-    (sum, sub) => sum + (INGREDIENTS[sub.id] ?? []).filter(i => stock.has(i.id)).length, 0
+    (sum, sub) => sum + compterEnStock(INGREDIENTS, sub.id, stock), 0
   )
   const cols = Math.min(c.subcategories.length, 4)
 
@@ -90,7 +91,7 @@ export function DrawerSection({ c, openDrawerId, setOpenDrawerId, onSubcategoryC
           {isMobile ? (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '5px', padding: '6px', flex: 1, overflowY: 'auto' }}>
               {c.subcategories.map((sub, idx) => {
-                const subCount = (INGREDIENTS[sub.id] ?? []).filter(i => stock.has(i.id)).length
+                const subCount = compterEnStock(INGREDIENTS, sub.id, stock)
                 const subColors = SUBCATEGORY_COLORS[sub.id] ?? colors
                 return (
                   <Button
@@ -128,7 +129,7 @@ export function DrawerSection({ c, openDrawerId, setOpenDrawerId, onSubcategoryC
           ) : (
             <div style={{ display: 'grid', gridTemplateColumns: `repeat(${cols}, 1fr)`, gap: '4px', padding: '4px', flex: 1 }}>
               {c.subcategories.map((sub, idx) => {
-                const subCount = (INGREDIENTS[sub.id] ?? []).filter(i => stock.has(i.id)).length
+                const subCount = compterEnStock(INGREDIENTS, sub.id, stock)
                 const subColors = SUBCATEGORY_COLORS[sub.id] ?? colors
                 return (
                   <Button
@@ -199,7 +200,7 @@ export function FreshInterior({ c, openCompartmentId, setOpenCompartmentId, onSu
   const colors = palette[c.id] ?? (darkMode ? { bg: '#162515', text: '#8CC488' } : { bg: '#E8F5E9', text: '#7BB078' })
   const isExpanded = openCompartmentId === c.id
   const totalStock = c.subcategories.reduce(
-    (sum, sub) => sum + (INGREDIENTS[sub.id] ?? []).filter(i => stock.has(i.id)).length, 0
+    (sum, sub) => sum + compterEnStock(INGREDIENTS, sub.id, stock), 0
   )
 
   return (
@@ -220,7 +221,7 @@ export function FreshInterior({ c, openCompartmentId, setOpenCompartmentId, onSu
           {isMobile ? (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '5px', padding: '6px', flex: 1, overflowY: 'auto' }}>
               {c.subcategories.map((sub, idx) => {
-                const subCount = (INGREDIENTS[sub.id] ?? []).filter(i => stock.has(i.id)).length
+                const subCount = compterEnStock(INGREDIENTS, sub.id, stock)
                 const subColors = SUBCATEGORY_COLORS[sub.id] ?? colors
                 return (
                   <Button
@@ -258,7 +259,7 @@ export function FreshInterior({ c, openCompartmentId, setOpenCompartmentId, onSu
           ) : (
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '4px', padding: '4px', flex: 1 }}>
               {c.subcategories.map((sub, idx) => {
-                const subCount = (INGREDIENTS[sub.id] ?? []).filter(i => stock.has(i.id)).length
+                const subCount = compterEnStock(INGREDIENTS, sub.id, stock)
                 const subColors = SUBCATEGORY_COLORS[sub.id] ?? colors
                 return (
                   <Button

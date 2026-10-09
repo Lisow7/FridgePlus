@@ -56,21 +56,34 @@ export function useVoiceRecognition({ lang }) {
   const isFirefox = typeof navigator !== 'undefined' &&
     /Firefox/.test(navigator.userAgent) && !isSupported
 
-  // Reconstruit les 3 index à chaque changement de langue ou d'ingrédients
+  // Les index se construisent quand la voix DÉMARRE (`preparerLesIndex`, dans
+  // `start`), plus à l'ouverture de chaque page : avant, tout visiteur — FAQ
+  // comprise, et même sur Firefox, sans reconnaissance vocale — parcourait
+  // ≈ 650 ingrédients et téléchargeait Fuse, deux fois (au démarrage, puis à
+  // l'arrivée du catalogue). Audit du 2026-10-04, PERF-06. Un changement de
+  // langue ou d'ingrédients ne fait qu'oublier les index : le prochain
+  // démarrage les reconstruit.
   useEffect(() => {
     ingredientsRef.current = ingredients
-    const fl = buildFlatList(ingredients, lang)
-    lookupRef.current = buildLookup(ingredients, lang)
-    flatListRef.current = fl
-    // `buildFuseIndex` est async (Fuse chargé à la demande, hors du boot).
-    // Résolu en arrière-plan : prêt bien avant la première phrase dictée, et
-    // `findMatches` tolère un index encore nul (correspondance exacte seule).
-    let annule = false
-    buildFuseIndex(fl).then(ix => { if (!annule) fuseRef.current = ix })
-    groupInfoRef.current = buildGroupInfo(ingredients)
     langRef.current = lang
-    return () => { annule = true }
+    lookupRef.current = null
+    flatListRef.current = null
+    fuseRef.current = null
+    groupInfoRef.current = null
   }, [ingredients, lang])
+
+  // `buildFuseIndex` est async (Fuse chargé à la demande, hors du boot) :
+  // résolu en arrière-plan, prêt avant la première phrase dictée, et
+  // `findMatches` tolère un index encore nul (correspondance exacte seule).
+  const preparerLesIndex = useCallback(() => {
+    if (flatListRef.current) return
+    const ingredientsDuMoment = ingredientsRef.current
+    const fl = buildFlatList(ingredientsDuMoment, langRef.current)
+    flatListRef.current = fl
+    lookupRef.current = buildLookup(ingredientsDuMoment, langRef.current)
+    groupInfoRef.current = buildGroupInfo(ingredientsDuMoment)
+    buildFuseIndex(fl).then(ix => { if (flatListRef.current === fl) fuseRef.current = ix })
+  }, [])
 
   const clearTimers = useCallback(() => {
     if (silenceTimerRef.current) clearTimeout(silenceTimerRef.current)
@@ -101,6 +114,7 @@ export function useVoiceRecognition({ lang }) {
     onStopRef.current = onStop
     setError(null)
     setTranscript('')
+    preparerLesIndex()
 
     const SR = window.SpeechRecognition ?? window.webkitSpeechRecognition
     const rec = new SR()
@@ -186,7 +200,7 @@ export function useVoiceRecognition({ lang }) {
     sessionTimerRef.current = setTimeout(() => {
       if (isListeningRef.current) stop(true)
     }, 5 * 60 * 1000)
-  }, [isFirefox, isSupported, stop])
+  }, [isFirefox, isSupported, stop, preparerLesIndex])
 
   const clearAll = useCallback(() => {
     setMatchedIngredients([])

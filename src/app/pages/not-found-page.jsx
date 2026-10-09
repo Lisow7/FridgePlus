@@ -1,8 +1,14 @@
 import { Link } from 'react-router-dom'
 import { LuArrowLeft, LuSearchX } from 'react-icons/lu'
+import { useDocumentTitle } from '@shared/hooks/use-document-title'
+import { useNoIndex } from '@shared/hooks/use-no-index'
 
 // Page 404 fallback. S'affiche pour toute route non listée
 // dans le router (typo, lien expiré, partage avec ancienne URL).
+//
+// Le serveur répond 200 à toute adresse (application à page unique) : sans
+// `noindex` ni titre propre, un robot prenait cette page pour l'accueil
+// (« soft 404 », audit du 2026-10-04, SEO-03).
 
 const I18N = {
  fr: { title: 'Page introuvable', subtitle: "La page que tu cherches n'existe pas ou a été déplacée.", backHome: 'Retour à l\'accueil' },
@@ -11,6 +17,8 @@ const I18N = {
 
 export default function NotFoundPage({ lang = 'fr', darkMode = false }) {
  const t = I18N[lang] ?? I18N.fr
+ useNoIndex()
+ useDocumentTitle(`${t.title} — Fridge+`)
  const fg = darkMode ? 'var(--color-bg-warm)' : '#2C1A0E'
  const muted = darkMode ? 'rgba(240,232,220,0.7)' : 'rgba(44,26,14,0.65)'
 
@@ -52,7 +60,7 @@ export default function NotFoundPage({ lang = 'fr', darkMode = false }) {
  style={{
  display: 'inline-flex', alignItems: 'center', gap: '8px',
  padding: '11px 22px', borderRadius: '8px',
- background: 'var(--gradient-warm)',
+ background: 'var(--gradient-deep)',
  color: 'white',
  fontSize: '14px', fontWeight: 700,
  textDecoration: 'none',

@@ -19,26 +19,26 @@ import { supabase } from '@shared/lib/supabase/client'
 const I18N = {
   fr: {
     title: 'Effacer mon historique de dépenses',
-    description: 'Tu peux effacer définitivement tous les instantanés de tes sessions « J\'ai fait mes courses » (Article 17 RGPD — droit à l\'effacement). Le graphique « Analyse des dépenses » Premium repartira à zéro. Cette action est irréversible.',
+    description: 'Tu peux effacer définitivement toutes les dépenses enregistrées par « J\'ai fait mes courses » (c\'est ton droit à l\'effacement). Le graphique « Analyse des dépenses » Premium repartira à zéro. Cette action est irréversible.',
     btn: 'Effacer mon historique',
     confirmTitle: 'Confirmer l\'effacement',
-    confirmText: 'Tous les instantanés de dépenses ({count}) seront supprimés définitivement. Cette action ne peut pas être annulée.',
-    confirmEmpty: 'Tu n\'as encore aucun instantané de dépense à effacer.',
+    confirmText: 'Toutes tes dépenses enregistrées ({count}) seront supprimées définitivement. Cette action ne peut pas être annulée.',
+    confirmEmpty: 'Tu n\'as encore aucune dépense enregistrée à effacer.',
     confirmBtn: 'Effacer définitivement',
     cancelBtn: 'Annuler',
-    successLabel: '{count} instantané(s) effacé(s)',
+    successLabel: '{count} dépense(s) effacée(s)',
     errorLabel: 'Échec de l\'effacement. Réessaie.',
   },
   en: {
     title: 'Erase my spending history',
-    description: 'You can permanently erase all snapshots from your « I went shopping » sessions (GDPR Article 17 — right to erasure). The Premium « Spending analysis » chart will restart from zero. This action is irreversible.',
+    description: 'You can permanently erase all the spending recorded by « I\'m done shopping » (your right to erasure). The Premium « Spending analysis » chart will restart from zero. This action is irreversible.',
     btn: 'Erase my history',
     confirmTitle: 'Confirm erasure',
-    confirmText: 'All spending snapshots ({count}) will be deleted permanently. This action cannot be undone.',
-    confirmEmpty: 'You don\'t have any spending snapshot to erase yet.',
+    confirmText: 'All your recorded spending ({count}) will be deleted permanently. This action cannot be undone.',
+    confirmEmpty: 'You don\'t have any recorded spending to erase yet.',
     confirmBtn: 'Erase permanently',
     cancelBtn: 'Cancel',
-    successLabel: '{count} snapshot(s) erased',
+    successLabel: '{count} record(s) erased',
     errorLabel: 'Erasure failed. Retry.',
   },
 }
@@ -124,7 +124,7 @@ export default function EraseSpendingHistorySection({
         >
           <span style={{
             width: '32px', height: '32px', borderRadius: '8px',
-            background: 'var(--gradient-warm)',
+            background: 'var(--gradient-deep)',
             color: '#FFFFFF',
             display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
           }}>
@@ -169,7 +169,7 @@ export default function EraseSpendingHistorySection({
                   ? '#16a34a'
                   : status === 'error'
                     ? '#ef4444'
-                    : 'var(--gradient-warm)',
+                    : 'var(--gradient-deep)',
               }}
             >
               {status === 'success' && <LuCheck size={15} />}

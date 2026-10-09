@@ -16,6 +16,7 @@ export default function StatCard({ icon, label, value, accent = 'var(--color-bra
 
   return (
     <Tag
+      data-carte-compteur
       onClick={onClick}
       style={{
         display: 'flex', flexDirection: 'column', gap: 6,
@@ -31,7 +32,10 @@ export default function StatCard({ icon, label, value, accent = 'var(--color-bra
       onMouseEnter={onClick ? (e) => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 6px 14px rgba(0,0,0,0.08)' } : undefined}
       onMouseLeave={onClick ? (e) => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = '0 1px 3px rgba(0,0,0,0.04)' } : undefined}
     >
-      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+      {/* Des `span` : la carte est souvent un bouton, qui n'admet pas de `div`.
+          Le libellé ne rétrécit pas sous son mot le plus long : trop étroit, il
+          passe sous l'icône au lieu de déborder. */}
+      <span style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
         {icon && (
           <span style={{
             width: 28, height: 28, borderRadius: 8,
@@ -40,19 +44,19 @@ export default function StatCard({ icon, label, value, accent = 'var(--color-bra
             flexShrink: 0,
           }}>{icon}</span>
         )}
-        <span style={{
+        <span data-libelle-compteur style={{
           fontSize: 11, fontWeight: 700, color: muted,
           textTransform: 'uppercase', letterSpacing: '0.06em',
-          lineHeight: 1.3, minWidth: 0, flex: 1,
+          lineHeight: 1.3, flex: 1,
         }}>{label}</span>
-      </div>
-      <div style={{
-        fontSize: 26, fontWeight: 800, color: fg,
+      </span>
+      <span style={{
+        display: 'block', fontSize: 26, fontWeight: 800, color: fg,
         lineHeight: 1.1, marginTop: 2,
         opacity: loading ? 0.4 : 1,
       }}>
         {loading ? '—' : value}
-      </div>
+      </span>
     </Tag>
   )
 }

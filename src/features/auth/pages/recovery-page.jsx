@@ -44,6 +44,7 @@ const I18N = {
     errorMismatch: 'Les deux mots de passe ne correspondent pas.',
     errorWeak: PWD_ERROR_WEAK.fr,
     errorGeneric: 'Impossible de mettre à jour. Réessaie.',
+    errorNeedsMfa: 'Ton compte demande d’abord le code de double authentification : rouvre le lien reçu par e-mail, puis entre le code.',
   },
   en: {
     pageTitle: 'Set a new password',
@@ -61,6 +62,7 @@ const I18N = {
     errorMismatch: 'The two passwords don\'t match.',
     errorWeak: PWD_ERROR_WEAK.en,
     errorGeneric: 'Unable to update. Try again.',
+    errorNeedsMfa: 'Your account first needs its two-factor authentication code: open the emailed link again, then enter the code.',
   },
 }
 
@@ -93,6 +95,8 @@ export default function RecoveryPage({ lang = 'fr', darkMode = false }) {
       if (resetError) {
         // v3.416 — détecter le weak_password Supabase (cas client bypass).
         if (resetError.message?.toLowerCase().includes('weak')) setError(t.errorWeak)
+        // Compte protégé : Supabase exige le code avant de changer le mot de passe (CPT-02).
+        else if (resetError.code === 'insufficient_aal') setError(t.errorNeedsMfa)
         else setError(t.errorGeneric)
       } else {
         setSuccess(true)

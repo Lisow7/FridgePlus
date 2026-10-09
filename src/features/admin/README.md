@@ -24,13 +24,19 @@ community, support, notifications, premium, reports).
   (1) **vocabulaire fermé** (`AUDIT_ACTIONS` whitelist ; action inconnue → warning dev mais insert
   quand même pour ne pas bloquer la prod), (2) **metadata whitelistée par action** (`METADATA_KEYS` ;
   clés non listées filtrées).
-- **`api/sensitive-audit.js`** — logge toute **consultation** admin d'une donnée sensible (email, IP,
-  `last_sign_in`…) avec action `sensitive_data_accessed` (who/what/why/when). RGPD : minimisation +
-  traçabilité. Distinct de `adminLogAction` (qui trace les *modifications*).
+- **Consultation d'une donnée sensible** (e-mail, dernière connexion, allergènes d'un compte) :
+  `adminRevelerCompte(userId, motif)` dans `api/admin.js` appelle `admin_reveler_compte`, qui écrit
+  la ligne `sensitive_data_accessed` (qui, quel compte, pourquoi, quand, quels champs) **dans la
+  base, avant de rendre la donnée** — si l'écriture échoue, rien n'est rendu. L'écran passe par le
+  rideau `components/shared/sensitive-data-toggle` (motif obligatoire) ; aucune de ces données
+  n'est chargée avant (audit du 2026-10-04, ADM-05). Distinct de `adminLogAction` (qui trace les
+  *modifications*). Jusqu'au 2026-10-08, la trace était écrite par le navigateur, séparément de la
+  lecture, et les e-mails de tous les comptes étaient chargés à l'ouverture de l'onglet.
 
 ## Structure
-- **`api/`** — `admin.js` (stats, health checks, actions), `community-admin.js`, `recipe-reviews-admin.js`,
-  `sensitive-audit.js`.
+- **`api/`** — `admin.js` (stats, health checks, actions), `bannissement.js` (`admin_bannir` /
+  `admin_debannir` par la base, puis l'e-mail `notifier-bannissement` qui donne le motif et la date),
+  `community-admin.js`, `recipe-reviews-admin.js`.
 - **`components/sections/`** — **14 onglets** : `base-recipes`, `community`, `custom-recipes`,
   `data-quality`, `features` (feature flags), `import-queue-tab`/`import-metrics`, `ingredients`,
   `journal`, `notifications`, `pricing`, `recipe-reviews`, `reports`, `support`, `users`.

@@ -55,7 +55,7 @@ export default function BannerPickerModal({ currentBannerId, unlockedBanners = [
       <p style={{ fontSize: 13, color: darkMode ? '#A0A8B8' : '#6A4F45', margin: '0 0 14px', lineHeight: 1.5 }}>{t.intro}</p>
       <div role="radiogroup" aria-label={t.title} className="fp-scroll" style={{
         display: 'flex', flexDirection: 'column', gap: 10,
-        maxHeight: '52vh', overflowY: 'auto', paddingRight: 6, marginRight: -6,
+        maxHeight: '52dvh', overflowY: 'auto', paddingRight: 6, marginRight: -6,
       }}>
         {BANNER_CATALOG.map((b) => {
           const isSel = b.id === selected

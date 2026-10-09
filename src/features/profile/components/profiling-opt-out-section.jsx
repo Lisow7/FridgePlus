@@ -72,7 +72,7 @@ export default function ProfilingOptOutSection({
       <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
         <span style={{
           width: '32px', height: '32px', borderRadius: '8px',
-          background: 'var(--gradient-warm)',
+          background: 'var(--gradient-deep)',
           color: '#FFFFFF',
           display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
         }}>

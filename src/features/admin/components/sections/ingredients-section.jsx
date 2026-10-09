@@ -1,7 +1,7 @@
-import { useState, useCallback, useEffect, useMemo } from 'react'
+import { useState, useEffect } from 'react'
 import { createPortal } from 'react-dom'
 import { LuPlus, LuPencil, LuTrash2 } from 'react-icons/lu'
-import { adminGetIngredients, adminGetIngredientById, adminUpsertIngredient, adminDeleteIngredient } from '@features/admin/api/admin'
+import { adminGetIngredients, adminGetIngredientById, adminUpsertIngredient, adminDeleteIngredient, adminCountIngredientUsage } from '@features/admin/api/admin'
 import { SUBCATEGORIES, SUBCAT_LABELS } from '@features/admin/lib/ingredient-taxonomy'
 import { useAdmin } from '../../providers/admin-provider'
 import IngredientForm from './ingredient-form'
@@ -12,12 +12,26 @@ import Button from '@shared/ui/button'
 import IconButton from '@shared/ui/icon-button'
 import EmptyState from '@shared/ui/empty-state'
 import Pagination from '@shared/ui/pagination'
+import { useReloader } from '@shared/hooks/use-reloader'
+import { leverSiErreur } from '@shared/lib/supabase/lever-si-erreur'
+import { useDebouncedValue } from '@shared/hooks/use-debounced-value'
+import { useFeedback } from '@features/admin/hooks/use-feedback'
+import ChargementRate from '../shared/chargement-rate'
+import { texteLisible } from '@shared/lib/couleurs/texte-lisible'
 
 const PER_PAGE = 50
 
 // ── Section principale ────────────────────────────────────────────────────────
 
-// eslint-disable-next-line no-unused-vars
+// Ce que la suppression va casser, compté (`usage` : null si le compte a échoué).
+function texteDeSuppression(usage) {
+  if (usage === null) return 'Impossible de compter les recettes qui s\'en servent : vérifie avant de continuer. Cette action est définitive.'
+  if (usage === 0) return 'Aucune recette ne s\'en sert. Cette action est définitive.'
+  return usage > 1
+    ? `${usage} recettes s'en servent : il deviendra introuvable pour elles. Cette action est définitive.`
+    : '1 recette s\'en sert : il deviendra introuvable pour elle. Cette action est définitive.'
+}
+
 export default function IngredientsSection({ lang = 'fr', darkMode = false, isMobile = false }) {
   const { refreshStats, focusEditId, setFocusEditId } = useAdmin()
 
@@ -30,26 +44,21 @@ export default function IngredientsSection({ lang = 'fr', darkMode = false, isMo
   const [ingCount,       setIngCount]       = useState(0)
   const [ingPage,        setIngPage]        = useState(0)
   const [ingSearch,      setIngSearch]      = useState('')
-  const [ingLoading,     setIngLoading]     = useState(false)
   const [editIngredient, setEditIngredient] = useState(null)
   const [ingSort,        setIngSort]        = useState('subcategory')
   const [ingSubcat,      setIngSubcat]      = useState('')
   const [confirmDelete,  setConfirmDelete]  = useState(null)
-  const [feedback,       setFeedback]       = useState(null)
+  const [feedback,       showFeedback]      = useFeedback(3000)
+  // Une requête quand on cesse de taper, pas une par frappe (audit ADM-09).
+  const rechercheStable = useDebouncedValue(ingSearch)
 
-  function showFeedback(ok, msg) {
-    setFeedback({ ok, msg })
-    setTimeout(() => setFeedback(null), 3000)
-  }
-
-  const loadIngredients = useCallback(async () => {
-    setIngLoading(true)
-    const { data, count } = await adminGetIngredients({ page: ingPage, search: ingSearch, subcategory: ingSubcat })
-    setIngList(data ?? []); setIngCount(count ?? 0); setIngLoading(false)
-  }, [ingPage, ingSearch, ingSubcat])
-
-  // eslint-disable-next-line react-hooks/set-state-in-effect
-  useEffect(() => { loadIngredients() }, [loadIngredients])
+  // `useReloader` : un `finally`, une garde contre la réponse obsolète, et
+  // l'échec dit au lieu d'« Aucun ingrédient » (audit ADM-08, ADM-09).
+  const { loading: ingLoading, error: erreurChargement, reload: loadIngredients } = useReloader(async (estObsolete) => {
+    const { data, count } = leverSiErreur(await adminGetIngredients({ page: ingPage, search: rechercheStable, subcategory: ingSubcat, sort: ingSort }))
+    if (estObsolete()) return
+    setIngList(data ?? []); setIngCount(count ?? 0)
+  }, [ingPage, rechercheStable, ingSubcat, ingSort])
 
   // Drill-down Qualité : ouvre directement l'éditeur de l'ingrédient ciblé.
   useEffect(() => {
@@ -66,12 +75,9 @@ export default function IngredientsSection({ lang = 'fr', darkMode = false, isMo
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [focusEditId])
 
-  const sortedList = useMemo(() => {
-    const list = [...ingList]
-    if (ingSort === 'name') return list.sort((a, b) => (a.labels?.fr ?? '').localeCompare(b.labels?.fr ?? '', 'fr'))
-    if (ingSort === 'id')   return list.sort((a, b) => a.id.localeCompare(b.id))
-    return list
-  }, [ingList, ingSort])
+  // Le tri vient de la base, sur tout le catalogue (audit ADM-10) : ici, il ne
+  // rangeait que la page affichée.
+  const sortedList = ingList
 
   async function handleSaveIngredient(row) {
     const result = await adminUpsertIngredient(row)
@@ -83,8 +89,16 @@ export default function IngredientsSection({ lang = 'fr', darkMode = false, isMo
     return result
   }
 
+  // La confirmation dit combien de recettes s'en servent : elle demandait de
+  // « vérifier qu'aucune recette ne le référence », sans liste ni compteur
+  // (audit du 2026-10-04, ADM-16).
+  async function demanderLaSuppression(ing) {
+    const { count, error } = await adminCountIngredientUsage(ing.id)
+    setConfirmDelete({ id: ing.id, usage: error ? null : count })
+  }
+
   async function handleConfirmDelete() {
-    const id = confirmDelete
+    const id = confirmDelete?.id
     setConfirmDelete(null)
     if (!id) return
     const { error } = await adminDeleteIngredient(id)
@@ -102,10 +116,10 @@ export default function IngredientsSection({ lang = 'fr', darkMode = false, isMo
     <div>
       <FeedbackBanner feedback={feedback} />
       <div style={{ display:'flex', gap:8, marginBottom:8 }}>
-        <SearchInput value={ingSearch} onChange={v => { setIngSearch(v); setIngPage(0) }} placeholder="Rechercher…" darkMode={darkMode} />
+        <SearchInput value={ingSearch} onChange={v => { setIngSearch(v); setIngPage(0) }} label="Rechercher un ingrédient" darkMode={darkMode} />
         <Button
           onClick={() => setEditIngredient({ _isNew:true })}
-          className="h-auto rounded-[10px] bg-[#E07820] px-3.5 py-2 text-sm font-bold text-white"
+          className="h-auto rounded-[10px] bg-[#B85000] px-3.5 py-2 text-sm font-bold text-white"
           style={{ gap: 5 }}
         >
           <LuPlus size={14} /> Ajouter
@@ -113,7 +127,7 @@ export default function IngredientsSection({ lang = 'fr', darkMode = false, isMo
       </div>
 
       <div style={{ display:'flex', gap:6, marginBottom:12, flexWrap:'wrap', alignItems:'center' }}>
-        <select value={ingSubcat} onChange={e => { setIngSubcat(e.target.value); setIngPage(0) }}
+        <select aria-label="Filtrer par sous-catégorie" value={ingSubcat} onChange={e => { setIngSubcat(e.target.value); setIngPage(0) }}
           style={{ flex:'1 1 180px', padding:'7px 10px', borderRadius:8, border:`1px solid ${ingSubcat ? 'var(--color-brand-500)' : border}`, background: darkMode ? '#141F2E' : '#FFF', color: ingSubcat ? 'var(--color-brand-500)' : muted, fontSize:12, outline:'none', fontFamily:'inherit', cursor:'pointer' }}>
           <option value=''>Toutes les sous-catégories</option>
           {SUBCATEGORIES.map(sc => <option key={sc} value={sc}>{SUBCAT_LABELS[sc] ?? sc}</option>)}
@@ -124,12 +138,12 @@ export default function IngredientsSection({ lang = 'fr', darkMode = false, isMo
               key={v}
               variant="ghost"
               aria-pressed={ingSort === v}
-              onClick={() => setIngSort(v)}
+              onClick={() => { setIngSort(v); setIngPage(0) }}
               className="h-auto rounded-md border px-2.5 py-1 text-xs hover:bg-transparent"
               style={{
                 borderColor: ingSort === v ? 'var(--color-brand-500)' : border,
                 background: ingSort === v ? 'rgba(224,120,32,0.12)' : 'transparent',
-                color: ingSort === v ? 'var(--color-brand-500)' : muted,
+                color: ingSort === v ? texteLisible('var(--color-brand-500)') : muted,
               }}
             >
               {l}
@@ -140,6 +154,8 @@ export default function IngredientsSection({ lang = 'fr', darkMode = false, isMo
 
       {ingLoading
         ? <div style={{ textAlign:'center', padding:'40px', color:muted, fontSize:13 }}>Chargement…</div>
+        : erreurChargement
+        ? <ChargementRate error={erreurChargement} onRetry={loadIngredients} lang={lang} />
         : sortedList.length === 0
         ? <EmptyState muted={muted}>Aucun ingrédient.</EmptyState>
         : (
@@ -156,7 +172,7 @@ export default function IngredientsSection({ lang = 'fr', darkMode = false, isMo
                     <IconButton color="var(--color-info)" onClick={() => setEditIngredient({ ...ing, _isNew:false })} aria-label="Modifier">
                       <LuPencil size={14} />
                     </IconButton>
-                    <IconButton color="var(--color-danger)" onClick={() => setConfirmDelete(ing.id)} aria-label="Supprimer">
+                    <IconButton color="var(--color-danger)" onClick={() => demanderLaSuppression(ing)} aria-label="Supprimer">
                       <LuTrash2 size={14} />
                     </IconButton>
                   </div>
@@ -183,7 +199,7 @@ export default function IngredientsSection({ lang = 'fr', darkMode = false, isMo
       {confirmDelete && createPortal(
         <ConfirmDeleteModal
           title="Supprimer cet ingrédient ?"
-          body="L'ingrédient sera supprimé du catalogue. Cette action est définitive — vérifiez qu'aucune recette ne le référence avant de continuer."
+          body={texteDeSuppression(confirmDelete.usage)}
           confirmLabel="Supprimer" cancelLabel="Annuler"
           onConfirm={handleConfirmDelete} onCancel={() => setConfirmDelete(null)}
           darkMode={darkMode}

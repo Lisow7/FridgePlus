@@ -1,12 +1,13 @@
 // Hook React pour vérifier la modération d'un contenu UGC avant soumission.
 // Wraps l'appel à l'Edge Function `moderate-content`.
+// Textes PUBLICS seulement : une demande au support ne passe plus ici (RGPD-02).
 
 import { useState } from 'react'
 import { supabase } from '@shared/lib/supabase/client'
 
 /**
  * @returns {{
- *   moderate: (content: string, feature: 'recipe' | 'ticket' | 'profile-bio') => Promise<ModerationResult>,
+ *   moderate: (content: string, feature: 'recipe' | 'profile-bio' | 'review' | 'community-post') => Promise<ModerationResult>,
  *   loading: boolean,
  *   error: string | null
  * }}

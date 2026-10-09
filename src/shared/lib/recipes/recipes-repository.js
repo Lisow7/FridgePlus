@@ -23,6 +23,9 @@
 //   - Les writes officials passent par la view `base_recipes` (idem).
 
 import { supabase } from '@shared/lib/supabase/client'
+import { auMoinsUneLigne } from '@shared/lib/supabase/rows-affected'
+import { versErreur } from '@shared/lib/supabase/lever-si-erreur'
+import { motifContient, motifDansOu } from '@shared/lib/supabase/motif-de-recherche'
 
 // ─── Helpers de mapping ──────────────────────────────────────────────────────
 
@@ -57,17 +60,22 @@ function pickOfficialName(row, lang = 'fr') {
 // Reads — recettes communauté (view custom_recipes)
 // ═══════════════════════════════════════════════════════════════════════════
 
-// Liste les recettes communauté d'un user (tous statuts sauf supprimées).
-// Utilisée par MyRecipes panel + admin user profile.
-export async function findCommunityRecipesByUser(userId) {
-  if (!userId) return []
-  const { data } = await supabase
+// Les recettes d'un compte (tous statuts sauf supprimées) : `{ recipes, error }`.
+//
+// 🔴 Rend l'ERREUR. Jusqu'au 2026-10-05 cette lecture (`findCommunityRecipesByUser`)
+// rendait une liste vide quand la base refusait : « Mes recettes » se vidait à
+// l'écran sur un simple chargement raté — à la connexion, et après chaque
+// enregistrement ou suppression, qui rechargent la liste.
+export async function loadCommunityRecipesByUser(userId) {
+  if (!userId) return { recipes: [], error: null }
+  const { data, error } = await supabase
     .from('custom_recipes')
     .select('id, data, moderation_status, is_public, admin_modified, consent_to_promote')
     .eq('user_id', userId)
     .is('deleted_at', null)
     .order('created_at', { ascending: false })
-  return (data ?? []).map(r => mapCommunityRecipe(r))
+  if (error) return { recipes: [], error }
+  return { recipes: (data ?? []).map(r => mapCommunityRecipe(r)), error: null }
 }
 
 // Liste les recettes communauté publiques (approuvées + visibles).
@@ -173,12 +181,11 @@ export async function findPublicCommunityRecipesByUser(userId) {
 // Retourne shape minimal { id, label, emoji } pour ContextSelector.
 export async function searchCommunityRecipes(query) {
   if (!query?.trim()) return []
-  const s = query.trim().replace(/%/g, '')
   const { data } = await supabase
     .from('custom_recipes')
     .select('id, title, data')
     .eq('is_public', true)
-    .ilike('title', `%${s}%`)
+    .ilike('title', motifContient(query))
     .limit(8)
   return (data ?? []).map(r => ({
     id:    String(r.id),
@@ -215,11 +222,11 @@ export async function findCommunityRecipeTitlesByIds(ids) {
 // Recherche texte sur nom officials (recherche signalement, multi-lang).
 export async function searchOfficialRecipes(query, lang = 'fr') {
   if (!query?.trim()) return []
-  const s = query.trim().replace(/%/g, '')
+  const m = motifDansOu(query)
   const { data } = await supabase
     .from('base_recipes')
     .select('id, name, emoji')
-    .or(`id.ilike.%${s}%,name->>${lang}.ilike.%${s}%,name->>fr.ilike.%${s}%`)
+    .or(`id.ilike.${m},name->>${lang}.ilike.${m},name->>fr.ilike.${m}`)
     .limit(8)
   return (data ?? []).map(r => ({
     id:    String(r.id),
@@ -257,19 +264,23 @@ export async function findAllPublishedOfficialRecipes() {
 }
 
 // Count total recettes non-soft-deleted (admin stats).
+// Les comptages LÈVENT sur erreur : un 0 cachait le badge et se lisait « rien
+// à modérer » (audit ADM-08).
 export async function countAllRecipes() {
-  const { count } = await supabase
+  const { count, error } = await supabase
     .from('recipes_unified')
     .select('id', { count: 'exact', head: true })
     .is('deleted_at', null)
+  if (error) throw versErreur(error)
   return count ?? 0
 }
 
 // Count officials uniquement (admin stats dashboard).
 export async function countOfficialRecipes() {
-  const { count } = await supabase
+  const { count, error } = await supabase
     .from('base_recipes')
     .select('id', { count: 'exact', head: true })
+  if (error) throw versErreur(error)
   return count ?? 0
 }
 
@@ -332,11 +343,13 @@ export async function softDeleteCommunityRecipe(id, userId) {
 }
 
 // User a vu les modifs admin → reset le flag pour ne plus afficher la bannière.
+// Rend `{ error }` : si l'écriture échoue, le bandeau reviendrait au rechargement.
 export async function markCommunityRecipeAdminModifiedRead(id, userId) {
-  await supabase.from('custom_recipes')
+  const { error } = await supabase.from('custom_recipes')
     .update({ admin_modified: false })
     .eq('id', id)
     .eq('user_id', userId)
+  return { error: error ?? null }
 }
 
 // Upsert batch (migration localStorage → DB au 1er login).
@@ -380,11 +393,12 @@ export async function deleteCommunityRecipeRGPD(recipeId) {
 
 // Count recettes communauté par statut de modération.
 export async function adminCountCommunityRecipesByStatus(status) {
-  const { count } = await supabase
+  const { count, error } = await supabase
     .from('custom_recipes')
     .select('id', { count: 'exact', head: true })
     .eq('moderation_status', status)
     .is('deleted_at', null)
+  if (error) throw versErreur(error)
   return count ?? 0
 }
 
@@ -424,36 +438,50 @@ export async function adminFindRecentCommunityRecipesByUser(userId, limit = 20) 
 }
 
 // Créations community depuis date (analytics dashboard).
+// Lève sur erreur : le graphique du tableau de bord compterait sinon 0 recette
+// sans rien dire (audit ADM-08).
 export async function adminFindCommunityRecipeCreationsSince(sinceIso) {
-  const { data } = await supabase
+  const { data, error } = await supabase
     .from('custom_recipes')
     .select('created_at')
     .gte('created_at', sinceIso)
     .is('deleted_at', null)
     .order('created_at')
+  if (error) throw versErreur(error)
   return data ?? []
 }
 
 // Update community recipe par admin (édition contenu, flag admin_modified).
+// Les écritures admin demandent les lignes touchées (audit ADM-26) : 0 ligne =
+// échec. Par les vues `custom_recipes` / `base_recipes`, le RETURNING rend
+// bien la ligne (leurs déclencheurs INSTEAD OF renvoient NEW / OLD — vérifié
+// sur la vraie base le 2026-10-05).
 export async function adminUpdateCommunityRecipe(id, patch) {
-  const { error } = await supabase.from('custom_recipes').update(patch).eq('id', id)
+  const { error } = auMoinsUneLigne(await supabase.from('custom_recipes').update(patch).eq('id', id).select('id'))
   return { error }
 }
 
 // Soft-delete admin (deleted_at).
 export async function adminSoftDeleteCommunityRecipe(id) {
-  const { error } = await supabase
+  const { error } = auMoinsUneLigne(await supabase
     .from('custom_recipes')
     .update({ deleted_at: new Date().toISOString() })
     .eq('id', id)
+    .select('id'))
   return { error }
 }
 
 // Officials — admin pagination + filtres (admin Base Recipes panel).
+// Tri côté base, sur tout le catalogue (audit ADM-10 : l'écran ne triait que
+// la page affichée). Les favoris, eux, se comptent page par page : leur tri
+// reste à l'écran, et dit « cette page ».
+const ORDRES_DES_RECETTES = { name: ['name->>fr', 'id'], type: ['type', 'id'] }
+
 export async function adminFindOfficialRecipesPaginated({
   page = 0,
   pageSize = 50,
   search = '',
+  sort = 'id',
   type = '',
   difficulty = '',
   timeRange = '',
@@ -475,11 +503,13 @@ export async function adminFindOfficialRecipesPaginated({
       'promoted_from_id, promoted_at, original_author_id, original_author_name',
       { count: 'exact' }
     )
-    .order('id')
     .range(page * pageSize, (page + 1) * pageSize - 1)
+  for (const colonne of ORDRES_DES_RECETTES[sort] ?? ['id']) query = query.order(colonne)
   if (search.trim()) {
-    const s = search.trim().replace(/%/g, '')
-    query = query.or(`id.ilike.%${s}%,name->>fr.ilike.%${s}%`)
+    // Une virgule ou une parenthèse cassait le filtre (400) : l'écran disait
+    // « Aucune recette » (audit ADM-10).
+    const m = motifDansOu(search)
+    query = query.or(`id.ilike.${m},name->>fr.ilike.${m}`)
   }
   if (type)       query = query.eq('type', type)
   if (difficulty) query = query.eq('difficulty', difficulty)
@@ -499,7 +529,7 @@ export async function adminUpsertOfficialRecipe(row) {
 
 // Delete official (hard delete admin).
 export async function adminDeleteOfficialRecipe(id) {
-  const { error } = await supabase.from('base_recipes').delete().eq('id', id)
+  const { error } = auMoinsUneLigne(await supabase.from('base_recipes').delete().eq('id', id).select('id'))
   return { error }
 }
 

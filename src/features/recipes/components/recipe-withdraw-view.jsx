@@ -218,10 +218,14 @@ export function RecipeWithdrawBody({
           const emoji = info?.emoji ?? '•'
           const imageUrl = info?.image_url
 
+          // Une VRAIE case à cocher, dans un `<label>` qui prend le clic de toute la
+          // ligne (lot 9f : c'était une `div` cliquable avec une case dessinée —
+          // rien au clavier, ni état pour le lecteur d'écran). La case dessinée
+          // reste, et montre le focus de la vraie, invisible.
+          const basculer = () => setStepTwoState(prev => ({ ...prev, [ingIndex]: { ...prev[ingIndex], checked: !prev[ingIndex].checked } }))
           return (
-            <div
+            <label
               key={ingIndex}
-              onClick={() => setStepTwoState(prev => ({ ...prev, [ingIndex]: { ...prev[ingIndex], checked: !prev[ingIndex].checked } }))}
               style={{
                 display: 'flex', alignItems: 'center', gap: '12px',
                 padding: '10px 14px', borderRadius: '10px', cursor: 'pointer',
@@ -232,8 +236,8 @@ export function RecipeWithdrawBody({
                 transition: 'background 0.15s, border-color 0.15s',
               }}
             >
-              {/* Custom checkbox */}
-              <div style={{
+              <input type="checkbox" className="peer sr-only" checked={!!state.checked} onChange={basculer} />
+              <span aria-hidden="true" className="peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-[var(--link-accent)] peer-focus-visible:[outline-style:solid]" style={{
                 width: '20px', height: '20px', borderRadius: '6px', flexShrink: 0,
                 border: `2px solid ${state.checked ? '#7BB078' : (darkMode ? '#3A5070' : '#C4A890')}`,
                 background: state.checked ? '#7BB078' : 'transparent',
@@ -241,7 +245,7 @@ export function RecipeWithdrawBody({
                 transition: 'all 0.15s',
               }}>
                 {state.checked && <span style={{ color: 'white', fontSize: '11px', fontWeight: 900, lineHeight: 1 }}>✓</span>}
-              </div>
+              </span>
 
               <Emoji char={emoji} size={18} style={{ flexShrink: 0 }} imageUrl={imageUrl} />
               <span style={{
@@ -281,7 +285,7 @@ export function RecipeWithdrawBody({
                   </span>
                 )
               })()}
-            </div>
+            </label>
           )
         })}
       </div>
@@ -299,7 +303,7 @@ export function RecipeWithdrawBody({
           className={`h-auto w-full rounded-xl px-4 py-3.5 text-sm font-bold ${canConfirm ? 'soft-blink' : ''}`}
           style={{
             background: canConfirm
-              ? 'var(--gradient-warm)'
+              ? 'var(--gradient-deep)'
               : (darkMode ? '#2A3A50' : '#E8D5B8'),
             color: canConfirm ? 'white' : mutedColor,
             transition: 'all 0.2s',

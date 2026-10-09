@@ -138,7 +138,10 @@ jobs:
         with:
           name: ${{ env.BACKUP_FILE }}.gpg
           path: ${{ env.BACKUP_FILE }}.gpg
-          retention-days: 90
+          # 30 jours : la durée que promettent la politique de confidentialité et
+          # la page de suppression de compte (audit du 2026-10-04, RGPD-08 — le
+          # flux en gardait 90).
+          retention-days: 30
           if-no-files-found: error
 
       - name: Summary

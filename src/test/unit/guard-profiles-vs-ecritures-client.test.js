@@ -33,9 +33,14 @@ import { resolve, join } from 'node:path'
 // 14 appels ne le fait, tous portent des clés littérales. Si un jour l'un d'eux
 // construit son objet, ce test cesse silencieusement de couvrir ce chemin.
 
+// 🔴 La migration lue ici doit être celle qui porte la DERNIÈRE définition du
+// garde. Depuis le 2026-10-04 c'est `20261004_inscription_sans_impasse.sql`
+// (les dates de preuve d'acceptation peuvent passer de vide à « maintenant ») ;
+// lire encore celle du 8 août aurait gardé ce test vert sur une définition que
+// la base n'exécute plus.
 const MIGRATION = resolve(
   process.cwd(),
-  'supabase/migrations/20260808_guard_profiles_columns_restantes.sql',
+  'supabase/migrations/20261004_inscription_sans_impasse.sql',
 )
 const RACINE_SRC = resolve(process.cwd(), 'src')
 

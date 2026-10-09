@@ -9,15 +9,20 @@
 // découvre les dictionnaires par glob : la parité des clés fr/en y est garantie
 // sans inscription manuelle.
 
+import { SUPPORT_EMAIL } from '@shared/lib/contact'
+
 export const SUPPORT_I18N = {
   fr: {
     title:'Support', newTicket:'Nouvelle demande', back:'Retour',
     noTickets:'Aucun ticket pour l\'instant.',
     noTicketsHint:'Utilise le bouton ci-dessus pour nous contacter.',
-    reply:'Ton message…',
+    reply:'ex. : Merci, c\'est réglé !', replyAria:'Ta réponse au support',
     status:{ open:'Ouvert', in_progress:'En cours', resolved:'Résolu' },
     maxTickets:'Limite de 3 tickets ouverts atteinte.',
+    maxReports:'Limite de 10 signalements en attente atteinte : l\'équipe les traite, réessaie quand l\'un d\'eux sera fermé.',
+    accountRestricted:`Ton compte ne peut plus rien envoyer. Pour en parler : ${SUPPORT_EMAIL}`,
     errorSend:'Erreur lors de l\'envoi.',
+    errorLoadMessages:'Les messages n\'ont pas pu être chargés. Ferme puis rouvre le ticket.',
     errorAction:'L\'opération a échoué. Rien n\'a été modifié.',
     you:'Toi', admin:'Admin',
     resolvedNotice:'Ce ticket est résolu.',
@@ -25,7 +30,7 @@ export const SUPPORT_I18N = {
     confirmDeleteMessage:'Supprimer ce message définitivement ?',
     deleteTicket:'Supprimer le ticket',
     confirmDeleteTicket:'Supprimer ce ticket définitivement ? Cette action est irréversible.',
-    editTitle:'Modifier le titre', saveTitle:'Enregistrer', saveTitleAria:'Enregistrer le titre', cancel:'Annuler',
+    editTitle:'Modifier le titre', saveTitle:'Enregistrer', saveTitleAria:'Enregistrer le titre', titleInputAria:'Titre de la demande', cancel:'Annuler',
     sendReply:'Envoyer la réponse', close:'Fermer',
     // flux guidé
     catTitle:'Comment pouvons-nous t\'aider ?',
@@ -68,7 +73,6 @@ export const SUPPORT_I18N = {
     reasonRequired:'Choisis un motif.',
     titleRequired:'Écris un objet.',
     messageRequired:'Écris un message.',
-    moderationFlagged:'Ton message contient du contenu jugé inapproprié. Reformule-le ou contacte-nous autrement.',
     nextStep:'Continuer',
     confirmSectionTitle:'Récapitulatif',
     confirmCat:'Catégorie', confirmTarget:'Cible', confirmReason:'Motif',
@@ -79,10 +83,13 @@ export const SUPPORT_I18N = {
     title:'Support', newTicket:'New request', back:'Back',
     noTickets:'No tickets yet.',
     noTicketsHint:'Use the button above to contact us.',
-    reply:'Your message…',
+    reply:'e.g. Thanks, it works now!', replyAria:'Your reply to support',
     status:{ open:'Open', in_progress:'In progress', resolved:'Resolved' },
     maxTickets:'You have reached the limit of 3 open tickets.',
+    maxReports:'You have reached the limit of 10 pending reports: the team is handling them, try again once one is closed.',
+    accountRestricted:`Your account can no longer send anything. To talk about it: ${SUPPORT_EMAIL}`,
     errorSend:'Error while sending.',
+    errorLoadMessages:'The messages could not be loaded. Close and reopen the ticket.',
     errorAction:'The operation failed. Nothing was changed.',
     you:'You', admin:'Admin',
     resolvedNotice:'This ticket is resolved.',
@@ -90,7 +97,7 @@ export const SUPPORT_I18N = {
     confirmDeleteMessage:'Permanently delete this message?',
     deleteTicket:'Delete ticket',
     confirmDeleteTicket:'Permanently delete this ticket? This cannot be undone.',
-    editTitle:'Edit title', saveTitle:'Save', saveTitleAria:'Save title', cancel:'Cancel',
+    editTitle:'Edit title', saveTitle:'Save', saveTitleAria:'Save title', titleInputAria:'Request title', cancel:'Cancel',
     sendReply:'Send reply', close:'Close',
     catTitle:'How can we help you?',
     helpTitle:'Quick help',
@@ -132,7 +139,6 @@ export const SUPPORT_I18N = {
     reasonRequired:'Please choose a reason.',
     titleRequired:'Please enter a subject.',
     messageRequired:'Please enter a message.',
-    moderationFlagged:'Your message contains content flagged as inappropriate. Rephrase it or reach out differently.',
     nextStep:'Continue',
     confirmSectionTitle:'Summary',
     confirmCat:'Category', confirmTarget:'Target', confirmReason:'Reason',

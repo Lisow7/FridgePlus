@@ -97,7 +97,7 @@ export default function InstallButton({ lang = 'fr', darkMode = false }) {
               </ol>
               <Button
                 onClick={() => setShowIosHelp(false)}
-                className="h-auto rounded-lg bg-[#E07820] px-4 py-2 text-[13px] font-bold text-white"
+                className="h-auto rounded-lg bg-[#B85000] px-4 py-2 text-[13px] font-bold text-white"
               >
                 {t.iosClose}
               </Button>

@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import DoorOpenHint from './door-open-hint'
 import { useIngredients } from '@shared/contexts/data-provider'
 import { SUBCATEGORY_COLORS } from '@shared/static/subcategory-colors'
 import FoodIcon from '@shared/ui/food-icon'
@@ -7,6 +6,7 @@ import { LuX } from 'react-icons/lu'
 import { useWindowWidth } from '@shared/hooks/use-window-width'
 import { isLeftoverExpired } from '@features/fridge/api/leftovers'
 import Button from '@shared/ui/button'
+import { compterEnStock } from '@features/fridge/lib/compter-en-stock'
 
 const COMPARTMENT_COLORS = {
   freezer:   { bg: '#E8F4F8', text: '#5B9AAE' },
@@ -124,7 +124,7 @@ export default function FridgeStandard({ layout, lang = 'fr', onSubcategoryClick
                   const totalStock = isLeftovers
                     ? leftovers.filter(l => !isLeftoverExpired(l.expires_at)).length
                     : c.subcategories.reduce(
-                        (sum, sub) => sum + (INGREDIENTS[sub.id] ?? []).filter(i => stock.has(i.id)).length, 0
+                        (sum, sub) => sum + compterEnStock(INGREDIENTS, sub.id, stock), 0
                       )
                   const showExpiredBadge = isLeftovers && expiredLeftoversCount > 0
 
@@ -157,7 +157,7 @@ export default function FridgeStandard({ layout, lang = 'fr', onSubcategoryClick
                               {c.subcategories.map((sub, idx) => {
                                 const subCount = (sub.id === 'today' || sub.id === 'thisweek')
                                   ? getActiveCount(leftovers, sub.id)
-                                  : (INGREDIENTS[sub.id] ?? []).filter(i => stock.has(i.id)).length
+                                  : compterEnStock(INGREDIENTS, sub.id, stock)
                                 const subColors = SUBCATEGORY_COLORS[sub.id] ?? palette
                                 return (
                                   <Button
@@ -197,7 +197,7 @@ export default function FridgeStandard({ layout, lang = 'fr', onSubcategoryClick
                               {c.subcategories.map((sub, idx) => {
                                 const subCount = (sub.id === 'today' || sub.id === 'thisweek')
                                   ? getActiveCount(leftovers, sub.id)
-                                  : (INGREDIENTS[sub.id] ?? []).filter(i => stock.has(i.id)).length
+                                  : compterEnStock(INGREDIENTS, sub.id, stock)
                                 const subColors = SUBCATEGORY_COLORS[sub.id] ?? palette
                                 return (
                                   <Button
@@ -355,10 +355,9 @@ export default function FridgeStandard({ layout, lang = 'fr', onSubcategoryClick
                     <span className="text-xl font-bold" style={{ color: 'var(--color-brand-500)', opacity: 1 }}>+</span>
                   </div>
                   <div
-                    className="absolute right-6 top-1/2 -translate-y-1/2 w-3 h-28 rounded-full"
+                    className="fp-poignee absolute right-6 top-1/2 -translate-y-1/2 w-3 h-28 rounded-full"
                     style={{ background: 'linear-gradient(180deg, #F5A45A 0%, #E07820 100%)' }}
                   />
-                  <DoorOpenHint lang={lang} darkMode={darkMode} show={stock.size === 0} />
                 </div>
 
               </div>

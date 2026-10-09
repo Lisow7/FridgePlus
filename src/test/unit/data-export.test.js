@@ -21,6 +21,8 @@ function makeBuilder(resolvedValue, { withMaybeSingle } = {}) {
     select: vi.fn(() => builder),
     eq:     vi.fn(() => builder),
     in:     vi.fn(() => builder),
+    order:  vi.fn(() => builder),
+    range:  vi.fn(() => builder),
     then:   (resolve) => resolve(resolvedValue),
   }
   if (withMaybeSingle) builder.maybeSingle = vi.fn(() => Promise.resolve(resolvedValue))
@@ -43,7 +45,9 @@ describe('exportUserData — profiles ne doit jamais faire select(*)', () => {
       shopping_lists:      makeBuilder({ data: [], error: null }),
       push_subscriptions:  makeBuilder({ data: [], error: null }),
     }
-    mockFrom.mockImplementation((table) => builders[table])
+    // L'export lit aussi d'autres tables (journal, communauté, notifications…) :
+    // elles rendent une liste vide ici, ce test ne regarde que `profiles`.
+    mockFrom.mockImplementation((table) => builders[table] ?? makeBuilder({ data: [], error: null }))
   })
 
   it('sélectionne une liste explicite de colonnes (pas "*") sur profiles', async () => {

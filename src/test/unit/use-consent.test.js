@@ -40,13 +40,16 @@ describe('use-consent — catégorie voice + bannerDismissed', () => {
     expect(hasConsentedSync('voice')).toBe(false)
   })
 
-  it('migration legacy : enregistrement v1 sans bannerDismissed → bandeau NON réaffiché, voice=false', async () => {
+  // Version 2 (décision du 2026-10-06) : la question est reposée à tous —
+  // un enregistrement v1, même récent et même sans `bannerDismissed`, ne vaut
+  // plus pour les cookies.
+  it('enregistrement v1 (ancien bandeau, une seule case) → bandeau réaffiché, voice=false', async () => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify({
-      version: 1, timestamp: 123, essential: true, functional: true, audience: false,
+      version: 1, timestamp: Date.now() - 1000, essential: true, functional: true, audience: false,
     }))
     const { useConsent, hasConsentedSync } = await freshConsent()
     const { result } = renderHook(() => useConsent())
-    expect(result.current.hasDecided).toBe(true)   // avait déjà décidé
+    expect(result.current.hasDecided).toBe(false)  // reposée à tous
     expect(hasConsentedSync('voice')).toBe(false)  // voice absent → false
   })
 

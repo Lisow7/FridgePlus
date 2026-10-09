@@ -66,7 +66,7 @@ export default function ReusableModal({
           background: bg, color: fg,
           borderRadius: 14,
           maxWidth: widths[size] ?? widths.md, width: '100%',
-          maxHeight: '90vh',
+          maxHeight: '90dvh',
           display: 'flex', flexDirection: 'column',
           boxShadow: '0 24px 64px rgba(0,0,0,0.4)',
           overflow: 'hidden',

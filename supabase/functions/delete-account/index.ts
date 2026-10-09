@@ -24,6 +24,7 @@ import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.112.3'
 import { getCorsHeaders } from '../_shared/cors.ts'
 import { applyRateLimit } from '../_shared/rate-limit.ts'
 import { sendEmail } from '../_shared/email.ts'
+import { reserverUnEmail } from '../_shared/email-quota.ts'
 
 const RETENTION_DAYS = 30
 
@@ -231,13 +232,20 @@ Deno.serve(async (req: Request) => {
     const expiryStr  = formatExpiryDate(expiry, safeLang)
     const t          = EMAIL_I18N[safeLang]
 
-    // Best-effort : sendEmail journalise déjà l'échec côté serveur ; la
-    // suppression du compte reste valide même si l'email ne part pas.
-    await sendEmail(resendKey, {
-      to: user.email,
-      subject: t.subject,
-      html: buildEmailHTML({ username, restoreUrl, expiryDate: expiryStr, lang: safeLang }),
-    }, 'delete-account')
+    // Plafond quotidien d'e-mails par compte (BDD-08) : une boucle
+    // supprimer / restaurer ne vide plus le quota d'envoi de toute l'app.
+    const reservation = await reserverUnEmail(supabaseAdmin, user.id, 'account_deleted')
+    if (reservation === 'ok') {
+      // Best-effort : sendEmail journalise déjà l'échec côté serveur ; la
+      // suppression du compte reste valide même si l'email ne part pas.
+      await sendEmail(resendKey, {
+        to: user.email,
+        subject: t.subject,
+        html: buildEmailHTML({ username, restoreUrl, expiryDate: expiryStr, lang: safeLang }),
+      }, 'delete-account')
+    } else {
+      console.warn('delete-account: e-mail non envoyé —', reservation)
+    }
   }
 
   return new Response(

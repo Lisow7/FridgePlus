@@ -1,3 +1,4 @@
+import { useId } from 'react'
 import Button from '@shared/ui/button'
 import RecipeFormSelectDropdown from './recipe-form-select-dropdown'
 import { TYPE_COLORS } from '@shared/static/recipe-constants'
@@ -22,6 +23,9 @@ export default function RecipeFormDetailsSection({
   inputBase, label, allergenTypes, dietTypes, allergenKeys,
   countryOptions, toggleDiet,
 }) {
+  // La durée : un libellé RELIÉ, et son erreur aussi (audit A11Y-07).
+  const idTemps = useId()
+  const idErreurTemps = `${idTemps}-erreur`
   return (
     <>
           {/* Détails */}
@@ -44,12 +48,16 @@ export default function RecipeFormDetailsSection({
 
               {/* Temps */}
               <div>
-                <span style={label}>{t.fieldTime}</span>
+                <label htmlFor={idTemps} style={label}>{t.fieldTime}</label>
                 <div style={{ display:'flex', alignItems:'center', gap:'6px' }}>
-                  <input type="number" min="1" max="999" value={form.time} onChange={e => update('time', e.target.value)} style={{ ...inputBase(errors.time), width:'70px', textAlign:'center', flexShrink:0 }} />
+                  <input
+                    id={idTemps} type="number" min="1" max="999" value={form.time} onChange={e => update('time', e.target.value)}
+                    aria-invalid={errors.time ? true : undefined} aria-describedby={errors.time ? idErreurTemps : undefined}
+                    style={{ ...inputBase(errors.time), width:'70px', textAlign:'center', flexShrink:0 }}
+                  />
                   <span style={{ fontSize:'13px', color:'var(--color-muted)', whiteSpace:'nowrap' }}>min</span>
                 </div>
-                {errors.time && <span style={ERR_MSG}>{errors.time}</span>}
+                {errors.time && <span id={idErreurTemps} style={ERR_MSG}>{errors.time}</span>}
               </div>
 
               {/* Difficulté */}

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState, useId } from 'react'
 import { LuRefreshCw, LuCheck, LuX, LuSearch, LuPlay, LuPackage } from 'react-icons/lu'
 import {
   adminGetImportQueue,
@@ -14,6 +14,8 @@ import { useConfirm } from '@shared/ui/confirm-dialog/confirm-provider'
 import ImportMetrics from './import-metrics'
 import { formatDate } from '@shared/lib/format-date'
 import { useReloader } from '@shared/hooks/use-reloader'
+import { leverSiErreur } from '@shared/lib/supabase/lever-si-erreur'
+import ChargementRate from '../shared/chargement-rate'
 
 const STATUS_LABEL = {
   pending:      { label: 'En attente',   color: '#7A8298',                bg: 'rgba(122,130,152,0.10)' },
@@ -46,6 +48,7 @@ export default function ImportQueueTab({ darkMode = false }) {
   const [statusFilter, setStatusFilter] = useState('all')
   const [batchFilter, setBatchFilter] = useState('')
   const [search,      setSearch]      = useState('')
+  const rechercheId = useId()
   const [busyId,      setBusyId]      = useState(null)
   const [batchBusy,   setBatchBusy]   = useState(false)
   const [toast,       setToast]       = useState(null)
@@ -70,21 +73,19 @@ export default function ImportQueueTab({ darkMode = false }) {
   // `useReloader` garantit le `finally` (sans lui, une erreur réseau laissait
   // le voyant allumé pour toujours) et périme les réponses en retard : sans ça,
   // enchaîner deux filtres laissait la plus ancienne écraser la plus récente.
-  const { loading, reload } = useReloader(async (estObsolete) => {
-    const { data, count: c, error } = await adminGetImportQueue({
+  // Un échec se dit À LA PLACE de la file (un toast passager laissait « Aucune
+  // entrée dans la file » affiché — audit ADM-08).
+  const { loading, error, reload } = useReloader(async (estObsolete) => {
+    const { data, count: c } = leverSiErreur(await adminGetImportQueue({
       status: statusFilter,
       batchId: batchFilter,
       search,
       page: 0,
       pageSize: 50,
-    })
+    }))
     if (estObsolete()) return
-    if (error) {
-      showToast('error', `Erreur chargement : ${error.message}`)
-    } else {
-      setRows(data)
-      setCount(c)
-    }
+    setRows(data)
+    setCount(c)
   }, [statusFilter, batchFilter, search])
 
   const batchOptions = useMemo(() => {
@@ -152,7 +153,6 @@ export default function ImportQueueTab({ darkMode = false }) {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-      <style>{`@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}`}</style>
 
       {/* Import metrics dashboard */}
       <ImportMetrics darkMode={darkMode} reloadKey={metricsKey} />
@@ -184,6 +184,7 @@ export default function ImportQueueTab({ darkMode = false }) {
         </span>
 
         <select
+          aria-label="Filtrer par lot d'import"
           value={batchFilter}
           onChange={e => setBatchFilter(e.target.value)}
           style={{
@@ -220,7 +221,7 @@ export default function ImportQueueTab({ darkMode = false }) {
           className="ml-auto h-auto rounded-lg border bg-transparent px-3 py-1.5 text-xs hover:bg-transparent"
           style={{ gap: 6, borderColor: border, color: muted }}
         >
-          <LuRefreshCw size={13} style={{ animation: loading ? 'spin 1s linear infinite' : 'none' }} />
+          <LuRefreshCw size={13} className={loading ? 'animate-spin' : undefined} />
           Recharger
         </Button>
       </div>
@@ -242,38 +243,41 @@ export default function ImportQueueTab({ darkMode = false }) {
       </div>
 
       {/* Search input */}
-      <div style={{ position: 'relative' }}>
-        <LuSearch
-          size={13}
-          style={{
-            position: 'absolute', left: 10, top: '50%',
-            transform: 'translateY(-50%)', color: muted, pointerEvents: 'none',
-          }}
-        />
-        <input
-          value={search}
-          onChange={e => setSearch(e.target.value)}
-          placeholder="Filtrer par nom ou clé externe…"
-          style={{
-            width: '100%', padding: '7px 32px 7px 30px',
-            borderRadius: 8, border: `1px solid ${border}`,
-            background: darkMode ? '#141F2E' : '#FFF',
-            color: fg, fontSize: 13, outline: 'none',
-            fontFamily: 'inherit', boxSizing: 'border-box',
-          }}
-        />
-        {search && (
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => setSearch('')}
-            aria-label="Effacer la recherche"
-            className="absolute right-2 top-1/2 h-auto w-auto -translate-y-1/2 bg-transparent p-0.5 hover:bg-transparent"
-            style={{ color: muted }}
-          >
-            <LuX size={13} />
-          </Button>
-        )}
+      <div>
+        <label htmlFor={rechercheId} style={{ display: 'block', fontSize: 11, fontWeight: 700, color: 'var(--color-muted)', marginBottom: 4 }}>Filtrer par nom ou clé externe</label>
+        <div style={{ position: 'relative' }}>
+          <LuSearch
+            size={13}
+            style={{
+              position: 'absolute', left: 10, top: '50%',
+              transform: 'translateY(-50%)', color: muted, pointerEvents: 'none',
+            }}
+          />
+          <input
+            id={rechercheId}
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+            style={{
+              width: '100%', padding: '7px 32px 7px 30px',
+              borderRadius: 8, border: `1px solid ${border}`,
+              background: darkMode ? '#141F2E' : '#FFF',
+              color: fg, fontSize: 13, outline: 'none',
+              fontFamily: 'inherit', boxSizing: 'border-box',
+            }}
+          />
+          {search && (
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setSearch('')}
+              aria-label="Effacer la recherche"
+              className="absolute right-2 top-1/2 h-auto w-auto -translate-y-1/2 bg-transparent p-0.5 hover:bg-transparent"
+              style={{ color: muted }}
+            >
+              <LuX size={13} />
+            </Button>
+          )}
+        </div>
       </div>
 
       {/* List */}
@@ -281,6 +285,8 @@ export default function ImportQueueTab({ darkMode = false }) {
         <div style={{ padding: '24px', color: muted, textAlign: 'center', fontSize: 13 }}>
           Chargement…
         </div>
+      ) : error ? (
+        <ChargementRate error={error} onRetry={reload} />
       ) : rows.length === 0 ? (
         <EmptyState variant="card" icon="📭" muted={muted} border={border} cardBg={rowBg}>
           Aucune entrée dans la file d&apos;import.

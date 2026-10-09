@@ -157,7 +157,7 @@ export default function ProfilePage({ lang = 'fr', darkMode = false }) {
                   border: '1.5px solid',
                   borderColor: isActive ? 'var(--color-warm-600)' : border,
                   background: isActive
-                    ? 'var(--gradient-warm)'
+                    ? 'var(--gradient-deep)'
                     : 'transparent',
                   color: isActive ? '#FFFFFF' : textColor,
                   fontSize: '13px',
@@ -175,7 +175,8 @@ export default function ProfilePage({ lang = 'fr', darkMode = false }) {
         </nav>
       )}
 
-      <main style={{
+      {/* <div> et non <main> : le shell fournit déjà le repère main (A11Y-14). */}
+      <div style={{
         flex: 1,
         padding: isMobile ? '12px' : '24px 32px',
         overflowY: 'auto',
@@ -189,7 +190,7 @@ export default function ProfilePage({ lang = 'fr', darkMode = false }) {
           profile,
           isAdmin,
         }} />
-      </main>
+      </div>
 
       {avatarModalOpen && (
         <AvatarPickerModal

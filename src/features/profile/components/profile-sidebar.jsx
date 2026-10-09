@@ -66,7 +66,7 @@ export default function ProfileSidebar({
   const planBg = planKey === 'admin'
     ? 'linear-gradient(135deg, #A78BFA 0%, #7C3AED 100%)'
     : planKey === 'premium'
-      ? 'var(--gradient-warm)'
+      ? 'var(--gradient-deep)'
       : planKey === 'trialing'
         ? 'linear-gradient(135deg, #93C5FD 0%, #3B82F6 100%)'
         : (darkMode ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)')
@@ -173,7 +173,7 @@ export default function ProfileSidebar({
               className="h-auto w-full justify-start rounded-[10px] px-3 py-2.5 text-left text-[13px] hover:bg-transparent"
               style={{
                 gap: '10px',
-                background: isActive ? 'var(--gradient-warm)' : 'transparent',
+                background: isActive ? 'var(--gradient-deep)' : 'transparent',
                 color: isActive ? '#FFFFFF' : textColor,
                 fontWeight: isActive ? 700 : 600,
                 boxShadow: isActive ? '0 2px 6px rgba(212,106,16,0.25)' : 'none',

@@ -17,7 +17,7 @@ const FEATURE_DATA = {
       bullets: [
         'Ingrédients regroupés, quantités calculées automatiquement',
         'Coûts estimés par ingrédient et en total',
-        'Cochez chaque article au fur et à mesure en magasin',
+        'Coche chaque article au fur et à mesure en magasin',
       ],
     },
     en: {
@@ -27,6 +27,29 @@ const FEATURE_DATA = {
         'Ingredients merged, quantities auto-calculated',
         'Costs estimated per ingredient and in total',
         'Check each item off as you shop',
+      ],
+    },
+  },
+  // « Mes dépenses » : sans fiche à elle, la page retombait sur celle du panier
+  // (relecture du 2026-10-08). Mêmes promesses que la page elle-même.
+  spending: {
+    emoji: '📊',
+    fr: {
+      title: 'Analyse des dépenses',
+      accroche: 'Tes courses mois par mois, pour mieux tenir ton budget :',
+      bullets: [
+        'Chaque « J\'ai fait mes courses » compté dans ton suivi',
+        'Tes dépenses sur 12 mois, en un graphique',
+        'Des recommandations selon tes habitudes',
+      ],
+    },
+    en: {
+      title: 'Spending analysis',
+      accroche: 'Your shopping month by month, to stay on budget:',
+      bullets: [
+        'Every « I\'m done shopping » counted in your tracking',
+        'Your spending over 12 months, in one chart',
+        'Recommendations based on your habits',
       ],
     },
   },
@@ -67,7 +90,7 @@ const FEATURE_DATA = {
     emoji: '🗓️',
     fr: {
       title: 'Alertes anti-gaspillage',
-      accroche: 'Recevez un rappel avant la date limite. Moins de gaspillage, plus d\'économies au quotidien.',
+      accroche: 'Reçois un rappel avant la date limite. Moins de gaspillage, plus d\'économies au quotidien.',
     },
     en: {
       title: 'Expiry alerts',
@@ -150,6 +173,7 @@ export function UpgradeGate({
   const handleUpgrade = onUpgradeClick ?? openUpgradeModal
 
   const closePopover = useCallback(() => setExpanded(false), [])
+  const EnTete = collapsible ? 'button' : 'div'
   // Popover ancré (pas d'expansion inline) : le pill collapsible ne doit
   // jamais changer de taille, pour ne jamais déplacer ses voisins de flex
   // (cf. spec 2026-07-09 — bug remonté sur le pill « Mode cuisine vocal »
@@ -211,9 +235,8 @@ export function UpgradeGate({
               padding: '12px', textAlign: 'center',
               background: 'rgba(212,106,16,0.10)',
               border: '1px dashed rgba(212,106,16,0.4)',
-              color: 'var(--color-brand-600)', fontWeight: 800, fontSize: '14px',
+              color: 'var(--color-warm-text)', fontWeight: 800, fontSize: '14px',
             }}
-            aria-label={cs.cta}
           >
             {cs.cta}
           </div>
@@ -251,35 +274,39 @@ export function UpgradeGate({
         {/* Header — toujours visible. En mode collapsible, reste TOUJOURS
             compact (ne change jamais de taille, ouvert ou fermé) : le
             contenu détaillé vit dans la bulle ancrée, pas ici. */}
-        <div
-          onClick={collapsible ? () => setExpanded(p => !p) : undefined}
+        {/* Repliable : un VRAI bouton, qui dit s'il est déplié (lot 9f : c'était
+            une `div` cliquable — au clavier, l'explication ne s'ouvrait pas).
+            Le contenu est fait de `span` : un bouton n'admet pas de `div`. */}
+        <EnTete
+          {...(collapsible ? { type: 'button', 'aria-expanded': expanded, onClick: () => setExpanded(p => !p) } : {})}
           style={{
-            background: 'var(--gradient-warm)',
+            background: 'var(--gradient-deep)',
             padding: collapsible ? '11px 16px' : '18px 20px 16px',
             display: 'flex', alignItems: 'center', gap: '12px',
             cursor: collapsible ? 'pointer' : 'default',
+            ...(collapsible ? { border: 0, width: '100%', textAlign: 'left', font: 'inherit', color: 'inherit' } : {}),
           }}
         >
           <span style={{ fontSize: collapsible ? '22px' : '36px', lineHeight: 1, flexShrink: 0 }}>
             {fd_data.emoji}
           </span>
-          <div style={{ flex: 1 }}>
+          <span style={{ display: 'block', flex: 1 }}>
             {!collapsible && (
-              <div style={{ display: 'flex', alignItems: 'center', gap: '5px', marginBottom: '3px' }}>
+              <span style={{ display: 'flex', alignItems: 'center', gap: '5px', marginBottom: '3px' }}>
                 <LuStar size={11} fill="white" color="white" />
-                <span style={{ fontSize: '10px', fontWeight: 700, color: 'rgba(255,255,255,0.85)', textTransform: 'uppercase', letterSpacing: '0.07em' }}>
+                <span style={{ fontSize: '10px', fontWeight: 700, color: '#fff', textTransform: 'uppercase', letterSpacing: '0.07em' }}>
                   {comingSoon ? cs.badge : 'Premium'}
                 </span>
-              </div>
+              </span>
             )}
-            <p style={{
-              margin: 0,
+            <span style={{
+              display: 'block', margin: 0,
               fontSize: collapsible ? '14px' : '17px',
               fontWeight: 800, color: '#fff', lineHeight: 1.2,
             }}>
               {fd.title}
-            </p>
-          </div>
+            </span>
+          </span>
           {collapsible && (
             <LuChevronDown
               size={16}
@@ -291,7 +318,7 @@ export function UpgradeGate({
               }}
             />
           )}
-        </div>
+        </EnTete>
 
         {/* Body : toujours inline pour le cas non-collapsible (comportement
             inchangé). En collapsible, le body vit dans la bulle ancrée

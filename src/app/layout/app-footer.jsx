@@ -16,6 +16,9 @@ import Footer from '@app/layout/footer'
 // l'accueil, comme `FridgeFAB` (chantier D/H, 2026-07-09 — sinon elle flotte
 // sur /legal, /community, /profile... alors que le guide qu'elle rouvre ne
 // vit que sur le frigo).
+// ⚠️ `isHome` vaut ici « accueil affiché SANS panneau par-dessus » : App.jsx le
+// passe faux dès qu'un panneau recouvre l'accueil, sinon la fusée restait posée
+// sur le panneau admin ou la liste d'un bac (audit 2026-10-04, P-07).
 export default function AppFooter({
   isHome,
   // eslint-disable-next-line no-unused-vars

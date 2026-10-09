@@ -2,6 +2,7 @@ import { AISLE_ORDER, AISLE_EMOJI, AISLE_LABELS, CONSOLIDABLE_PARENTS, aisleFrom
 import { useState, useEffect, useMemo, useRef } from 'react'
 import { LuX, LuCheck, LuRefrigerator, LuListPlus } from 'react-icons/lu'
 import Button from '@shared/ui/button'
+import Field from '@shared/ui/field'
 import { useWindowWidth } from '@shared/hooks/use-window-width'
 import { useIngredients, useIngredientLookup } from '@shared/contexts/data-provider'
 import { pluralizeLabel } from '@shared/lib/ingredients/ingredient-lookup'
@@ -22,7 +23,8 @@ const I18N = {
     selectNone: 'Tout désélectionner',
     savePromptTitle: 'Sauvegarder cette liste ?',
     savePromptHint: 'Tu pourras la retrouver dans Mes listes pour la réutiliser.',
-    saveListPlaceholder: 'Nom de la liste',
+    saveListLabel: 'Nom de la liste',
+    saveListExample: 'ex. : courses du samedi',
     saveAndAdd: 'Sauvegarder et ajouter',
     justAdd: 'Juste ajouter',
     defaultListName: () => {
@@ -41,7 +43,8 @@ const I18N = {
     selectNone: 'Deselect all',
     savePromptTitle: 'Save this shopping list?',
     savePromptHint: 'You can find it later in My lists to reuse it.',
-    saveListPlaceholder: 'List name',
+    saveListLabel: 'List name',
+    saveListExample: 'e.g. Saturday groceries',
     saveAndAdd: 'Save and add',
     justAdd: 'Just add',
     defaultListName: () => {
@@ -223,7 +226,7 @@ export default function AddToFridgeModal({
         aria-label={t.title}
         style={{
           position: 'fixed',
-          ...(isDesktop ? { top: 0, right: 0, width: '620px', height: '100vh' } : { inset: 0 }),
+          ...(isDesktop ? { top: 0, right: 0, width: '620px', height: '100dvh' } : { inset: 0 }),
           zIndex: 61,
           display: 'flex', flexDirection: 'column',
           background: bg,
@@ -420,12 +423,14 @@ export default function AddToFridgeModal({
               </div>
             </div>
 
-            {/* Input nom de liste */}
+            {/* Nom de liste : un libellé visible, le texte grisé en exemple
+                (décision du 2026-10-06, « libellés = visibles »). */}
+            <Field label={t.saveListLabel} labelStyle={{ display: 'block', fontSize: '12px', fontWeight: 700, color: muted, marginBottom: '6px' }}>
             <input
               type="text"
               value={saveListName}
               onChange={e => setSaveListName(e.target.value)}
-              placeholder={t.saveListPlaceholder}
+              placeholder={t.saveListExample}
               maxLength={80}
               style={{
                 width: '100%', padding: '10px 14px',
@@ -440,6 +445,7 @@ export default function AddToFridgeModal({
               onBlur={e => e.target.style.borderColor = darkMode ? 'rgba(91,160,85,0.40)' : 'rgba(91,160,85,0.40)'}
               autoFocus
             />
+            </Field>
 
             {/* Boutons */}
             <div style={{ display: 'flex', gap: '8px' }}>

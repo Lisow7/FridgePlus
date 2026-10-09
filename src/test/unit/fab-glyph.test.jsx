@@ -25,8 +25,10 @@ describe('FabGlyph', () => {
     expect(container.querySelector('[data-fab-glyph]').style.width).toBe('28px')
   })
 
-  it('est orange sur fond dégradé, comme le bouton lui-même', () => {
+  // Le bouton flottant est passé en orange profond (décision du 2026-10-06,
+  // « couleurs = profond ») : le glyphe qui le représente dans l'aide le suit.
+  it('est orange profond sur fond dégradé, comme le bouton lui-même', () => {
     const { container } = render(<FabGlyph />)
-    expect(container.querySelector('[data-fab-glyph]').style.background).toContain('--gradient-warm')
+    expect(container.querySelector('[data-fab-glyph]').style.background).toContain('--gradient-deep')
   })
 })

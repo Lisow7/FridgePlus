@@ -1,5 +1,6 @@
 import { createPortal } from 'react-dom'
 import Button from '@shared/ui/button'
+import { useDialogue } from '@shared/hooks/use-dialogue'
 
 // Phase 8 launch (refonte Modales) PR 8.8.a. Extraction de
 // RecipeFormModal : mini-dialog de confirmation à la fermeture quand des
@@ -18,17 +19,20 @@ export default function RecipeFormCancelDialog({
   darkMode,
   t,           // i18n object (confirmCancelTitle, confirmCancelBody, confirmCancelBack, confirmCancelOk)
 }) {
+  // Une vraie boîte de dialogue : rôle, nom, focus piégé, Échap (A11Y-01).
+  // Échap = « Continuer l'édition », le choix qui ne perd rien.
+  const dialogue = useDialogue({ onClose: onCancel, actif: isOpen })
   if (!isOpen) return null
   const dm = darkMode
   return createPortal(
     <div className="fixed inset-0 z-[70]" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(18,10,4,0.50)', backdropFilter: 'blur(4px)' }}>
-      <div style={{
+      <div {...dialogue.proprietes} style={{
         background: dm ? '#131E2C' : '#FDFAF6',
         borderRadius: '16px', padding: '28px 32px',
         maxWidth: '360px', width: '90%',
         boxShadow: '0 8px 40px rgba(0,0,0,0.25)', textAlign: 'center',
       }}>
-        <p style={{ fontSize: '17px', fontWeight: 800, color: 'var(--color-charcoal)', margin: '0 0 10px 0' }}>
+        <p id={dialogue.titreId} style={{ fontSize: '17px', fontWeight: 800, color: 'var(--color-charcoal)', margin: '0 0 10px 0' }}>
           {t.confirmCancelTitle}
         </p>
         <p style={{ fontSize: '14px', color: 'var(--color-muted)', margin: '0 0 24px 0' }}>

@@ -5,6 +5,7 @@ import { useWindowWidth } from '@shared/hooks/use-window-width'
 import { useCloseOnBackButton } from '@shared/hooks/use-close-on-back-button'
 import { useBaseRecipes } from '@shared/contexts/data-provider'
 import { useConfirm } from '@shared/ui/confirm-dialog/confirm-provider'
+import { useSaveErrorToast } from '@shared/hooks/use-save-error-toast'
 import {
   listPosts, deletePost,
   listMyPostReactions, reactToPost, removePostReaction,
@@ -23,6 +24,7 @@ import { ComposeModal } from './community-compose-modal'
 import { FeedContent } from './community-feed-content'
 import { DetailView } from './community-detail-view'
 import { CPHeader } from './community-header'
+import { useDialogue } from '@shared/hooks/use-dialogue'
 
 
 // ── CSS partagé (animations + utilitaires, sans couleurs hardcodées) ──────────
@@ -73,6 +75,7 @@ export default function CommunityPage({ onClose, lang = 'fr', darkMode = false, 
   const { user, profile } = useAuth()
   const t = COMMUNITY_I18N[lang] ?? COMMUNITY_I18N.fr
   const confirm = useConfirm()
+  const signalerEchec = useSaveErrorToast()
   const windowWidth = useWindowWidth()
   const isMobile = windowWidth < 768
   const C = getC(darkMode)
@@ -283,24 +286,26 @@ export default function CommunityPage({ onClose, lang = 'fr', darkMode = false, 
     [posts]
   )
 
+  // La réaction s'affiche tout de suite, puis s'annule si l'écriture est
+  // refusée (règle d'accès, hors ligne) : l'écran ne montre plus une réaction
+  // qui n'existe pas (audit du 2026-10-04, ARCH-05). Rend `true` si elle a
+  // été gardée — le détail d'un post annule alors son propre compteur.
   const handleReact = async (postId, emoji) => {
-    if (!user?.id || !termsAccepted) return
-    const current = reactionsMap.get(postId)
-    if (current === emoji) {
-      // Retrait de la réaction
-      setReactionsMap(prev => { const next = new Map(prev); next.delete(postId); return next })
-      setPosts(prev => prev?.map(p => p.id === postId ? { ...p, likes_count: Math.max(0, p.likes_count - 1) } : p))
-      await removePostReaction(user.id, postId)
-    } else if (current) {
-      // Changement d'émoji (count inchangé)
-      setReactionsMap(prev => { const next = new Map(prev); next.set(postId, emoji); return next })
-      await reactToPost(user.id, postId, emoji)
-    } else {
-      // Nouvelle réaction
-      setReactionsMap(prev => { const next = new Map(prev); next.set(postId, emoji); return next })
-      setPosts(prev => prev?.map(p => p.id === postId ? { ...p, likes_count: p.likes_count + 1 } : p))
-      await reactToPost(user.id, postId, emoji)
+    if (!user?.id || !termsAccepted) return false
+    const current = reactionsMap.get(postId) ?? null
+    // Re-cliquer la même réaction la retire ; une autre la remplace (compteur inchangé).
+    const suivante = current === emoji ? null : emoji
+    const delta = suivante === null ? -1 : current ? 0 : 1
+    const poser = (reaction, d) => {
+      setReactionsMap(prev => { const next = new Map(prev); if (reaction) next.set(postId, reaction); else next.delete(postId); return next })
+      if (d) setPosts(prev => prev?.map(p => p.id === postId ? { ...p, likes_count: Math.max(0, p.likes_count + d) } : p))
     }
+    poser(suivante, delta)
+    const { error } = (suivante ? await reactToPost(user.id, postId, emoji) : await removePostReaction(user.id, postId)) ?? {}
+    if (!error) return true
+    poser(current, -delta)
+    signalerEchec('reaction')
+    return false
   }
 
   const handleDelete = async (postId) => {
@@ -310,7 +315,7 @@ export default function CommunityPage({ onClose, lang = 'fr', darkMode = false, 
     // retire donc que si la suppression a bien eu lieu ; sinon le post reste
     // visible, ce qui est la verite, et l'utilisateur peut reessayer.
     const { error } = await deletePost(postId) ?? {}
-    if (error) return
+    if (error) { signalerEchec('removal'); return }
     setPosts(prev => prev?.filter(p => p.id !== postId))
     if (view === 'detail' && activePostId === postId) { setView('feed'); setActivePostId(null) }
   }
@@ -318,9 +323,12 @@ export default function CommunityPage({ onClose, lang = 'fr', darkMode = false, 
   const isOwn = (post) => user?.id && post.user_id === user.id
   const openPost = (id) => { setActivePostId(id); setView('detail') }
   const goFeed   = () => { setView('feed'); setActivePostId(null) }
+  // Plein écran par-dessus l'application : rôle, nom, focus piégé (A11Y-14).
+  // Échap = le bouton retour (discussion → fil, fil → fermer).
+  const dialogue = useDialogue({ onClose: view === 'detail' ? goFeed : onClose, nom: t.title })
 
   return (
-    <div style={{
+    <div {...dialogue.proprietes} style={{
       position: 'fixed', inset: 0, zIndex: 120,
       background: C.page,
       display: 'flex', flexDirection: 'column',

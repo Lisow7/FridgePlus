@@ -23,7 +23,7 @@ test('les cinq étapes de la visite restent cliquables en 360×640', async ({ pa
   await page.addInitScript(() => {
     localStorage.setItem('fridge-lang', 'fr')
     localStorage.setItem('fridge-consent-v1', JSON.stringify({
-      version: 1, essential: true, audience: false, bannerDismissed: true,
+      version: 2, essential: true, errors: false, usage: false, bannerDismissed: true,
       decidedAt: '2026-09-12T00:00:00.000Z',
     }))
   })
@@ -108,7 +108,7 @@ for (const taille of [
     await page.addInitScript(() => {
       localStorage.setItem('fridge-lang', 'fr')
       localStorage.setItem('fridge-consent-v1', JSON.stringify({
-        version: 1, essential: true, audience: false, bannerDismissed: true,
+        version: 2, essential: true, errors: false, usage: false, bannerDismissed: true,
         decidedAt: '2026-09-12T00:00:00.000Z',
       }))
       localStorage.setItem('fridge-welcome-seen-v1', '1')

@@ -44,18 +44,27 @@ export default function GettingStartedContainer({ lang = 'fr', user, onOpenRecip
     if (state === 's2a' && pick?.recipe?.id) trackOnce('fridge-aha-tracked', 'cookable_recipe_viewed', { recipeId: pick.recipe.id })
   }, [state, pick])
 
+  // Parcours terminé AILLEURS : un compte qui a déjà cuisiné, sur un appareil
+  // qui n'a aucune trace de la découverte. Il n'y a rien à fêter ici, où il ne
+  // s'est rien passé — on note la complétion, sans carte (audit P-08).
+  const inherited = steps.completed && !hasOpenedSuggestion(uid)
+
   // Complétion INVITÉ + CONNECTÉ (retrait définitif) — en EFFECT (StrictMode
   // avalerait la célébration en render). Latch `celebratingUid` : garde la carte
   // affichée pour la célébration/CTA de CETTE session malgré la complétion persistée.
   useEffect(() => {
-    if (steps.completed && !isCompleted(uid)) { markCompleted(uid); setCelebratingUid(uid) }
-  }, [uid, steps.completed])
+    if (steps.completed && !isCompleted(uid)) { markCompleted(uid); if (!inherited) setCelebratingUid(uid) }
+  }, [uid, steps.completed, inherited])
 
   // Rouverture depuis un point d'entrée externe (bouton fusée du footer) :
   // `reopenGuide` notifie → on force un re-render pour ré-afficher le guide.
   useEffect(() => subscribeGettingStarted(force), [])
 
   if (!enabled || !hasSeenWelcome()) return null
+  // Compte connecté dont on ne sait pas encore s'il a déjà cuisiné : attendre la
+  // réponse plutôt que d'afficher la carte du débutant pour la retirer aussitôt.
+  if (!isGuest && hasCooked === null) return null
+  if (inherited && celebratingUid !== uid) return null
   // Retiré : complété lors d'une session ANTÉRIEURE (≠ célébration en cours).
   if (isCompleted(uid) && celebratingUid !== uid) return null
   // Un panneau recouvre l'accueil (Recettes, panier, bac…) : la carte s'efface

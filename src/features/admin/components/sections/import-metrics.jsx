@@ -3,6 +3,8 @@ import { LuRefreshCw, LuClock, LuCheck, LuX, LuTrendingUp, LuPackage, LuTriangle
 import { adminGetImportMetrics } from '@features/admin/api/admin'
 import StatCard from '@features/admin/components/shared/stat-card'
 import { useReloader } from '@shared/hooks/use-reloader'
+import { leverSiErreur } from '@shared/lib/supabase/lever-si-erreur'
+import ChargementRate from '../shared/chargement-rate'
 
 export default function ImportMetrics({ darkMode = false, reloadKey = 0 }) {
   const [metrics, setMetrics] = useState(null)
@@ -12,15 +14,17 @@ export default function ImportMetrics({ darkMode = false, reloadKey = 0 }) {
   // enchaîner deux rechargements laissait le plus ancien écraser le plus récent.
   // `reloadKey` reste la dépendance : c'est `import-queue-tab` qui l'incrémente
   // après chaque publication/rejet pour rafraîchir les métriques.
-  const { loading, reload } = useReloader(async (estObsolete) => {
-    const { error, metrics: m } = await adminGetImportMetrics()
+  const { loading, error, reload } = useReloader(async (estObsolete) => {
+    const { metrics: m } = leverSiErreur(await adminGetImportMetrics())
     if (estObsolete()) return
-    if (!error) setMetrics(m)
+    setMetrics(m)
   }, [reloadKey])
 
   const muted  = darkMode ? '#A0A8B8' : '#7A6A52'
   const border = darkMode ? 'var(--color-dark-border)' : 'var(--color-border-warm)'
 
+  // Pas chargées : le dire, plutôt que des zéros qui se liraient « file vide » (audit ADM-08).
+  if (error) return <ChargementRate error={error} onRetry={reload} />
   const m = metrics ?? { byStatus: {}, bySource: {}, topErrorCodes: [], eventsLast7d: {} }
   const totalInQueue = (m.byStatus.pending ?? 0) + (m.byStatus.valid ?? 0) + (m.byStatus.invalid ?? 0) + (m.byStatus.admin_review ?? 0)
   const withErrors   = (m.byStatus.invalid ?? 0) + (m.byStatus.admin_review ?? 0)
@@ -35,7 +39,6 @@ export default function ImportMetrics({ darkMode = false, reloadKey = 0 }) {
       background: darkMode ? 'rgba(255,255,255,0.02)' : 'rgba(0,0,0,0.015)',
       display: 'flex', flexDirection: 'column', gap: 10,
     }}>
-      <style>{`@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}`}</style>
 
       <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
         <span style={{ fontSize: 13, fontWeight: 800, color: muted, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
@@ -52,7 +55,7 @@ export default function ImportMetrics({ darkMode = false, reloadKey = 0 }) {
             padding: 4, cursor: 'pointer', color: muted,
           }}
         >
-          <LuRefreshCw size={13} style={{ animation: loading ? 'spin 1s linear infinite' : 'none' }} />
+          <LuRefreshCw size={13} className={loading ? 'animate-spin' : undefined} />
         </button>
       </div>
 

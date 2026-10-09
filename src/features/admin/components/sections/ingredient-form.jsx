@@ -1,18 +1,21 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useId } from 'react'
 import { createPortal } from 'react-dom'
 import { getMissingFields } from '@shared/lib/ingredients/ingredient-completeness'
 import { useIngredientsById } from '@shared/contexts/data-provider'
 import { useConfirm } from '@shared/ui/confirm-dialog/confirm-provider'
+import { useFermetureGardee } from '@shared/hooks/use-fermeture-gardee'
+import { useModifie } from '@shared/hooks/use-modifie'
 import {
   FOOD_EMOJIS, SUBCATEGORY_TO_STORAGE, SUBCATEGORIES, PREFIX_OPTIONS, SUBCAT_LABELS,
   slugify, norm,
 } from '@features/admin/lib/ingredient-taxonomy'
 import IngredientExtraFields from '../ingredient-extra-fields'
 import Button from '@shared/ui/button'
+import Field from '@shared/ui/field'
 
 // ── EmojiPicker ───────────────────────────────────────────────────────────────
 
-function EmojiPicker({ value, onChange, darkMode, border, textColor }) {
+function EmojiPicker({ id: emojiId, value, onChange, darkMode, border, textColor }) {
   const [open, setOpen] = useState(false)
   const [pos,  setPos]  = useState({ top:0, left:0 })
   // eslint-disable-next-line no-unused-vars
@@ -53,7 +56,7 @@ function EmojiPicker({ value, onChange, darkMode, border, textColor }) {
 
   return (
     <div style={{ display:'inline-block' }}>
-      <input ref={setTrigRef} style={inp} value={value} readOnly placeholder="🍅" onClick={handleOpen} onChange={() => {}} />
+      <input id={emojiId} ref={setTrigRef} style={inp} value={value} readOnly placeholder="🍅" onClick={handleOpen} onChange={() => {}} />
       {open && createPortal(
         <div ref={setPopRef} style={{ position:'fixed', top:pos.top, left:pos.left, zIndex:9999, background:popBg, border:`1px solid ${border}`, borderRadius:'12px', padding:'8px', display:'flex', flexWrap:'wrap', gap:'1px', width:'228px', boxShadow:'0 8px 24px rgba(0,0,0,0.2)' }}>
           {FOOD_EMOJIS.map(em => (
@@ -76,8 +79,13 @@ function EmojiPicker({ value, onChange, darkMode, border, textColor }) {
 
 // ── Formulaire ingrédient ─────────────────────────────────────────────────────
 
+const QUESTION_DE_SORTIE = { title: 'Abandonner les modifications ?', body: 'Ce que tu as changé sera perdu.' }
+
 export default function IngredientForm({ item, onSave, onBack, darkMode, border, textColor, muted, isMobile }) {
   const isNew = item._isNew
+  // Libellés écrits à l'écran et reliés à leurs champs (décision du 2026-10-06).
+  const idLibelleId = useId()
+  const emojiId = useId()
   const detectPrefix = (id = '') => {
     for (const opt of PREFIX_OPTIONS) {
       if (id.startsWith(opt.value)) return { prefix: opt.value, suffix: id.slice(opt.value.length) }
@@ -102,6 +110,10 @@ export default function IngredientForm({ item, onSave, onBack, darkMode, border,
   const [showTrans,   setShowTrans]   = useState(false)
   const [saving,      setSaving]      = useState(false)
   const [error,       setError]       = useState(null)
+  // Quitter avec des modifications demande d'abord (ADM-18 : « ← Retour » et
+  // « Annuler » perdaient la saisie sans prévenir).
+  const modifie = useModifie({ idPrefix, idSuffix, emoji, labels, subcategory, sortOrder, groupId, defaultUnit, allergens, breaksDiets, nutrition, packSize })
+  const { fermer } = useFermetureGardee({ onClose: onBack, brouillon: modifie, question: QUESTION_DE_SORTIE })
 
   const ingredientsById = useIngredientsById()
   const confirm = useConfirm()
@@ -180,7 +192,8 @@ export default function IngredientForm({ item, onSave, onBack, darkMode, border,
       default_unit: defaultUnit, allergens, breaks_diets: breaksDiets,
       nutrition, pack_size: packSize, _isNew: isNew,
     })
-    if (err) { setError(err.message); setSaving(false) }
+    // La base refuse un identifiant déjà pris (insert, ADM-16) : le dire en clair.
+    if (err) { setError(err.code === '23505' ? `L'identifiant « ${fullId} » existe déjà : modifie-le avant d'enregistrer.` : err.message); setSaving(false) }
   }
 
   const inp = { padding:'8px 11px', borderRadius:'8px', border:`1px solid ${border}`, background: darkMode ? '#141F2E' : '#FFF', color:textColor, fontSize:'15px', outline:'none', fontFamily:'inherit', width:'100%', boxSizing:'border-box' }
@@ -191,7 +204,7 @@ export default function IngredientForm({ item, onSave, onBack, darkMode, border,
       <div style={{ display:'flex', alignItems:'center', gap:8, marginBottom:12 }}>
         <Button
           variant="ghost"
-          onClick={onBack}
+          onClick={fermer}
           className="h-auto rounded-none bg-transparent p-0 text-sm hover:bg-transparent"
           style={{ color: muted }}
         >
@@ -203,31 +216,32 @@ export default function IngredientForm({ item, onSave, onBack, darkMode, border,
       <div style={{ display:'flex', flexDirection:'column', gap:10 }}>
         {isNew ? (
           <div>
-            <label style={lbl}>ID <span style={{ opacity:0.55, fontWeight:400 }}>— auto-généré</span></label>
+            <span id={idLibelleId} style={lbl}>ID <span style={{ opacity:0.55, fontWeight:400 }}>— auto-généré</span></span>
+            {/* Le libellé visible nomme les deux champs ; « préfixe » et « suite » les distinguent à l'oreille. */}
+            <span id={`${idLibelleId}-prefixe`} className="sr-only">préfixe</span>
+            <span id={`${idLibelleId}-suite`} className="sr-only">suite</span>
             <div style={{ display:'flex', flexDirection: isMobile ? 'column' : 'row', gap:6 }}>
-              <select style={{ ...inp, width:'auto', minWidth: isMobile ? '100%' : '150px' }} value={idPrefix} onChange={e => handlePrefixChange(e.target.value)}>
+              <select aria-labelledby={`${idLibelleId} ${idLibelleId}-prefixe`} style={{ ...inp, width:'auto', minWidth: isMobile ? '100%' : '150px' }} value={idPrefix} onChange={e => handlePrefixChange(e.target.value)}>
                 {PREFIX_OPTIONS.map(opt => <option key={opt.value} value={opt.value}>{opt.label} ({opt.value})</option>)}
               </select>
-              <input style={{ ...inp, flex:1 }} value={idSuffix} onChange={e => setIdSuffix(e.target.value)} placeholder="tomate" />
+              <input aria-labelledby={`${idLibelleId} ${idLibelleId}-suite`} style={{ ...inp, flex:1 }} value={idSuffix} onChange={e => setIdSuffix(e.target.value)} placeholder="ex. : tomate" />
             </div>
             {idSuffix.trim() && <div style={{ marginTop:4, fontSize:13, color:muted }}>→ ID : <span style={{ fontFamily:'monospace', color:'var(--color-info)', fontWeight:700 }}>{fullId}</span></div>}
           </div>
         ) : (
-          <div>
-            <label style={lbl}>ID</label>
+          <Field label="ID" labelStyle={lbl}>
             <input style={{ ...inp, opacity:0.65, fontFamily:'monospace', fontSize:13 }} value={item.id ?? ''} readOnly />
-          </div>
+          </Field>
         )}
 
         <div style={{ display:'grid', gridTemplateColumns:'auto 1fr', gap:8, alignItems:'end' }}>
           <div>
-            <label style={lbl}>Emoji</label>
-            <EmojiPicker value={emoji} onChange={setEmoji} darkMode={darkMode} border={border} textColor={textColor} />
+            <label htmlFor={emojiId} style={lbl}>Emoji</label>
+            <EmojiPicker id={emojiId} value={emoji} onChange={setEmoji} darkMode={darkMode} border={border} textColor={textColor} />
           </div>
-          <div>
-            <label style={{ ...lbl, fontWeight:700, color:textColor }}>FR *</label>
+          <Field label="FR *" labelStyle={{ ...lbl, fontWeight:700, color:textColor }}>
             <input style={inp} value={labels.fr ?? ''} onChange={e => setLabels(l => ({ ...l, fr: e.target.value }))} placeholder="Tomate" />
-          </div>
+          </Field>
         </div>
 
         <Button
@@ -242,31 +256,27 @@ export default function IngredientForm({ item, onSave, onBack, darkMode, border,
         {showTrans && (
           <div style={{ display:'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap:8, padding:10, borderRadius:10, background: darkMode ? 'rgba(0,0,0,0.2)' : 'rgba(0,0,0,0.03)', border:`1px solid ${border}` }}>
             {['en','es','de','ja'].map(l => (
-              <div key={l}>
-                <label style={lbl}>{l.toUpperCase()}</label>
+              <Field key={l} label={l.toUpperCase()} labelStyle={lbl}>
                 <input style={inp} value={labels[l] ?? ''} onChange={e => setLabels(p => ({ ...p, [l]: e.target.value }))} />
-              </div>
+              </Field>
             ))}
           </div>
         )}
 
         <div style={{ display:'grid', gridTemplateColumns:'1fr 80px', gap:8 }}>
-          <div>
-            <label style={lbl}>Sous-catégorie</label>
+          <Field label="Sous-catégorie" labelStyle={lbl}>
             <select style={inp} value={subcategory} onChange={e => setSubcategory(e.target.value)}>
               {availableSubcats.map(s => <option key={s} value={s}>{SUBCAT_LABELS[s] ?? s}</option>)}
             </select>
-          </div>
-          <div>
-            <label style={lbl}>Ordre</label>
+          </Field>
+          <Field label="Ordre" labelStyle={lbl}>
             <input style={inp} type="number" value={sortOrder} onChange={e => setSortOrder(e.target.value)} />
-          </div>
+          </Field>
         </div>
 
-        <div>
-          <label style={lbl}>Groupe parent <span style={{ opacity:0.55, fontWeight:400 }}>— optionnel</span></label>
+        <Field label={<>Groupe parent <span style={{ opacity:0.55, fontWeight:400 }}>— optionnel</span></>} labelStyle={lbl}>
           <input style={inp} value={groupId} onChange={e => setGroupId(e.target.value)} placeholder="ex: fr-oeuf, fr-fromage…" />
-        </div>
+        </Field>
 
         {isNew && groupId.trim() && (
           <Button variant="ghost" onClick={prefillFromGroup} style={{ alignSelf: 'flex-start' }}>
@@ -293,7 +303,7 @@ export default function IngredientForm({ item, onSave, onBack, darkMode, border,
       <div style={{ display:'flex', gap:8, marginTop:20, justifyContent:'flex-end' }}>
         <Button
           variant="ghost"
-          onClick={onBack}
+          onClick={fermer}
           className="h-auto rounded-lg border bg-transparent px-[18px] py-2 text-sm hover:bg-transparent"
           style={{ borderColor: border, color: muted }}
         >
@@ -303,7 +313,7 @@ export default function IngredientForm({ item, onSave, onBack, darkMode, border,
           onClick={handleSave}
           loading={saving}
           disabled={saving}
-          className="h-auto rounded-lg bg-[#E07820] px-[18px] py-2 text-sm font-bold text-white"
+          className="h-auto rounded-lg bg-[#B85000] px-[18px] py-2 text-sm font-bold text-white"
         >
           {saving ? '…' : 'Enregistrer'}
         </Button>

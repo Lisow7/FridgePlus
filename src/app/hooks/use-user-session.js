@@ -1,7 +1,9 @@
-import { useEffect, useCallback, useRef } from 'react'
+import { useEffect, useCallback, useRef, useState, createElement } from 'react'
+import { useToast } from '@shared/ui/toast/toast-provider'
+import LoadErrorToast from '@app/components/load-error-toast'
 import { loadStockFromDB } from '@features/fridge/api/stock'
 import { loadFavoritesFromDB } from '@features/recipes/api/favorites'
-import { getCustomRecipes } from '@features/recipes/lib/custom-recipes'
+import { loadCustomRecipes } from '@features/recipes/lib/custom-recipes'
 import { migrateLocalStorageToDB } from '@shared/lib/migration'
 
 // Hook orchestrant le cycle de vie d'une session utilisateur :
@@ -33,6 +35,16 @@ import { migrateLocalStorageToDB } from '@shared/lib/migration'
 // Sprint 11 S11.c.5 — setJournalRecipe retiré : journalRecipe state
 // supprimé d'App.jsx (le Journal cuisine ouvre maintenant les recettes
 // via navigate('/recipe/:id', state.background) — cf. S11.c.4).
+//
+// 2026-10-04 (audit UX-02) : un chargement raté n'écrase toujours rien, mais il
+// le DIT — un message qui reste, avec « Réessayer ». Avant, la personne voyait
+// un frigo vide sans explication.
+// 2026-10-05 : même règle pour les recettes du compte. Leur lecture rendait une
+// liste vide sur erreur, posée telle quelle : « Mes recettes » se vidait.
+
+const MESSAGE_CHARGEMENT = 'account-load-error'
+// Ce qui se charge à la connexion, dans l'ordre où le message le nomme.
+const TOUT = ['stock', 'favorites', 'recipes']
 
 export function useUserSession({
   user,
@@ -49,6 +61,9 @@ export function useUserSession({
   // Suit l'uid précédent pour distinguer un PUR invité (jamais connecté) d'une
   // transition connecté→null (logout / expiration silencieuse de token).
   const prevUserIdRef = useRef(undefined)
+  const { show, dismiss } = useToast()
+  // « Réessayer » relance le chargement du même compte.
+  const [tentative, setTentative] = useState(0)
 
   useEffect(() => {
     if (!user) {
@@ -61,6 +76,8 @@ export function useUserSession({
         setStockMeta(new Map())
         setFavorites(new Set())
         setCustomRecipes([])
+        // Le message d'un compte ne reste pas affiché au suivant.
+        dismiss(MESSAGE_CHARGEMENT)
       }
       prevUserIdRef.current = undefined
       return
@@ -77,13 +94,36 @@ export function useUserSession({
     const idDemande = user.id
     let annule = false
 
+    // Dit ce qui n'a pas pu être chargé (une partie de `TOUT`), ou retire le
+    // message quand tout est arrivé.
+    const signaler = (manquants) => {
+      if (manquants.length === 0) { dismiss(MESSAGE_CHARGEMENT); return }
+      show(
+        createElement(LoadErrorToast, {
+          missing: manquants,
+          // Le message s'efface le temps de la nouvelle tentative : s'il
+          // revient, c'est qu'elle a échoué aussi — le clic a bien été pris.
+          onRetry: () => { dismiss(MESSAGE_CHARGEMENT); setTentative((n) => n + 1) },
+          onClose: () => dismiss(MESSAGE_CHARGEMENT),
+        }),
+        { id: MESSAGE_CHARGEMENT, role: 'alert', duration: 0 },
+      )
+    }
+
     async function loadUserData() {
-      await migrateLocalStorageToDB(idDemande)
-      const [stockResult, favResult, recipes] = await Promise.all([
-        loadStockFromDB(idDemande),
-        loadFavoritesFromDB(idDemande),
-        getCustomRecipes(idDemande),
-      ])
+      let stockResult, favResult, recipesResult
+      try {
+        await migrateLocalStorageToDB(idDemande)
+        ;[stockResult, favResult, recipesResult] = await Promise.all([
+          loadStockFromDB(idDemande),
+          loadFavoritesFromDB(idDemande),
+          loadCustomRecipes(idDemande),
+        ])
+      } catch {
+        // Un appel qui lève (réseau coupé) : rien n'est arrivé, rien n'est écrasé.
+        if (!annule && prevUserIdRef.current === idDemande) signaler(TOUT)
+        return
+      }
       // L'utilisateur a changé (ou le composant est démonté) pendant le vol :
       // cette réponse ne concerne plus l'écran affiché.
       if (annule || prevUserIdRef.current !== idDemande) return
@@ -96,11 +136,13 @@ export function useUserSession({
         setStockMeta(stockResult.meta)
       }
       if (!favResult.error) setFavorites(favResult.favorites)
-      setCustomRecipes(recipes)
+      if (!recipesResult.error) setCustomRecipes(recipesResult.recipes)
+      const enEchec = { stock: stockResult.error, favorites: favResult.error, recipes: recipesResult.error }
+      signaler(TOUT.filter((quoi) => enEchec[quoi]))
     }
     loadUserData()
     return () => { annule = true }
-  }, [user?.id]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [user?.id, tentative]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleSignOut = useCallback(async () => {
     localStorage.removeItem('fridge-stock')

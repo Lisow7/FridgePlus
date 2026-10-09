@@ -4,7 +4,7 @@ import {
   skipOnboardingOverlays, signedInAs,
   mockAuthUser, mockReauth, mockActivityLogs, activityLogRows,
   mockDeleteAccount, deleteAccountCalls,
-  mockRestoreAccount, restoreAccountCalls,
+  mockRestoreAccount, restoreAccountCalls, profileWrites,
 } from './support/supabase-mock.js'
 
 // Suppression et restauration de compte — §6 (P1) point 2 de la note d'audit.
@@ -99,6 +99,9 @@ test.describe('Suppression de compte', () => {
   test('un mot de passe correct declenche la suppression, une seule fois', async ({ page }) => {
     await mockReauth(page, { ok: true })
     await mockDeleteAccount(page)
+    // La suppression ferme VRAIMENT la session (portée « global », BDD-04).
+    const deconnexions = []
+    await page.route('**/auth/v1/logout**', (route) => { deconnexions.push(route.request().url()); return route.fulfill({ status: 204, body: '' }) })
     await page.goto('/FridgePlus/profile/compte')
 
     const panel = await openDeleteDialog(page)
@@ -116,8 +119,13 @@ test.describe('Suppression de compte', () => {
       .toBeGreaterThan(0)
     assertNoUnmockedCalls(page)
 
-    // Il n'existe AUCUN message de succes : `setUser(null)` fait rediriger
-    // AuthGuard, et cette redirection est le seul signal observable.
+    // « Compte désactivé » (CPT-04) : il n'existait AUCUN message de succès,
+    // la redirection était le seul signal. Puis la vraie déconnexion.
+    await expect(page.getByRole('heading', { name: 'Compte désactivé' })).toBeVisible()
+    await expect(page.getByText(/reconnecte-toi avant cette date/)).toBeVisible()
+    await expect.poll(() => deconnexions.length, { message: 'la session doit être fermée' }).toBe(1)
+    expect(deconnexions[0], 'toutes les sessions du compte').toMatch(/scope=global/)
+    await page.getByRole('button', { name: 'Retour à l’accueil' }).click()
     await expect(page).toHaveURL(/\/FridgePlus\/?$/)
 
     // Le NOMBRE compte autant que le contenu : c'est un appel sans retour
@@ -151,6 +159,44 @@ test.describe('Suppression de compte', () => {
     // ...mais un echec ne doit pas produire de deconnexion fantome.
     await expect(page).toHaveURL(/\/profile\/compte$/)
     assertNoUnmockedCalls(page)
+  })
+})
+
+// À la reconnexion pendant les 30 jours, le choix est EXPLICITE (BDD-04) :
+// avant, n'importe quel événement d'authentification annulait la suppression
+// en silence, et la purge à 30 jours ne trouvait plus rien.
+test.describe('Reconnexion d’un compte en cours de suppression', () => {
+  const SUPPRIME_LE = new Date(Date.now() - 2 * 864e5).toISOString()
+
+  test.beforeEach(async ({ page }) => {
+    await page.addInitScript(() => window.localStorage.setItem('fridge-lang', 'fr'))
+    await skipOnboardingOverlays(page)
+    await installSupabaseMocks(page)
+    await signedInAs(page, { username: 'Foodie_42', profile: { deleted_at: SUPPRIME_LE } })
+  })
+
+  test('l’écran du choix, et AUCUNE annulation silencieuse', async ({ page }) => {
+    await page.goto('/FridgePlus/')
+    await expect(page.getByRole('heading', { name: 'Ton compte est en cours de suppression' })).toBeVisible({ timeout: 15000 })
+    await page.waitForTimeout(1500)
+    expect(profileWrites(page).filter((w) => 'deleted_at' in w), 'aucune annulation sans geste').toEqual([])
+    await expect(page.getByRole('button', { name: 'Ouvrir le frigo' }).filter({ visible: true })).toHaveCount(0)
+  })
+
+  test('« Annuler la suppression » : l’annulation est écrite, l’application revient', async ({ page }) => {
+    await page.goto('/FridgePlus/')
+    await page.getByRole('button', { name: 'Annuler la suppression' }).click()
+    await expect.poll(() => profileWrites(page).filter((w) => 'deleted_at' in w)).toEqual([{ deleted_at: null, restore_token: null }])
+    await expect(page.getByRole('heading', { name: 'Ton compte est en cours de suppression' })).toHaveCount(0)
+    await expect(page.getByRole('button', { name: 'Ouvrir le frigo' }).filter({ visible: true }).first()).toBeVisible({ timeout: 15000 })
+  })
+
+  test('« Me déconnecter » : rien n’est annulé', async ({ page }) => {
+    await page.route('**/auth/v1/logout**', (route) => route.fulfill({ status: 204, body: '' }))
+    await page.goto('/FridgePlus/')
+    await page.getByRole('button', { name: 'Me déconnecter' }).click()
+    await expect(page.getByRole('heading', { name: 'Ton compte est en cours de suppression' })).toHaveCount(0, { timeout: 15000 })
+    expect(profileWrites(page).filter((w) => 'deleted_at' in w)).toEqual([])
   })
 })
 

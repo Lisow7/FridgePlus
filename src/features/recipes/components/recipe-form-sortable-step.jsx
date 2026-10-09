@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useId } from 'react'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import { LuGripVertical, LuMic, LuTrash2 } from 'react-icons/lu'
@@ -16,6 +16,8 @@ export default function RecipeFormSortableStep({ step, index, onChange, onDelete
   const recognitionRef = useRef(null)
   const silenceTimerRef = useRef(null)
   const textareaRef = useRef(null)
+  // La pastille numérotée, visible, est le libellé de l'étape (« Étape 3 »).
+  const etapeId = useId()
   const hasVoice = typeof window !== 'undefined' && !!(window.SpeechRecognition || window.webkitSpeechRecognition)
 
   const autoResize = () => {
@@ -65,12 +67,17 @@ export default function RecipeFormSortableStep({ step, index, onChange, onDelete
       >
         <LuGripVertical size={16} />
       </Button>
-      <span style={{ minWidth: '26px', height: '26px', borderRadius: '50%', background: 'var(--color-brand-500)', color: '#fff', fontSize: '12px', fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: '7px' }}>{index + 1}</span>
+      {/* Orange profond : le blanc sur l'orange vif plafonnait à 3,05:1 (décision du 2026-10-06). */}
+      {/* Le libellé entendu (« Étape 3 ») ; la pastille visible en montre le
+          numéro — il fait partie du nom (WCAG 2.5.3). */}
+      <span id={etapeId} className="sr-only">{`${t.stepAria} ${index + 1}`}</span>
+      <span aria-hidden="true" style={{ minWidth: '26px', height: '26px', borderRadius: '50%', background: '#B85000', color: '#fff', fontSize: '12px', fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: '7px' }}>{index + 1}</span>
       <div style={{ position: 'relative', flex: 1 }}>
         <textarea
           ref={textareaRef}
           value={step.text}
           onChange={e => onChange(step.id, e.target.value)}
+          aria-labelledby={etapeId}
           placeholder={t.placeholderStep}
           maxLength={150}
           rows={1}

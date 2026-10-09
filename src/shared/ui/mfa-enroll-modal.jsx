@@ -167,7 +167,7 @@ export default function MFAEnrollModal({ factor, lang = 'fr', darkMode = false, 
             onClick={handleVerify}
             loading={submitting}
             disabled={code.length !== 6 || submitting}
-            className="h-auto rounded-lg bg-[#E07820] px-4 py-2.5 text-[13px] font-bold text-white"
+            className="h-auto rounded-lg bg-[#B85000] px-4 py-2.5 text-[13px] font-bold text-white"
           >
             {!submitting && <LuCheck size={14} style={{ marginRight: 6, verticalAlign: 'text-bottom' }} />}
             {submitting ? t.enrolling : t.nextBtn}

@@ -1,9 +1,10 @@
-import { useState, useEffect, useRef, useMemo } from 'react'
+import { useId, useState, useEffect, useRef, useMemo } from 'react'
 import { createPortal } from 'react-dom'
 import { LuX, LuMic, LuSearch, LuPlus } from 'react-icons/lu'
 import { useIngredients } from '@shared/contexts/data-provider'
 import { useWindowWidth } from '@shared/hooks/use-window-width'
 import Button from '@shared/ui/button'
+import { useDialogue } from '@shared/hooks/use-dialogue'
 import VoiceMatchedList from './voice-matched-list'
 // Alias : garde le nom local `normalize` (0 site d'usage touché). La version
 // locale ne développait pas « œ » — « boeuf » ne trouvait pas « bœuf ».
@@ -16,7 +17,8 @@ const I18N = {
     cancel: 'Annuler',
     alreadyIn: 'Déjà dans ton frigo',
     allAlreadyIn: 'Tous ces ingrédients sont déjà dans ton frigo',
-    searchPlaceholder: 'Ajouter un ingrédient manuellement…',
+    searchPlaceholder: 'ex. : beurre',
+    searchAria: 'Ajouter un ingrédient manuellement',
     searchNoResults: 'Aucun résultat',
     confirmCloseTitle: 'Abandonner la saisie vocale ?',
     confirmCloseBody: 'Les ingrédients reconnus ne seront pas ajoutés.',
@@ -33,7 +35,8 @@ const I18N = {
     cancel: 'Cancel',
     alreadyIn: 'Already in your fridge',
     allAlreadyIn: 'All these ingredients are already in your fridge',
-    searchPlaceholder: 'Add an ingredient manually…',
+    searchPlaceholder: 'e.g. butter',
+    searchAria: 'Add an ingredient manually',
     searchNoResults: 'No results',
     confirmCloseTitle: 'Abandon voice input?',
     confirmCloseBody: 'Detected ingredients will not be added.',
@@ -99,9 +102,15 @@ export default function VoiceConfirmPanel({ lang = 'fr', matchedIngredients = []
   const [items, setItems] = useState([])
   const [showCloseConfirm, setShowCloseConfirm] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
+  const champId = useId()
   const [searchResults, setSearchResults] = useState([])
   const [showSearch, setShowSearch] = useState(false)
   const [micHover, setMicHover] = useState(false)
+  // De vraies boîtes de dialogue : rôle, nom, focus piégé, Échap (A11Y-01).
+  // Échap sur le panneau passe par la même porte que sa croix (qui demande
+  // confirmation s'il y a des ingrédients) ; sur la confirmation, il l'annule.
+  const dialoguePanneau = useDialogue({ onClose: () => handleClose() })
+  const dialogueFermeture = useDialogue({ onClose: () => setShowCloseConfirm(false), actif: showCloseConfirm })
   const flatListRef = useRef(null)
   const searchInputRef = useRef(null)
 
@@ -209,7 +218,7 @@ export default function VoiceConfirmPanel({ lang = 'fr', matchedIngredients = []
   const textMuted = darkMode ? '#7A90A8' : '#7A5F56'
 
   const panelStyle = isDesktop ? {
-    position: 'fixed', top: 0, left: 0, width: '620px', height: '100vh',
+    position: 'fixed', top: 0, left: 0, width: '620px', height: '100dvh',
     zIndex: 53, background: bg,
     borderRight: `1px solid ${border}`,
     boxShadow: '4px 0 32px rgba(0,0,0,0.12)',
@@ -237,13 +246,13 @@ export default function VoiceConfirmPanel({ lang = 'fr', matchedIngredients = []
       )}
 
       {/* Panel */}
-      <div style={panelStyle}>
+      <div {...dialoguePanneau.proprietes} style={panelStyle}>
         {/* En-tête */}
         <div style={{
           display: 'flex', alignItems: 'center', gap: '12px',
           padding: '20px 20px 16px', borderBottom: `1px solid ${border}`, flexShrink: 0,
         }}>
-          <h2 style={{ flex: 1, fontSize: '20px', fontWeight: 700, color: 'var(--color-charcoal)', margin: 0 }}>
+          <h2 id={dialoguePanneau.titreId} style={{ flex: 1, fontSize: '20px', fontWeight: 700, color: 'var(--color-charcoal)', margin: 0 }}>
             {t.title}
           </h2>
 
@@ -305,24 +314,29 @@ export default function VoiceConfirmPanel({ lang = 'fr', matchedIngredients = []
 
         {/* Recherche manuelle */}
         <div style={{ padding: '8px 20px 0', flexShrink: 0, position: 'relative' }}>
-          <LuSearch size={15} style={{ position: 'absolute', left: '32px', top: '50%', transform: 'translateY(-50%)', color: textMuted, pointerEvents: 'none', zIndex: 1 }} />
-          <input
-            ref={searchInputRef}
-            type="text"
-            value={searchQuery}
-            onChange={e => { setSearchQuery(e.target.value); setShowSearch(true) }}
-            onFocus={() => setShowSearch(true)}
-            onBlur={() => setTimeout(() => setShowSearch(false), 150)}
-            placeholder={t.searchPlaceholder}
-            style={{
-              width: '100%', padding: '10px 12px 10px 36px',
-              borderRadius: '10px',
-              border: `1.5px solid ${darkMode ? '#243650' : '#E2D8CC'}`,
-              background: darkMode ? '#131E2C' : '#F5EDE0',
-              color: 'var(--color-charcoal)', fontSize: '14px',
-              outline: 'none', fontFamily: 'inherit',
-            }}
-          />
+          {/* Un libellé visible, le texte grisé en exemple. */}
+          <label htmlFor={champId} style={{ display: 'block', fontSize: '12px', fontWeight: 700, color: textMuted, marginBottom: '6px' }}>{t.searchAria}</label>
+          <div style={{ position: 'relative' }}>
+            <LuSearch size={15} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: textMuted, pointerEvents: 'none', zIndex: 1 }} />
+            <input
+              id={champId}
+              ref={searchInputRef}
+              type="text"
+              value={searchQuery}
+              onChange={e => { setSearchQuery(e.target.value); setShowSearch(true) }}
+              onFocus={() => setShowSearch(true)}
+              onBlur={() => setTimeout(() => setShowSearch(false), 150)}
+              placeholder={t.searchPlaceholder}
+              style={{
+                width: '100%', padding: '10px 12px 10px 36px',
+                borderRadius: '10px',
+                border: `1.5px solid ${darkMode ? '#243650' : '#E2D8CC'}`,
+                background: darkMode ? '#131E2C' : '#F5EDE0',
+                color: 'var(--color-charcoal)', fontSize: '14px',
+                outline: 'none', fontFamily: 'inherit',
+              }}
+            />
+          </div>
           {showSearch && searchResults.length > 0 && (
             <div style={{
               position: 'absolute', bottom: 'calc(100% + 4px)', left: '20px', right: '20px',
@@ -422,12 +436,12 @@ export default function VoiceConfirmPanel({ lang = 'fr', matchedIngredients = []
           background: 'rgba(0,0,0,0.45)',
           display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px',
         }}>
-          <div className="fp-modal-panel" style={{
+          <div {...dialogueFermeture.proprietes} className="fp-modal-panel" style={{
             background: bg, borderRadius: '16px', border: `1.5px solid ${border}`,
             padding: '24px', maxWidth: '340px', width: '100%',
             boxShadow: '0 16px 48px rgba(0,0,0,0.25)',
           }}>
-            <h3 style={{ fontSize: '16px', fontWeight: 700, color: 'var(--color-charcoal)', marginBottom: '8px' }}>
+            <h3 id={dialogueFermeture.titreId} style={{ fontSize: '16px', fontWeight: 700, color: 'var(--color-charcoal)', marginBottom: '8px' }}>
               {t.confirmCloseTitle}
             </h3>
             <p style={{ fontSize: '14px', color: textMuted, marginBottom: '20px', lineHeight: 1.5 }}>

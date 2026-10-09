@@ -268,7 +268,7 @@ export default function PreparePhase({
           onClick={onStartShopping}
           className="flex items-center justify-center gap-2 w-full rounded-[12px] py-4 text-[15px] font-extrabold border-none cursor-pointer min-h-[52px] transition-all"
           style={{
-            background: 'linear-gradient(135deg, #D46A10, #E07820)',
+            background: 'var(--gradient-deep)',
             color: 'white',
             boxShadow: '0 4px 16px rgba(212,106,16,0.30)',
           }}

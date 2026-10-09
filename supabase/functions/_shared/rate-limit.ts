@@ -46,13 +46,24 @@ export function checkRateLimit(key: string, max: number, windowMs: number): bool
  * Extrait l'IP du client depuis les headers HTTP (Vercel / Cloudflare /
  * Supabase Edge runtime). Fallback : `'unknown'`. Ne JAMAIS faire confiance
  * à ces headers pour de l'authn — uniquement comme key de regroupement.
+ *
+ * Ordre (audit du 2026-10-04, BDD-08) : `cf-connecting-ip`, posé par le proxy,
+ * passe en premier. La PREMIÈRE valeur de `X-Forwarded-For` est celle que
+ * l'appelant envoie lui-même : la prendre comme clé laissait un appel anonyme
+ * changer de compteur à chaque requête. En dernier recours, la DERNIÈRE valeur
+ * (celle qu'ajoute le proxy le plus proche).
  */
 export function getClientIp(req: Request): string {
+  const cf = req.headers.get('cf-connecting-ip')?.trim()
+  if (cf) return cf
+  const reelle = req.headers.get('x-real-ip')?.trim()
+  if (reelle) return reelle
   const xff = req.headers.get('x-forwarded-for')
-  if (xff) return xff.split(',')[0].trim()
-  return req.headers.get('cf-connecting-ip')
-      ?? req.headers.get('x-real-ip')
-      ?? 'unknown'
+  if (xff) {
+    const sauts = xff.split(',').map((s) => s.trim()).filter(Boolean)
+    if (sauts.length) return sauts[sauts.length - 1]
+  }
+  return 'unknown'
 }
 
 /**

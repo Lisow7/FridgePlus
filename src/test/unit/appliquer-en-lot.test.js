@@ -68,6 +68,43 @@ describe('appliquerEnLot — rendre compte de ce qui a réellement réussi', () 
   })
 })
 
+// Audit du 2026-10-04, ADM-23 : une sélection de 80 recettes partait en 80
+// écritures simultanées vers la base.
+describe('appliquerEnLot — pas plus de cinq écritures à la fois', () => {
+  const attendre = (ms) => new Promise((r) => setTimeout(r, ms))
+
+  it('un lot de douze ne lance jamais plus de cinq actions ensemble, et les mène toutes à bout', async () => {
+    let enVol = 0
+    let auPlus = 0
+    const action = vi.fn(async (id) => {
+      enVol++
+      auPlus = Math.max(auPlus, enVol)
+      await attendre(5)
+      enVol--
+      return id === 'r7' ? { error: 'refusée' } : { error: null }
+    })
+    const ids = Array.from({ length: 12 }, (_, i) => `r${i}`)
+    const bilan = await appliquerEnLot(ids, action)
+
+    expect(action).toHaveBeenCalledTimes(12)
+    expect(auPlus).toBeLessThanOrEqual(5)
+    expect(auPlus).toBeGreaterThan(1) // toujours en parallèle (témoin)
+    expect(bilan).toEqual({ total: 12, reussis: 11, echecs: 1, toutReussi: false, premiereErreur: 'refusée' })
+  })
+
+  it('la « première erreur » est celle du premier identifiant en échec, pas de la première réponse', async () => {
+    // r1 échoue lentement, r3 échoue tout de suite : on annonce r1.
+    const action = async (id) => {
+      if (id === 'r1') { await attendre(20); return { error: 'r1 refusée' } }
+      if (id === 'r3') return { error: 'r3 refusée' }
+      return { error: null }
+    }
+    const bilan = await appliquerEnLot(['r0', 'r1', 'r2', 'r3'], action)
+    expect(bilan.premiereErreur).toBe('r1 refusée')
+    expect(bilan.echecs).toBe(2)
+  })
+})
+
 describe('messageDeLot — ne jamais masquer un échec partiel', () => {
   const libelle = (n) => `post${n > 1 ? 's' : ''} masqué${n > 1 ? 's' : ''}`
 

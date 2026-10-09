@@ -1,5 +1,8 @@
+import { useId } from 'react'
 import { LuSearch } from 'react-icons/lu'
 import Button from '@shared/ui/button'
+import { MESSAGE_SUPPORT_MAX } from '@shared/lib/longueurs-maximales'
+import Field from '@shared/ui/field'
 
 const REASON_SUBSETS = {
   base:       ['inappropriate', 'wrong_info', 'plagiarism', 'spam', 'other'],
@@ -17,6 +20,9 @@ const REASON_SUBSETS = {
 export default function SupportFormView({ ctx, theme, t }) {
   const { newFlow, setNewFlow, error, setError, goToConfirm, setView } = ctx
   const { darkMode, modalBg, border, text, muted, inputBg } = theme
+  // Avant le retour anticipé : un hook ne se saute pas.
+  const idRecherche = useId()
+  const libelle = { fontSize:11, fontWeight:700, color:muted, letterSpacing:'0.07em', textTransform:'uppercase', marginBottom:6, display:'block' }
 
   const { category, target, searchQuery, searchResults, searchLoading, reasonKey, details, freeTitle } = newFlow
   if (!category) return null
@@ -45,10 +51,11 @@ export default function SupportFormView({ ctx, theme, t }) {
             </div>
           ) : (
             <div style={{ position:'relative' }}>
-              <label style={{ fontSize:11, fontWeight:700, color:muted, letterSpacing:'0.07em', textTransform:'uppercase', marginBottom:6, display:'block' }}>{t.cats[category.id]}</label>
+              <label htmlFor={idRecherche} style={libelle}>{t.cats[category.id]}</label>
               <div style={{ position:'relative' }}>
                 <LuSearch size={14} style={{ position:'absolute', left:11, top:'50%', transform:'translateY(-50%)', color:muted, pointerEvents:'none' }} />
                 <input
+                  id={idRecherche}
                   value={searchQuery}
                   onChange={e => setNewFlow(f => ({ ...f, searchQuery:e.target.value }))}
                   placeholder={t.searchPlaceholders[category.searchType]}
@@ -104,16 +111,15 @@ export default function SupportFormView({ ctx, theme, t }) {
           )}
 
           {/* Détails */}
-          <div>
-            <label style={{ fontSize:11, fontWeight:700, color:muted, letterSpacing:'0.07em', textTransform:'uppercase', marginBottom:6, display:'block' }}>{t.detailsLabel}</label>
+          <Field label={t.detailsLabel} labelStyle={libelle}>
             <textarea value={details} onChange={e => setNewFlow(f => ({ ...f, details:e.target.value }))}
               placeholder={category.id === 'price_error' ? t.priceDetailsPlaceholder : t.detailsPlaceholder}
-              rows={3}
+              rows={3} maxLength={MESSAGE_SUPPORT_MAX}
               style={{ width:'100%', borderRadius:10, border:`1.5px solid ${border}`, background:inputBg, color:text, fontSize:13, padding:'9px 12px', resize:'vertical', outline:'none', fontFamily:'inherit', boxSizing:'border-box', transition:'border-color 0.15s' }}
               onFocus={e => e.target.style.borderColor = 'var(--color-warm-400)'}
               onBlur={e => e.target.style.borderColor = border}
             />
-          </div>
+          </Field>
         </>
       )}
 
@@ -123,39 +129,36 @@ export default function SupportFormView({ ctx, theme, t }) {
           <div style={{ padding:'9px 14px', borderRadius:10, background:darkMode ? 'var(--color-dark-surface)' : '#F0EDE4', border:`1px solid ${border}`, fontSize:13, color:text, fontWeight:600 }}>
             {category.emoji} {t.cats[category.id]}
           </div>
-          <div>
-            <label style={{ fontSize:11, fontWeight:700, color:muted, letterSpacing:'0.07em', textTransform:'uppercase', marginBottom:6, display:'block' }}>{t.bugDescLabel}</label>
+          <Field label={t.bugDescLabel} labelStyle={libelle}>
             <textarea value={details} onChange={e => setNewFlow(f => ({ ...f, details:e.target.value }))}
-              placeholder={t.bugDescPlaceholder} rows={5}
+              placeholder={t.bugDescPlaceholder} rows={5} maxLength={MESSAGE_SUPPORT_MAX}
               style={{ width:'100%', borderRadius:10, border:`1.5px solid ${border}`, background:inputBg, color:text, fontSize:13, padding:'9px 12px', resize:'vertical', outline:'none', fontFamily:'inherit', boxSizing:'border-box', transition:'border-color 0.15s' }}
               onFocus={e => e.target.style.borderColor = 'var(--color-warm-400)'}
               onBlur={e => e.target.style.borderColor = border}
             />
-          </div>
+          </Field>
         </>
       )}
 
       {/* Flux libre : titre + message */}
       {category.flow === 'free' && (
         <>
-          <div>
-            <label style={{ fontSize:11, fontWeight:700, color:muted, letterSpacing:'0.07em', textTransform:'uppercase', marginBottom:6, display:'block' }}>{t.freeTitleLabel}</label>
+          <Field label={t.freeTitleLabel} labelStyle={libelle}>
             <input value={freeTitle} onChange={e => setNewFlow(f => ({ ...f, freeTitle:e.target.value }))}
               placeholder={t.freeTitlePlaceholder} maxLength={120}
               style={{ width:'100%', borderRadius:10, border:`1.5px solid ${border}`, background:inputBg, color:text, fontSize:13, padding:'9px 12px', outline:'none', fontFamily:'inherit', boxSizing:'border-box', transition:'border-color 0.15s' }}
               onFocus={e => e.target.style.borderColor = 'var(--color-warm-400)'}
               onBlur={e => e.target.style.borderColor = border}
             />
-          </div>
-          <div>
-            <label style={{ fontSize:11, fontWeight:700, color:muted, letterSpacing:'0.07em', textTransform:'uppercase', marginBottom:6, display:'block' }}>{t.freeDescLabel}</label>
+          </Field>
+          <Field label={t.freeDescLabel} labelStyle={libelle}>
             <textarea value={details} onChange={e => setNewFlow(f => ({ ...f, details:e.target.value }))}
-              placeholder={t.freeDescPlaceholder} rows={5}
+              placeholder={t.freeDescPlaceholder} rows={5} maxLength={MESSAGE_SUPPORT_MAX}
               style={{ width:'100%', borderRadius:10, border:`1.5px solid ${border}`, background:inputBg, color:text, fontSize:13, padding:'9px 12px', resize:'vertical', outline:'none', fontFamily:'inherit', boxSizing:'border-box', transition:'border-color 0.15s' }}
               onFocus={e => e.target.style.borderColor = 'var(--color-warm-400)'}
               onBlur={e => e.target.style.borderColor = border}
             />
-          </div>
+          </Field>
         </>
       )}
 

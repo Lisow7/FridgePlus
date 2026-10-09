@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useId, useRef, useState } from 'react'
 import { LuX, LuChevronDown } from 'react-icons/lu'
 import { useConsent } from '@shared/hooks/use-consent'
 import { useFocusTrap } from '@shared/hooks/use-focus-trap'
@@ -6,24 +6,36 @@ import { useCloseOnBackButton } from '@shared/hooks/use-close-on-back-button'
 import { usePushSubscription } from '@features/push-notifications'
 import { useFeatureFlag } from '@shared/contexts/feature-flags-provider'
 import { I18N } from '../i18n/consent-i18n'
+import { CATEGORIES } from '../i18n/consent-categories-i18n'
 import Button from '@shared/ui/button'
 
-// Modale détaillée pour le consentement granulaire (3 catégories).
+// Modale détaillée pour le consentement granulaire.
 // Ouverte depuis le bouton « Personnaliser » du bandeau ou depuis le panel
 // Profil → Confidentialité.
 //
-// 3 catégories : Essentiels (toggle désactivé, toujours ON), Fonctionnels,
-// Mesure d'audience. Chaque section affiche : titre + badge, description,
+// Essentiels (toujours actifs), puis deux cases séparées (consentement v2,
+// décision du 2026-10-06) : Rapports d'erreurs (Sentry) et Statistiques
+// d'usage. Puis les accords d'usage (micro, photo, push). Chaque section : titre + badge, description,
 // avantages/inconvénients, durée de conservation, vendeurs (si pertinent).
 
+// Texte des badges de catégorie : la teinte pleine plafonnait sous 4,5:1 sur
+// son propre fond teinté (3,3 à 4,3 en clair, 2,2 à 2,9 en sombre) — planche
+// n° 2 du 2026-10-06, « couleurs = profond ». [clair, sombre].
+const TEXTE_BADGE = {
+  '#5A8A4A': ['#49703C', '#8AAC7E'],
+  '#5A7AAA': ['#4C668F', '#8FA5C5'],
+  '#7A5AAA': ['#7456A2', '#AB97C9'],
+  '#C05A10': ['#A14C0D', '#D48F5C'],
+}
+
 export default function CookieModal({ lang = 'fr', darkMode = false, onClose, onShowLegal }) {
-  const t = I18N[lang] ?? I18N.fr
+  const t = { ...(I18N[lang] ?? I18N.fr), ...(CATEGORIES[lang] ?? CATEGORIES.fr) }
   const { consent, save } = useConsent()
   const push = usePushSubscription()
   const receiptScanEnabled = useFeatureFlag('receipt_scan', false)
   const [draft, setDraft] = useState({
-    functional:  consent.functional,
-    audience:    consent.audience,
+    errors:      consent.errors,
+    usage:       consent.usage,
     voice:       consent.voice,
     receiptScan: consent.receiptScan,
   })
@@ -71,7 +83,7 @@ export default function CookieModal({ lang = 'fr', darkMode = false, onClose, on
         style={{
           background: bg, color: fg,
           borderRadius: 16, maxWidth: 560, width: '100%',
-          maxHeight: '90vh', overflowY: 'auto',
+          maxHeight: '90dvh', overflowY: 'auto',
           boxShadow: '0 24px 64px rgba(0,0,0,0.4)',
         }}
       >
@@ -99,6 +111,8 @@ export default function CookieModal({ lang = 'fr', darkMode = false, onClose, on
             title={t.catEssTitle}
             badge={t.catEssBadge}
             badgeColor="#5A8A4A"
+
+            badgeText={TEXTE_BADGE['#5A8A4A']?.[darkMode ? 1 : 0]}
             description={t.catEssDesc}
             retention={t.catEssRetention}
             checked={true}
@@ -106,34 +120,41 @@ export default function CookieModal({ lang = 'fr', darkMode = false, onClose, on
             card={card} fg={fg} muted={muted} border={border}
           />
           <Category
-            title={t.catFuncTitle}
-            badge={t.catFuncBadge}
-            badgeColor="#C05A10"
-            description={t.catFuncDesc}
-            benefit={t.catFuncBenefit}
-            drawback={t.catFuncDrawback}
-            retention={t.catFuncRetention}
-            checked={draft.functional}
-            onToggle={() => toggle('functional')}
+            title={t.catErrTitle}
+            badge={t.catErrBadge}
+            badgeColor="#5A7AAA"
+
+            badgeText={TEXTE_BADGE['#5A7AAA']?.[darkMode ? 1 : 0]}
+            description={t.catErrDesc}
+            benefit={t.catErrBenefit}
+            drawback={t.catErrDrawback}
+            retention={t.catErrRetention}
+            vendors={t.catErrVendors}
+            checked={draft.errors}
+            onToggle={() => toggle('errors')}
             card={card} fg={fg} muted={muted} border={border}
           />
           <Category
-            title={t.catAudTitle}
-            badge={t.catAudBadge}
-            badgeColor="#5A7AAA"
-            description={t.catAudDesc}
-            benefit={t.catAudBenefit}
-            drawback={t.catAudDrawback}
-            retention={t.catAudRetention}
-            vendors={t.catAudVendors}
-            checked={draft.audience}
-            onToggle={() => toggle('audience')}
+            title={t.catUsageTitle}
+            badge={t.catUsageBadge}
+            badgeColor="#7A5AAA"
+
+            badgeText={TEXTE_BADGE['#7A5AAA']?.[darkMode ? 1 : 0]}
+            description={t.catUsageDesc}
+            benefit={t.catUsageBenefit}
+            drawback={t.catUsageDrawback}
+            retention={t.catUsageRetention}
+            vendors={t.catUsageVendors}
+            checked={draft.usage}
+            onToggle={() => toggle('usage')}
             card={card} fg={fg} muted={muted} border={border}
           />
           <Category
             title={t.catVoiceTitle}
             badge={t.catVoiceBadge}
             badgeColor="#C05A10"
+
+            badgeText={TEXTE_BADGE['#C05A10']?.[darkMode ? 1 : 0]}
             description={t.catVoiceDesc}
             benefit={t.catVoiceBenefit}
             drawback={t.catVoiceDrawback}
@@ -148,6 +169,8 @@ export default function CookieModal({ lang = 'fr', darkMode = false, onClose, on
               title={t.catReceiptTitle}
               badge={t.catReceiptBadge}
               badgeColor="#C05A10"
+
+              badgeText={TEXTE_BADGE['#C05A10']?.[darkMode ? 1 : 0]}
               description={t.catReceiptDesc}
               benefit={t.catReceiptBenefit}
               drawback={t.catReceiptDrawback}
@@ -163,6 +186,8 @@ export default function CookieModal({ lang = 'fr', darkMode = false, onClose, on
               title={t.catPushTitle}
               badge={t.catPushBadge}
               badgeColor="#C05A10"
+
+              badgeText={TEXTE_BADGE['#C05A10']?.[darkMode ? 1 : 0]}
               description={t.catPushDesc}
               benefit={!push.blocked ? t.catPushBenefit : undefined}
               drawback={!push.blocked ? t.catPushDrawback : undefined}
@@ -182,7 +207,7 @@ export default function CookieModal({ lang = 'fr', darkMode = false, onClose, on
               variant="ghost"
               onClick={() => { onShowLegal(); onClose?.() }}
               className="mt-1 h-auto self-start rounded-none bg-transparent p-0 text-[13px] font-semibold underline hover:bg-transparent"
-              style={{ color: darkMode ? 'var(--color-brand-400)' : '#C05A10' }}
+              style={{ color: darkMode ? 'var(--color-brand-400)' : '#B85000' }}
             >
               {t.bannerSeeMore} →
             </Button>
@@ -204,7 +229,7 @@ export default function CookieModal({ lang = 'fr', darkMode = false, onClose, on
           </Button>
           <Button
             onClick={handleSave}
-            className="h-auto rounded-lg bg-[#E07820] px-4 py-2.5 text-[13px] font-bold text-white"
+            className="h-auto rounded-lg bg-[#B85000] px-4 py-2.5 text-[13px] font-bold text-white"
           >
             {t.btnSave}
           </Button>
@@ -217,39 +242,51 @@ export default function CookieModal({ lang = 'fr', darkMode = false, onClose, on
 // Accordéon : le header (titre + badge + toggle) est toujours visible et
 // cliquable pour déplier ; le détail (description/avantages/durée) est
 // masqué par défaut — épure la liste, l'info reste à un clic pour qui veut.
-function Category({ title, badge, badgeColor, description, benefit, drawback, retention, vendors, blockedNote, forceExpanded, checked, disabled, onToggle, card, fg, muted, border }) {
+function Category({ title, badge, badgeColor, badgeText, description, benefit, drawback, retention, vendors, blockedNote, forceExpanded, checked, disabled, onToggle, card, fg, muted, border }) {
   const [expandedState, setExpanded] = useState(false)
   // Une erreur d'activation (ex: push) doit être visible sans action de
   // l'utilisateur — sinon le message reste caché dans l'accordéon replié,
   // aussi silencieux que l'absence de message.
   const expanded = expandedState || Boolean(forceExpanded)
+  const idTitre = useId()
 
   return (
     <div style={{
       padding: '14px 16px', borderRadius: 12,
       background: card, border: `1px solid ${border}`,
     }}>
-      <div
-        role="button"
-        tabIndex={0}
-        aria-expanded={expanded}
-        onClick={() => setExpanded(v => !v)}
-        onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setExpanded(v => !v) } }}
-        style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer' }}
-      >
-        <LuChevronDown
-          size={16}
-          style={{ color: muted, flexShrink: 0, transition: 'transform 0.15s', transform: expanded ? 'rotate(180deg)' : 'none' }}
-        />
-        <h3 style={{ fontSize: 14, fontWeight: 700, margin: 0, flex: 1, color: fg }}>{title}</h3>
+      {/* Un vrai bouton (dans le titre) déplie la catégorie, et l'interrupteur
+          est son voisin, plus son enfant : l'en-tête entier était un
+          `role="button"` qui avalait Espace et Entrée — sur l'interrupteur, ils
+          repliaient l'accordéon au lieu de changer le consentement. Et
+          l'interrupteur porte le nom de la catégorie (audit du 2026-10-04,
+          A11Y-04 et A11Y-05). */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+        <h3 style={{ fontSize: 14, fontWeight: 700, margin: 0, flex: 1, color: fg }}>
+          <button
+            type="button"
+            aria-expanded={expanded}
+            onClick={() => setExpanded(v => !v)}
+            style={{
+              display: 'flex', alignItems: 'center', gap: 8, width: '100%',
+              background: 'none', border: 0, padding: 0, margin: 0,
+              cursor: 'pointer', textAlign: 'left', color: 'inherit', font: 'inherit',
+            }}
+          >
+            <LuChevronDown
+              size={16}
+              aria-hidden="true"
+              style={{ color: muted, flexShrink: 0, transition: 'transform 0.15s', transform: expanded ? 'rotate(180deg)' : 'none' }}
+            />
+            <span id={idTitre}>{title}</span>
+          </button>
+        </h3>
         <span style={{
           fontSize: 11, fontWeight: 700,
           padding: '2px 8px', borderRadius: 12,
-          background: `${badgeColor}22`, color: badgeColor,
+          background: `${badgeColor}22`, color: badgeText ?? badgeColor,
         }}>{badge}</span>
-        <div onClick={(e) => e.stopPropagation()}>
-          <ToggleSwitch checked={checked} disabled={disabled} onChange={onToggle} />
-        </div>
+        <ToggleSwitch checked={checked} disabled={disabled} onChange={onToggle} labelledBy={idTitre} />
       </div>
 
       {expanded && (
@@ -280,11 +317,12 @@ function Category({ title, badge, badgeColor, description, benefit, drawback, re
   )
 }
 
-function ToggleSwitch({ checked, disabled, onChange }) {
+function ToggleSwitch({ checked, disabled, onChange, labelledBy }) {
   return (
     <Button
       role="switch"
       aria-checked={checked}
+      aria-labelledby={labelledBy}
       disabled={disabled}
       onClick={onChange}
       className="relative h-6 w-11 shrink-0 rounded-xl p-0 disabled:opacity-60"

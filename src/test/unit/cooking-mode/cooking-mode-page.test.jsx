@@ -6,7 +6,7 @@
 // piloter le statut et tester la glue de la page.
 
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { render, screen, fireEvent } from '@testing-library/react'
+import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import { UIProvider } from '../../../shared/contexts/ui-provider'
 
 // ── Mocks pilotables ────────────────────────────────────────────────
@@ -15,6 +15,9 @@ let mockSubscription = { hasPremiumAccess: true }
 let mockCooking = null
 const mockNavigate = vi.fn()
 const mockLogCooking = vi.fn()
+let mockLogResult
+const mockCelebrate = vi.fn()
+const mockSignaler = vi.fn()
 
 vi.mock('react-router-dom', () => ({
   useParams: () => ({ recipeId: 'r-test' }),
@@ -33,10 +36,13 @@ vi.mock('../../../shared/contexts/auth-provider', () => ({
   useAuth: () => ({ user: { id: 'user-1' } }),
 }))
 vi.mock('../../../shared/api/cooking-logs', () => ({
-  logCooking: (...args) => { mockLogCooking(...args); return Promise.resolve() },
+  logCooking: (...args) => { mockLogCooking(...args); return Promise.resolve(mockLogResult) },
 }))
 vi.mock('../../../shared/hooks/use-badge-celebration', () => ({
-  useBadgeCelebration: () => () => {},
+  useBadgeCelebration: () => mockCelebrate,
+}))
+vi.mock('../../../shared/hooks/use-save-error-toast', () => ({
+  useSaveErrorToast: () => mockSignaler,
 }))
 vi.mock('../../../shared/ui/upgrade-gate', () => ({
   UpgradeGate: ({ feature }) => <div data-testid="upgrade-gate">{feature}</div>,
@@ -76,6 +82,26 @@ describe('CookingModePage — branches', () => {
     mockRecipeById = { recipe: baseRecipe, status: 'ok' }
     mockSubscription = { hasPremiumAccess: true }
     mockCooking = idleCooking()
+    mockLogResult = { error: null }
+  })
+
+  // Hors audit, trouvé le 2026-10-05 : la célébration partait même quand le
+  // journal n'avait rien noté.
+  it('finished → le journal refuse : pas de célébration, et c’est dit', async () => {
+    mockLogResult = { error: { message: 'Failed to fetch' } }
+    mockCooking = idleCooking({ status: 'finished', progress: { current: 2, total: 2 } })
+    renderPage({ lang: 'fr' })
+    fireEvent.click(screen.getByText('Terminer'))
+    await waitFor(() => expect(mockSignaler).toHaveBeenCalledWith('cooking'))
+    expect(mockCelebrate).not.toHaveBeenCalled()
+  })
+
+  it('finished → le journal accepte : la célébration part, rien n’est dit (témoin)', async () => {
+    mockCooking = idleCooking({ status: 'finished', progress: { current: 2, total: 2 } })
+    renderPage({ lang: 'fr' })
+    fireEvent.click(screen.getByText('Terminer'))
+    await waitFor(() => expect(mockCelebrate).toHaveBeenCalledTimes(1))
+    expect(mockSignaler).not.toHaveBeenCalled()
   })
 
   it('loading → skeleton', () => {
@@ -88,6 +114,16 @@ describe('CookingModePage — branches', () => {
     mockSubscription = { hasPremiumAccess: false }
     renderPage({ lang: 'fr' })
     expect(screen.getByTestId('upgrade-gate')).toHaveTextContent('voice-cooking')
+  })
+
+  // Recette embarquée montrée avant le catalogue : ses étapes arrivent avec la
+  // fiche complète (audit du 2026-10-04, PERF-02). En attendant, on attend —
+  // « introuvable » serait faux.
+  it('recette embarquée en cours de complétion (sans étapes) → squelette, pas « introuvable »', () => {
+    mockRecipeById = { recipe: { ...baseRecipe, steps: undefined }, status: 'ok', pending: true }
+    renderPage({ lang: 'fr' })
+    expect(screen.getByTestId('skeleton')).toBeInTheDocument()
+    expect(screen.queryByText('Recette introuvable')).not.toBeInTheDocument()
   })
 
   it('recette sans étapes → message introuvable', () => {

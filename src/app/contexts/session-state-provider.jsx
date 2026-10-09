@@ -3,6 +3,7 @@ import { useAuth } from '@shared/contexts/auth-provider'
 import { useFridgeStock } from '@features/fridge/hooks/use-fridge-stock'
 import { useFavorites } from '@features/recipes/hooks/use-favorites'
 import { useBasket } from '@features/cart/hooks/use-basket'
+import { useSaveErrorToast } from '@shared/hooks/use-save-error-toast'
 import { StockContext, FavoritesContext, CartContext } from '@shared/contexts/session-state-context'
 
 // SessionStateProvider — Sprint 11 S11.c.2.
@@ -23,8 +24,11 @@ import { StockContext, FavoritesContext, CartContext } from '@shared/contexts/se
 export function SessionStateProvider({ children }) {
   const { user } = useAuth()
 
-  const stockApi     = useFridgeStock(user)
-  const favoritesApi = useFavorites(user)
+  // Une écriture refusée par la base est annulée par le crochet ; ici on le dit.
+  const signalerEchec = useSaveErrorToast()
+
+  const stockApi     = useFridgeStock(user, { onSaveError: () => signalerEchec('fridge') })
+  const favoritesApi = useFavorites(user, { onSaveError: () => signalerEchec('favorite') })
   const basketApi    = useBasket(user)
 
   const stockValue     = useMemo(() => stockApi,     [stockApi])

@@ -1,5 +1,7 @@
-import { useState } from 'react'
+import { useState, useId } from 'react'
 import Button from '@shared/ui/button'
+import { useDialogue } from '@shared/hooks/use-dialogue'
+import { useFermetureGardee } from '@shared/hooks/use-fermeture-gardee'
 
 // Modale de choix du motif de modération (rejet / dépublication d'une recette
 // communautaire), extraite de `custom-recipes-section.jsx` le 2026-07-31
@@ -32,6 +34,16 @@ export default function ModerationReasonModal({ target, lang, darkMode, onConfir
   const reasonL = v => MODERATION_REASON_LABELS[v]?.[lang] ?? MODERATION_REASON_LABELS[v]?.fr ?? v
   const [selected, setSelected] = useState(null)
   const [note, setNote]         = useState('')
+  const noteId = useId()
+  // Un motif choisi ou écrit ne se perd plus sur un clic, ni sur un
+  // cliquer-glisser relâché hors de la carte (ADM-18).
+  const { fermer, fond } = useFermetureGardee({
+    onClose: onCancel,
+    brouillon: !!selected || note.trim() !== '',
+    question: { title: 'Abandonner ce motif ?' },
+  })
+  // Une vraie boîte de dialogue : rôle, nom, focus piégé, Échap (A11Y-01).
+  const dialogue = useDialogue({ onClose: fermer })
 
   const bg     = darkMode ? '#0F1923' : '#FFF'
   const border = darkMode ? '#2A3A50' : '#D9CCBA'
@@ -49,15 +61,15 @@ export default function ModerationReasonModal({ target, lang, darkMode, onConfir
 
   return (
     <div style={{ position:'fixed', inset:0, background:'rgba(0,0,0,0.55)', zIndex:9999, display:'flex', alignItems:'center', justifyContent:'center', padding:20 }}
-      onClick={onCancel}>
-      <div style={{ background:bg, borderRadius:16, padding:'24px 28px', maxWidth:520, width:'100%', boxShadow:'0 24px 80px rgba(0,0,0,0.3)', border:`1px solid ${border}` }}
+      {...fond}>
+      <div {...dialogue.proprietes} style={{ background:bg, borderRadius:16, padding:'24px 28px', maxWidth:520, width:'100%', boxShadow:'0 24px 80px rgba(0,0,0,0.3)', border:`1px solid ${border}` }}
         onClick={e => e.stopPropagation()}>
 
         <div style={{ display:'flex', alignItems:'center', gap:8, marginBottom:16 }}>
           <span style={{ fontSize:12, fontWeight:700, padding:'3px 9px', borderRadius:6, background:sc.bg, color:sc.color, flexShrink:0 }}>
             {t[target.status] ?? target.status}
           </span>
-          <span style={{ fontSize:14, fontWeight:600, color:text, overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>
+          <span id={dialogue.titreId} style={{ fontSize:14, fontWeight:600, color:text, overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>
             {target.recipeName}
           </span>
         </div>
@@ -88,10 +100,13 @@ export default function ModerationReasonModal({ target, lang, darkMode, onConfir
           </div>
         )}
 
+        <label htmlFor={noteId} style={{ display:'block', fontSize:12, fontWeight:700, color:'var(--color-muted)', marginBottom:4 }}>
+          {t.moderationModalNoteLabels?.[target.status] ?? 'Précisions (facultatif)'}
+        </label>
         <textarea
+          id={noteId}
           value={note}
           onChange={e => setNote(e.target.value)}
-          placeholder={t.moderationModalPlaceholders?.[target.status] ?? '…'}
           rows={3}
           style={{ width:'100%', padding:'8px 12px', borderRadius:10, border:`1px solid ${border}`, background: darkMode ? '#141F2E' : '#F9F5EE', color:text, fontSize:13, fontFamily:'inherit', resize:'vertical', outline:'none', boxSizing:'border-box' }}
         />
@@ -99,7 +114,7 @@ export default function ModerationReasonModal({ target, lang, darkMode, onConfir
         <div style={{ display:'flex', gap:8, justifyContent:'flex-end', marginTop:14 }}>
           <Button
             variant="ghost"
-            onClick={onCancel}
+            onClick={fermer}
             className="h-auto rounded-[10px] border bg-transparent px-4 py-2 text-[13px] hover:bg-transparent"
             style={{ borderColor: border, color: muted }}
           >

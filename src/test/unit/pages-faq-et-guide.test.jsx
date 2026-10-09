@@ -121,7 +121,7 @@ describe('/guide — page Comment ça marche', () => {
     // `useAuth` est simulé sans utilisateur → finale invité. Les finales
     // connectée et premium tiendraient un discours qui ne le concerne pas.
     rendre(GuidePage)
-    expect(screen.getByText(/Un compte garde tes recettes préférées/)).toBeInTheDocument()
+    expect(screen.getByText(/Un compte retrouve tes favoris sur tous tes appareils/)).toBeInTheDocument()
     expect(screen.queryByText(/Tu connais l’essentiel/)).not.toBeInTheDocument()
     expect(screen.queryByText(/Va voir la communauté/)).not.toBeInTheDocument()
   })

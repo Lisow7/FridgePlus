@@ -68,7 +68,7 @@ export default function WhatsNextPhase({
       <button
         onClick={onStartNewBasket}
         className="flex items-center justify-center gap-2 w-full rounded-[12px] py-4 text-[15px] font-extrabold border-none cursor-pointer min-h-[52px]"
-        style={{ background: 'linear-gradient(135deg, #D46A10, #E07820)', color: 'white' }}
+        style={{ background: 'var(--gradient-deep)', color: 'white' }}
       >
         <LuPlus size={18} /> {t.newBasket}
       </button>
