@@ -23,6 +23,7 @@ export default function HeaderLogo({ lang = 'fr', onReset, darkMode = false }) {
  const animRef = useRef(null)
  const isAnimRef = useRef(false)
  const taglinesRef = useRef(getTaglines())
+ const visibiliteRef = useRef(null) // rappel « onglet revenu » (PERF-14), annulé au démontage
 
  // Sync ref + reset cycle quand la langue change
  useEffect(() => {
@@ -33,8 +34,12 @@ export default function HeaderLogo({ lang = 'fr', onReset, darkMode = false }) {
  isAnimRef.current = false
  setDisplayText(tl[0] ?? '')
  setIsTyping(false)
- if (!reduireLeMouvement()) scheduleNext(4000)
- return () => clearTimeout(animRef.current)
+ visibiliteRef.current?.abort()
+ visibiliteRef.current = new AbortController()
+ // Pas de cycle sous 640 px : le slogan y est masqué (`hidden sm:flex`) et ses
+ // rendus tournaient pour rien (audit du 2026-10-04, PERF-14).
+ if (!reduireLeMouvement() && window.innerWidth >= 640) scheduleNext(4000)
+ return () => { clearTimeout(animRef.current); visibiliteRef.current?.abort() }
  // eslint-disable-next-line react-hooks/exhaustive-deps
  }, [lang])
 
@@ -43,6 +48,11 @@ export default function HeaderLogo({ lang = 'fr', onReset, darkMode = false }) {
  animRef.current = setTimeout(startCycle, delay)
  }
  function startCycle() {
+ // Onglet masqué : on attend son retour plutôt que d'animer dans le vide (PERF-14).
+ if (document.hidden) {
+ document.addEventListener('visibilitychange', () => scheduleNext(1000), { once: true, signal: visibiliteRef.current?.signal })
+ return
+ }
  const from = taglinesRef.current[tagIdxRef.current]
  const nextIdx = (tagIdxRef.current + 1) % taglinesRef.current.length
  eraseChar(from, taglinesRef.current[nextIdx], nextIdx, 0)
