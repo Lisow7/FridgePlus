@@ -21,6 +21,31 @@ import { CURRENT_VERSION } from '@shared/lib/version'
 // Reste null si DSN absent, rapports d'erreurs refusés, ou import échoué.
 let SentryRef = null
 
+// Ce qui part vers Sentry ne porte ni requête ni fragment d'URL (audit du
+// 2026-10-04, RGPD-18) : un lien de restauration de compte porte
+// `?restore-account=<jeton>`, le retour de Google `?code=`, les appels REST
+// leurs filtres (`?id=eq.<uuid>`). L'origine et le chemin suffisent au débogage.
+export function epurerLUrl(url) {
+  if (typeof url !== 'string') return url
+  const coupes = [url.indexOf('?'), url.indexOf('#')].filter((i) => i >= 0)
+  return coupes.length ? url.slice(0, Math.min(...coupes)) : url
+}
+
+/** `beforeSend` : l'URL de la page de l'événement, épurée. */
+export function epurerLEvenement(evenement) {
+  if (!evenement?.request?.url) return evenement
+  return { ...evenement, request: { ...evenement.request, url: epurerLUrl(evenement.request.url) } }
+}
+
+/** `beforeBreadcrumb` : navigation (`from`, `to`) et appels réseau (`url`), épurés. */
+export function epurerLeFilDAriane(miette) {
+  const d = miette?.data
+  if (!d || !['url', 'from', 'to'].some((cle) => typeof d[cle] === 'string')) return miette
+  const data = { ...d }
+  for (const cle of ['url', 'from', 'to']) if (typeof data[cle] === 'string') data[cle] = epurerLUrl(data[cle])
+  return { ...miette, data }
+}
+
 export async function initSentry() {
   const dsn = import.meta.env.VITE_SENTRY_DSN
   if (!dsn) {
@@ -72,6 +97,10 @@ export async function initSentry() {
     // Le user context (id seul, pas email) est attaché après login via
     // setSentryUser() ci-dessous, depuis AuthContext.
     sendDefaultPii: false,
+    // Ni requête ni fragment d'URL dans les événements et les miettes
+    // (RGPD-18) : voir epurerLUrl ci-dessus.
+    beforeSend: epurerLEvenement,
+    beforeBreadcrumb: epurerLeFilDAriane,
   })
 
   SentryRef = SentryModule
