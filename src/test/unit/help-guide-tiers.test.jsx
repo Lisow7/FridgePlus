@@ -23,8 +23,8 @@ describe('HelpGuide — hub d’aide (refonte)', () => {
     expect(screen.queryByText('Le frigo')).not.toBeInTheDocument()
   })
 
-  it('Explorer déplié : groupes + badges d’accès', () => {
-    renderHelp()
+  it('Explorer déplié : groupes + badges d’accès (compte connecté : il voit « Ce qui arrive »)', () => {
+    renderHelp({ user: { id: 'u-1' } })
     fireEvent.click(screen.getByRole('button', { name: 'Explorer les fonctionnalités' }))
     expect(screen.getByText('Le frigo')).toBeInTheDocument()
     expect(screen.getByText('Panier')).toBeInTheDocument()
@@ -32,13 +32,22 @@ describe('HelpGuide — hub d’aide (refonte)', () => {
     expect(screen.getAllByText('Bientôt').length).toBeGreaterThan(0)
   })
 
-  it('CTA invité : gratuit → Y aller, profil (bloqué) → Créer un compte, soon → Voir ce qui arrive', () => {
+  // Un visiteur ne rencontre aucun point d'entrée Premium (ADR 0006 ; audit du
+  // 2026-10-04, PREM-08) : le groupe « Ce qui arrive » est réservé aux comptes.
+  it('CTA invité : gratuit → Y aller, profil (bloqué) → Créer un compte, et pas de « Ce qui arrive »', () => {
     renderHelp({ user: null, onShowRecipes: () => {} })
     fireEvent.click(screen.getByRole('button', { name: 'Explorer les fonctionnalités' }))
     fireEvent.click(screen.getByRole('button', { name: /Les recettes/ }))
     expect(screen.getByText(/^Y aller/)).toBeInTheDocument()
     fireEvent.click(screen.getByRole('button', { name: /Profil/ }))
     expect(screen.getByText(/^Créer un compte/)).toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: /Panier/ })).toBeNull()
+    expect(screen.queryByText('Ce qui arrive')).toBeNull()
+  })
+
+  it('CTA compte gratuit : soon → Voir ce qui arrive', () => {
+    renderHelp({ user: { id: 'u-1' }, onShowUpgrade: () => {} })
+    fireEvent.click(screen.getByRole('button', { name: 'Explorer les fonctionnalités' }))
     fireEvent.click(screen.getByRole('button', { name: /Panier/ }))
     expect(screen.getByText(/^Voir ce qui arrive/)).toBeInTheDocument()
   })

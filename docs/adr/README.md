@@ -17,6 +17,8 @@ Décisions d'architecture **non-évidentes** du projet, au format [MADR](https:/
 - [0003](0003-custom-recipes-vue.md) — `custom_recipes` est une VUE, pas une table
 - [0004](0004-donnees-static-vs-supabase.md) — Données : fichiers statiques ↔ Supabase — *remplacé en partie par 0005*
 - [0005](0005-corrections-audit-2026-08-28.md) — Corrections apportées par l'audit du 2026-08-28
+- [0006](0006-paliers-d-acces-premium.md) — Trois paliers d'accès : un visiteur ne voit aucun point d'entrée Premium,
+  un compte gratuit les voit verrouillés
 
 ## Template
 ```md

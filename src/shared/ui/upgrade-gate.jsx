@@ -64,50 +64,10 @@ const FEATURE_DATA = {
       accroche: 'Hands covered in dough? Your voice guides each step. Cook without ever touching your screen.',
     },
   },
-  'shopping-lists': {
-    emoji: '📋',
-    fr: {
-      title: 'Listes sauvegardées',
-      accroche: 'Crée et retrouve tes listes à tout moment. Tes courses habituelles accessibles en un clic.',
-    },
-    en: {
-      title: 'Saved shopping lists',
-      accroche: 'Create and access your lists anytime. Your usual groceries available in one click.',
-    },
-  },
-  'basket-share': {
-    emoji: '🔗',
-    fr: {
-      title: 'Partage & QR code',
-      accroche: 'Envoie ta liste par lien ou QR code. Les courses en famille, sans se répéter deux fois.',
-    },
-    en: {
-      title: 'Share & QR code',
-      accroche: 'Send your list via link or QR code. Shopping with family, without repeating yourself.',
-    },
-  },
-  'dlc-alerts': {
-    emoji: '🗓️',
-    fr: {
-      title: 'Alertes anti-gaspillage',
-      accroche: 'Reçois un rappel avant la date limite. Moins de gaspillage, plus d\'économies au quotidien.',
-    },
-    en: {
-      title: 'Expiry alerts',
-      accroche: 'Get a reminder before items expire. Less waste, more savings every day.',
-    },
-  },
-  'barcode-scan': {
-    emoji: '📱',
-    fr: {
-      title: 'Scan code-barres',
-      accroche: 'Scanne un produit pour l\'ajouter instantanément à ton frigo. Zéro saisie manuelle.',
-    },
-    en: {
-      title: 'Barcode scanner',
-      accroche: 'Scan a product to add it to your fridge instantly. Zero manual entry.',
-    },
-  },
+  // (Cinq clés que rien n'appelait — `shopping-lists`, `basket-share`,
+  // `dlc-alerts`, `barcode-scan` (pour une fonction qui n'existe pas) et
+  // `ai-substitutes` — retirées à l'audit du 2026-10-04, PREM-09. Les quatre
+  // qui restent sont exactement celles des `feature="…"` du dépôt.)
   'recipe-cost': {
     emoji: '💰',
     fr: {
@@ -117,17 +77,6 @@ const FEATURE_DATA = {
     en: {
       title: 'Recipe cost',
       accroche: 'Know how much this recipe costs before you shop. Price per ingredient and estimated total, right on every recipe card.',
-    },
-  },
-  'ai-substitutes': {
-    emoji: '🔄',
-    fr: {
-      title: 'Substituts IA',
-      accroche: 'Pas l\'ingrédient sous la main ? L\'IA te suggère 3 remplacements adaptés à la recette, avec les bonnes proportions.',
-    },
-    en: {
-      title: 'AI substitutes',
-      accroche: 'Missing an ingredient? AI suggests 3 recipe-tailored swaps, with the right proportions.',
     },
   },
 }
@@ -348,7 +297,9 @@ export function UpgradeGate({
   const soft = SOFT_I18N[lang] ?? SOFT_I18N.fr
   return (
     <div style={{ position: 'relative' }}>
-      <div style={{ pointerEvents: 'none', userSelect: 'none', filter: 'blur(4px)' }} aria-hidden="true">
+      {/* `inert` : masqués des lecteurs d'écran ET non focalisables — sans lui,
+          Tab atteignait des enfants invisibles (audit du 2026-10-04, PREM-15). */}
+      <div inert style={{ pointerEvents: 'none', userSelect: 'none', filter: 'blur(4px)' }} aria-hidden="true">
         {children}
       </div>
       <div style={{

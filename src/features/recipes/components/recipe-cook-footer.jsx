@@ -16,18 +16,21 @@ export function RecipeCookFooter({
   hasStockIngredients, enterWithdraw, logCookedWithoutWithdraw,
   showModeCuisine = true, showCook = true,
 }) {
+  // Le mode cuisine est une entrée Premium : un visiteur sans compte ne la
+  // voit pas, ni bouton ni verrou (ADR 0006 ; audit du 2026-10-04, PREM-08).
+  const modeCuisine = showModeCuisine && recipeSteps.length > 0 && !!user?.id
   return (
     <>
       {/* ── Footer sticky : Mode cuisine + J'ai cuisiné ──
           Desktop : les 2 boutons côte à côte quand les DEUX sont des
           boutons (Premium + étapes). Mobile (ou non-premium / sans
           étapes) : empilés. La bannière de feedback reste au-dessus. */}
-      {(recipeSteps.length > 0 || user?.id) && (showCook || (showModeCuisine && recipeSteps.length > 0)) && (() => {
+      {(recipeSteps.length > 0 || user?.id) && (showCook || modeCuisine) && (() => {
         // Desktop : « Mode cuisine vocal » et « J'ai cuisiné » côte à côte
         // (dès qu'il y a des étapes → le mode vocal est présent, bouton
         // Premium OU barre UpgradeGate). Mobile : empilés. flex-start pour
         // qu'un UpgradeGate déplié ne force pas la hauteur du bouton vert.
-        const cookButtonsRow = !isMobile && recipeSteps.length > 0
+        const cookButtonsRow = !isMobile && modeCuisine
         // Les DEUX slots sont de vrais boutons (Premium) → on égalise leurs
         // hauteurs (stretch + h-full) pour qu'ils soient parfaitement alignés.
         // Non-premium : le slot gauche est un UpgradeGate dépliable → on garde
@@ -48,7 +51,7 @@ export function RecipeCookFooter({
             </div>
           )}
           <div style={{ display: 'flex', flexDirection: cookButtonsRow ? 'row' : 'column', gap: '8px', alignItems: cookButtonsRow ? (bothCookButtons ? 'stretch' : 'flex-start') : 'stretch' }}>
-          {showModeCuisine && recipeSteps.length > 0 && (
+          {modeCuisine && (
             <div style={itemStyle}>
             {hasPremiumAccess ? (
             <Button onClick={() => navigate(`/cook/${recipe.id}`)}

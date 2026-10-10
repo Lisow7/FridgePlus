@@ -112,7 +112,7 @@ function AppInner() {
  // retour Stripe Checkout (?subscription=activated), deep link mobile
  // (?modal=upgrade). Cf. shared/hooks/use-url-boot-effects.js.
  const [sharedBasketId, setSharedBasketId] = useSharedBasketId()
- const subscriptionActivatedToast = useSubscriptionActivated({ refreshProfile, openUpgradeModal })
+ const subscriptionActivatedToast = useSubscriptionActivated({ refreshProfile, openUpgradeModal, user, loading: authLoading })
 
  // Bandeau essai : persisté par session (réapparaît à chaque ouverture d'onglet)
  const [trialBannerDismissed, setTrialBannerDismissed] = useState(() => {
