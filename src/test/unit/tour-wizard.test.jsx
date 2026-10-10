@@ -1,6 +1,8 @@
 import { describe, it, expect, vi } from 'vitest'
 import { render, screen, fireEvent, within } from '@testing-library/react'
 import TourWizard from '@features/onboarding/components/tour-wizard'
+// Drapeau de la photo du ticket allumé : ces attentes la nomment (éteint : drapeau-du-ticket.test.jsx).
+vi.mock('@shared/contexts/feature-flags-provider', () => ({ useFeatureFlag: (cle, repli) => (cle === 'receipt_scan' ? true : repli) }))
 
 // Refonte « visite courte » : 5 étapes CONSTANTES pour tous les profils
 // (4 communes + 1 finale adaptée). L'étape finale porte le CTA du profil.

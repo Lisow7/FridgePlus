@@ -29,6 +29,8 @@ const ERROR_CODES = new Set([
   'quota_exceeded', 'user_quota_exceeded', 'rate_limited', 'unauthorized', 'invalid_token', 'vision_error', 'scan_failed',
   'vision_key_missing', 'vision_unreachable', 'image_too_large', 'image_base64_required',
   'quota_check_failed', 'invalid_json', 'method_not_allowed',
+  // Le drapeau « receipt_scan » éteint côté serveur (décision du 2026-10-08), ou illisible.
+  'feature_disabled', 'flag_unavailable',
 ])
 
 export function useReceiptScanFlow({ lang, modals, ingredients, user, addStockBatch }) {
