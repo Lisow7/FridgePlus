@@ -1,17 +1,10 @@
 import { useState } from 'react'
 import { useConsent } from '@shared/hooks/use-consent'
-import { useAuth } from '@shared/contexts/auth-provider'
-import { revokeCommunityTerms } from '@shared/api/community'
 import { I18N } from '../i18n/consent-i18n'
 import { CATEGORIES } from '../i18n/consent-categories-i18n'
 import CookieModal from './cookie-modal'
 import Button from '@shared/ui/button'
 import { usePushSubscription } from '@features/push-notifications'
-import { useSaveErrorToast } from '@shared/hooks/use-save-error-toast'
-
-// drapeau localStorage UX pour la modale charte communauté
-// (cohérent avec CommunityPanel)
-const COMMUNITY_TERMS_SEEN_KEY = 'fridge-community-terms-seen'
 
 // Panneau de la page Profil → « Compte & sécurité ».
 // Affiche les choix actuels + permet de les modifier ou de tout réinitialiser.
@@ -22,25 +15,13 @@ const COMMUNITY_TERMS_SEEN_KEY = 'fridge-community-terms-seen'
 export default function ConfidentialityPanel({ lang = 'fr', darkMode = false, onShowLegal }) {
   const t = { ...(I18N[lang] ?? I18N.fr), ...(CATEGORIES[lang] ?? CATEGORIES.fr) }
   const { consent, hasDecided, reset } = useConsent()
-  const { user } = useAuth()
   const [showEdit, setShowEdit] = useState(false)
   const push = usePushSubscription()
-  const signalerEchec = useSaveErrorToast()
 
-  // Le reset complet englobe aussi l'acceptation de la charte
-  // communauté (consentement révoqué côté BDD + drapeau localStorage UX
-  // effacé pour que la modale réapparaisse au prochain accès).
-  const handleResetAll = async () => {
-    reset()
-    try { localStorage.removeItem(COMMUNITY_TERMS_SEEN_KEY) } catch { /* ignore */ }
-    // Le retrait EN BASE peut être refusé : la charte resterait acceptée côté
-    // serveur alors que la personne croit l'avoir retirée. On le dit, pour
-    // qu'elle réessaie (audit du 2026-10-04, ARCH-05).
-    if (user?.id) {
-      const { error } = await revokeCommunityTerms(user.id) ?? {}
-      if (error) signalerEchec('setting')
-    }
-  }
+  // Les cookies, et seulement eux (décision du 2026-10-08). Le bouton retirait
+  // aussi l'accord à la charte de la communauté — la seule preuve datée de cet
+  // accord disparaissait. Son retrait reste dans le profil, comme un geste à part.
+  const handleResetAll = () => { reset() }
 
   const muted = darkMode ? '#A0A8B8' : '#7A6A52'
   const fg = darkMode ? 'var(--color-bg-warm)' : '#2C1A0E'

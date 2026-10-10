@@ -465,7 +465,6 @@ export async function adminGetSpecialAccessNote(userId) {
 // écrans et les tests qui l'appellent par `@features/admin/api/admin`.
 export {
   adminGetImportQueue,
-  adminReRunValidators,
   adminPublishStaged,
   adminRejectStaged,
   adminGetImportMetrics,

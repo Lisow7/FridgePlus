@@ -52,17 +52,6 @@ export async function adminGetImportQueue({
 }
 
 /**
- * MVP : re-validation complète se fait via CLI (catalogue ingrédients côté Node).
- * Côté admin UI on retourne un message indicatif.
- */
-export async function adminReRunValidators(stagingId) {
-  return {
-    error: null,
-    message: `Re-validation via CLI : \`npm run recipes:revalidate -- --staging=${stagingId}\``,
-  }
-}
-
-/**
  * Publie 1 staging row vers recipes_unified (délègue au publisher).
  */
 export async function adminPublishStaged(stagingId) {
