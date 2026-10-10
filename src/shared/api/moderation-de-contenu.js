@@ -1,8 +1,10 @@
 // Vérifier la modération d'un contenu UGC avant soumission : appels à l'Edge
 // Function `moderate-content`.
 // Textes PUBLICS seulement : une demande au support ne passe plus ici (RGPD-02).
-// Le fichier garde son nom, mais ne contient plus de hook : `useModeration`,
-// appelé nulle part, a été retiré (lot 14e).
+// Ce sont des appels, pas un hook : le fichier vivait dans shared/hooks/ sous
+// le nom use-moderation.js (`useModeration`, appelé nulle part, retiré au lot
+// 14e) ; il rejoint shared/api/ au lot « accès à la base rangés » (audit du
+// 2026-10-04, ARCH-13 (6)).
 
 import { supabase } from '@shared/lib/supabase/client'
 

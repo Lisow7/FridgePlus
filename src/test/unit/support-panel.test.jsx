@@ -17,7 +17,7 @@ vi.mock('@features/support/api/support', () => ({
   searchIngredients: vi.fn(), searchUsersForReport: vi.fn(),
 }))
 vi.mock('@shared/api/reports', () => ({ createReport: vi.fn() }))
-vi.mock('@shared/hooks/use-moderation', () => ({ moderateContent: vi.fn() }))
+vi.mock('@shared/api/moderation-de-contenu', () => ({ moderateContent: vi.fn() }))
 vi.mock('@features/support/data/support-self-help', () => ({ getSelfHelp: () => [] }))
 
 import SupportPanel from '@features/support/components/support-panel'

@@ -15,7 +15,7 @@ vi.mock('@features/recipes/api/recipe-reviews', () => ({
 }))
 vi.mock('@shared/contexts/auth-provider', () => ({ useAuth: () => ({ user: { id: 'u1' } }) }))
 vi.mock('@shared/api/community', () => ({ getCommunityTermsAcceptedAt: vi.fn().mockResolvedValue('2026-01-01T00:00:00Z') }))
-vi.mock('@shared/hooks/use-moderation', () => ({ moderateContent: vi.fn(), submitPhotoPost: vi.fn() }))
+vi.mock('@shared/api/moderation-de-contenu', () => ({ moderateContent: vi.fn(), submitPhotoPost: vi.fn() }))
 vi.mock('@shared/lib/media/compress-image', () => ({ compressImageToBase64: vi.fn() }))
 vi.mock('@shared/ui/confirm-dialog/confirm-provider', () => ({ useConfirm: () => async () => true }))
 vi.mock('@shared/ui/avatar-img', () => ({ default: () => null }))

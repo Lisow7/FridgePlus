@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { supabase } from '@shared/lib/supabase/client'
+import { accepterLAccordAllergenes, retirerLAccordAllergenes } from '@shared/api/allergenes'
 
 // Préférences allergènes — invité → localStorage ; connecté →
 // `profile.allergen_prefs`. Sorti d'`auth-provider.jsx` le 2026-10-05 (il
@@ -72,7 +72,7 @@ export function useAllergenPrefs({ user, profile, loading, updateProfile, setPro
 
   async function acceptAllergenConsent() {
     try {
-      const { data, error } = await supabase.rpc('accepter_l_enregistrement_des_allergenes')
+      const { data, error } = await accepterLAccordAllergenes()
       if (error) return { error }
       setProfile?.(p => (p ? { ...p, allergen_consent_at: p.allergen_consent_at ?? data } : p))
       return { error: null }
@@ -83,7 +83,7 @@ export function useAllergenPrefs({ user, profile, loading, updateProfile, setPro
 
   async function withdrawAllergenConsent() {
     try {
-      const { error } = await supabase.rpc('retirer_l_accord_allergenes')
+      const { error } = await retirerLAccordAllergenes()
       if (error) return { error }
       setProfile?.(p => (p ? { ...p, allergen_prefs: [], allergen_consent_at: null } : p))
       setAllergenPrefs([])

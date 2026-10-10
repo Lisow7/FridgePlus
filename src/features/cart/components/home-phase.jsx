@@ -22,6 +22,8 @@ const I18N = {
     fridgeNote: (n) => `✅ ${n} ingrédient${n > 1 ? 's' : ''} ${n > 1 ? 'seront ajoutés' : 'sera ajouté'} à ton frigo`,
     clearEmergency: 'Vider sans transférer',
     clearConfirm: 'Vider le panier sans transférer au frigo ?',
+    echecFrigo: "Rien n'est passé au frigo : tes articles sont toujours dans le panier. Réessaie.",
+    echecPanier: "Tes articles sont au frigo, mais n'ont pas pu être retirés du panier. Réessaie.",
   },
   en: {
     doneCta: "I'm done shopping!",
@@ -40,6 +42,8 @@ const I18N = {
     fridgeNote: (n) => `✅ ${n} ingredient${suffixS(n, 'en')} will be added to your fridge`,
     clearEmergency: 'Clear without transferring',
     clearConfirm: 'Clear cart without transferring to fridge?',
+    echecFrigo: 'Nothing went into your fridge: your items are still in your cart. Try again.',
+    echecPanier: 'Your items are in your fridge, but could not be removed from your cart. Try again.',
   },
 }
 
@@ -97,6 +101,9 @@ export default function HomePhase({
   const t = I18N[lang] ?? I18N.fr
   const confirm = useConfirm()
   const [loading, setLoading] = useState(false)
+  // L'échec de « J'ai fait mes courses » se dit (audit du 2026-10-04) :
+  // 'frigo' = rien n'est passé, 'panier' = au frigo mais encore au panier.
+  const [echec, setEchec] = useState(null)
 
   const checkedItems  = basket.filter(i => i.checked)
   const uncheckedItems = basket.filter(i => !i.checked)
@@ -128,8 +135,10 @@ export default function HomePhase({
   const handleComplete = async () => {
     if (!onCompleteShopping || loading) return
     setLoading(true)
+    setEchec(null)
     try {
-      await onCompleteShopping(basket, {})
+      const resultat = await onCompleteShopping(basket, {})
+      if (resultat?.error) setEchec(resultat.resteAuPanier ? 'panier' : 'frigo')
     } finally {
       setLoading(false)
     }
@@ -218,6 +227,12 @@ export default function HomePhase({
         <LuCheck size={18} />
         {loading ? '…' : (allDone ? t.doneCta : t.doneCtaPartial)}
       </button>
+
+      {echec && (
+        <p role="alert" className="text-center text-[13px] font-bold" style={{ color: 'var(--color-danger)' }}>
+          {echec === 'panier' ? t.echecPanier : t.echecFrigo}
+        </p>
+      )}
 
       <p className="text-center text-[12px]" style={{ color: muted }}>{t.doneHint}</p>
 

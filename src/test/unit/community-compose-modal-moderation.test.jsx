@@ -19,7 +19,7 @@ vi.mock('@shared/api/community', () => ({
   getCommunityTermsAcceptedAt: vi.fn(), acceptCommunityTerms: vi.fn(),
   listMyBlockedUserIds: vi.fn(), listAttachableRecipes: vi.fn(), getRecipeNamesByIds: vi.fn(),
 }))
-vi.mock('@shared/hooks/use-moderation', () => ({
+vi.mock('@shared/api/moderation-de-contenu', () => ({
   moderateContent: (...args) => mockModerate(...args),
 }))
 

@@ -46,7 +46,7 @@ vi.mock('@shared/ui/confirm-dialog/confirm-provider', () => ({
   useConfirm: () => vi.fn().mockResolvedValue(true),
 }))
 vi.mock('@shared/api/reports', () => ({ createReport: (...a) => mockCreateReport(...a) }))
-vi.mock('@shared/hooks/use-moderation', () => ({ moderateContent: vi.fn().mockResolvedValue({ flagged: false }) }))
+vi.mock('@shared/api/moderation-de-contenu', () => ({ moderateContent: vi.fn().mockResolvedValue({ flagged: false }) }))
 
 import useSupportPanel from '@features/support/hooks/use-support-panel'
 
