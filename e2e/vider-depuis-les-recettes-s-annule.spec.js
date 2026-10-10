@@ -20,15 +20,23 @@ test('« Vider » dans le panneau des recettes : le frigo revient avec « Annule
   await page.goto('/FridgePlus/?recettes=1')
   await page.locator('[data-recipe-id]').first().waitFor()
 
-  await page.getByRole('button', { name: 'Vider', exact: true }).click()
+  // « Vider le frigo » vit dans le menu « Plus d’actions » de l’en-tête (décision du 2026-10-08).
+  const plusDActions = page.getByRole('button', { name: /Plus d.actions/ })
+  const vider = page.getByRole('menuitem', { name: 'Vider le frigo' })
+  await plusDActions.click()
+  await vider.click()
   const confirmation = page.getByRole('dialog', { name: 'Vider le frigo ?' })
   await expect(confirmation).toContainText('10 secondes pour annuler')
   await confirmation.getByRole('button', { name: 'Vider', exact: true }).click()
 
-  // Vidé à l'écran tout de suite…
-  await expect(page.getByRole('button', { name: 'Vider', exact: true })).toHaveCount(0)
+  // Vidé à l'écran tout de suite : le menu n'a plus rien à vider…
+  await plusDActions.click()
+  await expect(page.getByRole('menuitem', { name: 'Créer une recette' })).toBeVisible()
+  await expect(vider).toHaveCount(0)
+  await page.keyboard.press('Escape')
   // … et rattrapable pendant 10 secondes.
   await page.getByRole('button', { name: 'Annuler la suppression' }).click()
-  await expect(page.getByRole('button', { name: 'Vider', exact: true })).toBeVisible()
+  await plusDActions.click()
+  await expect(vider).toBeVisible()
   await expect.poll(() => stockLocal(page)).toBe(2)
 })

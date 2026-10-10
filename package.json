@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "type": "module",
   "lintWarningsPlafond": 79,
-  "lintPlafondsParRegle": { "max-lines-per-function": 158 },
+  "lintPlafondsParRegle": { "max-lines-per-function": 157 },
   "lintDesactivationsPlafond": 101,
   "poidsDemarrageGzipKoPlafond": 291,
   "precacheGzipKoPlafond": 771,
@@ -12,7 +12,7 @@
   "champsSansNomPlafond": 0,
   "champsPlaceholderSeulPlafond": 0,
   "champsLibelleInvisiblePlafond": 0,
-  "couleursEnDurPlafond": 2317,
+  "couleursEnDurPlafond": 2313,
   "petitsTextesPlafond": 213,
   "knipPlafonds": { "files": 3, "exports": 80 },
   "scripts": {

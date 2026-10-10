@@ -1,5 +1,5 @@
 import { Fragment, useRef, useId } from 'react'
-import { LuSearch, LuGrid2X2, LuHeart, LuBookOpen, LuSlidersHorizontal, LuArrowUpDown } from 'react-icons/lu'
+import { LuSearch, LuGrid2X2, LuHeart, LuBookOpen, LuSlidersHorizontal } from 'react-icons/lu'
 import Button from '@shared/ui/button'
 import { shouldShowReadyBadge } from '@features/recipes/lib/ready-badge'
 import { compterLesFiltresActifs } from '@features/recipes/lib/recipe-active-filters'
@@ -17,7 +17,7 @@ export default function RecipeFiltersBar({ filters, theme, t, stock, setFiltersD
   const { darkMode, isMobile, borderPanel } = theme
   const {
     totalCount, readyCount, almostCount, favCount, customCount, priorityCount, priorityIds, counts,
-    searchQuery, setSearchQuery, filter, setFilter, sortMode, setSortMode,
+    searchQuery, setSearchQuery, filter, setFilter,
   } = filters
 
   // Le panneau peut tenir la référence : « Chercher une recette » (favoris
@@ -33,6 +33,10 @@ export default function RecipeFiltersBar({ filters, theme, t, stock, setFiltersD
 
   // Le même compte que l'en-tête du tiroir (une seule fonction, UX-07).
   const activeFiltersCount = compterLesFiltresActifs(filters)
+  // « Mes recettes » = seulement celles qu’on a créées : sans recette créée, la puce
+  // ne filtrerait rien (décision du 2026-10-08). Elle reste si ce filtre est actif,
+  // pour qu’on puisse en sortir après avoir supprimé sa dernière recette.
+  const montrerMesRecettes = customCount > 0 || filter === 'custom'
 
   const FilterChipBtn = ({ isActive, onClick, icon, label, badge = 0, color, bg, className = '' }) => (
     <Button
@@ -99,22 +103,6 @@ export default function RecipeFiltersBar({ filters, theme, t, stock, setFiltersD
           className="h-auto rounded-none px-1 text-xs leading-none hover:bg-transparent"
           style={{ color: 'var(--color-brand-500)' }}>✕</Button>
       )}
-      <div className="w-px h-4 shrink-0" style={{ background: 'rgba(224,120,32,0.2)' }} />
-      <Button
-        variant="ghost"
-        onClick={() => setSortMode(m => m === 'match' ? 'alpha' : m === 'alpha' ? 'quick' : 'match')}
-        title={sortMode === 'match' ? t.sortAlpha : sortMode === 'alpha' ? t.sortQuickLabel : t.sortByMatch}
-        // Le nom dit le tri EN COURS (le title, l'action suivante) ; l'icône ⇅
-        // dit « trier » à qui ne lit pas « % ». Cible de 32 px (P6).
-        aria-label={sortMode === 'match' ? t.sortStateMatch : sortMode === 'alpha' ? t.sortStateAlpha : t.sortStateQuick}
-        className="h-auto rounded px-2 py-0.5 text-xs font-extrabold tracking-wide shrink-0 hover:bg-transparent"
-        style={{
-          minHeight: 32, minWidth: 32, display: 'inline-flex', alignItems: 'center', gap: 3,
-          background: sortMode !== 'match' ? (darkMode ? 'rgba(224,120,32,0.18)' : 'rgba(224,120,32,0.12)') : 'transparent',
-          color: sortMode !== 'match' ? 'var(--color-brand-500)' : (darkMode ? '#C07830' : '#B06828'),
-          transition: 'all 0.15s',
-        }}
-      ><LuArrowUpDown size={12} aria-hidden="true" />{sortMode === 'match' ? '%' : sortMode === 'alpha' ? 'A→Z' : '⏱'}</Button>
     </div>
 
     {/* 2. "Ce soir ?" — cartes contextuelles (uniquement si frigo non vide) */}
@@ -221,16 +209,18 @@ export default function RecipeFiltersBar({ filters, theme, t, stock, setFiltersD
           color="#E05878" bg="rgba(224,88,120,0.10)"
           className="flex-1 min-w-0"
         />
-        {/* eslint-disable-next-line react-hooks/static-components */}
-        <FilterChipBtn
-          isActive={filter === 'custom'}
-          onClick={() => setFilter(f => f === 'custom' ? 'all' : 'custom')}
-          icon={<LuBookOpen size={13} />}
-          label={t.myRecipes}
-          badge={customCount}
-          color="#C4941E" bg="rgba(196,148,30,0.10)"
-          className="flex-1 min-w-0"
-        />
+        {montrerMesRecettes && (
+          // eslint-disable-next-line react-hooks/static-components
+          <FilterChipBtn
+            isActive={filter === 'custom'}
+            onClick={() => setFilter(f => f === 'custom' ? 'all' : 'custom')}
+            icon={<LuBookOpen size={13} />}
+            label={t.myRecipes}
+            badge={customCount}
+            color="#C4941E" bg="rgba(196,148,30,0.10)"
+            className="flex-1 min-w-0"
+          />
+        )}
 
         {/* v3.191.0 — Saison/Léger ne sont plus en chips ici (doublon
             avec le drawer Préférences). Tout est désormais dans le
@@ -287,16 +277,18 @@ export default function RecipeFiltersBar({ filters, theme, t, stock, setFiltersD
             color="#E05878" bg="rgba(224,88,120,0.10)"
             className="shrink-0"
           />
-          {/* eslint-disable-next-line react-hooks/static-components */}
-          <FilterChipBtn
-            isActive={filter === 'custom'}
-            onClick={() => setFilter(f => f === 'custom' ? 'all' : 'custom')}
-            icon={<LuBookOpen size={13} />}
-            label={t.myRecipes}
-            badge={customCount}
-            color="#C4941E" bg="rgba(196,148,30,0.10)"
-            className="shrink-0"
-          />
+          {montrerMesRecettes && (
+            // eslint-disable-next-line react-hooks/static-components
+            <FilterChipBtn
+              isActive={filter === 'custom'}
+              onClick={() => setFilter(f => f === 'custom' ? 'all' : 'custom')}
+              icon={<LuBookOpen size={13} />}
+              label={t.myRecipes}
+              badge={customCount}
+              color="#C4941E" bg="rgba(196,148,30,0.10)"
+              className="shrink-0"
+            />
+          )}
 
           {/* v3.191.0 — Saison/Léger retirés (doublon avec drawer). */}
         </div>
