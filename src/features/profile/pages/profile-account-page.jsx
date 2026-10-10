@@ -153,12 +153,9 @@ export default function ProfileAccountPage() {
     fontSize: '14px', fontFamily: 'inherit', outline: 'none', boxSizing: 'border-box',
   }
 
-  // ── Audit log : vue de la page (RGPD) ────────────────────────────────
-  useEffect(() => {
-    if (user?.id) {
-      logAuditAction(AUDIT_ACTIONS.PROFILE_DATA_VIEWED, { metadata: { lang } })
-    }
-  }, [user?.id, lang])
+  // Plus de trace « données du profil consultées » quand un membre ouvre SA page :
+  // 77 lignes sans cible qui ne traçaient rien (audit du 2026-10-04, RGPD-11 (c)) ;
+  // la consultation par l'admin, elle, passe par `admin_reveler_compte`, tracée.
 
   // ── E-mail masqué par défaut (RGPD), révélé 5 s au clic ─────────────
   const [emailRevealed, setEmailRevealed] = useState(false)

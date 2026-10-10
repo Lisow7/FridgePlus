@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, useRef, useId } from 'react'
+import { useMemo, useState, useId } from 'react'
 import { LuRefreshCw, LuExternalLink, LuSearch, LuX, LuDownload, LuShieldCheck, LuShieldAlert } from 'react-icons/lu'
 import { adminGetHealthChecks } from '@features/admin/api/admin'
 import Button from '@shared/ui/button'
@@ -8,6 +8,7 @@ import ImportQueueTab from './import-queue-tab'
 import { formatDate } from '@shared/lib/format-date'
 import { versCsv } from '@features/admin/lib/csv'
 import { useReloader } from '@shared/hooks/use-reloader'
+import { useRafraichissementSousLesYeux } from '@features/admin/hooks/use-rafraichissement-sous-les-yeux'
 import { texteLisible, fondTeinte } from '@shared/lib/couleurs/texte-lisible'
 
 // Catalog des issues Data Quality v2 (Sprint 8). Couvre 5 dimensions :
@@ -183,7 +184,6 @@ export default function DataQualitySection({
   // `adminGetHealthChecks` remonte l'erreur Supabase ; sans elle, une requête en
   // échec renvoie des listes vides que le score interprétait comme « 100 % sain ».
   const [loadError,        setLoadError]         = useState(null)
-  const timerRef = useRef(null)
 
   const fg     = darkMode ? 'var(--color-bg-warm)' : '#2C1A0E'
   const muted  = darkMode ? '#A0A8B8' : '#7A6A52'
@@ -206,10 +206,10 @@ export default function DataQualitySection({
     setLastChecked(new Date())
   }, [])
 
-  useEffect(() => {
-    timerRef.current = setInterval(reload, AUTO_REFRESH_MS)
-    return () => clearInterval(timerRef.current)
-  }, [reload])
+  // Rafraîchissement automatique seulement si quelqu'un regarde : onglet du
+  // navigateur visible ET listes affichées (pas le sous-onglet Import), avec
+  // rattrapage au retour (audit du 2026-10-04, ADM-12 (3)).
+  useRafraichissementSousLesYeux({ reload, actif: activeTab !== 'imports', dernierControle: lastChecked, intervalleMs: AUTO_REFRESH_MS })
 
   const items = activeTab === 'recipes' ? recipes : ingredients
   // eslint-disable-next-line no-unused-vars

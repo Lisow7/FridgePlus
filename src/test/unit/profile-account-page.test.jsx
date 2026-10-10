@@ -93,9 +93,12 @@ describe('ProfileAccountPage (Sprint 11 S11.a.5)', () => {
     expect(headings[3]).toHaveTextContent(/mes données/i)
   })
 
-  it('log audit PROFILE_DATA_VIEWED au mount', () => {
+  // Audit du 2026-10-04, RGPD-11 (c) : chaque membre écrivait `profile_data_viewed`
+  // à chaque visite de SA page Compte — 77 lignes sans cible, qui ne traçaient
+  // rien (la consultation par l'admin, elle, est tracée par `admin_reveler_compte`).
+  it('n’écrit plus de trace « données du profil consultées » quand un membre ouvre sa propre page', () => {
     render(<MemoryRouter><ProfileAccountPage /></MemoryRouter>)
-    expect(logAuditMock).toHaveBeenCalledWith('profile_data_viewed', { metadata: { lang: 'fr' } })
+    expect(logAuditMock).not.toHaveBeenCalledWith('profile_data_viewed', expect.anything())
   })
 
   it('monte les sous-composants visibles par défaut (Subscription, MFA)', () => {

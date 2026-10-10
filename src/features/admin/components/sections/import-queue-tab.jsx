@@ -17,6 +17,10 @@ import { useReloader } from '@shared/hooks/use-reloader'
 import { leverSiErreur } from '@shared/lib/supabase/lever-si-erreur'
 import ChargementRate from '../shared/chargement-rate'
 import { suffixS } from '@shared/lib/i18n/pluralize'
+import Pagination from '@shared/ui/pagination'
+import MotifDeRejetModal from './motif-de-rejet-modal'
+
+const PAGE_SIZE = 50
 
 const STATUS_LABEL = {
   pending:      { label: 'En attente',   color: '#7A8298',                bg: 'rgba(122,130,152,0.10)' },
@@ -54,6 +58,10 @@ export default function ImportQueueTab({ darkMode = false }) {
   const [batchBusy,   setBatchBusy]   = useState(false)
   const [toast,       setToast]       = useState(null)
   const [metricsKey,  setMetricsKey]  = useState(0)
+  // Des pages, plus la seule page 0 (ADM-17 (7)) ; un filtre qui change ramène à la première.
+  const [page,        setPage]        = useState(0)
+  // La ligne dont on demande le motif de rejet (ADM-17 (5)).
+  const [rejet,       setRejet]       = useState(null)
   const confirm = useConfirm()
 
   const fg     = darkMode ? 'var(--color-bg-warm)' : '#2C1A0E'
@@ -81,13 +89,14 @@ export default function ImportQueueTab({ darkMode = false }) {
       status: statusFilter,
       batchId: batchFilter,
       search,
-      page: 0,
-      pageSize: 50,
+      page,
+      pageSize: PAGE_SIZE,
     }))
     if (estObsolete()) return
     setRows(data)
     setCount(c)
-  }, [statusFilter, batchFilter, search])
+  }, [statusFilter, batchFilter, search, page])
+  const totalPages = Math.max(1, Math.ceil(count / PAGE_SIZE))
 
   const batchOptions = useMemo(() => {
     const seen = new Set()
@@ -112,11 +121,11 @@ export default function ImportQueueTab({ darkMode = false }) {
     reload()
   }
 
-  async function handleReject(row) {
-    const reason = window.prompt(`Raison du rejet pour "${recipeName(row)}" :`)
-    if (reason === null) return
+  // Le motif se demande dans une vraie fenêtre, jamais vide (ADM-17 (5)).
+  async function handleReject(row, motif) {
+    setRejet(null)
     setBusyId(row.id)
-    const { error } = await adminRejectStaged(row.id, reason)
+    const { error } = await adminRejectStaged(row.id, motif)
     if (error) showToast('error', `Erreur rejet : ${error.message}`)
     else { showToast('success', `Recette rejetée.`); setMetricsKey(k => k + 1) }
     setBusyId(null)
@@ -130,13 +139,27 @@ export default function ImportQueueTab({ darkMode = false }) {
     setBusyId(null)
   }
 
+  // La confirmation dit combien de recettes partent, le résultat nomme les échecs (ADM-17 (4)).
   async function handleBatchPublish() {
     if (!batchFilter) return
-    if (!(await confirm({ title: `Publier toutes les recettes valides du batch "${batchFilter}" ?` }))) return
+    const { count: valides, error: erreurDeCompte } = await adminGetImportQueue({ status: 'valid', batchId: batchFilter, page: 0, pageSize: 1 })
+    const n = erreurDeCompte ? null : (valides ?? 0)
+    const titre = n === null
+      ? `Publier toutes les recettes valides du batch "${batchFilter}" ?`
+      : n === 1
+        ? `Publier la recette valide du batch "${batchFilter}" ?`
+        : `Publier les ${n} recettes valides du batch "${batchFilter}" ?`
+    if (!(await confirm({ title: titre }))) return
     setBatchBusy(true)
     const { published, failed, error } = await adminBatchPublishValid(batchFilter)
     if (error) showToast('error', `Erreur batch : ${error.message}`)
-    else { showToast('success', `${published} publiée(s)${failed.length > 0 ? `, ${failed.length} échec(s)` : ''}.`); setMetricsKey(k => k + 1) }
+    else {
+      const echecs = failed.length > 0
+        ? `, ${failed.length} échec${suffixS(failed.length, 'fr')} : ${failed.map(f => `${f.stagingId} (${f.error})`).join(', ')}`
+        : ''
+      showToast(failed.length > 0 ? 'error' : 'success', `${published} publiée${suffixS(published, 'fr')}${echecs}.`)
+      setMetricsKey(k => k + 1)
+    }
     setBatchBusy(false)
     reload()
   }
@@ -187,7 +210,7 @@ export default function ImportQueueTab({ darkMode = false }) {
         <select
           aria-label="Filtrer par lot d'import"
           value={batchFilter}
-          onChange={e => setBatchFilter(e.target.value)}
+          onChange={e => { setBatchFilter(e.target.value); setPage(0) }}
           style={{
             padding: '5px 10px', borderRadius: 8, border: `1px solid ${border}`,
             background: darkMode ? '#141F2E' : '#FFF', color: batchFilter ? fg : muted,
@@ -234,7 +257,7 @@ export default function ImportQueueTab({ darkMode = false }) {
             key={f.key}
             active={statusFilter === f.key}
             color={f.color ?? 'var(--color-brand-500)'}
-            onClick={() => setStatusFilter(f.key)}
+            onClick={() => { setStatusFilter(f.key); setPage(0) }}
             border={border}
             muted={muted}
           >
@@ -257,7 +280,7 @@ export default function ImportQueueTab({ darkMode = false }) {
           <input
             id={rechercheId}
             value={search}
-            onChange={e => setSearch(e.target.value)}
+            onChange={e => { setSearch(e.target.value); setPage(0) }}
             style={{
               width: '100%', padding: '7px 32px 7px 30px',
               borderRadius: 8, border: `1px solid ${border}`,
@@ -270,7 +293,7 @@ export default function ImportQueueTab({ darkMode = false }) {
             <Button
               variant="ghost"
               size="icon"
-              onClick={() => setSearch('')}
+              onClick={() => { setSearch(''); setPage(0) }}
               aria-label="Effacer la recherche"
               className="absolute right-2 top-1/2 h-auto w-auto -translate-y-1/2 bg-transparent p-0.5 hover:bg-transparent"
               style={{ color: muted }}
@@ -394,7 +417,7 @@ export default function ImportQueueTab({ darkMode = false }) {
                     <Button
                       variant="ghost"
                       size="sm"
-                      onClick={() => handleReject(row)}
+                      onClick={() => setRejet(row)}
                       disabled={isRowBusy}
                       className="h-auto rounded-md border bg-transparent px-2.5 py-1 text-xs hover:bg-transparent"
                       style={{ gap: 4, borderColor: 'var(--color-danger)', color: 'var(--color-danger)' }}
@@ -426,6 +449,19 @@ export default function ImportQueueTab({ darkMode = false }) {
             )
           })}
         </div>
+      )}
+
+      {totalPages > 1 && (
+        <Pagination page={page} totalPages={totalPages} onPageChange={setPage} itemsCount={count} itemsLabel="entrées" border={border} />
+      )}
+
+      {rejet && (
+        <MotifDeRejetModal
+          recipeName={recipeName(rejet)}
+          darkMode={darkMode}
+          onConfirm={(motif) => handleReject(rejet, motif)}
+          onCancel={() => setRejet(null)}
+        />
       )}
     </div>
   )

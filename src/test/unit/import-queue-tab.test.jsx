@@ -37,8 +37,10 @@ describe('ImportQueueTab — publication', () => {
     await waitFor(() => screen.getByText('Ma recette'))
     fireEvent.change(screen.getByDisplayValue('Tous batches'), { target: { value: 'lot-2026-07' } })
     fireEvent.click(screen.getByText('Publier tous valides du batch'))
+    // Le nombre de recettes valides du lot est compté avant la question (ADM-17 (4)) :
+    // la liste moquée en rend une.
     await waitFor(() => expect(confirmMock).toHaveBeenCalledWith(expect.objectContaining({
-      title: 'Publier toutes les recettes valides du batch "lot-2026-07" ?',
+      title: 'Publier la recette valide du batch "lot-2026-07" ?',
     })))
   })
 })
