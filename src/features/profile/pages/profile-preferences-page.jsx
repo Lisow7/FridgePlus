@@ -38,7 +38,7 @@ const I18N = {
     shapeDesc:  'La disposition de ton frigo virtuel. Celle que tu choisis ici te suit sur tous tes appareils.',
     shapeTopFreezer: 'Congélateur en haut',
     shapeSideBySide: 'Portes côte à côte',
-    shapeSaved: 'Forme enregistrée.',
+    enregistre: 'Enregistré',
     allergenTitle: 'Allergènes',
     allergenSub:   'Les recettes contenant ces allergènes seront signalées dans la communauté et le frigo.',
     allergenNone:  'Aucun allergène sélectionné.',
@@ -76,7 +76,7 @@ const I18N = {
     shapeDesc:  'The layout of your virtual fridge. The one you pick here follows you on all your devices.',
     shapeTopFreezer: 'Freezer on top',
     shapeSideBySide: 'Side-by-side doors',
-    shapeSaved: 'Shape saved.',
+    enregistre: 'Saved',
     allergenTitle: 'Allergens',
     allergenSub:   'Recipes containing these allergens will be flagged in the community and the fridge.',
     allergenNone:  'No allergen selected.',
@@ -310,8 +310,8 @@ export default function ProfilePreferencesPage() {
               })}
             </select>
             {countrySaved && (
-              <span role="status" style={{ fontSize: '13px', fontWeight: 600, color: '#16A34A' }}>
-                ✓ {t.allergenSaved}
+              <span role="status" style={{ fontSize: '13px', fontWeight: 600, color: 'var(--color-success-text)' }}>
+                ✓ {t.enregistre}
               </span>
             )}
           </div>
@@ -367,8 +367,8 @@ export default function ProfilePreferencesPage() {
               })}
             </div>
             {shapeSaved && (
-              <span role="status" style={{ fontSize: '13px', fontWeight: 600, color: '#16A34A' }}>
-                ✓ {t.shapeSaved}
+              <span role="status" style={{ fontSize: '13px', fontWeight: 600, color: 'var(--color-success-text)' }}>
+                ✓ {t.enregistre}
               </span>
             )}
           </div>

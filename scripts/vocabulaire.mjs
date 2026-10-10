@@ -66,6 +66,19 @@ export const REGLES = [
   { notion: "j'aime", lang: 'fr', interdit: mot('likes?'), canon: "j'aime" },
   { notion: 'support', lang: 'fr', interdit: /^\s*Support\s*$/, canon: 'Écrire au support' },
   { notion: 'grandes quantités', lang: 'fr', interdit: mot('batch cooking'), canon: 'Grandes quantités', sure: true },
+  // ── « Enregistrer », pas « sauvegarder » (décision du 2026-10-08). « Sauvegardes » reste le
+  // NOM des copies de secours chiffrées (textes légaux) : seules les formes du verbe sont écartées.
+  { notion: 'enregistrer', lang: 'fr', interdit: mot('sauvegard(?:er|é|ée|és|ées|ez|ons)|tu sauvegardes|sauvegarde en cours|lors de la sauvegarde'), canon: 'Enregistrer (« sauvegardes » = les copies de secours)', sure: true },
+  // ── Un verbe par geste de retrait (décision du 2026-10-08) : Supprimer = pour de bon ;
+  // Retirer = d'une liste ; Vider = tout d'un coup ; Effacer = un texte. EN : Delete, Remove,
+  // Empty, Clear.
+  { notion: 'retirer', lang: 'fr', interdit: mot("supprimer (?:du frigo|des favoris|du panier|de la liste|l['’]étape|l['’]ingrédient)"), canon: "Retirer (d'une liste)", sure: true },
+  { notion: 'retirer', lang: 'en', interdit: mot('delete (?:from (?:the |your )?(?:fridge|favou?rites|cart|list)|step|ingredient)'), canon: 'Remove (from a list)' },
+  { notion: 'vider', lang: 'fr', interdit: mot('effacer (?:le panier|le frigo|la liste)'), canon: "Vider (tout d'un coup)", sure: true },
+  { notion: 'vider', lang: 'en', interdit: mot('clear (?:the |your )?(?:cart|list|fridge)|clear without transferring|cart cleared|clears the list|then cleared'), canon: 'Empty (all at once)' },
+  { notion: 'effacer', lang: 'fr', interdit: mot('vider (?:la recherche|le champ)'), canon: 'Effacer (un texte)', sure: true },
+  { notion: 'supprimer', lang: 'fr', interdit: mot("effacer (?:mon|ton) historique|effacer les notifications|effacer définitivement|confirmer l['’]effacement|échec de l['’]effacement"), canon: 'Supprimer (pour de bon) ; « Effacer » = un texte', sure: true },
+  { notion: 'supprimer', lang: 'en', interdit: mot('clear read notifications|erase (?:my|your) (?:spending )?history|erase permanently|confirm erasure|erasure failed'), canon: 'Delete (for good)' },
 ]
 
 const LANGUES = new Set(['fr', 'en', 'es', 'de', 'ja'])

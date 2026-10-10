@@ -40,7 +40,7 @@ describe('ShoppingListsModal — confirmations imbriquées', () => {
     fireEvent.click(screen.getByLabelText('Supprimer Courses du mois'))
     await waitFor(() => expect(confirmMock).toHaveBeenCalledWith(expect.objectContaining({
       title: 'Supprimer définitivement la liste « Courses du mois » ?',
-      body: 'Cette action est différente de « Fermer ma liste » dans le panier — ici tu supprimes la liste sauvegardée. Tu auras 10 secondes pour annuler.',
+      body: 'Cette action est différente de « Fermer ma liste » dans le panier — ici tu supprimes la liste enregistrée. Tu auras 10 secondes pour annuler.',
       danger: true,
     })))
   })

@@ -44,7 +44,7 @@ const I18N = {
     bioMaxHint:  (n, max) => `${n} / ${max} caractères`,
     bioProfanity: 'Ta bio contient des termes inappropriés.',
     bioSaved:    'Bio enregistrée.',
-    bioError:    'Erreur lors de la sauvegarde.',
+    bioError:    'Erreur lors de l’enregistrement.',
     charterTitle: 'Charte communauté',
     charterDesc:  'Les règles de bonne conduite pour interagir sur le forum.',
     charterTagAccepted:    'Acceptée',

@@ -8,7 +8,7 @@ const I18N = {
     title: 'Et après ?',
     done: (n) => `🎉 Bravo ! ${n} article${n > 1 ? 's' : ''} ajouté${n > 1 ? 's' : ''} au frigo.`,
     empty: 'Termine tes courses pour voir tes suggestions.',
-    save: 'Sauvegarder la liste',
+    save: 'Enregistrer la liste',
     newBasket: 'Préparer un nouveau panier',
     back: 'Retour au frigo',
   },

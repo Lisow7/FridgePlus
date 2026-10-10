@@ -12,8 +12,8 @@ export const SHOPPING_LISTS_I18N = {
   fr: {
     title: 'Mes listes',
     counter: '{{n}} / {{max}} listes',
-    empty: 'Tu n\'as pas encore sauvegardé de liste.',
-    emptyHint: 'Quand tu auras des éléments dans ton panier, clique sur « Sauvegarder ma liste ».',
+    empty: 'Tu n’as pas encore enregistré de liste.',
+    emptyHint: 'Quand tu auras des éléments dans ton panier, clique sur « Enregistrer ma liste ».',
     close: 'Fermer',
     loading: 'Chargement…',
     items: '{{n}} élément(s)',
@@ -31,7 +31,7 @@ export const SHOPPING_LISTS_I18N = {
     listRenamed: 'Liste renommée.',
     listDeleted: 'Liste supprimée',  // pour le toast undo
     deleteFailed: 'Erreur lors de la suppression. Réessaie.',
-    confirmDelete: 'Supprimer définitivement la liste « {{name}} » ?\n\nCette action est différente de « Fermer ma liste » dans le panier — ici tu supprimes la liste sauvegardée. Tu auras 10 secondes pour annuler.',
+    confirmDelete: 'Supprimer définitivement la liste « {{name}} » ?\n\nCette action est différente de « Fermer ma liste » dans le panier — ici tu supprimes la liste enregistrée. Tu auras 10 secondes pour annuler.',
     confirmDeleteOk: 'Supprimer la liste',
     ctaStartList: 'Démarrer une nouvelle liste',
   },

@@ -72,3 +72,41 @@ describe('le détecteur relève ce qu’il doit (témoins)', () => {
     ])
   })
 })
+
+describe('« Enregistrer » et un verbe par geste de retrait (décision du 2026-10-08) — témoins', () => {
+  let racine
+  let r
+  beforeAll(() => {
+    racine = mkdtempSync(join(tmpdir(), 'verbes-'))
+    mkdirSync(join(racine, 'src'), { recursive: true })
+    writeFileSync(join(racine, 'src/temoins.jsx'), [
+      "export const A = { fr: { t: 'Sauvegarder ma liste' }, en: { t: 'Save my list' } }",         // 1 le verbe
+      "export const B = { fr: 'Sauvegardes chiffrées : 30 jours' }",                              // 2 le nom (copies de secours) : permis
+      "export const C = { fr: 'Supprimer l’étape', en: 'Delete step' }",                           // 3 retirer d'une liste
+      "export const D = { fr: 'Vider le panier', en: 'Clear the cart' }",                          // 4 EN : Empty
+      "export const E = { fr: 'Effacer la recherche', en: 'Clear search' }",                       // 5 un texte : permis
+      "export const F = { fr: 'Effacer les notifications lues', en: 'Clear read notifications' }", // 6 pour de bon
+      "export const G = { fr: 'Vider la recherche' }",                                             // 7 un texte s'efface
+      "export const H = { fr: 'Effacer le frigo' }",                                               // 8 tout d'un coup se vide
+      "export const I = { fr: 'Tu pourras le sauvegarder ici', en: 'Saved' }",                     // 9 le verbe, en phrase
+      "export const J = { fr: 'Retirer du frigo', en: 'Remove from fridge' }",                     // 10 juste
+    ].join('\n'))
+    r = recenserLeVocabulaire({ racine })
+  })
+  afterAll(() => rmSync(racine, { recursive: true, force: true }))
+
+  it('écarte le verbe « sauvegarder » mais pas les « sauvegardes », et chaque verbe hors de son geste', () => {
+    expect(r.illisibles).toEqual([])
+    expect(r.releves.map((v) => `${v.ligne} ${v.lang ?? '?'} ${v.mot}`)).toEqual([
+      '1 fr Sauvegarder',
+      '3 fr Supprimer l’étape',
+      '3 en Delete step',
+      '4 en Clear the cart',
+      '6 fr Effacer les notifications',
+      '6 en Clear read notifications',
+      '7 fr Vider la recherche',
+      '8 fr Effacer le frigo',
+      '9 fr sauvegarder',
+    ])
+  })
+})

@@ -41,6 +41,19 @@ fonctionnalité arrive bientôt. ») — deux « Bientôt » côte à côte ress
 Une réponse n'est pas une publication : supprimer une réponse demande « Supprimer cette réponse ? »
 (elle reprenait le titre de la publication).
 
+## Les verbes (décisions du 2026-10-08)
+
+| Geste | FR | EN | Exemples |
+|---|---|---|---|
+| Garder ce qu'on a fait | **Enregistrer** ; un réglage immédiat dit **✓ Enregistré** | **Save** ; **✓ Saved** | « Enregistrer ma liste » ; « sauvegardes » ne désigne plus que les copies de secours chiffrées |
+| Faire disparaître pour de bon | **Supprimer** | **Delete** | une recette, une publication, un message, son compte, son historique de dépenses, les notifications lues |
+| Sortir d'une liste | **Retirer** | **Remove** | du frigo, des favoris, du panier ; une étape ou un ingrédient du formulaire |
+| Tout enlever d'un coup | **Vider** | **Empty** | le panier, la liste, le frigo |
+| Enlever un texte | **Effacer** | **Clear** | la recherche, un champ, les filtres |
+
+Le bouton qui confirme nomme l'action (« Vider la liste », « Supprimer la publication ») : plus de
+« Confirmer » par défaut (`confirmations-nommees.test.js`).
+
 ## Ajouter une notion
 
 1. Une ligne dans le tableau ci-dessus, avec le nom retenu et les synonymes écartés.

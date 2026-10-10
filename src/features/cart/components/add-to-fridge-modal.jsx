@@ -25,7 +25,7 @@ const I18N = {
     savePromptHint: 'Tu pourras la retrouver dans Mes listes pour la réutiliser.',
     saveListLabel: 'Nom de la liste',
     saveListExample: 'ex. : courses du samedi',
-    saveAndAdd: 'Sauvegarder et ajouter',
+    saveAndAdd: 'Enregistrer et ajouter',
     justAdd: 'Juste ajouter',
     defaultListName: () => {
       const d = new Date()
