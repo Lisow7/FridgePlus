@@ -45,6 +45,7 @@ const FOOTER_I18N = {
  guideLabel: 'Bien démarrer',
  guideLink: 'Comment ça marche',
  faqLink: 'Questions fréquentes',
+ accessibiliteLink: 'Accessibilité',
  },
  en: {
  footerBtn: 'Legal',
@@ -52,6 +53,7 @@ const FOOTER_I18N = {
  guideLabel: 'Get started',
  guideLink: 'How it works',
  faqLink: 'FAQ',
+ accessibiliteLink: 'Accessibility',
  },
 }
 
@@ -162,7 +164,11 @@ function VersionBadge({ to, version, lang = 'fr', hasNew, onSeen }) {
  }}
  >
  <LuTag size={11} aria-hidden="true" />
- {releaseName && <span>{releaseName} ·</span>}
+ {/* Le nom de la version, en clair à partir de 1440 px seulement : avec
+     « Accessibilité » (décision du 2026-10-08), la ligne débordait à 1280 px
+     avec les polices de Linux (≈ 1 328 px, mesuré par la CI). Le nom reste
+     dans `aria-label`, et sur le journal des versions. */}
+ {releaseName && <span className="hidden min-[1440px]:inline">{releaseName} ·</span>}
  <span>v{version}</span>
  {hasNew && (
   <span
@@ -281,16 +287,22 @@ export default function Footer({ darkMode = false, lang = 'fr', isHome = true })
 
  <div className="max-w-7xl mx-auto px-4 py-3 lg:py-4">
 
- {/* Mobile & tablette — ÉPURÉ : une ligne compacte (légal · cookies · version
- discrète · ©). Logo retiré (déjà dans le header), fusée guide en FAB
+ {/* Mobile & tablette — ÉPURÉ : légal · accessibilité · cookies, puis version
+ discrète · ©. Logo retiré (déjà dans le header), fusée guide en FAB
  flottant, pilule inventaire déplacée dans le menu FridgeFAB (chantier D,
- 2026-07-09) — allège le footer, pas de doublon d'accès. */}
+ 2026-07-09) — allège le footer, pas de doublon d'accès.
+ DEUX lignes voulues depuis l'arrivée d'« Accessibilité » (décision du
+ 2026-10-08) : sur une seule, la ligne se coupait à 390 px avec un « · »
+ orphelin en bout de ligne. Chacune tient seule à 320 px. */}
  <div className="flex flex-col items-center gap-1.5 xl:hidden">
  <div className="flex items-center flex-wrap justify-center gap-x-2.5 gap-y-1 text-[12px]" style={{ color: 'var(--color-muted)' }}>
  <FooterLink to="/legal">{tf.footerBtn}</FooterLink>
  <Separator />
- <FooterButton onClick={() => setShowCookies(true)}>{tc.footerBtn}</FooterButton>
+ <FooterLink to="/accessibilite">{tf.accessibiliteLink}</FooterLink>
  <Separator />
+ <FooterButton onClick={() => setShowCookies(true)}>{tc.footerBtn}</FooterButton>
+ </div>
+ <div className="flex items-center justify-center gap-x-2.5 text-[12px]" style={{ color: 'var(--color-muted)' }}>
  <Link
  to="/changelog" onClick={markSeen} aria-label={`v${CURRENT_VERSION}`}
  className="fridge-footer-link inline-flex items-center gap-1"
@@ -325,6 +337,8 @@ export default function Footer({ darkMode = false, lang = 'fr', isHome = true })
  <FooterLink to="/faq" className="whitespace-nowrap">{tf.faqLink}</FooterLink>
  <Separator />
  <FooterLink to="/legal" className="whitespace-nowrap">{tf.footerBtn}</FooterLink>
+ <Separator />
+ <FooterLink to="/accessibilite" className="whitespace-nowrap">{tf.accessibiliteLink}</FooterLink>
  <Separator />
  <FooterButton onClick={() => setShowCookies(true)} className="whitespace-nowrap">{tc.footerBtn}</FooterButton>
  <Separator />

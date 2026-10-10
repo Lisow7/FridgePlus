@@ -40,6 +40,14 @@ describe('garde-fou du précache — lecture de dist/sw.js', () => {
     expect(entreesExclues(['apple-touch-icon.png', 'favicon.ico']).map(e => e.url)).toEqual(['apple-touch-icon.png', 'favicon.ico'])
   })
 
+  it('écarte les pages de texte publiques (Accessibilité, Sécurité) : lues en ligne, rarement', () => {
+    // Décision du 2026-10-08 : 7,1 Ko compressés de texte bilingue, que chaque
+    // nouvel installé téléchargerait pour deux pages qu’il n’ouvrira sans doute
+    // jamais — même compromis que le panneau admin, indisponibles hors ligne.
+    const pages = ['assets/accessibility-page-VtUC5xdU.js', 'assets/security-page-Bu8V3XpR.js', 'assets/page-publique-de-texte-CdLcP4yz.js']
+    expect(entreesExclues(pages).map(e => e.url)).toEqual(pages)
+  })
+
   it('laisse passer ce dont l’application a besoin hors ligne', () => {
     const gardees = ['push-handler.js', 'assets/index-abc.js', 'favicon.svg', 'icon-192.png', 'manifest.webmanifest']
     expect(entreesExclues(gardees)).toEqual([])

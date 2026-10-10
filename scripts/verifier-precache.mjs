@@ -48,6 +48,7 @@ export const EXCLUS = [
   { motif: /(^|\/)vendor-sentry-[^/]+\.js$/, raison: 'Sentry : chargé seulement après consentement' },
   { motif: /(^|\/)admin-panel-[^/]+\.js$/, raison: 'panneau admin : réservé aux admins' },
   { motif: /(^|\/)vendor-recharts-[^/]+\.js$/, raison: 'graphiques : à la demande' },
+  { motif: /(^|\/)(accessibility-page|security-page|page-publique-de-texte)-[^/]+\.js$/, raison: 'pages de texte publiques (Accessibilité, Sécurité) : lues en ligne, rarement' },
 ]
 
 /** Les adresses du précache, dans l'ordre, sans doublon. */
