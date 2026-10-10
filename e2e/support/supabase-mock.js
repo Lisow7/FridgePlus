@@ -347,17 +347,26 @@ export async function signedInAs(page, {
   }
 
   profileWriteLog.set(page, [])
+  // Le profil servi suit ses écritures, comme la vraie base : relu après un
+  // PATCH, il rend la valeur écrite. Servi figé, une relecture — celle qui suit
+  // la recopie de la langue dans user_metadata (USER_UPDATED) — ramenait une
+  // langue vide, et le crochet de langue réécrivait : test instable en CI.
+  let profilServi = { id, username, ...profile }
   await page.route('**/rest/v1/profiles**', (route) => {
     const req = route.request()
     // Les ecritures (PATCH) sont gardees pour `profileWrites()` : horodatage
     // de connexion, choix du pseudo…
     if (req.method() === 'PATCH') {
-      try { profileWriteLog.get(page)?.push(JSON.parse(req.postData() ?? '{}')) } catch { /* corps illisible */ }
+      try {
+        const corps = JSON.parse(req.postData() ?? '{}')
+        profileWriteLog.get(page)?.push(corps)
+        profilServi = { ...profilServi, ...corps }
+      } catch { /* corps illisible */ }
     }
     return route.fulfill({
       status: 200,
       contentType: 'application/json',
-      body: JSON.stringify({ id, username, ...profile }),
+      body: JSON.stringify(profilServi),
     })
   })
 

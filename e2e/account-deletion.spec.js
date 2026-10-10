@@ -102,6 +102,12 @@ test.describe('Suppression de compte', () => {
     // La suppression ferme VRAIMENT la session (portée « global », BDD-04).
     const deconnexions = []
     await page.route('**/auth/v1/logout**', (route) => { deconnexions.push(route.request().url()); return route.fulfill({ status: 204, body: '' }) })
+    // … et les notifications de TOUS les appareils du compte partent avant.
+    const notifications = []
+    await page.route('**/rest/v1/push_subscriptions**', (route) => {
+      notifications.push(`${route.request().method()} ${new URL(route.request().url()).search}`)
+      return route.fulfill({ status: 204, body: '' })
+    })
     await page.goto('/FridgePlus/profile/compte')
 
     const panel = await openDeleteDialog(page)
@@ -125,6 +131,7 @@ test.describe('Suppression de compte', () => {
     await expect(page.getByText(/reconnecte-toi avant cette date/)).toBeVisible()
     await expect.poll(() => deconnexions.length, { message: 'la session doit être fermée' }).toBe(1)
     expect(deconnexions[0], 'toutes les sessions du compte').toMatch(/scope=global/)
+    expect(notifications, 'les notifications de tous les appareils du compte').toEqual([`DELETE ?user_id=eq.${UID}`])
     await page.getByRole('button', { name: 'Retour à l’accueil' }).click()
     await expect(page).toHaveURL(/\/FridgePlus\/?$/)
 
