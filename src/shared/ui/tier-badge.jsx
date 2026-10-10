@@ -2,7 +2,7 @@ import { PREMIUM_ENABLED } from '@shared/lib/premium-config'
 
 // Pastille de tier d'accès. Sobre, sans émoji (décision UX 2026-06-15).
 const I18N = {
-  fr: { free: 'Gratuit', account: 'Compte', soon: 'Prochainement', premium: 'Premium' },
+  fr: { free: 'Gratuit', account: 'Compte', soon: 'Bientôt', premium: 'Premium' },
   en: { free: 'Free',    account: 'Account', soon: 'Coming soon',   premium: 'Premium' },
 }
 // Texte par jeton de thème (index.css) : la teinte pleine plafonnait sous

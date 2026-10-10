@@ -33,12 +33,12 @@ const CONTACT_EMAIL = 'support@fridgeplus.app'
 // Même raison, même mécanique que le masquage de la section CGV dans
 // `legal-page.jsx` : le drapeau est build-time, Vite inline la branche morte.
 const GRATUIT_FR = PREMIUM_ENABLED
-  ? 'Fridge+ propose un socle entièrement gratuit : gestion du frigo, découverte et filtrage de recettes, création de recettes, communauté. Une offre premium optionnelle (panier avancé, mode cuisine vocal, analyse des dépenses) est disponible sous forme d\'abonnement mensuel ou annuel. Dans les deux cas : aucune pub, aucune revente de données.'
-  : 'Oui, entièrement. Gestion du frigo, découverte et filtrage de recettes, création de recettes, communauté : tout est accessible sans payer. Une offre premium (panier avancé, mode cuisine vocal, analyse des dépenses) est prévue, mais elle n\'est pas activée à ce jour — il n\'existe aucun moyen de payer quoi que ce soit sur Fridge+. Dans tous les cas : aucune pub, aucune revente de données.'
+  ? 'Fridge+ propose un socle entièrement gratuit : gestion du frigo, découverte et filtrage de recettes, création de recettes, communauté. Une offre premium optionnelle (panier avancé, voix dans le mode cuisine, analyse des dépenses) est disponible sous forme d\'abonnement mensuel ou annuel. Dans les deux cas : aucune pub, aucune revente de données.'
+  : 'Oui, entièrement. Gestion du frigo, découverte et filtrage de recettes, création de recettes, communauté : tout est accessible sans payer. Une offre premium (panier avancé, voix dans le mode cuisine, analyse des dépenses) est prévue, mais elle n\'est pas activée à ce jour — il n\'existe aucun moyen de payer quoi que ce soit sur Fridge+. Dans tous les cas : aucune pub, aucune revente de données.'
 
 const GRATUIT_EN = PREMIUM_ENABLED
-  ? 'Fridge+ has a fully free core: fridge management, recipe discovery and filtering, recipe creation, community. An optional premium subscription (advanced cart, voice cooking mode, spending analytics) is available on a monthly or annual basis. In both cases: no ads, no data resale.'
-  : 'Yes, entirely. Fridge management, recipe discovery and filtering, recipe creation, community: everything is available at no cost. A premium tier (advanced cart, voice cooking mode, spending analytics) is planned but is not switched on yet — there is currently no way to pay for anything on Fridge+. Either way: no ads, no data resale.'
+  ? 'Fridge+ has a fully free core: fridge management, recipe discovery and filtering, recipe creation, community. An optional premium subscription (advanced cart, voice in cooking mode, spending analytics) is available on a monthly or annual basis. In both cases: no ads, no data resale.'
+  : 'Yes, entirely. Fridge management, recipe discovery and filtering, recipe creation, community: everything is available at no cost. A premium tier (advanced cart, voice in cooking mode, spending analytics) is planned but is not switched on yet — there is currently no way to pay for anything on Fridge+. Either way: no ads, no data resale.'
 
 // ─── FR ─────────────────────────────────────────────────────────────────
 
@@ -194,7 +194,7 @@ const FR = {
       { type: 'p', text: 'L\'abonnement Fridge+ Premium débloque les fonctionnalités suivantes :' },
       { type: 'list', items: [
         'Panier de courses avancé : export, partage, coûts estimés par recette et par semaine',
-        'Mode cuisine vocal avancé : commandes vocales étendues, reconnaissance multi-ingrédients',
+        'Mode cuisine, voix avancée : commandes vocales étendues, reconnaissance multi-ingrédients',
         'Analyse des dépenses alimentaires : historique, tendances, budget mensuel',
         'Fonctions anti-gaspillage : alertes DLC, suggestions d\'utilisation des restes',
       ]},
@@ -434,16 +434,16 @@ const EN = {
       { type: 'note', text: 'Data transfers to the United States are governed by the Standard Contractual Clauses (SCCs) of the European Commission, in accordance with Regulation (EU) 2016/679 (GDPR), Article 46.' },
 
       { type: 'h3', text: 'Data Sources' },
-      { type: 'p', text: 'Indicative prices displayed in the Basket feature are calculated from public data:' },
+      { type: 'p', text: 'Indicative prices displayed in the Cart feature are calculated from public data:' },
       { type: 'list', items: [
         'Eurostat HICP (Harmonised Index of Consumer Prices) — European Commission. Used for annual food inflation indices by category (France). License: Creative Commons Attribution 4.0 International (CC-BY 4.0). Source: https://ec.europa.eu/eurostat/web/hicp/data/database',
-        'Open Prices (Open Food Facts) — community-sourced food price database. License: Open Database License (ODbL) 1.0. Any derived data displayed in the basket remains under this license. Source: https://prices.openfoodfacts.org',
+        'Open Prices (Open Food Facts) — community-sourced food price database. License: Open Database License (ODbL) 1.0. Any derived data displayed in the cart remains under this license. Source: https://prices.openfoodfacts.org',
         'Open Food Facts — community food product database (labels, brands, allergens, nutrition values). Database license: ODbL 1.0; content license: Creative Commons Attribution-ShareAlike 3.0 (CC-BY-SA 3.0). Source: https://world.openfoodfacts.org',
         'CIQUAL 2020 (ANSES, French food safety agency) — food nutritional composition table. Used for indicative nutrition values. Open Licence 2.0 (Etalab). Source: https://ciqual.anses.fr',
         'USDA FoodData Central (U.S. Department of Agriculture) — complementary nutrition data. Public domain (U.S. federal government work). Source: https://fdc.nal.usda.gov',
         'French supermarket reference prices 2025-2026 — internal estimates based on French supermarket conventions.',
       ]},
-      { type: 'note', text: 'Prices shown in the basket are indicative estimates. They do not constitute a commercial offer and may vary by retailer, region, and period.' },
+      { type: 'note', text: 'Prices shown in the cart are indicative estimates. They do not constitute a commercial offer and may vary by retailer, region, and period.' },
 
       { type: 'h3', text: 'Intellectual property' },
       { type: 'p', text: 'The name Fridge+, the logo, the visual identity and the unpublished source code are the exclusive property of the project owner. Any reproduction, even partial, without prior written authorization is forbidden (French Intellectual Property Code, Article L.122-4).' },
@@ -541,7 +541,7 @@ const EN = {
       { type: 'p', text: 'A Fridge+ Premium subscription unlocks the following features:' },
       { type: 'list', items: [
         'Advanced shopping cart: export, sharing, cost estimates per recipe and per week',
-        'Advanced voice cooking mode: extended voice commands, multi-ingredient recognition',
+        'Cooking mode, advanced voice: extended voice commands, multi-ingredient recognition',
         'Food spending analytics: history, trends, monthly budget',
         'Anti-waste features: expiry alerts, leftover usage suggestions',
       ]},

@@ -14,13 +14,13 @@ const I18N = {
     // 2026-08-28), c'etait l'un des deux boutons icone anonymes du depot.
     closeLabel: 'Fermer',
     shareLink: 'Partager un lien (page + QR code)', generating: 'Génération du lien…', linkCopied: 'Lien copié !', linkError: 'Lien impossible à créer',
-    emptyList: 'Liste vide', listTitle: 'Liste de courses',
+    emptyList: 'Liste vide', listTitle: 'Panier',
   },
   en: {
     title: 'Share list', copy: 'Copy text', print: 'Print', share: 'Share', copied: 'Copied!',
     closeLabel: 'Close',
     shareLink: 'Share a link (page + QR code)', generating: 'Generating link…', linkCopied: 'Link copied!', linkError: 'Could not create link',
-    emptyList: 'Empty list', listTitle: 'Shopping list',
+    emptyList: 'Empty list', listTitle: 'Cart',
   },
 }
 

@@ -13,7 +13,7 @@ import { SUPPORT_EMAIL } from '@shared/lib/contact'
 
 export const SUPPORT_I18N = {
   fr: {
-    title:'Support', newTicket:'Nouvelle demande', back:'Retour',
+    title:'Écrire au support', newTicket:'Nouvelle demande', back:'Retour',
     noTickets:'Aucun ticket pour l\'instant.',
     noTicketsHint:'Utilise le bouton ci-dessus pour nous contacter.',
     reply:'ex. : Merci, c\'est réglé !', replyAria:'Ta réponse au support',

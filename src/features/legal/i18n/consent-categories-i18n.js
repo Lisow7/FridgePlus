@@ -35,7 +35,7 @@ export const CATEGORIES = {
     catVoiceRetention:'Aucune conservation (audio et texte non stockés)',
     catVoiceVendors:  'Destinataires de l\'audio : Google (Chrome/Edge) ou Apple (Safari) selon ton navigateur',
 
-    catReceiptTitle:     '🧾 Scan ticket de caisse',
+    catReceiptTitle:     '🧾 Photo du ticket',
     catReceiptBadge:     'Par photo',
     catReceiptDesc:      "Permet d'ajouter des ingrédients en photographiant ton ticket de caisse. La photo est envoyée à Google Cloud Vision pour en lire le texte, puis immédiatement supprimée — Fridge+ ne conserve que les noms d'ingrédients que tu valides ensuite.",
     catReceiptBenefit:   '✓ Avec : ajoute plusieurs ingrédients d\'un coup en photographiant ton ticket',
@@ -88,7 +88,7 @@ export const CATEGORIES = {
     catVoiceRetention:'No retention (audio and text are not stored)',
     catVoiceVendors:  'Audio recipients: Google (Chrome/Edge) or Apple (Safari) depending on your browser',
 
-    catReceiptTitle:     '🧾 Receipt scan',
+    catReceiptTitle:     '🧾 Receipt photo',
     catReceiptBadge:     'By photo',
     catReceiptDesc:      "Lets you add ingredients by photographing your grocery receipt. The photo is sent to Google Cloud Vision to read its text, then immediately deleted — Fridge+ only keeps the ingredient names you confirm afterwards.",
     catReceiptBenefit:   '✓ With: add several ingredients at once by photographing your receipt',

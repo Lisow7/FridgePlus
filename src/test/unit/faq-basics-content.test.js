@@ -29,10 +29,10 @@ describe('FAQ prise en main — structure', () => {
       expect(ordre).toEqual(GROUPES)
     })
 
-    it(`${lang} : la photo du ticket et le bouton orange sont nommés dans le bloc Remplir`, () => {
+    it(`${lang} : la photo du ticket et Actions rapides sont nommés dans le bloc Remplir`, () => {
       const remplir = qs.filter(x => x.group === 'fill').map(x => (x.q + ' ' + x.a).toLowerCase()).join(' ')
       expect(remplir).toMatch(lang === 'fr' ? /ticket/ : /receipt/)
-      expect(remplir).toMatch(lang === 'fr' ? /bouton orange/ : /orange button/)
+      expect(remplir).toMatch(lang === 'fr' ? /actions rapides/ : /quick actions/)
     })
 
     it(`${lang} : la réponse premium dit que tout est gratuit`, () => {

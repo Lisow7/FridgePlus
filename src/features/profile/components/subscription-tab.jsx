@@ -211,8 +211,8 @@ export default function SubscriptionTab({ lang, darkMode }) {
   // ── État : Launch Free (premium désactivé) → Prochainement ────────────────
   if (!PREMIUM_ENABLED) {
     const CS_I18N = {
-      fr: { title: 'Premium', desc: 'Les fonctionnalités Premium arrivent prochainement. Tu pourras bientôt débloquer le panier, le mode cuisine vocal, les coûts et bien plus.', badge: 'Prochainement' },
-      en: { title: 'Premium', desc: 'Premium features are coming soon. You\'ll soon be able to unlock the basket, hands-free cooking mode, costs and much more.', badge: 'Coming soon' },
+      fr: { title: 'Premium', desc: 'Les fonctionnalités Premium arrivent bientôt. Tu pourras débloquer le panier, la voix dans le mode cuisine, les coûts et bien plus.', badge: 'Bientôt' },
+      en: { title: 'Premium', desc: 'Premium features are coming soon. You\'ll soon be able to unlock the cart, voice in cooking mode, costs and much more.', badge: 'Coming soon' },
     }
     const cs = CS_I18N[lang] ?? CS_I18N.fr
     return (

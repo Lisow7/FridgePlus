@@ -16,12 +16,15 @@ vi.mock('@shared/lib/premium-config', () => ({ get PREMIUM_ENABLED() { return mo
 
 import { UpgradeGate } from '@shared/ui/upgrade-gate'
 
-describe('UpgradeGate mode Prochainement', () => {
+describe('UpgradeGate mode Bientôt', () => {
   beforeEach(() => { mockHasPremium = false; mockEnabled = false })
 
-  it('premium désactivé + pas premium → badge Prochainement, pas de CTA achat', () => {
+  it('premium désactivé + pas premium → badge Bientôt, pas de CTA achat', () => {
     render(<UpgradeGate feature="basket" variant="hard" lang="fr"><div>contenu</div></UpgradeGate>)
-    expect(screen.getByText('Bientôt disponible')).toBeInTheDocument()
+    // Le badge dit l'état (« Bientôt »), l'encadré le dit en phrase : deux
+    // « Bientôt » côte à côte ressemblaient à un doublon (décision du 2026-10-08).
+    expect(screen.getByText('Bientôt')).toBeInTheDocument()
+    expect(screen.getByText('Cette fonctionnalité arrive bientôt.')).toBeInTheDocument()
     expect(screen.queryByText(/Commencer l'essai/)).not.toBeInTheDocument()
   })
 
@@ -79,14 +82,14 @@ describe('UpgradeGate mode collapsible (popover ancré, pas de layout shift)', (
 
   it('le contenu détaillé est masqué tant que le pill n\'est pas cliqué', () => {
     render(<UpgradeGate feature="voice-cooking" variant="hard" collapsible lang="fr" />)
-    expect(screen.getByText('Mode cuisine vocal')).toBeInTheDocument()
+    expect(screen.getByText('Mode cuisine, avec la voix')).toBeInTheDocument()
     expect(screen.queryByText(/mains occupées/)).not.toBeInTheDocument()
   })
 
   it('clic sur le pill ouvre la bulle avec le contenu détaillé', async () => {
     const user = userEvent.setup()
     render(<UpgradeGate feature="voice-cooking" variant="hard" collapsible lang="fr" />)
-    await user.click(screen.getByText('Mode cuisine vocal'))
+    await user.click(screen.getByText('Mode cuisine, avec la voix'))
     expect(screen.getByText(/mains occupées/)).toBeInTheDocument()
   })
 
@@ -98,7 +101,7 @@ describe('UpgradeGate mode collapsible (popover ancré, pas de layout shift)', (
         <button>ailleurs</button>
       </div>,
     )
-    await user.click(screen.getByText('Mode cuisine vocal'))
+    await user.click(screen.getByText('Mode cuisine, avec la voix'))
     expect(screen.getByText(/mains occupées/)).toBeInTheDocument()
     await user.click(screen.getByText('ailleurs'))
     expect(screen.queryByText(/mains occupées/)).not.toBeInTheDocument()
@@ -107,9 +110,9 @@ describe('UpgradeGate mode collapsible (popover ancré, pas de layout shift)', (
   it('le pill ne change pas de taille (padding) entre fermé et ouvert', async () => {
     const user = userEvent.setup()
     render(<UpgradeGate feature="voice-cooking" variant="hard" collapsible lang="fr" />)
-    const pill = screen.getByText('Mode cuisine vocal').closest('button')
+    const pill = screen.getByText('Mode cuisine, avec la voix').closest('button')
     const paddingBefore = pill.style.padding
-    await user.click(screen.getByText('Mode cuisine vocal'))
+    await user.click(screen.getByText('Mode cuisine, avec la voix'))
     expect(pill.style.padding).toBe(paddingBefore)
   })
 
@@ -118,7 +121,7 @@ describe('UpgradeGate mode collapsible (popover ancré, pas de layout shift)', (
   it('le pill est un vrai bouton, qui dit s’il est déplié, et s’ouvre au clavier', async () => {
     const user = userEvent.setup()
     render(<UpgradeGate feature="voice-cooking" variant="hard" collapsible lang="fr" />)
-    const pill = screen.getByRole('button', { name: /Mode cuisine vocal/, expanded: false })
+    const pill = screen.getByRole('button', { name: /Mode cuisine, avec la voix/, expanded: false })
     await user.tab()
     expect(pill).toHaveFocus()
     await user.keyboard('{Enter}')

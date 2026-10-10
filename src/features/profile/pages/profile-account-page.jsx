@@ -80,7 +80,7 @@ const I18N = {
     privDesc:     'Your cookie choices, and your right to refuse profiling.',
     dataTitle:    'Download my data',
     dataDesc:     'One file with everything your account holds.',
-    exportText:   'Profile, fridge, recipes, favourites, basket, leftovers, cooking log, spending, community posts and reviews, notifications, tickets.',
+    exportText:   'Profile, fridge, recipes, favourites, cart, leftovers, cooking log, spending, community posts and reviews, notifications, tickets.',
     exportBtn:    'Download',
     exportLoad:   'Preparing…',
     exportOk:     'Download started.',

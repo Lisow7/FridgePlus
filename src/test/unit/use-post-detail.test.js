@@ -31,7 +31,8 @@ import leoProfanity from 'leo-profanity'
 
 const t = {
   profanityWarning: 'Langage inapproprié', spamLimitReply: 'Trop de réponses',
-  deleteConfirmTitle: 'Supprimer ?',
+  deleteConfirmTitle: 'Supprimer cette publication ?',
+  deleteReplyConfirmTitle: 'Supprimer cette réponse ?',
 }
 const user = { id: 'u1' }
 
@@ -136,7 +137,9 @@ describe('usePostDetail', () => {
     const { result } = setup()
     await waitFor(() => expect(result.current.replies).toEqual([reply]))
     await act(async () => { await result.current.handleDeleteReply('r1') })
-    expect(confirmMock).toHaveBeenCalledWith({ title: 'Supprimer ?', danger: true })
+    // Une réponse n'est pas une publication (lot 13c) : elle reprenait le
+    // titre de la publication.
+    expect(confirmMock).toHaveBeenCalledWith({ title: 'Supprimer cette réponse ?', danger: true })
     expect(deleteReply).not.toHaveBeenCalled()
     expect(result.current.replies).toEqual([reply])
   })

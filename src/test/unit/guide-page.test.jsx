@@ -16,7 +16,7 @@ describe('page Comment ça marche', () => {
   it('rend cinq étapes ancrées etape-1 … etape-5, dans l’ordre du menu', () => {
     rendre()
     const titres = [1, 2, 3, 4, 5].map(n => document.getElementById(`etape-${n}`)?.querySelector('h2')?.textContent)
-    expect(titres).toEqual(['Le bouton orange', 'Remplis ton frigo', 'Vérifier ce que tu as', 'Ce que tu peux cuisiner', 'Aller plus loin'])
+    expect(titres).toEqual(['Le bouton orange, Actions rapides', 'Remplis ton frigo', 'Vérifier ce que tu as', 'Ce que tu peux cuisiner', 'Aller plus loin'])
   })
 
   it('montre le glyphe du bouton orange à l’étape 1 et les icônes Lucide des trois façons de remplir', () => {

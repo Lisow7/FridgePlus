@@ -25,7 +25,7 @@ describe('CommunityProfileModal — bloquer un profil (imbriqué)', () => {
     await waitFor(() => screen.getByText('Marie_92'))
     fireEvent.click(screen.getByText(/Bloquer/i))
     await waitFor(() => expect(confirmMock).toHaveBeenCalledWith(expect.objectContaining({
-      title: 'Bloquer Marie_92 ? Tu ne verras plus ses posts ni ses réponses dans la communauté. Tu peux le débloquer à tout moment depuis son profil.',
+      title: 'Bloquer Marie_92 ? Tu ne verras plus ses publications ni ses réponses dans la communauté. Tu peux le débloquer à tout moment depuis son profil.',
     })))
     const call = confirmMock.mock.calls[0][0]
     expect(call.danger).not.toBe(true)

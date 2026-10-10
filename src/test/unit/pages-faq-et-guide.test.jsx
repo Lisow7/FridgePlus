@@ -108,7 +108,7 @@ describe('/guide — page Comment ça marche', () => {
     const titres = screen.getAllByRole('heading', { level: 2 }).map(h => h.textContent)
     // Le bloc de fin ajoute un 6ᵉ titre, après les étapes.
     expect(titres.slice(0, 5)).toEqual([
-      'Le bouton orange',
+      'Le bouton orange, Actions rapides',
       'Remplis ton frigo',
       'Vérifier ce que tu as',
       'Ce que tu peux cuisiner',

@@ -29,7 +29,7 @@ import Field from '@shared/ui/field'
 
 const I18N = {
   fr: {
-    title: (n) => `Mon frigo — ${n} aliment${n > 1 ? 's' : ''}`,
+    title: (n) => `Inventaire — ${n} aliment${n > 1 ? 's' : ''}`,
     searchLabel: 'Rechercher un aliment',
     search: 'ex. : yaourt',
     empty: 'Ton frigo est vide. Cherche un aliment ci-dessus pour l\'ajouter.',
@@ -42,7 +42,7 @@ const I18N = {
     removed: (name) => `${name} retiré`,
   },
   en: {
-    title: (n) => `My fridge — ${n} item${n > 1 ? 's' : ''}`,
+    title: (n) => `Inventory — ${n} item${n > 1 ? 's' : ''}`,
     searchLabel: 'Search an item',
     search: 'e.g. yogurt',
     empty: 'Your fridge is empty. Search an item above to add it.',

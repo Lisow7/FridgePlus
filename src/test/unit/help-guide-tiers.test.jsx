@@ -49,7 +49,7 @@ describe('HelpGuide — hub d’aide (refonte)', () => {
     renderHelp({ user: { id: 'u-1' }, onShowUpgrade: () => {} })
     fireEvent.click(screen.getByRole('button', { name: 'Explorer les fonctionnalités' }))
     fireEvent.click(screen.getByRole('button', { name: /Panier/ }))
-    expect(screen.getByText(/^Voir ce qui arrive/)).toBeInTheDocument()
+    expect(screen.getByText(/^Voir ce qui est prévu/)).toBeInTheDocument()
   })
 
   it('CTA invité : « Créer une recette » reste accessible (création libre → Y aller)', () => {
@@ -68,27 +68,28 @@ describe('HelpGuide — hub d’aide (refonte)', () => {
     expect(screen.queryByText(/^Créer un compte/)).not.toBeInTheDocument()
   })
 
-  // Chantier H (2026-07-09) : « Aperçu du frigo » (pilule inventaire déplacée
-  // en D) et « Scan du ticket de caisse » ajoutés à l'Explorer.
-  it('« Aperçu du frigo » listée (gratuit), CTA ramène juste à l’accueil', () => {
+  // Chantier H (2026-07-09) : l'inventaire (pilule déplacée en D) et la photo du
+  // ticket ajoutés à l'Explorer — « Inventaire » et « Photo du ticket » depuis le
+  // lot 13c (ex-« Aperçu du frigo », ex-« Scan du ticket de caisse »).
+  it('« Inventaire » listé (gratuit), CTA ramène juste à l’accueil', () => {
     renderHelp({ user: null })
     fireEvent.click(screen.getByRole('button', { name: 'Explorer les fonctionnalités' }))
-    fireEvent.click(screen.getByRole('button', { name: /Aperçu du frigo/ }))
+    fireEvent.click(screen.getByRole('button', { name: /Inventaire/ }))
     expect(screen.getByText(/^Y aller/)).toBeInTheDocument()
   })
 
-  it('« Scan du ticket de caisse » absente quand le flag receipt_scan est désactivé', () => {
+  it('« Photo du ticket » absente quand le flag receipt_scan est désactivé', () => {
     mockFlags.receiptScan = false
     renderHelp()
     fireEvent.click(screen.getByRole('button', { name: 'Explorer les fonctionnalités' }))
-    expect(screen.queryByText('Scan du ticket de caisse')).not.toBeInTheDocument()
+    expect(screen.queryByText('Photo du ticket')).not.toBeInTheDocument()
   })
 
-  it('« Scan du ticket de caisse » présente + bloquée invité (compte requis) quand le flag est actif', () => {
+  it('« Photo du ticket » présente + bloquée invité (compte requis) quand le flag est actif', () => {
     mockFlags.receiptScan = true
     renderHelp({ user: null })
     fireEvent.click(screen.getByRole('button', { name: 'Explorer les fonctionnalités' }))
-    fireEvent.click(screen.getByRole('button', { name: /Scan du ticket de caisse/ }))
+    fireEvent.click(screen.getByRole('button', { name: /Photo du ticket/ }))
     expect(screen.getByText(/^Créer un compte/)).toBeInTheDocument()
     mockFlags.receiptScan = false
   })

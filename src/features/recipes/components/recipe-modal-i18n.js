@@ -156,7 +156,7 @@ export const MODAL_I18N = {
     costLabel: 'Estimated cost', costTotal: 'Full recipe', costMissing: 'Missing ingredients',
     costModeTotal: 'Total', costModePerServing: 'Per serving', costModeMarginal: 'To buy',
     costPerServingLabel: 'Cost per serving', costMarginalLabel: 'On top of your fridge',
-    costLoginHint: 'Log in to add to cart', addToCart: 'Add to cart',
+    costLoginHint: 'Sign in to add to cart', addToCart: 'Add to cart',
     alreadyInCart: 'Already in cart', cartAdded: 'Recipe added to cart!', cartAllInFridge: 'All ingredients are already in your fridge!',
     noNutrition: 'Data unavailable',
     tabSteps: 'Steps', tabCost: 'Cost', tabNutrition: 'Nutrition', tabReviews: 'Reviews',

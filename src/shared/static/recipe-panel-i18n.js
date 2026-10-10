@@ -59,7 +59,7 @@ export const PANEL_I18N = {
     antiWasteShort:         'Zéro-déchet',
     freezerFriendlyShort:   'Congélation OK',
     kidsFriendlyShort:      'Familial',
-    batchCookingShort:      'Batch cooking',
+    batchCookingShort:      'Grandes quantités',
     seasonalDesc:           'De saison ce mois-ci',
     healthyDesc:            'Faible en calories et graisses',
     noCookDesc:             'Aucune cuisson requise',

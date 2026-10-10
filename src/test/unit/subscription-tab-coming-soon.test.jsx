@@ -11,8 +11,8 @@ vi.mock('@shared/contexts/subscription-modal-provider', () => ({ useUpgradeModal
 import SubscriptionTab from '@features/profile/components/subscription-tab'
 
 describe('SubscriptionTab état free en mode Launch Free', () => {
-  it('affiche Prochainement, pas le CTA premium', () => {
+  it('affiche Bientôt, pas le CTA premium', () => {
     render(<SubscriptionTab lang="fr" darkMode={false} />)
-    expect(screen.getByText('Prochainement')).toBeInTheDocument()
+    expect(screen.getByText('Bientôt')).toBeInTheDocument()
   })
 })

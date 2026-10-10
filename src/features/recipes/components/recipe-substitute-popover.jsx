@@ -20,9 +20,9 @@ const I18N = {
     ratio: 'Proportion',
     poweredBy: 'Suggestions générées par IA — à vérifier selon tes goûts',
     premiumBadge: 'Premium',
-    soonBadge: 'Prochainement',
+    soonBadge: 'Bientôt',
     premiumTeaser: 'Pas l\'ingrédient sous la main ? L\'IA te suggère 3 remplacements adaptés, avec les bonnes proportions.',
-    comingSoon: 'Bientôt disponible',
+    comingSoon: 'Cette fonctionnalité arrive bientôt.',
     upgrade: 'Passer à Premium',
   },
   en: {
@@ -36,7 +36,7 @@ const I18N = {
     premiumBadge: 'Premium',
     soonBadge: 'Coming soon',
     premiumTeaser: 'Missing an ingredient? AI suggests 3 recipe-tailored swaps, with the right proportions.',
-    comingSoon: 'Coming soon',
+    comingSoon: 'This feature is coming soon.',
     upgrade: 'Upgrade to Premium',
   },
 }
