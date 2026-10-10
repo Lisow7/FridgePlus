@@ -34,6 +34,7 @@ export const MFA_I18N = {
     activateBtn:       'Activer la 2FA',
     deactivateBtn:     'Désactiver',
     deactivateConfirm: 'Désactiver la double authentification ? Ton compte sera moins sécurisé.',
+    deactivateConfirmOk: 'Désactiver',
 
     // La porte « Vérification en 2 étapes » (audit du 2026-10-04, CPT-01).
     gateTitle:       'Vérification en 2 étapes',
@@ -80,6 +81,7 @@ export const MFA_I18N = {
     activateBtn:       'Enable 2FA',
     deactivateBtn:     'Disable',
     deactivateConfirm: 'Disable two-factor authentication? Your account will be less secure.',
+    deactivateConfirmOk: 'Turn off',
 
     gateTitle:       '2-step verification',
     gateIntro:       'Enter the 6-digit code shown in your authenticator app.',
