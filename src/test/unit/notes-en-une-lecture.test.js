@@ -84,7 +84,7 @@ describe('le panneau des recettes', () => {
 })
 
 describe('la vue, sa sonde, le registre', () => {
-  const MIGRATION = 'supabase/migrations/20261009183000_notes_en_une_lecture.sql'
+  const MIGRATION = 'supabase/migrations/20261010014610_notes_en_une_lecture.sql'
   const SONDE = 'supabase/probes/20261009_notes_en_une_lecture.sql'
   const lire = (c) => readFileSync(resolve(process.cwd(), c), 'utf8')
 
@@ -108,7 +108,7 @@ describe('la vue, sa sonde, le registre', () => {
 
   it('le registre la liste comme en attente de la confirmation d’Antoine', () => {
     const readme = lire('supabase/migrations/README.md')
-    expect(readme).toContain('20261009183000_notes_en_une_lecture.sql')
+    expect(readme).toContain('20261010014610_notes_en_une_lecture.sql')
     expect(readme).toMatch(/notes_en_une_lecture[\s\S]{0,400}confirmation d'Antoine|confirmation d'Antoine[\s\S]{0,400}notes_en_une_lecture/)
   })
 })

@@ -1,4 +1,4 @@
--- Sonde de la migration 20261008_droits_en_base.sql : un visiteur n'exécute
+-- Sonde de la migration 20261010014510_droits_en_base.sql : un visiteur n'exécute
 -- plus admin_delete_notification_batch ni ne lit feature_flags.updated_by ou
 -- ai_cache ; ce qui sert reste permis (l'admin, la lecture des bascules, le
 -- serveur).

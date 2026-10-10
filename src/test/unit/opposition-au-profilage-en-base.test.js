@@ -13,7 +13,7 @@ const racine = process.cwd()
 // Version provisoire (l'heure d'écriture) : le garde-fou `migrations-alignees`
 // veut 14 chiffres pour tout nom postérieur au 2026-10-08 ; à l'application,
 // le fichier prend la version qu'inscrit `apply_migration`.
-const MIGRATION = 'supabase/migrations/20261009130000_opposition_au_profilage_en_base.sql'
+const MIGRATION = 'supabase/migrations/20261010014519_opposition_au_profilage_en_base.sql'
 const SONDE = 'supabase/probes/20261009_opposition_au_profilage_en_base.sql'
 const lire = (chemin) => readFileSync(resolve(racine, chemin), 'utf8')
 
@@ -38,7 +38,7 @@ describe('la base refuse une dépense enregistrée contre l’opposition au prof
 
   it('le registre des migrations la liste comme en attente de la confirmation d’Antoine', () => {
     const readme = lire('supabase/migrations/README.md')
-    expect(readme).toContain('20261009130000_opposition_au_profilage_en_base.sql')
+    expect(readme).toContain('20261010014519_opposition_au_profilage_en_base.sql')
     expect(readme).toMatch(/opposition_au_profilage_en_base[\s\S]{0,400}confirmation d'Antoine|confirmation d'Antoine[\s\S]{0,400}opposition_au_profilage_en_base/)
   })
 })
