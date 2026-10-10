@@ -9,7 +9,8 @@ import { skipOnboardingOverlays } from './support/supabase-mock.js'
 
 test.use({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true })
 
-const EXCEPTIONS = /^(Aide & Mentions légales|Cookies|v\d+\.\d+.*)$/
+// « Mentions légales » s'appelait « Aide & Mentions légales » avant la décision du 2026-10-08.
+const EXCEPTIONS = /^(Mentions légales|Cookies|v\d+\.\d+.*)$/
 
 async function ciblesTropPetites(page) {
   return page.evaluate(() => {

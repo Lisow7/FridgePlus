@@ -76,8 +76,8 @@ export const SUPPORT_SELF_HELP = {
     {
       q: { fr: 'Mes données sont-elles privées ?', en: 'Is my data private?' },
       a: {
-        fr: 'Ton frigo et tes favoris ne sont visibles que par toi. Voir « Aide & Mentions légales » en bas de page pour le détail.',
-        en: 'Your fridge and favorites are visible only to you. See "Help & Legal" at the bottom of the page for details.',
+        fr: 'Ton frigo et tes favoris ne sont visibles que par toi. Voir « Mentions légales » en bas de page pour le détail.',
+        en: 'Your fridge and favorites are visible only to you. See "Legal" at the bottom of the page for details.',
       },
     },
   ],

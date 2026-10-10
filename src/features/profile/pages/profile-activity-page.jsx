@@ -1,7 +1,9 @@
-import { useOutletContext, Link } from 'react-router-dom'
+import { useOutletContext, useNavigate, Link } from 'react-router-dom'
 import { LuChartBar, LuBookOpen } from 'react-icons/lu'
 import { useWindowWidth } from '@shared/hooks/use-window-width'
 import { useCookingLogs } from '@features/profile/hooks/use-cooking-logs'
+import { useStockSession } from '@shared/contexts/session-state-context'
+import Button from '@shared/ui/button'
 import ProfileLoadError from '@features/profile/components/profile-load-error'
 import ProfilePageIntro from '@features/profile/components/profile-page-intro'
 import ProfileSection  from '@features/profile/components/profile-section'
@@ -21,6 +23,8 @@ const I18N = {
     journalTitle: 'Journal de cuisine',
     journalDesc:  'Les 20 dernières recettes que tu as cuisinées.',
     journalEmpty: 'Quand tu cliques « J\'ai cuisiné cette recette », elle apparait ici.',
+    journalShowReady: 'Voir les recettes prêtes',
+    journalShowAll:   'Voir les recettes',
     journalUnknown: 'Recette inconnue',
     journalServings: (n) => n === 1 ? '1 portion' : `${n} portions`,
     // v3.412 PR-E — i18n spending déplacé vers profile-spending-page.
@@ -77,6 +81,8 @@ const I18N = {
     journalTitle: 'Cooking journal',
     journalDesc:  'Your last 20 cooked recipes.',
     journalEmpty: 'When you click « I cooked this recipe », it appears here.',
+    journalShowReady: 'See ready recipes',
+    journalShowAll:   'See the recipes',
     journalUnknown: 'Unknown recipe',
     journalServings: (n) => n === 1 ? '1 serving' : `${n} servings`,
     // v3.412 PR-E — i18n spending moved to profile-spending-page.
@@ -122,6 +128,25 @@ const I18N = {
     statsWeekOf:         'Week of',
     statsWeekPrefix:     'W',
   },
+}
+
+// Un journal vide propose de quoi repartir (audit du 2026-10-04, UX-12 ;
+// maquette de la décision du 2026-10-08) : les recettes prêtes — ou toutes, frigo vide,
+// puisque le filtre « Prêt » retombe alors sur toutes.
+function JournalVide({ t, mutedColor }) {
+  const { stock } = useStockSession()
+  const navigate = useNavigate()
+  const frigoGarni = stock.size > 0
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '10px' }}>
+      <p style={{ fontSize: '13px', color: mutedColor, margin: 0, fontStyle: 'italic' }}>{t.journalEmpty}</p>
+      {/* `primary=all` explicite : sans lui, le panneau reprendrait le filtre
+          enregistré (Favoris, Mes recettes…) et pourrait rouvrir un écran vide. */}
+      <Button size="sm" onClick={() => navigate({ pathname: '/', search: frigoGarni ? '?recettes=1&primary=ready' : '?recettes=1&primary=all' })}>
+        {frigoGarni ? t.journalShowReady : t.journalShowAll}
+      </Button>
+    </div>
+  )
 }
 
 export default function ProfileActivityPage() {
@@ -188,9 +213,7 @@ export default function ProfileActivityPage() {
           ) : journalLogs === null ? (
             <p style={{ fontSize: '13px', color: mutedColor, margin: 0 }}>…</p>
           ) : cleanJournalLogs.length === 0 ? (
-            <p style={{ fontSize: '13px', color: mutedColor, margin: 0, fontStyle: 'italic' }}>
-              {t.journalEmpty}
-            </p>
+            <JournalVide t={t} mutedColor={mutedColor} />
           ) : (
             (() => {
               // Sprint 11 — grouper le journal par mois (« Mai 2026 ») pour

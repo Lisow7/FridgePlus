@@ -40,14 +40,14 @@ import { cn } from '@shared/lib/cn'
 
 const FOOTER_I18N = {
  fr: {
- footerBtn: 'Aide & Mentions légales',
+ footerBtn: 'Mentions légales',
  whatsNew: 'Nouveautés disponibles',
  guideLabel: 'Bien démarrer',
  guideLink: 'Comment ça marche',
  faqLink: 'Questions fréquentes',
  },
  en: {
- footerBtn: 'Help & Legal',
+ footerBtn: 'Legal',
  whatsNew: "What's new",
  guideLabel: 'Get started',
  guideLink: 'How it works',
