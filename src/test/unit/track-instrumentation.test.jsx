@@ -193,8 +193,8 @@ describe('cook_completed (RecipeModal)', () => {
     // Clic "J'ai cuisiné cette recette" → enterWithdraw → step 'withdraw'
     // Le bouton contient un icône + texte, on cherche par texte partiel
     fireEvent.click(screen.getByText("J'ai cuisiné cette recette", { exact: false }))
-    // Clic "Confirmer" → confirmWithdraw (canConfirm = true car 1 seul ID en stock)
-    fireEvent.click(screen.getByText('Confirmer', { exact: false }))
+    // Clic « Retirer du frigo » → confirmWithdraw (canConfirm = true car 1 seul ID en stock)
+    fireEvent.click(screen.getByRole('button', { name: 'Retirer du frigo' }))
     expect(mockTrack).toHaveBeenCalledWith('cook_completed', { recipeId: 'carbonara' })
   })
 })

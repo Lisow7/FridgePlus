@@ -72,7 +72,8 @@ describe('RecipeModal — étape de retrait (caractérisation avant découpage)'
     renderModal()
     ouvrirEtapeRetrait()
     expect(screen.getByText('Quoi retirer du frigo ?')).toBeInTheDocument()
-    expect(screen.getByText('Confirmer')).toBeInTheDocument()
+    // Le bouton nomme l'action (décision du 2026-10-08) : plus « Confirmer ».
+    expect(screen.getByText('Retirer du frigo')).toBeInTheDocument()
   })
 
   it('le header bascule : bouton Retour affiché, actions du mode détail masquées', () => {
@@ -115,11 +116,11 @@ describe('RecipeModal — étape de retrait (caractérisation avant découpage)'
     expect(screen.getByText("J'ai cuisiné cette recette")).toBeInTheDocument()
   })
 
-  it('« Confirmer » enregistre la cuisson', () => {
+  it('« Retirer du frigo » enregistre la cuisson', () => {
     renderModal()
     ouvrirEtapeRetrait()
     act(() => {
-      fireEvent.click(screen.getByText('Confirmer'))
+      fireEvent.click(screen.getByText('Retirer du frigo'))
     })
     expect(logCookingMock).toHaveBeenCalled()
   })

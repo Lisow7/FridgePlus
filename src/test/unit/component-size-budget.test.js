@@ -55,7 +55,7 @@ const SEUIL = 500
 //   base-recipes-section.jsx   550 /   7 / 500   ← code DÉJÀ conforme
 //   support-section.jsx        538 /   8 / 497   ← code DÉJÀ conforme
 //   recipe-detail-header.jsx   519 /  17 / 487   ← code DÉJÀ conforme
-//   shopping-lists-modal.jsx   508 /  55 / 424   ← code DÉJÀ conforme
+//   shopping-lists-modal.jsx   508 /  55 / 424   ← TRAITÉ le 2026-10-10 (→ 458)
 //   App.jsx                    665 / 146 / 478   ← code DÉJÀ conforme (660 depuis le 2026-10-05)
 //
 // ⇒ **CINQ des neuf fichiers ne dépassent que par leur DOCUMENTATION.**
@@ -96,7 +96,9 @@ const DETTE = {
   // 519 → 518 le 2026-10-08 : son badge « Verrouillée » perd un nom en double
   // posé sur un <span> sans rôle (lot 9e).
   'src/features/recipes/components/recipe-detail-header.jsx': 518,
-  'src/features/cart/components/shopping-lists-modal.jsx': 508,
+  // `shopping-lists-modal.jsx` en est SORTI le 2026-10-10 : 508 → 458 lignes, par
+  // extraction de son dictionnaire (cart/i18n/shopping-lists-i18n.js), quand ses
+  // deux confirmations ont reçu un bouton qui nomme l'action (512 sinon).
 }
 
 // Le critère du §2 porte sur les COMPOSANTS : on ne compte que les `.jsx`.

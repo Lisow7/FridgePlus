@@ -110,7 +110,7 @@ export default function ImportQueueTab({ darkMode = false }) {
   }, [rows])
 
   async function handlePublish(row) {
-    if (!(await confirm({ title: `Publier la recette "${recipeName(row)}" ?` }))) return
+    if (!(await confirm({ title: `Publier la recette "${recipeName(row)}" ?`, confirmLabel: 'Publier' }))) return
     setBusyId(row.id)
     const { error } = await adminPublishStaged(row.id)
     if (error) showToast('error', `Erreur publication : ${error.message}`)
@@ -140,7 +140,7 @@ export default function ImportQueueTab({ darkMode = false }) {
       : n === 1
         ? `Publier la recette valide du batch "${batchFilter}" ?`
         : `Publier les ${n} recettes valides du batch "${batchFilter}" ?`
-    if (!(await confirm({ title: titre }))) return
+    if (!(await confirm({ title: titre, confirmLabel: 'Publier' }))) return
     setBatchBusy(true)
     const { published, failed, error } = await adminBatchPublishValid(batchFilter)
     if (error) showToast('error', `Erreur batch : ${error.message}`)
