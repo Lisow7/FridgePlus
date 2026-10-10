@@ -4,7 +4,6 @@ import { I18N } from '../i18n/consent-i18n'
 import { CATEGORIES } from '../i18n/consent-categories-i18n'
 import CookieModal from './cookie-modal'
 import Button from '@shared/ui/button'
-import { usePushSubscription } from '@features/push-notifications'
 
 // Panneau de la page Profil → « Compte & sécurité ».
 // Affiche les choix actuels + permet de les modifier ou de tout réinitialiser.
@@ -16,7 +15,6 @@ export default function ConfidentialityPanel({ lang = 'fr', darkMode = false, on
   const t = { ...(I18N[lang] ?? I18N.fr), ...(CATEGORIES[lang] ?? CATEGORIES.fr) }
   const { consent, hasDecided, reset } = useConsent()
   const [showEdit, setShowEdit] = useState(false)
-  const push = usePushSubscription()
 
   // Les cookies, et seulement eux (décision du 2026-10-08). Le bouton retirait
   // aussi l'accord à la charte de la communauté — la seule preuve datée de cet
@@ -50,10 +48,6 @@ export default function ConfidentialityPanel({ lang = 'fr', darkMode = false, on
                statusColor={consent.errors ? '#5A8A4A' : '#A05A20'} />
           <Row label={t.catUsageTitle} status={consent.usage ? t.statusAccepted : t.statusRefused} fg={fg} muted={muted}
                statusColor={consent.usage ? '#5A8A4A' : '#A05A20'} />
-          {push.available && (
-            <Row label={t.catPushTitle} status={push.enabled ? t.catPushStatusOn : t.catPushStatusOff} fg={fg} muted={muted}
-                 statusColor={push.enabled ? '#5A8A4A' : '#A05A20'} />
-          )}
           <div style={{ fontSize: 11, color: muted, marginTop: 4 }}>
             {t.profileCurrent} : {hasDecided ? lastUpdate : '—'}
           </div>

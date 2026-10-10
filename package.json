@@ -12,9 +12,9 @@
   "champsSansNomPlafond": 0,
   "champsPlaceholderSeulPlafond": 0,
   "champsLibelleInvisiblePlafond": 0,
-  "couleursEnDurPlafond": 2323,
+  "couleursEnDurPlafond": 2319,
   "petitsTextesPlafond": 213,
-  "knipPlafonds": { "files": 3, "exports": 81 },
+  "knipPlafonds": { "files": 3, "exports": 80 },
   "scripts": {
     "dev": "vite",
     "build": "vite build && vite build --ssr src/prerender/corps-statique.js --outDir dist-ssr && node scripts/prerender.mjs",

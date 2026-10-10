@@ -83,11 +83,16 @@ describe('CookieModal — catégorie scan ticket de caisse', () => {
   })
 })
 
-describe('CookieModal — catégorie push en erreur', () => {
-  it('affiche le message d\'échec sans que l\'utilisateur ait besoin de déplier la carte', () => {
-    mockState.push = { available: true, enabled: false, loading: false, error: true, blocked: false, toggle: vi.fn() }
+// Décision du 2026-10-08 : les notifications quittent la fenêtre des cookies —
+// un interrupteur qui agissait tout de suite, au milieu de choix qui attendaient
+// « Enregistrer mes choix ». Elles se règlent dans Profil → Préférences.
+describe('CookieModal — les notifications n’y sont plus', () => {
+  it('même disponibles, ni catégorie ni interrupteur', () => {
+    mockState.push = { available: true, enabled: false, loading: false, error: 'failed', blocked: false, toggle: vi.fn() }
     render(<CookieModal lang="fr" onClose={vi.fn()} />)
-    expect(screen.getByText(/Impossible d'activer les notifications sur ce navigateur/)).toBeInTheDocument()
+    expect(screen.queryByText(/Notifications push/)).toBeNull()
+    expect(screen.queryByText(/Impossible d'activer les notifications/)).toBeNull()
+    expect(screen.queryByRole('switch', { name: /notification/i })).toBeNull()
   })
 })
 

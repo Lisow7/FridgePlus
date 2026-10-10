@@ -2,6 +2,9 @@ import { describe, it, expect, vi } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 
+// Le bloc Notifications (testé à part, notifications-section.test.jsx) lit les
+// drapeaux de fonctionnalités : hors sujet ici.
+vi.mock('@features/profile/components/notifications-section', () => ({ default: () => null }))
 vi.mock('@shared/contexts/auth-provider', () => ({
   useAuth: () => ({
     updateProfile: vi.fn(),

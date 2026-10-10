@@ -102,18 +102,19 @@ describe('journal de cuisine vide', () => {
 })
 
 describe('notifications vides', () => {
-  it('« Régler les notifications » mène à la Confidentialité du compte, et ferme le panneau', () => {
+  // Depuis le 2026-10-08, les notifications se règlent dans Profil → Préférences.
+  it('« Régler les notifications » mène au bloc Notifications des Préférences, et ferme le panneau', () => {
     const onClose = vi.fn()
     render(
       <MemoryRouter initialEntries={['/']}>
         <Routes>
           <Route path="/" element={<NotificationsPanel lang="fr" onClose={onClose} />} />
-          <Route path="/profile/compte" element={<Arrivee />} />
+          <Route path="/profile/preferences" element={<Arrivee />} />
         </Routes>
       </MemoryRouter>,
     )
     fireEvent.click(screen.getByRole('button', { name: 'Régler les notifications' }))
     expect(onClose).toHaveBeenCalled()
-    expect(screen.getByTestId('arrivee')).toHaveTextContent('/profile/compte#confidentialite')
+    expect(screen.getByTestId('arrivee')).toHaveTextContent('/profile/preferences#notifications')
   })
 })

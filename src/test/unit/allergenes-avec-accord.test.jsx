@@ -11,6 +11,9 @@ const etat = vi.hoisted(() => ({ auth: null, confirme: true }))
 const signaler = vi.hoisted(() => vi.fn())
 const picker = vi.hoisted(() => ({ props: null }))
 
+// Le bloc Notifications (testé à part, notifications-section.test.jsx) lit les
+// drapeaux de fonctionnalités : hors sujet ici.
+vi.mock('@features/profile/components/notifications-section', () => ({ default: () => null }))
 vi.mock('@shared/contexts/auth-provider', () => ({ useAuth: () => etat.auth }))
 vi.mock('@shared/hooks/use-save-error-toast', () => ({ useSaveErrorToast: () => signaler }))
 vi.mock('@shared/ui/confirm-dialog/confirm-provider', () => ({ useConfirm: () => vi.fn(async () => etat.confirme) }))

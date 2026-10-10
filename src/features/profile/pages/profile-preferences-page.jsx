@@ -14,6 +14,7 @@ import AllergenPicker from '@features/profile/components/allergen-picker'
 import AllergenConsent from '@shared/ui/allergen-consent'
 import ProfilePageIntro from '@features/profile/components/profile-page-intro'
 import ProfileSection  from '@features/profile/components/profile-section'
+import NotificationsSection from '@features/profile/components/notifications-section'
 import { useSaveErrorToast } from '@shared/hooks/use-save-error-toast'
 
 // Sprint 11 S11.a.3 — sous-page /profile/preferences.
@@ -403,6 +404,8 @@ export default function ProfilePreferencesPage() {
           />
         </ProfileSection>
 
+        <NotificationsSection lang={lang} darkMode={darkMode} />
+
         {/* Sprint 11 — Budget Premium-gated : la barre de progression
             dépend de l'analyse des dépenses (feature Premium). Masqué
             pour les comptes free (pas d'utilité sans collecte des
@@ -491,9 +494,6 @@ export default function ProfilePreferencesPage() {
           </div>
         </ProfileSection>}
 
-        {/* v3.409 — Section Charte communauté DÉPLACÉE vers Profil > Profil
-            (identity page). Plus de duplication. Préférences reste pour les
-            préférences UX, Profil pour les engagements personnels (charte). */}
       </div>
     </>
   )
