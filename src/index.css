@@ -227,6 +227,14 @@
   background-clip: padding-box;
 }
 
+/* Ligne de tableau qui s'éclaire au survol. La teinte vient du tableau
+   (`--ligne-survol`, posée en ligne selon le thème) : une règle CSS plutôt
+   que deux gestionnaires de souris par ligne (onglet Tarifs de l'admin,
+   audit du 2026-10-04, PERF-16). */
+.fp-ligne-survol:hover {
+  background: var(--ligne-survol, transparent);
+}
+
 @keyframes soft-blink {
   0%, 100% { opacity: 1; }
   50%       { opacity: 0.68; }

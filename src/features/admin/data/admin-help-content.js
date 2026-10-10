@@ -499,7 +499,7 @@ export const ADMIN_HELP = {
   },
 
   pricing: {
-    title: 'Tarification',
+    title: 'Tarifs',
     icon: '💰',
     badge: 'Catalogue',
     description: 'Consultation et édition des prix estimés par conditionnement grande surface (fichier `pricing/<year>.json`). Workflow d\'édition via export JSON puis commit dans le repo.',

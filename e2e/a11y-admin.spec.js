@@ -28,7 +28,7 @@ const LIGNE_ATTENDUE = {
   'Utilisateurs': (p) => p.getByRole('button', { name: 'Détails de marie_cuisine' }),
 }
 
-const SECTIONS = ['Tableau de bord', 'Recettes +', 'Signalements', 'Avis', 'Communauté', 'Ingrédients', 'Recettes base', 'Pricing', 'Qualité', 'Utilisateurs', 'Support', 'Journal', 'Notifications', 'Fonctionnalités']
+const SECTIONS = ['Tableau de bord', 'Recettes +', 'Signalements', 'Avis', 'Communauté', 'Ingrédients', 'Recettes base', 'Tarifs', 'Qualité', 'Utilisateurs', 'Support', 'Journal', 'Notifications', 'Fonctionnalités']
 
 // ── Contraste : à zéro, comme toutes les autres règles (lot 12j, 2026-10-08) ──
 // Le panneau admin avait ses PROPRES couleurs en dur : la décision du

@@ -69,4 +69,13 @@ describe.each([
     fireEvent.click(screen.getByRole('button', { name: 'Fermer le panneau admin' }))
     expect(onClose).toHaveBeenCalledTimes(1)
   })
+
+  // Audit du 2026-10-04, ADM-24 : dernier anglicisme de la navigation.
+  it('l’onglet des prix se nomme « Tarifs », pas « Pricing »', () => {
+    window.innerWidth = l
+    render(<AdminPanel onClose={() => {}} />)
+    const nav = screen.getByRole('navigation', { name: 'Sections du panneau admin' })
+    expect(within(nav).getByRole('button', { name: /Tarifs/ })).toBeInTheDocument()
+    expect(within(nav).queryByRole('button', { name: /Pricing/ })).toBeNull()
+  })
 })

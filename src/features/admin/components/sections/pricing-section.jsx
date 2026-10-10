@@ -17,21 +17,23 @@
 // admin actif, workflow JSON déjà bien documenté. La BDD ajouterait migration
 // SQL + RLS + sync sans bénéfice notable.
 
-import { useEffect, useMemo, useRef, useState, useId } from 'react'
+import { useDeferredValue, useEffect, useMemo, useRef, useState, useId } from 'react'
 import { createPortal } from 'react-dom'
-import { LuSearch, LuPackage, LuLanguages, LuCheck, LuMinus, LuPencil, LuDownload, LuRotateCcw } from 'react-icons/lu'
+import { LuSearch, LuPackage, LuLanguages, LuDownload, LuRotateCcw } from 'react-icons/lu'
 import { useIngredients } from '@shared/contexts/data-provider'
 import { getPricingMeta } from '@shared/lib/pricing/pricing-resolver'
 import { getFullIngredient } from '@shared/lib/ingredients/ingredient-schema'
 import { mergePricingEdits, formatPricingForDownload, getDownloadFilename } from '@shared/lib/pricing/pricing-export'
 import PricingEditModal from './pricing-edit-modal'
+import PricingRow from './pricing-row'
 import { ConfirmActionModal } from '@shared/ui/confirm-dialog/confirm-modals'
 import pricing2026 from '@shared/static/pricing/2026.json'
 import Button from '@shared/ui/button'
+import Pagination from '@shared/ui/pagination'
+import { SUPPORTED_LANGS } from '@shared/lib/i18n/langues'
 
 const I18N = {
   fr: {
-    title: 'Pricing — vue d\'ensemble',
     searchLabel: 'Rechercher un ingrédient',
     allSubcats: 'Toutes les sous-catégories',
     metaYear: 'Année',
@@ -44,12 +46,17 @@ const I18N = {
     columnPacks: 'Packs (FR)',
     noResults: 'Aucun ingrédient correspondant.',
     counter: '{{n}} ingrédient(s) affiché(s)',
-    coverageHelp: 'Une coche par langue (FR/EN/ES/DE/JA) si l\'ingrédient a au moins un pack défini dans cette langue.',
+    coverageHelp: 'Une coche par langue proposée (FR/EN) si l\'ingrédient a au moins un pack défini dans cette langue.',
+    coverageYes: '{{lang}} : prix définis',
+    coverageNo: '{{lang}} : aucun prix propre',
+    packsFromSubcat: 'prix de la sous-catégorie',
+    edited: 'modifié',
     edit: 'Éditer',
     columnActions: 'Actions',
     pendingChanges: '{{n}} modification(s) non sauvegardée(s)',
     download: 'Télécharger pricing.json',
     reset: 'Réinitialiser',
+    cancel: 'Annuler',
     confirmReset: 'Annuler toutes les modifications non sauvegardées ?',
     workflowHint: 'Après téléchargement, remplace `src/shared/static/pricing/2026.json` dans le repo et commit pour appliquer les modifications.',
     srSaved: 'Modifications enregistrées pour {{label}}.',
@@ -57,7 +64,6 @@ const I18N = {
     srDownloaded: 'Fichier {{filename}} téléchargé.',
   },
   en: {
-    title: 'Pricing — overview',
     searchLabel: 'Search an ingredient',
     allSubcats: 'All subcategories',
     metaYear: 'Year',
@@ -70,12 +76,17 @@ const I18N = {
     columnPacks: 'Packs (FR)',
     noResults: 'No matching ingredient.',
     counter: '{{n}} ingredient(s) shown',
-    coverageHelp: 'One check per language (FR/EN/ES/DE/JA) if the ingredient has at least one pack defined in that language.',
+    coverageHelp: 'One check per offered language (FR/EN) if the ingredient has at least one pack defined in that language.',
+    coverageYes: '{{lang}}: prices set',
+    coverageNo: '{{lang}}: no specific prices',
+    packsFromSubcat: 'subcategory prices',
+    edited: 'edited',
     edit: 'Edit',
     columnActions: 'Actions',
     pendingChanges: '{{n}} unsaved change(s)',
     download: 'Download pricing.json',
     reset: 'Reset',
+    cancel: 'Cancel',
     confirmReset: 'Discard all unsaved changes?',
     workflowHint: 'After download, replace `src/shared/static/pricing/2026.json` in the repo and commit to apply changes.',
     srSaved: 'Changes saved for {{label}}.',
@@ -84,15 +95,26 @@ const I18N = {
   },
 }
 
-const LANGS = ['fr', 'en', 'es', 'de', 'ja']
+// Les pastilles de couverture suivent les langues PROPOSÉES (FR/EN), pas les
+// cinq du fichier des prix : trois pastilles par ligne ne disaient rien
+// d'utile (audit du 2026-10-04, PERF-16 (3)). Le fichier garde ses cinq
+// langues ; seul l'affichage change.
+const LANGS = [...SUPPORTED_LANGS]
+// ≈ 650 ingrédients : cent lignes par page plutôt que tout le tableau d'un
+// bloc (PERF-16 (1)).
+const PAGE_SIZE = 100
 
 export default function PricingSection({ lang = 'fr', darkMode = false }) {
   const t = I18N[lang] ?? I18N.fr
   const ingredientsByCat = useIngredients()
 
   const [query, setQuery] = useState('')
+  // La frappe reste fluide : le filtrage des 650 lignes suit la valeur
+  // différée, pas chaque touche (PERF-16 (4)).
+  const requeteDifferee = useDeferredValue(query)
   const rechercheId = useId()
   const [subcatFilter, setSubcatFilter] = useState('all')
+  const [page, setPage] = useState(0)
 
   // Édition en mémoire. `edits` est un Map { id: newPacksByLang }
   // qui override les packs du JSON pour les ingrédients modifiés. Stocké
@@ -225,13 +247,19 @@ export default function PricingSection({ lang = 'fr', darkMode = false }) {
 
   // Filtrage par recherche + sous-cat.
   const filteredRows = useMemo(() => {
-    const q = query.trim().toLowerCase()
+    const q = requeteDifferee.trim().toLowerCase()
     return allRows.filter(r => {
       if (subcatFilter !== 'all' && r.subcat !== subcatFilter) return false
       if (!q) return true
       return r.id.toLowerCase().includes(q) || r.label.toLowerCase().includes(q)
     })
-  }, [allRows, query, subcatFilter])
+  }, [allRows, requeteDifferee, subcatFilter])
+
+  // La page courante ne dépasse jamais la dernière (un filtre qui réduit la
+  // liste pendant qu'on est en page 5 ne laisse pas un tableau vide).
+  const totalPages = Math.max(1, Math.ceil(filteredRows.length / PAGE_SIZE))
+  const pageCourante = Math.min(page, totalPages - 1)
+  const lignesDeLaPage = filteredRows.slice(pageCourante * PAGE_SIZE, (pageCourante + 1) * PAGE_SIZE)
 
   const meta = getPricingMeta()
 
@@ -250,10 +278,10 @@ export default function PricingSection({ lang = 'fr', darkMode = false }) {
       {showResetConfirm && createPortal(
         <ConfirmActionModal
           darkMode={darkMode}
-          title="Réinitialiser les modifications ?"
-          body={`${editsCount} modification(s) non sauvegardée(s) seront annulées.`}
-          confirmLabel="Réinitialiser"
-          cancelLabel="Annuler"
+          title={t.confirmReset}
+          body={t.pendingChanges.replace('{{n}}', editsCount)}
+          confirmLabel={t.reset}
+          cancelLabel={t.cancel}
           onConfirm={confirmReset}
           onCancel={() => setShowResetConfirm(false)}
         />,
@@ -305,7 +333,7 @@ export default function PricingSection({ lang = 'fr', darkMode = false }) {
             <input
               id={rechercheId}
               value={query}
-              onChange={e => setQuery(e.target.value)}
+              onChange={e => { setQuery(e.target.value); setPage(0) }}
               style={{
                 flex: 1, minWidth: 0, background: 'transparent', border: 'none', outline: 'none',
                 fontSize: '13px', color: fg, fontFamily: 'inherit',
@@ -315,7 +343,7 @@ export default function PricingSection({ lang = 'fr', darkMode = false }) {
         </div>
         <select
           value={subcatFilter}
-          onChange={e => setSubcatFilter(e.target.value)}
+          onChange={e => { setSubcatFilter(e.target.value); setPage(0) }}
           aria-label={t.allSubcats}
           style={{
             padding: '8px 12px', background: inputBg,
@@ -344,7 +372,9 @@ export default function PricingSection({ lang = 'fr', darkMode = false }) {
           background: bg, border: `1px solid ${border}`, borderRadius: '10px',
           overflow: 'hidden', overflowX: 'auto',
         }}>
-          <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px' }}>
+          {/* Le survol d'une ligne est une règle CSS (`.fp-ligne-survol`), plus
+              deux gestionnaires par ligne (PERF-16 (2)). */}
+          <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px', '--ligne-survol': hover }}>
             <thead>
               <tr style={{
                 background: darkMode ? 'rgba(247,168,94,0.04)' : 'rgba(212,106,16,0.03)',
@@ -367,64 +397,15 @@ export default function PricingSection({ lang = 'fr', darkMode = false }) {
               </tr>
             </thead>
             <tbody>
-              {filteredRows.map(r => (
-                <tr key={r.id} style={{ borderBottom: `1px solid ${border}` }}
-                    onMouseEnter={e => e.currentTarget.style.background = hover}
-                    onMouseLeave={e => e.currentTarget.style.background = 'transparent'}>
-                  <td style={{ ...tdStyle(muted), fontFamily: 'monospace', fontSize: '11px' }}>{r.id}</td>
-                  <td style={tdStyle(fg)}>{r.label}</td>
-                  <td style={{ ...tdStyle(muted), fontSize: '11px' }}>{r.subcat}</td>
-                  <td style={{ ...tdStyle(fg), textAlign: 'center', whiteSpace: 'nowrap' }}>
-                    {LANGS.map(l => (
-                      <span key={l} title={l} style={{
-                        display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-                        width: '20px', marginRight: '2px',
-                        color: r.byLangCoverage[l] ? 'var(--color-warm-600)' : 'rgba(127,127,127,0.4)',
-                      }}>
-                        {r.byLangCoverage[l]
-                          ? <LuCheck size={12} aria-label="ok" />
-                          : <LuMinus size={12} aria-label="missing" />}
-                      </span>
-                    ))}
-                  </td>
-                  <td style={{ ...tdStyle(fg), fontSize: '11px' }}>
-                    {r.packs.length > 0 ? (
-                      r.hasSpecific
-                        ? r.packs.map(p => `${p.size}${p.unit} (~${p.price}€)`).join(' · ')
-                        : <span style={{ color: muted, fontStyle: 'italic' }}>fallback subcat</span>
-                    ) : (
-                      <span style={{ color: muted }}>—</span>
-                    )}
-                    {r.isEdited && (
-                      <span style={{
-                        marginLeft: '8px', fontSize: '10px',
-                        padding: '2px 6px', borderRadius: '4px',
-                        background: 'rgba(247,168,94,0.20)',
-                        color: 'var(--color-warm-600)',
-                        fontWeight: 700,
-                      }}>
-                        edited
-                      </span>
-                    )}
-                  </td>
-                  <td style={{ ...tdStyle(fg), textAlign: 'right' }}>
-                    <Button
-                      variant="ghost"
-                      onClick={() => handleOpenEdit(r.id)}
-                      aria-label={`${t.edit} ${r.label}`}
-                      className="inline-flex h-auto rounded-md border bg-transparent px-2.5 py-1 text-[11px] font-semibold hover:bg-transparent"
-                      style={{ gap: '4px', borderColor: border, color: fg }}
-                    >
-                      <LuPencil size={11} aria-hidden="true" />
-                      {t.edit}
-                    </Button>
-                  </td>
-                </tr>
+              {lignesDeLaPage.map(r => (
+                <PricingRow key={r.id} row={r} t={t} langs={LANGS} border={border} muted={muted} fg={fg} onEdit={handleOpenEdit} />
               ))}
             </tbody>
           </table>
         </div>
       )}
+
+      <Pagination page={pageCourante} totalPages={totalPages} onPageChange={setPage} border={border} muted={muted} text={fg} />
 
       {/* ─── Footer fixe : modifs non sauvegardées + actions ─── */}
       {editsCount > 0 && (
@@ -490,8 +471,4 @@ const thStyle = (fg) => ({
   padding: '8px 12px', textAlign: 'left',
   fontSize: '11px', fontWeight: 700,
   color: fg, textTransform: 'uppercase', letterSpacing: '0.04em',
-})
-
-const tdStyle = (fg) => ({
-  padding: '8px 12px', color: fg, verticalAlign: 'middle',
 })
