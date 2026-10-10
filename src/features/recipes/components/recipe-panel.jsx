@@ -18,7 +18,8 @@ import { PANEL_I18N } from '@shared/static/recipe-panel-i18n'
 import RecipeCard from './recipe-card'
 import RecipeResultsCount from './recipe-results-count'
 import { EmptyFavorites, EmptyCustomRecipes, EmptyGeneric } from './recipe-empty-state'
-import { listBulkAggregates } from '@features/recipes/api/recipe-reviews'
+import { loadBulkAggregates } from '@features/recipes/api/recipe-reviews'
+import { logError } from '@shared/lib/observability/sentry'
 import Button from '@shared/ui/button'
 
 // Sprint 11 S11.e.1 — RecipeFormModal LIFTÉ : import désormais dans
@@ -174,7 +175,12 @@ export default function RecipePanel({
 
   const fetchRatings = useCallback((ids) => {
     if (!ids?.length) { setRatingsMap({}); return }
-    listBulkAggregates(ids).then(setRatingsMap)
+    // Une lecture de la vue des agrégats (PERF-12) ; une erreur ne change rien
+    // à l'écran (les étoiles manquent) mais va au journal au lieu de se taire.
+    loadBulkAggregates(ids).then(({ aggregates, error }) => {
+      setRatingsMap(aggregates)
+      if (error) logError(error, { tag: 'notes.lecture' })
+    })
   }, [])
 
   // Clé stable sur le CONTENU des ids : `filtered` change de référence plusieurs
