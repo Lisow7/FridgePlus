@@ -204,10 +204,30 @@ export default function DataQualitySection({
     setLastChecked(new Date())
   }, [])
 
+  // Rafraîchissement automatique seulement si quelqu'un regarde : onglet du
+  // navigateur visible ET listes affichées (pas le sous-onglet Import). Au retour
+  // sur l'onglet, une lecture rattrape le retard si la dernière date de plus de
+  // AUTO_REFRESH_MS — avant, les deux vues de santé repartaient toutes les cinq
+  // minutes, onglet masqué ou non (audit du 2026-10-04, ADM-12 (3)).
+  const dernierControleRef = useRef(null)
+  useEffect(() => { dernierControleRef.current = lastChecked }, [lastChecked])
+  const listesAffichees = activeTab !== 'imports'
   useEffect(() => {
-    timerRef.current = setInterval(reload, AUTO_REFRESH_MS)
-    return () => clearInterval(timerRef.current)
-  }, [reload])
+    if (!listesAffichees) return undefined
+    const visible = () => document.visibilityState !== 'hidden'
+    const auTic = () => { if (visible()) reload() }
+    const auRetour = () => {
+      if (!visible()) return
+      const depuis = Date.now() - (dernierControleRef.current?.getTime() ?? 0)
+      if (depuis >= AUTO_REFRESH_MS) reload()
+    }
+    timerRef.current = setInterval(auTic, AUTO_REFRESH_MS)
+    document.addEventListener('visibilitychange', auRetour)
+    return () => {
+      clearInterval(timerRef.current)
+      document.removeEventListener('visibilitychange', auRetour)
+    }
+  }, [reload, listesAffichees])
 
   const items = activeTab === 'recipes' ? recipes : ingredients
   // eslint-disable-next-line no-unused-vars

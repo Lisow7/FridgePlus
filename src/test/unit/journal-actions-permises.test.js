@@ -77,8 +77,10 @@ describe('Journal : le navigateur n\'écrit que ce que la base accepte d\'un com
   it('chaque action écrite hors panneau admin figure dans la liste blanche', () => {
     const permises = actionsPermisesEnBase()
     const trouvees = actionsEcritesParLeNavigateur()
-    // Le cliquet ne doit pas passer à vide : les cinq écritures actuelles.
-    expect(new Set(trouvees.map((x) => x.action)).size).toBeGreaterThanOrEqual(5)
+    // Le cliquet ne doit pas passer à vide : les quatre écritures actuelles (la
+    // cinquième, `profile_data_viewed` à chaque visite de sa propre page Compte,
+    // est partie le 2026-10-10 — RGPD-11 (c) ; la base l'accepte encore).
+    expect(new Set(trouvees.map((x) => x.action)).size).toBeGreaterThanOrEqual(4)
     const refusees = trouvees.filter((x) => !permises.has(x.action)).map((x) => `${x.f} → ${x.action}`)
     expect(refusees).toEqual([])
   })

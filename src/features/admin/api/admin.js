@@ -371,8 +371,11 @@ export async function adminGetFavoriteCountsByIds(ids) {
 //   actions     : ne garder que ces actions (une catégorie) ;
 //   saufActions : écarter celles-ci (la catégorie « Autres ») ;
 //   auteur      : le pseudo de l'auteur, « contient ».
-export async function adminGetLogs(page = 0, { actions, saufActions, auteur } = {}) {
-  const from = page * PER_PAGE
+//   limite      : lignes par page (PER_PAGE) — le tableau de bord n'en veut que dix ;
+//   compter     : le comptage exact (une seconde passe sur la table), utile à la
+//                 pagination du journal, inutile aux dix dernières lignes (ADM-12 (4)).
+export async function adminGetLogs(page = 0, { actions, saufActions, auteur, limite = PER_PAGE, compter = true } = {}) {
+  const from = page * limite
   let auteurs = null
   if (auteur?.trim()) {
     const { data: trouves, error: lecture } = await supabase
@@ -384,14 +387,14 @@ export async function adminGetLogs(page = 0, { actions, saufActions, auteur } = 
   let query = supabase
     .from('activity_logs')
     // `metadata` : le motif d'une consultation de données sensibles (ADM-05).
-    .select('id, action, user_id, target_id, target_type, metadata, created_at', { count: 'exact' })
+    .select('id, action, user_id, target_id, target_type, metadata, created_at', compter ? { count: 'exact' } : undefined)
   if (actions) query = query.in('action', actions)
   // Noms d'actions en snake_case : rien à protéger dans la liste.
   if (saufActions?.length) query = query.not('action', 'in', `(${saufActions.join(',')})`)
   if (auteurs) query = query.in('user_id', auteurs)
   const { data, error, count } = await query
     .order('created_at', { ascending: false })
-    .range(from, from + PER_PAGE - 1)
+    .range(from, from + limite - 1)
   if (error || !data?.length) return { data: data ?? [], count: count ?? 0, error }
 
   const userIds = [...new Set(data.map(r => r.user_id).filter(Boolean))]

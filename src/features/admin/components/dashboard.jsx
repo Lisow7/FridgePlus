@@ -77,9 +77,10 @@ export default function Dashboard({ lang = 'fr', darkMode = false }) {
   // `useReloader` : un `finally` (un chargement bloqué grisait aussi « Actualiser »)
   // et l'échec dit, au lieu d'« Aucune activité » (audit ADM-08, ADM-09).
   const { loading: logsLoading, error: logsError, reload: loadLogs } = useReloader(async (estObsolete) => {
-    const { data } = leverSiErreur(await adminGetLogs(0))
+    // Dix lignes, sans comptage exact ni page entière (ADM-12 (4)).
+    const { data } = leverSiErreur(await adminGetLogs(0, { limite: 10, compter: false }))
     if (estObsolete()) return
-    setRecentLogs((data ?? []).slice(0, 10))
+    setRecentLogs(data ?? [])
   }, [])
 
   function handleRefresh() {
