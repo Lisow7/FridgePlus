@@ -28,20 +28,10 @@ const I18N = {
     activer: 'Activer', desactiver: 'Désactiver',
     effet: 'Le changement est immédiat, pour tous les visiteurs.', cle: 'Clé :',
   },
-  en: {
-    intro: 'Turn a feature on or off in production, without redeploy.',
-    empty: 'No feature configured.',
-    on: 'On', off: 'Off',
-    groupLive: 'Live',
-    groupPlanned: 'Planned — not built yet',
-    plannedWarning: 'No code reads this flag yet — turning it on has no visible effect.',
-    activer: 'Turn on', desactiver: 'Turn off',
-    effet: 'The change is immediate, for every visitor.', cle: 'Key:',
-  },
 }
 
 export default function FeaturesSection({ lang = 'fr', darkMode = false }) {
-  const t = I18N[lang] ?? I18N.fr
+  const t = I18N.fr
   const { reload } = useFeatureFlags()
   const [rows, setRows] = useState([])
   const [busy, setBusy] = useState(null)

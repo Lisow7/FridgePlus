@@ -38,44 +38,43 @@ function useIsMobile(bp = 640) {
 
 function buildNav(lang, badges) {
   const { pendingCount, supportBadge, healthCount, reportsCount } = badges
-  const isFr = lang === 'fr'
   return [
     {
       key: 'dashboard',
-      label: isFr ? 'Tableau de bord' : 'Dashboard',
+      label: 'Tableau de bord',
       icon: <LuLayoutDashboard size={15} />,
     },
     {
-      group: isFr ? 'Modération' : 'Moderation',
+      group: 'Modération',
       items: [
-        { key:'recipes',   label: isFr ? 'Recettes +' : 'Recipes +',    icon: <LuBookOpen size={15} />,       badge: pendingCount || null },
-        { key:'reports',   label: isFr ? 'Signalements' : 'Reports',    icon: <LuBan size={15} />,            badge: reportsCount || null },
-        { key:'reviews',   label: isFr ? 'Avis' : 'Reviews',            icon: <LuStar size={15} /> },
-        { key:'community', label: isFr ? 'Communauté' : 'Community',    icon: <LuMessageSquare size={15} /> },
+        { key:'recipes',   label: 'Recettes +',    icon: <LuBookOpen size={15} />,       badge: pendingCount || null },
+        { key:'reports',   label: 'Signalements',    icon: <LuBan size={15} />,            badge: reportsCount || null },
+        { key:'reviews',   label: 'Avis',            icon: <LuStar size={15} /> },
+        { key:'community', label: 'Communauté',    icon: <LuMessageSquare size={15} /> },
       ],
     },
     {
-      group: isFr ? 'Catalogue' : 'Catalog',
+      group: 'Catalogue',
       items: [
-        { key:'ingredients', label: isFr ? 'Ingrédients' : 'Ingredients', icon: <LuLeaf size={15} /> },
-        { key:'base',        label: isFr ? 'Recettes base' : 'Base recipes', icon: <LuDatabase size={15} /> },
-        { key:'pricing',     label: isFr ? 'Tarifs' : 'Pricing',          icon: <LuTag size={15} /> },
-        { key:'quality',     label: isFr ? 'Qualité' : 'Quality',         icon: <LuShield size={15} />, badge: healthCount || null },
+        { key:'ingredients', label: 'Ingrédients', icon: <LuLeaf size={15} /> },
+        { key:'base',        label: 'Recettes base', icon: <LuDatabase size={15} /> },
+        { key:'pricing',     label: 'Tarifs',          icon: <LuTag size={15} /> },
+        { key:'quality',     label: 'Qualité',         icon: <LuShield size={15} />, badge: healthCount || null },
       ],
     },
     {
-      group: isFr ? 'Utilisateurs' : 'Users',
+      group: 'Utilisateurs',
       items: [
-        { key:'users',   label: isFr ? 'Utilisateurs' : 'Users',  icon: <LuUsers size={15} /> },
+        { key:'users',   label: 'Utilisateurs',  icon: <LuUsers size={15} /> },
         { key:'support', label: 'Support',                         icon: <LuHeartHandshake size={15} />, badge: supportBadge || null },
       ],
     },
     {
-      group: isFr ? 'Système' : 'System',
+      group: 'Système',
       items: [
         { key:'journal',       label: 'Journal',                               icon: <LuActivity size={15} /> },
-        { key:'notifications', label: isFr ? 'Notifications' : 'Notifications', icon: <LuBell size={15} /> },
-        { key:'features',      label: isFr ? 'Fonctionnalités' : 'Features',    icon: <LuToggleRight size={15} /> },
+        { key:'notifications', label: 'Notifications', icon: <LuBell size={15} /> },
+        { key:'features',      label: 'Fonctionnalités',    icon: <LuToggleRight size={15} /> },
       ],
     },
   ]
@@ -220,22 +219,6 @@ const SECTION_TITLES = {
     notifications: ['Notifications',     'Centre de pilotage et alertes'],
     features:      ['Fonctionnalités',   'Active/désactive les features en prod'],
   },
-  en: {
-    dashboard:     ['Dashboard',         'Activity overview'],
-    recipes:       ['Recipes +',         'Moderate community recipes'],
-    reports:       ['Reports',           'Content reported by users'],
-    reviews:       ['Reviews',           'Recipe ratings and feedback'],
-    community:     ['Community',         'Moderate posts and exchanges'],
-    ingredients:   ['Ingredients',       'Manage the ingredients catalog'],
-    base:          ['Official recipes',  'Official fridge recipe catalog'],
-    pricing:       ['Pricing',           'View and edit prices by ingredient'],
-    quality:       ['Data quality',      'Detect incomplete recipes and ingredients'],
-    users:         ['Users',             'Manage access and view profiles'],
-    support:       ['Support',           'Reply to user support tickets'],
-    journal:       ['Journal',           'Admin action history — append-only'],
-    notifications: ['Notifications',     'Control center and alerts'],
-    features:      ['Features',          'Toggle features in production'],
-  },
 }
 
 // ── Inner panel ───────────────────────────────────────────────────────────────
@@ -259,8 +242,8 @@ function AdminPanelInner({ onClose, lang = 'fr', darkMode = false }) {
   const muted     = darkMode ? '#7A90A8' : '#5C4033'
 
   const nav = buildNav(lang, { pendingCount, supportBadge, healthCount, reportsCount })
-  const nomNav = lang === 'fr' ? 'Sections du panneau admin' : 'Admin panel sections'
-  const sectionTitles = SECTION_TITLES[lang] ?? SECTION_TITLES.fr
+  const nomNav = 'Sections du panneau admin'
+  const sectionTitles = SECTION_TITLES.fr
   const [sectionTitle, sectionDesc] = sectionTitles[section] ?? [section, '']
 
   function renderSection() {
@@ -338,7 +321,7 @@ function AdminPanelInner({ onClose, lang = 'fr', darkMode = false }) {
                 variant="ghost"
                 size="icon"
                 onClick={onClose}
-                aria-label={lang === 'fr' ? 'Fermer le panneau admin' : 'Close the admin panel'}
+                aria-label={'Fermer le panneau admin'}
                 className="h-auto w-auto bg-transparent p-1 opacity-65 hover:bg-transparent"
                 style={{ color: muted }}
               >
@@ -389,7 +372,7 @@ function AdminPanelInner({ onClose, lang = 'fr', darkMode = false }) {
                   style={{ gap: 4, color: muted, borderBottom: `1px solid ${border}` }}
                 >
                   <LuChevronRight size={10} style={{ transform:'rotate(180deg)' }} />
-                  {lang === 'fr' ? 'Tableau de bord' : 'Dashboard'}
+                  {'Tableau de bord'}
                 </Button>
               )}
 

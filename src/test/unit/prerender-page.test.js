@@ -84,8 +84,8 @@ describe('pré-rendu — l’image de partage par défaut est celle du gabarit, 
 describe('pré-rendu — métadonnées de partage', () => {
   it('remplace titre, description et image par ceux de la recette', () => {
     const html = construirePage(GABARIT, AVEC_PHOTO)
-    expect(html).toContain('<title>Bœuf bourguignon — Fridge+</title>')
-    expect(contenuDe(html, 'og:title')).toBe('Bœuf bourguignon — Fridge+')
+    expect(html).toContain('<title>Bœuf bourguignon\u00A0: la recette — Fridge+</title>')
+    expect(contenuDe(html, 'og:title')).toBe('Bœuf bourguignon\u00A0: la recette — Fridge+')
     expect(contenuDe(html, 'og:description')).toBe('Bœuf braisé au vin rouge de Bourgogne.')
     expect(contenuDe(html, 'og:image')).toBe(AVEC_PHOTO.image)
     expect(contenuDe(html, 'twitter:image')).toBe(AVEC_PHOTO.image)
@@ -170,8 +170,8 @@ describe('pré-rendu — échappement HTML', () => {
     const html = construirePage(GABARIT, {
       id: 'mujaddara', nom: 'Riz & lentilles <"maison">', description: 'A & B', image: null,
     })
-    expect(html).toContain('<title>Riz &amp; lentilles &lt;&quot;maison&quot;&gt; — Fridge+</title>')
-    expect(contenuDe(html, 'og:title')).toBe('Riz &amp; lentilles &lt;&quot;maison&quot;&gt; — Fridge+')
+    expect(html).toContain('<title>Riz &amp; lentilles &lt;&quot;maison&quot;&gt;\u00A0: la recette — Fridge+</title>')
+    expect(contenuDe(html, 'og:title')).toBe('Riz &amp; lentilles &lt;&quot;maison&quot;&gt;\u00A0: la recette — Fridge+')
     // L'attribut ne doit pas être refermé prématurément : une seule balise title.
     expect(html.match(/<title>/g)).toHaveLength(1)
   })
@@ -576,7 +576,7 @@ describe('pré-rendu — une donnée ne devient jamais du code (audit 2026-10-04
 
   it('construirePage écrit « $ » tel quel dans le titre', () => {
     const html = construirePage(GABARIT, { id: 'tarte', nom: "Tarte à 5 $' pièce", description: 'x', image: null })
-    expect(html).toContain("<title>Tarte à 5 $' pièce — Fridge+</title>")
+    expect(html).toContain("<title>Tarte à 5 $' pièce\u00A0: la recette — Fridge+</title>")
   })
 })
 

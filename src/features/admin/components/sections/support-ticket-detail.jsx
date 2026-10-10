@@ -151,7 +151,7 @@ export default function SupportTicketDetail({
                 onClick={() => setReply(prev => prev.trim() ? `${prev.trimEnd()}\n${quickReplyText(q.id, lang)}` : quickReplyText(q.id, lang))}
                 style={{ fontSize: 11, fontWeight: 600, padding: '3px 9px', borderRadius: 999, border: `1px solid ${border}`, background: 'transparent', color: muted, cursor: 'pointer', whiteSpace: 'nowrap' }}
               >
-                {q.label[lang] ?? q.label.fr}
+                {q.label}
               </button>
             ))}
           </div>
