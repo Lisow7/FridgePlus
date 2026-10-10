@@ -16,6 +16,7 @@
 
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.112.3'
 import { getCorsHeaders } from '../_shared/cors.ts'
+import { reponseErreur } from '../_shared/reponse-erreur.ts'
 import { applyRateLimit } from '../_shared/rate-limit.ts'
 import { sendEmail } from '../_shared/email.ts'
 
@@ -223,9 +224,7 @@ Deno.serve(async (req: Request) => {
   }, 'send-ticket-notification')
 
   if (!emailRes.ok) {
-    return new Response(JSON.stringify({ error: 'Resend API error', detail: emailRes.error }), {
-      status: 502, headers: { 'Content-Type': 'application/json', ...CORS },
-    })
+    return reponseErreur('Resend API error', 502, CORS, emailRes.error, 'send-ticket-notification')
   }
 
   return new Response(JSON.stringify({ success: true, emailId: emailRes.id }), {

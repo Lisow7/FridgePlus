@@ -22,6 +22,7 @@
 
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.112.3'
 import { getCorsHeaders } from '../_shared/cors.ts'
+import { reponseErreur } from '../_shared/reponse-erreur.ts'
 import { applyRateLimit } from '../_shared/rate-limit.ts'
 import { sendEmail } from '../_shared/email.ts'
 import { reserverUnEmail } from '../_shared/email-quota.ts'
@@ -342,12 +343,7 @@ Deno.serve(async (req: Request) => {
     html: buildEmailHTML({ type, lang: safeLang, username, oldValue, newValue }),
   }, 'send-profile-change-notification')
 
-  if (!emailRes.ok) {
-    return new Response(
-      JSON.stringify({ error: 'email_send_failed', detail: emailRes.error }),
-      { status: 502, headers: { 'Content-Type': 'application/json', ...CORS } }
-    )
-  }
+  if (!emailRes.ok) return reponseErreur('email_send_failed', 502, CORS, emailRes.error, 'send-profile-change-notification')
 
   return new Response(
     JSON.stringify({ success: true, emailId: emailRes.id }),

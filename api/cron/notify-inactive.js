@@ -20,10 +20,11 @@
  * raisonnables pour la réception des emails par les destinataires européens.
  */
 
+import { secretAccepte } from '../_lib/secret-de-cron.js'
+
 export default async function handler(req, res) {
-  // ─── Auth 1 : Vercel cron secret ─────────────────────────────────────
-  const authHeader = req.headers['authorization'] ?? ''
-  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+  // ─── Auth 1 : Vercel cron secret (exigé, temps constant) ─────────────
+  if (!secretAccepte(req.headers['authorization'], process.env.CRON_SECRET)) {
     return res.status(401).json({ error: 'Unauthorized' })
   }
 
@@ -32,11 +33,11 @@ export default async function handler(req, res) {
   const cronSecret  = process.env.NOTIFY_INACTIVE_CRON_SECRET
   if (!supabaseUrl) {
     console.error('[notify-inactive cron] VITE_SUPABASE_URL not configured')
-    return res.status(500).json({ error: 'config_missing', detail: 'VITE_SUPABASE_URL' })
+    return res.status(500).json({ error: 'config_missing' })
   }
   if (!cronSecret) {
     console.error('[notify-inactive cron] NOTIFY_INACTIVE_CRON_SECRET not configured')
-    return res.status(500).json({ error: 'config_missing', detail: 'NOTIFY_INACTIVE_CRON_SECRET' })
+    return res.status(500).json({ error: 'config_missing' })
   }
 
   // ─── Appel batch à l'Edge Function (jusqu'à hasMore=false) ───────────
@@ -61,11 +62,11 @@ export default async function handler(req, res) {
       result = await fnRes.json().catch(() => ({}))
       if (!fnRes.ok) {
         console.error('[notify-inactive cron] Edge Function returned', fnRes.status, result)
-        return res.status(502).json({ error: 'edge_function_failed', status: fnRes.status, body: result, aggregate })
+        return res.status(502).json({ error: 'edge_function_failed', status: fnRes.status, aggregate })
       }
     } catch (e) {
       console.error('[notify-inactive cron] fetch threw:', e.message)
-      return res.status(502).json({ error: 'fetch_failed', detail: e.message, aggregate })
+      return res.status(502).json({ error: 'fetch_failed', aggregate })
     }
 
     aggregate.processed += result.processed ?? 0

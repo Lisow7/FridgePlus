@@ -22,6 +22,8 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.112.3'
 import webpush from 'npm:web-push@3.6.7'
 import { getCorsHeaders } from '../_shared/cors.ts'
+import { reponseErreur } from '../_shared/reponse-erreur.ts'
+import { memeSecret } from '../_shared/secrets.ts'
 
 const WINDOW_HOURS = 48
 
@@ -65,11 +67,11 @@ Deno.serve(async (req: Request) => {
 
   const cronSecretHeader = req.headers.get('x-cron-secret') ?? ''
   const cronSecretEnv = Deno.env.get('SEND_PUSH_CRON_SECRET') ?? ''
-  const isCronCall = !!cronSecretEnv && cronSecretHeader === cronSecretEnv
+  const isCronCall = !!cronSecretEnv && memeSecret(cronSecretHeader, cronSecretEnv)
 
   const authHeader = req.headers.get('Authorization') ?? ''
   const serviceRoleKey = Deno.env.get('SB_SECRET_KEY') ?? Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
-  const isServiceRoleCall = !!serviceRoleKey && authHeader === `Bearer ${serviceRoleKey}`
+  const isServiceRoleCall = !!serviceRoleKey && memeSecret(authHeader, `Bearer ${serviceRoleKey}`)
 
   if (!isCronCall && !isServiceRoleCall) {
     return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401, headers: CORS })
@@ -99,9 +101,7 @@ Deno.serve(async (req: Request) => {
     .gte('expires_at', now.toISOString())
     .lte('expires_at', windowEnd.toISOString())
   if (leftoversErr) {
-    return new Response(JSON.stringify({ error: 'Leftovers query failed', detail: leftoversErr.message }), {
-      status: 500, headers: { 'Content-Type': 'application/json', ...CORS },
-    })
+    return reponseErreur('Leftovers query failed', 500, CORS, leftoversErr, 'send-leftover-expiry-push')
   }
   if (!leftovers || leftovers.length === 0) {
     return new Response(JSON.stringify({ candidates: 0, notified: 0, push_sent: 0, push_errors: 0, message: 'No expiring leftovers' }), {
@@ -117,9 +117,7 @@ Deno.serve(async (req: Request) => {
     .is('deleted_at', null)
     .eq('push_preferences->>stock_expiry', 'true')
   if (profilesErr) {
-    return new Response(JSON.stringify({ error: 'Profiles query failed', detail: profilesErr.message }), {
-      status: 500, headers: { 'Content-Type': 'application/json', ...CORS },
-    })
+    return reponseErreur('Profiles query failed', 500, CORS, profilesErr, 'send-leftover-expiry-push')
   }
 
   const eligibleLanguageByUserId = new Map((profiles ?? []).map((p) => [p.id as string, p.language as string | null]))

@@ -22,6 +22,7 @@
 
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.112.3'
 import { getCorsHeaders } from '../_shared/cors.ts'
+import { reponseErreur } from '../_shared/reponse-erreur.ts'
 import { applyRateLimit } from '../_shared/rate-limit.ts'
 import { sendEmail } from '../_shared/email.ts'
 import { reserverUnEmail } from '../_shared/email-quota.ts'
@@ -203,12 +204,7 @@ Deno.serve(async (req: Request) => {
       restore_token: restoreToken,
     })
     .eq('id', user.id)
-  if (updErr) {
-    return new Response(
-      JSON.stringify({ error: 'db_error', detail: updErr.message }),
-      { status: 500, headers: { 'Content-Type': 'application/json', ...CORS } }
-    )
-  }
+  if (updErr) return reponseErreur('db_error', 500, CORS, updErr, 'delete-account')
 
   // ── Récupère le pseudo pour l'email ─────────────────────────
   const { data: profile } = await supabaseAdmin

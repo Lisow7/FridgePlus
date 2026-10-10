@@ -15,6 +15,8 @@
 
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.112.3'
 import { getCorsHeaders } from '../_shared/cors.ts'
+import { reponseErreur } from '../_shared/reponse-erreur.ts'
+import { memeSecret } from '../_shared/secrets.ts'
 import { sendEmail } from '../_shared/email.ts'
 
 interface DigestRow {
@@ -72,11 +74,11 @@ Deno.serve(async (req: Request) => {
   // ── Auth : soit X-Cron-Secret (réutilise le secret des crons push), soit Authorization service_role ──
   const cronSecretHeader = req.headers.get('x-cron-secret') ?? ''
   const cronSecretEnv = Deno.env.get('SEND_PUSH_CRON_SECRET') ?? ''
-  const isCronCall = !!cronSecretEnv && cronSecretHeader === cronSecretEnv
+  const isCronCall = !!cronSecretEnv && memeSecret(cronSecretHeader, cronSecretEnv)
 
   const authHeader = req.headers.get('Authorization') ?? ''
   const serviceRoleKey = Deno.env.get('SB_SECRET_KEY') ?? Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
-  const isServiceRoleCall = !!serviceRoleKey && authHeader === `Bearer ${serviceRoleKey}`
+  const isServiceRoleCall = !!serviceRoleKey && memeSecret(authHeader, `Bearer ${serviceRoleKey}`)
 
   if (!isCronCall && !isServiceRoleCall) {
     return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401, headers: CORS })
@@ -99,9 +101,7 @@ Deno.serve(async (req: Request) => {
 
   const { data, error: rpcErr } = await supabaseAdmin.rpc('get_weekly_metrics_digest').single()
   if (rpcErr || !data) {
-    return new Response(JSON.stringify({ error: 'RPC failed', detail: rpcErr?.message }), {
-      status: 500, headers: { 'Content-Type': 'application/json', ...CORS },
-    })
+    return reponseErreur('RPC failed', 500, CORS, rpcErr ?? 'no data', 'send-weekly-metrics-digest')
   }
 
   const weekOf = new Date().toISOString().slice(0, 10)
@@ -111,11 +111,7 @@ Deno.serve(async (req: Request) => {
     html: buildEmailHTML(data as DigestRow, weekOf),
   }, 'send-weekly-metrics-digest')
 
-  if (!emailRes.ok) {
-    return new Response(JSON.stringify({ error: 'Resend failed', detail: (emailRes.error ?? '').slice(0, 200) }), {
-      status: 502, headers: { 'Content-Type': 'application/json', ...CORS },
-    })
-  }
+  if (!emailRes.ok) return reponseErreur('Resend failed', 502, CORS, emailRes.error, 'send-weekly-metrics-digest')
 
   return new Response(JSON.stringify({ sent: true }), {
     headers: { 'Content-Type': 'application/json', ...CORS },

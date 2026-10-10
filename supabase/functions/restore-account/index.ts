@@ -19,6 +19,7 @@
 
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.112.3'
 import { getCorsHeaders } from '../_shared/cors.ts'
+import { reponseErreur } from '../_shared/reponse-erreur.ts'
 import { applyRateLimit } from '../_shared/rate-limit.ts'
 
 const RETENTION_DAYS = 30
@@ -57,6 +58,11 @@ Deno.serve(async (req: Request) => {
   if (!token) {
     return new Response(JSON.stringify({ error: 'missing_token' }), { status: 400, headers: CORS })
   }
+  // Un jeton qui n'a pas la forme d'un UUID n'atteint pas la base (sinon :
+  // erreur 22P02 de Postgres, et son message renvoyé au client).
+  if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(token)) {
+    return reponseErreur('invalid_token', 404, CORS)
+  }
 
   // Lookup du profil par restore_token. Pas de filtre temporel ici —
   // on veut différencier « token introuvable » de « expiré ».
@@ -66,12 +72,7 @@ Deno.serve(async (req: Request) => {
     .eq('restore_token', token)
     .maybeSingle()
 
-  if (lookupErr) {
-    return new Response(
-      JSON.stringify({ error: 'db_error', detail: lookupErr.message }),
-      { status: 500, headers: { 'Content-Type': 'application/json', ...CORS } }
-    )
-  }
+  if (lookupErr) return reponseErreur('db_error', 500, CORS, lookupErr, 'restore-account')
   if (!profile || !profile.deleted_at) {
     return new Response(
       JSON.stringify({ error: 'invalid_token' }),
@@ -98,12 +99,7 @@ Deno.serve(async (req: Request) => {
     })
     .eq('id', profile.id)
 
-  if (updErr) {
-    return new Response(
-      JSON.stringify({ error: 'db_error', detail: updErr.message }),
-      { status: 500, headers: { 'Content-Type': 'application/json', ...CORS } }
-    )
-  }
+  if (updErr) return reponseErreur('db_error', 500, CORS, updErr, 'restore-account')
 
   return new Response(
     JSON.stringify({ success: true }),

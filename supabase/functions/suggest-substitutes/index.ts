@@ -19,6 +19,8 @@
 
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.112.3'
 import { getCorsHeaders } from '../_shared/cors.ts'
+import { reponseErreur } from '../_shared/reponse-erreur.ts'
+import { runAfterResponse } from '../_shared/apres-reponse.ts'
 import { applyRateLimit } from '../_shared/rate-limit.ts'
 import { applyBudgetGuard } from '../_shared/budget-guard.ts'
 
@@ -55,15 +57,6 @@ function buildPrompt(payload: SubstitutePayload): string {
   return `Suggest 3 culinary substitutes for "${ingredient_label}"${ctx}. ` +
          `Respond in ${lang}. ` +
          `Return ONLY a JSON object: {"substitutes": [{"label": "...", "reason": "<1 sentence>", "ratio": "1:1 or e.g. 1 cup = 100g"}, ...3 items]}`
-}
-
-// Exécute une promesse APRÈS avoir rendu la réponse, sans la bloquer ni la faire
-// échouer (analytics best-effort). Supabase Edge fournit EdgeRuntime.waitUntil ;
-// on catch pour éviter toute unhandledrejection. Fallback silencieux si absent.
-function runAfterResponse(p: Promise<unknown>): void {
-  const safe = Promise.resolve(p).catch(() => {})
-  const er = (globalThis as { EdgeRuntime?: { waitUntil?: (p: Promise<unknown>) => void } }).EdgeRuntime
-  if (er?.waitUntil) er.waitUntil(safe)
 }
 
 Deno.serve(async (req: Request) => {
@@ -203,12 +196,12 @@ Deno.serve(async (req: Request) => {
       }),
     })
   } catch (err) {
-    return new Response(JSON.stringify({ error: 'openai_unreachable', detail: String(err) }), { status: 502, headers: CORS })
+    return reponseErreur('openai_unreachable', 502, CORS, err, 'suggest-substitutes')
   }
 
   if (!openaiResp.ok) {
     const text = await openaiResp.text()
-    return new Response(JSON.stringify({ error: 'openai_error', status: openaiResp.status, detail: text }), { status: 502, headers: CORS })
+    return reponseErreur('openai_error', 502, CORS, text, 'suggest-substitutes', { status: openaiResp.status })
   }
 
   const data = await openaiResp.json()
