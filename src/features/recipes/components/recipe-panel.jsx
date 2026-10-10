@@ -16,6 +16,7 @@ import RecipePanelHeader from './recipe-panel-header'
 import RecipePanelModals from './recipe-panel-modals'
 import { PANEL_I18N } from '@shared/static/recipe-panel-i18n'
 import RecipeCard from './recipe-card'
+import RecipeResultsCount from './recipe-results-count'
 import { EmptyFavorites, EmptyCustomRecipes, EmptyGeneric } from './recipe-empty-state'
 import { listBulkAggregates } from '@features/recipes/api/recipe-reviews'
 import Button from '@shared/ui/button'
@@ -345,6 +346,7 @@ export default function RecipePanel({
             }}
             className="absolute inset-0 overflow-y-auto flex flex-col gap-2.5 p-3"
           >
+            <RecipeResultsCount count={filtered.length} t={t} />
             {filtered.length === 0 ? (
               filter === 'favorites' ? (
                 <EmptyFavorites darkMode={darkMode} t={t} />
@@ -392,7 +394,7 @@ export default function RecipePanel({
                     fontSize: '12px', color: 'var(--color-muted)',
                     fontWeight: 600,
                   }}>
-                    {filtered.length - visibleCount} {filtered.length - visibleCount > 1 ? 'recettes restantes' : 'recette restante'}…
+                    {t.remainingCount(filtered.length - visibleCount)}
                   </div>
                 )}
               </>

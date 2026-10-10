@@ -4,7 +4,7 @@
 // de traitement, panneau de relecture, toast d'erreur, toast de succès.
 // Mirroir de voice-overlays.jsx.
 
-import { Suspense, lazy, useRef } from 'react'
+import { Suspense, lazy, useRef, useEffect } from 'react'
 import { ReceiptConsentScreen } from '@features/receipt-scan'
 import { Z_INDEX } from '@shared/lib/z-index'
 import { useFocusTrap } from '@shared/hooks/use-focus-trap'
@@ -73,6 +73,22 @@ function LoginRequiredOverlay({ lang, darkMode, onClose, onShowAuth }) {
   )
 }
 
+// La lecture du ticket : une surcouche plein écran qui ne demande rien — une
+// région de statut occupée, qui prend le focus pour que le clavier ne reste pas
+// derrière elle (audit du 2026-10-04, A11Y-17 ; elle n'avait ni rôle ni focus).
+function ProcessingOverlay({ lang }) {
+  const ref = useRef(null)
+  useEffect(() => { ref.current?.focus() }, [])
+  return (
+    <div ref={ref} role="status" aria-live="polite" aria-busy="true" tabIndex={-1} style={{ position: 'fixed', inset: 0, zIndex: Z_INDEX.MODAL, background: 'rgba(15,8,2,0.86)', display: 'flex', alignItems: 'center', justifyContent: 'center', outline: 'none' }}>
+      <div style={{ textAlign: 'center' }}>
+        <div className="animate-spin" aria-hidden="true" style={{ width: '44px', height: '44px', borderRadius: '50%', border: '4px solid rgba(247,168,94,0.18)', borderTopColor: '#F7A85E', margin: '0 auto 18px' }} />
+        <div style={{ fontSize: '14px', fontWeight: 700, color: '#F5EBDD' }}>{PROCESSING_I18N[lang] ?? PROCESSING_I18N.fr}</div>
+      </div>
+    </div>
+  )
+}
+
 export default function ReceiptScanOverlays({
   lang, darkMode, stock,
   receiptScanStage, receiptScanError, matched, ambiguous, unmatchedCount, receiptToast,
@@ -92,14 +108,7 @@ export default function ReceiptScanOverlays({
         <ReceiptConsentScreen lang={lang} darkMode={darkMode} onFileSelected={onConsentFileSelected} onCancel={onConsentCancel} />
       )}
 
-      {receiptScanStage === 'processing' && (
-        <div style={{ position: 'fixed', inset: 0, zIndex: Z_INDEX.MODAL, background: 'rgba(15,8,2,0.86)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <div style={{ textAlign: 'center' }}>
-            <div className="animate-spin" style={{ width: '44px', height: '44px', borderRadius: '50%', border: '4px solid rgba(247,168,94,0.18)', borderTopColor: '#F7A85E', margin: '0 auto 18px' }} />
-            <div style={{ fontSize: '14px', fontWeight: 700, color: '#F5EBDD' }}>{PROCESSING_I18N[lang] ?? PROCESSING_I18N.fr}</div>
-          </div>
-        </div>
-      )}
+      {receiptScanStage === 'processing' && <ProcessingOverlay lang={lang} />}
 
       {receiptReviewOpen && (
         <Suspense fallback={null}>
@@ -114,15 +123,15 @@ export default function ReceiptScanOverlays({
       {receiptScanStage === 'error' && receiptScanError && (() => {
         const msg = (ERROR_I18N[receiptScanError] ?? ERROR_I18N.scan_failed)[lang] ?? (ERROR_I18N[receiptScanError] ?? ERROR_I18N.scan_failed).fr
         return (
-          <div style={{ position: 'fixed', bottom: '80px', left: '50%', transform: 'translateX(-50%)', zIndex: Z_INDEX.TOAST, background: darkMode ? 'var(--color-dark-surface)' : '#FFF3E0', border: '1.5px solid rgba(217,119,6,0.4)', borderRadius: '10px', padding: '12px 18px', boxShadow: '0 4px 20px rgba(0,0,0,0.15)', maxWidth: 'calc(100vw - 32px)', display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <div role="alert" style={{ position: 'fixed', bottom: '80px', left: '50%', transform: 'translateX(-50%)', zIndex: Z_INDEX.TOAST, background: darkMode ? 'var(--color-dark-surface)' : '#FFF3E0', border: '1.5px solid rgba(217,119,6,0.4)', borderRadius: '10px', padding: '12px 18px', boxShadow: '0 4px 20px rgba(0,0,0,0.15)', maxWidth: 'calc(100vw - 32px)', display: 'flex', alignItems: 'center', gap: '10px' }}>
             <span style={{ fontSize: '13px', fontWeight: 500, color: 'var(--color-charcoal)' }}>{msg}</span>
-            <button onClick={onDismissError} style={{ background: 'none', border: 'none', color: '#B85000', fontWeight: 700, fontSize: '13px', cursor: 'pointer' }}>✕</button>
+            <button onClick={onDismissError} aria-label={(LOGIN_REQUIRED_I18N[lang] ?? LOGIN_REQUIRED_I18N.fr).close} style={{ background: 'none', border: 'none', color: '#B85000', fontWeight: 700, fontSize: '13px', cursor: 'pointer' }}>✕</button>
           </div>
         )
       })()}
 
       {receiptToast && (
-        <div style={{ position: 'fixed', bottom: '80px', left: '50%', transform: 'translateX(-50%)', zIndex: Z_INDEX.TOAST, background: darkMode ? '#1A2535' : '#FDFAF6', border: `1.5px solid ${darkMode ? '#243650' : '#E2D8CC'}`, borderRadius: '10px', padding: '12px 16px', boxShadow: '0 4px 20px rgba(0,0,0,0.14)', maxWidth: 'calc(100vw - 32px)' }}>
+        <div role="status" style={{ position: 'fixed', bottom: '80px', left: '50%', transform: 'translateX(-50%)', zIndex: Z_INDEX.TOAST, background: darkMode ? '#1A2535' : '#FDFAF6', border: `1.5px solid ${darkMode ? '#243650' : '#E2D8CC'}`, borderRadius: '10px', padding: '12px 16px', boxShadow: '0 4px 20px rgba(0,0,0,0.14)', maxWidth: 'calc(100vw - 32px)' }}>
           <span style={{ fontSize: '13px', fontWeight: 500, color: 'var(--color-charcoal)' }}>{(ADDED_I18N[lang] ?? ADDED_I18N.fr)(receiptToast.count)}</span>
         </div>
       )}
