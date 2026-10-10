@@ -31,6 +31,9 @@ export async function recordSpendingEvent(userId, { total_eur, items_count, item
   // `false`, donc l'opt-out est explicite et opt-in legitime par défaut.
   // L'inverse (skip à la moindre erreur) bloquerait toute capture en cas
   // d'indispo BDD passagère, ce qui n'est pas le bon trade-off.
+  // Et depuis l'audit du 2026-10-04 (RGPD-18 (a)), la règle d'insertion de la
+  // base lit elle-même l'opposition : si la RPC a échoué pour quelqu'un qui
+  // s'est opposé, c'est la base qui refuse (42501 → « sautée », plus bas).
   const { data: optedOut, error: rpcError } = await supabase
     .rpc('is_profiling_opted_out', { p_user_id: userId })
   if (rpcError && import.meta.env.DEV) {
@@ -47,6 +50,9 @@ export async function recordSpendingEvent(userId, { total_eur, items_count, item
     items_json: items_json ?? [],
   }).select('id').single()
   if (error) {
+    // La base refuse au nom de l'opposition au profilage (règle d'insertion,
+    // RGPD-18 (a)) : c'est le résultat voulu, pas une panne à montrer.
+    if (error.code === '42501') return { ok: true, skipped: true }
     if (import.meta.env.DEV) console.error('[spending] recordSpendingEvent:', error.message)
     return { error: error.message }
   }

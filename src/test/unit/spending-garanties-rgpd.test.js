@@ -105,6 +105,18 @@ describe('spending.js — Art. 21 : opposition au profilage', () => {
     expect(res).toEqual({ ok: true, id: 'e-2' })
   })
 
+  it('la base refuse l\'écriture au nom de l\'opposition (42501) : « sautée », pas une erreur', async () => {
+    // Depuis l'audit du 2026-10-04 (RGPD-18 (a)), la règle d'insertion de la
+    // base lit elle-même `profiling_opted_out` : si la RPC de garde a échoué
+    // alors que la personne s'est opposée, c'est la base qui refuse. Ce refus
+    // est le bon résultat, pas une panne à montrer.
+    mockRpc.mockResolvedValue({ data: null, error: { message: 'réseau' } })
+    const c = chaine({ data: null, error: { code: '42501', message: 'new row violates row-level security policy for table "spending_events"' } })
+    mockFrom.mockReturnValue(c)
+    const res = await recordSpendingEvent('u-1', EVENEMENT)
+    expect(res).toEqual({ ok: true, skipped: true })
+  })
+
   it('borne les valeurs négatives ou non numériques plutôt que de les écrire telles quelles', async () => {
     mockRpc.mockResolvedValue({ data: false, error: null })
     const c = chaine({ data: { id: 'e-3' }, error: null })

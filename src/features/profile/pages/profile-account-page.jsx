@@ -133,7 +133,7 @@ export default function ProfileAccountPage() {
   }, [versConfidentialite])
   const t = I18N[lang] ?? I18N.fr
   const { requestPasswordResetEmail, updateProfile, signInWithEmail, deleteAccount } = useAuth()
-  const { hasPremiumAccess, isSpecialAccess } = useSubscription()
+  const { isSpecialAccess } = useSubscription()
   const windowWidth = useWindowWidth()
   const isMobile = windowWidth < 640
 
@@ -350,21 +350,19 @@ export default function ProfileAccountPage() {
         >
           <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
             <ConfidentialityPanel lang={lang} darkMode={darkMode} />
-            {/* Sprint 11 — Opt-out profilage Premium-gated : la collecte
-                des spending events n'a lieu que pour les Premium, donc
-                cette option n'a aucun effet pour les comptes free. */}
-            {hasPremiumAccess && (
-              <ProfilingOptOutSection
-                optedOut={!!profile?.profiling_opted_out}
-                onChange={(next) => updateProfile({ profiling_opted_out: next })}
-                lang={lang}
-                isMobile={isMobile}
-                darkMode={darkMode}
-                border={border}
-                textColor={textColor}
-                mutedColor={mutedColor}
-              />
-            )}
+            {/* Pour tous, Premium ou non : un droit (art. 21) ne dépend pas
+                d'un abonnement — un abonnement qui s'arrête laisse des dépenses
+                en base (audit du 2026-10-04, PREM-11). */}
+            <ProfilingOptOutSection
+              optedOut={!!profile?.profiling_opted_out}
+              onChange={(next) => updateProfile({ profiling_opted_out: next })}
+              lang={lang}
+              isMobile={isMobile}
+              darkMode={darkMode}
+              border={border}
+              textColor={textColor}
+              mutedColor={mutedColor}
+            />
           </div>
         </ProfileSection>
 
@@ -405,24 +403,23 @@ export default function ProfileAccountPage() {
           </div>
         </ProfileSection>
 
-        {/* ─── 5. Effacer historique dépenses (Premium uniquement) ──── */}
-        {/* Sprint 11 — masqué pour free : sans Premium, aucun spending
-            event collecté → rien à effacer. */}
-        {hasPremiumAccess && (
-          <EraseSpendingHistorySection
-            userId={user?.id}
-            onErase={() => eraseSpendingHistory(user?.id)}
-            lang={lang}
-            isMobile={isMobile}
-            darkMode={darkMode}
-            border={border}
-            textColor={textColor}
-            mutedColor={mutedColor}
-            modalBg={modalBg}
-            collapsible
-            defaultOpen={false}
-          />
-        )}
+        {/* ─── 5. Effacer historique dépenses — pour tous (art. 17) ────
+            Un ancien abonné garde ses dépenses en base : il doit pouvoir les
+            effacer (audit du 2026-10-04, PREM-11). Sans dépense, la fenêtre
+            le dit (« aucune dépense enregistrée à effacer »). */}
+        <EraseSpendingHistorySection
+          userId={user?.id}
+          onErase={() => eraseSpendingHistory(user?.id)}
+          lang={lang}
+          isMobile={isMobile}
+          darkMode={darkMode}
+          border={border}
+          textColor={textColor}
+          mutedColor={mutedColor}
+          modalBg={modalBg}
+          collapsible
+          defaultOpen={false}
+        />
 
         {/* ─── 6. Zone de danger (replié par défaut, action critique) ──
             L'erreur s'affiche DANS la fenêtre (CPT-04 : elle s'écrivait ici,

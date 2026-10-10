@@ -50,7 +50,7 @@ md5 — le test `migrations-alignees` refuse qu'il bouge d'un octet.
 `20260517_db_refonte_s3_backfill_tracking.sql`) : leur fichier est le seul
 texte qui en reste.
 
-**16 fichiers n'ont pas d'entrée homonyme**, et c'est attendu :
+**17 fichiers n'ont pas d'entrée homonyme**, et c'est attendu :
 
 | Fichier | État (vérifié en lecture seule le 2026-10-08, sinon par l'audit) |
 |---|---|
@@ -67,6 +67,7 @@ texte qui en reste.
 | `20260808_guard_profiles_columns_restantes.sql` | Appliqué le 2026-08-13 sous le nom `guard_profiles_consentements` (fichier `20260813111101_…`). Son en-tête disait « non appliquée » : corrigé. |
 | `20261005_regle_du_pseudo_tenue_par_la_base.sql`, `20261006_allergenes_contrainte_apres_release.sql`, `20261008_retrait_admin_get_auth_users_apres_release.sql` | **En attente de release**, exprès : voir la section suivante. |
 | `20261008_droits_en_base.sql`, `20261008_index_pseudo_en_double.sql` | **En attente de la confirmation d'Antoine** (essai à blanc puis `apply_migration`, qu'il confirme) : voir « En attente d'Antoine » plus bas. |
+| `20261009130000_opposition_au_profilage_en_base.sql` | **En attente de la confirmation d'Antoine** (essai à blanc par sa sonde, puis `apply_migration`, qu'il confirme) : voir « En attente de la confirmation d'Antoine » plus bas. |
 
 **Rejouer le rapprochement** (le registre ne se lit pas depuis la CI) : copier la
 sortie de la requête ci-dessous dans un fichier, puis
@@ -101,6 +102,15 @@ sa version (14 chiffres), compléter les RÉSULTATS de la sonde.
 |---|---|---|
 | `20261008_droits_en_base.sql` | Retire à `anon` l'exécution d'`admin_delete_notification_batch` (BDD-16), la lecture de `feature_flags.updated_by` (BDD-18 (4)) et celle d'`ai_cache` (BDD-21 (4)) ; garde ce qui sert (l'admin, la lecture des bascules, le serveur). Sonde : `supabase/probes/20261008_droits_en_base.sql`. | Prod v0.145 et dev : `admin_delete_notification_batch` appelée connecté ; bascules lues par `key, enabled, label, description` ; `ai_cache` jamais lue côté client. |
 | `20261008_index_pseudo_en_double.sql` | Retire `profiles_username_lower_idx`, index UNIQUE créé par aucune migration du dépôt, en double de `profiles_username_unique_lower` (décision du 2026-10-08, `index_double = oui`). Sonde : `supabase/probes/20261008_index_pseudo_en_double.sql`. | Les deux index existent ; le client ne lit que le code 23505. |
+## ⏳ Une migration en attente de la confirmation d'Antoine (état au 2026-10-09)
+
+Compatible avec la v0.145 en production : elle n'attend PAS la release, seulement Antoine, qui confirme
+l'essai à blanc (bloc `DO` de la sonde) puis `apply_migration`. Ensuite : sonde « après », renommer le fichier à
+sa version (14 chiffres), compléter les RÉSULTATS de la sonde.
+
+| Migration | Ce qu'elle fait | Vérifié avant (2026-10-09, lecture seule) |
+|---|---|---|
+| `20261009130000_opposition_au_profilage_en_base.sql` (version provisoire = heure d'écriture, exigée à 14 chiffres par `migrations-alignees` ; à renommer à la version qu'inscrira `apply_migration`) | La règle d'insertion de `spending_events` refuse une dépense enregistrée contre l'opposition au profilage (`NOT is_profiling_opted_out(auth.uid())`) : jusqu'ici seule l'application la vérifiait, et une RPC en échec laissait passer l'écriture (audit du 2026-10-04, RGPD-18 (a)). Le client traite le refus 42501 comme une dépense « sautée ». | La règle vaut `user_id = (select auth.uid())` seul ; `is_profiling_opted_out` est SECURITY INVOKER, STABLE. Sonde : `supabase/probes/20261009_opposition_au_profilage_en_base.sql`. |
 
 ## ✅ Aucune autre migration en attente (état au 2026-08-13)
 

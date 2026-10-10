@@ -73,9 +73,11 @@ export default function EraseSpendingHistorySection({
   // Pas d'Échap pendant le chargement : on n'interrompt pas un effacement.
   const dialogue = useDialogue({ onClose: () => { if (status !== 'loading') setDialogOpen(false) }, actif: dialogOpen })
 
-  // Load current count on mount + after a successful erase (then 0).
+  // Le compte des dépenses : quand la section est dépliée (plus dès le
+  // montage de la page — une requête de plus sur chaque page Compte, pour
+  // une section repliée), et après un effacement réussi (alors 0).
   useEffect(() => {
-    if (!userId) return
+    if (!userId || !open) return
     let cancelled = false
     supabase
       .from('spending_events')
@@ -85,7 +87,7 @@ export default function EraseSpendingHistorySection({
         if (!cancelled) setCount(c ?? 0)
       })
     return () => { cancelled = true }
-  }, [userId, status])
+  }, [userId, status, open])
 
   const handleConfirm = async () => {
     setStatus('loading')
@@ -130,12 +132,15 @@ export default function EraseSpendingHistorySection({
           }}>
             <LuTrash2 size={15} />
           </span>
-          <h4 style={{
+          {/* <h2> : la section est au niveau des autres sections de la page
+              Compte (axe `heading-order` l'a vue en h4 dès qu'elle s'est
+              affichée sans Premium — audit du 2026-10-04, PREM-11). */}
+          <h2 style={{
             margin: 0, fontSize: isMobile ? '14px' : '15px',
             fontWeight: 800, color: textColor, flex: 1,
           }}>
             {t.title}
-          </h4>
+          </h2>
           {collapsible && (
             <span aria-hidden="true" style={{
               display: 'inline-flex',

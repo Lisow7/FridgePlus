@@ -78,12 +78,14 @@ export default function ProfilingOptOutSection({
         }}>
           <LuShieldOff size={15} />
         </span>
-        <h4 style={{
+        {/* <h3> : sous le <h2> de la section « Confidentialité » (axe
+            `heading-order` — audit du 2026-10-04, PREM-11). */}
+        <h3 style={{
           margin: 0, fontSize: isMobile ? '14px' : '15px',
           fontWeight: 800, color: textColor, flex: 1, minWidth: 0,
         }}>
           {t.title}
-        </h4>
+        </h3>
         <span style={{
           fontSize: '11px', fontWeight: 700,
           padding: '3px 9px', borderRadius: '6px',
