@@ -1,135 +1,77 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { render, screen } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
+import { render, screen, fireEvent } from '@testing-library/react'
+import { MemoryRouter, useLocation } from 'react-router-dom'
 
 import Footer from '@app/layout/footer'
 import { CURRENT_VERSION } from '@shared/lib/version'
 
-const defaultProps = { lang: 'fr', darkMode: false, user: null, supportUnread: 0, onShowSupport: vi.fn() }
+// Le pied de page d'aujourd'hui. L'ancien fichier, ignoré en bloc depuis la
+// v3.8 (« TODO v3.18.x »), testait « Mentions & CGU », un lien Twemoji, des
+// réseaux sociaux désactivés, un bouton Support et des modales qui n'existent
+// plus — une promesse de vérification sans vérification (audit du 2026-10-04,
+// ARCH-17 (1)). Ici : ce que le pied rend vraiment, lu dans footer.jsx.
+vi.mock('@shared/contexts/feature-flags-provider', () => ({ useFeatureFlag: () => false }))
+vi.mock('@shared/contexts/auth-provider', () => ({ useAuth: () => ({ user: null }) }))
+// La fenêtre des cookies a ses propres tests (cookie-modal.test.jsx) : un
+// double, qui ne rend que ce que le pied lui passe.
+vi.mock('@features/legal/components/cookie-modal', () => ({
+  default: ({ onClose, onShowLegal }) => (
+    <div role="dialog" aria-label="cookies">
+      <button type="button" onClick={onShowLegal}>politique</button>
+      <button type="button" onClick={onClose}>fermer</button>
+    </div>
+  ),
+}))
 
-beforeEach(() => vi.clearAllMocks())
+function OuSuisJe() { return <span data-testid="ou-suis-je">{useLocation().pathname}</span> }
+const monter = (props = {}) => render(
+  <MemoryRouter><OuSuisJe /><Footer lang="fr" darkMode={false} isHome {...props} /></MemoryRouter>,
+)
+const VERSION = new RegExp(`^v${CURRENT_VERSION.replace(/\./g, '\\.')}`)
 
-// TODO v3.18.x — Footer refondu en v3.8.0 (FAQ + Aide & Mentions légales). Les
-// labels « Mentions & CGU », « Twemoji » direct, et la structure des modales
-// ont changé. Ces tests doivent être réécrits contre le markup actuel après
-// stabilisation Phase 8 (Polish UI). Suivi : entrée Vague 1 du plan unifié.
-describe.skip('Footer', () => {
+beforeEach(() => localStorage.clear())
 
-  // ─── Rendu de base ─────────────────────────────────────────────────────────
-  describe('rendu de base', () => {
-    it('affiche le numéro de version courant', () => {
-      render(<Footer {...defaultProps} />)
-      expect(screen.getByText(`v${CURRENT_VERSION}`)).toBeInTheDocument()
-    })
-
-    it('affiche le lien Twemoji', () => {
-      render(<Footer {...defaultProps} />)
-      expect(screen.getByText('Twemoji')).toBeInTheDocument()
-    })
-
-    it('affiche le bouton légal en français', () => {
-      render(<Footer {...defaultProps} />)
-      expect(screen.getByText('Mentions & CGU')).toBeInTheDocument()
-    })
-
-    it('affiche le bouton légal en anglais', () => {
-      render(<Footer {...defaultProps} lang="en" />)
-      expect(screen.getByText('Legal & Terms')).toBeInTheDocument()
-    })
-
-    it('affiche l\'année courante', () => {
-      render(<Footer {...defaultProps} />)
-      expect(screen.getByText(`© ${new Date().getFullYear()}`)).toBeInTheDocument()
-    })
-
-    it('les icônes réseaux sociaux sont désactivées', () => {
-      render(<Footer {...defaultProps} />)
-      const socialBtns = ['Instagram', 'TikTok', 'Pinterest', 'YouTube', 'Facebook']
-      socialBtns.forEach(label => {
-        expect(screen.getByRole('button', { name: label })).toBeDisabled()
-      })
-    })
+describe('Footer — ce qu’il rend', () => {
+  it('la version courante mène au journal des versions (ligne téléphone et ligne ordinateur)', () => {
+    monter()
+    const liens = screen.getAllByRole('link', { name: VERSION })
+    expect(liens.length).toBeGreaterThan(0)
+    for (const lien of liens) expect(lien).toHaveAttribute('href', '/changelog')
   })
 
-  // ─── Bouton support ─────────────────────────────────────────────────────────
-  describe('bouton support', () => {
-    it('absent si user = null', () => {
-      render(<Footer {...defaultProps} user={null} />)
-      expect(screen.queryByText('Support')).not.toBeInTheDocument()
-    })
-
-    it('présent si user est connecté', () => {
-      render(<Footer {...defaultProps} user={{ id: 'u-1' }} />)
-      expect(screen.getByText('Support')).toBeInTheDocument()
-    })
-
-    it('appelle onShowSupport au clic', async () => {
-      const onShowSupport = vi.fn()
-      const user = userEvent.setup()
-      render(<Footer {...defaultProps} user={{ id: 'u-1' }} onShowSupport={onShowSupport} />)
-      await user.click(screen.getByText('Support'))
-      expect(onShowSupport).toHaveBeenCalledOnce()
-    })
-
-    it('affiche le badge si supportUnread > 0', () => {
-      render(<Footer {...defaultProps} user={{ id: 'u-1' }} supportUnread={3} />)
-      expect(screen.getByText('3')).toBeInTheDocument()
-    })
-
-    it('badge absent si supportUnread = 0', () => {
-      render(<Footer {...defaultProps} user={{ id: 'u-1' }} supportUnread={0} />)
-      expect(screen.queryByText('0')).not.toBeInTheDocument()
-    })
+  it('« Mentions légales » → /legal, « Comment ça marche » → /guide, « Questions fréquentes » → /faq', () => {
+    monter()
+    for (const lien of screen.getAllByRole('link', { name: 'Mentions légales' })) expect(lien).toHaveAttribute('href', '/legal')
+    expect(screen.getByRole('link', { name: 'Comment ça marche' })).toHaveAttribute('href', '/guide')
+    expect(screen.getByRole('link', { name: 'Questions fréquentes' })).toHaveAttribute('href', '/faq')
   })
 
-  // ─── Modales ────────────────────────────────────────────────────────────────
-  describe('modales', () => {
-    it('ouvre la modale légale au clic', async () => {
-      const user = userEvent.setup()
-      render(<Footer {...defaultProps} />)
-      await user.click(screen.getByText('Mentions & CGU'))
-      expect(screen.getByText('Mentions légales')).toBeInTheDocument()
-    })
+  it('en anglais : « Legal », « How it works », « FAQ »', () => {
+    monter({ lang: 'en' })
+    for (const lien of screen.getAllByRole('link', { name: 'Legal' })) expect(lien).toHaveAttribute('href', '/legal')
+    expect(screen.getByRole('link', { name: 'How it works' })).toHaveAttribute('href', '/guide')
+    expect(screen.getByRole('link', { name: 'FAQ' })).toHaveAttribute('href', '/faq')
+  })
 
-    it('ferme la modale légale en cliquant ✕', async () => {
-      const user = userEvent.setup()
-      render(<Footer {...defaultProps} />)
-      await user.click(screen.getByText('Mentions & CGU'))
-      await user.click(screen.getByText('✕'))
-      expect(screen.queryByText('Mentions légales')).not.toBeInTheDocument()
-    })
+  it('l’année courante', () => {
+    monter()
+    expect(screen.getAllByText(`© ${new Date().getFullYear()}`).length).toBeGreaterThan(0)
+  })
 
-    it('ouvre la modale changelog au clic sur la version', async () => {
-      const user = userEvent.setup()
-      render(<Footer {...defaultProps} />)
-      await user.click(screen.getByText(`v${CURRENT_VERSION}`))
-      expect(screen.getByTestId('changelog-modal')).toBeInTheDocument()
-    })
+  it('« Cookies » ouvre la fenêtre des cookies ; sa politique la ferme et mène à /legal', async () => {
+    monter()
+    fireEvent.click(screen.getAllByRole('button', { name: 'Cookies' })[0])
+    expect(await screen.findByRole('dialog', { name: 'cookies' })).toBeInTheDocument()
+    fireEvent.click(screen.getByRole('button', { name: 'politique' }))
+    expect(screen.queryByRole('dialog', { name: 'cookies' })).toBeNull()
+    expect(screen.getByTestId('ou-suis-je')).toHaveTextContent('/legal')
+  })
 
-    it('ferme la modale changelog', async () => {
-      const user = userEvent.setup()
-      render(<Footer {...defaultProps} />)
-      await user.click(screen.getByText(`v${CURRENT_VERSION}`))
-      await user.click(screen.getByText('Fermer changelog'))
-      expect(screen.queryByTestId('changelog-modal')).not.toBeInTheDocument()
-    })
-
-    it('la modale légale affiche les 3 onglets', async () => {
-      const user = userEvent.setup()
-      render(<Footer {...defaultProps} />)
-      await user.click(screen.getByText('Mentions & CGU'))
-      expect(screen.getByText('Mentions légales')).toBeInTheDocument()
-      expect(screen.getByText('CGU')).toBeInTheDocument()
-      expect(screen.getByText('Confidentialité')).toBeInTheDocument()
-    })
-
-    it('bascule sur l\'onglet CGU', async () => {
-      const user = userEvent.setup()
-      render(<Footer {...defaultProps} />)
-      await user.click(screen.getByText('Mentions & CGU'))
-      await user.click(screen.getByText('CGU'))
-      // La section CGU affiche l'en-tête "Objet" (premier heading du contenu)
-      expect(screen.getByText('Objet')).toBeInTheDocument()
-    })
+  it('« fermer » referme la fenêtre sans bouger', async () => {
+    monter()
+    fireEvent.click(screen.getAllByRole('button', { name: 'Cookies' })[0])
+    fireEvent.click(await screen.findByRole('button', { name: 'fermer' }))
+    expect(screen.queryByRole('dialog', { name: 'cookies' })).toBeNull()
+    expect(screen.getByTestId('ou-suis-je')).toHaveTextContent('/')
   })
 })

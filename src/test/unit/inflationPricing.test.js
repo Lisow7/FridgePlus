@@ -182,9 +182,6 @@ describe('applyRatio', () => {
     expect(skipped).toBeGreaterThan(0)
   })
 
-  // Sprint 7 PR S7.h — Test JPY retiré (langue non supportée).
-  it.skip('applique le ratio JPY avec arrondi ×5', () => {})
-
   it('respecte le nombre d\'ajustements + skips = total', () => {
     const { adjusted, skipped } = applyRatio(SAMPLE_PRICES, RATIOS, categorize)
     expect(adjusted + skipped).toBe(Object.keys(SAMPLE_PRICES).length)

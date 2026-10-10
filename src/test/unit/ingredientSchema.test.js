@@ -37,15 +37,12 @@ describe('getFullIngredient (v3.29.0)', () => {
       expect(r.storage.location).toBe('pantry')
     })
 
-    // Skip : aucun légume du catalogue n'est plus dépourvu
-    // de pack spécifique (tous ont été enrichis au fil des PRs pricing).
-    // Le test devient impossible à écrire avec un ingrédient réel. La
-    // logique `hasSpecificPacks=false` reste valable pour les futurs
-    // ingrédients ajoutés sans pack — à re-tester via un mock dédié si
-    // besoin (ou supprimer ce test si la fonctionnalité est de facto
-    // morte).
-    it.skip('hasSpecificPacks=false pour un ingrédient sans pack spécifique', () => {
-      const r = getFullIngredient('vg-radis', 'fr')
+    // Deux ingrédients du catalogue n'ont pas de prix propre dans
+    // pricing/2026.json (fr-beurre-doux, fr-beurre-demi-sel) : ils héritent des
+    // packs de leur sous-catégorie. Le test était ignoré depuis que `vg-radis`
+    // avait reçu les siens (audit du 2026-10-04, ARCH-17 (3)).
+    it('hasSpecificPacks=false pour un ingrédient sans pack spécifique : il hérite de la sous-catégorie', () => {
+      const r = getFullIngredient('fr-beurre-doux', 'fr')
       expect(r).not.toBeNull()
       expect(r.hasSpecificPacks).toBe(false)
       expect(r.packs.length).toBeGreaterThan(0)

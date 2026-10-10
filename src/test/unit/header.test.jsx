@@ -69,72 +69,10 @@ describe('Header', () => {
       expect(screen.getByText('+')).toBeInTheDocument()
     })
 
-    // TODO v3.118.x — bouton micro migré vers FridgeFAB (hors Header). Réécrire dans FridgeFAB.test.jsx.
-    it.skip('affiche le bouton micro', () => {
-      render(<Header {...defaultProps} />)
-      expect(screen.getByText(/dis-moi tes ingrédients/i)).toBeInTheDocument()
-    })
-
-    // TODO v3.18.x — sélecteur de langue n'expose plus le label texte « Langues »
-    // (réduit à drapeau + chevron en v2.5.2). Réécrire avec aria-label / data-testid.
-    it.skip('affiche le sélecteur de langue', () => {
-      render(<Header {...defaultProps} />)
-      expect(screen.getByText('Langues')).toBeInTheDocument()
-    })
-
-    // Skip : le tagline n'est plus rendu directement dans le
-    // Header depuis la refonte v3.131 (FAB redesign + header integration).
-    // Le composant FridgeTagline est désormais rendu séparément, hors du
-    // Header. Test à revoir si le tagline réapparaît dans le Header.
-    it.skip('affiche le tagline si fourni', () => {
-      render(<Header {...defaultProps} tagline="Mon frigo" />)
-      expect(screen.getByText('Mon frigo')).toBeInTheDocument()
-    })
-  })
-
-  // ─── Bouton micro ───────────────────────────────────────────────────────────
-  // TODO v3.118.x — bouton micro migré vers FridgeFAB (v3.118.0).
-  // Ces tests sont obsolètes dans header.test.jsx ; à réécrire dans FridgeFAB.test.jsx.
-  describe.skip('bouton micro (migré vers FridgeFAB en v3.118.0)', () => {
-    it('affiche "Dis-moi tes ingrédients" par défaut', () => {
-      render(<Header {...defaultProps} voiceListening={false} />)
-      expect(screen.getByText(/dis-moi tes ingrédients/i)).toBeInTheDocument()
-    })
-
-    it('affiche "Arrêter" quand en écoute', () => {
-      render(<Header {...defaultProps} voiceListening={true} />)
-      expect(screen.getByText(/arrêter/i)).toBeInTheDocument()
-    })
-
-    it('appelle onVoiceToggle au clic', async () => {
-      const onVoiceToggle = vi.fn()
-      const user = userEvent.setup()
-      render(<Header {...defaultProps} onVoiceToggle={onVoiceToggle} />)
-      const micBtn = screen.getByText(/dis-moi tes ingrédients/i).closest('button')
-      await user.click(micBtn)
-      expect(onVoiceToggle).toHaveBeenCalledOnce()
-    })
-
-    it('affiche le label de chargement japonais si jaLoading', () => {
-      render(<Header {...defaultProps} lang="ja" jaLoading={true} />)
-      expect(screen.getByText('準備中…')).toBeInTheDocument()
-    })
-  })
-
-  // ─── Bouton reset stock ──────────────────────────────────────────────────────
-  describe('bouton reset stock', () => {
-    // TODO v3.25.0+ — bouton reset stock retiré du Header (migré vers FridgeToolbar). Réécrire dans FridgeToolbar.test.jsx.
-    it.skip('désactivé quand stock vide', () => {
-      render(<Header {...defaultProps} stock={new Set()} />)
-      const buttons = screen.getAllByRole('button')
-      const trashBtn = buttons.find(b => b.disabled && b.querySelector('svg'))
-      expect(trashBtn).toBeTruthy()
-    })
-
-    it('actif quand stock non vide', () => {
-      render(<Header {...defaultProps} stock={new Set(['fr-tomate'])} />)
-      expect(screen.getByText('Fridge')).toBeInTheDocument()
-    })
+    // Le micro, le bouton « Vider » et le sélecteur de langue ont quitté
+    // l'en-tête (FridgeFAB, panneau Inventaire, menu utilisateur) : leurs tests
+    // vivent là-bas (fridge-fab, inventory-panel, lang-theme-prefs). Sept tests
+    // ignorés les attendaient encore ici (audit du 2026-10-04, ARCH-17 (2)).
   })
 
   // ─── Auth ────────────────────────────────────────────────────────────────────
@@ -216,43 +154,14 @@ describe('Header', () => {
       expect(screen.getAllByTestId('avatar').length).toBeGreaterThanOrEqual(1)
     })
 
-    // TODO v3.18.x — selector .style.width === '32px' fragile. Le bouton admin
-    // a changé de taille / variant depuis. Réécrire avec un data-testid.
-    it.skip('le bouton admin a bien onClick={onShowAdmin}', () => {
+    it('« Panneau admin » du menu appelle onShowAdmin', async () => {
       mockAuth = () => ({ user: { id: 'u-1' }, profile: { username: 'Admin', avatar_id: null }, isAdmin: true })
       const onShowAdmin = vi.fn()
+      const user = userEvent.setup()
       render(<Header {...defaultProps} onShowAdmin={onShowAdmin} />)
-      const adminBtns = screen.getAllByTitle('Admin')
-      expect(adminBtns.length).toBeGreaterThanOrEqual(1)
-      const desktopBtn = adminBtns.find(b => b.style.width === '32px')
-      expect(desktopBtn).toBeTruthy()
-    })
-  })
-
-  // ─── Sélecteur de langue ────────────────────────────────────────────────────
-  // TODO v3.18.x — sélecteur réduit à drapeau + chevron en v2.5.2 :
-  // les labels « Langues » / « Languages » ne sont plus visibles dans le DOM.
-  // Réécrire avec aria-label ou data-testid après stabilisation Phase 8.
-  describe.skip('sélecteur de langue', () => {
-    it('ouvre le dropdown au clic', async () => {
-      const user = userEvent.setup()
-      render(<Header {...defaultProps} />)
-      await user.click(screen.getByText('Langues'))
-      expect(screen.getByText('Français')).toBeInTheDocument()
-    })
-
-    it('appelle onLangChange quand on sélectionne English', async () => {
-      const onLangChange = vi.fn()
-      const user = userEvent.setup()
-      render(<Header {...defaultProps} onLangChange={onLangChange} />)
-      await user.click(screen.getByText('Langues'))
-      await user.click(screen.getByText('English'))
-      expect(onLangChange).toHaveBeenCalledWith('en')
-    })
-
-    it('affiche le label "Languages" en anglais', () => {
-      render(<Header {...defaultProps} lang="en" />)
-      expect(screen.getByText('Languages')).toBeInTheDocument()
+      await user.click(screen.getByRole('button', { name: 'Menu utilisateur' }))
+      await user.click(screen.getByRole('menuitem', { name: /Panneau admin/ }))
+      expect(onShowAdmin).toHaveBeenCalledOnce()
     })
   })
 })
