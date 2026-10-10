@@ -13,6 +13,7 @@ import QRCode from 'qrcode'
 import { LuShoppingCart, LuClock, LuPrinter, LuExternalLink } from 'react-icons/lu'
 import Button from '@shared/ui/button'
 import { getSharedBasket, daysUntilExpiry } from '@features/cart/api/shared-baskets'
+import { formatPrix } from '@shared/lib/i18n/prix'
 
 const AISLE_ORDER = [
   'produce','bakery','butcher','fishmonger','dairy',
@@ -27,7 +28,7 @@ const AISLE_EMOJI = {
 const I18N = {
   fr: {
     brand: 'Fridge+',
-    title: 'Liste de courses partagée',
+    title: 'Panier partagé',
     loading: 'Chargement de la liste…',
     notFound: 'Ce lien est introuvable ou a expiré.',
     error: 'Impossible de charger la liste.',
@@ -48,7 +49,7 @@ const I18N = {
   },
   en: {
     brand: 'Fridge+',
-    title: 'Shared shopping list',
+    title: 'Shared cart',
     loading: 'Loading list…',
     notFound: 'This link was not found or has expired.',
     error: 'Could not load the list.',
@@ -71,8 +72,7 @@ const I18N = {
 
 function formatPriceLocal(value, lang) {
   if (!value || value <= 0) return null
-  if (lang === 'ja') return `~${Math.round(value)}円`
-  return `~${value.toFixed(2).replace('.', ',')} €`
+  return formatPrix(value, lang, { approx: true })
 }
 
 /**

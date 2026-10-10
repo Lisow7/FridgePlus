@@ -4,7 +4,6 @@
 
 export const WELCOME_I18N = {
   fr: {
-    skipBtn:      'Passer',
     greet:        'Bienvenue en cuisine !',
     sub:          'Cuisine ce que tu as déjà, sans prise de tête.',
     bullets: [
@@ -12,14 +11,13 @@ export const WELCOME_I18N = {
       { emoji: '🧑‍🍳', text: 'Vois tout de suite ce que tu peux cuisiner' },
       { emoji: '🎙️', text: 'Parle à ton frigo pour le remplir, sans rien taper' },
     ],
-    soonTeaser:   'Bientôt : panier · coûts · cuisine guidée',
+    soonTeaser:   'Bientôt : panier · coûts · mode cuisine',
     cta:          'Faire la visite guidée',
     ctaSub:       '≈ 2 min · 5 étapes · à ton rythme',
     later:        'Entrer directement →',
     skipFootnote: 'Pas envie maintenant ? Tu pourras relancer la visite quand tu veux : bouton « ? » en haut, puis « Comment ça marche ».',
   },
   en: {
-    skipBtn:      'Skip',
     greet:        'Welcome to the kitchen!',
     sub:          'Cook what you already have, no fuss.',
     bullets: [
@@ -27,7 +25,7 @@ export const WELCOME_I18N = {
       { emoji: '🧑‍🍳', text: 'Instantly see what you can cook' },
       { emoji: '🎙️', text: 'Talk to your fridge to fill it, no typing' },
     ],
-    soonTeaser:   'Coming soon: cart · costs · guided cooking',
+    soonTeaser:   'Coming soon: cart · costs · cooking mode',
     cta:          'Take the guided tour',
     ctaSub:       '≈ 2 min · 5 steps · at your pace',
     later:        'Go straight in →',

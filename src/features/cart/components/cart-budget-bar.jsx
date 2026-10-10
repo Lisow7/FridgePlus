@@ -1,3 +1,5 @@
+import { formatPrix } from '@shared/lib/i18n/prix'
+
 const I18N = {
   fr: { label: 'Total estimé', sources: 'Sources', noPrice: 'Prix indicatifs non disponibles' },
   en: { label: 'Estimated total', sources: 'Sources', noPrice: 'Indicative prices unavailable' },
@@ -23,7 +25,7 @@ export default function CartBudgetBar({ total = 0, lang = 'fr', darkMode = false
         {hasPrice ? (
           <>
             <span className="text-lg font-black" style={{ color: '#D46A10' }}>
-              ~{total.toFixed(2).replace('.', ',')} €
+              {formatPrix(total, lang, { approx: true })}
             </span>
             {onShowSources && (
               <button

@@ -7,8 +7,10 @@
 import { Suspense, lazy, useRef, useEffect } from 'react'
 import { ReceiptConsentScreen } from '@features/receipt-scan'
 import { Z_INDEX } from '@shared/lib/z-index'
+import { CIBLE_MINIMALE } from '@shared/lib/cible-minimale'
 import { useFocusTrap } from '@shared/hooks/use-focus-trap'
 import { useCloseOnBackButton } from '@shared/hooks/use-close-on-back-button'
+import { suffixS } from '@shared/lib/i18n/pluralize'
 
 const ReceiptReviewPanel = lazy(() => import('@features/receipt-scan/components/receipt-review-panel'))
 
@@ -16,8 +18,8 @@ const ERROR_I18N = {
   quota_exceeded: { fr: 'Quota mensuel de scans atteint — réessaie le mois prochain.', en: 'Monthly scan quota reached — try again next month.' },
   user_quota_exceeded: { fr: 'Tu as utilisé tes 30 scans du mois — réessaie le mois prochain.', en: 'You have used your 30 scans this month — try again next month.' },
   rate_limited:   { fr: 'Trop de scans en peu de temps — patiente un instant.', en: 'Too many scans in a short time — please wait a moment.' },
-  unauthorized:   { fr: 'Connecte-toi pour utiliser cette fonctionnalité.', en: 'Log in to use this feature.' },
-  invalid_token:  { fr: 'Connecte-toi pour utiliser cette fonctionnalité.', en: 'Log in to use this feature.' },
+  unauthorized:   { fr: 'Connecte-toi pour utiliser cette fonctionnalité.', en: 'Sign in to use this feature.' },
+  invalid_token:  { fr: 'Connecte-toi pour utiliser cette fonctionnalité.', en: 'Sign in to use this feature.' },
   vision_error:   { fr: "Impossible de lire ce ticket, réessaie avec une autre photo.", en: 'Could not read this receipt, try another photo.' },
   image_too_large: { fr: 'Photo trop volumineuse, réessaie avec une autre.', en: 'Photo too large, try another one.' },
   vision_unreachable: { fr: 'Problème de connexion, réessaie dans un instant.', en: 'Connection problem, try again in a moment.' },
@@ -29,14 +31,14 @@ const ERROR_I18N = {
 }
 
 const LOGIN_REQUIRED_I18N = {
-  fr: { text: 'Connecte-toi pour scanner ton ticket de caisse.', button: 'Se connecter', close: 'Fermer' },
-  en: { text: 'Log in to scan your receipt.', button: 'Log in', close: 'Close' },
+  fr: { text: 'Connecte-toi pour photographier ton ticket de caisse.', button: 'Se connecter', close: 'Fermer' },
+  en: { text: 'Sign in to snap your receipt.', button: 'Sign in', close: 'Close' },
 }
 
 const PROCESSING_I18N = { fr: 'Lecture du ticket…', en: 'Reading the receipt…' }
 const ADDED_I18N = {
   fr: n => `${n} ingrédient${n > 1 ? 's' : ''} ajouté${n > 1 ? 's' : ''} au frigo`,
-  en: n => `${n} ingredient${n > 1 ? 's' : ''} added to fridge`,
+  en: n => `${n} ingredient${suffixS(n, 'en')} added to fridge`,
 }
 
 // Écran "connexion requise" — mêmes garanties a11y que les autres modales
@@ -65,7 +67,7 @@ function LoginRequiredOverlay({ lang, darkMode, onClose, onShowAuth }) {
         >
           {t.button}
         </button>
-        <button onClick={onClose} aria-label={t.close} style={{ background: 'none', border: 'none', color: darkMode ? '#7A90A8' : '#7A5F56', fontSize: '13px', cursor: 'pointer', textDecoration: 'underline' }}>
+        <button onClick={onClose} aria-label={t.close} style={{ ...CIBLE_MINIMALE, background: 'none', border: 'none', color: darkMode ? '#7A90A8' : '#7A5F56', fontSize: '13px', cursor: 'pointer', textDecoration: 'underline' }}>
           {t.close}
         </button>
       </div>
@@ -125,7 +127,7 @@ export default function ReceiptScanOverlays({
         return (
           <div role="alert" style={{ position: 'fixed', bottom: '80px', left: '50%', transform: 'translateX(-50%)', zIndex: Z_INDEX.TOAST, background: darkMode ? 'var(--color-dark-surface)' : '#FFF3E0', border: '1.5px solid rgba(217,119,6,0.4)', borderRadius: '10px', padding: '12px 18px', boxShadow: '0 4px 20px rgba(0,0,0,0.15)', maxWidth: 'calc(100vw - 32px)', display: 'flex', alignItems: 'center', gap: '10px' }}>
             <span style={{ fontSize: '13px', fontWeight: 500, color: 'var(--color-charcoal)' }}>{msg}</span>
-            <button onClick={onDismissError} aria-label={(LOGIN_REQUIRED_I18N[lang] ?? LOGIN_REQUIRED_I18N.fr).close} style={{ background: 'none', border: 'none', color: '#B85000', fontWeight: 700, fontSize: '13px', cursor: 'pointer' }}>✕</button>
+            <button onClick={onDismissError} aria-label={(LOGIN_REQUIRED_I18N[lang] ?? LOGIN_REQUIRED_I18N.fr).close} style={{ ...CIBLE_MINIMALE, background: 'none', border: 'none', color: '#B85000', fontWeight: 700, fontSize: '13px', cursor: 'pointer' }}>✕</button>
           </div>
         )
       })()}

@@ -47,7 +47,7 @@ import {
 const SECTIONS_I18N = {
  account: { fr: 'Compte', en: 'Account'},
  nav: { fr: 'Navigation', en: 'Navigation'},
- prefs: { fr: 'Préférences', en: 'Preferences'},
+ prefs: { fr: 'Langue et thème', en: 'Language and theme'},
 }
 
 function SectionLabel({ children, darkMode }) {

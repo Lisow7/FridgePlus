@@ -14,7 +14,7 @@ import { useSaveErrorToast } from '@shared/hooks/use-save-error-toast'
 import { getCommunityTermsAcceptedAt } from '@shared/api/community'
 import { moderateContent, submitPhotoPost } from '@shared/hooks/use-moderation'
 import { compressImageToBase64 } from '@shared/lib/media/compress-image'
-import leoProfanity from 'leo-profanity'
+import { containsProfanity } from '@shared/lib/moderation'
 import { useConfirm } from '@shared/ui/confirm-dialog/confirm-provider'
 import { authorName } from '@shared/lib/author-name'
 import Field from '@shared/ui/field'
@@ -341,7 +341,7 @@ export function ReviewForm({ initial, recipeId, recipeSource, userId, t, darkMod
     setPhotoError(null)
     if (rating < 1) return
     if (body && body.length > 2000) { setError(t.bodyTooLong(body.length)); return }
-    if (body && leoProfanity.check(body)) { setError(t.profanityWarning); return }
+    if (body && containsProfanity(body)) { setError(t.profanityWarning); return }
     if (sharePhoto && !photoFile) { setPhotoError(t.photoRequired); return }
     setSubmitting(true)
     if (body) {

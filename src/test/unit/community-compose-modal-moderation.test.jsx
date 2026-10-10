@@ -106,3 +106,18 @@ describe('ComposeModal — libellés d\'accessibilité traduits', () => {
     expect(screen.getByRole('button', { name: 'Retirer la recette' })).toBeInTheDocument()
   })
 })
+
+// Audit du 2026-10-04, CPT-10 : l'écran importait leo-profanity lui-même et ne
+// reconnaissait le français que si le module partagé (shared/lib/moderation.js)
+// avait été chargé avant — « connard » passait.
+describe('ComposeModal — grossièretés en français (CPT-10)', () => {
+  it('un titre injurieux est refusé avant toute modération, rien n’est publié', async () => {
+    render(<ComposeModal {...baseProps} />)
+    fireEvent.change(screen.getByPlaceholderText('Titre du post'), { target: { value: 'Quel connard ce chef' } })
+    fireEvent.change(screen.getByPlaceholderText('Ton message…'), { target: { value: 'Un message assez long pour passer la validation.' } })
+    fireEvent.click(screen.getByText('Publier'))
+    expect(await screen.findByText('profanité')).toBeInTheDocument()
+    expect(mockModerate).not.toHaveBeenCalled()
+    expect(mockCreatePost).not.toHaveBeenCalled()
+  })
+})

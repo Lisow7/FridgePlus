@@ -157,3 +157,26 @@ describe('ChooseUsernamePage', () => {
     await waitFor(() => expect(updateProfile).toHaveBeenCalled())
   })
 })
+
+// Audit du 2026-10-04, CPT-10 : l'écran importait leo-profanity lui-même et ne
+// reconnaissait le français que si le module partagé (shared/lib/moderation.js)
+// avait été chargé avant — « connard » passait.
+describe('ChooseUsernamePage — grossièretés en français (CPT-10)', () => {
+  beforeEach(() => {
+    state.profile = { username: 'chef_1a2b3c4d', username_confirmed: false, consent_terms_accepted_at: null }
+    state.appels = []
+    rpc.mockReset()
+    updateProfile.mockReset()
+    baseRepond()
+  })
+
+  it('refuse un pseudo injurieux, sans rien demander à la base ni écrire', async () => {
+    render(<ChooseUsernamePage lang="fr" />)
+    fireEvent.click(screen.getByRole('checkbox'))
+    saisir('connard')
+    continuer()
+    expect(await screen.findByText('Ce pseudo contient des termes non autorisés.')).toBeInTheDocument()
+    expect(state.appels).toEqual([])
+    expect(updateProfile).not.toHaveBeenCalled()
+  })
+})

@@ -142,49 +142,36 @@ export async function deleteReview(reviewId) {
   return { ok: true }
 }
 
-// Taille de lot pour le filtre `in.(...)` : borne la longueur d'URL afin
-// d'éviter un « 414 URI Too Long » quand le catalogue grandit (l'ancienne
-// version passait TOUS les ids en une seule URL — ~400+ ids = URL énorme).
-const BULK_AGG_CHUNK = 100
-
 /**
- * Agrège les notes de plusieurs recettes. Découpé en lots (URL bornée),
- * requêtes en parallèle, agrégation fusionnée.
+ * Les notes de plusieurs recettes, agrégées PAR LA BASE : la vue
+ * `recipe_rating_aggregates` rend moyenne et compte par recette (audit du
+ * 2026-10-04, PERF-12 — avant, six requêtes relisaient tous les avis ligne à
+ * ligne et le navigateur faisait les moyennes, fausses sans bruit au-delà des
+ * 1 000 lignes de l'API). UNE lecture, au plus une ligne par recette notée ;
+ * pas de `in.(ids)` : l'adresse ne grandit pas avec le catalogue, on filtre ici.
+ * L'erreur est rendue : le panneau ne peut rien afficher à sa place, mais il
+ * peut la dire au journal au lieu de l'avaler.
  * @param {string[]} recipeIds
- * @returns {Promise<{ [recipeId]: { avg: number, count: number } }>}
+ * @returns {Promise<{ aggregates: { [recipeId: string]: { avg: number, count: number } }, error: object|null }>}
  */
-export async function listBulkAggregates(recipeIds) {
-  if (!recipeIds?.length) return {}
-  const chunks = []
-  for (let i = 0; i < recipeIds.length; i += BULK_AGG_CHUNK) {
-    chunks.push(recipeIds.slice(i, i + BULK_AGG_CHUNK))
+export async function loadBulkAggregates(recipeIds) {
+  if (!recipeIds?.length) return { aggregates: {}, error: null }
+  const voulus = new Set(recipeIds)
+  const { data, error, count } = await supabase
+    .from('recipe_rating_aggregates')
+    .select('recipe_id, avg, count', { count: 'exact' })
+  if (error) {
+    if (import.meta.env.DEV) console.error('[recipeReviews] bulkAgg:', error.message)
+    return { aggregates: {}, error }
   }
-  const responses = await Promise.all(chunks.map(chunk =>
-    supabase
-      .from('engagement')
-      .select('recipe_id:target_recipe_id, rating')
-      .eq('type', 'review')
-      .in('target_recipe_id', chunk)
-      .is('deleted_at', null),
-  ))
-  const acc = {}
-  for (const { data, error } of responses) {
-    if (error) {
-      if (import.meta.env.DEV) console.error('[recipeReviews] bulkAgg:', error.message)
-      continue // un lot en échec n'invalide pas les autres
-    }
-    for (const row of data ?? []) {
-      if (!Number.isInteger(row.rating) || row.rating < 1 || row.rating > 5) continue
-      if (!acc[row.recipe_id]) acc[row.recipe_id] = { sum: 0, count: 0 }
-      acc[row.recipe_id].sum   += row.rating
-      acc[row.recipe_id].count += 1
-    }
+  const aggregates = {}
+  for (const row of data ?? []) {
+    if (voulus.has(row.recipe_id)) aggregates[row.recipe_id] = { avg: Number(row.avg), count: row.count }
   }
-  const result = {}
-  for (const [id, { sum, count }] of Object.entries(acc)) {
-    result[id] = { avg: Math.round(sum / count * 10) / 10, count }
-  }
-  return result
+  // Moins de lignes que la base n'en compte (limite de lignes de l'API) : les
+  // notes servent, mais ce n'est plus silencieux.
+  const tronque = typeof count === 'number' && (data?.length ?? 0) < count
+  return { aggregates, error: tronque ? new Error(`Notes tronquées : ${data.length} recette(s) sur ${count}`) : null }
 }
 
 /**

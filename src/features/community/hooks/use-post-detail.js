@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import leoProfanity from 'leo-profanity'
+import { containsProfanity } from '@shared/lib/moderation'
 import { useConfirm } from '@shared/ui/confirm-dialog/confirm-provider'
 import { useSaveErrorToast } from '@shared/hooks/use-save-error-toast'
 import {
@@ -76,7 +76,7 @@ export function usePostDetail({ postId, user, t, canInteract, reactionsMap, onRe
 
   const handleReplySubmit = async () => {
     if (!user?.id || !replyBody.trim()) return
-    if (leoProfanity.check(replyBody)) { setSubmitError(t.profanityWarning); return }
+    if (containsProfanity(replyBody)) { setSubmitError(t.profanityWarning); return }
     if (!await canReply(user.id)) { setSubmitError(t.spamLimitReply); return }
     setSubmitting(true)
     const { data, error } = await createReply(user.id, postId, replyBody.trim(), replyToId)
@@ -87,7 +87,7 @@ export function usePostDetail({ postId, user, t, canInteract, reactionsMap, onRe
   }
 
   const handleDeleteReply = async (replyId) => {
-    if (!(await confirm({ title: t.deleteConfirmTitle, danger: true }))) return
+    if (!(await confirm({ title: t.deleteReplyConfirmTitle, danger: true }))) return
     // Retirée de l'écran SEULEMENT si la suppression a eu lieu (même règle
     // que la suppression d'un post).
     const { error } = await deleteReply(replyId) ?? {}

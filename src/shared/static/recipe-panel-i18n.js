@@ -1,5 +1,6 @@
 import { DIFFICULTY_LABELS, TYPE_OPTIONS } from './recipe-constants'
 import { SEUIL_PRESQUE, SEUIL_ROULETTE, enPourcent } from '@shared/lib/recipes/recipe-thresholds'
+import { suffixS } from '@shared/lib/i18n/pluralize'
 
 export const PANEL_I18N = {
   fr: {
@@ -34,6 +35,9 @@ export const PANEL_I18N = {
     openFridge:        'Choisir des ingrédients',
     noFavoritesTitle:  "Aucun favori pour l'instant",
     noFavoritesHint:   "Appuie sur ♡ d'une recette pour la retrouver ici",
+    favoritesShowReady: 'Voir les recettes prêtes',
+    favoritesShowAll:   'Voir les recettes',
+    favoritesSearch:    'Chercher une recette',
     noCustomTitle:     'Pas encore de recette perso',
     noCustomHint:      'Crée ta première recette en appuyant sur + en haut à droite',
     addFav:            'Ajouter aux favoris',
@@ -59,7 +63,7 @@ export const PANEL_I18N = {
     antiWasteShort:         'Zéro-déchet',
     freezerFriendlyShort:   'Congélation OK',
     kidsFriendlyShort:      'Familial',
-    batchCookingShort:      'Batch cooking',
+    batchCookingShort:      'Grandes quantités',
     seasonalDesc:           'De saison ce mois-ci',
     healthyDesc:            'Faible en calories et graisses',
     noCookDesc:             'Aucune cuisson requise',
@@ -109,7 +113,7 @@ export const PANEL_I18N = {
   },
   en: {
     title:             'Recipes',
-    ingredientCount:   (n) => `${n} ingredient${n > 1 ? 's' : ''}`,
+    ingredientCount:   (n) => `${n} ingredient${suffixS(n, 'en')}`,
     resetTitle:        'Empty the fridge',
     resetLabel:        'Empty',
     closeLabel:        'Close',
@@ -128,8 +132,8 @@ export const PANEL_I18N = {
     sortStateQuick:    'Sort: by time',
     sortAlpha:         'Sort A to Z',
     sortQuickLabel:    'Sort by time (quickest first)',
-    resultsCount:      (n) => `${n} recipe${n > 1 ? 's' : ''}`,
-    remainingCount:    (n) => `${n} more recipe${n > 1 ? 's' : ''}…`,
+    resultsCount:      (n) => `${n} recipe${suffixS(n, 'en')}`,
+    remainingCount:    (n) => `${n} more recipe${suffixS(n, 'en')}…`,
     clearAllFilters:   'Clear all',
     searchLabel: 'Search for a recipe',
     searchPlaceholder: 'e.g. risotto, gluten-free',
@@ -139,6 +143,9 @@ export const PANEL_I18N = {
     openFridge:        'Choose ingredients',
     noFavoritesTitle:  'No favourites yet',
     noFavoritesHint:   'Tap ♡ on any recipe to save it here',
+    favoritesShowReady: 'See ready recipes',
+    favoritesShowAll:   'See the recipes',
+    favoritesSearch:    'Search for a recipe',
     noCustomTitle:     'No custom recipes yet',
     noCustomHint:      'Create your first recipe by tapping + at the top right',
     addFav:            'Add to favourites',

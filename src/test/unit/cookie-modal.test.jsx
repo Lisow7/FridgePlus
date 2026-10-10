@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
-// Chantier I (2026-07-09) : la catégorie « Scan ticket de caisse » doit être
+// Chantier I (2026-07-09) : la catégorie « Photo du ticket » (ex-« Scan ticket de caisse ») doit être
 // révocable au même titre que la reconnaissance vocale (RGPD art. 7-3, droit
 // de retrait aussi simple que l'octroi) — gatée par le flag `receipt_scan`
 // pour ne pas exposer un réglage sur une fonctionnalité pas encore lancée.
@@ -69,14 +69,14 @@ describe('CookieModal — catégorie scan ticket de caisse', () => {
   it('absente quand le flag receipt_scan est désactivé', () => {
     mockState.flag = false
     render(<CookieModal lang="fr" onClose={vi.fn()} />)
-    expect(screen.queryByText(/Scan ticket de caisse/)).not.toBeInTheDocument()
+    expect(screen.queryByText(/Photo du ticket/)).not.toBeInTheDocument()
   })
 
   it('présente et activable quand le flag receipt_scan est actif', async () => {
     mockState.flag = true
     const user = userEvent.setup()
     render(<CookieModal lang="fr" onClose={vi.fn()} />)
-    const header = screen.getByText('🧾 Scan ticket de caisse')
+    const header = screen.getByText('🧾 Photo du ticket')
     expect(header).toBeInTheDocument()
     await user.click(header)
     expect(screen.getByText(/Destinataire de la photo/)).toBeInTheDocument()

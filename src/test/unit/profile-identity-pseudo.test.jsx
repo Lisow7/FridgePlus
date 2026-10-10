@@ -99,3 +99,23 @@ describe('Page Identité — changer de pseudo', () => {
     expect(screen.getByText(/3 à 20 caractères : lettres sans accent/i)).toBeInTheDocument()
   })
 })
+
+// Audit du 2026-10-04, CPT-10 : l'écran importait leo-profanity lui-même et ne
+// reconnaissait le français que si le module partagé (shared/lib/moderation.js)
+// avait été chargé avant — « connard » passait.
+describe('Page Identité — pseudo injurieux en français (CPT-10)', () => {
+  beforeEach(() => {
+    updateProfile.mockReset()
+    rpc.mockReset()
+    rpc.mockResolvedValue({ data: true, error: null })
+  })
+
+  it('refusé, sans rien demander à la base ni écrire', async () => {
+    render(<ProfileIdentityPage />)
+    saisir('connard')
+    enregistrer()
+    await waitFor(() => expect(screen.getByRole('alert')).toHaveTextContent('Ce pseudo contient des termes inappropriés.'))
+    expect(rpc).not.toHaveBeenCalled()
+    expect(updateProfile).not.toHaveBeenCalled()
+  })
+})

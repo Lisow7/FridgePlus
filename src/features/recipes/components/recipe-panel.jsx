@@ -18,7 +18,8 @@ import { PANEL_I18N } from '@shared/static/recipe-panel-i18n'
 import RecipeCard from './recipe-card'
 import RecipeResultsCount from './recipe-results-count'
 import { EmptyFavorites, EmptyCustomRecipes, EmptyGeneric } from './recipe-empty-state'
-import { listBulkAggregates } from '@features/recipes/api/recipe-reviews'
+import { loadBulkAggregates } from '@features/recipes/api/recipe-reviews'
+import { logError } from '@shared/lib/observability/sentry'
 import Button from '@shared/ui/button'
 
 // Sprint 11 S11.e.1 — RecipeFormModal LIFTÉ : import désormais dans
@@ -54,6 +55,7 @@ export default function RecipePanel({
 
   const panelRef         = useRef(null)
   const scrollRef        = useRef(null)
+  const champRechercheRef = useRef(null)
   const [showScrollTop,      setShowScrollTop]      = useState(false)
   // Restauration du scroll au retour depuis une page recette. Peek PUR
   // (sans effet de bord — StrictMode double-invoque l'initialiseur) :
@@ -122,7 +124,7 @@ export default function RecipePanel({
     budgetVisible: hasPremiumAccess,
   })
 
-  const { filtered, criteriaKey, counts, readyCount, searchQuery, filter, resetFilters } = filters
+  const { filtered, criteriaKey, counts, readyCount, searchQuery, filter, setFilter, resetFilters } = filters
 
   // Fix C — étape Aha : déclenche onSuggestionOpen dès que l'utilisateur voit
   // réellement une recette READY (pas simplement à l'ouverture du panneau).
@@ -173,7 +175,12 @@ export default function RecipePanel({
 
   const fetchRatings = useCallback((ids) => {
     if (!ids?.length) { setRatingsMap({}); return }
-    listBulkAggregates(ids).then(setRatingsMap)
+    // Une lecture de la vue des agrégats (PERF-12) ; une erreur ne change rien
+    // à l'écran (les étoiles manquent) mais va au journal au lieu de se taire.
+    loadBulkAggregates(ids).then(({ aggregates, error }) => {
+      setRatingsMap(aggregates)
+      if (error) logError(error, { tag: 'notes.lecture' })
+    })
   }, [])
 
   // Clé stable sur le CONTENU des ids : `filtered` change de référence plusieurs
@@ -329,6 +336,7 @@ export default function RecipePanel({
           t={t}
           stock={stock}
           setFiltersDrawerOpen={setFiltersDrawerOpen}
+          searchRef={champRechercheRef}
         />
 
         {/* ── Liste recettes ──────────────────────────────────────────────── */}
@@ -349,7 +357,13 @@ export default function RecipePanel({
             <RecipeResultsCount count={filtered.length} t={t} />
             {filtered.length === 0 ? (
               filter === 'favorites' ? (
-                <EmptyFavorites darkMode={darkMode} t={t} />
+                <EmptyFavorites
+                  darkMode={darkMode}
+                  t={t}
+                  stockSize={stock.size}
+                  onShowRecipes={setFilter}
+                  onSearch={() => champRechercheRef.current?.focus()}
+                />
               ) : filter === 'custom' ? (
                 <EmptyCustomRecipes
                   darkMode={darkMode}

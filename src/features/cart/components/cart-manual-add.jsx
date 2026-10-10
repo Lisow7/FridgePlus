@@ -3,6 +3,8 @@ import { LuSearch, LuPlus, LuX, LuPackage } from 'react-icons/lu'
 import Button from '@shared/ui/button'
 import { useIngredients } from '@shared/contexts/data-provider'
 import { getPacksForIngredient } from '@features/cart/lib/cart-helpers'
+import { formatPrix } from '@shared/lib/i18n/prix'
+import { suffixS } from '@shared/lib/i18n/pluralize'
 
 // Ajout manuel d'ingrédients au panier (hors recette).
 // Conditionnements adaptés à chaque ingrédient (référence
@@ -35,6 +37,7 @@ const I18N = {
     cancel: 'Annuler',
     chooseFormat: 'Choisis un conditionnement',
     addError: 'Erreur réseau, réessaie',
+    resultsCount: (n) => `${n} résultat${suffixS(n, 'fr')}`,
   },
   en: {
     searchLabel: 'Add an ingredient',
@@ -44,6 +47,7 @@ const I18N = {
     alreadyAdded: 'Already in cart',
     cancel: 'Cancel',
     chooseFormat: 'Choose a pack',
+    resultsCount: (n) => `${n} result${suffixS(n, 'en')}`,
     addError: 'Network error, please retry',
   },
 }
@@ -293,7 +297,7 @@ export default function CartManualAdd({ lang = 'fr', darkMode = false, basket = 
             background: darkMode ? 'rgba(247,168,94,0.04)' : 'rgba(212,106,16,0.03)',
             borderBottom: `1px solid ${border}`,
           }}>
-            {isSearching ? `${displayed.length} ${displayed.length === 1 ? 'résultat' : 'résultats'}` : t.suggestionsTitle}
+            {isSearching ? t.resultsCount(displayed.length) : t.suggestionsTitle}
           </div>
 
           {displayed.length === 0 ? (
@@ -446,7 +450,7 @@ export default function CartManualAdd({ lang = 'fr', darkMode = false, basket = 
                               </span>
                               {pack.price != null && (
                                 <span style={{ color: 'var(--color-warm-600)', fontWeight: 700 }}>
-                                  ~{pack.price.toFixed(2).replace('.', ',')}€
+                                  {formatPrix(pack.price, lang, { approx: true })}
                                 </span>
                               )}
                             </Button>

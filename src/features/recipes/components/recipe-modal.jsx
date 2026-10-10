@@ -37,7 +37,7 @@ export default function RecipeModal({ recipe, stock, onClose, onAllRecipes, favo
     canConfirm, canEditRecipe, cartHeaderNotice, cartHeaderNoticeRef, closePeek, collapseStyle, concreteOptions, condensed, confirmWithdraw,
     cost, countryInfo, dialogRef, dietTypes, effectiveStock, enterWithdraw,
     feedbackTimerRef, flagHovered, flashAdded, handleBodyScroll, handleIngredientClick,
-    hasPremiumAccess, hasStockIngredients, headerBg, headerBorder, headerText, INGREDIENT_LOOKUP, ingredientsById, isAdmin, isApprovedCommunity,
+    hasPremiumAccess, profileLoading, hasStockIngredients, headerBg, headerBorder, headerText, INGREDIENT_LOOKUP, ingredientsById, isAdmin, isApprovedCommunity,
     isInCart, isMobile, isPage, isPubliclyShareable, logCookedWithoutWithdraw,
     matchCount, minServings, mutedColor, navigate, pct, peekRecipeId, pickerIndex,
     pickerRef, recipeAllergens, recipeAllergenWarnings, recipeCost,
@@ -259,6 +259,7 @@ export default function RecipeModal({ recipe, stock, onClose, onAllRecipes, favo
             recipeName={recipeName}
             hasStockIngredients={hasStockIngredients}
             hasPremiumAccess={hasPremiumAccess}
+            profileLoading={profileLoading}
             cost={cost}
             recipesUsingThis={recipesUsingThis}
             recipesById={recipesById}

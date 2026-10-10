@@ -38,7 +38,14 @@ if (!window.matchMedia) {
 
 // ResizeObserver / IntersectionObserver : non implémentés par jsdom.
 if (!window.ResizeObserver) {
-  window.ResizeObserver = class { observe(){} unobserve(){} disconnect(){} }
+  // Un vrai ResizeObserver notifie dès `observe()` (après la mise en page) :
+  // le simulacre fait de même, tout de suite, pour que ce qui mesure dans son
+  // rappel (use-bottom-inset, audit PERF-13) se comporte comme en navigateur.
+  window.ResizeObserver = class {
+    constructor(cb) { this.cb = cb }
+    observe(el) { this.cb([{ target: el }], this) }
+    unobserve(){} disconnect(){}
+  }
 }
 if (!window.IntersectionObserver) {
   window.IntersectionObserver = class {

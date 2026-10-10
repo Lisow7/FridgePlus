@@ -29,9 +29,9 @@ import LeftoversModal from '@features/fridge/components/leftovers-modal'
 describe('LeftoversModal — recettes disponibles (format ingrédients enrichi)', () => {
   // Régression : recipeHasSeasonalIngredient/scoreRecipes crashaient sur ce
   // format ailleurs dans le code ; ici pas de crash (garde Array.isArray)
-  // mais la recette était silencieusement exclue de "Mes recettes" —
+  // mais la recette était silencieusement exclue de l’onglet des recettes —
   // trouvé en audit indépendant 2026-07-14.
-  it("propose une recette au format enrichi (groups) dans l'onglet Mes recettes", () => {
+  it("propose une recette au format enrichi (groups) dans l'onglet Recettes", () => {
     render(
       <LeftoversModal
         view="today"
@@ -50,7 +50,7 @@ describe('LeftoversModal — recettes disponibles (format ingrédients enrichi)'
     )
 
     fireEvent.click(screen.getByText('Ajouter un reste'))
-    fireEvent.click(screen.getByText('Mes recettes'))
+    fireEvent.click(screen.getByText('Recettes'))
 
     expect(screen.queryByText('Aucune recette disponible.')).not.toBeInTheDocument()
     expect(screen.getByText('bechamel-groupee-test')).toBeInTheDocument()

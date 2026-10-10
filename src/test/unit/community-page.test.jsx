@@ -92,8 +92,8 @@ describe('CommunityPage — suppression via useConfirm()', () => {
     await waitFor(() => screen.getByText('Mon poste de test communauté'))
     fireEvent.click(screen.getByLabelText('Supprimer'))
     await waitFor(() => expect(confirmMock).toHaveBeenCalledWith(expect.objectContaining({
-      title: 'Supprimer ce post ?',
-      body: 'Il disparaîtra de la communauté, avec ses réponses. Cette action ne peut pas être annulée.',
+      title: 'Supprimer cette publication ?',
+      body: 'Elle disparaîtra de la communauté, avec ses réponses. Cette action ne peut pas être annulée.',
       danger: true,
     })))
   })
@@ -106,7 +106,9 @@ describe('CommunityPage — suppression via useConfirm()', () => {
     await waitFor(() => screen.getByText('Une réponse à supprimer'))
     fireEvent.click(screen.getByLabelText('Supprimer'))
     await waitFor(() => expect(confirmMock).toHaveBeenCalledWith(expect.objectContaining({
-      title: 'Supprimer ce post ?', // deleteConfirmTitle est réutilisé tel quel (cf. implémentation)
+      // Une réponse n'est pas une publication (lot 13c, un nom par chose) : elle
+      // reprenait le titre de la publication, « Supprimer ce post ? ».
+      title: 'Supprimer cette réponse ?',
       danger: true,
     })))
     expect(confirmMock.mock.calls[0][0].body).toBeUndefined()

@@ -1,4 +1,6 @@
 import { Z_INDEX } from '@shared/lib/z-index'
+import { CIBLE_MINIMALE } from '@shared/lib/cible-minimale'
+import { suffixS } from '@shared/lib/i18n/pluralize'
 
 // Composant orchestrant les 3 bandeaux top-of-app : retour restore-
 // account (succès/erreur auto-dismiss 8s), activation abonnement
@@ -12,7 +14,7 @@ import { Z_INDEX } from '@shared/lib/z-index'
 
 const TRIAL_BANNER_I18N = {
   fr: (n) => `Essai Premium — ${n} jour${n > 1 ? 's' : ''} restant${n > 1 ? 's' : ''}`,
-  en: (n) => `Premium trial — ${n} day${n > 1 ? 's' : ''} remaining`,
+  en: (n) => `Premium trial — ${n} day${suffixS(n, 'en')} remaining`,
 }
 const TRIAL_ACTIVATE_I18N = { fr: 'Activer', en: 'Activate' }
 
@@ -22,6 +24,38 @@ const SUB_ACTIVATED_I18N = {
 }
 
 const CLOSE_I18N = { fr: 'Fermer', en: 'Close' }
+
+// Le profil n'a pas pu être lu malgré les tentatives (audit du 2026-10-04,
+// CPT-12) : jusqu'ici la personne restait « connectée sans profil » sans un mot.
+const PROFIL_INDISPONIBLE_I18N = {
+  fr: { msg: 'Ton profil n’a pas pu être chargé.', retry: 'Réessayer' },
+  en: { msg: 'Your profile couldn’t be loaded.', retry: 'Retry' },
+}
+
+function BandeauProfilIndisponible({ lang, onRelancer }) {
+  const t = PROFIL_INDISPONIBLE_I18N[lang] ?? PROFIL_INDISPONIBLE_I18N.fr
+  return (
+    <div role="alert" style={{
+      ...CENTRE_EN_HAUT,
+      zIndex: Z_INDEX.TOAST,
+      padding: '12px 18px', borderRadius: '12px',
+      background: 'var(--color-danger)',
+      color: 'white', fontWeight: 700, fontSize: '14px',
+      display: 'flex', alignItems: 'center', gap: '10px',
+      boxShadow: '0 6px 18px rgba(0,0,0,0.18)',
+      animation: 'menu-slide-down 0.25s ease both',
+    }}>
+      <span style={{ lineHeight: 1.45 }}>{t.msg}</span>
+      <button
+        type="button"
+        onClick={onRelancer}
+        style={{ minHeight: '24px', padding: '4px 10px', borderRadius: '20px', border: '1.5px solid rgba(255,255,255,0.7)', background: 'transparent', color: 'white', fontSize: '12px', fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit', flexShrink: 0 }}
+      >
+        {t.retry}
+      </button>
+    </div>
+  )
+}
 
 // Centrage d'un bandeau fixe SANS `transform`. L'ancien `left: 50%` +
 // `translateX(-50%)` était écrasé par l'animation d'entrée
@@ -40,6 +74,8 @@ export default function TopBanners({
   trialDaysLeft,
   onTrialActivate,
   onTrialDismiss,
+  profilIndisponible,
+  onRelancerLeProfil,
   lang,
 }) {
   return (
@@ -70,6 +106,10 @@ export default function TopBanners({
         </div>
       )}
 
+      {/* Profil illisible après les tentatives : une alerte, et « Réessayer »
+          relance la lecture (audit du 2026-10-04, CPT-12). */}
+      {profilIndisponible && <BandeauProfilIndisponible lang={lang} onRelancer={onRelancerLeProfil} />}
+
       {/* v3.130.0 — Toast activation abonnement */}
       {subscriptionActivatedToast && (
         <div style={{
@@ -99,14 +139,14 @@ export default function TopBanners({
           <span>{(TRIAL_BANNER_I18N[lang] ?? TRIAL_BANNER_I18N.fr)(trialDaysLeft)}</span>
           <button
             onClick={onTrialActivate}
-            style={{ padding: '3px 10px', borderRadius: '20px', border: '1.5px solid rgba(255,255,255,0.7)', background: 'transparent', color: 'white', fontSize: '12px', fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit' }}
+            style={{ ...CIBLE_MINIMALE, padding: '3px 10px', borderRadius: '20px', border: '1.5px solid rgba(255,255,255,0.7)', background: 'transparent', color: 'white', fontSize: '12px', fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit' }}
           >
             {TRIAL_ACTIVATE_I18N[lang] ?? TRIAL_ACTIVATE_I18N.fr}
           </button>
           <button
             onClick={onTrialDismiss}
             aria-label={CLOSE_I18N[lang] ?? CLOSE_I18N.fr}
-            style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.8)', cursor: 'pointer', padding: '2px', display: 'flex', marginLeft: '2px' }}
+            style={{ ...CIBLE_MINIMALE, background: 'none', border: 'none', color: 'rgba(255,255,255,0.8)', cursor: 'pointer', padding: '2px', marginLeft: '2px' }}
           >
             ✕
           </button>

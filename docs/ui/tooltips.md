@@ -7,11 +7,16 @@ un texte déjà visible.
 ## Les 2 composants (même moteur de positionnement)
 
 Tous s'appuient sur `src/shared/ui/anchored-popover.jsx` (portail `position:fixed`,
-clamp viewport, flip haut/bas, a11y) → **jamais rognés**, marchent au **tap mobile**.
+clamp viewport, flip haut/bas, a11y) → **jamais rognés**.
+
+Les bulles se **survolent** (WCAG 2.2, 1.4.13 ; audit du 2026-10-04, A11Y-22) :
+quitter l'ancre ou la bulle ne ferme qu'après 150 ms, le temps de traverser l'espace
+entre les deux ; y entrer annule la fermeture (`src/shared/hooks/use-fermeture-differee.js`).
+Échap, un clic et la perte du focus ferment tout de suite.
 
 | Besoin | Composant | Déclenchement |
 |---|---|---|
-| Nommer/expliquer un contrôle **icône-seule** ou un badge | `Tooltip` (`shared/ui/tooltip.jsx`) | survol · focus · tap — **sans marqueur**, n'intercepte pas le clic |
+| Nommer/expliquer un contrôle **icône-seule** ou un badge | `Tooltip` (`shared/ui/tooltip.jsx`) | survol · focus clavier — **bureau seulement** (aucune bulle sur tactile depuis le 2026-07-11) — **sans marqueur**, n'intercepte pas le clic |
 | Aide **optionnelle plus longue** sur une notion | `InfoTooltip` (`shared/ui/info-tooltip.jsx`) | pastille « i » visible, clic/survol |
 | Terme culinaire dans une étape | `GlossaryText` | mot souligné pointillé, clic |
 

@@ -20,7 +20,7 @@ export const I18N = {
     profileIntro:     "Gère ici les données que Fridge+ stocke sur ton appareil. Tu peux changer tes choix à tout moment, c'est ton droit (RGPD art. 7-3).",
     profileCurrent:   'Dernière mise à jour',
     profileSeePolicy: 'Voir la politique de confidentialité',
-    profileResetWarn: "Réinitialiser efface tes préférences cookies et révoque ton acceptation de la charte de la communauté (tu devras la ré-accepter pour interagir à nouveau). Tes données de compte (frigo, recettes, favoris, posts publiés) ne sont pas affectées.",
+    profileResetWarn: "Réinitialiser efface tes préférences cookies et révoque ton acceptation de la charte de la communauté (tu devras la ré-accepter pour interagir à nouveau). Tes données de compte (frigo, recettes, favoris, publications) ne sont pas affectées.",
 
     statusAccepted:   'Accepté',
     statusRefused:    'Refusé',

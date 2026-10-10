@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { LuCheck, LuTrash2, LuCheckCheck, LuChevronDown, LuChevronUp } from 'react-icons/lu'
 import { useNotifications } from '@features/notifications/hooks/use-notifications'
 import { NOTIF_I18N, formatRelativeTime, localizeNotifText } from '@shared/lib/i18n/notifications-i18n'
@@ -241,6 +242,7 @@ export default function NotificationsPanel({ lang = 'fr', darkMode = false, onCl
   const isMobile = windowWidth < 640
   const t = NOTIF_I18N[lang] ?? NOTIF_I18N.fr
   const notifs = useNotifications()
+  const navigate = useNavigate()
   const { notifications, loading, loadError, refresh } = notifs
   useCloseOnBackButton(true, onClose)
 
@@ -336,6 +338,18 @@ export default function NotificationsPanel({ lang = 'fr', darkMode = false, onCl
             <div aria-hidden="true" style={{ fontSize: 28, opacity: 0.5, marginBottom: 8 }}>🔕</div>
             <div style={{ fontSize: 13, fontWeight: 600, color: fg, marginBottom: 4 }}>{t.empty}</div>
             <div style={{ fontSize: 12, color: muted, lineHeight: 1.5 }}>{t.emptyHint}</div>
+            {/* Un écran vide propose de quoi repartir (UX-12, décision du 2026-10-08) : la
+                Confidentialité du compte, où l'on active les notifications.
+                Naviguer AVANT de fermer : le retour différé du panneau
+                (useCloseOnBackButton) ne défait pas une page déjà quittée. */}
+            <Button
+              variant="secondary"
+              size="sm"
+              className="mt-3"
+              onClick={() => { navigate('/profile/compte#confidentialite'); onClose?.() }}
+            >
+              {t.emptySettings}
+            </Button>
           </div>
         ) : (
           CATEGORY_ORDER.map(cat => {

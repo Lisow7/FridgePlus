@@ -5,7 +5,11 @@ import Button from '@shared/ui/button'
 // cartes grises qui pâlissent se lisaient comme un chargement bloqué (audit
 // d'intuitivité du 2026-10-02) — un squelette promet du contenu qui arrive.
 
-export function EmptyFavorites({ darkMode, t }) {
+// Un écran vide propose de quoi repartir (UX-12, maquette de la décision du 2026-10-08) :
+// les recettes prêtes — ou toutes, frigo vide, puisque « Prêt » retombe alors
+// sur toutes — et la recherche.
+export function EmptyFavorites({ darkMode, t, stockSize = 0, onShowRecipes, onSearch }) {
+  const frigoGarni = stockSize > 0
   return (
     <div className="flex flex-col items-center h-full px-5">
       <div className="flex flex-col items-center justify-center gap-4" style={{ minHeight: '272px' }}>
@@ -21,6 +25,14 @@ export function EmptyFavorites({ darkMode, t }) {
         <div className="text-center flex flex-col gap-2">
           <p className="text-lg font-bold m-0" style={{ color: 'var(--color-charcoal)' }}>{t.noFavoritesTitle}</p>
           <p className="text-sm m-0 max-w-[250px] leading-relaxed" style={{ color: 'var(--color-muted)' }}>{t.noFavoritesHint}</p>
+        </div>
+        <div className="flex flex-col gap-2 w-full max-w-[250px]">
+          <Button onClick={() => onShowRecipes?.(frigoGarni ? 'ready' : 'all')} className="w-full">
+            {frigoGarni ? t.favoritesShowReady : t.favoritesShowAll}
+          </Button>
+          <Button variant="secondary" onClick={() => onSearch?.()} className="w-full">
+            {t.favoritesSearch}
+          </Button>
         </div>
       </div>
     </div>

@@ -16,6 +16,7 @@ import { formatDate } from '@shared/lib/format-date'
 import { useReloader } from '@shared/hooks/use-reloader'
 import { leverSiErreur } from '@shared/lib/supabase/lever-si-erreur'
 import ChargementRate from '../shared/chargement-rate'
+import { suffixS } from '@shared/lib/i18n/pluralize'
 
 const STATUS_LABEL = {
   pending:      { label: 'En attente',   color: '#7A8298',                bg: 'rgba(122,130,152,0.10)' },
@@ -180,7 +181,7 @@ export default function ImportQueueTab({ darkMode = false }) {
       <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
         <span style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: 13, color: fg, fontWeight: 600 }}>
           <LuPackage size={14} color={muted} />
-          {count} entrée{count !== 1 ? 's' : ''}
+          {count} entrée{suffixS(count, 'fr')}
         </span>
 
         <select

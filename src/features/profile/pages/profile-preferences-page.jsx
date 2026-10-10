@@ -83,7 +83,7 @@ const I18N = {
     allergenSaveBtn: 'Save',
     allergenSaved: 'Preferences saved.',
     budgetTitle: 'Shopping budget',
-    budgetDesc:  'An optional monthly limit. A progress bar appears in your basket to track spending.',
+    budgetDesc:  'An optional monthly limit. A progress bar appears in your cart to track spending.',
     budgetPlaceholder: 'e.g. 300',
     budgetLabel: 'Monthly budget (€)',
     perTripLabel: 'Per-trip limit (€)',
@@ -266,7 +266,8 @@ export default function ProfilePreferencesPage() {
                 <option value="en">English</option>
               </select>
             </label>
-            <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            {/* Le label entier reçoit le geste : 24 px de haut au moins (case native : 13) — WCAG 2.5.8, A11Y-13. */}
+            <label style={{ display: 'flex', alignItems: 'center', gap: '8px', minHeight: '24px' }}>
               <input
                 type="checkbox"
                 checked={darkMode}

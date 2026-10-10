@@ -39,6 +39,7 @@ import { TOUR_STEPS_I18N } from '@features/onboarding/i18n/tour-steps-i18n'
 import { CHANGELOG } from '@features/changelog/data/changelog'
 import { pickReleaseName, localizeReleaseDate } from '@features/changelog/data/changelog-i18n'
 import { PREMIUM_ENABLED } from '@shared/lib/premium-config'
+import { WELCOME_I18N } from '@features/onboarding/i18n/welcome-i18n'
 
 // Les CINQ étapes publiques du guide (mêmes clés que `guide-page.jsx`) : les quatre
 // communes, puis la finale INVITÉ — numérotée comme les autres, « Étape 5 ».
@@ -273,6 +274,31 @@ export function jsonLdFaq(lang = 'fr') {
  * C'est le cas voulu pour `/community` (son contenu vient de la base) et pour
  * `/changelog` et `/legal`, qui restent à traiter.
  */
+// ── / (l'accueil), sans JavaScript ──────────────────────────────────────────
+// L'accueil n'a pas de corps pré-rendu : il EST l'application. Un robot sans
+// JavaScript n'y trouvait ni h1, ni phrase, ni lien (audit du 2026-10-04,
+// « petits gains et vérités »). Ce bloc va dans un <noscript> de
+// dist/index.html (scripts/prerender.mjs) : invisible dès que JavaScript
+// tourne. Les phrases sont celles de l'écran de bienvenue.
+const ACCUEIL_SANS_JS_I18N = {
+  fr: {
+    besoin: 'Fridge+ a besoin de JavaScript pour fonctionner. En attendant :',
+    liens: [['/guide', 'Comment ça marche'], ['/faq', 'Questions fréquentes'], ['/community', 'Communauté'], ['/?recettes=1', 'Les recettes']],
+  },
+  en: {
+    besoin: 'Fridge+ needs JavaScript to run. Meanwhile:',
+    liens: [['/guide', 'How it works'], ['/faq', 'FAQ'], ['/community', 'Community'], ['/?recettes=1', 'Recipes']],
+  },
+}
+
+export function corpsAccueilSansJavaScript(lang) {
+  const t = WELCOME_I18N[lang] ?? WELCOME_I18N.fr
+  const s = ACCUEIL_SANS_JS_I18N[lang] ?? ACCUEIL_SANS_JS_I18N.fr
+  return `<h1>Fridge+ — ${echapper(t.sub)}</h1>`
+    + t.bullets.map((b) => `<p>${echapper(b.text)}</p>`).join('')
+    + `<p>${echapper(s.besoin)} ${s.liens.map(([href, libelle]) => `<a href="${href}">${echapper(libelle)}</a>`).join(' · ')}</p>`
+}
+
 export const CORPS_PAR_CHEMIN = {
   // `jsonLdId` doit être L'IDENTIFIANT QU'UTILISE LE COMPOSANT côté client
   // (`<JsonLd id="faq-jsonld" />` dans `faq-page.jsx`). Sans lui, le composant

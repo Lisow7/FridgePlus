@@ -1,6 +1,5 @@
 import { useState, useRef } from 'react'
 import { createPortal } from 'react-dom'
-import { LuX } from 'react-icons/lu'
 import TourWizard from './tour-wizard'
 import { WELCOME_I18N } from '../i18n/welcome-i18n'
 import { markWelcomeSeen } from '../lib/welcome-storage'
@@ -91,36 +90,13 @@ export default function WelcomeScreen({ lang = 'fr', user, isPremium, onClose, o
         // compris. D'où `alignItems: flex-start` + `margin: auto` sur le panneau,
         // qui centre quand il y a de la place et s'accroche en haut sinon.
         //
-        // Les 62 px du haut RÉSERVENT la bande du bouton « Passer »
-        // (20 px de marge + 34 px de hauteur + 8 px de garde). Sans cette
-        // réservation, le panneau — frère PLUS TARDIF dans le DOM — remontait
-        // sous le bouton et AVALAIT le clic, y compris en 414×736 où le panneau
-        // tient pourtant dans l'écran. Doctrine du dépôt : deux surfaces se
-        // SÉQUENCENT, elles ne s'empilent pas.
-        padding: '62px 24px 24px', overflowY: 'auto', overscrollBehavior: 'contain',
+        // Plus de bande réservée en haut : elle servait au bouton « Passer »
+        // épinglé, retiré par la décision du 2026-10-08 (2026-10-08, `bienvenue_sortie =
+        // entrer`) — il faisait la même chose qu'« Entrer directement → ».
+        // Sortir reste possible par ce bouton, par Échap et par « retour ».
+        padding: '24px', overflowY: 'auto', overscrollBehavior: 'contain',
       }}
     >
-      {/* Bouton Skip discret en haut à droite */}
-      <Button
-        variant="ghost"
-        type="button"
-        onClick={handleClose}
-        aria-label={t.skipBtn}
-        className="fixed right-5 top-5 h-auto rounded-[10px] border px-3 py-2 text-xs font-semibold hover:bg-transparent"
-        style={{
-          gap: '4px', zIndex: 1,
-          background: 'rgba(255,255,255,0.06)',
-          borderColor: 'rgba(255,255,255,0.12)',
-          color: 'rgba(245,237,228,0.7)',
-          transition: 'background 0.15s, color 0.15s',
-        }}
-        onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.12)'; e.currentTarget.style.color = '#F5EDE4' }}
-        onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.06)'; e.currentTarget.style.color = 'rgba(245,237,228,0.7)' }}
-      >
-        {t.skipBtn}
-        <LuX size={13} aria-hidden="true" />
-      </Button>
-
       <div className="fp-modal-panel" style={{
         width: '100%', maxWidth: '452px', margin: 'auto',
         display: 'flex', flexDirection: 'column', alignItems: 'center',

@@ -36,7 +36,7 @@ import {
   baliseJsonLd, remplacerLitteral,
   MORCEAUX_PAR_CHEMIN, trouverLeMorceau, dependancesDirectes, balisesDePrechargement,
 } from './lib/prerender-page.mjs'
-import { CORPS_PAR_CHEMIN } from '../dist-ssr/corps-statique.js'
+import { CORPS_PAR_CHEMIN, corpsAccueilSansJavaScript } from '../dist-ssr/corps-statique.js'
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..')
 const DIST = join(root, 'dist')
@@ -222,3 +222,18 @@ for (const page of PAGES_STATIQUES) {
 }
 console.log(`✅  Pré-rendu : ${statiquesEcrites} pages statiques écrites (${PAGES_STATIQUES.map(p => p.chemin).join(', ')}).`)
 console.log(`✅  Corps servi dans le HTML pour ${corpsInjectes} page(s) : ${Object.keys(CORPS_PAR_CHEMIN).join(', ')}.`)
+
+// ── L'accueil sans JavaScript ────────────────────────────────────────────────
+// `/` n'est pas pré-rendu (son corps vivant est l'application) : pour un robot
+// sans JavaScript, l'accueil était vide — ni h1, ni texte, ni lien (audit du
+// 2026-10-04, « petits gains et vérités »). Un <noscript> à côté de `#root` le
+// dit ; qui a JavaScript ne le voit jamais. Écrit EN DERNIER et dans
+// dist/index.html SEUL : les fiches et les pages statiques ont été produites
+// depuis le gabarit déjà lu, elles ne l'emportent pas.
+const sansJavaScript = corpsAccueilSansJavaScript(LANGUE_PRERENDU)
+if (!gabarit.includes(RACINE_VIDE)) {
+  console.error(`❌  dist/index.html : ${RACINE_VIDE} introuvable — le <noscript> de l'accueil n'a pas été écrit.`)
+  process.exit(1)
+}
+writeFileSync(SOURCE, remplacerLitteral(gabarit, RACINE_VIDE, `${RACINE_VIDE}\n    <noscript>${sansJavaScript}</noscript>`), 'utf-8')
+console.log('✅  Accueil : <noscript> (h1, trois phrases, liens) écrit dans dist/index.html seul.')

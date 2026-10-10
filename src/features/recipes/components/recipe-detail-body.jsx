@@ -55,7 +55,7 @@ export function RecipeDetailBody({
   recipeSteps, stepsSeenRef,
   recipeName,
   hasStockIngredients,
-  hasPremiumAccess,
+  hasPremiumAccess, profileLoading = false, // profil pas encore là : aucun verrou affirmé (PREM-06)
   cost,
   recipesUsingThis,
   recipesById,
@@ -384,7 +384,7 @@ export function RecipeDetailBody({
               n'a pas encore accès Premium. */}
           {[
             { id: 'steps',     label: t.tabSteps,      icon: LuBookOpen,      show: true },
-            { id: 'cost',      label: t.tabCost,        icon: LuWallet,        show: hasPremiumAccess || !!user, premiumGated: !hasPremiumAccess },
+            { id: 'cost',      label: t.tabCost,        icon: LuWallet,        show: hasPremiumAccess || !!user, premiumGated: !hasPremiumAccess && !profileLoading },
             { id: 'nutrition', label: t.tabNutrition,   icon: LuSalad,         show: recipeNutrition.hasData || recipeCost !== null },
             { id: 'reviews',   label: t.tabReviews,     icon: LuMessageSquare, show: !!(recipe.id && (!recipe.isCustom || recipe._isCommunity)), badge: reviewsAgg.count > 0 ? reviewsAgg.avg : null },
           ].filter(tab => tab.show).map(tab => {
@@ -463,7 +463,7 @@ export function RecipeDetailBody({
           )}
 
           {/* Onglet Coût */}
-          {activeTab === 'cost' && !hasPremiumAccess && (
+          {activeTab === 'cost' && !hasPremiumAccess && !profileLoading && (
             <UpgradeGate feature="recipe-cost" variant="hard" lang={lang} darkMode={darkMode} />
           )}
           {activeTab === 'cost' && hasPremiumAccess && (
@@ -528,12 +528,12 @@ export function RecipeDetailBody({
           }}
         />
 
-        <RecipeCookFooter recipe={recipe} recipeSteps={recipeSteps} user={user} isMobile={isMobile} hasPremiumAccess={hasPremiumAccess} darkMode={darkMode} lang={lang} t={t} navigate={navigate} withdrawFeedback={withdrawFeedback} setWithdrawFeedback={setWithdrawFeedback} feedbackTimerRef={feedbackTimerRef} hasStockIngredients={hasStockIngredients} enterWithdraw={enterWithdraw} logCookedWithoutWithdraw={logCookedWithoutWithdraw} showCook={!isMobile} />
+        <RecipeCookFooter recipe={recipe} recipeSteps={recipeSteps} user={user} isMobile={isMobile} hasPremiumAccess={hasPremiumAccess} profileLoading={profileLoading} darkMode={darkMode} lang={lang} t={t} navigate={navigate} withdrawFeedback={withdrawFeedback} setWithdrawFeedback={setWithdrawFeedback} feedbackTimerRef={feedbackTimerRef} hasStockIngredients={hasStockIngredients} enterWithdraw={enterWithdraw} logCookedWithoutWithdraw={logCookedWithoutWithdraw} showCook={!isMobile} />
 
       </div>
     </div>
     {/* Mobile : « J'ai cuisiné » sous la zone qui défile, toujours visible */}
-    {isMobile && <RecipeCookFooter recipe={recipe} recipeSteps={recipeSteps} user={user} isMobile={isMobile} hasPremiumAccess={hasPremiumAccess} darkMode={darkMode} lang={lang} t={t} navigate={navigate} withdrawFeedback={withdrawFeedback} setWithdrawFeedback={setWithdrawFeedback} feedbackTimerRef={feedbackTimerRef} hasStockIngredients={hasStockIngredients} enterWithdraw={enterWithdraw} logCookedWithoutWithdraw={logCookedWithoutWithdraw} showModeCuisine={false} />}
+    {isMobile && <RecipeCookFooter recipe={recipe} recipeSteps={recipeSteps} user={user} isMobile={isMobile} hasPremiumAccess={hasPremiumAccess} profileLoading={profileLoading} darkMode={darkMode} lang={lang} t={t} navigate={navigate} withdrawFeedback={withdrawFeedback} setWithdrawFeedback={setWithdrawFeedback} feedbackTimerRef={feedbackTimerRef} hasStockIngredients={hasStockIngredients} enterWithdraw={enterWithdraw} logCookedWithoutWithdraw={logCookedWithoutWithdraw} showModeCuisine={false} />}
     </>
   )
 }

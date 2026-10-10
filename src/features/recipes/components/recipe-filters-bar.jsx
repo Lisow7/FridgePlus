@@ -13,14 +13,17 @@ import { ReadyBadgeDot } from './ready-badge-dot'
  * plutôt que ses ~15 clés à plat, et `theme` de même. Le tiroir lui-même reste
  * monté par le panneau ; seul son bouton d'ouverture vit ici.
  */
-export default function RecipeFiltersBar({ filters, theme, t, stock, setFiltersDrawerOpen }) {
+export default function RecipeFiltersBar({ filters, theme, t, stock, setFiltersDrawerOpen, searchRef: searchRefExterne }) {
   const { darkMode, isMobile, borderPanel } = theme
   const {
     totalCount, readyCount, almostCount, favCount, customCount, priorityCount, priorityIds, counts,
     searchQuery, setSearchQuery, filter, setFilter, sortMode, setSortMode,
   } = filters
 
-  const searchRef = useRef(null)
+  // Le panneau peut tenir la référence : « Chercher une recette » (favoris
+  // vides) y pose le curseur.
+  const searchRefLocal = useRef(null)
+  const searchRef = searchRefExterne ?? searchRefLocal
   const champRechercheId = useId()
 
   // Le même compte que l'en-tête du tiroir (une seule fonction, UX-07).

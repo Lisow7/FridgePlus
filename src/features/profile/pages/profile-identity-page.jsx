@@ -5,7 +5,7 @@ import { LuImage, LuUser, LuMessageSquare, LuScroll, LuPanelTop } from 'react-ic
 import { useAuth } from '@shared/contexts/auth-provider'
 import AvatarImg from '@shared/ui/avatar-img'
 import Button from '@shared/ui/button'
-import leoProfanity from 'leo-profanity'
+import { containsProfanity } from '@shared/lib/moderation'
 import { moderateContent } from '@shared/hooks/use-moderation'
 import { acceptCommunityTerms, revokeCommunityTerms, updateCommunityBio } from '@shared/api/community'
 import { useConfirm } from '@shared/ui/confirm-dialog/confirm-provider'
@@ -91,7 +91,7 @@ const I18N = {
     charterTagDismissed:   'Auto-show disabled',
     charterStatusAccepted:    (d) => `You accepted the charter on ${d}.`,
     charterStatusNotSigned:   'You haven\'t signed the charter yet — you can\'t post or comment in the community.',
-    charterStatusDismissed:   'You\'ve clicked « Don\'t show again ». The modal won\'t auto-show anymore, but it stays accessible via the 📜 button in the Community header.',
+    charterStatusDismissed:   'You\'ve clicked "Don\'t show again". The modal won\'t auto-show anymore, but it stays accessible via the 📜 button in the Community header.',
     charterAccept: 'Accept the charter',
     charterRevoke: 'Revoke my signature',
     charterRevokeConfirm: 'Confirm revocation? You will no longer be able to publish in the community.',
@@ -126,7 +126,7 @@ export default function ProfileIdentityPage() {
       setPseudoError(regles.invalid)
       return
     }
-    if (leoProfanity.check(u)) {
+    if (containsProfanity(u)) {
       setPseudoError(t.pseudoProfanity)
       return
     }
@@ -170,7 +170,7 @@ export default function ProfileIdentityPage() {
   }, [profile])
 
   async function handleSaveBio() {
-    if (leoProfanity.check(bio)) {
+    if (containsProfanity(bio)) {
       setBioMsg({ type: 'error', text: t.bioProfanity })
       return
     }

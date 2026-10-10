@@ -12,7 +12,7 @@ import ReusableModal from '@shared/ui/reusable-modal'
 
 const I18N = {
   fr: {
-    title: 'Mode cuisine vocal — guide',
+    title: 'Mode cuisine — guide de la voix',
     howTitle: 'Comment ça marche',
     how: [
       'Touche « Commencer » une seule fois : ça active le micro et la voix de l\'app.',
@@ -43,7 +43,7 @@ const I18N = {
     close: 'Compris',
   },
   en: {
-    title: 'Voice cooking mode — guide',
+    title: 'Cooking mode — voice guide',
     howTitle: 'How it works',
     how: [
       'Tap "Start" once: this turns on the mic and the app\'s voice.',

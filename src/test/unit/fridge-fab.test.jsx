@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
@@ -174,5 +174,31 @@ describe('FridgeFAB', () => {
     await user.click(screen.getByRole('menuitem', { name: /^Inventaire/ }))
     await user.click(screen.getByRole('button', { name: 'Vider le frigo' }))
     expect(screen.getByRole('dialog', { name: 'Vider ton frigo ?' })).toBeInTheDocument()
+  })
+})
+
+// Le bouton orange n'a qu'une icône : son nom (« Actions rapides ») doit se
+// voir au survol, comme les autres icônes de l'en-tête (audit du 2026-10-04,
+// UX-17 ; décision du 2026-10-08, `nom_bouton_orange = actions_rapides`).
+describe('FridgeFAB — infobulle', () => {
+  const matchMediaOrigine = window.matchMedia
+  beforeEach(() => {
+    // Un ordinateur : pointeur fin, survol possible (cf. shared/ui/tooltip.jsx).
+    window.matchMedia = (q) => ({ matches: /hover: hover/.test(q), media: q, addEventListener() {}, removeEventListener() {}, addListener() {}, removeListener() {} })
+  })
+  afterEach(() => { window.matchMedia = matchMediaOrigine })
+
+  it('au survol, le bouton dit « Actions rapides »', async () => {
+    const user = userEvent.setup()
+    render(<FridgeFAB {...base} />)
+    await user.hover(screen.getByRole('button', { name: /actions rapides/i }))
+    expect(screen.getByRole('tooltip')).toHaveTextContent('Actions rapides')
+  })
+
+  it('en anglais : « Quick actions »', async () => {
+    const user = userEvent.setup()
+    render(<FridgeFAB {...base} lang="en" />)
+    await user.hover(screen.getByRole('button', { name: /quick actions/i }))
+    expect(screen.getByRole('tooltip')).toHaveTextContent('Quick actions')
   })
 })

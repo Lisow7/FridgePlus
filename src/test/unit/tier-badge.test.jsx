@@ -19,10 +19,10 @@ describe('TierBadge', () => {
     render(<TierBadge tier="account" lang="fr" />)
     expect(screen.getByText('Compte')).toBeInTheDocument()
   })
-  it('soon → « Prochainement » quand premium off (sans émoji)', () => {
+  it('soon → « Bientôt » quand premium off (sans émoji)', () => {
     mockEnabled = false
     render(<TierBadge tier="soon" lang="fr" />)
-    expect(screen.getByText('Prochainement')).toBeInTheDocument()
+    expect(screen.getByText('Bientôt')).toBeInTheDocument()
   })
   it('soon → « Premium » quand premium on', () => {
     mockEnabled = true

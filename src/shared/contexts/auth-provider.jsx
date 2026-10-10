@@ -4,10 +4,11 @@ import { setSentryUser, clearSentryUser, logError } from '@shared/lib/observabil
 // Sortis de ce fichier (il franchissait 500 lignes) : la lecture du profil,
 // l'e-mail « ton profil a changé », le retour d'un lien e-mail (2026-10-04),
 // les préférences allergènes (2026-10-05).
-import { fetchProfile } from '@shared/lib/auth/fetch-profile'
+import { fetchProfile, colonnesDuProfil } from '@shared/lib/auth/fetch-profile'
 import { sendChangeNotification } from '@shared/lib/auth/profile-change-notification'
 import { useAuthLinkProblem } from '@shared/hooks/use-auth-link-problem'
 import { useAllergenPrefs } from '@shared/hooks/use-allergen-prefs'
+import { useProfilDeSecours } from '@shared/hooks/use-profil-de-secours'
 import { etatMfa, MFA_AUCUN } from '@shared/lib/auth/mfa-requis'
 import { fermerLaSession } from '@shared/lib/auth/sortie'
 
@@ -32,6 +33,11 @@ export function AuthProvider({ children }) {
   const [recoveryMode, setRecoveryMode] = useState(false)
   const [mfa,          setMfa]          = useState(MFA_AUCUN) // code de double authentification dû ? (CPT-01)
   const [compteDesactive, setCompteDesactive] = useState(null) // { effaceLe } après une suppression (CPT-04)
+
+  // Filet de sécurité du profil (relectures, « profil indisponible »,
+  // `profileLoading`) : cf. shared/hooks/use-profil-de-secours.js (PREM-06, CPT-12).
+  const { profileLoading, profilIndisponible, relancerLeProfil, setProfilIndisponible } =
+    useProfilDeSecours({ user, profile, loading, setProfile })
 
   // Lien e-mail (ou retour de Google) qui n'aboutit pas : 'expired' | 'failed'
   // | 'no-session' | null. Cf. shared/hooks/use-auth-link-problem.js.
@@ -78,6 +84,7 @@ export function AuthProvider({ children }) {
         const prevUserId = prevUserRef.current?.id
         const isUserSwitch = currentUser && prevUserId && prevUserId !== currentUser.id
         if (isUserSwitch) setProfile(null)
+        if (isUserSwitch || !currentUser) setProfilIndisponible(false)
         setMfa(etatMfa(session)) // même rendu que l'utilisateur : jamais une image sans porte
         setUser(currentUser)
         prevUserRef.current = currentUser
@@ -103,7 +110,11 @@ export function AuthProvider({ children }) {
           // (`refreshSession` appelé depuis un handler TOKEN_REFRESHED).
           setTimeout(async () => {
             const p = await fetchProfile(currentUser.id)
+            // Réponse tardive d'un compte qui n'est plus celui de la session
+            // (A puis B, ou déconnexion entre-temps) : jetée (audit CPT-12).
+            if (prevUserRef.current?.id !== currentUser.id) return
             setProfile(p)
+            if (p) setProfilIndisponible(false)
             // Rétention « retour » : horodate la dernière OUVERTURE de l'app
             // (login explicite ou reprise de session au boot) — PAS sur
             // TOKEN_REFRESHED (refresh de fond) pour ne pas écrire à chaque
@@ -132,43 +143,8 @@ export function AuthProvider({ children }) {
       }
     )
     return () => subscription.unsubscribe()
-  }, [])
-
-  // Filet de sécurité : si user est là mais profile absent (race Strict Mode,
-  // Lock Manager Supabase, switch user signout→signin rapide), on recharge
-  // avec retry exponentiel.
-  //
-  // Sprint 11 S11.b — retry 4 fois (200ms, 500ms, 1000ms, 2000ms) avant
-  // d'abandonner. Évite le bug « infos profile à - jusqu'au refresh »
-  // observé après un switch user (signout puis signin sur autre compte)
-  // quand le premier fetchProfile fail silencieusement.
-  useEffect(() => {
-    if (!user || profile !== null || loading) return
-    let cancelled = false
-    const delays = [200, 500, 1000, 2000]
-    let attempt = 0
-    let timeoutId = null
-
-    async function tryFetch() {
-      if (cancelled) return
-      const p = await fetchProfile(user.id)
-      if (cancelled) return
-      if (p) {
-        setProfile(p)
-        return
-      }
-      attempt += 1
-      if (attempt < delays.length) {
-        timeoutId = setTimeout(tryFetch, delays[attempt])
-      }
-    }
-    timeoutId = setTimeout(tryFetch, delays[0])
-
-    return () => {
-      cancelled = true
-      if (timeoutId) clearTimeout(timeoutId)
-    }
-  }, [user, profile, loading])
+    // `setProfilIndisponible` vient du hook de secours : un setter d'état, stable.
+  }, [setProfilIndisponible])
 
   // Realtime : détecte le ban/déban en temps réel sans rechargement
   useEffect(() => {
@@ -181,7 +157,12 @@ export function AuthProvider({ children }) {
         table: 'profiles',
         filter: `id=eq.${user.id}`,
       }, (payload) => {
-        if (payload.new) setProfile(prev => prev ? { ...prev, ...payload.new } : payload.new)
+        // Seulement les colonnes que fetchProfile lit : la ligne ENTIÈRE arrive
+        // ici, `restore_token` compris, exclu exprès à la lecture (audit CPT-12).
+        if (payload.new) {
+          const sur = colonnesDuProfil(payload.new)
+          setProfile(prev => prev ? { ...prev, ...sur } : sur)
+        }
       })
       .subscribe()
     return () => supabase.removeChannel(channel)
@@ -458,7 +439,8 @@ export function AuthProvider({ children }) {
   // ne change pas. Les callbacks (signIn, signOut, etc.) sont déjà
   // stables (définis dans le scope component sans deps).
   const value = useMemo(() => ({
-    user, profile, loading, isAdmin, mfaRequired: mfa.requis, mfaFactorId: mfa.facteurId,
+    user, profile, loading, profileLoading, profilIndisponible, relancerLeProfil,
+    isAdmin, mfaRequired: mfa.requis, mfaFactorId: mfa.facteurId,
     recoveryMode,
     authLinkProblem, clearAuthLinkProblem,
     ...allergenes,
@@ -468,7 +450,7 @@ export function AuthProvider({ children }) {
     deleteAccount, restoreAccount, completePasswordReset, annulerLaSuppression,
     compteDesactive, oublierCompteDesactive: () => setCompteDesactive(null),
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }), [user, profile, loading, isAdmin, mfa, recoveryMode, authLinkProblem, allergenes, compteDesactive])
+  }), [user, profile, loading, profileLoading, profilIndisponible, relancerLeProfil, isAdmin, mfa, recoveryMode, authLinkProblem, allergenes, compteDesactive])
 
   return (
     <AuthContext.Provider value={value}>

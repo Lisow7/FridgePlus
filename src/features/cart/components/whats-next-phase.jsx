@@ -1,6 +1,7 @@
 import { LuSparkles, LuPlus, LuSave, LuHouse } from 'react-icons/lu'
 import WhatsNextRecipesCard from './whats-next-recipes-card'
 import WhatsNextBudgetCard from './whats-next-budget-card'
+import { suffixS } from '@shared/lib/i18n/pluralize'
 
 const I18N = {
   fr: {
@@ -13,10 +14,10 @@ const I18N = {
   },
   en: {
     title: "What's next?",
-    done: (n) => `🎉 Done! ${n} item${n > 1 ? 's' : ''} added to your fridge.`,
+    done: (n) => `🎉 Done! ${n} item${suffixS(n, 'en')} added to your fridge.`,
     empty: 'Finish your shopping to see your suggestions.',
     save: 'Save the list',
-    newBasket: 'Prepare a new basket',
+    newBasket: 'Prepare a new cart',
     back: 'Back to fridge',
   },
 }

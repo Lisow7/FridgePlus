@@ -59,7 +59,7 @@ export default function RecipeFormSortableStep({ step, index, onChange, onDelete
       <Button
         variant="ghost"
         size="icon"
-        aria-label={t.dragStep ?? 'Drag step'}
+        aria-label={t.dragStep}
         {...attributes}
         {...listeners}
         className="h-auto w-auto rounded-none hover:bg-transparent"
@@ -88,7 +88,7 @@ export default function RecipeFormSortableStep({ step, index, onChange, onDelete
             variant="ghost"
             size="icon"
             onClick={micListening ? stopMic : startMic}
-            aria-label={micListening ? (t.stopMic ?? 'Stop voice') : (t.startMic ?? 'Start voice')}
+            aria-label={micListening ? t.stopMic : t.startMic}
             aria-pressed={micListening}
             className="h-auto w-auto rounded-md hover:bg-transparent"
             style={{ position: 'absolute', top: '50%', right: '6px', transform: 'translateY(-50%)', padding: '5px', background: micListening ? '#E53535' : 'transparent', color: micListening ? 'white' : (darkMode ? '#7A90A8' : 'var(--color-muted)'), transition: 'all 0.2s', animation: micListening ? 'soft-blink 1s ease-in-out infinite' : 'none' }}
@@ -101,7 +101,7 @@ export default function RecipeFormSortableStep({ step, index, onChange, onDelete
         variant="ghost"
         size="icon"
         onClick={() => onDelete(step.id)}
-        aria-label={t.deleteStep ?? 'Delete step'}
+        aria-label={t.deleteStep}
         className="h-auto w-auto hover:bg-transparent"
         style={{ padding: '6px', color: '#D07070', flexShrink: 0, marginTop: '8px' }}
       >

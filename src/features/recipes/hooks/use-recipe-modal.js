@@ -271,7 +271,7 @@ export default function useRecipeModal({ recipe, stock, onClose, lang, darkMode,
   const [stepTwoState, setStepTwoState] = useState({}) // { [ingIndex]: { resolved: id|'skip'|null, checked: bool, inStockOptions?: id[] } }
   const [withdrawFeedback, setWithdrawFeedback] = useState(null)
   const feedbackTimerRef                = useRef(null)
-  const { hasPremiumAccess } = useSubscription()
+  const { hasPremiumAccess, profileLoading } = useSubscription()
 
   // Mode cuisine plein écran
   const navigate = useNavigate()
@@ -280,7 +280,10 @@ export default function useRecipeModal({ recipe, stock, onClose, lang, darkMode,
   // Onglet Coût — état persistant (mode + prix live) + auto-refresh à l'ouverture,
   // tenu hors de la vue (montée conditionnellement) pour survivre aux changements
   // d'onglet ; dérivation dans RecipeCostTab (§2, 2026-07-25).
-  const cost = useRecipeCost({ active: activeTab === 'cost', recipe, lang })
+  // Sous le verrou (compte gratuit), l'onglet ne montre que le verrou : aucune
+  // demande de prix à Open Prices — l'adresse IP partait pour rien (audit du
+  // 2026-10-04, « petits gains et vérités »).
+  const cost = useRecipeCost({ active: activeTab === 'cost' && hasPremiumAccess, recipe, lang })
 
   // Agrégat des avis (alimente le badge ⭐ dans le header)
   const [reviewsAgg, setReviewsAgg] = useState({ avg: 0, count: 0 })
@@ -510,7 +513,7 @@ export default function useRecipeModal({ recipe, stock, onClose, lang, darkMode,
     baseServings, canConfirm, canEditRecipe, cartHeaderNotice, cartHeaderNoticeRef, celebrate, closePeek, collapseStyle, concreteOptions, condensed, confirmWithdraw,
     cost, countries, countryCode, countryInfo, dialogRef, dietTypes, effectiveStock, enterWithdraw,
     feedbackTimerRef, flagHovered, flashAdded, groupMaps, handleBodyScroll, handleIngredientClick,
-    hasMissing, hasPremiumAccess, hasStockIngredients, headerBg, headerBorder, headerCondensed,
+    hasMissing, hasPremiumAccess, profileLoading, hasStockIngredients, headerBg, headerBorder, headerCondensed,
     headerText, INGREDIENT_LOOKUP, ingredients, ingredientsById, isAdmin, isApprovedCommunity,
     isCategoryParent, isInCart, isMobile, isPage, isPubliclyShareable, logCookedWithoutWithdraw,
     matchCount, minServings, mutedColor, navigate, pct, peekRecipeId, pickerIndex,

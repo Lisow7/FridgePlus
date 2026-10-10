@@ -17,6 +17,7 @@ permettre de créer/publier ses propres recettes et de gérer favoris/avis.
   - `cook-first-sort.js` — tri « à cuisiner en priorité » (lié à l'anti-gaspi/péremption).
   - `custom-recipes.js` — lecture des recettes custom (⚠️ via la VUE `custom_recipes`, cf. ADR 0003).
   - `health-score.js`, `recipe-draft.js` (brouillon création), `recipe-ai-moderation.js`,
+    `annonces-du-glisser.js` (le glisser des étapes dit en français et en anglais, par numéro),
     `recipe-publish-consent.js`, `recipe-filters-url.js`, `recipe-print.js`, `recipe-to-schema-org.js`.
 - **`components/`** — UI : `recipe-card`, `recipe-modal`, `recipe-panel`, formulaire de création
   (`recipe-form-*`), filtres (`filters/*`), avis, partage, allergènes.

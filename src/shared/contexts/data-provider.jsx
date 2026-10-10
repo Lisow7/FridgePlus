@@ -1,5 +1,9 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { supabase } from '@shared/lib/supabase/client'
+// Importé ici, Sentry devient un morceau à part (index et data-provider le
+// partagent) : +1 fichier au démarrage, 0,5 Ko. Un import à la demande ne
+// changeait rien (le morceau existe quand même) et coûtait plus : on le garde.
+import { logError } from '@shared/lib/observability/sentry'
 import { createIngredientLookup } from '@shared/lib/ingredients/ingredient-lookup'
 import { OFFICIAL_RECIPE_COLUMNS, rowToOfficialRecipe } from '@shared/lib/recipes/official-recipe-rows'
 import { INGREDIENTS as STATIC_INGREDIENTS } from '@shared/static/ingredients'
@@ -147,7 +151,7 @@ function partitionTaxonomyRows(rows) {
 // qu'on relance, pas les autres (audit du 2026-10-04, PERF-02).
 const LECTURES_DU_DEMARRAGE = {
   ingredients: () => supabase.from('ingredients')
-    .select('id, labels, emoji, subcategory, sort_order, group_id, price, seasonal_months, image_url, nutrition, allergens, pack_size, breaks_diets, default_unit'),
+    .select('id, labels, emoji, subcategory, sort_order, group_id, price, seasonal_months, image_url, nutrition, allergens, pack_size, breaks_diets, default_unit', COMPTE_EXACT),
   // Refonte BDD Sprint 5 — PR-DB-12 : `base_recipes` → `recipes_unified`
   // filtré par origin='official'. RLS publique filtre déjà
   // status IN ('published','featured') donc le code app ne voit que
@@ -155,18 +159,24 @@ const LECTURES_DU_DEMARRAGE = {
   // Triggers de sync (PR-DB-11) garantissent que les writes admin
   // sur base_recipes sont reflétés ici sans drift.
   recettes: () => supabase.from('recipes_unified')
-    .select(OFFICIAL_RECIPE_COLUMNS)
+    .select(OFFICIAL_RECIPE_COLUMNS, COMPTE_EXACT)
     .eq('origin', 'official'),
   // Refonte BDD Sprint 4 — PR-DB-08 : 3 fetches anciens (allergen_types,
   // diet_types, countries_master) → 1 fetch unifié sur la table
   // `taxonomies` filtré par domain. Gain : -2 requêtes HTTP au boot.
   taxonomies: () => supabase.from('taxonomies')
-    .select('domain, key, labels, metadata, sort_order')
+    .select('domain, key, labels, metadata, sort_order', COMPTE_EXACT)
     .in('domain', ['allergen', 'diet', 'country'])
     .order('sort_order'),
   dispositions: () => supabase.from('fridge_layouts')
-    .select('language, structure'),
+    .select('language, structure', COMPTE_EXACT),
 }
+
+// L'API de la base rend au plus `max_rows` lignes (1 000 par défaut) et TRONQUE
+// EN SILENCE au-delà : 515 recettes et 653 ingrédients aujourd'hui, et rien ne
+// l'aurait dit le jour du dépassement (audit du 2026-10-04, ARCH-11). Chaque
+// lecture demande le compte exact ; `lireUneFois` compare.
+const COMPTE_EXACT = { count: 'exact' }
 
 // Attente avant chaque nouvel essai d'une lecture refusée : trois essais en tout.
 const DELAIS_AVANT_NOUVEL_ESSAI = [2000, 6000]
@@ -180,8 +190,14 @@ const DELAIS_AVANT_NOUVEL_ESSAI = [2000, 6000]
 // supabase-js LÈVE sur une requête avortée (mesuré le 2026-08-07).
 async function lireUneFois(nom) {
   try {
-    const { data, error } = await LECTURES_DU_DEMARRAGE[nom]()
+    const { data, error, count } = await LECTURES_DU_DEMARRAGE[nom]()
     if (error) return null
+    // Moins de lignes que la base n'en compte : le catalogue sert quand même
+    // (mieux que les 100 recettes embarquées), mais on le DIT (ARCH-11).
+    if (typeof count === 'number' && data && data.length < count) {
+      logError(new Error(`Catalogue tronqué : ${nom}, ${data.length} ligne(s) reçue(s) sur ${count}`),
+        { tag: 'catalogue.tronque', nom, recues: data.length, total: count })
+    }
     // Des recettes rendues vides ne sont pas un catalogue : la mémoire ne
     // ferait pas foi, et une fiche conclurait « introuvable » à tort.
     if (nom === 'recettes' && !data?.length) return null
