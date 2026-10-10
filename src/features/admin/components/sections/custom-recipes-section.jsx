@@ -79,7 +79,7 @@ const I18N = {
     confirmDeleteAction:'Delete', confirmCancel:'Cancel',
     undoRecipeRemoved:'Recipe deleted',
     confirmPromoteTitle:'Promote this recipe?',
-    confirmPromoteBody:(name) => `« ${name} » will be added to the official catalog. The author will be notified.`,
+    confirmPromoteBody:(name) => `"${name}" will be added to the official catalog. The author will be notified.`,
     confirmPromoteAction:'Promote',
     desc:'Moderate recipes submitted by the community.',
     moderationModalTitles: {

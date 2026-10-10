@@ -8,11 +8,13 @@ import { useFocusTrap } from '@shared/hooks/use-focus-trap'
 import { useCloseOnBackButton } from '@shared/hooks/use-close-on-back-button'
 import Button from '@shared/ui/button'
 import { TAGLINES } from '@shared/static/taglines'
+import { formatPrix } from '@shared/lib/i18n/prix'
 
 // Économie annuelle : (4.99×12 − 34.99) / (4.99×12) = 41.6 % → 42 %
 const MONTHLY_PRICE = 4.99
 const ANNUAL_PRICE  = 34.99
-const ANNUAL_MONTHLY_EQUIV = (ANNUAL_PRICE / 12).toFixed(2).replace('.', ',')
+// Les prix s'écrivent par `formatPrix` (langue du visiteur : « 4,99 € » /
+// « €4.99 » — audit du 2026-10-04, UX-15), au rendu, jamais ici.
 
 const FEATURES = [
   { icon: <LuShoppingCart size={17} />, key: 'basket'  },
@@ -37,8 +39,8 @@ const I18N = {
     save:     'Économise 42 %',
     perMonth: '/ mois',
     perYear:  '/ an',
-    equivMonth:   `soit ${ANNUAL_MONTHLY_EQUIV} € / mois`,
-    annualUpsell: `Annuel : ${ANNUAL_MONTHLY_EQUIV} € / mois — économise 42 %`,
+    equivMonth:   (prix) => `soit ${prix} / mois`,
+    annualUpsell: (prix) => `Annuel : ${prix} / mois — économise 42 %`,
     included: 'Tout le gratuit, plus :',
     features: {
       basket:   'Panier',
@@ -68,8 +70,8 @@ const I18N = {
     save:     'Save 42%',
     perMonth: '/ month',
     perYear:  '/ year',
-    equivMonth:   `i.e. ${ANNUAL_MONTHLY_EQUIV} € / month`,
-    annualUpsell: `Annual: ${ANNUAL_MONTHLY_EQUIV} € / month — save 42%`,
+    equivMonth:   (prix) => `i.e. ${prix} / month`,
+    annualUpsell: (prix) => `Annual: ${prix} / month — save 42%`,
     included: 'Everything free, plus:',
     features: {
       basket:   'Cart',
@@ -369,12 +371,12 @@ export default function UpgradeModal({ isOpen, onClose, lang = 'fr', darkMode = 
               <>
                 <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'center', gap: '5px' }}>
                   <span style={{ fontSize: '40px', fontWeight: 800, color: text }}>
-                    {ANNUAL_PRICE.toFixed(2).replace('.', ',')} €
+                    {formatPrix(ANNUAL_PRICE, lang)}
                   </span>
                   <span style={{ fontSize: '16px', color: muted }}>{t.perYear}</span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '9px', marginTop: '7px' }}>
-                  <span style={{ fontSize: '15px', color: muted }}>{t.equivMonth}</span>
+                  <span style={{ fontSize: '15px', color: muted }}>{t.equivMonth(formatPrix(ANNUAL_PRICE / 12, lang))}</span>
                   <span style={{
                     padding: '4px 10px', borderRadius: '7px',
                     background: 'rgba(212,106,16,0.12)',
@@ -387,7 +389,7 @@ export default function UpgradeModal({ isOpen, onClose, lang = 'fr', darkMode = 
               <>
                 <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'center', gap: '5px' }}>
                   <span style={{ fontSize: '40px', fontWeight: 800, color: text }}>
-                    {MONTHLY_PRICE.toFixed(2).replace('.', ',')} €
+                    {formatPrix(MONTHLY_PRICE, lang)}
                   </span>
                   <span style={{ fontSize: '16px', color: muted }}>{t.perMonth}</span>
                 </div>

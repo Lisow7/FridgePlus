@@ -73,17 +73,17 @@ describe('Activité — chargement, échec, vide : trois écrans différents', (
     expect(reloadCookingLogs).toHaveBeenCalledTimes(1)
   })
 
-  it('journal pas chargé : le dit — pas « elle apparait ici »', () => {
+  it('journal pas chargé : le dit — pas « elle apparaît ici »', () => {
     etat.valeur = profil({ journalLogs: null, journalError: true })
     activite()
-    expect(screen.queryByText(/elle apparait ici/)).toBeNull()
+    expect(screen.queryByText(/elle apparaît ici/)).toBeNull()
     expect(screen.getByRole('alert')).toHaveTextContent(/n'a pas pu être chargée/i)
   })
 
-  it('journal chargé et vide : « elle apparait ici » (témoin)', () => {
+  it('journal chargé et vide : « elle apparaît ici » (témoin)', () => {
     etat.valeur = profil({ journalLogs: [], journalCount: 0 })
     activite()
-    expect(screen.getByText(/elle apparait ici/)).toBeInTheDocument()
+    expect(screen.getByText(/elle apparaît ici/)).toBeInTheDocument()
     expect(screen.queryByRole('alert')).toBeNull()
   })
 })

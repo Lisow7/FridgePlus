@@ -91,7 +91,7 @@ const I18N = {
     charterTagDismissed:   'Auto-show disabled',
     charterStatusAccepted:    (d) => `You accepted the charter on ${d}.`,
     charterStatusNotSigned:   'You haven\'t signed the charter yet — you can\'t post or comment in the community.',
-    charterStatusDismissed:   'You\'ve clicked « Don\'t show again ». The modal won\'t auto-show anymore, but it stays accessible via the 📜 button in the Community header.',
+    charterStatusDismissed:   'You\'ve clicked "Don\'t show again". The modal won\'t auto-show anymore, but it stays accessible via the 📜 button in the Community header.',
     charterAccept: 'Accept the charter',
     charterRevoke: 'Revoke my signature',
     charterRevokeConfirm: 'Confirm revocation? You will no longer be able to publish in the community.',

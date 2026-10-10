@@ -1,4 +1,6 @@
 import { LuWallet, LuArrowRight } from 'react-icons/lu'
+import { formatPrix } from '@shared/lib/i18n/prix'
+import { suffixS } from '@shared/lib/i18n/pluralize'
 
 const I18N = {
   fr: {
@@ -11,7 +13,7 @@ const I18N = {
   en: {
     title: 'Budget summary',
     spent: 'Spent',
-    items: (n) => `${n} item${n > 1 ? 's' : ''} added`,
+    items: (n) => `${n} item${suffixS(n, 'en')} added`,
     detail: 'See spending detail',
     indicative: 'Indicative prices based on Open Prices and local data.',
   },
@@ -38,7 +40,7 @@ export default function WhatsNextBudgetCard({ snapshot, lang = 'fr', darkMode = 
           {t.spent}{snapshot?.addedCount ? ` · ${t.items(snapshot.addedCount)}` : ''}
         </span>
         <span className="text-[22px] font-black" style={{ color: '#D46A10' }}>
-          {total > 0 ? `~${total.toFixed(2).replace('.', ',')} €` : '—'}
+          {total > 0 ? formatPrix(total, lang, { approx: true }) : '—'}
         </span>
       </div>
       <p className="text-[11px]" style={{ color: muted, opacity: 0.8 }}>{t.indicative}</p>

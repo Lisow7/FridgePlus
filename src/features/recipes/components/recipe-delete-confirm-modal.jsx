@@ -36,7 +36,7 @@ const I18N = {
   },
   en: {
     title:        'Delete permanently?',
-    intro:        (name) => `You're about to permanently delete « ${name} ».`,
+    intro:        (name) => `You're about to permanently delete "${name}".`,
     irreversible: 'This action is IRREVERSIBLE. The following data will be erased:',
     bulletRecipe: 'The recipe itself (title, description, steps, photo)',
     bulletFav:    (n) => `Its presence in other users' favorites (${n})`,

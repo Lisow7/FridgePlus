@@ -4,6 +4,7 @@ import VoiceMiniPanel from '@features/voice/components/voice-mini-panel'
 import VoiceConsentDialog from '@shared/ui/voice-consent-dialog'
 import { Z_INDEX } from '@shared/lib/z-index'
 import { useDialogue } from '@shared/hooks/use-dialogue'
+import { suffixS } from '@shared/lib/i18n/pluralize'
 
 const VoiceConfirmPanel = lazy(() => import('@features/voice/components/voice-confirm-panel'))
 
@@ -50,7 +51,7 @@ const VOICE_MODAL_I18N = {
 
 const VOICE_ADDED_I18N = {
   fr: n => `${n} ingrédient${n > 1 ? 's' : ''} ajouté${n > 1 ? 's' : ''} au frigo`,
-  en: n => `${n} ingredient${n > 1 ? 's' : ''} added to fridge`,
+  en: n => `${n} ingredient${suffixS(n, 'en')} added to fridge`,
 }
 
 const VOICE_UNDO_I18N = { fr: 'Annuler', en: 'Undo' }

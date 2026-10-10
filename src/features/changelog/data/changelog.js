@@ -1666,7 +1666,7 @@ export const CHANGELOG = [
         type: 'fix',
         label: {
           fr: 'La validation d\'un nouveau mot de passe ne reste plus bloquée sur « Mise à jour… » : le changement se confirme correctement.',
-          en: 'Setting a new password no longer gets stuck on « Updating… »: the change now confirms correctly.',
+          en: 'Setting a new password no longer gets stuck on "Updating…": the change now confirms correctly.',
         },
       },
     ],
@@ -1680,7 +1680,7 @@ export const CHANGELOG = [
         type: 'fix',
         label: {
           fr: 'Le nom « Fridge+ » s\'affiche correctement sur les écrans de connexion (au lieu de « Fridge++ »).',
-          en: 'The « Fridge+ » name now displays correctly on the sign-in screens (instead of « Fridge++ »).',
+          en: 'The "Fridge+" name now displays correctly on the sign-in screens (instead of "Fridge++").',
         },
       },
     ],
@@ -1708,7 +1708,7 @@ export const CHANGELOG = [
         type: 'feat',
         label: {
           fr: 'Quand tu cliques « J\'ai cuisiné cette recette » et que tu débloques un nouveau badge, une petite célébration apparaît.',
-          en: 'When you tap « I cooked this recipe » and unlock a new badge, a little celebration pops up.',
+          en: 'When you tap "I cooked this recipe" and unlock a new badge, a little celebration pops up.',
         },
       },
     ],

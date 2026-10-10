@@ -10,6 +10,7 @@ import PrepareRecipeChip from './prepare-recipe-chip'
 import { groupByRecipe, groupByAisleConsolidated, computeBasketBudget } from '@features/cart/lib/cart-helpers'
 import { useIngredientLookup } from '@shared/contexts/data-provider'
 import { useConfirm } from '@shared/ui/confirm-dialog/confirm-provider'
+import { suffixS } from '@shared/lib/i18n/pluralize'
 
 const I18N = {
   fr: {
@@ -30,8 +31,8 @@ const I18N = {
   en: {
     recipes: 'Recipes',
     ingredients: 'Ingredients',
-    itemsCount: (n) => `· ${n} item${n > 1 ? 's' : ''}`,
-    recipesCount: (n) => `· ${n} recipe${n > 1 ? 's' : ''}`,
+    itemsCount: (n) => `· ${n} item${suffixS(n, 'en')}`,
+    recipesCount: (n) => `· ${n} recipe${suffixS(n, 'en')}`,
     expandAll: 'Expand all ↓',
     collapseAll: 'Collapse all ↑',
     addItem: 'Add an item',

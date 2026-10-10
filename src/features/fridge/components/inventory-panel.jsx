@@ -11,6 +11,7 @@ import { useTrackIngredientSearch } from '@features/fridge/hooks/use-track-ingre
 import { LuTrash2, LuPlus } from 'react-icons/lu'
 import Button from '@shared/ui/button'
 import Field from '@shared/ui/field'
+import { suffixS } from '@shared/lib/i18n/pluralize'
 
 // Panneau « Mon frigo en un coup d'œil » — bottom sheet listant TOUT le stock,
 // groupé par zone, avec recherche + ajout/retrait. Déclenché depuis le footer.
@@ -42,7 +43,7 @@ const I18N = {
     removed: (name) => `${name} retiré`,
   },
   en: {
-    title: (n) => `Inventory — ${n} item${n > 1 ? 's' : ''}`,
+    title: (n) => `Inventory — ${n} item${suffixS(n, 'en')}`,
     searchLabel: 'Search an item',
     search: 'e.g. yogurt',
     empty: 'Your fridge is empty. Search an item above to add it.',

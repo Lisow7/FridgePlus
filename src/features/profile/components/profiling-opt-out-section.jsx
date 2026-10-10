@@ -24,7 +24,7 @@ const I18N = {
   },
   en: {
     title: 'Object to profiling',
-    description: 'You can object to automated analysis of your spending history (GDPR Article 21). Enabling this setting stops Fridge+ from snapshotting each cart → fridge transfer. The « Spending analysis » chart will no longer update. Already-captured data is not erased automatically — use « Erase my spending history » for that (coming soon).',
+    description: 'You can object to automated analysis of your spending history (GDPR Article 21). Enabling this setting stops Fridge+ from snapshotting each cart → fridge transfer. The "Spending analysis" chart will no longer update. Already-captured data is not erased automatically — use "Erase my spending history" for that (coming soon).',
     toggleLabel: 'Object to profiling',
     optedInBadge: 'Capture active',
     optedOutBadge: 'Profiling objected',

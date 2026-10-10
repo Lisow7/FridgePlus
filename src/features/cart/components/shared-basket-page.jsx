@@ -13,6 +13,7 @@ import QRCode from 'qrcode'
 import { LuShoppingCart, LuClock, LuPrinter, LuExternalLink } from 'react-icons/lu'
 import Button from '@shared/ui/button'
 import { getSharedBasket, daysUntilExpiry } from '@features/cart/api/shared-baskets'
+import { formatPrix } from '@shared/lib/i18n/prix'
 
 const AISLE_ORDER = [
   'produce','bakery','butcher','fishmonger','dairy',
@@ -71,8 +72,7 @@ const I18N = {
 
 function formatPriceLocal(value, lang) {
   if (!value || value <= 0) return null
-  if (lang === 'ja') return `~${Math.round(value)}円`
-  return `~${value.toFixed(2).replace('.', ',')} €`
+  return formatPrix(value, lang, { approx: true })
 }
 
 /**

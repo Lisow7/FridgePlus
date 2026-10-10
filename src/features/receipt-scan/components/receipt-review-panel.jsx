@@ -9,6 +9,7 @@ import { useDialogue } from '@shared/hooks/use-dialogue'
 import { Z_INDEX } from '@shared/lib/z-index'
 // Alias à l'import : garde le nom local `normalize`, donc 0 site d'usage touché.
 import { normalizeSearch as normalize } from '@shared/lib/matching/normalize-search'
+import { suffixS } from '@shared/lib/i18n/pluralize'
 
 const I18N = {
   fr: {
@@ -32,7 +33,7 @@ const I18N = {
     searchPlaceholder: 'e.g. butter',
     searchAria: 'Add an ingredient manually',
     searchNoResults: 'No results',
-    unmatchedSummary: n => `${n} item${n > 1 ? 's' : ''} unrecognised — add ${n > 1 ? 'them' : 'it'} manually below if needed.`,
+    unmatchedSummary: n => `${n} item${suffixS(n, 'en')} unrecognised — add ${n > 1 ? 'them' : 'it'} manually below if needed.`,
     choose: 'Choose',
     dismiss: 'Dismiss',
     subtitle: n => `${n} will be added to your fridge`,

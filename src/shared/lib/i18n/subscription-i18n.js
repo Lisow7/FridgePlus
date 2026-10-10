@@ -1,3 +1,5 @@
+import { suffixS } from '@shared/lib/i18n/pluralize'
+
 export const SUB_I18N = {
   fr: {
     tabLabel: 'Abonnement',
@@ -35,7 +37,7 @@ export const SUB_I18N = {
     freeDesc:  'Unlock the cart, voice in cooking mode, your saved lists and more.',
     freeCta:   'Start 7-day free trial',
     trialTitle: 'Premium trial active',
-    trialDays:  (n) => `${n} day${n > 1 ? 's' : ''} remaining`,
+    trialDays:  (n) => `${n} day${suffixS(n, 'en')} remaining`,
     trialCta:   'Activate now',
     trialDesc:  'At the end of the trial, access is maintained only if you activate a subscription.',
     activeTitle:   'Active',
