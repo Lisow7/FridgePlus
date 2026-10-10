@@ -1,6 +1,0 @@
-[
-  {"from": "/^(\\.\\.?\\/)+components\\/voice\\/VoiceMiniPanel$/",    "to": "@features/voice/components/voice-mini-panel"},
-  {"from": "/^(\\.\\.?\\/)+components\\/voice\\/VoiceConfirmPanel$/", "to": "@features/voice/components/voice-confirm-panel"},
-  {"from": "/^(\\.\\.?\\/)+hooks\\/useVoiceRecognition$/",            "to": "@features/voice/hooks/use-voice-recognition"},
-  {"from": "/^(\\.\\.?\\/)+hooks\\/useCookingVoice$/",                "to": "@features/voice/hooks/use-cooking-voice"}
-]

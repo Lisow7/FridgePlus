@@ -9,6 +9,7 @@
       "@app/*":       ["./src/app/*"],
       "@features/*":  ["./src/features/*"],
       "@shared/*":    ["./src/shared/*"],
+      "@routes/*":    ["./src/routes/*"],
       "@prerender/*": ["./src/prerender/*"]
     },
     "checkJs": false,

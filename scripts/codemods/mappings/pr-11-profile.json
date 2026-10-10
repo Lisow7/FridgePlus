@@ -1,6 +1,0 @@
-[
-  {"from": "/^(\\.\\.?\\/)+components\\/profile\\/ProfileModal$/",      "to": "@features/profile/components/profile-modal"},
-  {"from": "/^(\\.\\.?\\/)+components\\/profile\\/SpendingDashboard$/", "to": "@features/profile/components/spending-dashboard"},
-  {"from": "/^(\\.\\.?\\/)+lib\\/db\\/dataExport$/",                    "to": "@features/profile/api/data-export"},
-  {"from": "/^\\.\\/SpendingDashboard$/",                               "to": "./spending-dashboard"}
-]

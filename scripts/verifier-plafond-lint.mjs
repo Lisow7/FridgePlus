@@ -28,9 +28,15 @@
 // src/). Mêlés au compte général, ses avertissements auraient noyé les autres ;
 // à part, le plafond refuse qu'il naisse une fonction longue de plus, et se
 // baisse à chaque fonction découpée. Un seul passage d'ESLint pour les deux.
+//
+// TROISIÈME PLAFOND (depuis le 2026-10-09) — `lintDesactivationsPlafond`, le
+// nombre de commentaires `eslint-disable` dans src/ hors tests (audit du
+// 2026-10-04, ARCH-17). Sans lui, taire un avertissement le retirait du compte :
+// le plafond baissait sans qu'aucun défaut soit corrigé. Même règle : le cran
+// exact, qui ne monte jamais et se baisse à chaque désactivation retirée.
 
 import { execFileSync } from 'node:child_process'
-import { readFileSync } from 'node:fs'
+import { readFileSync, readdirSync, statSync } from 'node:fs'
 import { resolve, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -57,6 +63,24 @@ export function compterLeLint(rapport, plafondsParRegle = {}) {
   return { erreurs, avertissements, parRegle, separes }
 }
 
+/**
+ * Compte les commentaires `eslint-disable` (toutes formes) des fichiers .js,
+ * .jsx, .mjs et .ts sous `racine`, hors dossiers `test`.
+ */
+export function compterLesDesactivations(racine) {
+  let total = 0
+  const marcher = (dossier) => {
+    for (const nom of readdirSync(dossier)) {
+      const chemin = resolve(dossier, nom)
+      if (statSync(chemin).isDirectory()) { if (nom !== 'test') marcher(chemin); continue }
+      if (!/\.(js|jsx|mjs|ts)$/.test(nom)) continue
+      total += (readFileSync(chemin, 'utf8').match(/eslint-disable(?:-next-line|-line)?\b/g) ?? []).length
+    }
+  }
+  marcher(racine)
+  return total
+}
+
 function principal() {
   const racine = resolve(dirname(fileURLToPath(import.meta.url)), '..')
   // Binaire ESLint appelé par `node` directement : passer par `npx` imposerait un
@@ -78,6 +102,11 @@ function principal() {
       console.error(`✖ \`lintPlafondsParRegle["${regle}"]\` n'est pas un nombre dans package.json.`)
       process.exit(2)
     }
+  }
+  const PLAFOND_DESACTIVATIONS = pkg.lintDesactivationsPlafond
+  if (typeof PLAFOND_DESACTIVATIONS !== 'number') {
+    console.error('✖ `lintDesactivationsPlafond` absent ou non numérique dans package.json.')
+    process.exit(2)
   }
 
   let sortie
@@ -136,9 +165,22 @@ function principal() {
     }
   }
 
+  const desactivations = compterLesDesactivations(resolve(racine, 'src'))
+  if (desactivations > PLAFOND_DESACTIVATIONS) {
+    console.error(`✖ ${desactivations} eslint-disable dans src/ pour un plafond de ${PLAFOND_DESACTIVATIONS}.`)
+    console.error('  Taire un avertissement n\'est pas le corriger : ce plafond ne se MONTE pas.')
+    process.exit(1)
+  }
+  if (desactivations < PLAFOND_DESACTIVATIONS) {
+    console.error(`✖ Plafond périmé : ${desactivations} eslint-disable réels pour un plafond de ${PLAFOND_DESACTIVATIONS}.`)
+    console.error(`  → Écrivez "lintDesactivationsPlafond": ${desactivations} dans package.json.`)
+    process.exit(1)
+  }
+
   console.log(`✓ Lint : 0 erreur, ${avertissements} avertissements — plafond tenu au cran exact.`)
   console.log('  Répartition (5 premières règles) :\n' + detail)
   for (const [regle, compte] of separes) console.log(`✓ ${regle} : ${compte}, au cran exact (plafond à part).`)
+  console.log(`✓ eslint-disable : ${desactivations}, au cran exact.`)
 }
 
 // Importable par les tests sans lancer ESLint.

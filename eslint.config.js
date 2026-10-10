@@ -53,6 +53,7 @@ export default defineConfig([
             ['@features', './src/features'],
             ['@shared',   './src/shared'],
             ['@routes',   './src/routes'],
+            ['@prerender', './src/prerender'],
           ],
           extensions: ['.js', '.jsx', '.ts', '.tsx'],
         },
