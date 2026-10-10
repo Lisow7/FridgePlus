@@ -6,7 +6,6 @@ import { I18N } from '../i18n/consent-i18n'
 import { CATEGORIES } from '../i18n/consent-categories-i18n'
 import CookieModal from './cookie-modal'
 import Button from '@shared/ui/button'
-import { usePushSubscription } from '@features/push-notifications'
 import { useSaveErrorToast } from '@shared/hooks/use-save-error-toast'
 
 // drapeau localStorage UX pour la modale charte communauté
@@ -24,7 +23,6 @@ export default function ConfidentialityPanel({ lang = 'fr', darkMode = false, on
   const { consent, hasDecided, reset } = useConsent()
   const { user } = useAuth()
   const [showEdit, setShowEdit] = useState(false)
-  const push = usePushSubscription()
   const signalerEchec = useSaveErrorToast()
 
   // Le reset complet englobe aussi l'acceptation de la charte
@@ -69,10 +67,6 @@ export default function ConfidentialityPanel({ lang = 'fr', darkMode = false, on
                statusColor={consent.errors ? '#5A8A4A' : '#A05A20'} />
           <Row label={t.catUsageTitle} status={consent.usage ? t.statusAccepted : t.statusRefused} fg={fg} muted={muted}
                statusColor={consent.usage ? '#5A8A4A' : '#A05A20'} />
-          {push.available && (
-            <Row label={t.catPushTitle} status={push.enabled ? t.catPushStatusOn : t.catPushStatusOff} fg={fg} muted={muted}
-                 statusColor={push.enabled ? '#5A8A4A' : '#A05A20'} />
-          )}
           <div style={{ fontSize: 11, color: muted, marginTop: 4 }}>
             {t.profileCurrent} : {hasDecided ? lastUpdate : '—'}
           </div>

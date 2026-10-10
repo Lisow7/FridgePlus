@@ -6,6 +6,9 @@ const updateProfile = vi.hoisted(() => vi.fn())
 const updateAllergenPrefs = vi.hoisted(() => vi.fn())
 const signaler = vi.hoisted(() => vi.fn())
 
+// Le bloc Notifications (testé à part, notifications-section.test.jsx) lit les
+// drapeaux de fonctionnalités : hors sujet ici.
+vi.mock('@features/profile/components/notifications-section', () => ({ default: () => null }))
 vi.mock('@shared/contexts/auth-provider', () => ({
   useAuth: () => ({ updateProfile, allergenPrefs: ['gluten'], updateAllergenPrefs }),
 }))
