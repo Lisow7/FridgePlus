@@ -3,7 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "lintWarningsPlafond": 81,
+  "lintWarningsPlafond": 80,
   "lintPlafondsParRegle": { "max-lines-per-function": 158 },
   "lintDesactivationsPlafond": 101,
   "poidsDemarrageGzipKoPlafond": 285,

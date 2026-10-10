@@ -1,5 +1,6 @@
 import { useState, useRef, useCallback, useEffect, useId } from 'react'
 import { useAnchoredPopover } from '@shared/hooks/use-anchored-popover'
+import { useFermetureDifferee } from '@shared/hooks/use-fermeture-differee'
 import { useLang } from '@shared/contexts/ui-provider'
 import { AnchoredBubble } from './anchored-popover'
 
@@ -43,6 +44,10 @@ export default function InfoTooltip({ text, darkMode = false }) {
 
   const close = useCallback(() => setOpen(false), [])
   const pos = useAnchoredPopover({ anchorRef, open, onClose: close, width: 300 })
+  // Au survol, la bulle se laisse survoler : quitter la pastille ou la bulle
+  // ferme après un court délai, y entrer annule (WCAG 1.4.13 ; audit du
+  // 2026-10-04, A11Y-22).
+  const { fermerBientot, annulerLaFermeture } = useFermetureDifferee(close)
 
   // Le survol (mouseenter/mouseleave) ne doit piloter l'ouverture que sur un
   // vrai pointeur (souris). Sur tactile, un tap synthétise mouseenter ET
@@ -71,8 +76,8 @@ export default function InfoTooltip({ text, darkMode = false }) {
       <span
         ref={anchorRef}
         style={{ position: 'relative', display: 'inline-flex', alignItems: 'center', flexShrink: 0 }}
-        onMouseEnter={canHover ? () => setOpen(true) : undefined}
-        onMouseLeave={canHover ? close : undefined}
+        onMouseEnter={canHover ? () => { annulerLaFermeture(); setOpen(true) } : undefined}
+        onMouseLeave={canHover ? fermerBientot : undefined}
       >
         <button
           type="button"
@@ -96,6 +101,8 @@ export default function InfoTooltip({ text, darkMode = false }) {
           popRef={popRef}
           id={tipId}
           darkMode={darkMode}
+          onMouseEnter={canHover ? annulerLaFermeture : undefined}
+          onMouseLeave={canHover ? fermerBientot : undefined}
           style={{ fontSize: '14px', lineHeight: 1.6, padding: '14px 16px', borderRadius: '14px' }}
         >
           {text}

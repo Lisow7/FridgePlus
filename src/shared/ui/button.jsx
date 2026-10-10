@@ -45,6 +45,9 @@ const SIZES = {
 
 const BASE = [
   'inline-flex items-center justify-center gap-2',
+  // Jamais sous 24 × 24 px, même quand un site retire la taille (`h-auto
+  // w-auto p-0`) : WCAG 2.2, 2.5.8 (audit du 2026-10-04, A11Y-13).
+  'min-h-6 min-w-6',
   'font-semibold rounded-lg',
   'cursor-pointer select-none',
   'transition-[opacity,transform,background-color] duration-150',

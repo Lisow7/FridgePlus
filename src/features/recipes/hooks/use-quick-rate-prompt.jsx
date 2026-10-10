@@ -1,13 +1,8 @@
 import { useCallback, useEffect, useRef } from 'react'
-import { LuStar, LuX } from 'react-icons/lu'
 import { useToast } from '@shared/ui/toast/toast-provider'
 import { useSaveErrorToast } from '@shared/hooks/use-save-error-toast'
 import { getMyReview, upsertReview } from '@features/recipes/api/recipe-reviews'
-
-const I18N = {
-  fr: { title: 'Comment c\'était ?', close: 'Fermer' },
-  en: { title: 'How was it?', close: 'Close' },
-}
+import QuickRateToast from '@features/recipes/components/quick-rate-toast'
 
 // Toast de notation rapide 1-tap, affiché après un `logCooking()` réussi
 // (cf. use-recipe-modal.js). Il part tout seul au bout de QUICK_RATE_MS, et
@@ -15,35 +10,6 @@ const I18N = {
 // 2026-10-04 — il restait collé en bas de l'écran, sur l'accueil, longtemps
 // après la recette qu'il concernait (`duration: 0` à l'origine).
 export const QUICK_RATE_MS = 3000
-
-function QuickRateToast({ lang, onRate, onDismiss }) {
-  const t = I18N[lang] ?? I18N.fr
-  const title = t.title
-  const closeLabel = t.close
-  return (
-    <div style={{
-      display: 'flex', alignItems: 'center', gap: '10px',
-      padding: '12px 16px', borderRadius: '12px',
-      background: '#B85000', color: '#fff',
-      boxShadow: '0 6px 20px rgba(224,120,32,0.35)', maxWidth: '320px',
-    }}>
-      <span style={{ fontSize: '13px', fontWeight: 700, flexShrink: 0 }}>{title}</span>
-      <div style={{ display: 'flex', gap: '2px' }}>
-        {[1, 2, 3, 4, 5].map(n => (
-          <button key={n} type="button" onClick={() => onRate(n)}
-            aria-label={`${n}/5`}
-            style={{ background: 'none', border: 'none', padding: '2px', cursor: 'pointer', color: '#fff' }}>
-            <LuStar size={18} fill="none" strokeWidth={2.2} />
-          </button>
-        ))}
-      </div>
-      <button type="button" onClick={onDismiss} aria-label={closeLabel}
-        style={{ background: 'none', border: 'none', padding: '2px', cursor: 'pointer', color: '#fff', opacity: 0.7, flexShrink: 0 }}>
-        <LuX size={16} />
-      </button>
-    </div>
-  )
-}
 
 /**
  * @param {string|undefined} currentRecipeId recette affichée par la fiche
