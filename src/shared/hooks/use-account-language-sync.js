@@ -1,6 +1,8 @@
 import { useEffect, useRef } from 'react'
 import { useAuth } from '@shared/contexts/auth-provider'
 import { useLang } from '@shared/contexts/ui-provider'
+import { retenirLaLangueDesEmails } from '@shared/api/langue-du-compte'
+import { SUPPORTED_LANGS } from '@shared/lib/i18n/langues'
 
 // La langue suit le compte, dans les deux sens.
 //
@@ -21,15 +23,22 @@ import { useLang } from '@shared/contexts/ui-provider'
 // `seenRef` retient la dernière langue du compte déjà traitée : c'est ce qui
 // distingue « le compte vient de changer » de « l'appareil vient de changer »,
 // et empêche deux appareils de se renvoyer la balle.
+//
+// Les e-mails de Supabase Auth (confirmation, mot de passe oublié, changement
+// d'adresse) ne lisent pas le profil mais user_metadata (`{{ .Data.lang }}`) :
+// la langue du compte y est recopiée quand elles diffèrent — un compte Google
+// n'en avait aucune, et un changement de langue n'y arrivait jamais (CPT-18).
 export function useAccountLanguageSync() {
   const { user, profile, updateProfile } = useAuth()
   const { lang, setLang } = useLang()
   const seenRef = useRef({ id: null, language: undefined })
   const writingRef = useRef(null)
+  const recopieRef = useRef(null)
 
   const userId = user?.id ?? null
   const profileId = profile?.id ?? null
   const accountLanguage = profile ? (profile.language ?? null) : undefined
+  const langueDesEmails = user?.user_metadata?.lang ?? null
 
   useEffect(() => {
     if (!userId || !profileId) {
@@ -57,4 +66,17 @@ export function useAccountLanguageSync() {
     // suivre rejouerait l'effet sans raison. Seuls le compte et la langue comptent.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userId, profileId, accountLanguage, lang])
+
+  // Une seule recopie par compte et par langue, même si l'effet est rejoué.
+  useEffect(() => {
+    if (!userId || !SUPPORTED_LANGS.has(accountLanguage) || langueDesEmails === accountLanguage) return
+    const cle = `${userId}:${accountLanguage}`
+    if (recopieRef.current === cle) return
+    recopieRef.current = cle
+    retenirLaLangueDesEmails(accountLanguage)
+      .then((res) => {
+        // Échec (déjà au journal) : la clé se libère, une prochaine occasion réessaiera.
+        if (res.error && recopieRef.current === cle) recopieRef.current = null
+      })
+  }, [userId, accountLanguage, langueDesEmails])
 }
