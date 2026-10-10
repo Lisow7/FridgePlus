@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest'
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { ROUTES } from '@routes/routes-config'
-import { CHEMIN_DANS_APP } from '@features/legal/data/suppression-compte'
+import { CHEMIN_DANS_APP, APRES_LA_DEMANDE } from '@features/legal/data/suppression-compte'
 
 // Ce que la page publique de suppression dit est vrai (audit du 2026-10-04,
 // CPT-07) — la page exigée par Google Play.
@@ -17,6 +17,10 @@ const RACINE = resolve(__dirname, '../../..')
 const lire = (chemin) => readFileSync(resolve(RACINE, chemin), 'utf8')
 const PAGE_COMPTE = lire('src/features/profile/pages/profile-account-page.jsx')
 const PAGE_PUBLIQUE = lire('src/features/legal/pages/account-deletion-page.jsx')
+// Ce que la page affiche de la suite de la demande vit dans le module des faits
+// (`APRES_LA_DEMANDE`), que le HTML servi lit aussi : les trois sont relus.
+const FAITS = lire('src/features/legal/data/suppression-compte.js')
+const CORPS_SERVI = lire('src/prerender/corps-statique.js')
 const onglets = ROUTES.find((r) => r.path === '/profile').children.filter((c) => c.label)
 const libelle = (champ, lang) => {
   const bloc = PAGE_COMPTE.split(lang === 'fr' ? /\n\s*fr:\s*\{/ : /\n\s*en:\s*\{/)[1]
@@ -34,8 +38,12 @@ describe.each(['fr', 'en'])('le chemin dans l’app (%s) suit les vrais libellé
 
 describe('la page publique dit vrai', () => {
   it('rien n’est « anonymisé tout de suite » : le compte est désactivé, les données gardées 30 jours', () => {
-    expect(PAGE_PUBLIQUE).not.toMatch(/anonymisées tout de suite|anonymised straight away|anonymized right away/i)
-    expect(PAGE_PUBLIQUE).toMatch(/désactivé tout de suite/)
+    for (const source of [PAGE_PUBLIQUE, FAITS, CORPS_SERVI]) {
+      expect(source).not.toMatch(/anonymisées (tout de suite|immédiatement)|anonymised (straight away|immediately)|anonymized (right away|immediately)/i)
+    }
+    expect(PAGE_PUBLIQUE).toMatch(/APRES_LA_DEMANDE\[lang\]/)
+    expect(APRES_LA_DEMANDE.fr).toMatch(/désactivé tout de suite/)
+    expect(APRES_LA_DEMANDE.en).toMatch(/deactivated straight away/)
   })
 
   it('l’export porte son vrai nom, à son vrai endroit', () => {

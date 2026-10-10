@@ -137,6 +137,13 @@ export default defineConfig({
           // hors ligne a déjà favicon.svg.
           '**/apple-touch-icon.png',
           '**/favicon.ico',
+          // Décision du 2026-10-08 : les pages « Accessibilité » et « Sécurité »
+          // (7,1 Ko compressés de texte bilingue) se lisent en ligne, rarement ;
+          // même compromis que le panneau admin. Leur HTML pré-rendu reste servi.
+          // `scripts/verifier-precache.mjs` refuse leur retour.
+          '**/accessibility-page-*.js',
+          '**/security-page-*.js',
+          '**/page-publique-de-texte-*.js',
         ],
         // Bumper la limite (notre bundle JS est ~967kB en raison du contenu
         // i18n × 5 langues + recettes statiques). À retirer quand la BDD
