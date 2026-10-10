@@ -7,6 +7,7 @@ import ContenuEtape from './tour-step-content'
 import { useFocusTrap } from '@shared/hooks/use-focus-trap'
 import { useCloseOnBackButton } from '@shared/hooks/use-close-on-back-button'
 import Button from '@shared/ui/button'
+import { useFeatureFlag } from '@shared/contexts/feature-flags-provider'
 
 // ── CSS injecté une seule fois dans <head> ────────────────────────────────────
 const TOUR_CSS = `
@@ -113,15 +114,41 @@ const I18N = {
 // D'où le `?? .en`, seule exception assumée à la convention `?? .fr` du dépôt
 // (cf. `src/test/unit/lang-ternaries-i18n.test.js`). Ajouter une 3ᵉ langue ne
 // demande plus qu'un bloc dans TOUR_STEPS_I18N, sans toucher à cette ligne.
-function getSteps(profile, lang) {
+// Le drapeau de la photo du ticket éteint (décision du 2026-10-08) : l’étape « Remplis
+// ton frigo » perd l’option et les conseils qui la nomment. Le dictionnaire partagé n’est
+// pas touché : le guide public, préparé à l’avance, la décrit toujours.
+const FRIGO_SANS_PHOTO = {
+  fr: {
+    subtitle: 'TROIS FAÇONS, AU CHOIX',
+    tips: [
+      { i: '⚡', t: 'Le plus rapide en rentrant des courses : la voix, sans avoir les deux mains prises par le téléphone.' },
+      { i: '🔒', t: 'Le micro reste désactivé tant que tu ne dis pas oui — et tu peux changer d’avis à tout moment dans Confidentialité.' },
+    ],
+  },
+  en: {
+    subtitle: 'THREE WAYS, YOUR PICK',
+    tips: [
+      { i: '⚡', t: 'The fastest way when you get home with groceries: voice, never both hands on the phone.' },
+      { i: '🔒', t: 'The mic stays off until you say yes — and you can change your mind anytime in Privacy.' },
+    ],
+  },
+}
+
+function getSteps(profile, lang, photoDuTicket) {
   const dict = TOUR_STEPS_I18N[lang] ?? TOUR_STEPS_I18N.en
   const keys = [...COMMON, FINAL_BY_PROFILE[profile] ?? 'final_guest']
-  return keys.map(k => ({ key: k, ...STEP_META[k], ...(dict[k] ?? {}) }))
+  const steps = keys.map(k => ({ key: k, ...STEP_META[k], ...(dict[k] ?? {}) }))
+  if (photoDuTicket) return steps
+  const sansPhoto = FRIGO_SANS_PHOTO[lang] ?? FRIGO_SANS_PHOTO.en
+  return steps.map(s => (s.key === 'fridge'
+    ? { ...s, ...sansPhoto, options: (s.options ?? []).filter(o => o.icon !== 'camera') }
+    : s))
 }
 
 export default function TourWizard({ lang = 'fr', user, isPremium, onClose, onBack, onAction = {} }) {
   const profile = !user ? 'guest' : isPremium ? 'premium' : 'free'
-  const steps   = getSteps(profile, lang)
+  const photoDuTicket = useFeatureFlag('receipt_scan', false)
+  const steps   = getSteps(profile, lang, photoDuTicket)
   const t       = I18N[lang] ?? I18N.en
 
   const [idx, setIdx]         = useState(0)

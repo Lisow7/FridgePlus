@@ -6,7 +6,7 @@
   "lintWarningsPlafond": 79,
   "lintPlafondsParRegle": { "max-lines-per-function": 157 },
   "lintDesactivationsPlafond": 101,
-  "poidsDemarrageGzipKoPlafond": 291,
+  "poidsDemarrageGzipKoPlafond": 292,
   "precacheGzipKoPlafond": 771,
   "erreursJeteesPlafond": 6,
   "champsSansNomPlafond": 0,

@@ -5,6 +5,7 @@ import { QUICK_ADD_IDS } from '../lib/quick-add-ingredients'
 import QuickAddChips from './quick-add-chips'
 import { TourIcon } from '../lib/tour-icon'
 import FabGlyph from '@shared/ui/fab-glyph'
+import { useFeatureFlag } from '@shared/contexts/feature-flags-provider'
 
 // Carte « coach » FLOTTANTE (portail vers document.body). Affiche UN seul état à
 // la fois (déterminé en amont par le container via `state`) et se transforme au
@@ -17,6 +18,9 @@ export default function GettingStartedCard({
   collapsed, onCollapse, stock, onQuickAdd, onQuickRemove, onSeeRecipe, onSeeRecipes, onSignUp, onOpenRewards,
 }) {
   const t = GETTING_STARTED_I18N[lang] ?? GETTING_STARTED_I18N.fr
+  // Drapeau de la photo du ticket éteint : la carte n’en parle plus (décision du 2026-10-08).
+  const photoDuTicket = useFeatureFlag('receipt_scan', false)
+  const facons = photoDuTicket ? ['door', 'search', 'mic', 'camera'] : ['door', 'search', 'mic']
   const tq = QUICK_START_I18N[lang] ?? QUICK_START_I18N.fr
 
   // Réduite (« masquer ») : plus de pastille flottante — le point d'entrée pour
@@ -83,7 +87,7 @@ export default function GettingStartedCard({
       {state === 's1' && t.s1.ways && (
         <div data-ways style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '4px 10px', marginTop: 8, fontSize: 12.5, color: '#7A6A52' }}>
           <ul role="list" style={{ display: 'contents', margin: 0, padding: 0, listStyle: 'none' }}>
-            {['door', 'search', 'mic', 'camera'].filter(id => t.s1.ways[id]).map(id => (
+            {facons.filter(id => t.s1.ways[id]).map(id => (
               <li key={id} style={{ display: 'inline-flex', alignItems: 'center', gap: 5 }}>
                 <span style={{ display: 'flex', color: 'var(--color-warm-600)' }}><TourIcon id={id} size={14} /></span>
                 <span>{t.s1.ways[id]}</span>

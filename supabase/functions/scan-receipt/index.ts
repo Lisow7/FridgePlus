@@ -89,6 +89,19 @@ Deno.serve(async (req: Request) => {
     return new Response(JSON.stringify({ error: 'invalid_token' }), { status: 401, headers: CORS })
   }
 
+  // ─── 1b. Le drapeau « receipt_scan » (décision du 2026-10-08 : qu'il coupe vraiment) ──
+  // Éteint dans l'admin, la photo du ticket est refusée ICI, pas seulement masquée
+  // dans l'app : une version restée ouverte, ou un appel direct, ne passe plus.
+  // Une ligne absente vaut « éteint », comme côté client (`useFeatureFlag(…, false)`).
+  const { data: drapeau, error: drapeauErr } = await supabaseUser
+    .from('feature_flags').select('enabled').eq('key', 'receipt_scan').maybeSingle()
+  if (drapeauErr) {
+    return new Response(JSON.stringify({ error: 'flag_unavailable' }), { status: 503, headers: CORS })
+  }
+  if (!drapeau?.enabled) {
+    return new Response(JSON.stringify({ error: 'feature_disabled' }), { status: 403, headers: CORS })
+  }
+
   // ─── 2. Rate limit (10 req/min/utilisateur — anti-abus individuel) ───────
   const limited = applyRateLimit(req, 'scan-receipt', { max: 10, windowMs: 60_000 }, user.id, CORS)
   if (limited) return limited
