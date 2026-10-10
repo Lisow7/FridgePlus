@@ -13,9 +13,10 @@ export default function MotifDeRejetModal({ recipeName, darkMode = false, onConf
   const dialogue = useDialogue({ onClose: onCancel })
   const pret = motif.trim().length > 0
 
-  const bg     = darkMode ? '#0F1923' : '#FFF'
-  const border = darkMode ? '#2A3A50' : '#D9CCBA'
-  const text   = darkMode ? '#C8D8E8' : '#1A0F00'
+  // Les jetons du thème, pas de couleur en dur (cliquet `couleurs-en-dur-plafond`).
+  const bg     = darkMode ? 'var(--color-dark-surface)' : 'var(--color-surface)'
+  const border = darkMode ? 'var(--color-dark-border)' : 'var(--color-border-warm)'
+  const text   = darkMode ? 'var(--color-bg-warm)' : 'var(--color-charcoal)'
 
   return (
     <div

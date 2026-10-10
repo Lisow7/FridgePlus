@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, useRef, useId } from 'react'
+import { useMemo, useState, useId } from 'react'
 import { LuRefreshCw, LuExternalLink, LuSearch, LuX, LuDownload, LuShieldCheck, LuShieldAlert } from 'react-icons/lu'
 import { adminGetHealthChecks } from '@features/admin/api/admin'
 import Button from '@shared/ui/button'
@@ -7,6 +7,7 @@ import EmptyState from '@shared/ui/empty-state'
 import ImportQueueTab from './import-queue-tab'
 import { formatDate } from '@shared/lib/format-date'
 import { useReloader } from '@shared/hooks/use-reloader'
+import { useRafraichissementSousLesYeux } from '@features/admin/hooks/use-rafraichissement-sous-les-yeux'
 import { texteLisible, fondTeinte } from '@shared/lib/couleurs/texte-lisible'
 
 // Catalog des issues Data Quality v2 (Sprint 8). Couvre 5 dimensions :
@@ -181,7 +182,6 @@ export default function DataQualitySection({
   // `adminGetHealthChecks` remonte l'erreur Supabase ; sans elle, une requête en
   // échec renvoie des listes vides que le score interprétait comme « 100 % sain ».
   const [loadError,        setLoadError]         = useState(null)
-  const timerRef = useRef(null)
 
   const fg     = darkMode ? 'var(--color-bg-warm)' : '#2C1A0E'
   const muted  = darkMode ? '#A0A8B8' : '#7A6A52'
@@ -205,29 +205,9 @@ export default function DataQualitySection({
   }, [])
 
   // Rafraîchissement automatique seulement si quelqu'un regarde : onglet du
-  // navigateur visible ET listes affichées (pas le sous-onglet Import). Au retour
-  // sur l'onglet, une lecture rattrape le retard si la dernière date de plus de
-  // AUTO_REFRESH_MS — avant, les deux vues de santé repartaient toutes les cinq
-  // minutes, onglet masqué ou non (audit du 2026-10-04, ADM-12 (3)).
-  const dernierControleRef = useRef(null)
-  useEffect(() => { dernierControleRef.current = lastChecked }, [lastChecked])
-  const listesAffichees = activeTab !== 'imports'
-  useEffect(() => {
-    if (!listesAffichees) return undefined
-    const visible = () => document.visibilityState !== 'hidden'
-    const auTic = () => { if (visible()) reload() }
-    const auRetour = () => {
-      if (!visible()) return
-      const depuis = Date.now() - (dernierControleRef.current?.getTime() ?? 0)
-      if (depuis >= AUTO_REFRESH_MS) reload()
-    }
-    timerRef.current = setInterval(auTic, AUTO_REFRESH_MS)
-    document.addEventListener('visibilitychange', auRetour)
-    return () => {
-      clearInterval(timerRef.current)
-      document.removeEventListener('visibilitychange', auRetour)
-    }
-  }, [reload, listesAffichees])
+  // navigateur visible ET listes affichées (pas le sous-onglet Import), avec
+  // rattrapage au retour (audit du 2026-10-04, ADM-12 (3)).
+  useRafraichissementSousLesYeux({ reload, actif: activeTab !== 'imports', dernierControle: lastChecked, intervalleMs: AUTO_REFRESH_MS })
 
   const items = activeTab === 'recipes' ? recipes : ingredients
   // eslint-disable-next-line no-unused-vars
