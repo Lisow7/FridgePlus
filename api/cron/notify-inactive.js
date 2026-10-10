@@ -13,6 +13,12 @@
  *   - Auth 1 : Vercel cron injecte `Authorization: Bearer ${CRON_SECRET}` côté Vercel
  *   - Auth 2 : cette route ajoute `X-Cron-Secret: ${NOTIFY_INACTIVE_CRON_SECRET}` côté Supabase
  *
+ * Ce qui sort de la route (audit du 2026-10-04, SEC-05 (3)) : des COMPTES et des
+ * motifs agrégés (`raisons: { resend_429: 2 }`), jamais le détail par compte
+ * ni le corps brut de la fonction edge — elle journalise déjà ces détails côté
+ * Supabase. Avant, les identifiants des comptes en échec partaient dans la
+ * réponse et dans les journaux Vercel.
+ *
  * Config : vercel.json → crons → schedule = "0 7 * * *" (08:00 Paris hiver, 09:00 été)
  *
  * Pourquoi 07:00 UTC et pas 06:00 (comme quality-check) ? On dé-corrèle pour
@@ -45,7 +51,7 @@ export default async function handler(req, res) {
   // elle renvoie `hasMore=true` et on re-tire. Limite défensive 10 itérations
   // (= 500 emails/run max) pour éviter une boucle infinie en cas de bug.
   const fnUrl = `${supabaseUrl}/functions/v1/notify-inactive`
-  const aggregate = { processed: 0, warned: 0, errors: 0, iterations: 0, errorDetails: [] }
+  const aggregate = { processed: 0, warned: 0, errors: 0, iterations: 0, raisons: {} }
 
   for (let i = 0; i < 10; i++) {
     aggregate.iterations++
@@ -61,19 +67,22 @@ export default async function handler(req, res) {
       })
       result = await fnRes.json().catch(() => ({}))
       if (!fnRes.ok) {
-        console.error('[notify-inactive cron] Edge Function returned', fnRes.status, result)
-        return res.status(502).json({ error: 'edge_function_failed', status: fnRes.status, aggregate })
+        console.error('[notify-inactive cron] Edge Function returned', fnRes.status)
+        return res.status(502).json({ error: 'edge_function_failed', status: fnRes.status })
       }
     } catch (e) {
       console.error('[notify-inactive cron] fetch threw:', e.message)
-      return res.status(502).json({ error: 'fetch_failed', aggregate })
+      return res.status(502).json({ error: 'fetch_failed' })
     }
 
     aggregate.processed += result.processed ?? 0
     aggregate.warned    += result.warned ?? 0
     aggregate.errors    += result.errors ?? 0
-    if (Array.isArray(result.errorDetails)) {
-      aggregate.errorDetails.push(...result.errorDetails)
+    // Le motif de chaque échec est compté ; l'identifiant du compte reste
+    // dans les journaux de la fonction edge.
+    for (const detail of Array.isArray(result.errorDetails) ? result.errorDetails : []) {
+      const raison = String(detail?.reason ?? 'inconnue').slice(0, 40)
+      aggregate.raisons[raison] = (aggregate.raisons[raison] ?? 0) + 1
     }
     if (!result.hasMore) break
   }
