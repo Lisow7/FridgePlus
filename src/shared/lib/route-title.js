@@ -66,7 +66,7 @@ export function titreDeRoute(chemin, lang = 'fr') {
 //
 // ⚠️ Le préfixe compte : `/profile` redirige vers `/profile/identite`, et c'est
 // le layout `/profile` qui pose le titre pour toutes ses sous-routes.
-const PREFIXES_A_TITRE_PROPRE = ['/faq', '/guide', '/legal', '/suppression-compte', '/changelog', '/community', '/profile', '/cart', '/recipe', '/cook', '/login', '/signup', '/auth']
+const PREFIXES_A_TITRE_PROPRE = ['/faq', '/guide', '/legal', '/suppression-compte', '/accessibilite', '/securite', '/changelog', '/community', '/profile', '/cart', '/recipe', '/cook', '/login', '/signup', '/auth']
 
 export function laPagePoseSonTitre(pathname) {
   if (typeof pathname !== 'string') return false

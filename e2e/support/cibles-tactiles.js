@@ -7,7 +7,8 @@ import { expect } from '@playwright/test'
 // « espacement » du critère : un cercle de 24 px centré ne touche aucune autre cible).
 
 // « Mentions légales » s'appelait « Aide & Mentions légales » avant la décision du 2026-10-08 (lot 13d).
-export const EXCEPTIONS = /^(Mentions légales|Cookies|v\d+\.\d+.*)$/
+// « Accessibilité » les a rejoints le 2026-10-10 (même décision) : même ligne, même espacement.
+export const EXCEPTIONS = /^(Mentions légales|Accessibilité|Accessibility|Cookies|v\d+\.\d+.*)$/
 
 export async function ciblesTropPetites(page) {
   return page.evaluate(() => {

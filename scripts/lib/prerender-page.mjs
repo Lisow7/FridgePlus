@@ -442,6 +442,17 @@ export const PAGES_STATIQUES = [
     titre: 'Mentions légales — Fridge+',
     description: 'Mentions légales, conditions d\'utilisation et politique de confidentialité de Fridge+.',
   },
+  {
+    chemin: '/accessibilite',
+    titre: 'Accessibilité — Fridge+',
+    description: 'Ce que Fridge+ fait pour s’utiliser au clavier, avec un lecteur d’écran ou des animations réduites, comment c’est vérifié, ce qui reste à faire, et comment signaler un problème.',
+  },
+  {
+    // Celle que désigne `public/.well-known/security.txt` (Policy, Acknowledgments).
+    chemin: '/securite',
+    titre: 'Sécurité — Fridge+',
+    description: 'Comment signaler une faille de sécurité dans Fridge+, ce que nous nous engageons à faire et dans quels délais, et ce qui entre ou non dans le périmètre.',
+  },
 ]
 
 /**
@@ -471,6 +482,8 @@ export const MORCEAUX_PAR_CHEMIN = {
   '/legal': ['legal-page'],
   '/changelog': ['changelog-page'],
   '/suppression-compte': ['account-deletion-page'],
+  '/accessibilite': ['accessibility-page'],
+  '/securite': ['security-page'],
   '/community': ['community-page-route'],
   // Les fiches : la page, et avec ses imports la modale qui affiche la recette.
   '/recipe': ['recipe-page'],

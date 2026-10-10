@@ -1,4 +1,8 @@
 import { describe, it, expect } from 'vitest'
+import { createElement } from 'react'
+import { render, screen } from '@testing-library/react'
+import { MemoryRouter } from 'react-router-dom'
+import AccountDeletionPage from '@features/legal/pages/account-deletion-page'
 import { ROUTES } from '@routes/routes-config'
 import { PAGES_STATIQUES } from '../../../scripts/lib/prerender-page.mjs'
 import { corpsSuppressionCompte } from '@prerender/corps-statique'
@@ -6,6 +10,7 @@ import {
   DELAI_EFFACEMENT_JOURS,
   EMAIL_SUPPRESSION,
   CHEMIN_DANS_APP,
+  APRES_LA_DEMANDE,
 } from '@features/legal/data/suppression-compte'
 import { getLegalSection } from '@features/legal/data/legal-content'
 
@@ -64,6 +69,22 @@ describe('/suppression-compte — l’exigence Google Play tient dans les trois 
       const repere = lang === 'fr' ? 'Zone de danger' : 'Danger zone'
       expect(html, `corps ${lang} : chemin dans l’app absent`).toContain(repere)
       expect(CHEMIN_DANS_APP[lang], `chemin ${lang} non défini`).toBeTruthy()
+    }
+  })
+
+  it('le corps SERVI et la page vivante disent la même chose de ce qui suit la demande', () => {
+    // Le 2026-10-10 : le HTML servi disait « anonymisées immédiatement », la page
+    // « désactivé tout de suite, gardées 30 jours le temps de changer d'avis, puis
+    // anonymisées ». C'est la page qui dit vrai (fonction `delete-account` :
+    // suppression douce, 30 jours, annulable). Une seule phrase, lue des deux côtés.
+    for (const lang of ['fr', 'en']) {
+      expect(APRES_LA_DEMANDE[lang], lang).toContain(String(DELAI_EFFACEMENT_JOURS))
+      const html = corpsSuppressionCompte(lang)
+      expect(html, lang).toContain(APRES_LA_DEMANDE[lang])
+      expect(html, lang).not.toMatch(/imm[ée]diatement|immediately/)
+      const { unmount } = render(createElement(MemoryRouter, null, createElement(AccountDeletionPage, { lang })))
+      expect(screen.getByText(APRES_LA_DEMANDE[lang])).toBeInTheDocument()
+      unmount()
     }
   })
 })
