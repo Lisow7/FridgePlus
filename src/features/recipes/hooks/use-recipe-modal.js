@@ -280,7 +280,10 @@ export default function useRecipeModal({ recipe, stock, onClose, lang, darkMode,
   // Onglet Coût — état persistant (mode + prix live) + auto-refresh à l'ouverture,
   // tenu hors de la vue (montée conditionnellement) pour survivre aux changements
   // d'onglet ; dérivation dans RecipeCostTab (§2, 2026-07-25).
-  const cost = useRecipeCost({ active: activeTab === 'cost', recipe, lang })
+  // Sous le verrou (compte gratuit), l'onglet ne montre que le verrou : aucune
+  // demande de prix à Open Prices — l'adresse IP partait pour rien (audit du
+  // 2026-10-04, « petits gains et vérités »).
+  const cost = useRecipeCost({ active: activeTab === 'cost' && hasPremiumAccess, recipe, lang })
 
   // Agrégat des avis (alimente le badge ⭐ dans le header)
   const [reviewsAgg, setReviewsAgg] = useState({ avg: 0, count: 0 })

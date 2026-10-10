@@ -43,15 +43,22 @@ export function useBottomInsetPublisher(ref, active, variable = BOTTOM_INSET_VAR
     }
 
     const el = ref.current
+    let derniere = null
     const publier = () => {
       const h = Math.round(el.getBoundingClientRect().height)
+      // Réécrire la variable invalide le style de tout le document : seulement
+      // si la hauteur a changé (audit du 2026-10-04, PERF-13).
+      if (h === derniere) return
+      derniere = h
       // 0 = surface repliée ou pas encore mesurée : ne rien réserver plutôt
       // que réserver faux.
       if (h > 0) racine.style.setProperty(variable, `${h}px`)
       else liberer()
     }
 
-    publier()
+    // Pas de mesure ici : en plein commit, elle forçait une mise en page
+    // complète (PERF-13 : 183 ms mesurés). Le ResizeObserver rappelle dès
+    // l'observation, après la mise en page et avant la peinture.
 
     // La hauteur bouge : chargement des polices, retour à la ligne du texte,
     // rotation de l'écran. On suit plutôt que de mesurer une seule fois.
@@ -59,6 +66,8 @@ export function useBottomInsetPublisher(ref, active, variable = BOTTOM_INSET_VAR
     if (typeof ResizeObserver !== 'undefined') {
       observer = new ResizeObserver(publier)
       observer.observe(el)
+    } else {
+      publier() // vieux navigateur : une mesure au montage, comme avant
     }
 
     return () => {
