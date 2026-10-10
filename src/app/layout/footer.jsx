@@ -164,7 +164,11 @@ function VersionBadge({ to, version, lang = 'fr', hasNew, onSeen }) {
  }}
  >
  <LuTag size={11} aria-hidden="true" />
- {releaseName && <span>{releaseName} ·</span>}
+ {/* Le nom de la version, en clair à partir de 1440 px seulement : avec
+     « Accessibilité » (décision du 2026-10-08), la ligne débordait à 1280 px
+     avec les polices de Linux (≈ 1 328 px, mesuré par la CI). Le nom reste
+     dans `aria-label`, et sur le journal des versions. */}
+ {releaseName && <span className="hidden min-[1440px]:inline">{releaseName} ·</span>}
  <span>v{version}</span>
  {hasNew && (
   <span
