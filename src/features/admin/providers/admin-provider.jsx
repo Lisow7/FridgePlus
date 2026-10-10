@@ -5,6 +5,7 @@ import { adminCountOpenTickets, adminCountUnreadTickets } from '@features/suppor
 import { adminCountReports } from '@shared/api/reports'
 import { readStoredSection, storeSection } from '@features/admin/lib/admin-section-storage'
 import { versErreur } from '@shared/lib/supabase/lever-si-erreur'
+import { logError } from '@shared/lib/observability/sentry'
 
 // Context partagé pour les sections du panel admin :
 //  - role courant ('admin' / 'moderator' / 'support' — futur ; pour l'instant 'admin')
@@ -78,7 +79,7 @@ export function AdminProvider({ children }) {
       setReportsCount(reportsData?.count ?? 0)
       setStatsError(null)
     } catch (err) {
-      console.error('[AdminContext] refreshStats failed:', err)
+      logError(err, { tag: 'admin.refreshStats' })
       setStatsError(versErreur(err))
     } finally {
       setStatsLoading(false)

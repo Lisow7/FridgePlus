@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react'
+import { useState, useCallback, useEffect, useRef } from 'react'
 import { createPortal } from 'react-dom'
 import { LuBan, LuChevronDown, LuCopy, LuCheck, LuShieldPlus, LuShieldMinus } from 'react-icons/lu'
 import { useAllergenTypes } from '@shared/contexts/data-provider'
@@ -114,8 +114,17 @@ export default function UsersSection({ lang = 'fr', darkMode = false }) {
     return { error: null }
   }
 
+  // Une seule écriture : la confirmation reste ouverte et éteinte pendant
+  // l'écriture ; un second clic ne part pas (ADM-29 — deux `user_unbanned`).
+  const debanRef = useRef(false)
+  const [debanEnCours, setDebanEnCours] = useState(false)
   async function handleDebannir(userId) {
+    if (debanRef.current) return
+    debanRef.current = true
+    setDebanEnCours(true)
     const { error } = await adminDebannir(userId)
+    debanRef.current = false
+    setDebanEnCours(false)
     setConfirmBan(null)
     if (error) showFeedback(false, error.message)
     loadUsers(); loadCounts()
@@ -174,8 +183,9 @@ export default function UsersSection({ lang = 'fr', darkMode = false }) {
           body={`${confirmBan.username} pourra à nouveau se connecter, publier et écrire au support.`}
           confirmLabel="Débannir"
           cancelLabel="Annuler"
+          busy={debanEnCours}
           onConfirm={() => handleDebannir(confirmBan.userId)}
-          onCancel={() => setConfirmBan(null)}
+          onCancel={() => { if (!debanEnCours) setConfirmBan(null) }}
         />,
         document.body
       )}
