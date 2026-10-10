@@ -49,3 +49,25 @@ describe('panneau Recettes — chaque commande dit ce qu’elle fait, aussi sur 
     expect(libelle.style.opacity).toBe('1')
   })
 })
+
+// Audit du 2026-10-04, « petites vérités » : les trois cartes Toutes / Prêt /
+// Presque portaient chacune une phrase (`allRecipesDesc`…) écrite dans le
+// dictionnaire et jamais rendue ; et le titre « Recettes » était un `<p>`
+// cliquable dont l'infobulle disait « Vider le frigo » alors que le clic
+// réinitialisait les filtres — au clavier, rien.
+describe('panneau Recettes — ce qui est écrit est dit', () => {
+  it('les cartes Toutes / Prêt / Presque décrivent ce qu’elles filtrent', () => {
+    barre()
+    expect(screen.getByRole('button', { name: /Toutes/ })).toHaveAccessibleDescription(t.allRecipesDesc)
+    expect(screen.getByRole('button', { name: /Prêt/ })).toHaveAccessibleDescription(t.readyDesc)
+    expect(screen.getByRole('button', { name: /Presque/ })).toHaveAccessibleDescription(t.almostDesc)
+  })
+
+  it('« Recettes » est un titre, sans clic ni infobulle qui ment', () => {
+    render(<RecipePanelHeader t={t} stock={new Set(['fr-beurre'])} user={null} borderPanel="#eee" bgPanel="#fff"
+      actions={{ onClose: vi.fn(), pickRandomRecipe: vi.fn(), openCreateForm: vi.fn(), setShowResetConfirm: vi.fn() }} />)
+    const titre = screen.getByRole('heading', { name: t.title })
+    expect(titre).not.toHaveAttribute('title')
+    expect(titre.className).not.toMatch(/cursor-pointer/)
+  })
+})

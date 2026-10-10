@@ -10,7 +10,7 @@ import Button from '@shared/ui/button'
  * boutons et n'était lu nulle part ailleurs dans le panneau.
  */
 export default function RecipePanelHeader({ t, stock, user, borderPanel, bgPanel, actions }) {
-  const { onClose, pickRandomRecipe, handleResetPanel, openCreateForm, setShowResetConfirm } = actions
+  const { onClose, pickRandomRecipe, openCreateForm, setShowResetConfirm } = actions
   const [hoverBtn, setHoverBtn] = useState(null)
   // Écran tactile (pas de survol) : le texte de Créer, révélé au survol sur
   // ordinateur, n'apparaissait jamais — il ne restait que « + » (audit
@@ -28,16 +28,16 @@ export default function RecipePanelHeader({ t, stock, user, borderPanel, bgPanel
   >
     <div className="flex items-center gap-2">
       <LuChefHat size={18} style={{ flexShrink: 0, color: 'var(--color-brand-500)' }} />
-      <p
-        onClick={handleResetPanel}
-        title={t.resetTitle}
-        className="flex-1 min-w-0 font-extrabold cursor-pointer select-none overflow-hidden text-ellipsis whitespace-nowrap transition-colors duration-150"
+      {/* Un titre, rien d'autre : il fut un `<p onClick>` qui remettait les
+          filtres à zéro sous l'infobulle « Vider le frigo » — hors clavier,
+          et faux (audit du 2026-10-04). Les filtres se remettent à zéro dans
+          le tiroir, le frigo se vide par le bouton « Vider ». */}
+      <h2
+        className="flex-1 min-w-0 font-extrabold overflow-hidden text-ellipsis whitespace-nowrap"
         style={{ fontSize: '24px', color: 'var(--color-charcoal)', margin: 0 }}
-        onMouseEnter={e => e.currentTarget.style.color = 'var(--color-brand-500)'}
-        onMouseLeave={e => e.currentTarget.style.color = 'var(--color-charcoal)'}
       >
         {t.title}
-      </p>
+      </h2>
 
       <div className="flex items-center gap-2 shrink-0">
         {/* Hasard — expand au survol */}

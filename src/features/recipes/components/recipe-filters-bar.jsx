@@ -1,4 +1,4 @@
-import { useRef, useId } from 'react'
+import { Fragment, useRef, useId } from 'react'
 import { LuSearch, LuGrid2X2, LuHeart, LuBookOpen, LuSlidersHorizontal, LuArrowUpDown } from 'react-icons/lu'
 import Button from '@shared/ui/button'
 import { shouldShowReadyBadge } from '@features/recipes/lib/ready-badge'
@@ -25,6 +25,11 @@ export default function RecipeFiltersBar({ filters, theme, t, stock, setFiltersD
   const searchRefLocal = useRef(null)
   const searchRef = searchRefExterne ?? searchRefLocal
   const champRechercheId = useId()
+  // Les cartes Toutes / Prêt / Presque : leur phrase (« Tous les ingrédients
+  // sont dans mon frigo »…) était écrite dans le dictionnaire et jamais rendue
+  // (audit du 2026-10-04). Elle devient leur description — infobulle à la
+  // souris, annoncée au lecteur d'écran — sans entrer dans leur nom.
+  const descriptionId = useId()
 
   // Le même compte que l'en-tête du tiroir (une seule fonction, UX-07).
   const activeFiltersCount = compterLesFiltresActifs(filters)
@@ -129,39 +134,45 @@ export default function RecipeFiltersBar({ filters, theme, t, stock, setFiltersD
           ].map(card => {
             const active   = filter === card.id
             const disabled = card.count === 0
+            const descId   = `${descriptionId}-${card.id}`
             return (
-              <Button
-                key={card.id}
-                variant="ghost"
-                onClick={() => !disabled && setFilter(f => f === card.id ? 'all' : card.id)}
-                disabled={disabled}
-                aria-pressed={active}
-                className="h-auto flex-1 justify-start gap-2.5 rounded-xl border-[1.5px] px-3 py-2 hover:bg-transparent"
-                style={{
-                  opacity:    disabled ? 0.42 : 1,
-                  background: active ? `${card.color}12` : 'var(--card-bg)',
-                  borderColor: active ? card.color : 'transparent',
-                  transition: 'all 0.15s',
-                }}
-              >
-                <div
-                  className="w-8 h-8 rounded-full flex items-center justify-center shrink-0 text-sm font-extrabold"
-                  style={{ background: `${card.color}22`, color: card.color, position: 'relative' }}
+              <Fragment key={card.id}>
+                <Button
+                  variant="ghost"
+                  onClick={() => !disabled && setFilter(f => f === card.id ? 'all' : card.id)}
+                  disabled={disabled}
+                  aria-pressed={active}
+                  aria-describedby={descId}
+                  title={card.desc}
+                  className="h-auto flex-1 justify-start gap-2.5 rounded-xl border-[1.5px] px-3 py-2 hover:bg-transparent"
+                  style={{
+                    opacity:    disabled ? 0.42 : 1,
+                    background: active ? `${card.color}12` : 'var(--card-bg)',
+                    borderColor: active ? card.color : 'transparent',
+                    transition: 'all 0.15s',
+                  }}
                 >
-                  {card.count}
-                  {card.id === 'ready' && (
-                    <ReadyBadgeDot show={shouldShowReadyBadge(readyCount, filter)} />
-                  )}
-                </div>
-                <div className="text-left min-w-0">
                   <div
-                    className="text-xs font-bold leading-tight"
-                    style={{ color: active ? card.color : 'var(--color-charcoal)' }}
+                    className="w-8 h-8 rounded-full flex items-center justify-center shrink-0 text-sm font-extrabold"
+                    style={{ background: `${card.color}22`, color: card.color, position: 'relative' }}
                   >
-                    {card.label}
+                    {card.count}
+                    {card.id === 'ready' && (
+                      <ReadyBadgeDot show={shouldShowReadyBadge(readyCount, filter)} />
+                    )}
                   </div>
-                </div>
-              </Button>
+                  <div className="text-left min-w-0">
+                    <div
+                      className="text-xs font-bold leading-tight"
+                      style={{ color: active ? card.color : 'var(--color-charcoal)' }}
+                    >
+                      {card.label}
+                    </div>
+                  </div>
+                </Button>
+                {/* Hors du bouton : dedans, la phrase entrerait dans son nom. */}
+                <span id={descId} className="sr-only">{card.desc}</span>
+              </Fragment>
             )
           })}
         </div>

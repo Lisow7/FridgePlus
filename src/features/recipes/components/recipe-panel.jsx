@@ -164,11 +164,6 @@ export default function RecipePanel({
     openRecipePage(eligible[Math.floor(Math.random() * eligible.length)])
   }
 
-  function handleResetPanel() {
-    resetFilters()
-    if (scrollRef.current) scrollRef.current.scrollTop = 0
-  }
-
   // Échap ferme le panneau via `useFocusTrap({ onEscape })` plus bas, et non un
   // écouteur `window` : celui-ci ignorait la pile des pièges, et Échap dans le
   // tiroir des filtres fermait les DEUX (audit 2026-10-02).
@@ -267,7 +262,7 @@ export default function RecipePanel({
   // nouvelle référence à chaque render, ce qui rendrait un `memo()` sur ces
   // enfants inopérant — cf. le commentaire sur openRecipePage plus haut.
   const theme = { darkMode, isMobile, borderPanel }
-  const headerActions = { onClose, pickRandomRecipe, handleResetPanel, openCreateForm, setShowResetConfirm }
+  const headerActions = { onClose, pickRandomRecipe, openCreateForm, setShowResetConfirm }
   const overlayUi = {
     showResetConfirm, setShowResetConfirm,
     showRouletteAlert, setShowRouletteAlert,

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useOutletContext, useLocation } from 'react-router-dom'
+import { useOutletContext, useLocation, useNavigate } from 'react-router-dom'
 import { LuStar, LuMail, LuCookie, LuDownload, LuCheck, LuEye, LuEyeOff, LuKeyRound } from 'react-icons/lu'
 import { useAuth } from '@shared/contexts/auth-provider'
 import { useSubscription } from '@shared/hooks/use-subscription'
@@ -128,6 +128,7 @@ export default function ProfileAccountPage() {
   const { lang = 'fr', darkMode = false, user, profile, isAdmin } = useOutletContext()
   // Arrivée par « Régler les notifications » : la section s'ouvre et vient en vue.
   const versConfidentialite = useLocation().hash === '#confidentialite'
+  const navigate = useNavigate()
   useEffect(() => {
     if (versConfidentialite) document.getElementById('confidentialite')?.scrollIntoView?.({ block: 'start' })
   }, [versConfidentialite])
@@ -349,7 +350,10 @@ export default function ProfileAccountPage() {
           defaultOpen={versConfidentialite}
         >
           <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-            <ConfidentialityPanel lang={lang} darkMode={darkMode} />
+            {/* `onShowLegal` : sans lui, le panneau n'offre pas « Voir la
+                politique de confidentialité » — le pied de page l'offrait, le
+                profil non (audit du 2026-10-04). */}
+            <ConfidentialityPanel lang={lang} darkMode={darkMode} onShowLegal={() => navigate('/legal')} />
             {/* Pour tous, Premium ou non : un droit (art. 21) ne dépend pas
                 d'un abonnement — un abonnement qui s'arrête laisse des dépenses
                 en base (audit du 2026-10-04, PREM-11). */}

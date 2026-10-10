@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { render, screen, fireEvent, waitFor } from '@testing-library/react'
-import { MemoryRouter, useNavigate } from 'react-router-dom'
+import { MemoryRouter, useNavigate, useLocation } from 'react-router-dom'
 
 vi.mock('@features/admin/lib/audit', () => ({
   logAuditAction: vi.fn(),
@@ -41,7 +41,13 @@ vi.mock('@shared/api/spending', () => ({
 }))
 
 vi.mock('@features/legal', () => ({
-  ConfidentialityPanel: () => <div data-testid="confidentiality-panel" />,
+  // Le vrai panneau ne rend « Voir la politique de confidentialité » que s'il
+  // reçoit `onShowLegal` : le double en fait autant, en plus court.
+  ConfidentialityPanel: ({ onShowLegal }) => (
+    <div data-testid="confidentiality-panel">
+      {onShowLegal && <button type="button" onClick={onShowLegal}>politique</button>}
+    </div>
+  ),
 }))
 
 vi.mock('@features/profile/components/mfa-card', () => ({
@@ -245,5 +251,19 @@ describe('ProfileAccountPage (Sprint 11 S11.a.5)', () => {
       await waitFor(() => expect(mockTriggerJsonDownload).toHaveBeenCalledTimes(1))
       expect(screen.queryByRole('alert')).toBeNull()
     })
+  })
+})
+
+// Audit du 2026-10-04, « petites vérités » : depuis le pied de page, le
+// panneau Confidentialité propose « Voir la politique de confidentialité » ;
+// depuis le profil, le même panneau ne recevait pas `onShowLegal` et le bouton
+// manquait. Ici, il mène à /legal comme là-bas.
+describe('Confidentialité — la politique est à portée depuis le profil', () => {
+  it('le panneau reçoit de quoi ouvrir /legal', () => {
+    function OuSuisJe() { return <span data-testid="ou-suis-je">{useLocation().pathname}</span> }
+    render(<MemoryRouter initialEntries={['/profile/compte']}><OuSuisJe /><ProfileAccountPage /></MemoryRouter>)
+    fireEvent.click(screen.getByRole('button', { name: /confidentialité/i }))
+    fireEvent.click(screen.getByRole('button', { name: 'politique' }))
+    expect(screen.getByTestId('ou-suis-je')).toHaveTextContent('/legal')
   })
 })
