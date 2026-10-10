@@ -5,9 +5,12 @@
 // Tout est local au navigateur (localStorage). Aucune donnée sur le réseau.
 // → RGPD-neutre par défaut. Pas de mention politique nécessaire.
 //
-// Un seul brouillon à la fois. La clé est globale (pas par user) — on accepte
-// le cas où deux comptes partagent le même navigateur ; c'est l'utilisateur qui
-// décide « Reprendre » ou « Repartir de zéro ».
+// Un seul brouillon à la fois. La clé est globale (pas par user), mais elle
+// s'efface à la déconnexion avec les autres clés locales du compte
+// (`@shared/lib/auth/purge-locale`) : sur un navigateur partagé, le compte
+// suivant ne se voit pas proposer « Reprendre » le brouillon du précédent
+// (SEC-13). Entre deux sessions de la MÊME personne, « Reprendre » ou
+// « Repartir de zéro » reste son choix.
 
 export const DRAFT_KEY = 'fridge-recipe-draft'
 export const DRAFT_VERSION = 1

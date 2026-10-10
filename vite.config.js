@@ -117,6 +117,10 @@ export default defineConfig({
           // Les ~380 emoji hébergés par le site (1,4 Mo) : mis en cache à la
           // demande ci-dessous, pas tous dès la première visite (2026-10-06).
           '**/emoji/**',
+          // Le logo de la bienvenue (35 Ko de webp, incompressible) : l'écran ne
+          // s'affiche qu'au premier passage, en ligne par définition (audit du
+          // 2026-10-04, PERF-11). `scripts/verifier-precache.mjs` refuse son retour.
+          '**/fridge-logo-*.webp',
           // Audit du 2026-10-04, SEO-11 — 243 Ko compressés que l'application
           // n'affiche jamais, téléchargés par chaque nouveau visiteur :
           //   - images de partage (`og-image.*`, `og-app-capture.png`) : lues

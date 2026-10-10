@@ -193,7 +193,7 @@ export default function CookieModal({ lang = 'fr', darkMode = false, onClose, on
               drawback={!push.blocked ? t.catPushDrawback : undefined}
               retention={t.catPushRetention}
               vendors={t.catPushVendors}
-              blockedNote={push.blocked ? t.catPushBlocked : (push.error ? t.catPushError : undefined)}
+              blockedNote={push.blocked ? t.catPushBlocked : noteDErreurPush(push.error, t)}
               forceExpanded={push.error}
               checked={push.enabled}
               disabled={push.blocked || push.loading}
@@ -242,6 +242,15 @@ export default function CookieModal({ lang = 'fr', darkMode = false, onClose, on
 // Accordéon : le header (titre + badge + toggle) est toujours visible et
 // cliquable pour déplier ; le détail (description/avantages/durée) est
 // masqué par défaut — épure la liste, l'info reste à un clic pour qui veut.
+// Le refus du navigateur (« Bloquer ») est un réglage à changer, pas une panne ; une
+// lecture de l'état qui échoue n'accuse pas le navigateur (CPT-15 (4)).
+function noteDErreurPush(code, t) {
+  if (!code) return undefined
+  if (code === 'permission_denied') return t.catPushDenied
+  if (code === 'read_failed') return t.catPushReadError
+  return t.catPushError
+}
+
 function Category({ title, badge, badgeColor, badgeText, description, benefit, drawback, retention, vendors, blockedNote, forceExpanded, checked, disabled, onToggle, card, fg, muted, border }) {
   const [expandedState, setExpanded] = useState(false)
   // Une erreur d'activation (ex: push) doit être visible sans action de
