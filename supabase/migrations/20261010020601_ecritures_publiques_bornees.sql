@@ -21,9 +21,9 @@
 -- Compatible avec la v0.145 en production : la règle de lecture publique des
 -- paniers reste jusqu'à la release (seconde moitié :
 -- `paniers_partages_lecture_par_rpc_apres_release`), le client de `dev` lit déjà
--- par la fonction. Attend la confirmation d'Antoine : essai à blanc par la sonde
--- supabase/probes/20261010_ecritures_publiques_bornees.sql, puis `apply_migration`,
--- puis renommer le fichier à la version inscrite.
+-- par la fonction. Appliquée le 2026-10-10 (version 20261010020601) après l'essai à blanc 17/17 de la
+-- sonde supabase/probes/20261010_ecritures_publiques_bornees.sql et la confirmation
+-- d'Antoine.
 
 -- ── 1. Paniers partagés : lecture par fonction, un seul panier — celui du lien ──
 -- L'identifiant (UUID v4) est la clé du lien ; la fonction ne rend que le

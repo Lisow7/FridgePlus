@@ -1,4 +1,4 @@
--- Sonde de la migration 20261010070000_ecritures_publiques_bornees.sql : un
+-- Sonde de la migration 20261010020601_ecritures_publiques_bornees.sql : un
 -- panier partagé se lit par sa fonction (un seul, celui du lien), ses dates et
 -- son nombre sont bornés par la base, une adresse de push doit être celle d'un
 -- service connu, une seule règle de suppression des notifications, plus de
@@ -91,7 +91,7 @@ BEGIN
   r := r || E'\nB3 règles DELETE sur notifications — attendu 1 : ' || n;
   SELECT count(*) INTO n FROM pg_policies WHERE schemaname = 'public' AND tablename = 'ai_cache' AND policyname = 'ai_cache_public_select';
   r := r || E'\nB4 ai_cache_public_select — attendu 0 : ' || n;
-  SELECT is_nullable || '/' || (SELECT confdeltype FROM pg_constraint WHERE conname = 'special_access_granted_by_fkey') INTO v
+  SELECT is_nullable || '/' || (SELECT confdeltype::text FROM pg_constraint WHERE conname = 'special_access_granted_by_fkey') INTO v
     FROM information_schema.columns WHERE table_schema = 'public' AND table_name = 'special_access' AND column_name = 'granted_by';
   r := r || E'\nB5 special_access.granted_by : nullable / suppression — attendu YES/n (SET NULL) : ' || v;
   SELECT coalesce((SELECT defaclacl::text FROM pg_default_acl WHERE defaclrole = 'postgres'::regrole AND defaclnamespace = 'public'::regnamespace AND defaclobjtype = 'f'), 'ABSENT') INTO v;
