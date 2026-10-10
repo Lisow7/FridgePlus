@@ -25,14 +25,6 @@ const I18N = {
     helpHint: 'Tu modifies uniquement les prix. Les tailles et unités ne sont pas éditables ici (rare, à faire dans le code source).',
     invalidPrice: 'Prix invalide',
   },
-  en: {
-    title: 'Edit prices',
-    cancel: 'Cancel',
-    save: 'Save',
-    noPacks: 'No packs defined for this ingredient.',
-    helpHint: 'You can only edit prices. Sizes and units are not editable here (rare changes, made in source code).',
-    invalidPrice: 'Invalid price',
-  },
 }
 
 const LANGS = ['fr', 'en', 'es', 'de', 'ja']
@@ -46,8 +38,8 @@ const CURRENCY = { fr: '€', en: '£', }
  * @param {function} props.onSave     — (newPacks) => void
  * @param {function} props.onClose    — () => void
  */
-export default function PricingEditModal({ ingredient, currentPacks, onSave, onClose, lang = 'fr', darkMode = false }) {
-  const t = I18N[lang] ?? I18N.fr
+export default function PricingEditModal({ ingredient, currentPacks, onSave, onClose, darkMode = false }) {
+  const t = I18N.fr
   const containerRef = useRef(null)
   // Noms des champs de prix = ce que l'écran montre (décision du
   // 2026-10-06) : l'en-tête de la langue nomme le groupe, le format écrit à

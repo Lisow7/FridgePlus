@@ -21,9 +21,6 @@ const I18N = {
   fr: { paste: 'Coller des ingrédients', pasteDo: 'Importer', add: 'Ajouter un ingrédient',
         ph: 'ex. : 2 oignons, 200 g de farine', search: 'Ingrédient', searchEx: 'ex. : oignon', amt: 'Qté', unit: 'Unité',
         label: 'Libellé affiché', labelEx: 'ex. : 2 oignons émincés', req: 'Requis', del: 'Supprimer', drag: 'Déplacer', toCreate: 'à créer', empty: 'Aucun ingrédient.' },
-  en: { paste: 'Paste ingredients', pasteDo: 'Import', add: 'Add ingredient',
-        ph: 'e.g. 2 onions, 200 g flour', search: 'Ingredient', searchEx: 'e.g. onion', amt: 'Qty', unit: 'Unit',
-        label: 'Display label', labelEx: 'e.g. 2 sliced onions', req: 'Required', del: 'Delete', drag: 'Move', toCreate: 'to create', empty: 'No ingredients.' },
 }
 
 let _iid = 0
@@ -103,7 +100,7 @@ function IngredientRow({ id, slot, lang, catalog, catalogById, t, darkMode, onUp
 }
 
 export default function IngredientsEditor({ ingredients = [], lang = 'fr', onChange, darkMode = false }) {
-  const t = I18N[lang] ?? I18N.fr
+  const t = I18N.fr
   const rawCatalog = useIngredients()
   const catalog = useMemo(() => flattenCatalog(rawCatalog), [rawCatalog])
   const catalogById = useMemo(() => Object.fromEntries(catalog.map((c) => [c.id, c])), [catalog])

@@ -68,7 +68,7 @@ function QuickAction({ icon, label, count, color, onClick, darkMode }) {
 // ── Main Dashboard ────────────────────────────────────────────────────────────
 
 export default function Dashboard({ lang = 'fr', darkMode = false }) {
-  const t = ADMIN_I18N[lang] ?? ADMIN_I18N.fr
+  const t = ADMIN_I18N.fr
   const { stats, statsLoading, statsError, refreshStats, setSection, pendingCount, supportBadge, healthCount, reportsCount } = useAdmin()
 
   const [recentLogs,    setRecentLogs]    = useState([])
@@ -97,14 +97,13 @@ export default function Dashboard({ lang = 'fr', darkMode = false }) {
   // A11Y-03 : #9A8070 à 3,5:1 en clair, #4A6080 à 2,1-2,6:1 en sombre).
   const groupLbl = 'var(--color-muted)'
 
-  const isFr = lang === 'fr'
 
   // Actions urgentes visibles
   const urgentActions = [
-    pendingCount  > 0 && { icon:<LuChefHat size={16}/>,     label: isFr ? `recette${pendingCount>1?'s':''} à modérer`  : `recipe${pendingCount>1?'s':''} to review`,   count:pendingCount,  color:'var(--color-brand-500)',  onClick:() => setSection('recipes') },
-    supportBadge  > 0 && { icon:<LuMessageSquare size={16}/>,label: isFr ? `ticket${supportBadge>1?'s':''} non lu${supportBadge>1?'s':''}` : `unread ticket${supportBadge>1?'s':''}`, count:supportBadge, color:'var(--color-info)',  onClick:() => setSection('support') },
-    reportsCount  > 0 && { icon:<LuBan size={16}/>,          label: isFr ? `signalement${reportsCount>1?'s':''} ouvert${reportsCount>1?'s':''}` : `open report${reportsCount>1?'s':''}`,  count:reportsCount, color:'var(--color-danger)',  onClick:() => setSection('reports') },
-    healthCount   > 0 && { icon:<LuShield size={16}/>,       label: isFr ? `problème${healthCount>1?'s':''} qualité`    : `quality issue${healthCount>1?'s':''}`,          count:healthCount,  color:'var(--color-warning)',  onClick:() => setSection('quality') },
+    pendingCount  > 0 && { icon:<LuChefHat size={16}/>,     label: `recette${pendingCount>1?'s':''} à modérer`,   count:pendingCount,  color:'var(--color-brand-500)',  onClick:() => setSection('recipes') },
+    supportBadge  > 0 && { icon:<LuMessageSquare size={16}/>,label: `ticket${supportBadge>1?'s':''} non lu${supportBadge>1?'s':''}`, count:supportBadge, color:'var(--color-info)',  onClick:() => setSection('support') },
+    reportsCount  > 0 && { icon:<LuBan size={16}/>,          label: `signalement${reportsCount>1?'s':''} ouvert${reportsCount>1?'s':''}`,  count:reportsCount, color:'var(--color-danger)',  onClick:() => setSection('reports') },
+    healthCount   > 0 && { icon:<LuShield size={16}/>,       label: `problème${healthCount>1?'s':''} qualité`,          count:healthCount,  color:'var(--color-warning)',  onClick:() => setSection('quality') },
   ].filter(Boolean)
 
   return (
@@ -134,7 +133,7 @@ export default function Dashboard({ lang = 'fr', darkMode = false }) {
           <div style={{ display:'flex', alignItems:'center', gap:6 }}>
             <LuTriangleAlert size={13} style={{ color:'var(--color-warning)' }} />
             <span style={{ fontSize:11, fontWeight:700, color:groupLbl, textTransform:'uppercase', letterSpacing:'0.07em' }}>
-              {isFr ? 'Actions requises' : 'Action required'}
+              {'Actions requises'}
             </span>
           </div>
           <div style={{ display:'flex', flexWrap:'wrap', gap:8 }}>
@@ -147,7 +146,7 @@ export default function Dashboard({ lang = 'fr', darkMode = false }) {
 
       {/* ── KPI Grid ── */}
       {statsError && (
-        <ChargementRate message={isFr ? 'Les compteurs n\'ont pas pu être chargés.' : 'The counters could not be loaded.'} error={statsError} onRetry={refreshStats} lang={lang} />
+        <ChargementRate message={'Les compteurs n\'ont pas pu être chargés.'} error={statsError} onRetry={refreshStats} lang={lang} />
       )}
       {/* Deux colonnes sous 640 px : à trois, une carte faisait 99 px et ses
           libellés débordaient (« UTILISATEURS » : 82 px pour 29). */}
@@ -157,7 +156,7 @@ export default function Dashboard({ lang = 'fr', darkMode = false }) {
         <StatCard icon={<LuMessageSquare size={15}/>} label={t.kpiTicketsOpen}  value={stats.ticketsOpen ?? '—'}      accent="var(--color-info)" loading={statsLoading} darkMode={darkMode} onClick={() => setSection('support')} />
         <StatCard icon={<LuCarrot size={15}/>}      label={t.kpiIngredients}    value={stats.ingredientsCount ?? '—'} accent="#5A8A4A" loading={statsLoading} darkMode={darkMode} onClick={() => setSection('ingredients')} />
         <StatCard icon={<LuDatabase size={15}/>}    label={t.kpiBaseRecipes}    value={stats.baseRecipesCount ?? '—'} accent="#7C5CAF" loading={statsLoading} darkMode={darkMode} onClick={() => setSection('base')} />
-        <StatCard icon={<LuBan size={15}/>}         label={isFr ? 'Signalements' : 'Reports'} value={statsError ? '—' : (reportsCount ?? '—')} accent="var(--color-danger)" loading={statsLoading} darkMode={darkMode} onClick={() => setSection('reports')} />
+        <StatCard icon={<LuBan size={15}/>}         label={'Signalements'} value={statsError ? '—' : (reportsCount ?? '—')} accent="var(--color-danger)" loading={statsLoading} darkMode={darkMode} onClick={() => setSection('reports')} />
       </div>
 
       {/* ── Activité récente ── */}
@@ -169,7 +168,7 @@ export default function Dashboard({ lang = 'fr', darkMode = false }) {
             <div style={{ display:'flex', alignItems:'center', gap:6 }}>
               <LuActivity size={12} style={{ color:muted }} />
               <span style={{ fontSize:10, fontWeight:700, color:groupLbl, textTransform:'uppercase', letterSpacing:'0.07em' }}>
-                {isFr ? 'Activité récente' : 'Recent activity'}
+                {'Activité récente'}
               </span>
             </div>
             {recentLogs.length > 0 && (
@@ -181,7 +180,7 @@ export default function Dashboard({ lang = 'fr', darkMode = false }) {
                 className="h-auto min-h-6 rounded-none bg-transparent px-1 py-0 text-[10px] hover:bg-transparent"
                 style={{ gap: 3, color: muted }}
               >
-                {isFr ? 'Tout voir' : 'See all'} <LuArrowRight size={10} />
+                {'Tout voir'} <LuArrowRight size={10} />
               </Button>
             )}
           </div>
@@ -193,7 +192,7 @@ export default function Dashboard({ lang = 'fr', darkMode = false }) {
               <div style={{ padding:'0 12px' }}><ChargementRate error={logsError} onRetry={loadLogs} lang={lang} /></div>
             ) : recentLogs.length === 0 ? (
               <div style={{ padding:'12px', textAlign:'center', color:muted, fontSize:12, fontStyle:'italic' }}>
-                {isFr ? 'Aucune activité' : 'No activity'}
+                {'Aucune activité'}
               </div>
             ) : (
               <div>

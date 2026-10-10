@@ -388,7 +388,7 @@ export default function ReportsSection({ lang = 'fr', darkMode = false }) {
 
       {statusFilter === 'open' && (
         <BulkActionBar count={sel.count} lang={lang} darkMode={darkMode} onClear={sel.clear}
-          actions={[{ label: lang === 'fr' ? 'Marquer résolu' : 'Mark resolved', onClick: handleBulkResolve }]} />
+          actions={[{ label: 'Marquer résolu', onClick: handleBulkResolve }]} />
       )}
 
       {/* Modales */}

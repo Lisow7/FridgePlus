@@ -14,14 +14,13 @@ import { stepLangs, stepCount, addStep, removeStep, moveStep, setStepText } from
 
 const I18N = {
   fr: { add: 'Ajouter une étape', placeholderStep: 'Décris l\'étape…', dragStep: 'Déplacer l\'étape', deleteStep: 'Supprimer l\'étape', startMic: 'Dicter', stopMic: 'Arrêter la dictée', empty: 'Aucune étape. Ajoute la première.' },
-  en: { add: 'Add a step', placeholderStep: 'Describe the step…', dragStep: 'Move step', deleteStep: 'Delete step', startMic: 'Dictate', stopMic: 'Stop dictation', empty: 'No steps yet. Add the first one.' },
 }
 
 let _sid = 0
 const newId = () => `step-${Date.now()}-${_sid++}`
 
 export default function StepsEditor({ steps, lang = 'fr', onChange, darkMode = false }) {
-  const t = I18N[lang] ?? I18N.fr
+  const t = I18N.fr
   const count = stepCount(steps)
   const [ids, setIds] = useState(() => Array.from({ length: count }, newId))
 

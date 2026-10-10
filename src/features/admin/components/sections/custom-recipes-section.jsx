@@ -67,32 +67,6 @@ const I18N = {
       approved: 'Message de félicitations ou note (facultatif)',
     },
   },
-  en: {
-    pending:'Pending', approved:'Approved', rejected:'Rejected',
-    approve:'Approve', reject:'Reject', pendingAction:'Corrections', editCommunity:'Edit',
-    noRecipes:'No recipes.',
-    filterAll:'All', search:'Search a recipe',
-    timeQuick:'≤ 20 min', timeMedium:'21–45 min', timeLong:'> 45 min',
-    confirmDeleteRecipeTitle:'Delete this recipe?',
-    confirmDeleteRecipeBody:'The recipe will be removed. You will have 10 seconds to undo.',
-    confirmDeleteAction:'Delete', confirmCancel:'Cancel',
-    undoRecipeRemoved:'Recipe deleted',
-    confirmPromoteTitle:'Promote this recipe?',
-    confirmPromoteBody:(name) => `"${name}" will be added to the official catalog. The author will be notified.`,
-    confirmPromoteAction:'Promote',
-    desc:'Moderate recipes submitted by the community.',
-    moderationModalTitles: {
-      rejected: 'Reason for rejection',
-      pending:  'Corrections requested',
-      approved: 'Message for the author (optional)',
-    },
-    moderationModalConfirm: 'Confirm',
-    moderationModalNoteLabels: {
-      rejected: 'Additional details (optional)',
-      pending:  'Details about expected corrections (optional)',
-      approved: 'Congratulations message or note (optional)',
-    },
-  },
 }
 I18N.es = I18N.en
 I18N.de = I18N.en
@@ -100,7 +74,7 @@ I18N.ja = I18N.en
 
 
 export default function CustomRecipesSection({ lang = 'fr', darkMode = false }) {
-  const t = I18N[lang] ?? I18N.fr
+  const t = I18N.fr
   const countries = useCountries()
   const ingredientsById = useIngredientsById()
   const { trigger } = useUndo()
@@ -199,18 +173,18 @@ export default function CustomRecipesSection({ lang = 'fr', darkMode = false }) 
     sel.clear()
     showFeedback(bilan.toutReussi, messageDeLot(bilan, libelle))
   }
-  const libelleDeLot = (fr, en) => n => lang === 'fr' ? `recette${n > 1 ? 's' : ''} ${fr}${n > 1 ? 's' : ''}` : `recipe(s) ${en}`
+  const libelleDeLot = (fr) => n => `recette${n > 1 ? 's' : ''} ${fr}${n > 1 ? 's' : ''}`
 
   // Approuver rend les recettes publiques (`is_public`) : la sélection passe
   // par une confirmation, comme sa suppression (audit du 2026-10-04, ADM-23).
   function handleBulkApprove() {
     setConfirmBulkApprove(false)
-    return appliquerALaSelection(id => adminSetRecipeStatus(id, 'approved'), libelleDeLot('approuvée', 'approved'))
+    return appliquerALaSelection(id => adminSetRecipeStatus(id, 'approved'), libelleDeLot('approuvée'))
   }
 
   function handleBulkReject(reason) {
     setBulkRejectOpen(false)
-    return appliquerALaSelection(id => adminSetRecipeStatus(id, 'rejected', reason), libelleDeLot('rejetée', 'rejected'))
+    return appliquerALaSelection(id => adminSetRecipeStatus(id, 'rejected', reason), libelleDeLot('rejetée'))
   }
 
   function handleDeleteRecipe(id) { setConfirmDeleteRecipe(id) }
@@ -228,7 +202,7 @@ export default function CustomRecipesSection({ lang = 'fr', darkMode = false }) 
 
   function handleConfirmBulkDelete() {
     setConfirmBulkDelete(false)
-    return appliquerALaSelection(id => adminDeleteRecipe(id), libelleDeLot('supprimée', 'deleted'))
+    return appliquerALaSelection(id => adminDeleteRecipe(id), libelleDeLot('supprimée'))
   }
 
   function handlePromoteRecipe(id, name) { setConfirmPromoteRecipe({ id, name }) }
@@ -237,14 +211,12 @@ export default function CustomRecipesSection({ lang = 'fr', darkMode = false }) 
     setConfirmPromoteRecipe(null)
     if (!target) return
     const { data, error } = await adminPromoteRecipeToBase(target.id)
-    if (error) { showFeedback(false, (lang === 'fr' ? 'Erreur : ' : 'Error: ') + (error.message ?? String(error))); return }
+    if (error) { showFeedback(false, ('Erreur : ') + (error.message ?? String(error))); return }
     if (data?.promoted === false && data?.reason === 'already_promoted') {
-      showFeedback(false, lang === 'fr' ? 'Cette recette est déjà promue.' : 'This recipe is already promoted.')
+      showFeedback(false, 'Cette recette est déjà promue.')
       return
     }
-    showFeedback(true, lang === 'fr'
-      ? `Recette promue : « ${data.base_id} ». L'auteur a été notifié.`
-      : `Recipe promoted as « ${data.base_id} ». Author notified.`)
+    showFeedback(true, `Recette promue : « ${data.base_id} ». L'auteur a été notifié.`)
     refreshStats()
   }
 
@@ -308,14 +280,14 @@ export default function CustomRecipesSection({ lang = 'fr', darkMode = false }) 
       {/* Filtres secondaires */}
       <div style={{ display:'flex', gap:4, marginBottom:6, flexWrap:'wrap' }}>
         {chipBtn(!recipeTypeFilter, () => setRecipeTypeFilter(''), 'var(--color-info)', t.filterAll)}
-        {(RECIPE_TYPE_OPTIONS[lang] ?? RECIPE_TYPE_OPTIONS.fr).filter(o => o.value !== 'all').map(({ value, label }) =>
+        {RECIPE_TYPE_OPTIONS.fr.filter(o => o.value !== 'all').map(({ value, label }) =>
           chipBtn(recipeTypeFilter === value, () => setRecipeTypeFilter(value), 'var(--color-info)', label)
         )}
       </div>
       <div style={{ display:'flex', gap:4, marginBottom:6, flexWrap:'wrap' }}>
         {chipBtn(!recipeDiffFilter, () => setRecipeDiffFilter(''), 'var(--color-success)', t.filterAll)}
         {Object.keys(RECIPE_DIFF_LABELS.fr).map(v =>
-          chipBtn(recipeDiffFilter === v, () => setRecipeDiffFilter(v), 'var(--color-success)', RECIPE_DIFF_LABELS[lang]?.[v] ?? v)
+          chipBtn(recipeDiffFilter === v, () => setRecipeDiffFilter(v), 'var(--color-success)', RECIPE_DIFF_LABELS.fr?.[v] ?? v)
         )}
       </div>
       <div style={{ display:'flex', gap:4, marginBottom:6, flexWrap:'wrap' }}>
@@ -327,7 +299,7 @@ export default function CustomRecipesSection({ lang = 'fr', darkMode = false }) 
       <div style={{ display:'flex', gap:4, marginBottom:8, flexWrap:'wrap' }}>
         {chipBtn(!recipeCountryFilter, () => setRecipeCountryFilter(''), 'var(--color-warning)', t.filterAll)}
         {Object.entries(countries).map(([code, d]) =>
-          chipBtn(recipeCountryFilter === code, () => setRecipeCountryFilter(code), 'var(--color-warning)', `${d.flag} ${d.names?.[lang] ?? d.names?.fr ?? code}`)
+          chipBtn(recipeCountryFilter === code, () => setRecipeCountryFilter(code), 'var(--color-warning)', `${d.flag} ${d.names?.fr ?? code}`)
         )}
       </div>
       <div style={{ marginBottom:14 }}>
@@ -349,7 +321,7 @@ export default function CustomRecipesSection({ lang = 'fr', darkMode = false }) 
               return (
                 <div key={recipe.id} style={{ padding:'14px 16px', borderRadius:12, background:rowBg, border:`1px solid ${border}`, display:'flex', alignItems:'center', gap:10, flexWrap:'wrap' }}>
                   {recipeFilter === 'pending' && (
-                    <CaseDeSelection cochee={sel.isSelected(recipe.id)} onBasculer={() => sel.toggle(recipe.id)} nom={lang === 'fr' ? 'Sélectionner cette recette' : 'Select this recipe'} />
+                    <CaseDeSelection cochee={sel.isSelected(recipe.id)} onBasculer={() => sel.toggle(recipe.id)} nom={'Sélectionner cette recette'} />
                   )}
                   <span style={{ fontSize:22, flexShrink:0 }}>{recipe.data?.emoji ?? '🍽️'}</span>
                   {/* Le titre garde 160 px : sans ce plancher, pastilles et actions
@@ -363,11 +335,11 @@ export default function CustomRecipesSection({ lang = 'fr', darkMode = false }) 
                   </div>
                   {recipe.data?.ai_moderation_status === 'error' && (
                     <span
-                      title={lang === 'fr' ? 'La modération IA a échoué — à examiner manuellement en priorité.' : 'AI moderation failed — manual review required in priority.'}
+                      title={'La modération IA a échoué — à examiner manuellement en priorité.'}
                       style={{ fontSize:12, fontWeight:600, padding:'3px 8px', borderRadius:6, background:'rgba(245,158,11,0.18)', color:'#92400E', flexShrink:0, display:'inline-flex', alignItems:'center', gap:4 }}
                     >
-                      <span aria-hidden="true">⚠️ {lang === 'fr' ? 'IA' : 'AI'}</span>
-                      <span className="sr-only">{lang === 'fr' ? 'Modération IA en erreur' : 'AI moderation error'}</span>
+                      <span aria-hidden="true">⚠️ {'IA'}</span>
+                      <span className="sr-only">{'Modération IA en erreur'}</span>
                     </span>
                   )}
                   {/* R-09 — signal de complétude (re-calculé à l'affichage, pas de stockage).
@@ -377,11 +349,11 @@ export default function CustomRecipesSection({ lang = 'fr', darkMode = false }) 
                     if (n === 0) return null
                     return (
                       <span
-                        title={lang === 'fr' ? `${n} problème(s) de complétude détecté(s) — à examiner.` : `${n} completeness issue(s) detected — please review.`}
+                        title={`${n} problème(s) de complétude détecté(s) — à examiner.`}
                         style={{ fontSize:12, fontWeight:600, padding:'3px 8px', borderRadius:6, background:'rgba(239,68,68,0.14)', color:'#B91C1C', flexShrink:0, display:'inline-flex', alignItems:'center', gap:4 }}
                       >
                         <span aria-hidden="true">⚠️ {n}</span>
-                        <span className="sr-only">{lang === 'fr' ? `${n} problème(s) de complétude` : `${n} completeness issue(s)`}</span>
+                        <span className="sr-only">{`${n} problème(s) de complétude`}</span>
                       </span>
                     )
                   })()}
@@ -395,7 +367,7 @@ export default function CustomRecipesSection({ lang = 'fr', darkMode = false }) 
                       <HoverIconButton onClick={() => handleSetStatus(recipe.id, 'rejected', recipe.title)} icon={<LuBan size={13} />} label={t.reject} bg='rgba(239,68,68,0.12)' color='var(--color-danger)' />
                     </>}
                     {status === 'approved' && recipe.data?.consent_to_promote && (
-                      <HoverIconButton onClick={() => handlePromoteRecipe(recipe.id, recipe.data?.name?.fr ?? recipe.data?.name?.en ?? 'recipe')} icon={<LuSparkles size={13} />} label={lang === 'fr' ? 'Promouvoir' : 'Promote'} bg='rgba(247,168,94,0.18)' color='#C05A10' />
+                      <HoverIconButton onClick={() => handlePromoteRecipe(recipe.id, recipe.data?.name?.fr ?? recipe.data?.name?.en ?? 'recipe')} icon={<LuSparkles size={13} />} label={'Promouvoir'} bg='rgba(247,168,94,0.18)' color='#C05A10' />
                     )}
                     {status === 'approved' && (
                       <HoverIconButton onClick={() => handleSetStatus(recipe.id, 'rejected', recipe.title)} icon={<LuBan size={13} />} label={t.reject} bg='rgba(239,68,68,0.12)' color='var(--color-danger)' />
@@ -419,9 +391,9 @@ export default function CustomRecipesSection({ lang = 'fr', darkMode = false }) 
         <BulkActionBar
           count={sel.count} lang={lang} darkMode={darkMode} onClear={sel.clear}
           actions={[
-            { label: lang === 'fr' ? 'Approuver la sélection' : 'Approve selection', onClick: () => setConfirmBulkApprove(true) },
-            { label: lang === 'fr' ? 'Rejeter la sélection' : 'Reject selection', onClick: () => setBulkRejectOpen(true), danger: true },
-            { label: lang === 'fr' ? 'Supprimer la sélection' : 'Delete selection', onClick: () => setConfirmBulkDelete(true), danger: true },
+            { label: 'Approuver la sélection', onClick: () => setConfirmBulkApprove(true) },
+            { label: 'Rejeter la sélection', onClick: () => setBulkRejectOpen(true), danger: true },
+            { label: 'Supprimer la sélection', onClick: () => setConfirmBulkDelete(true), danger: true },
           ]}
         />
       )}
@@ -468,7 +440,7 @@ export default function CustomRecipesSection({ lang = 'fr', darkMode = false }) 
       {bulkRejectOpen && createPortal(
         <ModerationReasonModal
           t={t} statusColors={STATUS_COLORS}
-          target={{ status: 'rejected', recipeName: lang === 'fr' ? `${sel.count} recette${sel.count > 1 ? 's' : ''}` : `${sel.count} recipe(s)` }}
+          target={{ status: 'rejected', recipeName: `${sel.count} recette${sel.count > 1 ? 's' : ''}` }}
           lang={lang}
           darkMode={darkMode}
           onConfirm={handleBulkReject}
@@ -477,8 +449,8 @@ export default function CustomRecipesSection({ lang = 'fr', darkMode = false }) 
       )}
       {confirmBulkApprove && createPortal(
         <ConfirmActionModal
-          title={lang === 'fr' ? `Approuver ${sel.count} recette${sel.count > 1 ? 's' : ''} ?` : `Approve ${sel.count} recipe(s)?`}
-          body={lang === 'fr' ? (sel.count > 1 ? 'Elles deviennent publiques, visibles par tous.' : 'Elle devient publique, visible par tous.') : 'They become public, visible to everyone.'}
+          title={`Approuver ${sel.count} recette${sel.count > 1 ? 's' : ''} ?`}
+          body={sel.count > 1 ? 'Elles deviennent publiques, visibles par tous.' : 'Elle devient publique, visible par tous.'}
           confirmLabel={t.approve} cancelLabel={t.confirmCancel}
           onConfirm={handleBulkApprove} onCancel={() => setConfirmBulkApprove(false)}
           darkMode={darkMode}
@@ -486,8 +458,8 @@ export default function CustomRecipesSection({ lang = 'fr', darkMode = false }) 
       )}
       {confirmBulkDelete && createPortal(
         <ConfirmDeleteModal
-          title={lang === 'fr' ? `Supprimer ${sel.count} recette${sel.count > 1 ? 's' : ''} ?` : `Delete ${sel.count} recipe(s)?`}
-          body={lang === 'fr' ? 'Les recettes sélectionnées seront supprimées. Action définitive.' : 'The selected recipes will be deleted. This is permanent.'}
+          title={`Supprimer ${sel.count} recette${sel.count > 1 ? 's' : ''} ?`}
+          body={'Les recettes sélectionnées seront supprimées. Action définitive.'}
           confirmLabel={t.confirmDeleteAction} cancelLabel={t.confirmCancel}
           onConfirm={handleConfirmBulkDelete} onCancel={() => setConfirmBulkDelete(false)}
           darkMode={darkMode}
