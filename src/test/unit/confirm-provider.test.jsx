@@ -34,15 +34,15 @@ function setup() {
 describe('ConfirmProvider / useConfirm', () => {
   it('affiche ConfirmDeleteModal (danger) avec le title fourni', () => {
     const confirmRef = setup()
-    act(() => { confirmRef.current({ title: 'Vider la liste ?', danger: true }) })
+    act(() => { confirmRef.current({ title: 'Vider la liste ?', confirmLabel: 'Vider la liste', danger: true }) })
     expect(screen.getByText('Vider la liste ?')).toBeInTheDocument()
-    expect(screen.getByText('Confirmer')).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Vider la liste' })).toBeInTheDocument()
     expect(screen.getByText('Annuler')).toBeInTheDocument()
   })
 
   it('affiche ConfirmActionModal (neutre) par défaut (danger omis)', () => {
     const confirmRef = setup()
-    act(() => { confirmRef.current({ title: 'Débannir cet utilisateur ?', body: 'Marie_92 pourra se reconnecter.' }) })
+    act(() => { confirmRef.current({ title: 'Débannir cet utilisateur ?', body: 'Marie_92 pourra se reconnecter.', confirmLabel: 'Débannir' }) })
     expect(screen.getByText('Débannir cet utilisateur ?')).toBeInTheDocument()
     expect(screen.getByText('Marie_92 pourra se reconnecter.')).toBeInTheDocument()
   })
@@ -59,7 +59,7 @@ describe('ConfirmProvider / useConfirm', () => {
   it('résout à false quand on clique cancelLabel', async () => {
     const confirmRef = setup()
     let result
-    act(() => { confirmRef.current({ title: 'T', cancelLabel: 'Non' }).then(r => { result = r }) })
+    act(() => { confirmRef.current({ title: 'T', confirmLabel: 'Oui', cancelLabel: 'Non' }).then(r => { result = r }) })
     screen.getByText('Non').click()
     await act(async () => {})
     expect(result).toBe(false)
@@ -69,16 +69,30 @@ describe('ConfirmProvider / useConfirm', () => {
     const confirmRef = setup()
     let firstResult, secondResult
     act(() => {
-      confirmRef.current({ title: 'Premier' }).then(r => { firstResult = r })
+      confirmRef.current({ title: 'Premier', confirmLabel: 'Oui' }).then(r => { firstResult = r })
     })
     act(() => {
-      confirmRef.current({ title: 'Second' }).then(r => { secondResult = r })
+      confirmRef.current({ title: 'Second', confirmLabel: 'Oui' }).then(r => { secondResult = r })
     })
     await act(async () => {})
     expect(firstResult).toBe(false)
     expect(screen.getByText('Second')).toBeInTheDocument()
     expect(screen.queryByText('Premier')).not.toBeInTheDocument()
     expect(secondResult).toBeUndefined()
+  })
+
+  // Décision du 2026-10-08 : plus de « Confirmer » par défaut. Sans nom
+  // d'action, rien ne s'ouvre et rien ne se fait (le geste est souvent sans
+  // retour) — le garde-fou confirmations-nommees l'empêche d'arriver ici.
+  it('sans confirmLabel : aucune fenêtre, et la réponse est non', async () => {
+    const spy = vi.spyOn(console, 'error').mockImplementation(() => {})
+    const confirmRef = setup()
+    let result
+    await act(async () => { result = await confirmRef.current({ title: 'Sans nom ?' }) })
+    expect(result).toBe(false)
+    expect(screen.queryByText('Sans nom ?')).toBeNull()
+    expect(screen.queryByText('Confirmer')).toBeNull()
+    spy.mockRestore()
   })
 
   it('useConfirm hors Provider → throw', () => {

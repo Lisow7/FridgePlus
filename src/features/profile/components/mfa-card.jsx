@@ -59,7 +59,7 @@ export default function MfaCard({ lang, darkMode, isMobile, border, textColor, m
   const [unenrollError,     setUnenrollError]     = useState(null)
 
   async function handleDeactivate(factorId) {
-    if (!(await confirm({ title: t.deactivateConfirm, danger: true }))) return
+    if (!(await confirm({ title: t.deactivateConfirm, confirmLabel: t.deactivateConfirmOk, danger: true }))) return
     setUnenrollError(null)
     if (!isAAL2) {
       setPendingUnenrollId(factorId)

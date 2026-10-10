@@ -25,6 +25,7 @@ const I18N = {
     myLists: 'Mes listes',
     clear: 'Vider',
     clearConfirm: 'Vider la liste ?',
+    clearOk: 'Vider la liste',
     persons: (n) => `${n} pers.`,
     startShopping: 'Commencer les courses',
   },
@@ -40,6 +41,7 @@ const I18N = {
     myLists: 'My lists',
     clear: 'Clear',
     clearConfirm: 'Clear the list?',
+    clearOk: 'Clear the list',
     persons: (n) => `${n} pers.`,
     startShopping: 'Start shopping',
   },
@@ -243,7 +245,7 @@ export default function PreparePhase({
         {hasContent && (
           <button
             onClick={async () => {
-              if (await confirm({ title: t.clearConfirm, danger: true })) onClearBasket?.()
+              if (await confirm({ title: t.clearConfirm, confirmLabel: t.clearOk, danger: true })) onClearBasket?.()
             }}
             className="flex items-center justify-center gap-1.5 rounded-[10px] py-2.5 px-3 text-[11px] font-bold border cursor-pointer min-h-[44px]"
             style={{ background: cardBg, borderColor: 'rgba(220,38,38,0.3)', color: '#DC2626' }}

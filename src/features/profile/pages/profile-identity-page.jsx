@@ -56,6 +56,7 @@ const I18N = {
     charterAccept: 'Accepter la charte',
     charterRevoke: 'Révoquer ma signature',
     charterRevokeConfirm: 'Confirmer la révocation ? Tu ne pourras plus publier dans la communauté.',
+    charterRevokeOk: 'Retirer mon accord',
     charterRevoked:   'Signature révoquée. Tu pourras re-signer quand tu veux.',
     charterReenable:  'Réactiver l\'affichage automatique',
     charterReenabled: 'Réactivé. La modale s\'affichera à ta prochaine visite Communauté.',
@@ -95,6 +96,7 @@ const I18N = {
     charterAccept: 'Accept the charter',
     charterRevoke: 'Revoke my signature',
     charterRevokeConfirm: 'Confirm revocation? You will no longer be able to publish in the community.',
+    charterRevokeOk: 'Withdraw my agreement',
     charterRevoked:   'Signature revoked. You can re-sign whenever you want.',
     charterReenable:  'Re-enable auto-show',
     charterReenabled: 'Re-enabled. The modal will show on your next Community visit.',
@@ -229,7 +231,7 @@ export default function ProfileIdentityPage() {
 
   async function handleRevokeCharter() {
     if (!profile?.id) return
-    if (!(await confirm({ title: t.charterRevokeConfirm }))) return
+    if (!(await confirm({ title: t.charterRevokeConfirm, confirmLabel: t.charterRevokeOk }))) return
     setCharterBusy(true)
     const result = await revokeCommunityTerms(profile.id)
     setCharterBusy(false)
