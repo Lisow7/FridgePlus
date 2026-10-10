@@ -12,7 +12,7 @@ const I18N = {
  en: { undo: 'Undo', undoAria: 'Undo deletion', regionAria: 'Undo notifications' },
 }
 
-export default function UndoToastStack({ stack, onUndo, lang = 'fr', darkMode = false }) {
+export default function UndoToastStack({ stack, onUndo, onPause = () => {}, onResume = () => {}, lang = 'fr', darkMode = false }) {
  const t = I18N[lang] ?? I18N.fr
  if (!stack || stack.length === 0) return null
  return createPortal(
@@ -38,6 +38,8 @@ export default function UndoToastStack({ stack, onUndo, lang = 'fr', darkMode = 
  key={toast.id}
  toast={toast}
  onUndo={onUndo}
+ onPause={onPause}
+ onResume={onResume}
  lang={lang}
  darkMode={darkMode}
  />
@@ -47,12 +49,19 @@ export default function UndoToastStack({ stack, onUndo, lang = 'fr', darkMode = 
  )
 }
 
-function UndoToast({ toast, onUndo, lang, darkMode }) {
+function UndoToast({ toast, onUndo, onPause, onResume, lang, darkMode }) {
  const t = I18N[lang] ?? I18N.fr
- const totalMs = toast.expireAt - (toast.expireAt - 10000) // = durationMs initial (= 10000 par défaut)
+ // La durée demandée au déclenchement (10 s par défaut) : la barre était calée
+ // sur 10 000 en dur, fausse pour toute autre durée (A11Y-12).
+ const totalMs = toast.durationMs ?? 10000
  const [progress, setProgress] = useState(1)
+ // En pause, le temps restant ne bouge plus : la barre non plus — sa valeur se
+ // lit au rendu, et la boucle d'animation s'arrête.
+ const enPause = toast.pauseAt != null
+ const progressFige = enPause ? Math.max(0, toast.expireAt - toast.pauseAt) / totalMs : null
 
  useEffect(() => {
+ if (enPause) return undefined
  let raf
  const tick = () => {
  const remaining = Math.max(0, toast.expireAt - Date.now())
@@ -61,7 +70,7 @@ function UndoToast({ toast, onUndo, lang, darkMode }) {
  }
  raf = requestAnimationFrame(tick)
  return () => cancelAnimationFrame(raf)
- }, [toast.expireAt, totalMs])
+ }, [toast.expireAt, enPause, totalMs])
 
  const bg = darkMode ? '#0F1925' : '#2C1A0E'
  const fg = darkMode ? 'var(--color-bg-warm)' : 'var(--color-bg-warm)'
@@ -70,6 +79,10 @@ function UndoToast({ toast, onUndo, lang, darkMode }) {
  return (
  <div
  role="status"
+ onMouseEnter={() => onPause(toast.id, 'souris')}
+ onMouseLeave={() => onResume(toast.id, 'souris')}
+ onFocus={() => onPause(toast.id, 'focus')}
+ onBlur={(e) => { if (!e.currentTarget.contains(e.relatedTarget)) onResume(toast.id, 'focus') }}
  style={{
  pointerEvents: 'auto',
  background: bg,
@@ -125,9 +138,10 @@ function UndoToast({ toast, onUndo, lang, darkMode }) {
  {/* Countdown bar : largeur proportionnelle au temps restant */}
  <div style={{ height: 3, background: 'rgba(255,255,255,0.08)', borderRadius: 2, overflow: 'hidden' }}>
  <div
+ data-barre
  style={{
  height: '100%',
- width: `${Math.round(progress * 100)}%`,
+ width: `${Math.round((progressFige ?? progress) * 100)}%`,
  background: accent,
  transition: 'width 0.05s linear',
  }}

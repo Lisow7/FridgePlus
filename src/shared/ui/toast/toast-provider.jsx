@@ -52,18 +52,45 @@ function reducer(state, action) {
 
 export function ToastProvider({ children }) {
   const [toasts, dispatch] = useReducer(reducer, [])
-  // timersRef : Map(id → timeoutId). Référence stable, ne change pas
-  // au re-render du Provider.
+  // timersRef : Map(id → { minuteur, expireAt, resteMs, retenuPar }). Référence
+  // stable, ne change pas au re-render du Provider. `resteMs` n'existe que
+  // pendant une pause ; `retenuPar` dit qui la tient (souris, focus).
   const timersRef = useRef(new Map())
 
   const dismiss = useCallback((id) => {
-    const timer = timersRef.current.get(id)
-    if (timer) {
-      clearTimeout(timer)
+    const entree = timersRef.current.get(id)
+    if (entree) {
+      clearTimeout(entree.minuteur)
       timersRef.current.delete(id)
     }
     dispatch({ type: 'dismiss', id })
   }, [])
+
+  const armer = useCallback((id, delai) => {
+    const minuteur = setTimeout(() => dismiss(id), delai)
+    timersRef.current.set(id, { minuteur, expireAt: Date.now() + delai, resteMs: null, retenuPar: new Set() })
+  }, [dismiss])
+
+  // WCAG 2.2.1 : un message qui part tout seul attend qui le lit. Sous la souris
+  // ou avec le focus dedans, le minuteur se met en pause ; il repart avec le temps
+  // restant (une seconde au moins) quand plus rien ne le retient. Un toast sans
+  // minuteur (duration 0) n'est pas concerné (audit du 2026-10-04, A11Y-12).
+  const pause = useCallback((id, cause) => {
+    const entree = timersRef.current.get(id)
+    if (!entree) return
+    entree.retenuPar.add(cause)
+    if (entree.resteMs != null) return
+    clearTimeout(entree.minuteur)
+    entree.resteMs = Math.max(0, entree.expireAt - Date.now())
+  }, [])
+
+  const resume = useCallback((id, cause) => {
+    const entree = timersRef.current.get(id)
+    if (!entree || entree.resteMs == null) return
+    entree.retenuPar.delete(cause)
+    if (entree.retenuPar.size > 0) return
+    armer(id, Math.max(entree.resteMs, 1000))
+  }, [armer])
 
   const show = useCallback((content, options = {}) => {
     const id = options.id ?? `toast-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`
@@ -72,25 +99,25 @@ export function ToastProvider({ children }) {
 
     // Si un toast existe déjà avec ce id, on annule son timer pour
     // repartir sur la durée pleine (ex : voiceToast déclenché 2× rapproché).
-    const existingTimer = timersRef.current.get(id)
-    if (existingTimer) clearTimeout(existingTimer)
+    const existante = timersRef.current.get(id)
+    if (existante) {
+      clearTimeout(existante.minuteur)
+      timersRef.current.delete(id)
+    }
 
     dispatch({ type: 'show', toast: { id, content, role } })
 
-    if (duration > 0) {
-      const timer = setTimeout(() => dismiss(id), duration)
-      timersRef.current.set(id, timer)
-    }
+    if (duration > 0) armer(id, duration)
 
     return id
-  }, [dismiss])
+  }, [armer])
 
   // Cleanup au démontage du Provider : annule tous les timers en cours
   // pour éviter setState après unmount.
   useEffect(() => {
     const timers = timersRef.current
     return () => {
-      for (const t of timers.values()) clearTimeout(t)
+      for (const entree of timers.values()) clearTimeout(entree.minuteur)
       timers.clear()
     }
   }, [])
@@ -100,7 +127,7 @@ export function ToastProvider({ children }) {
   return (
     <ToastContext.Provider value={value}>
       {children}
-      <ToastContainer toasts={toasts} />
+      <ToastContainer toasts={toasts} onPause={pause} onResume={resume} />
     </ToastContext.Provider>
   )
 }
@@ -108,7 +135,7 @@ export function ToastProvider({ children }) {
 // Container rendu via Portal dans `<body>` pour s'affranchir des
 // stacking contexts complexes (modales, drawers, etc.). Position fixe
 // bottom-center. Chaque toast gère son propre rendu (content = ReactNode).
-function ToastContainer({ toasts }) {
+function ToastContainer({ toasts, onPause, onResume }) {
   if (typeof document === 'undefined') return null
 
   // 🔴 Le container est monté EN PERMANENCE, régions vives comprises — plus de
@@ -125,7 +152,14 @@ function ToastContainer({ toasts }) {
   const parRole = (role) => toasts
     .filter(toast => (role === 'alert') === (toast.role === 'alert'))
     .map(toast => (
-      <div key={toast.id} style={{ pointerEvents: 'auto' }}>
+      <div
+        key={toast.id}
+        style={{ pointerEvents: 'auto' }}
+        onMouseEnter={() => onPause(toast.id, 'souris')}
+        onMouseLeave={() => onResume(toast.id, 'souris')}
+        onFocus={() => onPause(toast.id, 'focus')}
+        onBlur={(e) => { if (!e.currentTarget.contains(e.relatedTarget)) onResume(toast.id, 'focus') }}
+      >
         {toast.content}
       </div>
     ))

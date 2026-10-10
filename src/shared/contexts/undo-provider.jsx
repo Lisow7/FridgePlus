@@ -1,5 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import UndoToastStack from '@shared/ui/undo-toast-stack'
+import { retenir, relacher } from './undo-retenue'
 
 // Mécanisme universel de suppression annulable.
 //
@@ -26,6 +27,8 @@ const UndoContext = createContext({
   trigger: () => {},
   undo: () => {},
   flushAll: () => {},
+  pause: () => {},
+  resume: () => {},
 })
 
 export function UndoProvider({ children, lang = 'fr', darkMode = false }) {
@@ -62,10 +65,27 @@ export function UndoProvider({ children, lang = 'fr', darkMode = false }) {
     })
   }, [])
 
+  // Arme (ou réarme) le minuteur d'un toast : à l'échéance, la suppression est
+  // confirmée et le toast retiré. L'entrée est relue dans stackRef au moment
+  // de l'échéance : c'est elle qui fait foi, pas une fermeture.
+  const armer = useCallback((id, delai) => {
+    const timeoutId = setTimeout(async () => {
+      const item = stackRef.current.find(t => t.id === id)
+      try {
+        await item?.onConfirm?.()
+      } catch (err) {
+        if (import.meta.env.DEV) console.error('[undo] onConfirm failed', err)
+      }
+      commit(stackRef.current.filter(t => t.id !== id))
+      timersRef.current.delete(id)
+    }, delai)
+    timersRef.current.set(id, timeoutId)
+  }, [commit])
+
   const trigger = useCallback(({ label, onConfirm, onUndo, durationMs = 10000 }) => {
     const id = `undo-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`
     const expireAt = Date.now() + durationMs
-    const entree = { id, label, expireAt, onConfirm, onUndo }
+    const entree = { id, label, expireAt, durationMs, onConfirm, onUndo }
 
     // Limite le stack à 3 toasts visibles : si on en a déjà 3, on flush
     // le plus ancien (= confirme sa suppression), pour éviter un mur de
@@ -84,18 +104,13 @@ export function UndoProvider({ children, lang = 'fr', darkMode = false }) {
       executer(evince.onConfirm, 'flush-on-cap onConfirm')
     }
 
-    const timeoutId = setTimeout(async () => {
-      try {
-        await onConfirm?.()
-      } catch (err) {
-        if (import.meta.env.DEV) console.error('[undo] onConfirm failed', err)
-      }
-      commit(stackRef.current.filter(t => t.id !== id))
-      timersRef.current.delete(id)
-    }, durationMs)
+    armer(id, durationMs)
+  }, [armer, commit, executer])
 
-    timersRef.current.set(id, timeoutId)
-  }, [commit, executer])
+  // Sous la souris ou avec le focus dedans, la suppression attend (WCAG 2.2.1,
+  // A11Y-12) : voir `undo-retenue.js`.
+  const pause = useCallback((id, cause) => retenir({ stackRef, timersRef, commit }, id, cause), [commit])
+  const resume = useCallback((id, cause) => relacher({ stackRef, commit, armer }, id, cause), [armer, commit])
 
   const undo = useCallback((id) => {
     const item = stackRef.current.find(t => t.id === id)
@@ -137,12 +152,12 @@ export function UndoProvider({ children, lang = 'fr', darkMode = false }) {
   // Mémoïsation du value Provider (cf. PR S3.b).
   // Les 3 callbacks (trigger, undo, flushAll) sont déjà stables grâce
   // aux useCallback en amont. L'objet wrapper est désormais stable aussi.
-  const value = useMemo(() => ({ trigger, undo, flushAll }), [trigger, undo, flushAll])
+  const value = useMemo(() => ({ trigger, undo, flushAll, pause, resume }), [trigger, undo, flushAll, pause, resume])
 
   return (
     <UndoContext.Provider value={value}>
       {children}
-      <UndoToastStack stack={stack} onUndo={undo} lang={lang} darkMode={darkMode} />
+      <UndoToastStack stack={stack} onUndo={undo} onPause={pause} onResume={resume} lang={lang} darkMode={darkMode} />
     </UndoContext.Provider>
   )
 }

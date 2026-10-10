@@ -1,6 +1,7 @@
 import { DndContext, closestCenter } from '@dnd-kit/core'
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
 import { formatRelativeAge } from '@features/recipes/lib/recipe-draft'
+import { annoncesDuGlisser, INSTRUCTIONS_DU_GLISSER, positionDeLEtape } from '@features/recipes/lib/annonces-du-glisser'
 import useRecipeFormModal from '@features/recipes/hooks/use-recipe-form-modal'
 import { LuX, LuChefHat, LuChevronDown } from 'react-icons/lu'
 import Button from '@shared/ui/button'
@@ -290,7 +291,15 @@ export default function RecipeFormModal({ initialRecipe = null, onSave, onClose,
           <div style={sectionStyle(darkMode)}>
             {sectionTitle(t.sectionSteps)}
             {errors.steps && <span style={{ ...ERR_MSG, marginBottom:'10px', display:'block' }}>{errors.steps}</span>}
-            <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleStepDragEnd}>
+            {/* Annonces et consigne du glisser dans la langue de la personne (A11Y-20) :
+                dnd-kit parle anglais par défaut, par identifiant technique. */}
+            <DndContext
+              accessibility={{
+                announcements: annoncesDuGlisser(lang, (id) => positionDeLEtape(form.steps, id)),
+                screenReaderInstructions: INSTRUCTIONS_DU_GLISSER[lang] ?? INSTRUCTIONS_DU_GLISSER.fr,
+              }}
+              sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleStepDragEnd}
+            >
               <SortableContext items={form.steps.map(s => s.id)} strategy={verticalListSortingStrategy}>
                 {form.steps.map((step, idx) => (
                   <RecipeFormSortableStep
