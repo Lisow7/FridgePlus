@@ -98,3 +98,18 @@ describe('ReviewForm — modération avant publication', () => {
     expect(mockUpsert).not.toHaveBeenCalled()
   })
 })
+
+// Audit du 2026-10-04, CPT-10 : l'écran importait leo-profanity lui-même et ne
+// reconnaissait le français que si le module partagé (shared/lib/moderation.js)
+// avait été chargé avant — « connard » passait.
+describe('ReviewForm — grossièretés en français (CPT-10)', () => {
+  it('un commentaire injurieux est refusé avant toute modération, rien n’est publié', async () => {
+    render(<ReviewForm {...baseProps} />)
+    fireEvent.click(screen.getByLabelText('5/5'))
+    fireEvent.change(screen.getByPlaceholderText('Partage ton expérience…'), { target: { value: 'Le chef est un connard' } })
+    fireEvent.click(screen.getByText('Publier'))
+    expect(await screen.findByText('profanité')).toBeInTheDocument()
+    expect(mockModerate).not.toHaveBeenCalled()
+    expect(mockUpsert).not.toHaveBeenCalled()
+  })
+})

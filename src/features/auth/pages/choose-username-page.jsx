@@ -16,7 +16,7 @@
 // par e-mail), la case n'est pas redemandée.
 import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
-import leoProfanity from 'leo-profanity'
+import { containsProfanity } from '@shared/lib/moderation'
 import { useAuth } from '@shared/contexts/auth-provider'
 import { suggestUsername } from '@features/auth/lib/username-suggestion'
 import {
@@ -112,7 +112,7 @@ export default function ChooseUsernamePage({ lang = 'fr', darkMode = false }) {
     if (!dejaAccepte && !accepted) { setError(t.errorAccept); return }
     const u = value.trim()
     if (!isValidUsername(u)) { setError(regles.invalid); return }
-    if (leoProfanity.check(u)) { setError(t.profane); return }
+    if (containsProfanity(u)) { setError(t.profane); return }
     setLoading(true)
     try {
       // `null` = on n'a pas pu le savoir : l'écriture tranchera.

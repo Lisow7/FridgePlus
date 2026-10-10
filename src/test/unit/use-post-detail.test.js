@@ -8,7 +8,7 @@ import { renderHook, act, waitFor } from '@testing-library/react'
 
 const confirmMock = vi.fn()
 vi.mock('@shared/ui/confirm-dialog/confirm-provider', () => ({ useConfirm: () => confirmMock }))
-vi.mock('leo-profanity', () => ({ default: { check: vi.fn(() => false) } }))
+vi.mock('@shared/lib/moderation', () => ({ containsProfanity: vi.fn(() => false) }))
 vi.mock('@shared/hooks/use-save-error-toast', () => ({ useSaveErrorToast: () => vi.fn() }))
 
 const post = { id: 'p1', title: 'Mon post', likes_count: 2, category: 'general' }
@@ -27,7 +27,7 @@ vi.mock('@shared/api/community', () => ({
 
 import { usePostDetail } from '@features/community/hooks/use-post-detail'
 import { getPost, listReplies, listMyLikedReplyIds, likeReply, unlikeReply, createReply, deleteReply, canReply } from '@shared/api/community'
-import leoProfanity from 'leo-profanity'
+import { containsProfanity } from '@shared/lib/moderation'
 
 const t = {
   profanityWarning: 'Langage inapproprié', spamLimitReply: 'Trop de réponses',
@@ -50,7 +50,7 @@ beforeEach(() => {
   listReplies.mockResolvedValue([reply])
   listMyLikedReplyIds.mockResolvedValue(new Set())
   canReply.mockResolvedValue(true)
-  leoProfanity.check.mockReturnValue(false)
+  containsProfanity.mockReturnValue(false)
 })
 
 describe('usePostDetail', () => {
@@ -105,13 +105,13 @@ describe('usePostDetail', () => {
     const { result } = setup()
     await waitFor(() => expect(result.current.post).toEqual(post))
 
-    leoProfanity.check.mockReturnValue(true)
+    containsProfanity.mockReturnValue(true)
     act(() => { result.current.setReplyBody('gros mot') })
     await act(async () => { await result.current.handleReplySubmit() })
     expect(result.current.submitError).toBe('Langage inapproprié')
     expect(createReply).not.toHaveBeenCalled()
 
-    leoProfanity.check.mockReturnValue(false)
+    containsProfanity.mockReturnValue(false)
     const created = { id: 'r2', body: 'Bien joué' }
     createReply.mockResolvedValue({ data: created, error: null })
     act(() => { result.current.setReplyBody('Bien joué') })

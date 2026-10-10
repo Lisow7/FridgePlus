@@ -137,6 +137,19 @@ export default defineConfig([
       'max-lines-per-function': ['warn', { max: 100, skipBlankLines: true, skipComments: true }],
     },
   },
+  // Un seul filtre de grossièretés (audit du 2026-10-04, CPT-10) : le
+  // dictionnaire français n'existe que dans shared/lib/moderation.js, chargé à
+  // son import. Un écran qui importait leo-profanity lui-même laissait passer
+  // les insultes françaises quand ce module n'avait pas été chargé avant.
+  {
+    files: ['src/**/*.{js,jsx}'],
+    ignores: ['src/shared/lib/moderation.js', 'src/test/**'],
+    rules: {
+      'no-restricted-imports': ['error', {
+        paths: [{ name: 'leo-profanity', message: 'Passe par containsProfanity (@shared/lib/moderation) : lui seul charge le dictionnaire français (audit CPT-10).' }],
+      }],
+    },
+  },
   // Surcharge spécifique aux fichiers de test : globals vitest + node
   {
     files: ['src/test/**/*.{js,jsx}'],
