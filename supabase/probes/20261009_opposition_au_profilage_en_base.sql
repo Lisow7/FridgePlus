@@ -1,4 +1,4 @@
--- Sonde de la migration 20261009130000_opposition_au_profilage_en_base.sql : la règle
+-- Sonde de la migration 20261010014519_opposition_au_profilage_en_base.sql : la règle
 -- d'insertion de spending_events refuse une dépense enregistrée contre
 -- l'opposition au profilage.
 --
@@ -21,7 +21,7 @@ BEGIN
     || CASE WHEN regle LIKE '%is_profiling_opted_out%' THEN ' (déjà appliquée)' ELSE '' END;
 
   -- A2 — la fonction existe, sous les droits de l'appelant et stable.
-  SELECT p.prosecdef::text || '/' || p.provolatile INTO regle
+  SELECT p.prosecdef::text || '/' || p.provolatile::text INTO regle
     FROM pg_proc p JOIN pg_namespace n ON n.oid = p.pronamespace
    WHERE n.nspname = 'public' AND p.proname = 'is_profiling_opted_out';
   r := r || E'\nA2 is_profiling_opted_out (secdef/volatilité) — attendu false/s : ' || coalesce(regle, 'ABSENTE')
