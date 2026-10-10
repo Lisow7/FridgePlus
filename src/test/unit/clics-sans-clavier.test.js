@@ -34,8 +34,6 @@ const EXCEPTIONS = [
   // Ligne d'ingrédient de la fiche : elle contient un vrai `<button>` sans
   // gestionnaire propre, dont l'activation remonte à la ligne.
   { fichier: 'features/recipes/components/recipe-detail-body.jsx', element: 'div', gestionnaire: '() => handleIngredientClick' },
-  // Titre du panneau Recettes : le même en-tête porte le bouton « Réinitialiser ».
-  { fichier: 'features/recipes/components/recipe-panel-header.jsx', element: 'p', gestionnaire: 'handleResetPanel' },
 ]
 
 function fichiers(dossier) {

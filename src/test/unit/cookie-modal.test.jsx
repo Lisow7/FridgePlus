@@ -90,3 +90,16 @@ describe('CookieModal — catégorie push en erreur', () => {
     expect(screen.getByText(/Impossible d'activer les notifications sur ce navigateur/)).toBeInTheDocument()
   })
 })
+
+// Audit du 2026-10-04, « petites vérités » : la fenêtre s'annonçait « Cookies »
+// (un `aria-label` de repli, la clé visée n'existant pas) alors que son titre
+// visible dit « 🍪 Cookies et données ». Le nom de la fenêtre est son titre.
+describe('CookieModal — la fenêtre porte son titre', () => {
+  it('se nomme comme son titre visible, en français comme en anglais', () => {
+    const { unmount } = render(<CookieModal lang="fr" onClose={vi.fn()} />)
+    expect(screen.getByRole('dialog')).toHaveAccessibleName('🍪 Cookies et données')
+    unmount()
+    render(<CookieModal lang="en" onClose={vi.fn()} />)
+    expect(screen.getByRole('dialog')).toHaveAccessibleName('🍪 Cookies and data')
+  })
+})

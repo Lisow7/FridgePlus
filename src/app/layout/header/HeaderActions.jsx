@@ -182,7 +182,8 @@ export default function HeaderActions({
     )
   }
 
-  // ─── Cas connecté : Guide + Notifs + Communauté + Panier popover + UserMenu ────
+  // ─── Cas connecté : Guide + Notifs + Communauté + Langue + slot du FAB + UserMenu
+  //     (le panier vit dans le menu utilisateur, plus en popover ici) ─────────────
   return (
     <div className="flex items-center gap-1">
       <HelpGuide {...helpGuideProps} />

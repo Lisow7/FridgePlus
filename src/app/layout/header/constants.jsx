@@ -19,10 +19,6 @@ export const HOME_LABEL = {
 }
 
 // Le panier est désactivé pour EN (prix grande surface FR uniquement pour l'instant).
-export const CART_DISABLED_HINT = {
- en: 'Cart coming soon for this region',
-}
-
 export function isCartDisabled(lang) {
  return lang === 'en'
 }

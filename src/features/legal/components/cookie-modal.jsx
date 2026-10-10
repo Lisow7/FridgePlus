@@ -41,6 +41,9 @@ export default function CookieModal({ lang = 'fr', darkMode = false, onClose, on
   })
   // Focus trap a11y
   const dialogRef = useRef(null)
+  // La fenêtre se nomme par son titre visible (« 🍪 Cookies et données ») ;
+  // elle s'annonçait « Cookies », un repli sur une clé qui n'existait pas.
+  const titreId = useId()
   useFocusTrap(dialogRef, { active: true, onEscape: onClose })
   useCloseOnBackButton(true, onClose)
 
@@ -64,7 +67,7 @@ export default function CookieModal({ lang = 'fr', darkMode = false, onClose, on
       ref={dialogRef}
       role="dialog"
       aria-modal="true"
-      aria-label={t.modalTitle ?? 'Cookies'}
+      aria-labelledby={titreId}
       onClick={onClose}
       style={{
         position: 'fixed', inset: 0, zIndex: 10000,
@@ -92,7 +95,7 @@ export default function CookieModal({ lang = 'fr', darkMode = false, onClose, on
           padding: '18px 22px', borderBottom: `1px solid ${border}`,
           display: 'flex', alignItems: 'center', justifyContent: 'space-between',
         }}>
-          <h2 style={{ fontSize: 18, fontWeight: 700, margin: 0 }}>{t.bannerTitle}</h2>
+          <h2 id={titreId} style={{ fontSize: 18, fontWeight: 700, margin: 0 }}>{t.bannerTitle}</h2>
           <Button
             variant="ghost"
             size="icon"
