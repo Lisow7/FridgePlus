@@ -9,7 +9,7 @@ import { getEmbeddedPrice } from '@shared/lib/pricing/open-prices'
 // 2026-08-28 — en silence. C'est pourquoi un test verifie que les deux pages
 // appelantes le passent reellement (meme parade que le garde budgetaire IA,
 // reste debranche trois mois faute d'un test de branchement).
-export function useCartActions({ user, basket, stock, lang, ingredientsById, refreshBasket }) {
+export function useCartActions({ user, basket, stock, lang, ingredientsById, refreshBasket, basketNonCharge = false }) {
   const handleManualAdd = useCallback(async (item) => {
     if (!user?.id || !item?.ingredient_id) return { error: { message: 'invalid_args' } }
     const row = {
@@ -30,6 +30,10 @@ export function useCartActions({ user, basket, stock, lang, ingredientsById, ref
 
   const handleLoadList = useCallback(async (items) => {
     if (!user?.id || !Array.isArray(items)) return { error: { message: 'invalid_args' } }
+    // Le panier n'a pas pu être lu : le vider (par `user_id`) effacerait des
+    // lignes que personne n'a vues — il paraissait vide, donc sans confirmation
+    // (audit du 2026-10-04, lot « le panier dit son échec »).
+    if (basketNonCharge) return { error: { message: 'panier_non_charge' } }
     // Un vidage refusé arrête tout : sinon la liste s'ajoutait PAR-DESSUS
     // l'ancien panier, et l'écran la disait chargée (relevé le 2026-10-08).
     const { error: erreurVidage } = await clearBasket(user.id)
@@ -54,7 +58,7 @@ export function useCartActions({ user, basket, stock, lang, ingredientsById, ref
     }
     await refreshBasket()
     return { error: null }
-  }, [user, refreshBasket])
+  }, [user, refreshBasket, basketNonCharge])
 
   const handleAddToCart = useCallback(async (recipe, selectedServings = recipe.servings ?? 1, { ignoreStock = false } = {}) => {
     if (!user?.id) return

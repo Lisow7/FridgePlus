@@ -15,6 +15,7 @@ import CartBackButton from '@features/cart/components/cart-back-button'
 import PreparePhase from '@features/cart/components/prepare-phase'
 import ShoppingPhase from '@features/cart/components/shopping-phase'
 import HomePhase from '@features/cart/components/home-phase'
+import PanierNonCharge from '@features/cart/components/panier-non-charge'
 import WhatsNextPhase from '@features/cart/components/whats-next-phase'
 import PricingSourcesModal from '@features/cart/components/pricing-sources-modal'
 import { detectCartPhase } from '@features/cart/lib/cart-helpers'
@@ -47,6 +48,7 @@ export default function CartPage({ lang = 'fr', darkMode = false }) {
   const {
     basket,
     basketLoading,
+    basketLoadError,
     toggleItem,
     removeItem,
     removeRecipe,
@@ -63,6 +65,9 @@ export default function CartPage({ lang = 'fr', darkMode = false }) {
     lang,
     ingredientsById,
     refreshBasket: refresh,
+    // Seul cas dangereux : le panier n'a pas pu être lu ET paraît vide (la
+    // fenêtre des listes ne demande alors pas de confirmation).
+    basketNonCharge: !!basketLoadError && basket.length === 0,
   })
 
   // ── Smart auto-détection ─────────────────────────────────────────────────
@@ -216,6 +221,8 @@ export default function CartPage({ lang = 'fr', darkMode = false }) {
               style={{ borderColor: '#D46A10', borderTopColor: 'transparent' }}
             />
           </div>
+        ) : basketLoadError && basket.length === 0 ? (
+          <PanierNonCharge lang={lang} onReessayer={refresh} />
         ) : (
           <>
             <CartBackButton activePhase={activePhase} onPhaseChange={handlePhaseChange} lang={lang} darkMode={darkMode} />

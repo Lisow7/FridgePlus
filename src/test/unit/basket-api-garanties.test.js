@@ -179,18 +179,16 @@ describe('Lecture', () => {
     const res = await loadBasketFromDB('u-1')
     expect(c.eq).toHaveBeenCalledWith('user_id', 'u-1')
     expect(c.order).toHaveBeenCalledWith('added_at', { ascending: true })
-    expect(res).toEqual([{ id: 'a' }])
+    expect(res).toEqual({ data: [{ id: 'a' }], error: null })
   })
 
-  it('⚠️ rend une liste vide sur erreur — un chargement raté est donc indistinguable d\'un panier vide', async () => {
-    // Ce test ne valide pas un bon comportement, il DOCUMENTE une limite. C'est
-    // le même piège que celui corrigé sur le stock du frigo au lot 3, où un
-    // chargement raté affichait un frigo vide puis le vidage réel effaçait des
-    // lignes jamais lues. Ici la conséquence est moindre — `clearBasket`
-    // supprime par `user_id`, pas d'après la liste chargée — donc aucune donnée
-    // n'est détruite. Si un appelant se met un jour à supprimer d'après cette
-    // liste, ce test est l'endroit où le danger est écrit.
+  // Ce test DOCUMENTAIT une limite : une liste vide sur erreur, « aucune donnée
+  // détruite puisque clearBasket supprime par user_id ». C'était faux : depuis
+  // un panier qui paraît vide, « Reprendre une liste » vide le panier en base
+  // sans confirmation — des lignes que personne n'a vues. Le chargement rend
+  // désormais son erreur (audit du 2026-10-04, lot « le panier dit son échec »).
+  it('un chargement raté rend son erreur — ce n\'est pas un panier vide', async () => {
     mockFrom.mockReturnValue(chaine({ data: null, error: { message: 'réseau' } }))
-    expect(await loadBasketFromDB('u-1')).toEqual([])
+    expect(await loadBasketFromDB('u-1')).toEqual({ data: [], error: { message: 'réseau' } })
   })
 })
