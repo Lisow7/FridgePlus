@@ -14,6 +14,7 @@ import { useIngredientsById, useBaseRecipes } from '@shared/contexts/data-provid
 // eslint-disable-next-line import/no-restricted-paths -- couche page (composition) : réutilise l'action panier testée (DRY) plutôt que de la dupliquer.
 import { useCartActions } from '@features/cart/hooks/use-cart-actions'
 import PageSkeleton from '@shared/ui/page-skeleton'
+import { titreDeRecette } from '@shared/lib/recipes/titre-de-recette'
 // La modale est importée DIRECTEMENT, plus en `lazy()` (audit du 2026-10-04,
 // PERF-02 et PERF-05). Elle est la page : rien ne s'affiche sans elle. Paresseuse,
 // son fichier n'était demandé qu'une fois la recette trouvée (une cascade), et
@@ -107,8 +108,12 @@ export default function RecipePage({ lang = 'fr', darkMode = false }) {
   // gardait le titre de l'accueil, en français (audit du 2026-10-04, P-09).
   // Même condition que l'écran « introuvable » rendu plus bas.
   const absente = status === 'not-found' || (!recipe && status !== 'loading' && status !== 'error')
-  const titreOnglet = status === 'error' ? t.errorTitle : absente ? t.notFoundTitle : nomRecette
-  useDocumentTitle(titreOnglet ? `${titreOnglet} — Fridge+` : '')
+  // Une fiche trouvée : « <nom> : la recette — Fridge+ » (décision du 2026-10-08),
+  // le même format que le HTML pré-rendu (`titreDeRecette`).
+  const titreOnglet = status === 'error' ? `${t.errorTitle} — Fridge+`
+    : absente ? `${t.notFoundTitle} — Fridge+`
+    : nomRecette ? titreDeRecette(nomRecette, lang) : ''
+  useDocumentTitle(titreOnglet)
   // Une fiche absente n'est pas référencée ; une PANNE (status 'error') ne
   // déréférence pas une vraie fiche (audit du 2026-10-04, SEO-03).
   useNoIndex(status === 'not-found')

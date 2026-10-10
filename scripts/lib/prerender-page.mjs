@@ -11,6 +11,7 @@
 // Module sans import : lu tel quel par Node au build, et par l'app.
 import { getIngredientItemsFlat, ligneIngredient } from '../../src/shared/lib/recipes/recipe-ingredients.js'
 import { categorieSchemaOrg, cuisineSchemaOrg } from '../../src/shared/lib/recipes/balisage-recette.js'
+import { titreDeRecette } from '../../src/shared/lib/recipes/titre-de-recette.js'
 
 export const SITE = 'https://fridgeplus.app'
 
@@ -184,7 +185,8 @@ function appliquerMetadonnees(gabarit, { titre, description, urlPage, image, dim
 /** Construit le HTML d'une page recette. */
 export function construirePage(gabarit, { id, nom, description, image, largeur, hauteur }) {
   return appliquerMetadonnees(gabarit, {
-    titre: `${nom} — Fridge+`,
+    // « Risotto aux champignons : la recette — Fridge+ » (décision du 2026-10-08).
+    titre: titreDeRecette(nom, 'fr'),
     description: description
       || `Découvre la recette « ${nom} » sur Fridge+ : ingrédients, étapes et valeurs nutritionnelles.`,
     urlPage: `${SITE}/recipe/${id}`,
