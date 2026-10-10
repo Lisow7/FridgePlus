@@ -133,6 +133,7 @@ export const PANEL_I18N = {
     sortAlpha:         'Sort A to Z',
     sortQuickLabel:    'Sort by time (quickest first)',
     resultsCount:      (n) => `${n} recipe${suffixS(n, 'en')}`,
+    remainingCount:    (n) => `${n} more recipe${suffixS(n, 'en')}…`,
     clearAllFilters:   'Clear all',
     searchLabel: 'Search for a recipe',
     searchPlaceholder: 'e.g. risotto, gluten-free',

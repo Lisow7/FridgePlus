@@ -8,8 +8,8 @@ import { resolve } from 'node:path'
 // sans compte ne rencontre AUCUN point d'entrée Premium ; un compte gratuit
 // les voit, verrouillés ; un Premium les a. L'audit du 2026-10-04 (PREM-08)
 // a trouvé quatre entrées montrées aux visiteurs : le bouton « Substituts IA »,
-// le verrou « Mode cuisine » du pied de fiche, le groupe « Ce qui arrive » du
-// guide avec « Voir ce qui arrive », et `?modal=upgrade` qui ouvrait la
+// le verrou « Mode cuisine » du pied de fiche, le groupe « Bientôt » du
+// guide avec « Voir ce qui est prévu », et `?modal=upgrade` qui ouvrait la
 // fenêtre Premium à n'importe qui.
 
 vi.mock('@shared/ui/upgrade-gate', () => ({ UpgradeGate: () => <div data-testid="verrou" /> }))
@@ -73,20 +73,20 @@ describe('?modal=upgrade', () => {
 describe('guide « Aide & infos »', () => {
   const monterLeGuide = (props = {}) => render(<MemoryRouter><HelpGuide lang="fr" defaultOpen {...props} /></MemoryRouter>)
 
-  it('visiteur : pas de groupe « Ce qui arrive »', () => {
+  it('visiteur : pas de groupe « Bientôt »', () => {
     monterLeGuide({ user: null })
     fireEvent.click(screen.getByRole('button', { name: 'Explorer les fonctionnalités' }))
     expect(screen.getByText('Le frigo')).toBeInTheDocument()
-    expect(screen.queryByText('Ce qui arrive')).toBeNull()
+    expect(screen.queryAllByText('Bientôt')).toHaveLength(0)
     expect(screen.queryByText('Panier')).toBeNull()
   })
 
-  it('compte gratuit : le groupe est là, avec « Voir ce qui arrive »', () => {
+  it('compte gratuit : le groupe est là, avec « Voir ce qui est prévu »', () => {
     monterLeGuide({ user: { id: 'u-1' }, onShowUpgrade: vi.fn() })
     fireEvent.click(screen.getByRole('button', { name: 'Explorer les fonctionnalités' }))
-    expect(screen.getByText('Ce qui arrive')).toBeInTheDocument()
+    expect(screen.getAllByText('Bientôt').length).toBeGreaterThan(0)
     fireEvent.click(screen.getByRole('button', { name: /Panier/ }))
-    expect(screen.getByText(/^Voir ce qui arrive/)).toBeInTheDocument()
+    expect(screen.getByText(/^Voir ce qui est prévu/)).toBeInTheDocument()
   })
 })
 
