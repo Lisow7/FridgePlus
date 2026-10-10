@@ -1,4 +1,4 @@
--- Sonde de la migration 20261008_index_pseudo_en_double.sql : un seul index
+-- Sonde de la migration 20261010014513_index_pseudo_en_double.sql : un seul index
 -- UNIQUE sur lower(username), celui que le dépôt crée.
 --
 -- Même principe que les autres sondes de ce dossier : un seul bloc DO, terminé

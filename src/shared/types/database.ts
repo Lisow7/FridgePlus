@@ -1770,6 +1770,43 @@ export type Database = {
         }
         Relationships: []
       }
+      recipe_rating_aggregates: {
+        Row: {
+          avg: number | null
+          count: number | null
+          recipe_id: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "engagement_target_recipe_id_fkey"
+            columns: ["recipe_id"]
+            isOneToOne: false
+            referencedRelation: "base_recipes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "engagement_target_recipe_id_fkey"
+            columns: ["recipe_id"]
+            isOneToOne: false
+            referencedRelation: "custom_recipes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "engagement_target_recipe_id_fkey"
+            columns: ["recipe_id"]
+            isOneToOne: false
+            referencedRelation: "recipe_health_check"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "engagement_target_recipe_id_fkey"
+            columns: ["recipe_id"]
+            isOneToOne: false
+            referencedRelation: "recipes_unified"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Functions: {
       _reschedule_cron: {

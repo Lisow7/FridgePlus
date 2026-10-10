@@ -1,4 +1,4 @@
--- Sonde de la migration 20261009183000_notes_en_une_lecture.sql : la vue
+-- Sonde de la migration 20261010014610_notes_en_une_lecture.sql : la vue
 -- recipe_rating_aggregates existe, sous les droits de l'appelant, lisible par
 -- anon et authenticated, et ses chiffres sont ceux d'un calcul direct.
 --
@@ -34,7 +34,7 @@ BEGIN
     FROM pg_class c JOIN pg_namespace s ON s.oid = c.relnamespace
    WHERE s.nspname = 'public' AND c.relname = 'recipe_rating_aggregates';
   r := r || E'\nB1 security_invoker — attendu true : '
-    || CASE WHEN v LIKE '%security_invoker=true%' THEN 'true' ELSE 'false ⚠' END;
+    || CASE WHEN v ~ 'security_invoker=(true|on)' THEN 'true' ELSE 'false ⚠' END; -- l'ALTER range « on », le CREATE « true »
   r := r || E'\nB2 lecture anon/authenticated — attendu true/true : '
     || has_table_privilege('anon', 'public.recipe_rating_aggregates', 'SELECT')::text || '/'
     || has_table_privilege('authenticated', 'public.recipe_rating_aggregates', 'SELECT')::text;
