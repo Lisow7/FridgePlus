@@ -87,16 +87,18 @@ import ProfileAccountPage from '@features/profile/pages/profile-account-page'
 describe('ProfileAccountPage (Sprint 11 S11.a.5)', () => {
   beforeEach(() => { logAuditMock.mockReset(); mockRequestReset.mockReset() })
 
-  it('rend les 4 ProfileSection h2 dans l\'ordre Abonnement/Identifiants/Confidentialité/Mes données', () => {
+  it('rend les 5 ProfileSection h2 dans l\'ordre Abonnement/Identifiants/Appareils/Confidentialité/Mes données', () => {
     // EraseSpending et DangerZone ne sont pas wrappés dans un ProfileSection
     // (ils ont déjà leur propre header h3/h4) — vérifiés via leur testid.
     render(<MemoryRouter><ProfileAccountPage /></MemoryRouter>)
     const headings = screen.getAllByRole('heading', { level: 2 })
-    expect(headings).toHaveLength(4)
+    expect(headings).toHaveLength(5)
     expect(headings[0]).toHaveTextContent(/abonnement/i)
     expect(headings[1]).toHaveTextContent(/identifiants/i)
-    expect(headings[2]).toHaveTextContent(/confidentialité/i)
-    expect(headings[3]).toHaveTextContent(/mes données/i)
+    // « Déconnecter tous mes appareils » (décision du 2026-10-08).
+    expect(headings[2]).toHaveTextContent(/appareils/i)
+    expect(headings[3]).toHaveTextContent(/confidentialité/i)
+    expect(headings[4]).toHaveTextContent(/mes données/i)
   })
 
   // Audit du 2026-10-04, RGPD-11 (c) : chaque membre écrivait `profile_data_viewed`

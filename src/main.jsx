@@ -4,6 +4,8 @@ import { BrowserRouter } from 'react-router-dom'
 import './index.css'
 import App from './App.jsx'
 import AccountSync from '@app/components/account-sync'
+import BandeauSessionPerdue from '@app/components/bandeau-session-perdue'
+import { effacerLesClesAbandonnees } from '@shared/lib/auth/cles-abandonnees'
 // Directement, et non par le baril `@features/auth` : il réexportait les deux
 // modales MFA et `useMFA`, qui entraient au démarrage de chaque visiteur (~4 Ko).
 import { AuthProvider } from '@shared/contexts/auth-provider'
@@ -26,6 +28,9 @@ import { installerLaRecuperation } from '@features/pwa/lib/version-perimee'
 // Avant tout chargement paresseux : un fichier disparu après un déploiement
 // active la version neuve au lieu de laisser l'ancienne coincée (SEO-08).
 installerLaRecuperation()
+
+// L'adresse que gardait « Se souvenir de moi », en clair : effacée chez tous.
+effacerLesClesAbandonnees()
 
 // Phase 11 PR P11.c.5 — Différer initSentry() après idle.
 // Avant (v3.225.0) : initSentry() appelé immédiatement → l'import
@@ -106,6 +111,7 @@ prechargerLaRoute(window.location.pathname, ROUTES, import.meta.env.BASE_URL).th
                         state du dialog confirm suppression custom recipe. */}
                     <DeletingRecipeProvider>
                       <AccountSync />
+                      <BandeauSessionPerdue />
                       <App />
                     </DeletingRecipeProvider>
                   </RecipeFormProvider>

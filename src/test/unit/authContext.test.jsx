@@ -240,11 +240,9 @@ describe('AuthContext', () => {
       expect(res.error).toBeDefined()
     })
 
-    // « Se souvenir de moi » : la case existe encore à l'écran mais rien ne la
-    // lit (`signInWithEmail` ne reçoit plus `rememberMe`). Un test ignoré
-    // promettait `persistSession: false` depuis la v3.18 ; retiré — la planche
-    // n° 5 (`se_souvenir`) tranche si la case agit de nouveau ou disparaît, et
-    // le lot qui en sortira écrira ses tests.
+    // « Se souvenir de moi » : retirée (décision du 2026-10-08) — elle ne
+    // gardait que l'adresse, en clair ; la session reste
+    // ouverte comme avant. Ses tests : login-page.test.jsx, cles-abandonnees.test.js.
   })
 
   // ─── signUpWithEmail ──────────────────────────────────────────────────────
@@ -697,14 +695,14 @@ describe('AuthContext', () => {
       expect(result.current.recoveryMode).toBe(false)
     })
 
-    it('appelle supabase.auth.signOut après le reset', async () => {
+    it('appelle supabase.auth.signOut après le reset — sur tous les appareils', async () => {
       const { result } = renderHook(() => useAuth(), { wrapper })
       await waitFor(() => expect(authCallback).not.toBeNull())
       await act(async () => { await authCallback('PASSWORD_RECOVERY', null) })
       await act(async () => {
         await result.current.completePasswordReset('NewPass1!')
       })
-      expect(mockAuthSignOut).toHaveBeenCalled()
+      expect(mockAuthSignOut).toHaveBeenCalledWith({ scope: 'global' })
     })
 
     it('ne désactive pas recoveryMode en cas d\'erreur', async () => {
@@ -754,6 +752,8 @@ describe('AuthContext', () => {
         expect.stringContaining('delete-account'),
         expect.objectContaining({ method: 'POST' })
       )
+      // Supprimer son compte déconnecte toujours partout (décision du 2026-10-08).
+      expect(mockAuthSignOut).toHaveBeenCalledWith({ scope: 'global' })
       vi.unstubAllGlobals()
     })
   })

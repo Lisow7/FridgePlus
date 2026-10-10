@@ -12,6 +12,7 @@ import { logAuditAction, AUDIT_ACTIONS } from '@features/admin/lib/audit'
 // eslint-disable-next-line import/no-restricted-paths -- legal RGPD intégré au profil
 import { ConfidentialityPanel } from '@features/legal'
 import MfaCard from '@features/profile/components/mfa-card'
+import AppareilsSection from '@features/profile/components/appareils-section'
 import DangerZone from '@features/profile/components/danger-zone'
 import ProfilingOptOutSection from '@features/profile/components/profiling-opt-out-section'
 import EraseSpendingHistorySection from '@features/profile/components/erase-spending-history-section'
@@ -328,6 +329,9 @@ export default function ProfileAccountPage() {
             />
           </div>
         </ProfileSection>
+
+        {/* ─── 2 bis. Appareils : « Déconnecter tous mes appareils » ──────────── */}
+        <AppareilsSection lang={lang} darkMode={darkMode} />
 
         {/* ─── 3. Confidentialité & cookies (replié par défaut) ─────── */}
         {/* Dépliée d'office quand on arrive par #confidentialite : c'est là
