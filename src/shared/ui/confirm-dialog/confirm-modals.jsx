@@ -55,7 +55,9 @@ export function ConfirmDeleteModal({ title, body, confirmLabel, cancelLabel, onC
   )
 }
 
-export function ConfirmActionModal({ title, body, confirmLabel, cancelLabel, onConfirm, onCancel, darkMode }) {
+// `busy` : l'écriture est en cours — le bouton de confirmation est éteint, un
+// second clic n'écrit pas deux fois (audit du 2026-10-04, ADM-29).
+export function ConfirmActionModal({ title, body, confirmLabel, cancelLabel, onConfirm, onCancel, darkMode, busy = false }) {
   const bg     = darkMode ? '#0F1925' : '#FFFFFF'
   const fg     = darkMode ? 'var(--color-bg-warm)' : '#2C1A0E'
   const border = darkMode ? 'var(--color-dark-border)' : 'var(--color-border-warm)'
@@ -84,6 +86,8 @@ export function ConfirmActionModal({ title, body, confirmLabel, cancelLabel, onC
           </Button>
           <Button
             onClick={onConfirm}
+            disabled={busy}
+            aria-busy={busy || undefined}
             className="h-auto rounded-lg px-[18px] py-2.5 text-[13px] font-bold text-white"
             style={{ background: accent }}
           >

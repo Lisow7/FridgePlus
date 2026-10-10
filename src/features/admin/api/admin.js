@@ -1,4 +1,5 @@
 import { supabase } from '@shared/lib/supabase/client'
+import { logError } from '@shared/lib/observability/sentry'
 import { auMoinsUneLigne } from '@shared/lib/supabase/rows-affected'
 import { versErreur } from '@shared/lib/supabase/lever-si-erreur'
 import { motifContient, motifDansOu } from '@shared/lib/supabase/motif-de-recherche'
@@ -49,7 +50,7 @@ async function adminCountRecipesByStatus(status) {
 
 export async function adminGetRecipesByStatus(status) {
   const { data, error } = await adminFindCommunityRecipesByStatus(status)
-  if (error) { console.error('[admin] adminGetRecipesByStatus:', error.message); return { data: [], error } }
+  if (error) { logError(error, { tag: 'admin.recipesByStatus', status }); return { data: [], error } }
   if (!data?.length) return { data: [], error }
 
   const userIds = [...new Set(data.map(r => r.user_id))]

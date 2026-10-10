@@ -6,6 +6,7 @@ import FilterPill from '@shared/ui/filter-pill'
 import EmptyState from '@shared/ui/empty-state'
 import ImportQueueTab from './import-queue-tab'
 import { formatDate } from '@shared/lib/format-date'
+import { versCsv } from '@features/admin/lib/csv'
 import { useReloader } from '@shared/hooks/use-reloader'
 import { texteLisible, fondTeinte } from '@shared/lib/couleurs/texte-lisible'
 
@@ -146,15 +147,16 @@ function scoreColor(pct) {
   return 'var(--color-danger)'
 }
 
+// Chaque champ entre guillemets, formules neutralisées (SEC-08) : `versCsv`.
 function exportCSV(items, label) {
   const headers = ['id', 'nom', 'issues', 'derniere_maj']
   const rows = items.map(it => [
     it.id ?? '',
-    (it.name_fr ?? it.label_fr ?? '').replace(/,/g, ' '),
+    it.name_fr ?? it.label_fr ?? '',
     (it.issues ?? []).join(' | '),
     fmtDate(it.updated_at),
   ])
-  const csv = [headers, ...rows].map(r => r.join(',')).join('\n')
+  const csv = versCsv([headers, ...rows])
   const blob = new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8;' })
   const url  = URL.createObjectURL(blob)
   const a    = document.createElement('a')

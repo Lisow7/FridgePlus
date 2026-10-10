@@ -1,4 +1,5 @@
 import { supabase } from '@shared/lib/supabase/client'
+import { logError } from '@shared/lib/observability/sentry'
 import {
   searchOfficialRecipes as searchOfficialRecipesRepo,
   searchCommunityRecipes as searchCommunityRecipesRepo,
@@ -97,10 +98,12 @@ export async function adminGetAllTickets() {
   if (error) throw versErreur(error)
   if (!data?.length) return []
   const userIds = [...new Set(data.map(t => t.user_id))]
+  // La langue de l'auteur voyage avec le ticket : la réponse de l'admin lui
+  // est envoyée dans SA langue, pas dans celle de l'interface admin (ADM-14).
   const { data: profiles } = await supabase
-    .from('profiles').select('id, username').in('id', userIds)
-  const byId = Object.fromEntries((profiles ?? []).map(p => [p.id, p.username]))
-  return data.map(t => ({ ...t, username: byId[t.user_id] ?? null }))
+    .from('profiles').select('id, username, language').in('id', userIds)
+  const byId = Object.fromEntries((profiles ?? []).map(p => [p.id, p]))
+  return data.map(t => ({ ...t, username: byId[t.user_id]?.username ?? null, language: byId[t.user_id]?.language ?? 'fr' }))
 }
 
 export async function adminReplyTicket(ticketId, adminId, content, lang = 'fr') {
@@ -114,22 +117,26 @@ export async function adminReplyTicket(ticketId, adminId, content, lang = 'fr') 
   // la base dans la MÊME transaction que le message (déclencheur
   // `trg_ticket_repondu`, 2026-10-05). C'était une seconde écriture du
   // navigateur, dont le résultat était jeté (audit ADM-02).
-  if (!error) {
-    // Notif email au user via Edge Function (non bloquant — si l'envoi
-    // échoue, le ticket est quand même mis à jour et la notif in-app
-    // reste affichée). Wrap dans IIFE async + try/catch pour rester
-    // résilient si supabase.functions n'est pas dispo (tests, env legacy).
-    ;(async () => {
-      try {
-        await supabase.functions?.invoke('send-ticket-notification', {
-          body: { ticketId, messageContent: content, lang },
-        })
-      } catch (err) {
-        console.error('[adminReplyTicket] email notification failed:', err)
-      }
-    })()
+  if (error) return { error, emailError: null }
+  // L'e-mail au membre (fonction `send-ticket-notification`, Resend) : le
+  // message tient quoi qu'il arrive, mais son échec est ATTENDU, rendu à
+  // l'écran et journalisé — avant, une promesse jetée et un console.error que
+  // personne ne lisait (ADM-14).
+  let emailError = null
+  try {
+    if (typeof supabase.functions?.invoke !== 'function') {
+      emailError = { message: 'functions_indisponibles' }
+    } else {
+      const { error: erreurEnvoi } = (await supabase.functions.invoke('send-ticket-notification', {
+        body: { ticketId, messageContent: content, lang },
+      })) ?? {}
+      if (erreurEnvoi) emailError = erreurEnvoi
+    }
+  } catch (err) {
+    emailError = { message: err?.message ?? String(err) }
   }
-  return { error }
+  if (emailError) logError(new Error(emailError.message ?? 'email_non_parti'), { tag: 'support.email', ticketId })
+  return { error: null, emailError }
 }
 
 export async function adminSetTicketStatus(ticketId, status) {

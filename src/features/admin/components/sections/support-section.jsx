@@ -67,6 +67,8 @@ export default function SupportSection({ lang = 'fr', darkMode = false }) {
   const [hiddenMsgIds, setHiddenMsgIds] = useState(() => new Set())
   const [messagesError, setMessagesError] = useState(null)
   const bottomRef = useRef(null)
+  // L'identifiant du ticket ouvert, pour jeter une réponse arrivée trop tard (ADM-14).
+  const ouvertRef = useRef(null)
 
   // `useReloader` garantit le `finally` (sans lui, une erreur réseau laissait
   // le voyant allumé pour toujours) et périme les réponses en retard : sans ça,
@@ -114,10 +116,15 @@ export default function SupportSection({ lang = 'fr', darkMode = false }) {
 
   // ── Actions tickets ────────────────────────────────────────────────────
   async function openTicket(ticket) {
+    ouvertRef.current = ticket.id
     setDetail(ticket)
     setReplyError(null)
     setReply('')
     const { messages: msgs, error: errMessages } = await getTicketMessages(ticket.id)
+    // Un autre ticket a été ouvert (ou la liste reprise) pendant le chargement :
+    // ces messages n'ont rien à faire sous cet en-tête, et « Répondre » partirait
+    // vers le mauvais ticket (ADM-14).
+    if (ouvertRef.current !== ticket.id) return
     setMessages(msgs)
     setMessagesError(errMessages)
     // La pastille ne baisse que si la base a marqué le ticket « lu » (audit ADM-02).
@@ -128,8 +135,10 @@ export default function SupportSection({ lang = 'fr', darkMode = false }) {
   }
 
   // ⚠️ N'afficher le changement que si l'écriture a eu lieu — cf. `support-panel-echecs.test.js`.
+  // Un refus est DIT (il ne se passait rien : on pouvait croire le clic perdu).
   async function handleSetStatus(status) {
-    if ((await adminSetTicketStatus(detail.id, status))?.error) return
+    const { error } = (await adminSetTicketStatus(detail.id, status)) ?? {}
+    if (error) { showFeedback(false, messageErreurAdmin(error, lang)); return }
     setDetail(prev => ({ ...prev, status }))
     setTickets(prev => prev.map(tk => tk.id === detail.id ? { ...tk, status } : tk))
   }
@@ -146,19 +155,25 @@ export default function SupportSection({ lang = 'fr', darkMode = false }) {
     if (!reply.trim() || sending) return
     setSending(true)
     setReplyError(null)
-    const { error } = await adminReplyTicket(detail.id, null, reply.trim(), lang)
+    const id = detail.id
+    // Dans la langue du membre (celle de son profil), pas celle de l'admin (ADM-14).
+    const { error, emailError } = await adminReplyTicket(id, null, reply.trim(), detail.language ?? 'fr')
     if (error) {
       setReplyError('Erreur lors de l\'envoi.')
     } else {
       setReply('')
-      const { messages: msgs, error: errMessages } = await getTicketMessages(detail.id)
+      const { messages: msgs, error: errMessages } = await getTicketMessages(id)
+      if (ouvertRef.current !== id) { setSending(false); return }
       if (!errMessages) setMessages(msgs)
       setMessagesError(errMessages)
       const now = new Date().toISOString()
       setTickets(prev => prev.map(tk =>
-        tk.id === detail.id ? { ...tk, has_unread_user: true, status: 'in_progress', updated_at: now } : tk
+        tk.id === id ? { ...tk, has_unread_user: true, status: 'in_progress', updated_at: now } : tk
       ))
       setDetail(prev => ({ ...prev, status: 'in_progress', has_unread_user: true }))
+      // La réponse est enregistrée ; si l'e-mail n'est pas parti, l'admin le sait
+      // (il peut prévenir autrement — avant, l'échec était jeté).
+      if (emailError) showFeedback(false, 'Réponse enregistrée, mais l’e-mail au membre n’est pas parti.')
     }
     setSending(false)
   }
@@ -175,7 +190,7 @@ export default function SupportSection({ lang = 'fr', darkMode = false }) {
       retirer: () => setTickets(r => r.filter(x => x.id !== id)),
       siEchec: (e) => showFeedback(false, messageErreurAdmin(e, lang)),
     })
-    if (detail?.id === id) { setDetail(null); setMessages([]) }
+    if (detail?.id === id) { ouvertRef.current = null; setDetail(null); setMessages([]) }
   }
 
   function handleDeleteMessage(msg) {
@@ -218,7 +233,7 @@ export default function SupportSection({ lang = 'fr', darkMode = false }) {
         messages={visibleMessages} messagesError={messagesError} onRetryMessages={() => openTicket(detail)}
         bottomRef={bottomRef}
         reply={reply} setReply={setReply} sending={sending} replyError={replyError}
-        onBack={() => { setDetail(null); setMessages([]); setMessagesError(null) }} onSetStatus={handleSetStatus}
+        onBack={() => { ouvertRef.current = null; setDetail(null); setMessages([]); setMessagesError(null) }} onSetStatus={handleSetStatus}
         onRequestDelete={() => requestDeleteTicket(detail.id)} onDeleteMessage={handleDeleteMessage} onReply={handleReply}
         feedback={feedback} modaleSuppression={modaleSuppression} lang={lang} darkMode={darkMode} fg={fg} muted={muted} border={border}
       />

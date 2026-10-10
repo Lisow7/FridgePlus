@@ -88,7 +88,8 @@ describe('adminGetAllTickets — les pseudos', () => {
       { data: null, error: { message: 'boom' } },
     ]
     const tickets = await adminGetAllTickets()
-    expect(tickets).toEqual([{ id: 't-1', user_id: 'u-1', title: 'T', username: null }])
+    // Sans profil lisible : pas de pseudo, et la langue de repli (`fr`) pour l'e-mail (ADM-14).
+    expect(tickets).toEqual([{ id: 't-1', user_id: 'u-1', title: 'T', username: null, language: 'fr' }])
   })
 })
 
