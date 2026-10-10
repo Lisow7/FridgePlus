@@ -1,9 +1,5 @@
 import { supabase } from '@shared/lib/supabase/client'
 import { motifDansOu } from '@shared/lib/supabase/motif-de-recherche'
-import {
-  publishStagingToRecipes,
-  rejectStaging,
-} from '../../../scripts/recipe-import/publishers/recipes-publisher.mjs'
 
 // La file d'import de recettes (Refonte Recettes, phase 5a) : réviser,
 // publier ou rejeter les lignes de `recipe_imports_staging`, et ses
@@ -11,9 +7,12 @@ import {
 // `is_admin()`). Sortie d'`admin.js` (650 lignes) au lot 14f de l'audit du
 // 2026-10-04 ; `admin.js` ré-exporte ces fonctions, les écrans n'ont pas bougé.
 //
-// Publication et rejet délèguent au publisher du pipeline (module Node
-// partagé avec le CLI) — le lot 12l les remplacera par des RPC
-// transactionnelles côté base (ADM-17).
+// Publier, rejeter et publier un lot sont des fonctions de la base
+// (`admin_publier_import`, `admin_rejeter_import`, `admin_publier_lot_import`,
+// lot 12l) : une transaction, l'acteur posé par la base, le journal écrit.
+// Avant, le navigateur enchaînait trois écritures sans transaction en
+// important le publisher du pipeline — un module Node de src/scripts/ dans le
+// paquet (ADM-17 (1, 2, 3, +), ARCH-13 (5)).
 
 const IMPORT_QUEUE_PAGE_SIZE = 50
 
@@ -63,19 +62,21 @@ export async function adminReRunValidators(stagingId) {
 }
 
 /**
- * Publie 1 staging row vers recipes_unified (délègue au publisher).
+ * Publie 1 staging row vers recipes_unified — recette, ligne marquée, événement
+ * et journal en une transaction côté base. Rend l'identifiant de la recette.
  */
 export async function adminPublishStaged(stagingId) {
-  const { data: { user } = {} } = await supabase.auth.getUser()
-  return publishStagingToRecipes(supabase, { stagingId, actorId: user?.id ?? null })
+  const { data, error } = await supabase.rpc('admin_publier_import', { p_staging_id: stagingId })
+  if (error) return { error }
+  return { recipeId: data, error: null }
 }
 
 /**
- * Rejette 1 staging row.
+ * Rejette 1 staging row (motif obligatoire ; une ligne déjà résolue est refusée).
  */
 export async function adminRejectStaged(stagingId, reason) {
-  const { data: { user } = {} } = await supabase.auth.getUser()
-  return rejectStaging(supabase, { stagingId, reason, actorId: user?.id ?? null })
+  const { error } = await supabase.rpc('admin_rejeter_import', { p_staging_id: stagingId, p_motif: reason })
+  return { error }
 }
 
 /**
@@ -155,27 +156,11 @@ export async function adminGetImportMetrics() {
 }
 
 /**
- * Bulk publish : publie tous les rows status='valid' d'un batch.
- * Continue sur erreur partielle.
+ * Bulk publish : toutes les lignes « valid » d'un lot, une par une côté base
+ * (un échec est nommé, les autres passent). Bilan : { published, failed }.
  */
 export async function adminBatchPublishValid(batchId) {
-  const { data: { user } = {} } = await supabase.auth.getUser()
-  const actorId = user?.id ?? null
-
-  const { data: candidates, error: fetchErr } = await supabase
-    .from('recipe_imports_staging')
-    .select('id')
-    .eq('batch_id', batchId)
-    .eq('status', 'valid')
-
-  if (fetchErr) return { error: fetchErr, published: 0, failed: [] }
-
-  const failed = []
-  let published = 0
-  for (const row of candidates ?? []) {
-    const { error } = await publishStagingToRecipes(supabase, { stagingId: row.id, actorId })
-    if (error) failed.push({ stagingId: row.id, error: error.message })
-    else published++
-  }
-  return { error: null, published, failed }
+  const { data, error } = await supabase.rpc('admin_publier_lot_import', { p_batch_id: batchId })
+  if (error) return { error, published: 0, failed: [] }
+  return { error: null, published: data?.published ?? 0, failed: data?.failed ?? [] }
 }

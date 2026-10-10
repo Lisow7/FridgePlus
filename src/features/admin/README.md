@@ -14,8 +14,8 @@ community, support, notifications, premium, reports).
 - **Provider/context `useAdmin`** (`providers/admin-provider.jsx`) — **exception au props-drilling**
   du reste de l'app. Une seule instance par `AdminPanel` ; expose le **rôle** courant
   (`admin`/`moderator`/`support` — `support`/`moderator` prévus, `admin` seul actif), les **stats KPI**
-  agrégées (refresh à la demande) et la **section active**. Les sections lisent `useAdmin()` au lieu de
-  refetch. La section active est **persistée** (`lib/admin-section-storage.js`) → l'admin retrouve son
+  (les neuf compteurs du panneau en UNE lecture, la fonction `admin_compteurs` ; refresh à la demande)
+  et la **section active**. Les sections lisent `useAdmin()` au lieu de refetch. La section active est **persistée** (`lib/admin-section-storage.js`) → l'admin retrouve son
   écran à la réouverture.
 - **i18n en ligne par composant**, comme le reste de l'app ([ADR 0002](../../../docs/adr/0002-i18n-inline-par-composant.md)) :
   chaque section porte son propre dictionnaire `I18N` fr/en. `i18n/admin-i18n.js` (`ADMIN_I18N`) ne
@@ -41,11 +41,18 @@ community, support, notifications, premium, reports).
 - **Les écritures disent vrai sur leur issue** (`lib/ecritures-admin.js`, `lib/appliquer-en-lot.js`) :
   0 ligne touchée = échec, un lot rend compte de ce qui a réellement réussi, « Accès refusé » seulement
   pour un vrai 42501 (ADM-02, ADM-08, ADM-26 ; garde-fous `admin-ecritures-cliquet`, `admin-ecritures-honnetes`).
+- **Ce que la base écrit elle-même au journal** (lot 12l, migration `file_d_import_et_compteurs_en_base`) :
+  la publication et le rejet d'une recette importée (`recipe_import_published`, `recipe_import_rejected`,
+  acteur posé par la base), la suppression d'un ticket, d'un signalement ou d'un message par un admin
+  (`ticket_deleted`, `report_deleted`, `support_message_deleted`), l'effacement définitif d'un compte
+  (`account_deleted`, sans acteur). L'heure et l'auteur d'une bascule de fonctionnalité aussi.
 
 ## Structure
 - **`api/`** — `admin.js` (stats, santé des données, recettes, ingrédients, utilisateurs, journal,
   accès spécial ; ré-exporte la file d'import), `import-queue.js` (file d'import de recettes :
-  liste, publication, rejet, métriques — sortie d'`admin.js` au lot 14f), `bannissement.js`
+  liste et métriques ; publier, rejeter et publier un lot par les fonctions de la base
+  `admin_publier_import`, `admin_rejeter_import`, `admin_publier_lot_import`, chacune en une
+  transaction — sortie d'`admin.js` au lot 14f, plus d'import du publisher Node depuis le lot 12l), `bannissement.js`
   (`admin_bannir` / `admin_debannir` par la base, puis l'e-mail `notifier-bannissement` qui donne
   le motif et la date), `community-admin.js`, `recipe-reviews-admin.js` (modération par RPC
   SECURITY DEFINER qui exigent `is_admin()`).
@@ -73,7 +80,9 @@ community, support, notifications, premium, reports).
   (un rafraîchissement périodique qui ne tourne que si l'onglet est visible et l'écran affiché).
 - **`lib/`** — `audit`, `libelles-du-journal`, `admin-section-storage`, `ecritures-admin`,
   `appliquer-en-lot`, `csv` (export CSV sûr : guillemets doublés, formules neutralisées), `dates`
-  (`fmtDate` / `fmtDateTime` des tableaux), `pastille` (le style d'une pastille de filtre), `id-libre`
+  (`fmtDate` / `fmtDateTime` des tableaux), `activite-par-periode` (le graphique du tableau de bord :
+  les comptes par jour de `admin_activite_par_jour` rangés en jours, mois ou années, en UTC),
+  `pastille` (le style d'une pastille de filtre), `id-libre`
   (un identifiant libre à partir d'une base), `slug`, `ingredient-taxonomy` (périmètre admin seul),
   `missing-image`, `dev-crash-trigger` (déclenche un crash pour tester Sentry, mode dev seulement).
 - **`data/`** — `admin-help-content` (textes du guide, un par onglet — garde-fou `guide-admin-dit-vrai`),

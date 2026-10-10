@@ -5,6 +5,7 @@ import {
 } from 'recharts'
 import { LuActivity } from 'react-icons/lu'
 import { adminGetAnalyticsData } from '@features/admin/api/admin'
+import { agregerParPeriode } from '@features/admin/lib/activite-par-periode'
 import Button from '@shared/ui/button'
 import { texteLisible } from '@shared/lib/couleurs/texte-lisible'
 
@@ -21,74 +22,8 @@ const COLOR_RECIPES  = 'var(--color-success)'
 const HEIGHT_STEP    = 60
 const MAX_EXTRA      = HEIGHT_STEP * 6   // 360 px max au-dessus de l'auto-fill
 
-// ── Agrégation client-side ────────────────────────────────────────────────────
-
-function buildPeriodBuckets(period) {
-  const now = new Date()
-  if (period === '7j') {
-    return Array.from({ length: 7 }, (_, i) => {
-      const d = new Date(now); d.setDate(d.getDate() - (6 - i)); d.setHours(0,0,0,0)
-      return { key: d.toISOString().slice(0, 10), label: d.toLocaleDateString('fr-FR', { day:'2-digit', month:'2-digit' }) }
-    })
-  }
-  if (period === '30j') {
-    return Array.from({ length: 30 }, (_, i) => {
-      const d = new Date(now); d.setDate(d.getDate() - (29 - i)); d.setHours(0,0,0,0)
-      return { key: d.toISOString().slice(0, 10), label: d.toLocaleDateString('fr-FR', { day:'2-digit', month:'2-digit' }) }
-    })
-  }
-  if (period === '12m') {
-    return Array.from({ length: 12 }, (_, i) => {
-      const d = new Date(now.getFullYear(), now.getMonth() - (11 - i), 1)
-      const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`
-      return { key, label: d.toLocaleDateString('fr-FR', { month: 'short', year: '2-digit' }) }
-    })
-  }
-  return null
-}
-
-function getItemKey(dateStr, period) {
-  if (period === '7j' || period === '30j') return dateStr.slice(0, 10)
-  if (period === '12m') return dateStr.slice(0, 7)
-  return dateStr.slice(0, 4)
-}
-
-function aggregate(raw, period) {
-  const { logs, users, recipes } = raw
-
-  let buckets = buildPeriodBuckets(period)
-
-  if (period === 'all') {
-    const allDates = [...logs, ...users, ...recipes].map(x => x.created_at.slice(0, 4))
-    if (!allDates.length) return []
-    const minYear = Math.min(...allDates.map(Number))
-    const maxYear = new Date().getFullYear()
-    buckets = Array.from({ length: maxYear - minYear + 1 }, (_, i) => {
-      const y = String(minYear + i)
-      return { key: y, label: y }
-    })
-  }
-
-  const map = {}
-  for (const b of buckets) map[b.key] = { label: b.label, actions: 0, signups: 0, recipes: 0 }
-
-  const startKey = buckets[0].key
-
-  for (const l of logs) {
-    const k = getItemKey(l.created_at, period)
-    if (k >= startKey && map[k]) map[k].actions++
-  }
-  for (const u of users) {
-    const k = getItemKey(u.created_at, period)
-    if (k >= startKey && map[k]) map[k].signups++
-  }
-  for (const r of recipes) {
-    const k = getItemKey(r.created_at, period)
-    if (k >= startKey && map[k]) map[k].recipes++
-  }
-
-  return buckets.map(b => map[b.key])
-}
+// L'agrégation par période (jours, mois, années, en UTC comme la base) vit
+// dans `lib/activite-par-periode.js`, testée sans recharts.
 
 // ── Tooltip personnalisé ──────────────────────────────────────────────────────
 
@@ -153,7 +88,7 @@ export default function AnalyticsChart({ darkMode = false, refreshKey = 0 }) {
 
   const chartData = useMemo(() => {
     if (!rawData) return []
-    return aggregate(rawData, period)
+    return agregerParPeriode(rawData.jours ?? [], period)
   }, [rawData, period])
 
   const tickInterval = chartData.length <= 7 ? 0 : Math.ceil(chartData.length / 7) - 1
