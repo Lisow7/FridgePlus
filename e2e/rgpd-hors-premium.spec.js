@@ -29,5 +29,7 @@ test('sans Premium, la page Compte propose l’opposition au profilage et l’ef
   // L'opposition vit dans « Confidentialité », repliée par défaut.
   await page.getByRole('button', { name: /confidentialité/i }).click()
   await expect(page.getByText('Opposition au profilage')).toBeVisible()
-  await expect(page.getByText('Supprimer mon historique de dépenses')).toBeVisible()
+  // Le titre, par son rôle : la description de l’opposition au profilage cite
+  // « Supprimer mon historique de dépenses » (le même nom, depuis la décision du 2026-10-08).
+  await expect(page.getByRole('heading', { name: 'Supprimer mon historique de dépenses' })).toBeVisible()
 })
