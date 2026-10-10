@@ -271,6 +271,17 @@ export default function useRecipeFormModal({ initialRecipe, onSave, onClose, lan
     setForm(prev => ({ ...prev, steps: prev.steps.filter(s => s.id !== id) }))
   }
 
+  // ↑ ↓ : réordonner sans glisser (décision du 2026-10-08 ; WCAG 2.5.7).
+  const moveStep = (id, sens) => {
+    dirtyRef.current = true
+    setForm(prev => {
+      const i = prev.steps.findIndex(s => s.id === id)
+      const j = i + sens
+      if (i < 0 || j < 0 || j >= prev.steps.length) return prev
+      return { ...prev, steps: arrayMove(prev.steps, i, j) }
+    })
+  }
+
   const handleStepDragEnd = ({ active, over }) => {
     if (!over || active.id === over.id) return
     setForm(prev => {
@@ -448,7 +459,7 @@ export default function useRecipeFormModal({ initialRecipe, onSave, onClose, lan
     countryOptions, sensors, submitting, ALLERGEN_KEYS,
     update, handleResetDraft, handleClose,
     addIngredient, updateIngredient, deleteIngredient,
-    addStep, updateStep, deleteStep, handleStepDragEnd,
+    addStep, updateStep, deleteStep, moveStep, handleStepDragEnd,
     toggleDiet, handleSubmit, handleConfirmPublish,
   }
 }
