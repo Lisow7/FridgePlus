@@ -81,7 +81,6 @@ import {
   adminPublishStaged,
   adminRejectStaged,
   adminBatchPublishValid,
-  adminReRunValidators,
   adminGetImportMetrics,
 } from '@features/admin/api/admin'
 import {
@@ -182,17 +181,6 @@ describe('adminBatchPublishValid', () => {
     const result = await adminBatchPublishValid('batch-1')
     expect(result.published).toBe(1)
     expect(result.failed).toHaveLength(1)
-  })
-})
-
-// ─── adminReRunValidators ────────────────────────────────────────────────────
-
-describe('adminReRunValidators', () => {
-  it('retourne {error: null, message: string mentionnant CLI}', async () => {
-    const result = await adminReRunValidators('staging-1')
-    expect(result.error).toBeNull()
-    expect(typeof result.message).toBe('string')
-    expect(result.message.toLowerCase()).toMatch(/cli|npm|revalidate/)
   })
 })
 

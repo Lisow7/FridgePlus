@@ -5,7 +5,6 @@ import {
   adminPublishStaged,
   adminRejectStaged,
   adminBatchPublishValid,
-  adminReRunValidators,
 } from '@features/admin/api/admin'
 import Button from '@shared/ui/button'
 import FilterPill from '@shared/ui/filter-pill'
@@ -129,13 +128,6 @@ export default function ImportQueueTab({ darkMode = false }) {
     else { showToast('success', `Recette rejetée.`); setMetricsKey(k => k + 1) }
     setBusyId(null)
     reload()
-  }
-
-  async function handleRevalidate(row) {
-    setBusyId(row.id)
-    const { message } = await adminReRunValidators(row.id)
-    showToast('info', message)
-    setBusyId(null)
   }
 
   // La confirmation dit combien de recettes partent, le résultat nomme les échecs (ADM-17 (4)).
@@ -323,7 +315,6 @@ export default function ImportQueueTab({ darkMode = false }) {
             const isRowBusy = busyId === row.id
             const canPublish = row.status === 'pending' || row.status === 'valid'
             const canReject  = row.status === 'pending' || row.status === 'valid' || row.status === 'invalid' || row.status === 'admin_review'
-            const canRevalidate = row.status === 'invalid'
 
             return (
               <div
@@ -423,19 +414,6 @@ export default function ImportQueueTab({ darkMode = false }) {
                     >
                       <LuX size={12} />
                       Rejeter
-                    </Button>
-                  )}
-                  {canRevalidate && (
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => handleRevalidate(row)}
-                      disabled={isRowBusy}
-                      className="h-auto rounded-md border bg-transparent px-2.5 py-1 text-xs hover:bg-transparent"
-                      style={{ gap: 4, borderColor: border, color: muted }}
-                    >
-                      <LuPlay size={12} />
-                      Re-valider (CLI)
                     </Button>
                   )}
                   {row.admin_notes && (
