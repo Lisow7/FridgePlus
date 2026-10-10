@@ -33,6 +33,11 @@ export function AuthProvider({ children }) {
   const [recoveryMode, setRecoveryMode] = useState(false)
   const [mfa,          setMfa]          = useState(MFA_AUCUN) // code de double authentification dû ? (CPT-01)
   const [compteDesactive, setCompteDesactive] = useState(null) // { effaceLe } après une suppression (CPT-04)
+  // Une session a-t-elle existé dans cet onglet ? Retenu au rendu : AuthGuard y
+  // distingue une session qui se ferme (→ accueil) d'un visiteur arrivé sans
+  // session (→ connexion, puis retour à la page demandée — CPT-18).
+  const [aEuUneSession, setAEuUneSession] = useState(false)
+  if (user && !aEuUneSession) setAEuUneSession(true)
 
   // Filet de sécurité du profil (relectures, « profil indisponible »,
   // `profileLoading`) : cf. shared/hooks/use-profil-de-secours.js (PREM-06, CPT-12).
@@ -197,10 +202,13 @@ export function AuthProvider({ children }) {
   // Login/inscription via Google (OAuth). Redirige le navigateur vers Google
   // puis revient sur l'app (?code=…) ; supabase-js échange le code (PKCE) et
   // émet SIGNED_IN. Scopes minimaux (email profile) = minimisation RGPD.
+  // `prompt: 'select_account'` : Google fait choisir le compte à chaque fois —
+  // sur un poste partagé, celui resté ouvert dans le navigateur était repris
+  // sans que personne le choisisse (audit du 2026-10-04, CPT-18).
   async function signInWithGoogle() {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
-      options: { redirectTo: window.location.origin, scopes: 'email profile' },
+      options: { redirectTo: window.location.origin, scopes: 'email profile', queryParams: { prompt: 'select_account' } },
     })
     return { error }
   }
@@ -441,7 +449,7 @@ export function AuthProvider({ children }) {
   const value = useMemo(() => ({
     user, profile, loading, profileLoading, profilIndisponible, relancerLeProfil,
     isAdmin, mfaRequired: mfa.requis, mfaFactorId: mfa.facteurId,
-    recoveryMode,
+    recoveryMode, aEuUneSession,
     authLinkProblem, clearAuthLinkProblem,
     ...allergenes,
     signInWithEmail, signUpWithEmail, resendSignupEmail, recordSignupConsent, signInWithGoogle, signOut,
@@ -450,7 +458,7 @@ export function AuthProvider({ children }) {
     deleteAccount, restoreAccount, completePasswordReset, annulerLaSuppression,
     compteDesactive, oublierCompteDesactive: () => setCompteDesactive(null),
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }), [user, profile, loading, profileLoading, profilIndisponible, relancerLeProfil, isAdmin, mfa, recoveryMode, authLinkProblem, allergenes, compteDesactive])
+  }), [user, profile, loading, profileLoading, profilIndisponible, relancerLeProfil, isAdmin, mfa, recoveryMode, aEuUneSession, authLinkProblem, allergenes, compteDesactive])
 
   return (
     <AuthContext.Provider value={value}>

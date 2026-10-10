@@ -18,8 +18,9 @@ export default function RedirectIfAuthGuard({ children, fallbackPath = '/' }) {
   if (user && !recoveryMode) {
     // Redirect vers la page d'origine si dispo (cas : AuthGuard a
     // redirigé l'user non-loggé vers /login, puis il se connecte →
-    // on le renvoie d'où il venait).
-    const target = location.state?.from?.pathname ?? fallbackPath
+    // on le renvoie d'où il venait, requête et ancre comprises — CPT-18).
+    const from = location.state?.from
+    const target = from?.pathname ? { pathname: from.pathname, search: from.search, hash: from.hash } : fallbackPath
     return <Navigate to={target} replace />
   }
 
