@@ -5,11 +5,11 @@ import { getMyReview, upsertReview } from '@features/recipes/api/recipe-reviews'
 import QuickRateToast from '@features/recipes/components/quick-rate-toast'
 
 // Toast de notation rapide 1-tap, affiché après un `logCooking()` réussi
-// (cf. use-recipe-modal.js). Il part tout seul au bout de QUICK_RATE_MS, et
-// dès qu'on quitte la fiche ou qu'on change de recette : retour d'Antoine du
-// 2026-10-04 — il restait collé en bas de l'écran, sur l'accueil, longtemps
-// après la recette qu'il concernait (`duration: 0` à l'origine).
-export const QUICK_RATE_MS = 3000
+// (cf. use-recipe-modal.js). Il part quand on note, quand on le ferme, et dès
+// qu'on quitte la fiche ou qu'on change de recette — retour d'Antoine du
+// 2026-10-04 : il restait collé sur l'accueil, longtemps après la recette
+// qu'il concernait. Sans minuteur (décision du 2026-10-08) : 3 s ne laissaient
+// pas le temps de lire et de choisir (WCAG 2.2.1).
 
 /**
  * @param {string|undefined} currentRecipeId recette affichée par la fiche
@@ -54,7 +54,7 @@ export function useQuickRatePrompt(currentRecipeId) {
     shownId.current = id
     show(
       <QuickRateToast lang={lang} onRate={handleRate} onDismiss={() => dismiss(id)} />,
-      { id, duration: QUICK_RATE_MS },
+      { id, duration: 0 },
     )
   }, [show, dismiss, signalerEchec])
 }
