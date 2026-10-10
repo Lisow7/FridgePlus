@@ -5,6 +5,7 @@ import './index.css'
 import App from './App.jsx'
 import AccountSync from '@app/components/account-sync'
 import BandeauSessionPerdue from '@app/components/bandeau-session-perdue'
+import BandeauHorsLigne from '@app/components/bandeau-hors-ligne'
 import { effacerLesClesAbandonnees } from '@shared/lib/auth/cles-abandonnees'
 // Directement, et non par le baril `@features/auth` : il réexportait les deux
 // modales MFA et `useMFA`, qui entraient au démarrage de chaque visiteur (~4 Ko).
@@ -112,6 +113,7 @@ prechargerLaRoute(window.location.pathname, ROUTES, import.meta.env.BASE_URL).th
                     <DeletingRecipeProvider>
                       <AccountSync />
                       <BandeauSessionPerdue />
+                      <BandeauHorsLigne />
                       <App />
                     </DeletingRecipeProvider>
                   </RecipeFormProvider>
