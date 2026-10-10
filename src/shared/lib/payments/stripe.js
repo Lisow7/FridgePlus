@@ -14,6 +14,19 @@
 
 import { PREMIUM_ENABLED } from '@shared/lib/premium-config'
 
+// Les seules adresses suivies (audit du 2026-10-04, SEC-12) : l'adresse rendue
+// par nos fonctions edge n'est suivie que si c'est bien Stripe, en https —
+// défense en profondeur, une réponse détournée n'envoie personne ailleurs.
+const HOTE_PAIEMENT = 'checkout.stripe.com'
+const HOTE_PORTAIL = 'billing.stripe.com'
+
+/** L'adresse, si elle est en https sur l'hôte attendu ; sinon null. */
+export function adresseStripeSure(url, hote) {
+  let u
+  try { u = new URL(url) } catch { return null }
+  return u.protocol === 'https:' && u.hostname === hote && !u.username && !u.password ? u.href : null
+}
+
 /**
  * Crée une session Stripe Checkout et redirige l'utilisateur.
  * @param {'monthly'|'annual'} plan
@@ -31,8 +44,10 @@ export async function redirectToCheckout(plan, supabase) {
   })
   if (error) throw new Error(error.message ?? 'Erreur lors de la création de la session')
   if (!data?.url) throw new Error('URL de paiement manquante')
+  const sure = adresseStripeSure(data.url, HOTE_PAIEMENT)
+  if (!sure) throw new Error('redirection_refusee')
 
-  window.location.href = data.url
+  window.location.href = sure
 }
 
 /**
@@ -46,6 +61,8 @@ export async function redirectToPortal(supabase) {
   })
   if (error) throw new Error(error.message ?? 'Erreur lors de l\'ouverture du portail')
   if (!data?.url) throw new Error('URL du portail manquante')
+  const sure = adresseStripeSure(data.url, HOTE_PORTAIL)
+  if (!sure) throw new Error('redirection_refusee')
 
-  window.location.href = data.url
+  window.location.href = sure
 }
