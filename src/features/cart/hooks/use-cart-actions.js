@@ -1,6 +1,5 @@
 import { useCallback } from 'react'
-import { supabase } from '@shared/lib/supabase/client'
-import { addBasketItems, clearBasket, removeBasketItemsByIds, updateBasketItemsBatch } from '@features/cart/api/basket'
+import { addBasketItems, clearBasket, removeBasketItemsByIds, updateBasketItemsBatch, mettreAuFrigo } from '@features/cart/api/basket'
 import { toGrams } from '@shared/lib/recipes/recipe-utils'
 import { getEmbeddedPrice } from '@shared/lib/pricing/open-prices'
 
@@ -103,26 +102,28 @@ export function useCartActions({ user, basket, stock, lang, ingredientsById, ref
   }, [user, basket, stock, lang, ingredientsById, refreshBasket])
 
   // Finalise les courses :
-  //   1. Transfère les ingrédients cochés dans le frigo (user_stock upsert)
-  //   2. Supprime uniquement les articles cochés du panier
+  //   1. Transfère les ingrédients cochés dans le frigo (`mettreAuFrigo`)
+  //   2. Supprime uniquement les articles cochés du panier — et SEULEMENT si le
+  //      frigo les a reçus : avant, un refus de la base au point 1 était jeté,
+  //      et les achats disparaissaient des deux côtés (audit du 2026-10-04)
   //   → les articles non cochés restent dans le panier pour la prochaine fois
   const handleCompleteShopping = useCallback(async (basket) => {
     if (!user?.id) return { error: { message: 'not_authenticated' } }
     const checkedItems = basket.filter(i => i.checked)
 
-    // 1. Ajouter les ingrédients cochés au frigo (upsert — pas de cross-feature import)
+    // 1. Ajouter les ingrédients cochés au frigo
     const uniqueIds = [...new Set(checkedItems.map(i => i.ingredient_id).filter(Boolean))]
     if (uniqueIds.length > 0) {
-      await supabase.from('user_stock').upsert(
-        uniqueIds.map(id => ({ user_id: user.id, ingredient_id: id })),
-        { onConflict: 'user_id,ingredient_id', ignoreDuplicates: true }
-      )
+      const { error } = await mettreAuFrigo(user.id, uniqueIds)
+      if (error) return { error, addedToFridge: 0 }
     }
 
     // 2. Supprimer uniquement les articles cochés (les non-cochés restent dans le panier)
     const checkedIds = checkedItems.map(i => i.id).filter(Boolean)
     if (checkedIds.length > 0) {
-      await removeBasketItemsByIds(checkedIds)
+      const { error } = await removeBasketItemsByIds(checkedIds)
+      // Au frigo, mais encore au panier : on relit le panier et on le dit.
+      if (error) { await refreshBasket(); return { error, addedToFridge: uniqueIds.length, resteAuPanier: true } }
     }
 
     await refreshBasket()
@@ -171,8 +172,9 @@ export function useCartActions({ user, basket, stock, lang, ingredientsById, ref
       .map(row => row.id)
       .filter(Boolean)
     if (ids.length === 0) return { error: null, removed: 0 }
-    await removeBasketItemsByIds(ids)
+    const { error } = await removeBasketItemsByIds(ids)
     await refreshBasket()
+    if (error) return { error, removed: 0 }
     return { error: null, removed: ids.length }
   }, [user, basket, refreshBasket])
 

@@ -35,6 +35,26 @@ describe('Effacer mon historique de dépenses', () => {
     await waitFor(() => expect(mockSelect).toHaveBeenCalledTimes(1))
     expect(mockSelect).toHaveBeenCalledWith('id', { count: 'exact', head: true })
   })
+
+  // Audit du 2026-10-04, lot « accès à la base rangés » (et ADM-08 : un comptage
+  // raté n'est pas un zéro) : le comptage refusé laissait 0, et la fenêtre de
+  // confirmation affirmait « aucune dépense enregistrée à effacer ».
+  it('le comptage échoue : la confirmation ne prétend pas qu’il n’y a rien à effacer', async () => {
+    mockSelect.mockReturnValue({ eq: () => Promise.resolve({ count: null, error: { message: 'boom' } }) })
+    render(<EraseSpendingHistorySection {...COMMUN} userId="u-1" onErase={vi.fn()} modalBg="#fff" />)
+    await waitFor(() => expect(mockSelect).toHaveBeenCalledTimes(1))
+    fireEvent.click(screen.getByRole('button', { name: 'Effacer mon historique' }))
+    const fenetre = await screen.findByRole('dialog')
+    expect(fenetre).not.toHaveTextContent('aucune dépense enregistrée')
+    expect(fenetre).toHaveTextContent('Toutes tes dépenses enregistrées seront supprimées définitivement.')
+  })
+
+  it('le comptage répond : le nombre est dit (témoin)', async () => {
+    render(<EraseSpendingHistorySection {...COMMUN} userId="u-1" onErase={vi.fn()} modalBg="#fff" />)
+    await waitFor(() => expect(mockSelect).toHaveBeenCalledTimes(1))
+    fireEvent.click(screen.getByRole('button', { name: 'Effacer mon historique' }))
+    expect(await screen.findByRole('dialog')).toHaveTextContent('Toutes tes dépenses enregistrées (3) seront supprimées définitivement.')
+  })
 })
 
 describe('Opposition au profilage', () => {

@@ -18,7 +18,7 @@ const mockModerer      = vi.hoisted(() => vi.fn())
 const mockCreateTicket = vi.hoisted(() => vi.fn())
 const mockCreateReport = vi.hoisted(() => vi.fn())
 
-vi.mock('@shared/hooks/use-moderation', () => ({ moderateContent: (...a) => mockModerer(...a) }))
+vi.mock('@shared/api/moderation-de-contenu', () => ({ moderateContent: (...a) => mockModerer(...a) }))
 vi.mock('@features/support/api/support', () => ({
   getUserTickets: vi.fn().mockResolvedValue([]),
   getTicketMessages: vi.fn().mockResolvedValue({ messages: [], error: null }),

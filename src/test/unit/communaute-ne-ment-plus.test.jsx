@@ -16,7 +16,7 @@ vi.mock('@shared/ui/confirm-dialog/confirm-provider', () => ({ useConfirm: () =>
 vi.mock('@shared/contexts/auth-provider', () => ({ useAuth: () => ({ user: { id: 'u1' }, profile: { id: 'u1', username: 'Moi' } }) }))
 vi.mock('@shared/hooks/use-window-width', () => ({ useWindowWidth: () => 1024 }))
 vi.mock('@shared/hooks/use-close-on-back-button', () => ({ useCloseOnBackButton: () => {} }))
-vi.mock('@shared/hooks/use-moderation', () => ({ moderateContent: vi.fn() }))
+vi.mock('@shared/api/moderation-de-contenu', () => ({ moderateContent: vi.fn() }))
 vi.mock('@shared/contexts/data-provider', () => ({ useBaseRecipes: () => ({ recipes: [], recipeNames: {} }) }))
 const signaler = vi.hoisted(() => vi.fn())
 vi.mock('@shared/hooks/use-save-error-toast', () => ({ useSaveErrorToast: () => signaler }))

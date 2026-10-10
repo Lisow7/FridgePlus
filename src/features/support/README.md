@@ -47,11 +47,11 @@ plusieurs **flux** choisis via une grille de `CATEGORIES`, chacune ayant un `flo
 reste affichée.
 
 ## Modération à la saisie
-Le panneau passe le contenu utilisateur par `moderateContent` (`@shared/hooks/use-moderation`) avant
+Le panneau passe le contenu utilisateur par `moderateContent` (`@shared/api/moderation-de-contenu`) avant
 envoi.
 
 ## Dépendances & consommateurs
-- `@shared/api/reports` (`createReport`), `@shared/hooks/use-moderation`,
+- `@shared/api/reports` (`createReport`), `@shared/api/moderation-de-contenu`,
   `@shared/lib/recipes/recipes-repository`, `@shared/lib/supabase/client`, `@shared/ui/button`.
 - `index.js` re-exporte **toute** l'API (`export *`) car la section admin en consomme tout. Consommé
   par : `app/components/app-modals-root.jsx` (panneau), `app/hooks/use-admin-badges.js`,

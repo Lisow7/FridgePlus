@@ -19,7 +19,7 @@ vi.mock('@shared/hooks/use-close-on-back-button', () => ({
   useCloseOnBackButton: () => {},
 }))
 
-vi.mock('@shared/hooks/use-moderation', () => ({
+vi.mock('@shared/api/moderation-de-contenu', () => ({
   moderateContent: vi.fn(),
 }))
 

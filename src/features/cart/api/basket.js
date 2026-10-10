@@ -1,4 +1,5 @@
 import { supabase } from '@shared/lib/supabase/client'
+import { logError } from '@shared/lib/observability/sentry'
 
 export async function loadBasketFromDB(userId) {
   const { data, error } = await supabase
@@ -57,6 +58,22 @@ export async function clearBasket(userId) {
   if (error && import.meta.env.DEV) console.error('[basket] clearBasket:', error.message)
   const deletedCount = Array.isArray(data) ? data.length : 0
   return { error: error ?? null, deletedCount }
+}
+
+// « J'ai fait mes courses » : les achats au frigo. Un ingrédient déjà au frigo
+// n'est pas une erreur (ignoreDuplicates). Rend `{ error }` : le hook ne vide
+// le panier que si le frigo a bien reçu les achats (audit du 2026-10-04, lot
+// « accès à la base rangés » — l'écriture était faite en direct par le hook,
+// son résultat jeté, et le panier vidé quand même).
+export async function mettreAuFrigo(userId, ingredientIds) {
+  const ids = [...(ingredientIds ?? [])]
+  if (ids.length === 0) return { error: null }
+  const { error } = await supabase.from('user_stock').upsert(
+    ids.map(id => ({ user_id: userId, ingredient_id: id })),
+    { onConflict: 'user_id,ingredient_id', ignoreDuplicates: true },
+  )
+  if (error) logError(error, { tag: 'basket.mettreAuFrigo' })
+  return { error: error ?? null }
 }
 
 export async function removeBasketItemsByIds(ids) {

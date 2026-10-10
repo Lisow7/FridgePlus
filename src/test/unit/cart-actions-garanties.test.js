@@ -22,16 +22,17 @@ const mockAdd    = vi.hoisted(() => vi.fn())
 const mockClear  = vi.hoisted(() => vi.fn())
 const mockRemove = vi.hoisted(() => vi.fn())
 const mockBatch  = vi.hoisted(() => vi.fn())
-const mockUpsert = vi.hoisted(() => vi.fn())
-const mockFrom   = vi.hoisted(() => vi.fn())
+const mockFrigo  = vi.hoisted(() => vi.fn())
 
+// L'écriture au frigo passe par l'API du panier (`mettreAuFrigo`, lot « accès
+// à la base rangés ») ; le hook n'importe plus le client Supabase.
 vi.mock('@features/cart/api/basket', () => ({
   addBasketItems:        (...a) => mockAdd(...a),
   clearBasket:           (...a) => mockClear(...a),
   removeBasketItemsByIds:(...a) => mockRemove(...a),
   updateBasketItemsBatch:(...a) => mockBatch(...a),
+  mettreAuFrigo:         (...a) => mockFrigo(...a),
 }))
-vi.mock('@shared/lib/supabase/client', () => ({ supabase: { from: mockFrom } }))
 // Déterministes : on teste l'arithmétique du hook, pas celle des tables de prix.
 vi.mock('@shared/lib/recipes/recipe-utils', () => ({ toGrams: (n) => (n ?? 0) * 1 }))
 vi.mock('@shared/lib/pricing/open-prices', () => ({ getEmbeddedPrice: () => 2 })) // 2 € / 100 g
@@ -50,13 +51,12 @@ function monter(panier = [], stock = new Set()) {
 }
 
 beforeEach(() => {
-  for (const m of [mockAdd, mockClear, mockRemove, mockBatch, mockUpsert, mockFrom, rafraichir]) m.mockReset()
+  for (const m of [mockAdd, mockClear, mockRemove, mockBatch, mockFrigo, rafraichir]) m.mockReset()
   mockAdd.mockResolvedValue({ error: null })
   mockClear.mockResolvedValue({ error: null, deletedCount: 0 })
   mockRemove.mockResolvedValue({ error: null })
   mockBatch.mockResolvedValue({ error: null })
-  mockUpsert.mockResolvedValue({ error: null })
-  mockFrom.mockReturnValue({ upsert: mockUpsert })
+  mockFrigo.mockResolvedValue({ error: null })
 })
 
 describe('Stepper « personnes » — le calcul ne doit pas dériver', () => {
@@ -151,9 +151,9 @@ describe('« J\'ai fait mes courses » — seuls les articles COCHÉS sont trait
     const r = monter()
     await act(async () => { await r.current.handleCompleteShopping(panier) })
 
-    const lignes = mockUpsert.mock.calls[0][0]
-    expect(lignes.map(l => l.ingredient_id).sort()).toEqual(['fr-tomate', 'vg-carotte'])
-    expect(lignes.every(l => l.user_id === 'u-1')).toBe(true)
+    const [utilisateur, ids] = mockFrigo.mock.calls[0]
+    expect(utilisateur).toBe('u-1')
+    expect([...ids].sort()).toEqual(['fr-tomate', 'vg-carotte'])
   })
 
   it('🔴 ne retire du panier QUE les articles cochés', async () => {
@@ -166,20 +166,15 @@ describe('« J\'ai fait mes courses » — seuls les articles COCHÉS sont trait
     expect(res).toEqual({ error: null, addedToFridge: 2 })
   })
 
-  it('ignore les doublons côté base plutôt que d\'échouer sur un ingrédient déjà au frigo', async () => {
-    const r = monter()
-    await act(async () => { await r.current.handleCompleteShopping(panier) })
-    expect(mockUpsert.mock.calls[0][1]).toEqual({
-      onConflict: 'user_id,ingredient_id', ignoreDuplicates: true,
-    })
-  })
+  // (« Un ingrédient déjà au frigo n'est pas une erreur » se prouve sur
+  // `mettreAuFrigo` lui-même : panier-au-frigo-api.test.js.)
 
   it('ne touche à rien quand aucun article n\'est coché', async () => {
     const r = monter()
     const res = await act(async () => r.current.handleCompleteShopping([
       { id: 'i-1', ingredient_id: 'fr-tomate', checked: false },
     ]))
-    expect(mockFrom).not.toHaveBeenCalled()
+    expect(mockFrigo).not.toHaveBeenCalled()
     expect(mockRemove).not.toHaveBeenCalled()
     expect(res.addedToFridge).toBe(0)
   })
@@ -188,7 +183,48 @@ describe('« J\'ai fait mes courses » — seuls les articles COCHÉS sont trait
     const r = renderHook(() => useCartActions({ user: null, basket: [], lang: 'fr', ingredientsById: new Map(), refreshBasket: rafraichir })).result
     const res = await act(async () => r.current.handleCompleteShopping(panier))
     expect(res).toEqual({ error: { message: 'not_authenticated' } })
-    expect(mockFrom).not.toHaveBeenCalled()
+    expect(mockFrigo).not.toHaveBeenCalled()
+  })
+
+  // Audit du 2026-10-04, lot « accès à la base rangés » : l'écriture au frigo
+  // était faite en direct, son résultat jeté, puis le panier vidé quand même —
+  // un refus de la base faisait disparaître les achats des DEUX côtés.
+  it('🔴 le frigo refuse : rien n’est retiré du panier, et l’échec est rendu', async () => {
+    mockFrigo.mockResolvedValue({ error: { message: 'permission denied', code: '42501' } })
+    const r = monter()
+    const res = await act(async () => r.current.handleCompleteShopping(panier))
+    expect(mockRemove).not.toHaveBeenCalled()
+    expect(res).toEqual({ error: { message: 'permission denied', code: '42501' }, addedToFridge: 0 })
+  })
+
+  it('le panier refuse le retrait : les achats sont au frigo, l’échec le dit, le panier se relit', async () => {
+    mockRemove.mockResolvedValue({ error: { message: 'boom' } })
+    const r = monter()
+    const res = await act(async () => r.current.handleCompleteShopping(panier))
+    expect(res).toEqual({ error: { message: 'boom' }, addedToFridge: 2, resteAuPanier: true })
+    expect(rafraichir).toHaveBeenCalled()
+  })
+})
+
+describe('Retirer un ingrédient de toutes les recettes du panier', () => {
+  const panier = [
+    { id: 'i-1', ingredient_id: 'fr-tomate' },
+    { id: 'i-2', ingredient_id: 'gp-farine' },
+    { id: 'i-3', ingredient_id: 'fr-tomate' },
+  ]
+
+  it('retire les lignes de cet ingrédient (témoin)', async () => {
+    const r = monter(panier)
+    const res = await act(async () => r.current.handleRemoveAllByIngredient('fr-tomate'))
+    expect(mockRemove).toHaveBeenCalledWith(['i-1', 'i-3'])
+    expect(res).toEqual({ error: null, removed: 2 })
+  })
+
+  it('la base refuse : 0 retiré, l’échec est rendu (il était jeté)', async () => {
+    mockRemove.mockResolvedValue({ error: { message: 'boom' } })
+    const r = monter(panier)
+    const res = await act(async () => r.current.handleRemoveAllByIngredient('fr-tomate'))
+    expect(res).toEqual({ error: { message: 'boom' }, removed: 0 })
   })
 })
 
