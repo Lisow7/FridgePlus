@@ -59,7 +59,7 @@ function buildNav(lang, badges) {
       items: [
         { key:'ingredients', label: isFr ? 'Ingrédients' : 'Ingredients', icon: <LuLeaf size={15} /> },
         { key:'base',        label: isFr ? 'Recettes base' : 'Base recipes', icon: <LuDatabase size={15} /> },
-        { key:'pricing',     label: 'Pricing',                             icon: <LuTag size={15} /> },
+        { key:'pricing',     label: isFr ? 'Tarifs' : 'Pricing',          icon: <LuTag size={15} /> },
         { key:'quality',     label: isFr ? 'Qualité' : 'Quality',         icon: <LuShield size={15} />, badge: healthCount || null },
       ],
     },
@@ -212,7 +212,7 @@ const SECTION_TITLES = {
     community:     ['Communauté',        'Modérez les posts et les échanges'],
     ingredients:   ['Ingrédients',       'Gérez le catalogue des ingrédients'],
     base:          ['Recettes officielles','Catalogue des recettes du frigo officiel'],
-    pricing:       ['Pricing',           'Vue et édition des prix par ingrédient'],
+    pricing:       ['Tarifs',            'Vue et édition des prix par ingrédient'],
     quality:       ['Qualité données',   'Détectez les recettes et ingrédients incomplets'],
     users:         ['Utilisateurs',      'Gérez les accès et consultez les profils'],
     support:       ['Support',           'Répondez aux tickets utilisateurs'],
