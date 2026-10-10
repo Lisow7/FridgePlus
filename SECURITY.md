@@ -2,7 +2,7 @@
 
 > **Public vulnerability disclosure policy for Fridge+.**
 > Internal incident-response procedures are kept in private operational documentation.
-> Dernière mise à jour : 2026-05-15 (v3.360.0).
+> Dernière mise à jour : 2026-10-10 (v0.145 — ouverture du dépôt public : l'avis privé GitHub ci-dessous est désormais joignable).
 
 ## Supported versions
 
@@ -145,10 +145,7 @@ CSP is otherwise only discovered in production.
 
 ## Contact escalation
 
-If you don't get a response to a P0/P1 report within 48 h via email, you can ping:
-
-- GitHub : open a **private** advisory at https://github.com/Lisow7/FridgePlus/security/advisories/new (preferred fallback)
-- Twitter / X DM to the project owner (less reliable)
+If you don't get a response to a P0/P1 report within 48 h via email, open a **private security advisory** on the repository: https://github.com/Lisow7/FridgePlus/security/advisories/new — it reaches the maintainer directly and stays private until a fix is published. (Private vulnerability reporting is enabled on the repository since 2026-10-10.)
 
 For non-urgent reports, email is the only channel.
 
