@@ -18,7 +18,9 @@ vi.mock('@shared/contexts/ui-provider', async (importOriginal) => ({
 
 import PricingSection from '@features/admin/components/sections/pricing-section'
 
-describe('onglet Tarifs — ce que la liste dit', () => {
+// Chaque cas construit les ≈ 650 lignes du vrai catalogue : 20 s plutôt que
+// les 5 s par défaut, qu'une machine chargée dépasse (mesuré le 2026-10-10).
+describe('onglet Tarifs — ce que la liste dit', { timeout: 20_000 }, () => {
   it('une pastille par langue proposée (FR, EN), nommée en français et par langue — ni « ok » ni « missing »', () => {
     render(<PricingSection lang="fr" />)
     const [, premiereLigne] = screen.getAllByRole('row')

@@ -81,6 +81,9 @@ describe('aucun clic à la souris seulement', () => {
     expect(clicsSansClavier('const a = <div role="button" tabIndex={0} onClick={f} onKeyDown={g}>x</div>')).toEqual([])
   })
 
+  // Tout src/ lu et analysé d'un trait : plus que les 5 s par défaut sur une
+  // machine chargée (mesuré le 2026-10-10 : suite complète à 369 s au lieu de
+  // 157 s, ce test seul en 2 s). Même délai que pas-de-traces-de-conversation.
   it('aucun dans src/, hors exceptions nommées', () => {
     const racine = path.resolve(process.cwd(), 'src')
     const fautes = fichiers(racine).flatMap((f) => {
@@ -88,5 +91,5 @@ describe('aucun clic à la souris seulement', () => {
       return clicsSansClavier(fs.readFileSync(f, 'utf8'), rel).map((x) => `${rel}:${x}`)
     })
     expect(fautes).toEqual([])
-  })
+  }, 60_000)
 })
