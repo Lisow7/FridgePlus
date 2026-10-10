@@ -10,7 +10,15 @@
 // ne doit exporter que des composants (rechargement à chaud de React).
 export const SUPPORTED_LANGS = new Set(['fr', 'en'])
 
-/** La langue du visiteur, SANS effet de bord (rien n'est écrit). */
+/**
+ * La langue du visiteur, SANS effet de bord (rien n'est écrit).
+ *
+ * Décision du 2026-10-08 : le français tant que la personne n'a pas choisi — la
+ * langue du navigateur n'est plus lue. Un anglophone change en un clic, et la
+ * page reste cohérente pour les moteurs : le HTML pré-rendu est en français, et
+ * un robot au navigateur anglais lisait une page qui changeait de langue en
+ * s'hydratant.
+ */
 export function langueDuVisiteur() {
   try {
     const saved = localStorage.getItem('fridge-lang')
@@ -18,9 +26,6 @@ export function langueDuVisiteur() {
     // Un ancien réglage 'es'/'de'/'ja' : EN (international). Pas FR, le
     // visiteur a explicitement exprimé une préférence non francophone.
     if (saved) return 'en'
-    const browser = (navigator.language ?? 'fr').slice(0, 2)
-    if (SUPPORTED_LANGS.has(browser)) return browser
-    // Non supporté → EN par défaut (couverture internationale plus large que FR).
-    return 'en'
+    return 'fr'
   } catch { return 'fr' }
 }

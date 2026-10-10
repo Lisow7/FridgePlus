@@ -24,13 +24,12 @@ const UIContext = createContext(null)
 // Sprint 7 PR S7.a — Réduction à FR + EN.
 // L'audit a montré que ES / DE / JA n'étaient pas exploités en
 // pratique : duplication massive (76 fichiers avec clés inutilisées),
-// charge maintenance disproportionnée. On garde FR (langue primaire,
-// lancement) et EN (international par défaut).
+// charge maintenance disproportionnée. On garde FR et EN.
 //
-// Filet de sécurité pour les users existants : si localStorage ou
-// navigator.language renvoie un code non supporté (es/de/ja/it/etc.),
-// on fallback sur EN (jamais sur FR pour ne pas imposer la langue
-// d'origine du projet à un user qui parle clairement autre chose).
+// Un premier visiteur est en français tant qu'il n'a pas choisi (décision du
+// 2026-10-08 : la langue du navigateur n'est plus lue). Filet pour les comptes
+// existants : un réglage enregistré qui n'est plus proposé (es/de/ja) devient
+// EN — la personne avait exprimé une préférence non francophone.
 // La liste elle-même vit dans `@shared/lib/i18n/langues` (elle y FAIT FOI).
 
 // 🔴 Doit rester ÉGAL à la durée déclarée dans `index.css` pour
