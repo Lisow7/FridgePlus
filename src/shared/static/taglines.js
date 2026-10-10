@@ -8,12 +8,12 @@ export const TAGLINES = {
   fr: [
     'Cuisine mieux, sans limites.',
     'Ton assistant cuisine personnel.',
-    "Plus d'idées, moins de stress en cuisine.",
+    "Plus d’idées, moins de stress en cuisine.",
     'Transforme tes restes en plats savoureux.',
     'Des recettes sur mesure, chaque soir.',
     'Moins de gaspillage, plus de créativité.',
     'La cuisine du quotidien, enfin inspirante.',
-    "Ouvre ton frigo. Trouve l'inspiration.",
+    "Ouvre ton frigo. Trouve l’inspiration.",
   ],
   en: [
     'Cook better, without limits.',

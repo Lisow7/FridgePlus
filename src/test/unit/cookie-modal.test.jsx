@@ -34,26 +34,26 @@ beforeEach(() => {
 describe('CookieModal — deux cases, qui disent vrai', () => {
   it('« Rapports d’erreurs » et « Statistiques d’usage » ; plus de « Fonctionnels » ni de « Mesure d’audience »', () => {
     render(<CookieModal lang="fr" onClose={vi.fn()} />)
-    expect(screen.getByRole('switch', { name: /Rapports d'erreurs/ })).toBeInTheDocument()
-    expect(screen.getByRole('switch', { name: /Statistiques d'usage/ })).toBeInTheDocument()
+    expect(screen.getByRole('switch', { name: /Rapports d['’]erreurs/ })).toBeInTheDocument()
+    expect(screen.getByRole('switch', { name: /Statistiques d['’]usage/ })).toBeInTheDocument()
     expect(screen.queryByText(/Fonctionnels/)).not.toBeInTheDocument()
-    expect(screen.queryByText(/Mesure d'audience/)).not.toBeInTheDocument()
+    expect(screen.queryByText(/Mesure d['’]audience/)).not.toBeInTheDocument()
     expect(screen.queryByText(/[Aa]nonymis/)).not.toBeInTheDocument()
   })
 
   it('chaque case dit ce qui part, à qui, et combien de temps', async () => {
     const user = userEvent.setup()
     render(<CookieModal lang="fr" onClose={vi.fn()} />)
-    await user.click(screen.getByText("🔵 Rapports d'erreurs"))
-    expect(screen.getByText(/rattachées à l'identifiant de ton compte, jamais à ton adresse e-mail/)).toBeInTheDocument()
-    await user.click(screen.getByText("🟣 Statistiques d'usage"))
+    await user.click(screen.getByText("🔵 Rapports d’erreurs"))
+    expect(screen.getByText(/rattachées à l['’]identifiant de ton compte, jamais à ton adresse e-mail/)).toBeInTheDocument()
+    await user.click(screen.getByText("🟣 Statistiques d’usage"))
     expect(screen.getByText('⏱ 13 mois')).toBeInTheDocument()
   })
 
   it('« Enregistrer mes choix » écrit les deux cases, et rien d’autre que les quatre choix', async () => {
     const user = userEvent.setup()
     render(<CookieModal lang="fr" onClose={vi.fn()} />)
-    await user.click(screen.getByRole('switch', { name: /Rapports d'erreurs/ }))
+    await user.click(screen.getByRole('switch', { name: /Rapports d['’]erreurs/ }))
     await user.click(screen.getByRole('button', { name: 'Enregistrer mes choix' }))
     expect(mockState.save).toHaveBeenCalledWith({ errors: true, usage: false, voice: false, receiptScan: false })
   })
@@ -91,7 +91,7 @@ describe('CookieModal — les notifications n’y sont plus', () => {
     mockState.push = { available: true, enabled: false, loading: false, error: 'failed', blocked: false, toggle: vi.fn() }
     render(<CookieModal lang="fr" onClose={vi.fn()} />)
     expect(screen.queryByText(/Notifications push/)).toBeNull()
-    expect(screen.queryByText(/Impossible d'activer les notifications/)).toBeNull()
+    expect(screen.queryByText(/Impossible d['’]activer les notifications/)).toBeNull()
     expect(screen.queryByRole('switch', { name: /notification/i })).toBeNull()
   })
 })

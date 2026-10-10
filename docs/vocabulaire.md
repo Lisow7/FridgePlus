@@ -54,6 +54,14 @@ Une réponse n'est pas une publication : supprimer une réponse demande « Suppr
 Le bouton qui confirme nomme l'action (« Vider la liste », « Supprimer la publication ») : plus de
 « Confirmer » par défaut (`confirmations-nommees.test.js`).
 
+## Les apostrophes (décision du 2026-10-08)
+
+Typographiques partout : « l’app », « n’a pas », « don’t ». Le détecteur relève une apostrophe droite entre
+deux lettres dans ce que l’app affiche, sauf dans les données d’aliments et de recettes
+(`static/recipes.js`, `ingredients.js`, `recipe-names.js`, `ingredient-conservation.js`), dans ce que la voix doit
+reconnaître (`cooking-mode/lib/intents.js`, `matching/ingredient-text-matcher.js` : la reconnaissance renvoie des
+apostrophes droites) et dans les blocs CSS. Dans un test, une expression régulière accepte les deux : `/n['’]a pas/`.
+
 ## Ajouter une notion
 
 1. Une ligne dans le tableau ci-dessus, avec le nom retenu et les synonymes écartés.

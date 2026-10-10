@@ -59,7 +59,7 @@ export async function redirectToPortal(supabase) {
   const { data, error } = await supabase.functions.invoke('create-portal-session', {
     body: {},
   })
-  if (error) throw new Error(error.message ?? 'Erreur lors de l\'ouverture du portail')
+  if (error) throw new Error(error.message ?? 'Erreur lors de l’ouverture du portail')
   if (!data?.url) throw new Error('URL du portail manquante')
   const sure = adresseStripeSure(data.url, HOTE_PORTAIL)
   if (!sure) throw new Error('redirection_refusee')

@@ -67,7 +67,7 @@ beforeEach(() => {
 })
 
 describe('Panneau support — un échec ne doit pas être maquillé en succès', () => {
-  it('🔴 supprimer un message qui échoue : le message RESTE, une erreur s\'affiche', async () => {
+  it('🔴 supprimer un message qui échoue : le message RESTE, une erreur s’affiche', async () => {
     mockDeleteMessage.mockResolvedValue(ECHEC)
     const r = await monter(api => api.setMessages([{ id: 'm-1' }, { id: 'm-2' }]))
 
@@ -76,7 +76,7 @@ describe('Panneau support — un échec ne doit pas être maquillé en succès',
     // Le cœur du test : la liste est intacte. L'ancien code la filtrait quand
     // même, faisant disparaître de l'écran un message toujours en base.
     expect(r.current.messages.map(m => m.id)).toEqual(['m-1', 'm-2'])
-    expect(r.current.error).toBe('L\'opération a échoué. Rien n\'a été modifié.')
+    expect(r.current.error).toBe('L’opération a échoué. Rien n’a été modifié.')
   })
 
   it('supprimer un message qui réussit : le message part', async () => {
@@ -158,7 +158,7 @@ describe('Panneau support — ouvrir un ticket', () => {
     mockGetMessages.mockImplementation(() => Promise.resolve({ messages: [], error: { message: 'Failed to fetch' } }))
     const r = await monter(() => {})
     await act(async () => { await r.current.openTicket(TICKET) })
-    expect(r.current.error).toBe('Les messages n\'ont pas pu être chargés. Ferme puis rouvre le ticket.')
+    expect(r.current.error).toBe('Les messages n’ont pas pu être chargés. Ferme puis rouvre le ticket.')
   })
 
   it('les messages sont lus : aucune erreur (témoin)', async () => {
@@ -188,7 +188,7 @@ describe('Panneau support — ouvrir un ticket', () => {
     act(() => { r.current.setReplyContent('Merci') })
     await act(async () => { await r.current.handleSendReply() })
     expect(r.current.messages).toEqual([{ id: 'm-1' }])
-    expect(r.current.error).toBe('Les messages n\'ont pas pu être chargés. Ferme puis rouvre le ticket.')
+    expect(r.current.error).toBe('Les messages n’ont pas pu être chargés. Ferme puis rouvre le ticket.')
   })
 
   it('« lu » accepté : la pastille baisse (témoin)', async () => {

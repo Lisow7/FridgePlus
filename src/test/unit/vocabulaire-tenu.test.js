@@ -110,3 +110,32 @@ describe('« Enregistrer » et un verbe par geste de retrait (décision du 2026-
     ])
   })
 })
+
+describe('les apostrophes typographiques (décision du 2026-10-08) — témoins', () => {
+  let racine
+  let r
+  beforeAll(() => {
+    racine = mkdtempSync(join(tmpdir(), 'apostrophes-'))
+    for (const d of ['src/shared/static', 'src/features/cooking-mode/lib']) mkdirSync(join(racine, d), { recursive: true })
+    writeFileSync(join(racine, 'src/temoins.jsx'), [
+      "export const A = { fr: 'Tu n\\'as rien', en: \"You don't\" }",        // 1 deux relevés
+      "export const B = { fr: 'l’app est là', en: 'you’re here' }",                      // 2 déjà typographiques
+      "export const C = '@keyframes x { from{opacity:0} to{opacity:1} } /* l\\'effet */'", // 3 un bloc CSS
+      "export const D = { fr: \"Prix à l'unité\" }",                                  // 4 relevé
+      "export const E = { en: \"The users' data\" }",                                    // 5 pas entre deux lettres
+    ].join('\n'))
+    writeFileSync(join(racine, 'src/shared/static/recipes.js'), "export const R = { fr: 'Bœuf à l\\'ancienne' }\n")
+    writeFileSync(join(racine, 'src/features/cooking-mode/lib/intents.js'), "export const I = { fr: ['j\\'ai fini'] }\n")
+    r = recenserLeVocabulaire({ racine })
+  })
+  afterAll(() => rmSync(racine, { recursive: true, force: true }))
+
+  it('relève l’apostrophe droite entre deux lettres, hors données, voix et CSS', () => {
+    expect(r.illisibles).toEqual([])
+    expect(r.releves.map((v) => `${v.fichier.split('/').pop()}:${v.ligne} ${v.lang ?? '?'}`)).toEqual([
+      'temoins.jsx:1 fr',
+      'temoins.jsx:1 en',
+      'temoins.jsx:4 fr',
+    ])
+  })
+})

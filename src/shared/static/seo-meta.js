@@ -8,13 +8,13 @@ export const SEO_META = {
   fr: {
     title: 'Fridge+ — Gère ton frigo, crée & trouve des recettes',
     tagline: 'Gère ton frigo, crée & trouve des recettes',
-    description: 'Fais l\'inventaire de ton frigo et de ton garde-manger, puis crée et découvre instantanément des recettes avec ce que tu as déjà. Gratuit et simple.',
+    description: 'Fais l’inventaire de ton frigo et de ton garde-manger, puis crée et découvre instantanément des recettes avec ce que tu as déjà. Gratuit et simple.',
     ogLocale: 'fr_FR',
   },
   en: {
     title: 'Fridge+ — Manage your fridge, create & find recipes',
     tagline: 'Manage your fridge, create & find recipes',
-    description: 'Track what\'s in your fridge and pantry, then create and instantly find recipes for ingredients you already have. Free and simple.',
+    description: 'Track what’s in your fridge and pantry, then create and instantly find recipes for ingredients you already have. Free and simple.',
     ogLocale: 'en_US',
   },
 }

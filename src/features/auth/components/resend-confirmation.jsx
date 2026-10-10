@@ -15,10 +15,10 @@ export const RESEND_COOLDOWN_S = 60
 
 const I18N = {
   fr: {
-    action: 'Renvoyer l\'e-mail de confirmation',
+    action: 'Renvoyer l’e-mail de confirmation',
     wait: (n) => `Renvoi possible dans ${n} s`,
     sent: '✓ E-mail renvoyé. Pense au dossier des indésirables.',
-    failed: 'Impossible de renvoyer l\'e-mail pour l\'instant. Réessaie dans une minute.',
+    failed: 'Impossible de renvoyer l’e-mail pour l’instant. Réessaie dans une minute.',
   },
   en: {
     action: 'Resend the confirmation e-mail',

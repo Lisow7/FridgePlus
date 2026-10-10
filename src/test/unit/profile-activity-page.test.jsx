@@ -41,14 +41,14 @@ vi.mock('react-router-dom', async () => {
 import ProfileActivityPage from '@features/profile/pages/profile-activity-page'
 
 describe('ProfileActivityPage (Sprint 11 S11.a.4 + PR-E)', () => {
-  it('rend les 2 sections restantes (Vue d\'ensemble + Journal)', () => {
+  it('rend les 2 sections restantes (Vue d’ensemble + Journal)', () => {
     render(<MemoryRouter><ProfileActivityPage /></MemoryRouter>)
     expect(screen.getByRole('heading', { level: 1, name: /activité/i })).toBeInTheDocument()
-    expect(screen.getByRole('heading', { level: 2, name: /vue d'ensemble/i })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { level: 2, name: /vue d['’]ensemble/i })).toBeInTheDocument()
     expect(screen.getByRole('heading', { level: 2, name: /journal/i })).toBeInTheDocument()
   })
 
-  it('n\'affiche PAS la section Mes dépenses (déplacée vers /profile/depenses)', () => {
+  it('n’affiche PAS la section Mes dépenses (déplacée vers /profile/depenses)', () => {
     render(<MemoryRouter><ProfileActivityPage /></MemoryRouter>)
     expect(screen.queryByRole('heading', { level: 2, name: /dépenses/i })).not.toBeInTheDocument()
   })

@@ -68,11 +68,11 @@ export const EXPORTED_DATASETS = [
 // self-service demande une lecture côté serveur — à faire.
 export const NOT_EXPORTED = {
   activity_logs: 'Journal des actions faites sur le compte (connexions, exports, suppressions).',
-  ai_usage_log: 'Décompte des appels aux fonctions d\'IA faits pour le compte (substituts, modération).',
+  ai_usage_log: 'Décompte des appels aux fonctions d’IA faits pour le compte (substituts, modération).',
   email_log: 'Décompte des e-mails envoyés au compte (plafond quotidien), effacé au bout de 7 jours.',
-  product_events: 'Mesure d\'usage de l\'application rattachée au compte.',
-  subscription_events: 'Historique des changements d\'abonnement.',
-  special_access: 'Accès particuliers accordés par l\'équipe (testeur, partenaire).',
+  product_events: 'Mesure d’usage de l’application rattachée au compte.',
+  subscription_events: 'Historique des changements d’abonnement.',
+  special_access: 'Accès particuliers accordés par l’équipe (testeur, partenaire).',
 }
 
 // Allow-list délibérée (pas select('*')) : n'exporte que les données
@@ -180,7 +180,7 @@ export async function exportUserData(userId) {
       schema_version: '1.1',
       app_name: 'Fridge+',
       user_id: userId,
-      note: 'Données personnelles exportées conformément aux articles 15 et 20 du RGPD (droit d\'accès et droit à la portabilité). Format JSON structuré.',
+      note: 'Données personnelles exportées conformément aux articles 15 et 20 du RGPD (droit d’accès et droit à la portabilité). Format JSON structuré.',
       not_included: NOT_EXPORTED,
       not_included_note: `Ces données existent mais ne peuvent pas être lues depuis ton compte. Pour les obtenir, écris à ${SUPPORT_EMAIL}.`,
     },

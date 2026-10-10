@@ -43,7 +43,7 @@ describe('NotificationsPanel — quand ça ne charge pas', () => {
     etat.valeur = notifications({ loadError: true })
     monter()
     expect(screen.queryByText('Aucune notification')).toBeNull()
-    expect(screen.getByRole('alert')).toHaveTextContent(/n'ont pas pu être chargées/i)
+    expect(screen.getByRole('alert')).toHaveTextContent(/n['’]ont pas pu être chargées/i)
     fireEvent.click(screen.getByRole('button', { name: 'Réessayer' }))
     expect(etat.valeur.refresh).toHaveBeenCalledTimes(1)
   })

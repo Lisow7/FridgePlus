@@ -20,7 +20,7 @@ const I18N = {
     pageTitle: 'Récompenses',
     pageIntro: 'Ta progression de cuisinier : série en cours, badges et bannières à débloquer.',
     streakTitle:   'Ta série de cuisine',
-    streakWeeks:   (n) => n === 1 ? '1 semaine d\'affilée' : `${n} semaines d\'affilée`,
+    streakWeeks:   (n) => n === 1 ? '1 semaine d’affilée' : `${n} semaines d’affilée`,
     streakBest:    (n) => `Record : ${n}`,
     streakEmpty:   'Cuisine cette semaine pour démarrer ta série 🔥',
     badgesSectionTitle: 'Progression',

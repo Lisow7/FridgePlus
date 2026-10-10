@@ -27,7 +27,7 @@ describe('ShoppingListsModal — confirmations imbriquées', () => {
     await waitFor(() => screen.getByText('Courses du mois'))
     fireEvent.click(screen.getByLabelText('Charger Courses du mois'))
     await waitFor(() => expect(confirmMock).toHaveBeenCalledWith(expect.objectContaining({
-      title: 'Ton panier actuel n\'est pas vide. Le remplacer par cette liste ?',
+      title: 'Ton panier actuel n’est pas vide. Le remplacer par cette liste ?',
       danger: true,
     })))
     await waitFor(() => expect(onLoadList).toHaveBeenCalled())
@@ -46,7 +46,7 @@ describe('ShoppingListsModal — confirmations imbriquées', () => {
   })
 })
 
-describe('ShoppingListsModal — annonce lecteur d\'écran', () => {
+describe('ShoppingListsModal — annonce lecteur d’écran', () => {
   // L'annonce SR arme un setTimeout de 50 ms. S'il survit au démontage, il
   // se déclenche pendant le teardown de jsdom et fait sortir Vitest en erreur
   // (`window is not defined`) alors que tous les tests passent — un flake CI

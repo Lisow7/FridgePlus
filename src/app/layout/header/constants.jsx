@@ -14,7 +14,7 @@ export const CART_LABEL = { fr: 'Mon panier', en: 'My cart'}
 export const USER_MENU_LABEL = { fr: 'Menu utilisateur', en: 'User menu'}
 
 export const HOME_LABEL = {
- fr: 'Fridge+ — retour à l\'accueil',
+ fr: 'Fridge+ — retour à l’accueil',
  en: 'Fridge+ — back to home',
 }
 

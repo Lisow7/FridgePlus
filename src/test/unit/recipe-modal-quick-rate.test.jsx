@@ -72,7 +72,7 @@ describe('RecipeModal — notation rapide post-cuisson', () => {
   it('le journal refuse : pas de célébration, pas d’invite à noter, pas de « Ajoutée à ton journal » — et c’est dit', async () => {
     logCookingMock.mockResolvedValue({ error: { message: 'Failed to fetch' } })
     renderModal()
-    fireEvent.click(screen.getByText("J'ai cuisiné cette recette"))
+    fireEvent.click(screen.getByText("J’ai cuisiné cette recette"))
     await waitFor(() => expect(signalerMock).toHaveBeenCalledWith('cooking'))
     expect(celebrateMock).not.toHaveBeenCalled()
     expect(promptQuickRateMock).not.toHaveBeenCalled()
@@ -81,7 +81,7 @@ describe('RecipeModal — notation rapide post-cuisson', () => {
 
   it('le journal accepte : la confirmation s’affiche, la célébration part, rien d’autre n’est dit (témoin)', async () => {
     renderModal()
-    fireEvent.click(screen.getByText("J'ai cuisiné cette recette"))
+    fireEvent.click(screen.getByText("J’ai cuisiné cette recette"))
     expect(await screen.findByText(CONFIRMATION)).toBeInTheDocument()
     expect(celebrateMock).toHaveBeenCalledTimes(1)
     expect(signalerMock).not.toHaveBeenCalled()
@@ -91,16 +91,16 @@ describe('RecipeModal — notation rapide post-cuisson', () => {
     let trancher
     logCookingMock.mockReturnValue(new Promise((resolve) => { trancher = resolve }))
     renderModal()
-    fireEvent.click(screen.getByText("J'ai cuisiné cette recette"))
+    fireEvent.click(screen.getByText("J’ai cuisiné cette recette"))
     await waitFor(() => expect(logCookingMock).toHaveBeenCalled())
     expect(screen.queryByText(CONFIRMATION)).toBeNull()
     trancher({ error: null })
     expect(await screen.findByText(CONFIRMATION)).toBeInTheDocument()
   })
 
-  it('clic sur "J\'ai cuisiné cette recette" (aucun ingrédient en stock) : appelle useQuickRatePrompt après logCooking', async () => {
+  it('clic sur "J’ai cuisiné cette recette" (aucun ingrédient en stock) : appelle useQuickRatePrompt après logCooking', async () => {
     renderModal()
-    fireEvent.click(screen.getByText("J'ai cuisiné cette recette"))
+    fireEvent.click(screen.getByText("J’ai cuisiné cette recette"))
     await waitFor(() => expect(logCookingMock).toHaveBeenCalled())
     await waitFor(() => expect(promptQuickRateMock).toHaveBeenCalledWith('u1', { recipeId: 'bechamel-maison', recipeSource: 'base', lang: 'fr' }))
   })

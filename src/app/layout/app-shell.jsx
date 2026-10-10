@@ -106,9 +106,9 @@ export default function AppShell({
           position: fixed;
           top: 8px;
           left: -9999px;
-          /* Au-dessus de l'en-tête collant (60) pour être visible au focus,
+          /* Au-dessus de l’en-tête collant (60) pour être visible au focus,
              mais SOUS les modales (1000) : quand une modale est ouverte le
-             focus y est piégé, ce lien n'a rien à y faire. */
+             focus y est piégé, ce lien n’a rien à y faire. */
           z-index: ${Z_INDEX.BANNER};
           padding: 10px 18px;
           border-radius: 10px;

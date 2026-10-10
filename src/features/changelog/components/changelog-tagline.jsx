@@ -2,14 +2,14 @@ import { useState, useEffect, useRef } from 'react'
 
 const TAGLINES = {
   fr: [
-    'Ce qu\'on a cuisiné pour toi.',
+    'Ce qu’on a cuisiné pour toi.',
     'Les dernières touches apportées à ton assistant.',
     'Du nouveau dans ton frigo.',
     'Toujours mieux, toujours pour toi.',
     'Tes retours. Nos améliorations.',
   ],
   en: [
-    'What we\'ve been cooking for you.',
+    'What we’ve been cooking for you.',
     'The latest touches to your assistant.',
     'Something new in your fridge.',
     'Always better, always for you.',

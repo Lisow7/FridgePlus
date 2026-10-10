@@ -34,7 +34,7 @@ const I18N = {
     error: 'Impossible de charger la liste.',
     print: 'Imprimer / Enregistrer en PDF',
     openApp: 'Ouvrir Fridge+',
-    expiresIn: (n) => n === 0 ? 'Expire aujourd\'hui' : n === 1 ? 'Expire demain' : `Expire dans ${n} jours`,
+    expiresIn: (n) => n === 0 ? 'Expire aujourd’hui' : n === 1 ? 'Expire demain' : `Expire dans ${n} jours`,
     total: 'Total estimé',
     items: (n) => `${n} article${n > 1 ? 's' : ''}`,
     qrHint: 'Scanne pour rouvrir sur un autre appareil',

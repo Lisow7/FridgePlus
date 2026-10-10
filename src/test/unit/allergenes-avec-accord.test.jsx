@@ -40,7 +40,7 @@ vi.mock('react-router-dom', async () => {
 import AllergenPrefsChips from '@features/recipes/components/filters/allergen-prefs-chips'
 import ProfilePreferencesPage from '@features/profile/pages/profile-preferences-page'
 
-const TEXTE = /J'accepte que Fridge\+ enregistre mes allergènes pour filtrer les recettes\. Ce sont des données de santé ; je peux les effacer à tout moment\./
+const TEXTE = /J['’]accepte que Fridge\+ enregistre mes allergènes pour filtrer les recettes\. Ce sont des données de santé ; je peux les effacer à tout moment\./
 
 function compte(accord, autres = {}) {
   return {

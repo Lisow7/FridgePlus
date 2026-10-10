@@ -32,7 +32,7 @@ const I18N = {
  app: {
  fr: {
  title: 'Une erreur est survenue',
- body: "L'application a rencontré un problème inattendu. Tu peux essayer de recharger la page. Si le problème persiste, n'hésite pas à nous contacter.",
+ body: "L’application a rencontré un problème inattendu. Tu peux essayer de recharger la page. Si le problème persiste, n’hésite pas à nous contacter.",
  reload: 'Recharger la page',
  contact: 'Contacter le support',
  mailSubject: 'Erreur Fridge+',
@@ -70,7 +70,7 @@ const I18N = {
  section: {
  fr: {
  title: 'Cette section a rencontré un problème',
- body: 'Tu peux fermer puis rouvrir cette section. Le reste de l\'application reste utilisable.',
+ body: 'Tu peux fermer puis rouvrir cette section. Le reste de l’application reste utilisable.',
  reload: 'Réessayer',
  details: 'Détails techniques',
  },

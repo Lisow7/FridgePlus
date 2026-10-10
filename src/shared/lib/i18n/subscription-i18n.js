@@ -6,18 +6,18 @@ export const SUB_I18N = {
     // Free
     freeTitle: 'Compte gratuit',
     freeDesc:  'Débloque le panier, la voix dans le mode cuisine, tes listes gardées et plus encore.',
-    freeCta:   'Démarrer l\'essai gratuit 7 jours',
+    freeCta:   'Démarrer l’essai gratuit 7 jours',
     // Trialing
     trialTitle: 'Essai Premium en cours',
     trialDays:  (n) => `${n} jour${n > 1 ? 's' : ''} restant${n > 1 ? 's' : ''}`,
     trialCta:   'Activer maintenant',
-    trialDesc:  'À la fin de l\'essai, ton accès sera maintenu uniquement si tu actives un abonnement.',
+    trialDesc:  'À la fin de l’essai, ton accès sera maintenu uniquement si tu actives un abonnement.',
     // Active
     activeTitle:   'Actif',
     planMonthly:   'Plan mensuel — 4,99 € / mois',
     planAnnual:    'Plan annuel — 34,99 € / an',
     renews:        'Renouvellement le',
-    expires:       'Accès jusqu\'au',
+    expires:       'Accès jusqu’au',
     manage:        'Gérer mon abonnement',
     manageDesc:    'Annulation, mise à jour CB, factures — géré via le portail Stripe.',
     // Past due
@@ -29,7 +29,7 @@ export const SUB_I18N = {
     canceledDesc:  (date) => `Ton accès Premium expire le ${date}.`,
     canceledCta:   'Se réabonner',
     // Errors
-    portalError: 'Impossible d\'ouvrir le portail. Réessaie plus tard.',
+    portalError: 'Impossible d’ouvrir le portail. Réessaie plus tard.',
   },
   en: {
     tabLabel: 'Subscription',

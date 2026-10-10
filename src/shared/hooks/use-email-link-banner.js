@@ -16,9 +16,9 @@ import { SUPPORT_EMAIL } from '@shared/lib/contact'
 export const EMAIL_LINK_MESSAGES = {
   fr: {
     expired: 'Ce lien a expiré ou a déjà servi. Demande-en un nouveau depuis « Se connecter » : il est valable une heure, une seule fois.',
-    'no-session': 'Ce lien n\'a pas pu te connecter dans ce navigateur. Connecte-toi avec ton mot de passe ; s\'il est oublié, refais la demande depuis cet appareil.',
-    failed: `La connexion n'a pas abouti. Réessaie ; si ça recommence, écris à ${SUPPORT_EMAIL}.`,
-    banned: `Ce compte est suspendu. Pour contester, ou demander l'effacement de tes données, écris à ${SUPPORT_EMAIL}.`,
+    'no-session': 'Ce lien n’a pas pu te connecter dans ce navigateur. Connecte-toi avec ton mot de passe ; s’il est oublié, refais la demande depuis cet appareil.',
+    failed: `La connexion n’a pas abouti. Réessaie ; si ça recommence, écris à ${SUPPORT_EMAIL}.`,
+    banned: `Ce compte est suspendu. Pour contester, ou demander l’effacement de tes données, écris à ${SUPPORT_EMAIL}.`,
   },
   en: {
     expired: 'This link has expired or was already used. Request a new one from "Sign in": it is valid for one hour, once.',

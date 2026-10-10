@@ -34,7 +34,7 @@ export const FRIDGE_LAYOUTS = {
       {
         id: 'leftovers', label: 'Restes', emoji: '🥡', flex: 2,
         subcategories: [
-          { id: 'today',    label: "Aujourd'hui",   emoji: '📅' },
+          { id: 'today',    label: "Aujourd’hui",   emoji: '📅' },
           { id: 'thisweek', label: 'Cette semaine', emoji: '🗓️' },
         ],
       },

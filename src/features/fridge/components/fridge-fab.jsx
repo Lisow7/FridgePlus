@@ -66,7 +66,7 @@ const I18N = {
     mic_stop: 'Stop', mic_init: '…',
     empty: 'Empty',
     confirm_title: 'Empty your fridge?',
-    confirm_body: "All ingredients will be removed. You'll have 10 seconds to undo.",
+    confirm_body: "All ingredients will be removed. You’ll have 10 seconds to undo.",
     confirm_ok: 'Empty', confirm_cancel: 'Cancel',
     close: 'Close',
     mic_add: 'By voice',

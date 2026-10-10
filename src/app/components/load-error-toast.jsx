@@ -14,12 +14,12 @@ const I18N = {
     and: ' et ',
     // Seul, chaque nom porte son accord ; à plusieurs, c'est le masculin pluriel.
     alone: {
-      stock: 'n\'a pas pu être chargé.',
-      favorites: 'n\'ont pas pu être chargés.',
-      recipes: 'n\'ont pas pu être chargées.',
+      stock: 'n’a pas pu être chargé.',
+      favorites: 'n’ont pas pu être chargés.',
+      recipes: 'n’ont pas pu être chargées.',
     },
-    several: 'n\'ont pas pu être chargés.',
-    hint: 'Rien n\'est perdu : ce que tu vois n\'est simplement pas à jour.',
+    several: 'n’ont pas pu être chargés.',
+    hint: 'Rien n’est perdu : ce que tu vois n’est simplement pas à jour.',
     retry: 'Réessayer',
     close: 'Fermer',
   },

@@ -17,13 +17,13 @@ import SaveErrorToast from '@shared/ui/toast/save-error-toast'
 // d'affilée — un lot d'ingrédients sans réseau — ne font pas dix messages.
 export const SAVE_ERROR_MESSAGES = {
   fr: {
-    fridge: 'Pas enregistré : ton frigo n\'a pas pu être mis à jour. Réessaie.',
-    favorite: 'Pas enregistré : ce favori n\'a pas pu être gardé. Réessaie.',
-    setting: 'Pas enregistré : ce réglage n\'a pas pu être gardé. Réessaie.',
-    cooking: 'Pas noté : ce plat n\'a pas pu être ajouté à ton journal de cuisine. Réessaie.',
-    rating: 'Pas enregistré : ta note n\'a pas pu être gardée. Réessaie.',
-    removal: 'Pas supprimé : la suppression n\'a pas pu se faire. Réessaie.',
-    reaction: 'Pas enregistré : ta réaction n\'a pas pu être gardée. Réessaie.',
+    fridge: 'Pas enregistré : ton frigo n’a pas pu être mis à jour. Réessaie.',
+    favorite: 'Pas enregistré : ce favori n’a pas pu être gardé. Réessaie.',
+    setting: 'Pas enregistré : ce réglage n’a pas pu être gardé. Réessaie.',
+    cooking: 'Pas noté : ce plat n’a pas pu être ajouté à ton journal de cuisine. Réessaie.',
+    rating: 'Pas enregistré : ta note n’a pas pu être gardée. Réessaie.',
+    removal: 'Pas supprimé : la suppression n’a pas pu se faire. Réessaie.',
+    reaction: 'Pas enregistré : ta réaction n’a pas pu être gardée. Réessaie.',
     generic: 'Pas enregistré. Réessaie.',
   },
   en: {

@@ -33,7 +33,7 @@ describe('LoginPage', () => {
   // L'écran disait « valide environ 24 h », l'e-mail « expire dans 1 heure ».
   // Les conseils de sécurité de Supabase confirment que le réglage ne dépasse
   // pas une heure (aucune alerte « expiration longue » le 2026-10-04).
-  it('mot de passe oublié : annonce la même durée que l\'e-mail, et où ouvrir le lien', async () => {
+  it('mot de passe oublié : annonce la même durée que l’e-mail, et où ouvrir le lien', async () => {
     render(<LoginPage lang="fr" />)
     fireEvent.click(screen.getByRole('button', { name: /mot de passe oublié/i }))
     fireEvent.change(champ('email'), { target: { value: 'bob@test.com' } })
@@ -46,10 +46,10 @@ describe('LoginPage', () => {
     expect(message).not.toHaveTextContent(/24/)
   })
 
-  it('l\'écran et l\'e-mail annoncent la même durée', () => {
+  it('l’écran et l’e-mail annoncent la même durée', () => {
     const gabarit = readFileSync(resolve(process.cwd(), 'supabase/email-templates/reset-password.html'), 'utf8')
     const page = readFileSync(resolve(process.cwd(), 'src/features/auth/pages/login-page.jsx'), 'utf8')
-    expect(gabarit.includes('expire dans 1 heure'), 'l\'e-mail annonce une heure').toBe(true)
+    expect(gabarit.includes('expire dans 1 heure'), 'l’e-mail annonce une heure').toBe(true)
     expect(/24 ?h/.test(page), 'la page ne parle plus de 24 h').toBe(false)
     expect(page.includes('une heure'), 'la page annonce une heure').toBe(true)
   })
@@ -57,7 +57,7 @@ describe('LoginPage', () => {
   // ── « Se souvenir de moi » retirée (décision du 2026-10-08) ───────────
   // La case ne gardait que l'adresse, en clair sur l'appareil ; la session
   // restait ouverte cochée ou non. Le navigateur retient déjà l'adresse.
-  it('plus de case « Se souvenir de moi », et l\'adresse n\'est plus écrite sur l\'appareil', async () => {
+  it('plus de case « Se souvenir de moi », et l’adresse n’est plus écrite sur l’appareil', async () => {
     render(<LoginPage lang="fr" />)
     expect(screen.queryByRole('checkbox')).toBeNull()
     expect(screen.queryByText(/se souvenir de moi/i)).toBeNull()
@@ -75,14 +75,14 @@ describe('LoginPage', () => {
   })
 
   // ── CPT-13 : redemander l'e-mail de confirmation ───────────────────────
-  it('e-mail non confirmé : propose de renvoyer l\'e-mail, pour l\'adresse saisie', async () => {
+  it('e-mail non confirmé : propose de renvoyer l’e-mail, pour l’adresse saisie', async () => {
     signInWithEmail.mockResolvedValue({ error: { message: 'Email not confirmed' } })
     render(<LoginPage lang="fr" />)
     fireEvent.change(champ('email'), { target: { value: 'bob@test.com' } })
     fireEvent.change(champ('current-password'), { target: { value: 'peu importe' } })
     fireEvent.click(screen.getByRole('button', { name: /^se connecter$/i }))
     await waitFor(() => expect(screen.getByRole('alert')).toHaveTextContent(/non confirmé/i))
-    fireEvent.click(screen.getByRole('button', { name: /renvoyer l'e-mail de confirmation/i }))
+    fireEvent.click(screen.getByRole('button', { name: /renvoyer l['’]e-mail de confirmation/i }))
     await waitFor(() => expect(resendSignupEmail).toHaveBeenCalledWith('bob@test.com'))
   })
 
@@ -93,18 +93,18 @@ describe('LoginPage', () => {
     fireEvent.change(champ('current-password'), { target: { value: 'faux' } })
     fireEvent.click(screen.getByRole('button', { name: /^se connecter$/i }))
     await waitFor(() => expect(screen.getByRole('alert')).toBeInTheDocument())
-    expect(screen.queryByRole('button', { name: /renvoyer l'e-mail/i })).toBeNull()
+    expect(screen.queryByRole('button', { name: /renvoyer l['’]e-mail/i })).toBeNull()
   })
 
-  it('le bouton de renvoi disparaît dès qu\'on retente de se connecter', async () => {
+  it('le bouton de renvoi disparaît dès qu’on retente de se connecter', async () => {
     signInWithEmail.mockResolvedValueOnce({ error: { message: 'Email not confirmed' } })
     render(<LoginPage lang="fr" />)
     fireEvent.change(champ('email'), { target: { value: 'bob@test.com' } })
     fireEvent.change(champ('current-password'), { target: { value: 'peu importe' } })
     fireEvent.click(screen.getByRole('button', { name: /^se connecter$/i }))
-    await screen.findByRole('button', { name: /renvoyer l'e-mail de confirmation/i })
+    await screen.findByRole('button', { name: /renvoyer l['’]e-mail de confirmation/i })
     signInWithEmail.mockResolvedValueOnce({ error: { message: 'Invalid login credentials' } })
     fireEvent.click(screen.getByRole('button', { name: /^se connecter$/i }))
-    await waitFor(() => expect(screen.queryByRole('button', { name: /renvoyer l'e-mail/i })).toBeNull())
+    await waitFor(() => expect(screen.queryByRole('button', { name: /renvoyer l['’]e-mail/i })).toBeNull())
   })
 })

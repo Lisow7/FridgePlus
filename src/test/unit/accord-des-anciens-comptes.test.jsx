@@ -13,7 +13,7 @@ import AccordDesAnciensComptes from '@features/auth/components/accord-des-ancien
 // fois ; qui refuse peut se déconnecter ou supprimer son compte
 // (« deconnexion_ou_suppression »).
 
-const CASE = /J'ai au moins 16 ans et j'accepte/
+const CASE = /J['’]ai au moins 16 ans et j['’]accepte/
 
 function rendre(chemin = '/') {
   return render(

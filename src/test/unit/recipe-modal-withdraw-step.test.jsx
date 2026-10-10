@@ -63,12 +63,12 @@ function renderModal(props = {}) {
 
 function ouvrirEtapeRetrait() {
   act(() => {
-    fireEvent.click(screen.getByText("J'ai cuisiné cette recette"))
+    fireEvent.click(screen.getByText("J’ai cuisiné cette recette"))
   })
 }
 
 describe('RecipeModal — étape de retrait (caractérisation avant découpage)', () => {
-  it('« J\'ai cuisiné » ouvre l\'étape de retrait quand des ingrédients sont en stock', () => {
+  it('« J’ai cuisiné » ouvre l’étape de retrait quand des ingrédients sont en stock', () => {
     renderModal()
     ouvrirEtapeRetrait()
     expect(screen.getByText('Quoi retirer du frigo ?')).toBeInTheDocument()
@@ -91,11 +91,11 @@ describe('RecipeModal — étape de retrait (caractérisation avant découpage)'
       fireEvent.click(screen.getByRole('button', { name: 'Retour' }))
     })
     expect(screen.queryByText('Quoi retirer du frigo ?')).not.toBeInTheDocument()
-    expect(screen.getByText("J'ai cuisiné cette recette")).toBeInTheDocument()
+    expect(screen.getByText("J’ai cuisiné cette recette")).toBeInTheDocument()
     expect(onClose).not.toHaveBeenCalled()
   })
 
-  it('« Tout désélectionner » décoche les lignes, et l\'aller-retour vers le détail conserve l\'état', () => {
+  it('« Tout désélectionner » décoche les lignes, et l’aller-retour vers le détail conserve l’état', () => {
     renderModal()
     ouvrirEtapeRetrait()
     // Au départ, tous les ingrédients sont sélectionnés, donc le bouton affiche « Tout désélectionner »
@@ -113,7 +113,7 @@ describe('RecipeModal — étape de retrait (caractérisation avant découpage)'
     })
     // L'étape de retrait a fermé, le titre n'existe plus
     expect(screen.queryByText('Quoi retirer du frigo ?')).not.toBeInTheDocument()
-    expect(screen.getByText("J'ai cuisiné cette recette")).toBeInTheDocument()
+    expect(screen.getByText("J’ai cuisiné cette recette")).toBeInTheDocument()
   })
 
   it('« Retirer du frigo » enregistre la cuisson', () => {

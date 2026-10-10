@@ -42,7 +42,7 @@ function profil(surcharge = {}) {
 }
 const activite = () => render(<MemoryRouter><ProfileActivityPage /></MemoryRouter>)
 const recompenses = () => render(<MemoryRouter><ProfileRewardsPage /></MemoryRouter>)
-const VIDE_STATS = /Aucune statistique pour l'instant/
+const VIDE_STATS = /Aucune statistique pour l['’]instant/
 // La grille des paliers : avec un journal vide, quatorze paliers tous verrouillés.
 const progression = () => screen.queryByRole('heading', { name: 'Progression' })
 
@@ -68,7 +68,7 @@ describe('Activité — chargement, échec, vide : trois écrans différents', (
     activite()
     expect(screen.queryByTestId('cooking-stats')).toBeNull()
     expect(screen.queryByText(VIDE_STATS)).toBeNull()
-    expect(screen.getByRole('alert')).toHaveTextContent(/n'a pas pu être chargée/i)
+    expect(screen.getByRole('alert')).toHaveTextContent(/n['’]a pas pu être chargée/i)
     fireEvent.click(screen.getByRole('button', { name: 'Réessayer' }))
     expect(reloadCookingLogs).toHaveBeenCalledTimes(1)
   })
@@ -77,7 +77,7 @@ describe('Activité — chargement, échec, vide : trois écrans différents', (
     etat.valeur = profil({ journalLogs: null, journalError: true })
     activite()
     expect(screen.queryByText(/elle apparaît ici/)).toBeNull()
-    expect(screen.getByRole('alert')).toHaveTextContent(/n'a pas pu être chargée/i)
+    expect(screen.getByRole('alert')).toHaveTextContent(/n['’]a pas pu être chargée/i)
   })
 
   it('journal chargé et vide : « elle apparaît ici » (témoin)', () => {
@@ -113,7 +113,7 @@ describe('Récompenses — chargement, échec, vide : trois écrans différents'
     recompenses()
     expect(progression()).toBeNull()
     expect(screen.queryByText(/Cuisine cette semaine pour démarrer ta série/)).toBeNull()
-    expect(screen.getByRole('alert')).toHaveTextContent(/n'a pas pu être chargée/i)
+    expect(screen.getByRole('alert')).toHaveTextContent(/n['’]a pas pu être chargée/i)
     fireEvent.click(screen.getByRole('button', { name: 'Réessayer' }))
     expect(reloadCookingLogs).toHaveBeenCalledTimes(1)
   })

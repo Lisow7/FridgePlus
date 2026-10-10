@@ -65,15 +65,15 @@ describe('RecipeReviewsSection — avis pas chargés', () => {
   it('témoin — aucun avis, chargé : « Pas encore d’avis »', async () => {
     api.loadReviews.mockResolvedValue({ reviews: [], error: null })
     monter()
-    expect(await screen.findByText(/Pas encore d'avis/)).toBeInTheDocument()
+    expect(await screen.findByText(/Pas encore d['’]avis/)).toBeInTheDocument()
     expect(screen.queryByRole('alert')).toBeNull()
   })
 
   it('lecture refusée : le dit, et propose de réessayer — pas « Pas encore d’avis », pas « Aucun avis »', async () => {
     api.loadReviews.mockResolvedValue({ reviews: [], error: PANNE })
     monter()
-    expect(await screen.findByRole('alert')).toHaveTextContent('Les avis n\'ont pas pu être chargés.')
-    expect(screen.queryByText(/Pas encore d'avis/)).toBeNull()
+    expect(await screen.findByRole('alert')).toHaveTextContent('Les avis n’ont pas pu être chargés.')
+    expect(screen.queryByText(/Pas encore d['’]avis/)).toBeNull()
     expect(screen.queryByText('Aucun avis')).toBeNull()
   })
 
@@ -92,7 +92,7 @@ describe('RecipeReviewsSection — avis pas chargés', () => {
   it('un chargement qui lève (réseau coupé) : dit aussi', async () => {
     api.loadReviews.mockRejectedValue(new TypeError('Failed to fetch'))
     monter()
-    expect(await screen.findByRole('alert')).toHaveTextContent('Les avis n\'ont pas pu être chargés.')
+    expect(await screen.findByRole('alert')).toHaveTextContent('Les avis n’ont pas pu être chargés.')
   })
 })
 

@@ -13,7 +13,7 @@ const I18N = {
     back: 'Retour au frigo',
   },
   en: {
-    title: "What's next?",
+    title: "What’s next?",
     done: (n) => `🎉 Done! ${n} item${suffixS(n, 'en')} added to your fridge.`,
     empty: 'Finish your shopping to see your suggestions.',
     save: 'Save the list',

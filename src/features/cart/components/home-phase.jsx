@@ -6,8 +6,8 @@ import { formatPrix } from '@shared/lib/i18n/prix'
 
 const I18N = {
   fr: {
-    doneCta: "J'ai fait mes courses !",
-    doneCtaPartial: "Valider ce que j'ai acheté",
+    doneCta: "J’ai fait mes courses !",
+    doneCtaPartial: "Valider ce que j’ai acheté",
     doneHint: 'Transfère les articles achetés dans ton frigo et vide la liste.',
     allCheckedTitle: 'Récapitulatif',
     partialTitle: 'Articles cochés',
@@ -23,11 +23,11 @@ const I18N = {
     clearEmergency: 'Vider sans transférer',
     clearConfirm: 'Vider le panier sans transférer au frigo ?',
     clearOk: 'Vider le panier',
-    echecFrigo: "Rien n'est passé au frigo : tes articles sont toujours dans le panier. Réessaie.",
-    echecPanier: "Tes articles sont au frigo, mais n'ont pas pu être retirés du panier. Réessaie.",
+    echecFrigo: "Rien n’est passé au frigo : tes articles sont toujours dans le panier. Réessaie.",
+    echecPanier: "Tes articles sont au frigo, mais n’ont pas pu être retirés du panier. Réessaie.",
   },
   en: {
-    doneCta: "I'm done shopping!",
+    doneCta: "I’m done shopping!",
     doneCtaPartial: "Validate what I bought",
     doneHint: 'Transfers purchased items to your fridge and empties the list.',
     allCheckedTitle: 'Summary',

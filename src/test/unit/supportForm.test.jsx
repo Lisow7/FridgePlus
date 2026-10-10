@@ -46,7 +46,7 @@ async function openNewTicketForm() {
   render(<SupportPanel {...defaultProps} />)
   await user.click(screen.getByText('Nouvelle demande'))           // → vue cat
   await user.click(screen.getByText('Question générale'))          // → vue help
-  await user.click(screen.getByRole('button', { name: 'J\'ai toujours besoin d\'aide' })) // → vue form
+  await user.click(screen.getByRole('button', { name: 'J’ai toujours besoin d’aide' })) // → vue form
   return user
 }
 

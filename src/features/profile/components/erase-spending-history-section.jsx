@@ -19,7 +19,7 @@ import { compterLesDepenses } from '@shared/api/spending'
 const I18N = {
   fr: {
     title: 'Supprimer mon historique de dépenses',
-    description: 'Tu peux supprimer définitivement toutes les dépenses enregistrées par « J\'ai fait mes courses » (c\'est ton droit à l\'effacement). Le graphique « Analyse des dépenses » Premium repartira à zéro. Cette action est irréversible.',
+    description: 'Tu peux supprimer définitivement toutes les dépenses enregistrées par « J’ai fait mes courses » (c’est ton droit à l’effacement). Le graphique « Analyse des dépenses » Premium repartira à zéro. Cette action est irréversible.',
     btn: 'Supprimer mon historique',
     confirmTitle: 'Supprimer ton historique de dépenses ?',
     confirmText: 'Toutes tes dépenses enregistrées ({count}) seront supprimées définitivement. Cette action ne peut pas être annulée.',
@@ -32,7 +32,7 @@ const I18N = {
   },
   en: {
     title: 'Delete my spending history',
-    description: 'You can permanently delete all the spending recorded by "I\'m done shopping" (your right to erasure). The Premium "Spending analysis" chart will restart from zero. This action is irreversible.',
+    description: 'You can permanently delete all the spending recorded by "I’m done shopping" (your right to erasure). The Premium "Spending analysis" chart will restart from zero. This action is irreversible.',
     btn: 'Delete my history',
     confirmTitle: 'Delete your spending history?',
     confirmText: 'All your recorded spending ({count}) will be deleted permanently. This action cannot be undone.',

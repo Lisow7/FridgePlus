@@ -15,12 +15,12 @@ import { LuShieldOff } from 'react-icons/lu'
 const I18N = {
   fr: {
     title: 'Opposition au profilage',
-    description: 'Tu peux t\'opposer à l\'analyse automatisée de ton historique de dépenses (Article 21 RGPD). Si tu actives ce paramètre, Fridge+ arrêtera de capturer un instantané de chaque transfert panier → frigo. Le graphique « Analyse des dépenses » ne se mettra plus à jour. Les données déjà capturées ne sont pas effacées automatiquement — utilise « Supprimer mon historique de dépenses » pour cela (à venir).',
-    toggleLabel: 'M\'opposer au profilage',
+    description: 'Tu peux t’opposer à l’analyse automatisée de ton historique de dépenses (Article 21 RGPD). Si tu actives ce paramètre, Fridge+ arrêtera de capturer un instantané de chaque transfert panier → frigo. Le graphique « Analyse des dépenses » ne se mettra plus à jour. Les données déjà capturées ne sont pas effacées automatiquement — utilise « Supprimer mon historique de dépenses » pour cela (à venir).',
+    toggleLabel: 'M’opposer au profilage',
     optedInBadge: 'Capture active',
     optedOutBadge: 'Opposé au profilage',
     savingLabel: 'Enregistrement…',
-    errorLabel: 'Échec de l\'enregistrement. Réessaie.',
+    errorLabel: 'Échec de l’enregistrement. Réessaie.',
   },
   en: {
     title: 'Object to profiling',

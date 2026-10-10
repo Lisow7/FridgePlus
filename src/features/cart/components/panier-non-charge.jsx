@@ -6,7 +6,7 @@ import Button from '@shared/ui/button'
 // l'échec à la place de « Ton panier est vide », et propose de relire.
 
 const I18N = {
-  fr: { message: "Ton panier n'a pas pu être chargé. Rien n'est perdu : réessaie.", reessayer: 'Réessayer' },
+  fr: { message: "Ton panier n’a pas pu être chargé. Rien n’est perdu : réessaie.", reessayer: 'Réessayer' },
   en: { message: 'Your cart could not be loaded. Nothing is lost: try again.', reessayer: 'Try again' },
 }
 

@@ -49,7 +49,7 @@ const FOOTER_I18N = {
  },
  en: {
  footerBtn: 'Legal',
- whatsNew: "What's new",
+ whatsNew: "What’s new",
  guideLabel: 'Get started',
  guideLink: 'How it works',
  faqLink: 'FAQ',
