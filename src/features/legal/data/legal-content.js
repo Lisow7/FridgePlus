@@ -1,4 +1,5 @@
 import { PREMIUM_ENABLED } from '@shared/lib/premium-config'
+import { noteDeVersion } from '@features/legal/data/version-des-conditions'
 
 // Contenu juridique structuré pour la page /legal.
 //
@@ -748,7 +749,13 @@ export const LEGAL_CONTENT = { fr: FR, en: EN, es: EN, de: EN, ja: EN }
 
 export function getLegalSection(lang, sectionKey) {
   const data = LEGAL_CONTENT[lang] ?? LEGAL_CONTENT.en
-  return data?.[sectionKey] ?? null
+  const section = data?.[sectionKey] ?? null
+  // Les CGU portent leur date de version au bas du texte (décision du 2026-10-08) ;
+  // la page et son HTML servi la rendent comme toute note.
+  if (sectionKey === 'terms' && section) {
+    return { ...section, blocks: [...section.blocks, { type: 'note', text: noteDeVersion(LEGAL_CONTENT[lang] ? lang : 'en'), version: true }] }
+  }
+  return section
 }
 
 export function getTranslationFallbackNote(lang) {
