@@ -14,7 +14,7 @@ import GoogleButton from '@shared/ui/google-button'
 import AuthLayout from '@features/auth/components/auth-layout'
 import ResendConfirmation from '@features/auth/components/resend-confirmation'
 import { useDocumentTitle } from '@shared/hooks/use-document-title'
-import { titreDeRoute } from '@routes/route-title'
+import { titreDeRoute } from '@shared/lib/route-title'
 import { SUPPORT_EMAIL } from '@shared/lib/contact'
 
 // SignupPage — création de compte Fridge+.

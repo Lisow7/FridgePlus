@@ -8,7 +8,7 @@ import {
 import Button from '@shared/ui/button'
 import AuthLayout from '@features/auth/components/auth-layout'
 import { useDocumentTitle } from '@shared/hooks/use-document-title'
-import { titreDeRoute } from '@routes/route-title'
+import { titreDeRoute } from '@shared/lib/route-title'
 
 // RecoveryPage — page de définition d'un nouveau mot de passe.
 // Sprint 11 S11.b.4.

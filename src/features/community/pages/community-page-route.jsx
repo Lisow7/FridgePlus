@@ -4,7 +4,7 @@ import CommunityPage from '@features/community/components/community-page'
 import { useSmartBack } from '@shared/hooks/use-smart-back'
 import { useDarkMode } from '@shared/contexts/ui-provider'
 import { useDocumentTitle } from '@shared/hooks/use-document-title'
-import { titreDeRoute } from '@routes/route-title'
+import { titreDeRoute } from '@shared/lib/route-title'
 
 // CommunityPageRoute — Sprint 11 S11.d.
 //

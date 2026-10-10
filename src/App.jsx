@@ -35,7 +35,7 @@ import { needsUsername } from '@features/auth/lib/needs-username'
 import { useStockSession, useFavoritesSession, useCartSession } from '@shared/contexts/session-state-context'
 import { useDeletingRecipe } from '@shared/contexts/deleting-recipe-context'
 import { usePublicRecipesOnDemand } from '@app/hooks/use-public-recipes-on-demand'
-import PageSkeleton from '@routes/page-skeleton'
+import PageSkeleton from '@shared/ui/page-skeleton'
 import { useLang, useDarkMode } from '@shared/contexts/ui-provider'
 // Sprint 6 PR S6.c — ToastProvider monté dans main.jsx,
 // `useToast()` accessible depuis n'importe quel composant descendant.

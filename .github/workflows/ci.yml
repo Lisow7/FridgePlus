@@ -75,6 +75,12 @@ jobs:
         # les trois etats : 97 -> exit 1, 98 -> exit 0, 100 -> exit 1.
         run: npm run lint
 
+      - name: Code mort vu par knip (au cran exact)
+        # Audit du 2026-10-04, ARCH-14 (3) : knip comptait le code mort, rien ne
+        # le lisait en CI. Meme cliquet que le lint : `knipPlafonds` dans
+        # package.json, echec au-dessus ET au-dessous (scripts/verifier-les-exports-inutilises.mjs).
+        run: npm run knip:plafond
+
   test:
     name: Vitest
     runs-on: ubuntu-latest

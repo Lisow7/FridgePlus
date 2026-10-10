@@ -13,7 +13,7 @@ import { useSubscription } from '@shared/hooks/use-subscription'
 import { useIngredientsById, useBaseRecipes } from '@shared/contexts/data-provider'
 // eslint-disable-next-line import/no-restricted-paths -- couche page (composition) : réutilise l'action panier testée (DRY) plutôt que de la dupliquer.
 import { useCartActions } from '@features/cart/hooks/use-cart-actions'
-import PageSkeleton from '@routes/page-skeleton'
+import PageSkeleton from '@shared/ui/page-skeleton'
 // La modale est importée DIRECTEMENT, plus en `lazy()` (audit du 2026-10-04,
 // PERF-02 et PERF-05). Elle est la page : rien ne s'affiche sans elle. Paresseuse,
 // son fichier n'était demandé qu'une fois la recette trouvée (une cascade), et

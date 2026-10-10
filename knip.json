@@ -2,11 +2,12 @@
   "$schema": "https://unpkg.com/knip@6/schema.json",
   "entry": [
     "src/main.jsx",
+    "public/push-handler.js",
     "api/**/*.js",
     "supabase/functions/**/index.ts",
     "scripts/**/*.mjs",
     "src/scripts/**/*.mjs",
     "src/test/setup.js"
   ],
-  "ignoreDependencies": ["lint-staged", "supabase"]
+  "ignoreDependencies": ["lint-staged", "supabase", "npm"]
 }

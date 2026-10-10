@@ -9,25 +9,36 @@ import { defineConfig, globalIgnores } from 'eslint/config'
 // Sprint 9 (S9.a) — zones d'isolation features.
 // Source : Bulletproof React (alan2207/bulletproof-react).
 // Flux unidirectionnel : shared → features → app. Pas de cross-feature.
+// ⚠️ Chaque dossier de src/features doit y figurer : une feature absente de la
+// liste n'est protégée de rien (audit du 2026-10-04, ARCH-13 : trois manquaient).
+// Le garde-fou `zones-d-architecture.test.js` compare la liste aux dossiers.
 const FEATURES = [
-  'admin', 'auth', 'cart', 'changelog', 'community', 'fridge', 'legal',
-  'notifications', 'onboarding', 'premium', 'profile', 'pwa', 'recipes',
-  'support', 'voice',
+  'admin', 'auth', 'cart', 'changelog', 'community', 'cooking-mode', 'fridge',
+  'legal', 'notifications', 'onboarding', 'premium', 'profile',
+  'push-notifications', 'pwa', 'receipt-scan', 'recipes', 'support', 'voice',
 ]
 
-// Exceptions admin → autres features : admin a légitimement besoin
-// d'importer les API/composants des features qu'elle modère
-// (support, community, notifications). Ces couplages sont architecturaux
-// et documentés (cf. Sprint 9 S9.a.5).
-const ADMIN_BRIDGES = ['support', 'community', 'notifications', 'recipes']
+// Ponts entre features, chacun avec sa raison :
+// - admin importe les API/composants des features qu'elle modère (support,
+//   community, notifications, recipes) — couplage architectural documenté
+//   (Sprint 9 S9.a.5) ;
+// - legal (bandeau et fenêtre des cookies, panneau Confidentialité) lit et
+//   règle l'abonnement push : c'est un consentement, il se donne et se retire
+//   là où les autres ;
+// - cooking-mode est une vue d'UNE recette (`useRecipeById`, dont l'API vit
+//   dans recipes) : la sortir de recipes emporterait l'API avec elle.
+const PONTS = {
+  admin: ['support', 'community', 'notifications', 'recipes'],
+  legal: ['push-notifications'],
+  'cooking-mode': ['recipes'],
+}
 
 // Pour chaque feature, interdire l'import depuis toutes les autres features.
 const featureZones = FEATURES.map(target => ({
   target: `./src/features/${target}`,
   from: FEATURES
     .filter(f => f !== target)
-    // Exception : admin peut importer support/community/notifications
-    .filter(f => !(target === 'admin' && ADMIN_BRIDGES.includes(f)))
+    .filter(f => !(PONTS[target] ?? []).includes(f))
     .map(f => `./src/features/${f}`),
 }))
 
@@ -114,6 +125,19 @@ export default defineConfig([
             target: './src/features',
             from: './src/app',
             message: 'features/ ne doit pas importer depuis app/ (flux unidirectionnel).',
+          },
+          // routes/ compose les pages ; ni shared/ ni features/ n'en dépendent
+          // (audit du 2026-10-04, ARCH-13 : le titre de route et le squelette
+          // de page y vivaient, dix fichiers de shared/ et features/ les importaient).
+          {
+            target: './src/shared',
+            from: './src/routes',
+            message: 'shared/ ne doit pas importer depuis routes/ (flux shared → features → routes → app).',
+          },
+          {
+            target: './src/features',
+            from: './src/routes',
+            message: 'features/ ne doit pas importer depuis routes/ (flux shared → features → routes → app).',
           },
           // cross-feature interdit
           ...featureZones.map(z => ({

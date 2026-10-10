@@ -1,7 +1,7 @@
 import { Suspense } from 'react'
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import { ROUTES } from '@routes/routes-config'
-import PageSkeleton from '@routes/page-skeleton'
+import PageSkeleton from '@shared/ui/page-skeleton'
 import ErrorBoundary from '@app/error/error-boundary'
 
 // AppRoutes — Sprint 10 S10.b + Sprint 11.

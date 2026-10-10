@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import { SEO_META } from '@shared/static/seo-meta'
-import { laPagePoseSonTitre } from '@routes/route-title'
+import { laPagePoseSonTitre } from '@shared/lib/route-title'
 
 // Hook qui met à jour les balises SEO du document (title, description,
 // og:*, twitter:*) selon la langue active. Sprint 10 S10.a.5 — extrait
