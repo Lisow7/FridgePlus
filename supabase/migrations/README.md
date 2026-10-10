@@ -22,6 +22,10 @@ Tout changement de schéma BDD **DOIT** :
 - **Idempotence** : `IF NOT EXISTS` / `IF EXISTS` / `ON CONFLICT DO NOTHING`
 - **`npm run db:types`** après chaque migration qui change le schéma (régénère `src/shared/types/database.ts`)
 - **Vérification post-apply** : query SQL de validation (`SELECT COUNT(*) FROM ...`)
+- **Une fonction neuve dit à qui elle s'ouvre** (depuis le 2026-10-10, `ecritures_publiques_bornees`) : les droits par
+  défaut de `postgres` sur `public` ne donnent plus EXECUTE à `anon` ni `authenticated` — chaque migration écrit ses
+  `REVOKE … FROM PUBLIC` / `GRANT EXECUTE … TO …` ; le garde-fou `fonctions-definer-bornees` l'exige pour toute
+  fonction SECURITY DEFINER.
 
 ### Recovery snippet si drift détecté
 
@@ -69,6 +73,8 @@ texte qui en reste.
 | `20261010014510_droits_en_base.sql`, `20261010014513_index_pseudo_en_double.sql` | **Appliquées le 2026-10-10** (essai à blanc 7/7 et 4/4, puis `apply_migration` confirmé par Antoine) — était : en attente de sa confirmation (essai à blanc puis `apply_migration`, qu'il confirme) : voir « En attente d'Antoine » plus bas. |
 | `20261010014519_opposition_au_profilage_en_base.sql` | **Appliquée le 2026-10-10** (essai à blanc 4/4, puis `apply_migration` confirmé par Antoine) — était : en attente de sa confirmation (essai à blanc par sa sonde, puis `apply_migration`, qu'il confirme) : voir « En attente de la confirmation d'Antoine » plus bas. |
 | `20261010014610_notes_en_une_lecture.sql` | **Appliquée le 2026-10-10** (essai à blanc 4/4, puis `apply_migration` confirmé par Antoine ; types régénérés) — était : en attente de sa confirmation (essai à blanc par sa sonde, puis `apply_migration`, qu'il confirme) : voir « En attente de la confirmation d'Antoine » plus bas. |
+| `20261010020601_ecritures_publiques_bornees.sql` | **Appliquée le 2026-10-10** (essai à blanc 17/17 par sa sonde `supabase/probes/20261010_ecritures_publiques_bornees.sql`, puis `apply_migration` confirmé par Antoine) : lecture d'un panier partagé par `get_shared_basket` (un seul, celui du lien), dates et nombre de paniers posés par la base, adresse de push d'un service connu et dix appareils au plus, une seule règle de suppression des notifications, règle morte du cache IA retirée, `special_access.granted_by` → SET NULL, et les droits par défaut qui ne donnent plus EXECUTE aux visiteurs. Compatible avec la v0.145 (la lecture publique de la table reste jusqu'à la release). |
+| `20261010070100_paniers_partages_lecture_par_rpc_apres_release.sql` | **En attente de release**, exprès : retire la lecture publique de la table des paniers partagés — la v0.145 en production la lit encore ; à appliquer juste après le déploiement, quand le client lit par `get_shared_basket`. |
 
 **Rejouer le rapprochement** (le registre ne se lit pas depuis la CI) : copier la
 sortie de la requête ci-dessous dans un fichier, puis

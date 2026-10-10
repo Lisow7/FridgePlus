@@ -546,13 +546,15 @@ export function restoreAccountCalls(page) {
 const sharedBasketReqs = new Map()
 
 /**
- * GET rest/v1/shared_baskets — la lecture publique d'un panier partage
- * (shared-baskets.js:44, via `.maybeSingle()`).
+ * POST rest/v1/rpc/get_shared_basket — la lecture d'un panier partage par sa
+ * fonction (shared-baskets.js, `supabase.rpc`), un seul panier, celui du lien ;
+ * depuis le lot « ecritures publiques bornees » (2026-10-10), la table n'est
+ * plus lue. L'identifiant voyage dans le corps de la requete : il est garde
+ * avec l'URL pour `sharedBasketRequests()`.
  *
  * Quatre issues, qui correspondent a quatre causes REELLES et distinctes :
  *  - `ok`            : la liste existe ;
- *  - `not_found`     : `.maybeSingle()` rend `null` — ligne absente, ou
- *                      expiree et filtree par la RLS ;
+ *  - `not_found`     : la fonction rend `null` — panier absent, ou expire ;
  *  - `server_error`  : 500, donc `error` truthy cote supabase-js ;
  *  - `network`       : requete abandonnee. ⚠️ Mesure le 2026-08-07 :
  *                      supabase-js LEVE dans ce cas au lieu de renseigner
@@ -563,8 +565,8 @@ const sharedBasketReqs = new Map()
  */
 export async function mockSharedBasket(page, { outcome = 'ok', payload = null } = {}) {
   sharedBasketReqs.set(page, [])
-  await page.route('**/rest/v1/shared_baskets**', (route) => {
-    sharedBasketReqs.get(page)?.push(route.request().url())
+  await page.route('**/rest/v1/rpc/get_shared_basket**', (route) => {
+    sharedBasketReqs.get(page)?.push(`${route.request().url()} ${route.request().postData() ?? ''}`)
     if (outcome === 'network') return route.abort()
     if (outcome === 'server_error') {
       return route.fulfill({
@@ -573,8 +575,7 @@ export async function mockSharedBasket(page, { outcome = 'ok', payload = null } 
         body: JSON.stringify({ message: 'internal error' }),
       })
     }
-    // `.maybeSingle()` attend UN objet, pas un tableau : `null` signifie
-    // « aucune ligne », ce que rend aussi une ligne filtree par la RLS.
+    // La fonction rend UN objet JSON, ou `null` : panier absent ou expire.
     return route.fulfill({
       status: 200,
       contentType: 'application/json',

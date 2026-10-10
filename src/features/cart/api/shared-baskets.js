@@ -8,7 +8,12 @@
 //   name?: string  // nom de la liste active si disponible
 // }
 //
-// TTL : 7 jours (expires_at). Passé ce délai, la RLS rejette la lecture.
+// TTL : 7 jours (expires_at), posés par la base — 30 jours au plus, 20 paniers
+//       actifs par compte au plus (audit du 2026-10-04, BDD-05). Passé ce délai,
+//       la fonction de lecture ne rend plus rien.
+// Lecture : par `get_shared_basket(id)`, qui ne rend que LE panier du lien ;
+//       la table n'est plus lue en entier (sa lecture publique tombe après la
+//       release, migration `paniers_partages_lecture_par_rpc_apres_release`).
 // RGPD : aucune PII dans le payload (pas de nom d'utilisateur, pas d'email).
 //        ON DELETE CASCADE depuis profiles → suppression compte = suppression listes.
 
@@ -37,20 +42,17 @@ export async function createSharedBasket(userId, payload) {
 }
 
 /**
- * Charge un panier partagé par son UUID (RLS filtre les expirés).
+ * Charge un panier partagé par son UUID, par la fonction `get_shared_basket` :
+ * un seul panier, celui du lien ; `null` s'il n'existe pas ou a expiré.
  *
  * @param {string} id
  * @returns {Promise<{ data: { payload: object, expires_at: string }|null, error: object|null }>}
  */
 export async function getSharedBasket(id) {
   if (!id) return { data: null, error: { message: 'missing_id' } }
-  const { data, error } = await supabase
-    .from('shared_baskets')
-    .select('payload, expires_at')
-    .eq('id', id)
-    .maybeSingle()
+  const { data, error } = await supabase.rpc('get_shared_basket', { p_id: id })
   if (error && import.meta.env.DEV) console.error('[shared_baskets] get:', error.message)
-  return { data, error }
+  return { data: data ?? null, error }
 }
 
 /**
