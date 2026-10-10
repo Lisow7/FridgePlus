@@ -25,7 +25,7 @@ describe('UpgradeGate mode Bientôt', () => {
     // « Bientôt » côte à côte ressemblaient à un doublon (décision du 2026-10-08).
     expect(screen.getByText('Bientôt')).toBeInTheDocument()
     expect(screen.getByText('Cette fonctionnalité arrive bientôt.')).toBeInTheDocument()
-    expect(screen.queryByText(/Commencer l'essai/)).not.toBeInTheDocument()
+    expect(screen.queryByText(/Commencer l['’]essai/)).not.toBeInTheDocument()
   })
 
   it('a un accès premium (admin) → rend les enfants', () => {
@@ -37,7 +37,7 @@ describe('UpgradeGate mode Bientôt', () => {
   it('premium activé + pas premium → CTA essai (comportement legacy)', () => {
     mockEnabled = true
     render(<UpgradeGate feature="basket" variant="hard" lang="fr"><div>contenu</div></UpgradeGate>)
-    expect(screen.getByText(/Commencer l'essai/)).toBeInTheDocument()
+    expect(screen.getByText(/Commencer l['’]essai/)).toBeInTheDocument()
   })
 })
 
@@ -80,7 +80,7 @@ describe('UpgradeGate — chaque fiche demandée existe', () => {
 describe('UpgradeGate mode collapsible (popover ancré, pas de layout shift)', () => {
   beforeEach(() => { mockHasPremium = false; mockEnabled = false })
 
-  it('le contenu détaillé est masqué tant que le pill n\'est pas cliqué', () => {
+  it('le contenu détaillé est masqué tant que le pill n’est pas cliqué', () => {
     render(<UpgradeGate feature="voice-cooking" variant="hard" collapsible lang="fr" />)
     expect(screen.getByText('Mode cuisine, avec la voix')).toBeInTheDocument()
     expect(screen.queryByText(/mains occupées/)).not.toBeInTheDocument()

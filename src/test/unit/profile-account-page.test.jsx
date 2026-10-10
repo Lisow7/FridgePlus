@@ -87,7 +87,7 @@ import ProfileAccountPage from '@features/profile/pages/profile-account-page'
 describe('ProfileAccountPage (Sprint 11 S11.a.5)', () => {
   beforeEach(() => { logAuditMock.mockReset(); mockRequestReset.mockReset() })
 
-  it('rend les 5 ProfileSection h2 dans l\'ordre Abonnement/Identifiants/Appareils/Confidentialité/Mes données', () => {
+  it('rend les 5 ProfileSection h2 dans l’ordre Abonnement/Identifiants/Appareils/Confidentialité/Mes données', () => {
     // EraseSpending et DangerZone ne sont pas wrappés dans un ProfileSection
     // (ils ont déjà leur propre header h3/h4) — vérifiés via leur testid.
     render(<MemoryRouter><ProfileAccountPage /></MemoryRouter>)
@@ -183,7 +183,7 @@ describe('ProfileAccountPage (Sprint 11 S11.a.5)', () => {
     expect(screen.getAllByText('Premium').length).toBeGreaterThanOrEqual(1)
   })
 
-  it('masque l\'e-mail par défaut (RGPD) et propose un bouton Afficher', () => {
+  it('masque l’e-mail par défaut (RGPD) et propose un bouton Afficher', () => {
     render(<MemoryRouter><ProfileAccountPage /></MemoryRouter>)
     // Email masqué visible (caractères •)
     expect(screen.getByText(/a@b\.c|a@/)).toBeInTheDocument()
@@ -191,18 +191,18 @@ describe('ProfileAccountPage (Sprint 11 S11.a.5)', () => {
     expect(screen.getByRole('button', { name: /afficher/i })).toBeInTheDocument()
   })
 
-  it('affiche le message de succès quand l\'envoi du reset réussit', async () => {
+  it('affiche le message de succès quand l’envoi du reset réussit', async () => {
     mockRequestReset.mockResolvedValue({ error: null })
     render(<MemoryRouter><ProfileAccountPage /></MemoryRouter>)
     fireEvent.click(screen.getByRole('button', { name: /changer mon mot de passe/i }))
     expect(await screen.findByText(/e-mail envoyé/i)).toBeInTheDocument()
   })
 
-  it('affiche un message d\'erreur quand l\'envoi du reset échoue (au lieu de ne rien afficher)', async () => {
+  it('affiche un message d’erreur quand l’envoi du reset échoue (au lieu de ne rien afficher)', async () => {
     mockRequestReset.mockResolvedValue({ error: { message: 'boom' } })
     render(<MemoryRouter><ProfileAccountPage /></MemoryRouter>)
     fireEvent.click(screen.getByRole('button', { name: /changer mon mot de passe/i }))
-    expect(await screen.findByText(/impossible d'envoyer l'e-mail/i)).toBeInTheDocument()
+    expect(await screen.findByText(/impossible d['’]envoyer l['’]e-mail/i)).toBeInTheDocument()
     expect(screen.queryByText(/e-mail envoyé/i)).not.toBeInTheDocument()
   })
 
@@ -234,7 +234,7 @@ describe('ProfileAccountPage (Sprint 11 S11.a.5)', () => {
       mockTriggerJsonDownload.mockReset()
       ouvrirEtCliquer()
       const alerte = await screen.findByRole('alert')
-      expect(alerte).toHaveTextContent(/rien n'a été téléchargé/i)
+      expect(alerte).toHaveTextContent(/rien n['’]a été téléchargé/i)
       expect(mockTriggerJsonDownload).not.toHaveBeenCalled()
       expect(screen.getByRole('button', { name: /^Télécharger$/ })).toBeEnabled()
     })
@@ -242,7 +242,7 @@ describe('ProfileAccountPage (Sprint 11 S11.a.5)', () => {
     it('un export qui lève : même alerte', async () => {
       mockExportUserData.mockReset().mockRejectedValue(new TypeError('Failed to fetch'))
       ouvrirEtCliquer()
-      expect(await screen.findByRole('alert')).toHaveTextContent(/rien n'a été téléchargé/i)
+      expect(await screen.findByRole('alert')).toHaveTextContent(/rien n['’]a été téléchargé/i)
     })
 
     it('un nouvel essai réussi retire l’alerte', async () => {

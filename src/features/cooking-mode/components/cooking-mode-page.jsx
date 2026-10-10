@@ -39,7 +39,7 @@ import { useDocumentTitle } from '@shared/hooks/use-document-title'
 const I18N = {
   fr: {
     notFound: 'Recette introuvable',
-    notFoundSub: 'Cette recette n\'existe pas ou n\'a pas d\'étapes de préparation.',
+    notFoundSub: 'Cette recette n’existe pas ou n’a pas d’étapes de préparation.',
     back: 'Retour',
     start: 'Commencer',
     ready: 'Prêt à cuisiner ?',
@@ -47,7 +47,7 @@ const I18N = {
     prev: 'Précédent',
     next: 'Suivant',
     exit: 'Quitter',
-    done: 'Bravo, c\'est terminé !',
+    done: 'Bravo, c’est terminé !',
     doneSub: 'Tu as parcouru toutes les étapes.',
     finish: 'Terminer',
     help: 'Aide & confidentialité',
@@ -58,7 +58,7 @@ const I18N = {
     micShort: 'Micro',
     voiceShort: 'Voix app',
     statusListening: 'Parle maintenant',
-    statusSpeaking: 'J\'explique… attends',
+    statusSpeaking: 'J’explique… attends',
     statusMicOff: 'Micro coupé — touche « Micro » pour parler',
     timerStart: 'Lancer le minuteur',
     timerPause: 'Pause',
@@ -68,7 +68,7 @@ const I18N = {
   },
   en: {
     notFound: 'Recipe not found',
-    notFoundSub: 'This recipe doesn\'t exist or has no preparation steps.',
+    notFoundSub: 'This recipe doesn’t exist or has no preparation steps.',
     back: 'Back',
     start: 'Start',
     ready: 'Ready to cook?',

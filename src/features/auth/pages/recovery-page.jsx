@@ -30,7 +30,7 @@ import { titreDeRoute } from '@shared/lib/route-title'
 const I18N = {
   fr: {
     pageTitle: 'Définir un nouveau mot de passe',
-    intro: 'Choisis un nouveau mot de passe pour ton compte. Il remplace l\'ancien immédiatement.',
+    intro: 'Choisis un nouveau mot de passe pour ton compte. Il remplace l’ancien immédiatement.',
     pwdLabel: 'Nouveau mot de passe',
     pwdPlaceholder: '••••••••',
     pwd2Label: 'Confirmer le mot de passe',
@@ -59,7 +59,7 @@ const I18N = {
     submitBtn: 'Update my password',
     loadingLabel: 'Updating…',
     successLabel: '✓ Password updated. Redirecting…',
-    errorMismatch: 'The two passwords don\'t match.',
+    errorMismatch: 'The two passwords don’t match.',
     errorWeak: PWD_ERROR_WEAK.en,
     errorGeneric: 'Unable to update. Try again.',
     errorNeedsMfa: 'Your account first needs its two-factor authentication code: open the emailed link again, then enter the code.',

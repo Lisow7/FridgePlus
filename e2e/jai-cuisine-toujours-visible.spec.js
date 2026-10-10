@@ -21,7 +21,7 @@ test('mobile : « J’ai cuisiné » est visible dès l’ouverture de la fiche,
   await page.locator('[data-recipe-id]').first().click()
   await page.waitForURL(/\/recipe\//)
 
-  const cuisine = page.getByRole('button', { name: /J'ai cuisiné/ })
+  const cuisine = page.getByRole('button', { name: /J['’]ai cuisiné/ })
   await expect(cuisine).toBeVisible()
   const cadre = await cuisine.boundingBox()
   expect(cadre.y + cadre.height, 'le bouton doit être dans l’écran sans défiler').toBeLessThanOrEqual(844)

@@ -7,7 +7,7 @@
 export const I18N = {
   fr: {
     bannerTitle:      '🍪 Cookies et données',
-    bannerIntro:      "Fridge+ garde sur ton appareil ce qu'il faut pour fonctionner (ta session, tes préférences). Avec ton accord, l'app envoie aussi ses erreurs à Sentry et note les étapes que tu y franchis, pour s'améliorer. Choisis ce que tu acceptes — modifiable à tout moment.",
+    bannerIntro:      "Fridge+ garde sur ton appareil ce qu’il faut pour fonctionner (ta session, tes préférences). Avec ton accord, l’app envoie aussi ses erreurs à Sentry et note les étapes que tu y franchis, pour s’améliorer. Choisis ce que tu acceptes — modifiable à tout moment.",
     bannerSeeMore:    'Voir la politique de confidentialité',
     btnAcceptAll:     'Tout accepter',
     btnRefuseAll:     'Tout refuser',
@@ -17,7 +17,7 @@ export const I18N = {
     btnReset:         'Réinitialiser mes choix',
 
     profileTabTitle:  'Confidentialité',
-    profileIntro:     "Gère ici les données que Fridge+ stocke sur ton appareil. Tu peux changer tes choix à tout moment, c'est ton droit (RGPD art. 7-3).",
+    profileIntro:     "Gère ici les données que Fridge+ stocke sur ton appareil. Tu peux changer tes choix à tout moment, c’est ton droit (RGPD art. 7-3).",
     profileCurrent:   'Dernière mise à jour',
     profileSeePolicy: 'Voir la politique de confidentialité',
     profileResetWarn: "Réinitialiser efface tes préférences cookies : la bannière revient, et tu refais tes choix. Ton accord à la charte de la communauté et les données de ton compte (frigo, recettes, favoris, publications) ne changent pas.",
@@ -41,7 +41,7 @@ export const I18N = {
     btnReset:         'Reset my choices',
 
     profileTabTitle:  'Privacy',
-    profileIntro:     "Manage the data Fridge+ stores on your device here. You can change your choices anytime — it's your right (GDPR art. 7-3).",
+    profileIntro:     "Manage the data Fridge+ stores on your device here. You can change your choices anytime — it’s your right (GDPR art. 7-3).",
     profileCurrent:   'Last update',
     profileSeePolicy: 'View the privacy policy',
     profileResetWarn: "Resetting clears your cookie preferences: the banner comes back and you choose again. Your agreement to the community charter and your account data (fridge, recipes, favorites, published posts) are not affected.",

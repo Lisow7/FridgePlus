@@ -113,7 +113,7 @@ describe('ajouter un article au panier : le piège a son conteneur', () => {
 describe('installer sur iPhone : le dialogue a un nom', () => {
   it('s’ouvre nommé par son titre, Échap le ferme', () => {
     render(<InstallButton lang="fr" />)
-    fireEvent.click(screen.getByRole('button', { name: "Installer l'app" }))
+    fireEvent.click(screen.getByRole('button', { name: "Installer l’app" }))
     const dialogue = screen.getByRole('dialog', { name: 'Installer Fridge+ sur iPhone' })
     expect(dialogue.contains(document.activeElement)).toBe(true)
     fireEvent.keyDown(document, { key: 'Escape' })

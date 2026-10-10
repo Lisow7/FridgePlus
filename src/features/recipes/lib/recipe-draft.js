@@ -69,7 +69,7 @@ export function clearDraft() {
 
 const AGE_I18N = {
   fr: {
-    justNow: 'à l\'instant',
+    justNow: 'à l’instant',
     minutes: (n) => `il y a ${n} min`,
     hours:   (n) => `il y a ${n} h`,
     days:    (n) => `il y a ${n} j`,

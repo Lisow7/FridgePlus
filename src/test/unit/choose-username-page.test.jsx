@@ -53,7 +53,7 @@ describe('ChooseUsernamePage', () => {
     baseRepond()
   })
 
-  it('pré-remplit avec la suggestion (prénom Google, pas l\'e-mail)', () => {
+  it('pré-remplit avec la suggestion (prénom Google, pas l’e-mail)', () => {
     render(<ChooseUsernamePage lang="fr" />)
     expect(screen.getByRole('textbox').value).toBe('Jean')
   })
@@ -83,7 +83,7 @@ describe('ChooseUsernamePage', () => {
 
   // ── Audit du 2026-10-04 ────────────────────────────────────────────────
 
-  it('CPT-06 — date l\'acceptation AVANT de confirmer le pseudo, à la base de le faire', async () => {
+  it('CPT-06 — date l’acceptation AVANT de confirmer le pseudo, à la base de le faire', async () => {
     render(<ChooseUsernamePage lang="fr" />)
     fireEvent.click(screen.getByRole('checkbox'))
     continuer()
@@ -94,16 +94,16 @@ describe('ChooseUsernamePage', () => {
     expect(updateProfile.mock.calls[0][0]).not.toHaveProperty('consent_privacy_accepted_at')
   })
 
-  it('CPT-06 — si l\'acceptation n\'a pas pu être datée, le pseudo n\'est pas confirmé', async () => {
+  it('CPT-06 — si l’acceptation n’a pas pu être datée, le pseudo n’est pas confirmé', async () => {
     baseRepond({ consentement: { error: { message: 'Failed to fetch' } } })
     render(<ChooseUsernamePage lang="fr" />)
     fireEvent.click(screen.getByRole('checkbox'))
     continuer()
-    await waitFor(() => expect(screen.getByRole('alert')).toHaveTextContent(/impossible d'enregistrer/i))
+    await waitFor(() => expect(screen.getByRole('alert')).toHaveTextContent(/impossible d['’]enregistrer/i))
     expect(updateProfile).not.toHaveBeenCalled()
   })
 
-  it('CPT-06 — acceptation déjà datée (inscription par e-mail) : la case n\'est pas redemandée', async () => {
+  it('CPT-06 — acceptation déjà datée (inscription par e-mail) : la case n’est pas redemandée', async () => {
     state.profile = { username: 'chef_1a2b3c4d', username_confirmed: false, consent_terms_accepted_at: '2026-10-04T20:00:00Z' }
     render(<ChooseUsernamePage lang="fr" />)
     expect(screen.queryByRole('checkbox')).toBeNull()
@@ -120,7 +120,7 @@ describe('ChooseUsernamePage', () => {
     expect(from).not.toHaveBeenCalled()
   })
 
-  it('CPT-09 — pseudo pris ou réservé : le dit, et n\'écrit rien', async () => {
+  it('CPT-09 — pseudo pris ou réservé : le dit, et n’écrit rien', async () => {
     baseRepond({ libre: { data: false, error: null } })
     render(<ChooseUsernamePage lang="fr" />)
     fireEvent.click(screen.getByRole('checkbox'))
@@ -130,7 +130,7 @@ describe('ChooseUsernamePage', () => {
     expect(updateProfile).not.toHaveBeenCalled()
   })
 
-  it('CPT-09 — pseudo pris entre le contrôle et l\'écriture : « pas disponible », pas « réessaie »', async () => {
+  it('CPT-09 — pseudo pris entre le contrôle et l’écriture : « pas disponible », pas « réessaie »', async () => {
     updateProfile.mockImplementation(async () => ({ error: { code: '23505', message: 'duplicate key value violates unique constraint "profiles_username_lower_idx"' } }))
     render(<ChooseUsernamePage lang="fr" />)
     fireEvent.click(screen.getByRole('checkbox'))
@@ -149,7 +149,7 @@ describe('ChooseUsernamePage', () => {
     expect(updateProfile).not.toHaveBeenCalled()
   })
 
-  it('CPT-09 — contrôle indisponible (réseau) : on laisse passer, l\'écriture tranchera', async () => {
+  it('CPT-09 — contrôle indisponible (réseau) : on laisse passer, l’écriture tranchera', async () => {
     baseRepond({ libre: { data: null, error: { message: 'Failed to fetch' } } })
     render(<ChooseUsernamePage lang="fr" />)
     fireEvent.click(screen.getByRole('checkbox'))

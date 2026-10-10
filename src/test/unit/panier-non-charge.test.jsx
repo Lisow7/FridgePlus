@@ -53,7 +53,7 @@ describe('l’écran du panier non chargé', () => {
   it('dit que rien n’est perdu, et « Réessayer » relit le panier', () => {
     const onReessayer = vi.fn()
     render(<PanierNonCharge lang="fr" onReessayer={onReessayer} />)
-    expect(screen.getByRole('alert')).toHaveTextContent("Ton panier n'a pas pu être chargé. Rien n'est perdu : réessaie.")
+    expect(screen.getByRole('alert')).toHaveTextContent("Ton panier n’a pas pu être chargé. Rien n’est perdu : réessaie.")
     fireEvent.click(screen.getByRole('button', { name: 'Réessayer' }))
     expect(onReessayer).toHaveBeenCalledTimes(1)
   })

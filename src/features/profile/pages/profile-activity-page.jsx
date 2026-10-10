@@ -18,11 +18,11 @@ const I18N = {
   fr: {
     pageTitle: 'Activité',
     pageIntro: 'Tes habitudes cuisine et tes dépenses au fil du temps.',
-    statsSectionTitle: 'Vue d\'ensemble',
+    statsSectionTitle: 'Vue d’ensemble',
     statsSectionDesc:  'Tes stats à un coup d\'œil.',
     journalTitle: 'Journal de cuisine',
     journalDesc:  'Les 20 dernières recettes que tu as cuisinées.',
-    journalEmpty: 'Quand tu cliques « J\'ai cuisiné cette recette », elle apparaît ici.',
+    journalEmpty: 'Quand tu cliques « J’ai cuisiné cette recette », elle apparaît ici.',
     journalShowReady: 'Voir les recettes prêtes',
     journalShowAll:   'Voir les recettes',
     journalUnknown: 'Recette inconnue',
@@ -32,7 +32,7 @@ const I18N = {
     // ── i18n object pour CookingStatsSection ──────────────────────────
     statsTitle:        'Tes statistiques de cuisine',
     statsSub:          'Calculées à partir de ton journal de cuisine, mises à jour à chaque ouverture.',
-    statsEmpty:        'Aucune statistique pour l\'instant. Cuisine quelques recettes pour voir apparaître ton activité ici.',
+    statsEmpty:        'Aucune statistique pour l’instant. Cuisine quelques recettes pour voir apparaître ton activité ici.',
     statsTotalCooked:  'Recettes cuisinées au total',
     statsThisMonth:    'Ce mois-ci',
     statsUnique:       'Recettes différentes',
@@ -45,7 +45,7 @@ const I18N = {
     monthsShort:       ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Août', 'Sep', 'Oct', 'Nov', 'Déc'],
     // Journal : abréviations à la française (minuscules + point), distinctes de
     // `monthsShort` ci-dessus qui sert aux axes de graphes.
-    journalToday:      'Aujourd\'hui',
+    journalToday:      'Aujourd’hui',
     journalYesterday:  'Hier',
     journalDaysAgo:    (n) => `Il y a ${n} jours`,
     journalMonthsShort: ['janv.', 'févr.', 'mars', 'avr.', 'mai', 'juin', 'juil.', 'août', 'sept.', 'oct.', 'nov.', 'déc.'],

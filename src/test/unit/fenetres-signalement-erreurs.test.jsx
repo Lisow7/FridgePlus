@@ -34,7 +34,7 @@ describe('Fenêtre de signalement de la communauté', () => {
   it('refusé pour une panne : un message lisible, jamais le texte de la base', async () => {
     signalerPost.mockResolvedValue({ error: 'failed' })
     envoyer()
-    expect(await screen.findByRole('alert')).toHaveTextContent('Le signalement n\'a pas pu être envoyé. Réessaie.')
+    expect(await screen.findByRole('alert')).toHaveTextContent('Le signalement n’a pas pu être envoyé. Réessaie.')
     expect(screen.queryByText(/Signalement envoyé/)).toBeNull()
   })
 
@@ -54,7 +54,7 @@ describe('Fenêtre de signalement de la communauté', () => {
   it('un envoi qui lève : message lisible aussi', async () => {
     signalerPost.mockRejectedValue(new TypeError('Failed to fetch'))
     envoyer()
-    expect(await screen.findByRole('alert')).toHaveTextContent('Le signalement n\'a pas pu être envoyé. Réessaie.')
+    expect(await screen.findByRole('alert')).toHaveTextContent('Le signalement n’a pas pu être envoyé. Réessaie.')
   })
 
   // Trouvé le 2026-10-05 en écrivant le parcours de bout en bout : le groupe
@@ -86,7 +86,7 @@ describe('Fenêtre de signalement d’un avis', () => {
   it('refusé : PAS de « Signalement envoyé », un message lisible à la place', async () => {
     signalerAvis.mockResolvedValue({ error: 'failed' })
     envoyer()
-    expect(await screen.findByRole('alert')).toHaveTextContent('Le signalement n\'a pas pu être envoyé. Réessaie.')
+    expect(await screen.findByRole('alert')).toHaveTextContent('Le signalement n’a pas pu être envoyé. Réessaie.')
     expect(screen.queryByText(new RegExp(t.reportSent))).toBeNull()
   })
 
@@ -99,6 +99,6 @@ describe('Fenêtre de signalement d’un avis', () => {
   it('un envoi qui lève : message lisible', async () => {
     signalerAvis.mockRejectedValue(new TypeError('Failed to fetch'))
     envoyer()
-    expect(await screen.findByRole('alert')).toHaveTextContent('Le signalement n\'a pas pu être envoyé. Réessaie.')
+    expect(await screen.findByRole('alert')).toHaveTextContent('Le signalement n’a pas pu être envoyé. Réessaie.')
   })
 })

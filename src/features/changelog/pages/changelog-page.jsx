@@ -20,11 +20,11 @@ const I18N = {
   },
   en: {
     back: 'Back',
-    title: "What's new",
+    title: "What’s new",
     current: 'Current version',
     feat: 'New',
     fix: 'Fix',
-    pageTitle: "What's new — Fridge+",
+    pageTitle: "What’s new — Fridge+",
   },
 }
 

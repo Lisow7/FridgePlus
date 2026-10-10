@@ -44,12 +44,12 @@ const I18N = {
   en: {
     projectionTitle:    'End-of-month projection',
     projectionNoData:   'Not enough data this month to project yet (at least 3 days needed).',
-    projectionLine:     (p) => `At the current pace, you'll end the month around €${p.projected.toFixed(2)}.`,
+    projectionLine:     (p) => `At the current pace, you’ll end the month around €${p.projected.toFixed(2)}.`,
     projectionDays:     (p) => `Based on ${p.daysElapsed} day${suffixS(p.daysElapsed, 'en')} out of ${p.daysInMonth}.`,
     projectionVsBudget: (p) => p.deltaPct > 0
-      ? `That's ${p.deltaPct}% above your monthly budget.`
+      ? `That’s ${p.deltaPct}% above your monthly budget.`
       : p.deltaPct < 0
-        ? `That's ${Math.abs(p.deltaPct)}% below your monthly budget.`
+        ? `That’s ${Math.abs(p.deltaPct)}% below your monthly budget.`
         : 'Right on your monthly budget.',
     breakdownTitle:     'Breakdown by category',
     breakdownEmpty:     'No categorisable spending over the period.',

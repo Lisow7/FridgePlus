@@ -111,15 +111,15 @@ describe('recipe-draft', () => {
       clearDraft()
       expect(window.localStorage.getItem(DRAFT_KEY)).toBeNull()
     })
-    it('no-op s\'il n\'y a rien', () => {
+    it('no-op s’il n’y a rien', () => {
       expect(() => clearDraft()).not.toThrow()
     })
   })
 
   describe('formatRelativeAge', () => {
     const now = 1717948800000
-    it('renvoie « à l\'instant » / « just now » sous 60 s', () => {
-      expect(formatRelativeAge(now - 30_000, 'fr', now)).toBe('à l\'instant')
+    it('renvoie « à l’instant » / « just now » sous 60 s', () => {
+      expect(formatRelativeAge(now - 30_000, 'fr', now)).toBe('à l’instant')
       expect(formatRelativeAge(now - 30_000, 'en', now)).toBe('just now')
     })
     it('renvoie en minutes entre 1 et 59 min', () => {
@@ -139,9 +139,9 @@ describe('recipe-draft', () => {
       expect(formatRelativeAge('oops', 'fr')).toBe('')
       expect(formatRelativeAge(undefined, 'fr')).toBe('')
     })
-    it('défaut FR si lang n\'est pas \'en\'', () => {
-      expect(formatRelativeAge(now - 30_000, 'es', now)).toBe('à l\'instant')
-      expect(formatRelativeAge(now - 30_000, undefined, now)).toBe('à l\'instant')
+    it('défaut FR si lang n’est pas \'en\'', () => {
+      expect(formatRelativeAge(now - 30_000, 'es', now)).toBe('à l’instant')
+      expect(formatRelativeAge(now - 30_000, undefined, now)).toBe('à l’instant')
     })
   })
 })

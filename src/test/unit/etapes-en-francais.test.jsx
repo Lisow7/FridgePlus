@@ -20,7 +20,7 @@ const etape = { id: 's-1', text: 'Faire revenir l’oignon' }
 describe('les boutons d’une étape ont un nom dans la langue de la personne', () => {
   it('en français : la poignée et la suppression', () => {
     render(<RecipeFormSortableStep step={etape} index={0} onChange={() => {}} onDelete={() => {}} t={FORM_I18N.fr} lang="fr" />)
-    expect(screen.getByRole('button', { name: 'Déplacer l\'étape' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Déplacer l’étape' })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Retirer l’étape' })).toBeInTheDocument()
     expect(screen.queryByRole('button', { name: /Drag step|Delete step/ })).not.toBeInTheDocument()
   })
@@ -52,7 +52,7 @@ describe('les annonces du glisser parlent la langue de la personne', () => {
     expect(fr.onDragOver({ active: { id: 's-b' }, over: null })).toBe('Étape 2 hors de la liste.')
     expect(fr.onDragEnd({ active: { id: 's-b' }, over: { id: 's-c' } })).toBe('Étape 2 déposée en position 3.')
     expect(fr.onDragEnd({ active: { id: 's-b' }, over: null })).toBe('Étape 2 reposée à sa place.')
-    expect(fr.onDragCancel({ active: { id: 's-b' } })).toBe('Déplacement annulé : l\'étape 2 reste à sa place.')
+    expect(fr.onDragCancel({ active: { id: 's-b' } })).toBe('Déplacement annulé : l’étape 2 reste à sa place.')
   })
 
   it('en anglais aussi, et la consigne lue au focus de la poignée existe dans les deux langues', () => {

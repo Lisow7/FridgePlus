@@ -76,7 +76,7 @@ describe('ingredient_added (use-fridge-stock)', () => {
     expect(mockTrack).toHaveBeenCalledWith('ingredient_added', { ingredientId: 'fr-oeuf' })
   })
 
-  it('toggleIngredient (retrait) n\'émet PAS ingredient_added', () => {
+  it('toggleIngredient (retrait) n’émet PAS ingredient_added', () => {
     const { result } = renderHook(() => useFridgeStock(null))
     act(() => { result.current.toggleIngredient('fr-oeuf') }) // add
     mockTrack.mockClear()
@@ -149,7 +149,7 @@ describe('cookable_recipe_viewed (useAhaTick)', () => {
     expect(mockTrackOnce).toHaveBeenCalledWith('fridge-aha-tracked', 'cookable_recipe_viewed', { count: 2 })
   })
 
-  it("n'émet pas si readyCount=0", () => {
+  it("n’émet pas si readyCount=0", () => {
     renderHook(() => useAhaTick({ open: true, stockSize: 3, readyCount: 0, searchQuery: '', onSuggestionOpen: vi.fn() }))
     expect(mockTrackOnce).not.toHaveBeenCalled()
   })
@@ -192,7 +192,7 @@ describe('cook_completed (RecipeModal)', () => {
     )
     // Clic "J'ai cuisiné cette recette" → enterWithdraw → step 'withdraw'
     // Le bouton contient un icône + texte, on cherche par texte partiel
-    fireEvent.click(screen.getByText("J'ai cuisiné cette recette", { exact: false }))
+    fireEvent.click(screen.getByText("J’ai cuisiné cette recette", { exact: false }))
     // Clic « Retirer du frigo » → confirmWithdraw (canConfirm = true car 1 seul ID en stock)
     fireEvent.click(screen.getByRole('button', { name: 'Retirer du frigo' }))
     expect(mockTrack).toHaveBeenCalledWith('cook_completed', { recipeId: 'carbonara' })

@@ -16,7 +16,7 @@ import Button from '@shared/ui/button'
 // correspondant n'est pas débloqué (cf. isBannerLocked/badgeForBanner).
 
 const I18N = {
-  fr: { title: 'Choisir une bannière', intro: 'Personnalise l\'en-tête de ton profil public.', save: 'Enregistrer', cancel: 'Annuler', error: 'Erreur lors de l’enregistrement.', lockedBanner: 'Bannière verrouillée — récompense :', reward: 'Récompense' },
+  fr: { title: 'Choisir une bannière', intro: 'Personnalise l’en-tête de ton profil public.', save: 'Enregistrer', cancel: 'Annuler', error: 'Erreur lors de l’enregistrement.', lockedBanner: 'Bannière verrouillée — récompense :', reward: 'Récompense' },
   en: { title: 'Choose a banner', intro: 'Personalize your public profile header.', save: 'Save', cancel: 'Cancel', error: 'Error while saving.', lockedBanner: 'Locked banner — reward:', reward: 'Reward' },
 }
 

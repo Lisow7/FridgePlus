@@ -21,7 +21,7 @@ const I18N = {
     poweredBy: 'Suggestions générées par IA — à vérifier selon tes goûts',
     premiumBadge: 'Premium',
     soonBadge: 'Bientôt',
-    premiumTeaser: 'Pas l\'ingrédient sous la main ? L\'IA te suggère 3 remplacements adaptés, avec les bonnes proportions.',
+    premiumTeaser: 'Pas l’ingrédient sous la main ? L’IA te suggère 3 remplacements adaptés, avec les bonnes proportions.',
     comingSoon: 'Cette fonctionnalité arrive bientôt.',
     upgrade: 'Passer à Premium',
   },

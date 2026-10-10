@@ -117,7 +117,7 @@ describe('RecipeFormModal', () => {
 
   // ─── Validations au submit ───────────────────────────────────────────────────
   describe('validations — champs obligatoires', () => {
-    it('affiche l\'erreur nom si champ vide', async () => {
+    it('affiche l’erreur nom si champ vide', async () => {
       const user = userEvent.setup()
       render(<RecipeFormModal {...defaultProps} />)
       await user.click(screen.getByText('Enregistrer'))
@@ -126,16 +126,16 @@ describe('RecipeFormModal', () => {
       )
     })
 
-    it('affiche l\'erreur icône si aucun emoji sélectionné', async () => {
+    it('affiche l’erreur icône si aucun emoji sélectionné', async () => {
       const user = userEvent.setup()
       render(<RecipeFormModal {...defaultProps} />)
       await user.click(screen.getByText('Enregistrer'))
       await waitFor(() =>
-        expect(screen.getByText("L'icône est obligatoire")).toBeInTheDocument()
+        expect(screen.getByText("L’icône est obligatoire")).toBeInTheDocument()
       )
     })
 
-    it('affiche l\'erreur ingrédient si aucun ajouté', async () => {
+    it('affiche l’erreur ingrédient si aucun ajouté', async () => {
       const user = userEvent.setup()
       render(<RecipeFormModal {...defaultProps} />)
       await user.click(screen.getByText('Enregistrer'))
@@ -144,7 +144,7 @@ describe('RecipeFormModal', () => {
       )
     })
 
-    it('affiche l\'erreur étape si aucune ajoutée', async () => {
+    it('affiche l’erreur étape si aucune ajoutée', async () => {
       const user = userEvent.setup()
       render(<RecipeFormModal {...defaultProps} />)
       await user.click(screen.getByText('Enregistrer'))
@@ -153,7 +153,7 @@ describe('RecipeFormModal', () => {
       )
     })
 
-    it('n\'appelle pas onSave si le formulaire est invalide', async () => {
+    it('n’appelle pas onSave si le formulaire est invalide', async () => {
       const onSave = vi.fn()
       const user = userEvent.setup()
       render(<RecipeFormModal {...defaultProps} onSave={onSave} />)
@@ -162,7 +162,7 @@ describe('RecipeFormModal', () => {
       expect(onSave).not.toHaveBeenCalled()
     })
 
-    it('l\'erreur de nom disparaît dès la saisie', async () => {
+    it('l’erreur de nom disparaît dès la saisie', async () => {
       const user = userEvent.setup()
       render(<RecipeFormModal {...defaultProps} />)
       await user.click(screen.getByText('Enregistrer'))
@@ -176,7 +176,7 @@ describe('RecipeFormModal', () => {
 
   // ─── Profanité ───────────────────────────────────────────────────────────────
   describe('validation — contenu inapproprié', () => {
-    it('affiche l\'erreur profanité si validateRecipeText retourne "name"', async () => {
+    it('affiche l’erreur profanité si validateRecipeText retourne "name"', async () => {
       mockValidateRecipeText.mockReturnValue('name')
       const user = userEvent.setup()
       render(<RecipeFormModal {...defaultProps} />)
@@ -232,11 +232,11 @@ describe('RecipeFormModal', () => {
       await user.type(screen.getByRole('textbox', { name: /étape 1/i }), 'Laver le riz')
       await user.click(screen.getByText(/ajouter une étape/i))
       await user.type(screen.getByRole('textbox', { name: /étape 2/i }), 'Cuire le riz')
-      await user.click(screen.getByRole('button', { name: "Descendre l'étape 1" }))
+      await user.click(screen.getByRole('button', { name: "Descendre l’étape 1" }))
       expect(screen.getByRole('textbox', { name: /étape 1/i })).toHaveValue('Cuire le riz')
       expect(screen.getByRole('textbox', { name: /étape 2/i })).toHaveValue('Laver le riz')
       // Devenue la dernière, elle ne descend plus : le focus est sur « Monter ».
-      expect(screen.getByRole('button', { name: "Monter l'étape 2" })).toHaveFocus()
+      expect(screen.getByRole('button', { name: "Monter l’étape 2" })).toHaveFocus()
     })
   })
 

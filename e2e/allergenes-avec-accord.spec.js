@@ -19,7 +19,7 @@ test('un compte : la case d’abord, puis ses allergènes', async ({ page }) => 
   await mockRpc(page, 'accepter_l_enregistrement_des_allergenes', '2026-10-06T12:00:00+00:00')
   await page.goto('/FridgePlus/profile/preferences')
 
-  const accord = page.getByRole('checkbox', { name: /J'accepte que Fridge\+ enregistre mes allergènes pour filtrer les recettes/ })
+  const accord = page.getByRole('checkbox', { name: /J['’]accepte que Fridge\+ enregistre mes allergènes pour filtrer les recettes/ })
   await expect(accord).toBeVisible()
   await expect(accord).not.toBeChecked()
   // Les types d'allergènes ne sont pas servis ici : c'est « Enregistrer » qui

@@ -71,7 +71,7 @@ test.describe('Un signalement de la communauté aboutit', () => {
     await ouvrirLaCommunaute(page, { refus: true })
     await signalerLePost(page)
 
-    await expect(page.getByRole('alert').filter({ hasText: 'Le signalement n\'a pas pu être envoyé. Réessaie.' })).toBeVisible()
+    await expect(page.getByRole('alert').filter({ hasText: 'Le signalement n’a pas pu être envoyé. Réessaie.' })).toBeVisible()
     await expect(page.getByText(/Signalement envoyé/)).toHaveCount(0)
     await expect(page.getByText(/internal error/)).toHaveCount(0)
   })

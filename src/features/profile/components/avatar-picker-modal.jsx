@@ -15,7 +15,7 @@ import Button from '@shared/ui/button'
 const I18N = {
   fr: {
     title: 'Choisir un avatar',
-    intro: 'Sélectionne l\'image qui te représente dans la communauté.',
+    intro: 'Sélectionne l’image qui te représente dans la communauté.',
     save: 'Enregistrer', cancel: 'Annuler', error: 'Erreur lors de l’enregistrement.',
   },
   en: {

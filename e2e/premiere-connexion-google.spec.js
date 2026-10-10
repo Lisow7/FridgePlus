@@ -93,7 +93,7 @@ test.describe('Première connexion Google : l’écran « Choisis ton pseudo »'
 
     await champ(page).fill('Admin_42')
     await continuer(page)
-    await expect(page.getByRole('alert')).toContainText('Ce pseudo n\'est pas disponible')
+    await expect(page.getByRole('alert')).toContainText('Ce pseudo n’est pas disponible')
     expect(rpcCalls(page).map((appel) => appel.nom)).toEqual(['username_available'])
     expect(rpcCalls(page)[0].args).toEqual({ p_username: 'Admin_42' })
     // Ni preuve d'acceptation, ni pseudo : on n'entre pas.

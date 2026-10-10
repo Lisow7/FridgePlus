@@ -37,7 +37,7 @@ const I18N = {
     submitBtn: 'Se connecter',
     loadingLabel: 'Connexion…',
     errorGeneric: 'Connexion impossible. Vérifie tes identifiants.',
-    errorBanned: `Ce compte est suspendu. Pour contester, ou demander l'effacement de tes données, écris à ${SUPPORT_EMAIL}.`,
+    errorBanned: `Ce compte est suspendu. Pour contester, ou demander l’effacement de tes données, écris à ${SUPPORT_EMAIL}.`,
     errorNotConfirmed: 'E-mail non confirmé. Vérifie ta boîte de réception.',
     noAccount: 'Pas encore de compte ?',
     signupLink: 'Créer un compte',
@@ -48,7 +48,7 @@ const I18N = {
     // Durée et usage unique : ce que dit l'e-mail lui-même (reset-password.html).
     // « Dans ce navigateur » : le lien ne peut ouvrir de session qu'ici.
     forgotSent: '✓ E-mail envoyé. Regarde aussi dans les indésirables. Le lien est valable une heure, une seule fois : ouvre-le dans ce navigateur.',
-    forgotError: 'Impossible d\'envoyer l\'e-mail. Réessaie plus tard.',
+    forgotError: 'Impossible d’envoyer l’e-mail. Réessaie plus tard.',
     backToLogin: 'Retour à la connexion',
     continueWithGoogle: 'Continuer avec Google',
     orSeparator: 'ou',
@@ -71,7 +71,7 @@ const I18N = {
     noAccount: 'No account yet?',
     signupLink: 'Create an account',
     forgotTitle: 'Reset password',
-    forgotIntro: 'Enter your e-mail. If an account exists, you\'ll receive a link to set a new password.',
+    forgotIntro: 'Enter your e-mail. If an account exists, you’ll receive a link to set a new password.',
     forgotSubmit: 'Send the reset link',
     forgotSent: '✓ E-mail sent. Check your spam folder too. The link is valid for one hour, once: open it in this browser.',
     forgotError: 'Could not send e-mail. Try again later.',

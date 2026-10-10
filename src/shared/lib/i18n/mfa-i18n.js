@@ -4,9 +4,9 @@ export const MFA_I18N = {
   fr: {
     noActiveFactor: 'Aucun facteur MFA actif trouvé.',
     unexpectedError: (msg) => `Exception : ${msg}`,
-    enrollTitle:    "Activer l'authentification à deux facteurs",
-    enrollIntro:    "Scanne ce QR code avec une appli d'authentification (Google Authenticator, Authy, 1Password, Bitwarden…), puis saisis le code à 6 chiffres affiché.",
-    qrAlt:          "QR code d'authentification à deux facteurs",
+    enrollTitle:    "Activer l’authentification à deux facteurs",
+    enrollIntro:    "Scanne ce QR code avec une appli d’authentification (Google Authenticator, Authy, 1Password, Bitwarden…), puis saisis le code à 6 chiffres affiché.",
+    qrAlt:          "QR code d’authentification à deux facteurs",
     cantScan:       "Tu ne peux pas scanner ?",
     secretLabel:    "Clé secrète",
     codeLabel:      "Code à 6 chiffres",
@@ -16,7 +16,7 @@ export const MFA_I18N = {
     enrolling:      "Activation…",
 
     challengeTitle: "Vérification en 2 étapes",
-    challengeIntro: "Saisis le code à 6 chiffres affiché dans ton appli d'authentification.",
+    challengeIntro: "Saisis le code à 6 chiffres affiché dans ton appli d’authentification.",
     challengeReason:"Pour des raisons de sécurité, on doit vérifier ton identité avant cette action sensible.",
     challengeBtn:   "Vérifier",
     challenging:    "Vérification…",
@@ -27,7 +27,7 @@ export const MFA_I18N = {
     closeBtn:       'Fermer',
 
     profileSection:    "Authentification à deux facteurs (2FA)",
-    profileIntro:      "Ajoute une couche de sécurité supplémentaire à ton compte avec une appli d'authentification (TOTP).",
+    profileIntro:      "Ajoute une couche de sécurité supplémentaire à ton compte avec une appli d’authentification (TOTP).",
     activeBadge:       'Active',
     inactiveBadge:     'Inactive',
     checkingBadge:     'Vérification…',
@@ -54,7 +54,7 @@ export const MFA_I18N = {
     enrollTitle:    'Enable two-factor authentication',
     enrollIntro:    "Scan this QR code with an authenticator app (Google Authenticator, Authy, 1Password, Bitwarden…), then enter the 6-digit code shown.",
     qrAlt:          'Two-factor authentication QR code',
-    cantScan:       "Can't scan?",
+    cantScan:       "Can’t scan?",
     secretLabel:    'Secret key',
     codeLabel:      '6-digit code',
     codePlaceholder:'123456',
@@ -70,7 +70,7 @@ export const MFA_I18N = {
 
     invalidCode:    'Invalid code. Try again.',
     successTitle:   '✅ Enabled',
-    successDesc:    "Your account is now protected by two-factor authentication. At every sign-in, you'll be asked for a code after your password.",
+    successDesc:    "Your account is now protected by two-factor authentication. At every sign-in, you’ll be asked for a code after your password.",
     closeBtn:       'Close',
 
     profileSection:    'Two-factor authentication (2FA)',

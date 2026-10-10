@@ -4,7 +4,7 @@ const PHASES = [
   { id: 'prepare',   Icon: LuShoppingCart, fr: 'Préparer',   en: 'Prepare' },
   { id: 'shopping',  Icon: LuStore,        fr: 'En courses',  en: 'Shopping' },
   { id: 'home',      Icon: LuHouse,        fr: 'Rentré',      en: 'Home' },
-  { id: 'whatsNext', Icon: LuSparkles,     fr: 'Et après ?',  en: "What's next?" },
+  { id: 'whatsNext', Icon: LuSparkles,     fr: 'Et après ?',  en: "What’s next?" },
 ]
 
 const I18N = {

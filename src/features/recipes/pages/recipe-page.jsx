@@ -60,16 +60,16 @@ import RecipeModal from '@features/recipes/components/recipe-modal'
 const I18N = {
   fr: {
     notFoundTitle: 'Recette introuvable',
-    notFoundSubtitle: 'Cette recette n\'existe pas, a été supprimée, ou n\'est pas accessible publiquement.',
+    notFoundSubtitle: 'Cette recette n’existe pas, a été supprimée, ou n’est pas accessible publiquement.',
     errorTitle: 'Recette momentanément indisponible',
-    errorSubtitle: 'Nous n\'avons pas réussi à charger cette recette. Vérifie ta connexion et réessaie — le lien, lui, est toujours valable.',
-    backHome: 'Retour à l\'accueil',
+    errorSubtitle: 'Nous n’avons pas réussi à charger cette recette. Vérifie ta connexion et réessaie — le lien, lui, est toujours valable.',
+    backHome: 'Retour à l’accueil',
   },
   en: {
     notFoundTitle: 'Recipe not found',
-    notFoundSubtitle: 'This recipe doesn\'t exist, was removed, or isn\'t publicly accessible.',
+    notFoundSubtitle: 'This recipe doesn’t exist, was removed, or isn’t publicly accessible.',
     errorTitle: 'Recipe temporarily unavailable',
-    errorSubtitle: 'We couldn\'t load this recipe. Check your connection and try again — the link itself is still valid.',
+    errorSubtitle: 'We couldn’t load this recipe. Check your connection and try again — the link itself is still valid.',
     backHome: 'Back to home',
   },
 }

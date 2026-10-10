@@ -8,8 +8,8 @@ import LoadErrorNotice from '@shared/ui/load-error-notice'
 // croyait avoir perdu son historique (audit CPT-11).
 const I18N = {
   fr: {
-    message: 'Ton activité n\'a pas pu être chargée.',
-    hint: 'Rien n\'est perdu : c\'est le chargement qui a échoué.',
+    message: 'Ton activité n’a pas pu être chargée.',
+    hint: 'Rien n’est perdu : c’est le chargement qui a échoué.',
     retry: 'Réessayer',
   },
   en: {

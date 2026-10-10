@@ -8,7 +8,7 @@ import Button from '@shared/ui/button'
 const I18N = {
   fr: {
     voiceConsentTitle:  'Activer la reconnaissance vocale ?',
-    voiceConsentBody:   "Pour utiliser la reconnaissance vocale, ton navigateur transmet l'audio à un service tiers (Google pour Chrome/Edge, Apple pour Safari) afin de le transcrire. Fridge+ ne conserve ni l'audio ni le texte.",
+    voiceConsentBody:   "Pour utiliser la reconnaissance vocale, ton navigateur transmet l’audio à un service tiers (Google pour Chrome/Edge, Apple pour Safari) afin de le transcrire. Fridge+ ne conserve ni l’audio ni le texte.",
     voiceConsentAccept: 'Activer le micro',
     voiceConsentRefuse: 'Non merci',
     voiceConsentManage: 'Gérer mes préférences',

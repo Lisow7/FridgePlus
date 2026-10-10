@@ -25,7 +25,7 @@ describe('HomePhase — vider le panier', () => {
     expect(onClearBasket).toHaveBeenCalled()
   })
 
-  it('ne vide pas si l\'utilisateur annule', async () => {
+  it('ne vide pas si l’utilisateur annule', async () => {
     confirmMock.mockResolvedValue(false)
     const onClearBasket = vi.fn()
     render(<HomePhase basket={basket} lang="fr" onClearBasket={onClearBasket} />)
@@ -42,21 +42,21 @@ describe('HomePhase — « J’ai fait mes courses » qui échoue le dit', () =>
   it('le frigo n’a rien reçu : une alerte dit que les articles sont toujours au panier', async () => {
     const onCompleteShopping = vi.fn().mockResolvedValue({ error: { message: 'boom' }, addedToFridge: 0 })
     render(<HomePhase basket={basket} lang="fr" onCompleteShopping={onCompleteShopping} />)
-    fireEvent.click(screen.getByRole('button', { name: /J'ai fait mes courses/ }))
-    expect(await screen.findByRole('alert')).toHaveTextContent("Rien n'est passé au frigo : tes articles sont toujours dans le panier. Réessaie.")
+    fireEvent.click(screen.getByRole('button', { name: /J['’]ai fait mes courses/ }))
+    expect(await screen.findByRole('alert')).toHaveTextContent("Rien n’est passé au frigo : tes articles sont toujours dans le panier. Réessaie.")
   })
 
   it('au frigo mais pas retirés du panier : l’alerte le dit', async () => {
     const onCompleteShopping = vi.fn().mockResolvedValue({ error: { message: 'boom' }, addedToFridge: 1, resteAuPanier: true })
     render(<HomePhase basket={basket} lang="fr" onCompleteShopping={onCompleteShopping} />)
-    fireEvent.click(screen.getByRole('button', { name: /J'ai fait mes courses/ }))
-    expect(await screen.findByRole('alert')).toHaveTextContent("Tes articles sont au frigo, mais n'ont pas pu être retirés du panier. Réessaie.")
+    fireEvent.click(screen.getByRole('button', { name: /J['’]ai fait mes courses/ }))
+    expect(await screen.findByRole('alert')).toHaveTextContent("Tes articles sont au frigo, mais n’ont pas pu être retirés du panier. Réessaie.")
   })
 
   it('réussite : aucune alerte (témoin)', async () => {
     const onCompleteShopping = vi.fn().mockResolvedValue({ error: null, addedToFridge: 1 })
     render(<HomePhase basket={basket} lang="en" onCompleteShopping={onCompleteShopping} />)
-    fireEvent.click(screen.getByRole('button', { name: /I'm done shopping/ }))
+    fireEvent.click(screen.getByRole('button', { name: /I['’]m done shopping/ }))
     await waitFor(() => expect(onCompleteShopping).toHaveBeenCalled())
     expect(screen.queryByRole('alert')).toBeNull()
   })

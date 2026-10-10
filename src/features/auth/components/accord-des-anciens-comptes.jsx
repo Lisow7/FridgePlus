@@ -24,7 +24,7 @@ const I18N = {
   fr: {
     titre: 'Confirme ton accord',
     texte: 'Ton compte a été créé avant que Fridge+ enregistre la date des accords aux conditions. Coche la case une fois pour continuer.',
-    avant: 'J\'ai au moins 16 ans et j\'accepte les ',
+    avant: 'J’ai au moins 16 ans et j’accepte les ',
     conditions: 'Conditions Générales d’Utilisation',
     milieu: ' et la ',
     politique: 'Politique de confidentialité',
