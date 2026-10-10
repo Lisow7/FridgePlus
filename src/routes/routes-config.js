@@ -16,7 +16,7 @@ import RecoveryGuard from '@routes/guards/recovery-guard'
 //
 //   - path     : string react-router-dom
 //   - Component: composant React rendu (props lang/darkMode injectées)
-//   - Guard    : composant guard à appliquer (AuthGuard, RoleGuard…). Optionnel.
+//   - Guard    : composant guard à appliquer (AuthGuard, RecoveryGuard…). Optionnel.
 //   - children : sous-routes nested (rendues via <Outlet />)
 //   - Redirect : si défini, rend <Navigate to={Redirect} replace />
 //   - label    : libellé i18n pour navigation/breadcrumbs

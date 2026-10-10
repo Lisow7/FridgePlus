@@ -1,5 +1,8 @@
-// Lecture et mise à jour du budget courses dans profiles.
-// `monthly_budget` est nullable (NULL = aucune limite).
+// Lecture du budget courses dans profiles.
+// `monthly_budget` est nullable (NULL = aucune limite). L'écriture passe par
+// `updateProfile` (Profil → Préférences), qui valide comme la contrainte
+// `chk_profiles_monthly_budget` ; le doublon `setMonthlyBudget`, appelé nulle
+// part, a été retiré (lot 14e).
 
 import { supabase } from '@shared/lib/supabase/client'
 
@@ -10,14 +13,4 @@ export async function getMonthlyBudget(userId) {
     .eq('id', userId)
     .single()
   return { budget: data?.monthly_budget ?? null, error }
-}
-
-export async function setMonthlyBudget(userId, budget) {
-  const value = budget === null || budget === '' ? null : Number(budget)
-  if (value !== null && (isNaN(value) || value <= 0)) return { error: new Error('invalid') }
-  const { error } = await supabase
-    .from('profiles')
-    .update({ monthly_budget: value })
-    .eq('id', userId)
-  return { error }
 }

@@ -1,4 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { readFileSync } from 'node:fs'
+import { resolve } from 'node:path'
 import { renderHook, act } from '@testing-library/react'
 import { getLegalSection } from '@features/legal/data/legal-content'
 
@@ -81,5 +83,18 @@ describe('la politique le dit', () => {
   it('fr et en : les photos publiques partent aussi à la modération', () => {
     expect(JSON.stringify(getLegalSection('fr', 'privacy'))).toMatch(/Le texte et les photos publics soumis sont transmis pour analyse/)
     expect(JSON.stringify(getLegalSection('en', 'privacy'))).toMatch(/The submitted public text and photos are sent for analysis/)
+  })
+})
+
+// Lot 14e (complément) : plus aucun écran n'envoie `ticket`, mais la fonction
+// edge l'acceptait encore — un appel direct aurait fait partir le texte d'une
+// demande chez OpenAI. Les fonctions edge ne tournent pas dans la CI : la
+// liste est lue dans le source (cf. quotas-par-compte.test.js).
+describe('le serveur non plus', () => {
+  it('la modération n’accepte que des textes publics', () => {
+    const source = readFileSync(resolve(process.cwd(), 'supabase/functions/moderate-content/index.ts'), 'utf8')
+    const liste = source.match(/const ALLOWED_FEATURES = new Set\(\[([^\]]*)\]\)/)
+    expect(liste).not.toBeNull()
+    expect(liste[1].match(/'[^']+'/g)).toEqual(["'recipe'", "'profile-bio'", "'review'", "'community-post'"])
   })
 })

@@ -13,7 +13,7 @@ ingrédients (`stock`), et alimenter le reste de l'app (recettes, score anti-gas
   (journal des ajouts/retraits), `leftovers.js` (restes).
 - **`hooks/`** — `use-fridge-stock` (source du `stock`, persistance dual-mode), `use-leftovers`.
 - **`lib/`** — `categorize-ingredients.js` (range un ingrédient dans le bon compartiment),
-  `waste-prevention.js` (logique anti-gaspi), `record-removed.js` (capture des retraits),
+  `record-removed.js` (capture des retraits),
   `fab-primary-action.js` (action principale du bouton flottant).
 - **`components/`** — `fridge.jsx` (conteneur) + **3 variantes de layout** :
   `fridge-standard`, `fridge-multi-door`, `fridge-side-by-side` ; plus `pantry-shelf`,

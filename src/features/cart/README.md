@@ -11,7 +11,8 @@ Aider à acheter ce qu'il manque : pour chaque besoin, proposer la meilleure com
 ## Accès (gating)
 Route `/cart` (`pages/cart-page.jsx`) sous **`AuthGuard`** (non connecté → `/login`). Le **premium est
 vérifié _inline_ dans `CartPage`** (affiche un `UpgradeGate` si non-premium) — ce n'est **pas** un
-guard de route. Ne pas supposer qu'un `PremiumGuard` protège `/cart`.
+guard de route : il n'existe aucun garde de route Premium (l'échafaudage `PremiumGuard`, jamais branché,
+a été retiré le 2026-10-08).
 
 ## Structure
 - **`api/`** (Supabase) — `basket.js` (CRUD des `basket_items` : add/update/remove/removeByRecipe/clear),

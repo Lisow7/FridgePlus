@@ -1668,6 +1668,6 @@ export const RECIPES = [
 
 // scoreRecipes/expandStock DÉPLACÉS vers la source canonique partagée
 // `@shared/lib/recipes/recipe-scoring`. Re-export pour ne pas casser les imports
-// existants (cart, waste-prevention, onboarding). La version canonique est 4-args
+// existants (page du panier, scoreRecipes.test.js). La version canonique est 4-args
 // (stapleIds optionnel) → rétrocompatible avec les appels 3-args.
 export { scoreRecipes, expandStock } from '@shared/lib/recipes/recipe-scoring'

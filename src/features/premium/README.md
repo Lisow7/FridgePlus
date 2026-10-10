@@ -14,7 +14,7 @@ car consommé par fridge/cart/profile/recipes/routes… :
 - **`@shared/lib/payments/stripe`** (`redirectToCheckout`, `redirectToPortal`) + `@shared/lib/i18n/subscription-i18n` (`SUB_I18N`).
 
 Ces éléments sont importés **directement depuis `@shared/...`** par leurs consommateurs (App.jsx,
-HeaderActions, cart, profile, recipes, `routes/guards/premium-guard.jsx`, `routes-config.js`…).
+HeaderActions, cart, profile, recipes, `routes-config.js`…).
 
 > 🧱 **Façade (`index.js`)** : expose le composant `UpgradeModal` + re-exporte par commodité le cœur
 > premium qui vit dans `@shared/...` (`UpgradeGate`, `useSubscription`, `SubscriptionModalProvider`,

@@ -101,20 +101,16 @@ export async function updatePost(postId, { title, body, category, recipe_id }) {
   return { data: (await withAuthorProfiles([data]))[0] }
 }
 
-/** Soft delete. L'auteur peut restaurer dans les 24h via restorePost. */
+/**
+ * Suppression douce (`deleted_at`) : le message quitte le fil. Aucune
+ * restauration n'est proposée — `restorePost` n'a jamais été branchée sur un
+ * écran, et la confirmation promettait pourtant de « restaurer dans les 24 h »
+ * (relevé le 2026-10-08, lot 14e).
+ */
 export async function deletePost(postId) {
   const { error } = await supabase
     .from('community_posts')
     .update({ deleted_at: new Date().toISOString() })
-    .eq('id', postId)
-  if (error) return { error: error.message }
-  return { ok: true }
-}
-
-export async function restorePost(postId) {
-  const { error } = await supabase
-    .from('community_posts')
-    .update({ deleted_at: null })
     .eq('id', postId)
   if (error) return { error: error.message }
   return { ok: true }
@@ -163,40 +159,6 @@ export async function deleteReply(replyId) {
   return { ok: true }
 }
 
-// ── Likes (legacy — conservé pour la rétrocompatibilité des réponses) ─────────
-
-/** Renvoie l'ensemble des post_ids likés par l'utilisateur (pour init UI). */
-// Refonte BDD S6c — PR-DB-16a : SELECT engagement filtré type='post_like'
-// au lieu de community_likes (sync trigger PR-DB-15 garantit no drift).
-// Alias post_id:target_post_id pour conserver le shape côté consumer.
-export async function listMyLikedPostIds(userId) {
-  if (!userId) return new Set()
-  const { data, error } = await supabase
-    .from('engagement')
-    .select('post_id:target_post_id')
-    .eq('type', 'post_like')
-    .eq('user_id', userId)
-  if (error) return new Set()
-  return new Set((data ?? []).map(r => r.post_id))
-}
-
-// Refonte BDD Sprint 6e — PR-DB-17a : cutover writes vers engagement.
-// UNIQUE engagement_unique_post_engagement (user_id, type, target_post_id)
-// permet l'upsert. `type` doit être dans onConflict : l'index couvre à la
-// fois post_like et reaction sur la même colonne target_post_id, et n'est
-// plus partiel depuis le fix 2026-07-16 (cf.
-// 20260716_fix_engagement_upsert_conflict.sql).
-export async function likePost(userId, postId) {
-  const { error } = await supabase
-    .from('engagement')
-    .upsert({ user_id: userId, type: 'post_like', target_post_id: postId }, {
-      onConflict: 'user_id,type,target_post_id',
-      ignoreDuplicates: true,
-    })
-  if (error) return { error: error.message }
-  return { ok: true }
-}
-
 // ── Réactions émoji (v3.164.0) ────────────────────────────────────────────────
 
 const VALID_EMOJIS = ['❤️', '😋', '🔥', '😮', '👏']
@@ -217,8 +179,10 @@ export async function listMyPostReactions(userId) {
 
 /** Pose ou change une réaction (upsert). */
 // Refonte BDD S6e — PR-DB-17a : cutover write vers engagement.
-// Cf. commentaire de likePost ci-dessus (fix 2026-07-16) : même index
-// partagé (user_id, type, target_post_id), `type` requis dans onConflict.
+// UNIQUE engagement_unique_post_engagement (user_id, type, target_post_id) :
+// l'index sert à plusieurs types d'engagement sur la même colonne, et n'est
+// plus partiel depuis le fix 2026-07-16 (cf.
+// 20260716_fix_engagement_upsert_conflict.sql) — `type` requis dans onConflict.
 export async function reactToPost(userId, postId, emoji) {
   if (!userId || !postId || !VALID_EMOJIS.includes(emoji)) return { error: 'invalid' }
   const { error } = await supabase
@@ -243,25 +207,6 @@ export async function removePostReaction(userId, postId) {
     .eq('target_post_id', postId)
   if (error) return { error: error.message }
   return { ok: true }
-}
-
-/** Renvoie [{emoji, count}] triés par count desc pour un lot de postIds. */
-// Refonte BDD S6c — PR-DB-16a : SELECT engagement filtré type='reaction'.
-export async function getPostsReactionSummary(postIds) {
-  if (!postIds?.length) return {}
-  const { data, error } = await supabase
-    .from('engagement')
-    .select('post_id:target_post_id, emoji')
-    .eq('type', 'reaction')
-    .in('target_post_id', postIds)
-  if (error) return {}
-  // Agréger côté client : { postId: { emoji: count } }
-  const result = {}
-  for (const { post_id, emoji } of data ?? []) {
-    if (!result[post_id]) result[post_id] = {}
-    result[post_id][emoji] = (result[post_id][emoji] ?? 0) + 1
-  }
-  return result
 }
 
 // ── v3.16.0 — Likes sur réponses ───────────────────────────────────────
@@ -310,17 +255,6 @@ export async function unlikeReply(userId, replyId) {
     .eq('user_id', userId)
     .eq('type', 'reply_like')
     .eq('target_reply_id', replyId)
-  if (error) return { error: error.message }
-  return { ok: true }
-}
-
-export async function unlikePost(userId, postId) {
-  const { error } = await supabase
-    .from('engagement')
-    .delete()
-    .eq('user_id', userId)
-    .eq('type', 'post_like')
-    .eq('target_post_id', postId)
   if (error) return { error: error.message }
   return { ok: true }
 }

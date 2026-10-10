@@ -93,7 +93,7 @@ describe('CommunityPage — suppression via useConfirm()', () => {
     fireEvent.click(screen.getByLabelText('Supprimer'))
     await waitFor(() => expect(confirmMock).toHaveBeenCalledWith(expect.objectContaining({
       title: 'Supprimer ce post ?',
-      body: 'Tu pourras le restaurer dans les 24 h depuis tes posts.',
+      body: 'Il disparaîtra de la communauté, avec ses réponses. Cette action ne peut pas être annulée.',
       danger: true,
     })))
   })
