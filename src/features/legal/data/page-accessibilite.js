@@ -11,9 +11,9 @@ import { SUPPORT_EMAIL } from '@shared/lib/contact'
 // confronte chaque promesse à ce qui la tient (critères et largeurs de la passe
 // axe de la CI, cibles de 24 px de `Button`, bloc `prefers-reduced-motion`,
 // flèches des étapes, chemin du support). Le jour où l’un d’eux tombe, la page
-// change avec lui. Et quand un point de « Ce qui reste à faire » est livré (le
-// focus au changement de page — audit A11Y-16 —, les petits textes), il passe
-// dans « Ce qui est fait » dans la même PR.
+// change avec lui. Et quand un point de « Ce qui reste à faire » est livré (les
+// petits textes), il passe dans « Ce qui est fait » dans la même PR — comme le
+// focus au changement de page (audit A11Y-16) le 2026-10-10.
 
 const ECRIRE = (objet) => `mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent(objet)}`
 
@@ -27,6 +27,7 @@ export const PAGE_ACCESSIBILITE = {
         titre: 'Ce qui est fait',
         liste: [
           'L’app se parcourt au clavier : le focus reste visible, et chaque fenêtre le garde, se ferme avec Échap et le rend à ce qui l’avait ouverte.',
+          'Au changement de page, le titre de la nouvelle page est annoncé aux lecteurs d’écran, et le focus du clavier revient au début du contenu.',
           'Les boutons, les champs et les fenêtres portent un nom que lisent les lecteurs d’écran, et les messages importants (erreurs, confirmations, nombre de recettes trouvées) sont annoncés.',
           'Les textes atteignent un contraste d’au moins 4,5:1, en thème clair comme en thème sombre.',
           'Les boutons offrent une cible d’au moins 24 pixels de côté.',
@@ -48,7 +49,6 @@ export const PAGE_ACCESSIBILITE = {
         id: 'accessibilite-reste',
         titre: 'Ce qui reste à faire',
         liste: [
-          'Au changement de page, le focus du clavier n’est pas encore replacé en haut de la nouvelle page, et les lecteurs d’écran n’en annoncent pas toujours le titre.',
           'Certains petits textes font encore moins de 12 pixels. Aucun nouveau n’est accepté, et ils sont agrandis au fil des versions.',
         ],
       },
@@ -72,6 +72,7 @@ export const PAGE_ACCESSIBILITE = {
         titre: 'What is done',
         liste: [
           'The app can be used with a keyboard: focus stays visible, and every dialog keeps it, closes with Escape and gives it back to whatever opened it.',
+          'When you change page, its title is announced to screen readers and keyboard focus moves back to the start of the content.',
           'Buttons, fields and dialogs have names that screen readers read out, and important messages (errors, confirmations, the number of recipes found) are announced.',
           'Text reaches a contrast ratio of at least 4.5:1, in the light theme as in the dark theme.',
           'Buttons offer a target of at least 24 pixels square.',
@@ -93,7 +94,6 @@ export const PAGE_ACCESSIBILITE = {
         id: 'accessibilite-reste',
         titre: 'What remains to be done',
         liste: [
-          'When you change page, keyboard focus is not yet moved to the top of the new page, and screen readers do not always announce its title.',
           'Some small text is still under 12 pixels. No new instance is accepted, and they are enlarged release after release.',
         ],
       },
