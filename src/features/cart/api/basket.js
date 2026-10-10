@@ -1,14 +1,21 @@
 import { supabase } from '@shared/lib/supabase/client'
 import { logError } from '@shared/lib/observability/sentry'
 
+// Rend `{ data, error }`. Un chargement raté n'est PAS un panier vide (audit
+// du 2026-10-04, lot « le panier dit son échec ») : il rendait `[]`, et depuis
+// un panier qui paraît vide, « Reprendre une liste » vidait en base un panier
+// que personne n'avait vu — le piège du frigo corrigé le 2026-08-28.
 export async function loadBasketFromDB(userId) {
   const { data, error } = await supabase
     .from('basket_items')
     .select('*')
     .eq('user_id', userId)
     .order('added_at', { ascending: true })
-  if (error) return []
-  return data
+  if (error) {
+    logError(error, { tag: 'basket.loadBasketFromDB' })
+    return { data: [], error }
+  }
+  return { data: data ?? [], error: null }
 }
 
 export async function addBasketItems(userId, items) {
