@@ -351,7 +351,8 @@ export function AuthProvider({ children }) {
 
   async function updateEmail(newEmail) {
     try {
-      const { error } = await supabase.auth.updateUser({ email: newEmail.trim() })
+      // Le lien de confirmation ramène sur l'app d'où part la demande.
+      const { error } = await supabase.auth.updateUser({ email: newEmail.trim() }, { emailRedirectTo: window.location.origin })
       if (error && import.meta.env.DEV) {
         console.error('[AuthContext] updateEmail error:', error.code, error.message, error.status)
       }

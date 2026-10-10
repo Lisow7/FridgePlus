@@ -13,6 +13,7 @@ import { logAuditAction, AUDIT_ACTIONS } from '@features/admin/lib/audit'
 import { ConfidentialityPanel } from '@features/legal'
 import MfaCard from '@features/profile/components/mfa-card'
 import AppareilsSection from '@features/profile/components/appareils-section'
+import ChangerDAdresse from '@features/profile/components/changer-d-adresse'
 import DangerZone from '@features/profile/components/danger-zone'
 import ProfilingOptOutSection from '@features/profile/components/profiling-opt-out-section'
 import EraseSpendingHistorySection from '@features/profile/components/erase-spending-history-section'
@@ -291,6 +292,7 @@ export default function ProfileAccountPage() {
                 {t.idEmailHidden}
               </p>
             )}
+            <ChangerDAdresse lang={lang} />
             <Button
               onClick={handleSendReset}
               loading={resetLoading}

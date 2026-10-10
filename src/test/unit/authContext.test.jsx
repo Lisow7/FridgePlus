@@ -678,7 +678,9 @@ describe('AuthContext', () => {
       await act(async () => {
         await result.current.updateEmail('new@test.com')
       })
-      expect(mockUpdateUser).toHaveBeenCalledWith({ email: 'new@test.com' })
+      // Le lien de confirmation ramène sur l'app d'où la demande est partie
+      // (sans lui : l'adresse du site configurée, même depuis un aperçu).
+      expect(mockUpdateUser).toHaveBeenCalledWith({ email: 'new@test.com' }, { emailRedirectTo: window.location.origin })
     })
   })
 
