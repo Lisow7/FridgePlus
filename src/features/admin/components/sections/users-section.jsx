@@ -15,7 +15,7 @@ import EmptyState from '@shared/ui/empty-state'
 import Pagination from '@shared/ui/pagination'
 import SpecialAccessModal from '@features/admin/components/modals/special-access-modal'
 import SpecialRoleBadge from '@shared/ui/special-role-badge'
-import { formatDate } from '@shared/lib/format-date'
+import { fmtDate } from '@features/admin/lib/dates'
 import { useReloader } from '@shared/hooks/use-reloader'
 import { leverSiErreur } from '@shared/lib/supabase/lever-si-erreur'
 import FeedbackBanner from '../shared/feedback-banner'
@@ -25,7 +25,6 @@ import { texteLisible } from '@shared/lib/couleurs/texte-lisible'
 
 const PER_PAGE = 30
 
-function fmtDate(str, lang = 'fr') { return str ? formatDate(str, lang) : '' }
 
 const STATUS_COLORS = {
   pending:  { bg:'rgba(251,191,36,0.15)', color:'var(--color-warning)' },

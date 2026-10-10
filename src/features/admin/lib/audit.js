@@ -40,13 +40,20 @@ export const AUDIT_ACTIONS = Object.freeze({
   RECIPE_APPROVED:         'recipe_approved',          // legacy : admin.js
   RECIPE_REJECTED:         'recipe_rejected',          // legacy : admin.js
   RECIPE_DELETED:          'recipe_deleted',           // legacy : admin.js
+  RECIPE_PENDING:          'recipe_pending',           // remise en attente (admin.js)
   RECIPE_PROMOTED:         'recipe_promoted',          // legacy : RPC promote_recipe_to_base
+  BASE_RECIPE_ADDED:       'base_recipe_added',        // admin.js
+  BASE_RECIPE_UPDATED:     'base_recipe_updated',      // admin.js
   BASE_RECIPE_DELETED:     'base_recipe_deleted',      // legacy : admin.js
 
   // Ingrédients admin
   INGREDIENT_ADDED:        'ingredient_added',
   INGREDIENT_UPDATED:      'ingredient_updated',
   INGREDIENT_DELETED:      'ingredient_deleted',       // legacy : admin.js
+
+  // Accès spécial (comp, testeur…) accordé ou retiré par l'admin
+  SPECIAL_ACCESS_GRANTED:  'special_access_granted',   // admin.js
+  SPECIAL_ACCESS_REVOKED:  'special_access_revoked',   // admin.js
 
   // Données sensibles (consultation, séparé de sensitiveAudit.js mais cohérent)
   SENSITIVE_DATA_ACCESSED: 'sensitive_data_accessed',  // legacy : sensitiveAudit.js
@@ -99,8 +106,13 @@ const METADATA_KEYS = Object.freeze({
   [AUDIT_ACTIONS.RECIPE_APPROVED]:         [],
   [AUDIT_ACTIONS.RECIPE_REJECTED]:         ['reason'],
   [AUDIT_ACTIONS.RECIPE_DELETED]:          ['reason'],
+  [AUDIT_ACTIONS.RECIPE_PENDING]:          ['reason'],
   [AUDIT_ACTIONS.RECIPE_PROMOTED]:         ['promoted_from_id', 'original_author_id'],
+  [AUDIT_ACTIONS.BASE_RECIPE_ADDED]:       [],
+  [AUDIT_ACTIONS.BASE_RECIPE_UPDATED]:     [],
   [AUDIT_ACTIONS.BASE_RECIPE_DELETED]:     ['reason'],
+  [AUDIT_ACTIONS.SPECIAL_ACCESS_GRANTED]:  ['role'],
+  [AUDIT_ACTIONS.SPECIAL_ACCESS_REVOKED]:  [],
   [AUDIT_ACTIONS.INGREDIENT_ADDED]:        ['subcategory'],
   [AUDIT_ACTIONS.INGREDIENT_UPDATED]:      ['fields_changed'],
   [AUDIT_ACTIONS.INGREDIENT_DELETED]:      ['reason'],

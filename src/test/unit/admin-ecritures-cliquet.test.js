@@ -27,14 +27,10 @@ const INSTRUCTION_JETEE = /(^\s*|[{;]\s*)await\s+(admin[A-Z]\w*|markTicketReadBy
 // Une ligne de commentaire peut citer l'ancien patron pour l'expliquer.
 const COMMENTAIRE = /^\s*(\/\/|\*|\/\*)/
 
-// Les seules exceptions, chacune avec sa raison.
-const EXCEPTIONS = [
-  // `logAdminAction` : le journal des modérations est écrit « au mieux », après
-  // une écriture réussie — son échec ne doit pas faire échouer la modération.
-  // L'audit (ADM-05) le distingue explicitement de la consultation d'une donnée
-  // sensible, où la trace est la CONDITION de l'affichage.
-  { fichier: 'src/features/admin/api/admin.js', ligne: "await supabase.from('activity_logs').insert({" },
-]
+// Les seules exceptions, chacune avec sa raison. (Le journal des modérations,
+// écrit « au mieux » après une écriture réussie, passe depuis le lot 14f par
+// `logAuditAction`, que ce balayage ne vise pas.)
+const EXCEPTIONS = []
 
 function fichiersDe(dossier) {
   const out = []

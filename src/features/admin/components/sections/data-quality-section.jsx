@@ -5,7 +5,7 @@ import Button from '@shared/ui/button'
 import FilterPill from '@shared/ui/filter-pill'
 import EmptyState from '@shared/ui/empty-state'
 import ImportQueueTab from './import-queue-tab'
-import { formatDate } from '@shared/lib/format-date'
+import { fmtDate } from '@features/admin/lib/dates'
 import { versCsv } from '@features/admin/lib/csv'
 import { useReloader } from '@shared/hooks/use-reloader'
 import { useRafraichissementSousLesYeux } from '@features/admin/hooks/use-rafraichissement-sous-les-yeux'
@@ -119,7 +119,6 @@ function getItemSeverity(item) {
   return 'low'
 }
 
-function fmtDate(str, lang = 'fr') { return str ? formatDate(str, lang) : '' }
 
 // Une ligne : un vrai bouton quand elle ouvre un éditeur (audit du 2026-10-04,
 // ADM-19 d : c'était une `div` cliquable, hors de l'ordre de tabulation, dont

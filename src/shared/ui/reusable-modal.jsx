@@ -11,8 +11,8 @@ import Button from '@shared/ui/button'
 // Backdrop opaque (cohérent avec CookieModal du sprint 0).
 
 const I18N = {
-  fr: { close: 'Fermer' },
-  en: { close: 'Close' },
+  fr: { close: 'Fermer', dialog: 'Fenêtre de dialogue' },
+  en: { close: 'Close', dialog: 'Dialog' },
 }
 
 export default function ReusableModal({
@@ -49,7 +49,7 @@ export default function ReusableModal({
       // aria-label={title} — title peut être du JSX (icône + texte) qui
       // donnait un nom accessible « [object Object] ».
       aria-labelledby={title ? titleId : undefined}
-      aria-label={title ? undefined : 'Dialog'}
+      aria-label={title ? undefined : t.dialog}
       onClick={onClose}
       style={{
         position: 'fixed', inset: 0, zIndex: 10001,

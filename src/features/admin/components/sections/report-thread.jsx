@@ -2,7 +2,7 @@ import { useEffect, useState, useCallback, useRef, useId } from 'react'
 import { LuSend } from 'react-icons/lu'
 import { getTicketMessages, adminReplyTicket } from '@features/support/api/support'
 import Button from '@shared/ui/button'
-import { formatDateTime } from '@shared/lib/format-date'
+import { fmtDateTime } from '@features/admin/lib/dates'
 import ChargementRate from '../shared/chargement-rate'
 import { MESSAGE_SUPPORT_MAX } from '@shared/lib/longueurs-maximales'
 
@@ -11,7 +11,6 @@ import { MESSAGE_SUPPORT_MAX } from '@shared/lib/longueurs-maximales'
 // à 499 lignes) pour apprendre à dire que les messages n'ont PAS pu être lus —
 // elle affichait « Aucun message — soyez le premier à répondre » (audit ADM-08).
 
-function fmtDate(str, lang = 'fr') { return str ? formatDateTime(str, lang) : '' }
 
 
 export default function ReportThread({ reportId, lang, darkMode }) {
@@ -62,7 +61,7 @@ export default function ReportThread({ reportId, lang, darkMode }) {
           {messages.map(msg => (
             <div key={msg.id} style={{ display: 'flex', flexDirection: 'column', alignItems: msg.is_admin ? 'flex-end' : 'flex-start' }}>
               <span style={{ fontSize: 10, color: muted, marginBottom: 2 }}>
-                {msg.is_admin ? 'Admin' : 'Utilisateur'} · {fmtDate(msg.created_at)}
+                {msg.is_admin ? 'Admin' : 'Utilisateur'} · {fmtDateTime(msg.created_at)}
               </span>
               <div style={{ maxWidth: '85%', padding: '7px 11px', borderRadius: msg.is_admin ? '12px 3px 12px 12px' : '3px 12px 12px 12px', background: msg.is_admin ? 'linear-gradient(135deg,#2E4A6A,#1A2F48)' : (darkMode ? '#253545' : 'var(--color-bg-warm)'), color: msg.is_admin ? 'white' : fg, fontSize: 12, lineHeight: 1.5, whiteSpace: 'pre-wrap', overflowWrap: 'break-word' }}>
                 {msg.content}

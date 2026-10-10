@@ -7,6 +7,7 @@ import {
 } from '@features/admin/api/recipe-reviews-admin'
 import { ConfirmDeleteModal } from '@shared/ui/confirm-dialog/confirm-modals'
 import FeedbackBanner from '../shared/feedback-banner'
+import { useFeedback } from '@features/admin/hooks/use-feedback'
 import ChargementRate from '../shared/chargement-rate'
 import SearchInput from '../shared/search-input'
 import BulkActionBar from '../shared/bulk-action-bar'
@@ -71,7 +72,7 @@ export default function RecipeReviewsAdminSection({ darkMode = false }) {
   const [status,       setStatus]       = useState('active')
   const [search,       setSearch]       = useState('')
   const [ratingFilter, setRatingFilter] = useState(0)
-  const [feedback,     setFeedback]     = useState(null)
+  const [feedback, showFeedback] = useFeedback()
 
   // Modale raison
   const [actionReview, setActionReview] = useState(null) // { review, action: 'soft'|'hard' }
@@ -111,23 +112,18 @@ export default function RecipeReviewsAdminSection({ darkMode = false }) {
     return reviews.filter(r => r.rating === ratingFilter)
   }, [reviews, ratingFilter])
 
-  function showFeedback(text, type = 'success') {
-    setFeedback({ text, type })
-    setTimeout(() => setFeedback(null), 3500)
-  }
-
   async function handleSoft(review) {
     const result = await adminSoftDeleteReview(review.id, reasonInput.trim() || 'admin_action', reportsByReview[review.id])
-    if (result?.error) showFeedback(result.error, 'error')
-    else { showFeedback('Avis masqué.'); reload() }
+    if (result?.error) showFeedback(false, result.error)
+    else { showFeedback(true, 'Avis masqué.'); reload() }
     setActionReview(null)
     setReasonInput('')
   }
 
   async function handleHard(review) {
     const result = await adminHardDeleteReview(review.id, reasonInput.trim() || 'admin_action')
-    if (result?.error) showFeedback(result.error, 'error')
-    else { showFeedback('Avis supprimé définitivement.'); reload() }
+    if (result?.error) showFeedback(false, result.error)
+    else { showFeedback(true, 'Avis supprimé définitivement.'); reload() }
     setConfirmHard(null)
     setActionReview(null)
     setReasonInput('')
@@ -138,10 +134,7 @@ export default function RecipeReviewsAdminSection({ darkMode = false }) {
     setConfirmBulkSoft(false)
     if (!ids.length) return
     const bilan = await appliquerEnLot(ids, id => adminSoftDeleteReview(id, 'admin_action', reportsByReview[id]))
-    showFeedback(
-      messageDeLot(bilan, n => `avis masqué${n > 1 ? 's' : ''}`),
-      bilan.toutReussi ? 'success' : 'error',
-    )
+    showFeedback(bilan.toutReussi, messageDeLot(bilan, n => `avis masqué${n > 1 ? 's' : ''}`))
     sel.clear()
     reload()
   }

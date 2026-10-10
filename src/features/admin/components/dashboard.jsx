@@ -18,7 +18,7 @@ import { texteLisible, fondTeinte } from '@shared/lib/couleurs/texte-lisible'
 // Journal (audit du 2026-10-04, ADM-06 — chaque écran avait sa table, et
 // elles se contredisaient).
 
-function fmtDate(str) {
+function depuis(str) {
   if (!str) return ''
   const d = new Date(str)
   const now = new Date()
@@ -206,7 +206,7 @@ export default function Dashboard({ lang = 'fr', darkMode = false }) {
                       style={{ display:'flex', alignItems:'center', gap:7, padding:'6px 10px', borderBottom: i < recentLogs.length - 1 ? `1px solid ${border}` : 'none' }}>
                       <span style={{ width:5, height:5, borderRadius:'50%', background:color, flexShrink:0 }} />
                       <div style={{ flex:1, minWidth:0, overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap', fontSize:11, fontWeight:600, color: texteLisible(color) }}>{label}</div>
-                      <div style={{ fontSize:10, color:muted, flexShrink:0 }}>{fmtDate(log.created_at)}</div>
+                      <div style={{ fontSize:10, color:muted, flexShrink:0 }}>{depuis(log.created_at)}</div>
                     </div>
                   )
                 })}
