@@ -123,13 +123,15 @@ describe('AuthContext', () => {
 
   // ─── signInWithGoogle (OAuth) ──────────────────────────────────────────────
   describe('signInWithGoogle', () => {
-    it('appelle signInWithOAuth avec provider google + scopes minimaux', async () => {
+    it('appelle signInWithOAuth avec provider google + scopes minimaux, et fait choisir le compte', async () => {
       const { result } = renderHook(() => useAuth(), { wrapper })
       await waitFor(() => expect(authCallback).not.toBeNull())
       await act(async () => { await result.current.signInWithGoogle() })
+      // CPT-18 : sur un poste partagé, le compte Google resté ouvert dans le
+      // navigateur était repris sans que personne le choisisse.
       expect(mockSignInWithOAuth).toHaveBeenCalledWith({
         provider: 'google',
-        options: { redirectTo: window.location.origin, scopes: 'email profile' },
+        options: { redirectTo: window.location.origin, scopes: 'email profile', queryParams: { prompt: 'select_account' } },
       })
     })
   })
@@ -570,6 +572,28 @@ describe('AuthContext', () => {
       await act(async () => { await result.current.signOut() })
       expect(result.current.user).toBeNull()
       expect(result.current.profile).toBeNull()
+    })
+  })
+
+  // ─── aEuUneSession (CPT-18) ───────────────────────────────────────────────
+  // AuthGuard y lit la différence entre un visiteur arrivé sans session (→ la
+  // page de connexion) et une session qui se ferme dans l'onglet (→ l'accueil).
+  describe('aEuUneSession', () => {
+    it('faux tant qu’aucune session n’a existé dans l’onglet', async () => {
+      const { result } = renderHook(() => useAuth(), { wrapper })
+      await waitFor(() => expect(authCallback).not.toBeNull())
+      await act(async () => { await authCallback('INITIAL_SESSION', null) })
+      expect(result.current.aEuUneSession).toBe(false)
+    })
+
+    it('vrai dès la connexion, et le reste après la déconnexion', async () => {
+      const { result } = renderHook(() => useAuth(), { wrapper })
+      await waitFor(() => expect(authCallback).not.toBeNull())
+      await signInAs('u-1', { id: 'u-1' })
+      expect(result.current.aEuUneSession).toBe(true)
+      await act(async () => { await result.current.signOut() })
+      expect(result.current.user).toBeNull()
+      expect(result.current.aEuUneSession).toBe(true)
     })
   })
 

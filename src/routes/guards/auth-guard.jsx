@@ -12,8 +12,15 @@ import { useAuth } from '@shared/contexts/auth-provider'
 //   } />
 //
 // Comportement :
-//   - Si pas de user → redirect vers / (home) avec state.from pour
-//     que la page d'auth puisse rediriger après login.
+//   - Visiteur arrivé sans session → /login avec state.from : une fois
+//     connecté, RedirectIfAuthGuard le ramène sur la page demandée (audit
+//     du 2026-10-04, CPT-18 : il était renvoyé à l'accueil sans explication,
+//     et personne ne relisait state.from).
+//   - Session fermée dans l'onglet (déconnexion, expiration, révocation,
+//     suppression du compte) → /, comme avant : se déconnecter ne mène pas
+//     à la page de connexion. C'est le contexte d'auth qui s'en souvient
+//     (`aEuUneSession`) : un garde monté APRÈS la fin de la session — quand
+//     l'écran « Compte désactivé » rend la main — doit le savoir aussi.
 //   - Si recoveryMode (flow reset password) → redirect / aussi
 //     (forcer changement password avant accès aux pages).
 //
@@ -21,8 +28,8 @@ import { useAuth } from '@shared/contexts/auth-provider'
 // vient des RLS Supabase côté serveur. Ne JAMAIS faire confiance au
 // flag user dans le state local pour autoriser des actions critiques.
 
-export default function AuthGuard({ children, fallbackPath = '/' }) {
-  const { user, loading, recoveryMode } = useAuth()
+export default function AuthGuard({ children }) {
+  const { user, loading, recoveryMode, aEuUneSession } = useAuth()
   const location = useLocation()
 
   // Pendant la résolution de la session Supabase (loading=true au boot), on
@@ -31,9 +38,8 @@ export default function AuthGuard({ children, fallbackPath = '/' }) {
   // On rend null le temps du chargement ; la page gère son propre skeleton.
   if (loading) return null
 
-  if (!user || recoveryMode) {
-    return <Navigate to={fallbackPath} replace state={{ from: location }} />
-  }
+  if (recoveryMode || (!user && aEuUneSession)) return <Navigate to="/" replace />
+  if (!user) return <Navigate to="/login" replace state={{ from: location }} />
 
   return children
 }

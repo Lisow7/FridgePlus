@@ -6,14 +6,17 @@ import { supabase } from '@shared/lib/supabase/client'
 // à l'export (allow-list stricte), cet état est consommé largement dans toute
 // l'app (rôle, abonnement, badges...) donc pas d'allow-list ici : si une
 // future colonne sensible est ajoutée à `profiles`, l'exclure explicitement.
+// Ni `stripe_customer_id`, ni `inactive_warned_at`, ni `push_last_variant_index`
+// (audit du 2026-10-04, CPT-18) : seul le serveur s'en sert. Un test vérifie
+// que chaque colonne chargée est nommée ailleurs dans l'application.
 const COLONNES = 'id, username, avatar_id, role, banned, created_at, updated_at, ' +
   'password_changed_at, allergen_prefs, deleted_at, language, last_login_at, ' +
   'consent_terms_accepted_at, consent_privacy_accepted_at, community_muted_until, ' +
-  'community_terms_accepted_at, stripe_customer_id, subscription_status, trial_ends_at, ' +
+  'community_terms_accepted_at, subscription_status, trial_ends_at, ' +
   'subscription_ends_at, subscription_plan, monthly_budget, community_bio, ' +
-  'profiling_opted_out, inactive_warned_at, per_trip_budget, special_role, ' +
+  'profiling_opted_out, per_trip_budget, special_role, ' +
   'username_confirmed, banner_id, unlocked_banners, country_code, push_preferences, ' +
-  'push_last_variant_index, fridge_shape, banned_reason, banned_until'
+  'fridge_shape, banned_reason, banned_until'
 
 // Les mêmes colonnes, en liste : le temps réel reçoit la ligne ENTIÈRE de
 // `profiles` et ne doit fusionner que celles-ci (audit du 2026-10-04, CPT-12 —
