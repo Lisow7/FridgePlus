@@ -11,6 +11,7 @@ import { useAllergenPrefs } from '@shared/hooks/use-allergen-prefs'
 import { useProfilDeSecours } from '@shared/hooks/use-profil-de-secours'
 import { etatMfa, MFA_AUCUN } from '@shared/lib/auth/mfa-requis'
 import { fermerLaSession } from '@shared/lib/auth/sortie'
+import { marquerLaSessionOuverte, oublierLaSessionOuverte, laSessionEtaitOuverte } from '@shared/lib/auth/session-ouverte'
 
 const AuthContext = createContext(null)
 
@@ -38,6 +39,10 @@ export function AuthProvider({ children }) {
   // session (→ connexion, puis retour à la page demandée — CPT-18).
   const [aEuUneSession, setAEuUneSession] = useState(false)
   if (user && !aEuUneSession) setAEuUneSession(true)
+  // Une session fermée sans geste d'ici (expirée, fermée ailleurs) se dit dans le
+  // bandeau du haut ; une sortie voulue, non (décision du 2026-10-08) —
+  // cf. shared/lib/auth/session-ouverte.js.
+  const [sessionPerdue, setSessionPerdue] = useState(false)
 
   // Filet de sécurité du profil (relectures, « profil indisponible »,
   // `profileLoading`) : cf. shared/hooks/use-profil-de-secours.js (PREM-06, CPT-12).
@@ -60,6 +65,10 @@ export function AuthProvider({ children }) {
           setRecoveryMode(true)
           setLoading(false)
           return
+        }
+        if (event === 'SIGNED_OUT' || (event === 'INITIAL_SESSION' && !session)) {
+          if (laSessionEtaitOuverte()) setSessionPerdue(true)
+          oublierLaSessionOuverte()
         }
         // Détection d'un changement d'email confirmé : Supabase fire
         // USER_UPDATED après que le user a cliqué le lien de vérif et
@@ -92,6 +101,7 @@ export function AuthProvider({ children }) {
         if (isUserSwitch || !currentUser) setProfilIndisponible(false)
         setMfa(etatMfa(session)) // même rendu que l'utilisateur : jamais une image sans porte
         setUser(currentUser)
+        if (currentUser) { marquerLaSessionOuverte(); setSessionPerdue(false) }
         prevUserRef.current = currentUser
         // Attacher l'id Supabase à Sentry (no-op si Sentry pas
         // initialisé) pour corréler crashes à un compte. Aucun email ni
@@ -99,20 +109,13 @@ export function AuthProvider({ children }) {
         if (currentUser) setSentryUser(currentUser.id)
         else clearSentryUser()
         if (currentUser) {
-          // ⚠️ DEADLOCK supabase-js : ne JAMAIS `await` un appel supabase
-          // directement dans le callback onAuthStateChange. Le callback
-          // s'exécute pendant que le verrou auth (navigator LockManager) est
-          // tenu ; `fetchProfile` appelle `getSession()` qui veut le même
-          // verrou → interblocage. Symptôme : `updateUser` (reset de mot de
-          // passe) ne se résout jamais → spinner « Mise à jour… » infini
-          // (le serveur a pourtant répondu 200). On DIFFÈRE donc le chargement
-          // du profil hors du callback (setTimeout 0) : le callback retourne,
-          // le verrou se libère, puis le fetch s'exécute normalement.
-          // Depuis le 2026-09-11 le client ne tient plus AUCUN verrou
-          // (supabase-js ≥ 2.107, cf. shared/lib/supabase/client.js) : cet
-          // interblocage-là n'existe plus par construction. Le report est
-          // conservé — il ne coûte rien, et le paquet signale un cas résiduel
-          // (`refreshSession` appelé depuis un handler TOKEN_REFRESHED).
+          // ⚠️ Ne JAMAIS `await` un appel supabase dans ce callback : jadis, le
+          // verrou auth tenu ici interbloquait `getSession()` (`updateUser` ne se
+          // résolvait jamais : spinner infini). Le client ne tient plus de verrou
+          // depuis le 2026-09-11 (supabase-js ≥ 2.107, cf. shared/lib/supabase/
+          // client.js) ; le report du profil (setTimeout 0) reste — il ne coûte
+          // rien, et le paquet signale un cas résiduel (`refreshSession` sur
+          // TOKEN_REFRESHED).
           setTimeout(async () => {
             const p = await fetchProfile(currentUser.id)
             // Réponse tardive d'un compte qui n'est plus celui de la session
@@ -284,10 +287,25 @@ export function AuthProvider({ children }) {
     }
   }
 
+  // « Se déconnecter » : CET appareil (décision du 2026-10-08) — détache, efface, ferme.
   async function signOut() {
+    oublierLaSessionOuverte()
     setUser(null)
     setProfile(null)
-    await fermerLaSession() // détache cet appareil, efface les clés locales, ferme la session
+    const { error } = await fermerLaSession()
+    if (error) logError(error, { tag: 'auth.signOut' })
+  }
+
+  // « Déconnecter tous mes appareils » (Compte & sécurité) : toutes les
+  // sessions du compte, ici comprise. Refusée (réseau), la session reste ouverte ici.
+  async function deconnecterTousLesAppareils() {
+    if (!user) return { error: { message: 'Not authenticated' } }
+    oublierLaSessionOuverte()
+    const { error } = await fermerLaSession({ portee: 'global', userId: user.id })
+    if (error) { marquerLaSessionOuverte(); return { error } }
+    setUser(null)
+    setProfile(null)
+    return { error: null }
   }
 
   async function resetPassword(email) {
@@ -379,7 +397,9 @@ export function AuthProvider({ children }) {
       // session active pour l'appel à l'Edge Function.
       await sendChangeNotification('password', {})
       setRecoveryMode(false)
-      await supabase.auth.signOut()
+      // Changer de mot de passe déconnecte toujours partout (décision du 2026-10-08).
+      oublierLaSessionOuverte()
+      await supabase.auth.signOut({ scope: 'global' })
     }
     return { error }
   }
@@ -429,7 +449,9 @@ export function AuthProvider({ children }) {
     // toutes les sessions du compte, autres appareils compris (BDD-04, CPT-04).
     await supabase.from('activity_logs').insert({ user_id: user.id, action: 'account_soft_deleted', target_id: user.id, target_type: 'user' })
     setCompteDesactive({ effaceLe: json.expiresAt })
-    await fermerLaSession()
+    oublierLaSessionOuverte()
+    const sortie = await fermerLaSession({ portee: 'global', userId: user.id })
+    if (sortie.error) logError(sortie.error, { tag: 'auth.deleteAccount.signOut', userId: user.id })
     return { error: null, retentionDays: json.retentionDays, expiresAt: json.expiresAt }
   }
 
@@ -442,24 +464,22 @@ export function AuthProvider({ children }) {
     return { error }
   }
 
-  // Mémoïsation du value Provider. Avant : 16 valeurs
-  // recréées à chaque render → 31+ consommateurs (useAuth) re-render
-  // sans raison. Identité référentielle stable tant que l'état auth
-  // ne change pas. Les callbacks (signIn, signOut, etc.) sont déjà
-  // stables (définis dans le scope component sans deps).
+  // Mémoïsation : avant, 16 valeurs recréées à chaque rendu re-rendaient les
+  // 31+ consommateurs de useAuth sans raison. Identité stable tant que l'état
+  // auth ne change pas ; les callbacks ne sont pas des dépendances.
   const value = useMemo(() => ({
     user, profile, loading, profileLoading, profilIndisponible, relancerLeProfil,
     isAdmin, mfaRequired: mfa.requis, mfaFactorId: mfa.facteurId,
-    recoveryMode, aEuUneSession,
+    recoveryMode, aEuUneSession, sessionPerdue, oublierLaSessionPerdue: () => setSessionPerdue(false),
     authLinkProblem, clearAuthLinkProblem,
     ...allergenes,
-    signInWithEmail, signUpWithEmail, resendSignupEmail, recordSignupConsent, signInWithGoogle, signOut,
+    signInWithEmail, signUpWithEmail, resendSignupEmail, recordSignupConsent, signInWithGoogle, signOut, deconnecterTousLesAppareils,
     resetPassword, updateProfile, refreshProfile, updateEmail,
     requestPasswordResetEmail,
     deleteAccount, restoreAccount, completePasswordReset, annulerLaSuppression,
     compteDesactive, oublierCompteDesactive: () => setCompteDesactive(null),
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }), [user, profile, loading, profileLoading, profilIndisponible, relancerLeProfil, isAdmin, mfa, recoveryMode, aEuUneSession, authLinkProblem, allergenes, compteDesactive])
+  }), [user, profile, loading, profileLoading, profilIndisponible, relancerLeProfil, isAdmin, mfa, recoveryMode, aEuUneSession, sessionPerdue, authLinkProblem, allergenes, compteDesactive])
 
   return (
     <AuthContext.Provider value={value}>

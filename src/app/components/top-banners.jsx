@@ -1,6 +1,7 @@
 import { Z_INDEX } from '@shared/lib/z-index'
 import { CIBLE_MINIMALE } from '@shared/lib/cible-minimale'
 import { suffixS } from '@shared/lib/i18n/pluralize'
+import { CENTRE_EN_HAUT, ALERTE_DU_HAUT, BOUTON_DU_HAUT, CROIX_DU_HAUT } from '@app/components/bandeau-du-haut'
 
 // Composant orchestrant les 3 bandeaux top-of-app : retour restore-
 // account (succès/erreur auto-dismiss 8s), activation abonnement
@@ -35,35 +36,17 @@ const PROFIL_INDISPONIBLE_I18N = {
 function BandeauProfilIndisponible({ lang, onRelancer }) {
   const t = PROFIL_INDISPONIBLE_I18N[lang] ?? PROFIL_INDISPONIBLE_I18N.fr
   return (
-    <div role="alert" style={{
-      ...CENTRE_EN_HAUT,
-      zIndex: Z_INDEX.TOAST,
-      padding: '12px 18px', borderRadius: '12px',
-      background: 'var(--color-danger)',
-      color: 'white', fontWeight: 700, fontSize: '14px',
-      display: 'flex', alignItems: 'center', gap: '10px',
-      boxShadow: '0 6px 18px rgba(0,0,0,0.18)',
-      animation: 'menu-slide-down 0.25s ease both',
-    }}>
+    <div role="alert" style={ALERTE_DU_HAUT}>
       <span style={{ lineHeight: 1.45 }}>{t.msg}</span>
       <button
         type="button"
         onClick={onRelancer}
-        style={{ minHeight: '24px', padding: '4px 10px', borderRadius: '20px', border: '1.5px solid rgba(255,255,255,0.7)', background: 'transparent', color: 'white', fontSize: '12px', fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit', flexShrink: 0 }}
+        style={BOUTON_DU_HAUT}
       >
         {t.retry}
       </button>
     </div>
   )
-}
-
-// Centrage d'un bandeau fixe SANS `transform`. L'ancien `left: 50%` +
-// `translateX(-50%)` était écrasé par l'animation d'entrée
-// (`menu-slide-down` anime `transform` et le garde) : le bandeau partait du
-// milieu de l'écran vers la droite — une colonne de 180 px sur un téléphone.
-const CENTRE_EN_HAUT = {
-  position: 'fixed', top: '12px', left: '12px', right: '12px',
-  margin: '0 auto', width: 'fit-content', maxWidth: 'min(560px, calc(100vw - 24px))',
 }
 
 export default function TopBanners({
@@ -86,20 +69,14 @@ export default function TopBanners({
           d'écran : c'est la seule réponse que reçoit la personne. */}
       {restoreBanner && (
         <div role={restoreBanner.ok ? 'status' : 'alert'} style={{
-          ...CENTRE_EN_HAUT,
-          zIndex: Z_INDEX.TOAST,
-          padding: '12px 18px', borderRadius: '12px',
+          ...ALERTE_DU_HAUT,
           background: restoreBanner.ok ? '#10b981' : '#ef4444',
-          color: 'white', fontWeight: 700, fontSize: '14px',
-          display: 'flex', alignItems: 'center', gap: '10px',
-          boxShadow: '0 6px 18px rgba(0,0,0,0.18)',
-          animation: 'menu-slide-down 0.25s ease both',
         }}>
           <span style={{ lineHeight: 1.45 }}>{restoreBanner.msg}</span>
           <button
             onClick={onRestoreBannerDismiss}
             aria-label={CLOSE_I18N[lang] ?? CLOSE_I18N.fr}
-            style={{ background: 'none', border: 'none', color: 'white', cursor: 'pointer', padding: '8px', margin: '-4px -6px -4px 0', display: 'flex', flexShrink: 0, opacity: 0.85 }}
+            style={CROIX_DU_HAUT}
           >
             ✕
           </button>

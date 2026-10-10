@@ -45,6 +45,28 @@ export async function detacherCetAppareil() {
   }
 }
 
+// « Déconnecter tous mes appareils », suppression du compte : les lignes de TOUS les appareils
+// du compte (RLS `push_subscriptions_delete_own`) — un téléphone perdu ne reçoit plus les
+// notifications du compte. Au mieux et borné, comme pour cet appareil.
+export async function detacherTousLesAppareilsAvantDePartir(userId, { delaiMs = 3000 } = {}) {
+  let minuteur
+  const tropLong = new Promise((resolve) => {
+    minuteur = setTimeout(() => resolve({ detache: false, error: new Error('push_detach_all_timeout') }), delaiMs)
+  })
+  const effacer = (async () => {
+    try {
+      const { error } = await supabase.from('push_subscriptions').delete().eq('user_id', userId)
+      return { detache: !error, error: error ?? null }
+    } catch (err) {
+      return { detache: false, error: err ?? new Error('unknown') }
+    }
+  })()
+  const resultat = await Promise.race([effacer, tropLong])
+  clearTimeout(minuteur)
+  if (resultat.error) logError(resultat.error, { tag: 'push.detach_all_on_signout' })
+  return resultat
+}
+
 // À la déconnexion : au mieux, et borné — une requête qui pend ne doit jamais retenir la
 // fermeture de la session. L'échec s'écrit au journal, la déconnexion continue.
 export async function detacherCetAppareilAvantDePartir({ delaiMs = 3000 } = {}) {

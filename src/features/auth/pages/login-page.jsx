@@ -14,7 +14,7 @@ import { SUPPORT_EMAIL } from '@shared/lib/contact'
 // Sprint 11 S11.b.2.
 //
 // 2 vues :
-//   - Login : email + password (show/hide) + remember me + lien « mdp oublié ? »
+//   - Login : email + password (show/hide) + lien « mdp oublié ? »
 //   - Forgot : email + bouton « Envoyer le lien de reset »
 //
 // Gated par RedirectIfAuthGuard (cf. routes-config.js) : si user déjà
@@ -33,7 +33,6 @@ const I18N = {
     pwdPlaceholder: '••••••••',
     pwdReveal: 'Afficher le mot de passe',
     pwdHide: 'Masquer le mot de passe',
-    rememberMe: 'Se souvenir de moi',
     forgotLink: 'Mot de passe oublié ?',
     submitBtn: 'Se connecter',
     loadingLabel: 'Connexion…',
@@ -63,7 +62,6 @@ const I18N = {
     pwdPlaceholder: '••••••••',
     pwdReveal: 'Show password',
     pwdHide: 'Hide password',
-    rememberMe: 'Remember me',
     forgotLink: 'Forgot password?',
     submitBtn: 'Sign in',
     loadingLabel: 'Signing in…',
@@ -84,8 +82,6 @@ const I18N = {
   },
 }
 
-const REMEMBER_KEY = 'fridge-remember-email'
-
 export default function LoginPage({ lang = 'fr', darkMode = false }) {
   useDocumentTitle(titreDeRoute('/login', lang))
   const t = I18N[lang] ?? I18N.fr
@@ -94,14 +90,11 @@ export default function LoginPage({ lang = 'fr', darkMode = false }) {
   // ── Vue : login (par défaut) ou forgot password ─────────────────────
   const [view, setView] = useState('login')
 
-  // Login form
-  const initialEmail = (() => {
-    try { return localStorage.getItem(REMEMBER_KEY) ?? '' } catch { return '' }
-  })()
-  const [email, setEmail] = useState(initialEmail)
+  // Login form. « Se souvenir de moi » est retirée (décision du 2026-10-08) :
+  // elle ne gardait que l'adresse, en clair ; le navigateur la retient (`autoComplete`).
+  const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPwd, setShowPwd] = useState(false)
-  const [rememberMe, setRememberMe] = useState(!!initialEmail)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
   // Adresse jamais confirmée : on propose de renvoyer l'e-mail de confirmation.
@@ -133,14 +126,8 @@ export default function LoginPage({ lang = 'fr', darkMode = false }) {
         if (signInError.code === 'user_banned' || /banned/i.test(signInError.message ?? '')) setError(t.errorBanned)
         else if (signInError.message?.toLowerCase().includes('confirm')) { setError(t.errorNotConfirmed); setNotConfirmed(true) }
         else setError(t.errorGeneric)
-      } else {
-        // Mémorise ou efface l'e-mail (jamais le password — confort uniquement).
-        try {
-          if (rememberMe) localStorage.setItem(REMEMBER_KEY, email.trim())
-          else            localStorage.removeItem(REMEMBER_KEY)
-        } catch { /* private mode */ }
-        // Succès : RedirectIfAuthGuard détecte user → redirect.
       }
+      // Succès : RedirectIfAuthGuard détecte user → redirect.
     } catch {
       setError(t.errorGeneric)
     } finally {
@@ -314,16 +301,8 @@ export default function LoginPage({ lang = 'fr', darkMode = false }) {
           </div>
         </label>
 
-        {/* Remember me + forgot link */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px', flexWrap: 'wrap' }}>
-          <label style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '12px', color: textColor, cursor: 'pointer' }}>
-            <input
-              type="checkbox"
-              checked={rememberMe}
-              onChange={(e) => setRememberMe(e.target.checked)}
-            />
-            {t.rememberMe}
-          </label>
+        {/* Mot de passe oublié, à droite comme avant */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '12px', flexWrap: 'wrap' }}>
           <button
             type="button"
             onClick={() => { setView('forgot'); setError(null); setForgotEmail(email) }}

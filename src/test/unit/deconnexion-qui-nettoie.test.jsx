@@ -70,7 +70,6 @@ function appareilAbonne(endpoint = 'https://push.exemple/abc') {
 function garnirLesCles() {
   for (const cle of CLES) localStorage.setItem(cle, '["x"]')
   localStorage.setItem('fridge-lang', 'fr')
-  localStorage.setItem('fridge-remember-email', 'a@b.co')
 }
 
 async function connecte() {
@@ -142,9 +141,8 @@ describe('se déconnecter efface ce que le compte a laissé sur l’appareil (SE
     await act(async () => { await result.current.signOut() })
 
     for (const cle of CLES) expect(localStorage.getItem(cle)).toBeNull()
-    // Ce qui appartient à l'appareil ou à la personne reste : langue, adresse retenue.
+    // Ce qui appartient à l'appareil reste : la langue.
     expect(localStorage.getItem('fridge-lang')).toBe('fr')
-    expect(localStorage.getItem('fridge-remember-email')).toBe('a@b.co')
   })
 
   it('aucun écran ne ferme la session lui-même : tous passent par le signOut du fournisseur', () => {
@@ -159,6 +157,124 @@ describe('se déconnecter efface ce que le compte a laissé sur l’appareil (SE
     marcher('src/features'); marcher('src/app'); marcher('src/routes')
     const fautifs = fichiers.filter((f) => /supabase\.auth\.signOut\(/.test(readFileSync(f, 'utf8')))
     expect(fautifs).toEqual([])
+  })
+})
+
+// Décision du 2026-10-08 : « Se déconnecter » = cet
+// appareil ; « Déconnecter tous mes appareils » dans Compte & sécurité ; supprimer
+// son compte et changer de mot de passe déconnectent toujours partout (CPT-18).
+// Jusque-là, « Se déconnecter » du téléphone déconnectait aussi l'ordinateur.
+describe('la portée de la déconnexion', () => {
+  it('« Se déconnecter » ferme la session de CET appareil seulement', async () => {
+    const { result } = await connecte()
+    await act(async () => { await result.current.signOut() })
+    expect(m.authSignOut).toHaveBeenCalledWith({ scope: 'local' })
+  })
+
+  it('« Déconnecter tous mes appareils » : toutes les sessions, et les notifications de tous les appareils du compte, avant', async () => {
+    const ordre = []
+    m.pushDeleteEq.mockImplementation(async (colonne) => { ordre.push(`notifications:${colonne}`); return { error: null } })
+    m.authSignOut.mockImplementation(async () => { ordre.push('session'); return { error: null } })
+    const { result } = await connecte()
+    let res
+    await act(async () => { res = await result.current.deconnecterTousLesAppareils() })
+    expect(res).toEqual({ error: null })
+    expect(m.authSignOut).toHaveBeenCalledWith({ scope: 'global' })
+    expect(m.pushDeleteEq).toHaveBeenCalledWith('user_id', 'u1')
+    expect(ordre).toEqual(['notifications:user_id', 'session'])
+    expect(result.current.user).toBeNull()
+  })
+
+  it('une déconnexion de tous les appareils qui échoue se rend, et le compte reste ouvert ici', async () => {
+    m.authSignOut.mockResolvedValue({ error: { message: 'Failed to fetch' } })
+    const { result } = await connecte()
+    let res
+    await act(async () => { res = await result.current.deconnecterTousLesAppareils() })
+    expect(res.error).toEqual({ message: 'Failed to fetch' })
+    expect(result.current.user).toEqual({ id: 'u1' })
+  })
+})
+
+// Décision du 2026-10-08 : une session qui se ferme sans geste d'ici
+// (expirée, fermée depuis un autre appareil) le dit dans le bandeau du haut ; une
+// déconnexion voulue n'affiche rien. Jusque-là, l'app repassait en invité sans un mot.
+describe('la session perdue se dit', () => {
+  const signOutQuiPrevient = () => m.authSignOut.mockImplementation(async () => {
+    await authCallback('SIGNED_OUT', null)
+    return { error: null }
+  })
+
+  it('fermée sans geste d’ici : sessionPerdue', async () => {
+    const { result } = await connecte()
+    await act(async () => { await authCallback('SIGNED_OUT', null) })
+    expect(result.current.user).toBeNull()
+    expect(result.current.sessionPerdue).toBe(true)
+  })
+
+  it('« Se déconnecter » n’affiche rien', async () => {
+    signOutQuiPrevient()
+    const { result } = await connecte()
+    await act(async () => { await result.current.signOut() })
+    expect(result.current.sessionPerdue).toBe(false)
+  })
+
+  it('« Déconnecter tous mes appareils » non plus', async () => {
+    signOutQuiPrevient()
+    const { result } = await connecte()
+    await act(async () => { await result.current.deconnecterTousLesAppareils() })
+    expect(result.current.sessionPerdue).toBe(false)
+  })
+
+  it('après une déconnexion voulue, une session perdue se dit de nouveau', async () => {
+    signOutQuiPrevient()
+    const { result } = await connecte()
+    await act(async () => { await result.current.signOut() })
+    await act(async () => { await authCallback('SIGNED_IN', { user: { id: 'u1' } }) })
+    await act(async () => { await authCallback('SIGNED_OUT', null) })
+    expect(result.current.sessionPerdue).toBe(true)
+  })
+
+  it('se reconnecter, ou fermer le bandeau, l’efface', async () => {
+    const { result } = await connecte()
+    await act(async () => { await authCallback('SIGNED_OUT', null) })
+    await act(async () => { await authCallback('SIGNED_IN', { user: { id: 'u1' } }) })
+    expect(result.current.sessionPerdue).toBe(false)
+    await act(async () => { await authCallback('SIGNED_OUT', null) })
+    act(() => { result.current.oublierLaSessionPerdue() })
+    expect(result.current.sessionPerdue).toBe(false)
+  })
+
+  // Au démarrage, la bibliothèque peut refuser la session gardée (fermée depuis
+  // un autre appareil) AVANT que l'app l'écoute : le témoin, lui, est resté.
+  it('au démarrage, une session gardée mais refusée : sessionPerdue', async () => {
+    localStorage.setItem('fridge-session-ouverte', '1')
+    const { result } = renderHook(() => useAuth(), { wrapper })
+    await waitFor(() => expect(authCallback).not.toBeNull())
+    await act(async () => { await authCallback('INITIAL_SESSION', null) })
+    expect(result.current.sessionPerdue).toBe(true)
+    expect(localStorage.getItem('fridge-session-ouverte')).toBeNull()
+  })
+
+  it('une sortie voulue faite dans un autre onglet n’affiche rien ici', async () => {
+    const { result } = await connecte()
+    expect(localStorage.getItem('fridge-session-ouverte')).toBe('1')
+    localStorage.removeItem('fridge-session-ouverte') // l'autre onglet s'est déconnecté
+    await act(async () => { await authCallback('SIGNED_OUT', null) })
+    expect(result.current.sessionPerdue).toBe(false)
+  })
+
+  it('« Déconnecter tous mes appareils » refusée : la session reste, son témoin aussi', async () => {
+    m.authSignOut.mockResolvedValue({ error: { message: 'Failed to fetch' } })
+    const { result } = await connecte()
+    await act(async () => { await result.current.deconnecterTousLesAppareils() })
+    expect(localStorage.getItem('fridge-session-ouverte')).toBe('1')
+  })
+
+  it('un visiteur sans session : rien', async () => {
+    const { result } = renderHook(() => useAuth(), { wrapper })
+    await waitFor(() => expect(authCallback).not.toBeNull())
+    await act(async () => { await authCallback('INITIAL_SESSION', null) })
+    expect(result.current.sessionPerdue).toBe(false)
   })
 })
 

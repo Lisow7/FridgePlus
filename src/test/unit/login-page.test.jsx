@@ -54,6 +54,26 @@ describe('LoginPage', () => {
     expect(page.includes('une heure'), 'la page annonce une heure').toBe(true)
   })
 
+  // ── « Se souvenir de moi » retirée (décision du 2026-10-08) ───────────
+  // La case ne gardait que l'adresse, en clair sur l'appareil ; la session
+  // restait ouverte cochée ou non. Le navigateur retient déjà l'adresse.
+  it('plus de case « Se souvenir de moi », et l\'adresse n\'est plus écrite sur l\'appareil', async () => {
+    render(<LoginPage lang="fr" />)
+    expect(screen.queryByRole('checkbox')).toBeNull()
+    expect(screen.queryByText(/se souvenir de moi/i)).toBeNull()
+    fireEvent.change(champ('email'), { target: { value: 'bob@test.com' } })
+    fireEvent.change(champ('current-password'), { target: { value: 'secret-de-test' } })
+    fireEvent.click(screen.getByRole('button', { name: /^se connecter$/i }))
+    await waitFor(() => expect(signInWithEmail).toHaveBeenCalled())
+    expect(localStorage.getItem('fridge-remember-email')).toBeNull()
+  })
+
+  it('une adresse retenue autrefois ne pré-remplit plus le champ', () => {
+    localStorage.setItem('fridge-remember-email', 'ancienne@test.com')
+    render(<LoginPage lang="fr" />)
+    expect(champ('email').value).toBe('')
+  })
+
   // ── CPT-13 : redemander l'e-mail de confirmation ───────────────────────
   it('e-mail non confirmé : propose de renvoyer l\'e-mail, pour l\'adresse saisie', async () => {
     signInWithEmail.mockResolvedValue({ error: { message: 'Email not confirmed' } })
