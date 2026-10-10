@@ -23,10 +23,11 @@ describe('MissingImageControls', () => {
 })
 
 describe('MissingImageBadge', () => {
-  it('rend le libellé FR / EN', () => {
-    const { rerender } = render(<MissingImageBadge lang="fr" />)
+  // Le panneau admin parle français seul (décision du 2026-10-08) : même quand
+  // l'app est en anglais, le badge dit « Sans image ».
+  it('rend le libellé en français, quelle que soit la langue de l’app', () => {
+    render(<MissingImageBadge lang="en" />)
     expect(screen.getByText('Sans image')).toBeInTheDocument()
-    rerender(<MissingImageBadge lang="en" />)
-    expect(screen.getByText('No image')).toBeInTheDocument()
+    expect(screen.queryByText('No image')).toBeNull()
   })
 })

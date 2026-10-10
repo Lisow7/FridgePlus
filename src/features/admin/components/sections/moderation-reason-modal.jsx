@@ -18,20 +18,20 @@ const MODERATION_REASON_KEYS = {
 }
 
 const MODERATION_REASON_LABELS = {
-  not_original:     { fr: 'Recette non originale',       en: 'Not original'          },
-  incomplete:       { fr: 'Recette incomplète',          en: 'Incomplete recipe'     },
-  inappropriate:    { fr: 'Contenu inapproprié',         en: 'Inappropriate content' },
-  wrong_category:   { fr: 'Mauvaise catégorie',          en: 'Wrong category'        },
-  poor_quality:     { fr: 'Qualité insuffisante',        en: 'Poor quality'          },
-  plagiarism:       { fr: 'Plagiat détecté',             en: 'Plagiarism detected'   },
-  needs_more_info:  { fr: 'Informations manquantes',     en: 'Missing information'   },
-  needs_correction: { fr: 'Corrections nécessaires',     en: 'Needs correction'      },
-  under_review:     { fr: 'En cours de vérification',    en: 'Under review'          },
-  other:            { fr: 'Autre',                       en: 'Other'                 },
+  not_original:     'Recette non originale',
+  incomplete:       'Recette incomplète',
+  inappropriate:    'Contenu inapproprié',
+  wrong_category:   'Mauvaise catégorie',
+  poor_quality:     'Qualité insuffisante',
+  plagiarism:       'Plagiat détecté',
+  needs_more_info:  'Informations manquantes',
+  needs_correction: 'Corrections nécessaires',
+  under_review:     'En cours de vérification',
+  other:            'Autre',
 }
 
-export default function ModerationReasonModal({ target, lang, darkMode, onConfirm, onCancel, t, statusColors }) {
-  const reasonL = v => MODERATION_REASON_LABELS[v]?.[lang] ?? MODERATION_REASON_LABELS[v]?.fr ?? v
+export default function ModerationReasonModal({ target, darkMode, onConfirm, onCancel, t, statusColors }) {
+  const reasonL = v => MODERATION_REASON_LABELS[v] ?? v
   const [selected, setSelected] = useState(null)
   const [note, setNote]         = useState('')
   const noteId = useId()

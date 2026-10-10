@@ -21,18 +21,4 @@ export const ADMIN_I18N = {
     // Journal
     secJournalDesc:    "Audit des actions admin — append-only, conservé 12 mois",
   },
-
-  en: {
-    dashboardTitle:    'Dashboard',
-    dashboardSub:      'Fridge+ activity overview',
-    refresh:           'Refresh',
-
-    kpiUsers:          'Users',
-    kpiRecipesPending: 'Recipes to moderate',
-    kpiTicketsOpen:    'Open tickets',
-    kpiBaseRecipes:    'Catalog recipes',
-    kpiIngredients:    'Ingredients',
-
-    secJournalDesc:    'Audit of admin actions — append-only, kept for 12 months',
-  },
 }
