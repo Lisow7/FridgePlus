@@ -13,6 +13,7 @@
   "champsPlaceholderSeulPlafond": 0,
   "champsLibelleInvisiblePlafond": 0,
   "couleursEnDurPlafond": 2323,
+  "knipPlafonds": { "files": 3, "exports": 82 },
   "scripts": {
     "dev": "vite",
     "build": "vite build && vite build --ssr src/prerender/corps-statique.js --outDir dist-ssr && node scripts/prerender.mjs",
@@ -20,6 +21,7 @@
     "lint": "node scripts/verifier-plafond-lint.mjs",
     "lint:brut": "eslint .",
     "knip": "knip",
+    "knip:plafond": "node scripts/verifier-les-exports-inutilises.mjs",
     "preview": "vite preview",
     "og": "node scripts/generate-og.mjs",
     "sitemap": "node scripts/generate-sitemap.mjs",

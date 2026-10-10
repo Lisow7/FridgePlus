@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import { readFileSync, existsSync } from 'node:fs'
 import { resolve } from 'node:path'
-import { titreDeRoute, laPagePoseSonTitre } from '@routes/route-title'
+import { titreDeRoute, laPagePoseSonTitre } from '@shared/lib/route-title'
 import { ROUTES } from '@routes/routes-config'
 
 // Chaque page principale doit annoncer son titre.

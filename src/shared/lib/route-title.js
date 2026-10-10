@@ -1,9 +1,15 @@
-import { ROUTES } from '@routes/routes-config'
+import { LIBELLES_DES_ROUTES } from '@shared/static/libelles-des-routes'
 
-// Le titre d'onglet d'une route, construit depuis le `label` qu'elle déclare
-// déjà dans `routes-config.js`.
+// Le titre d'onglet d'une route, construit depuis le libellé qu'elle déclare
+// déjà (`@shared/static/libelles-des-routes`, accroché à chaque route par
+// `routes-config.js`).
 //
-// ── Pourquoi passer par le label de la route ──────────────────────────────
+// Vivait dans src/routes/ jusqu'au 2026-10-10 : neuf pages de features/ et un
+// hook de shared/ importaient routes/, à rebours du flux shared → features →
+// routes → app (audit du 2026-10-04, ARCH-13). La table des libellés et ce
+// helper sont dans shared/ ; routes/ les lit, plus l'inverse.
+//
+// ── Pourquoi passer par le libellé de la route ────────────────────────────
 // Chaque route porte un `label: { fr, en }` — celui qui sert déjà ailleurs
 // dans l'app. Redéclarer ces mêmes mots dans chaque page en ferait deux
 // sources pour un seul texte, et c'est celle qu'on ne relit plus qui finirait
@@ -28,8 +34,8 @@ import { ROUTES } from '@routes/routes-config'
 const SUFFIXE = ' — Fridge+'
 
 export function titreDeRoute(chemin, lang = 'fr') {
-  const route = ROUTES.find(r => r.path === chemin)
-  const label = route?.label?.[lang] ?? route?.label?.fr
+  const libelle = LIBELLES_DES_ROUTES[chemin]
+  const label = libelle?.[lang] ?? libelle?.fr
   // Chaîne vide et non `undefined` : `useDocumentTitle` ne pose rien sur une
   // valeur vide, et laisse donc le titre du HTML servi en place.
   return label ? label + SUFFIXE : ''

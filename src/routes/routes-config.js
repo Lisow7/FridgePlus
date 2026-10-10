@@ -1,5 +1,6 @@
 import { lazy } from 'react'
 import { lazyPrechargeable } from '@shared/lib/lazy-prechargeable'
+import { LIBELLES_DES_ROUTES } from '@shared/static/libelles-des-routes'
 import AuthGuard from '@routes/guards/auth-guard'
 import RedirectIfAuthGuard from '@routes/guards/redirect-if-auth-guard'
 import RecoveryGuard from '@routes/guards/recovery-guard'
@@ -68,12 +69,12 @@ export const ROUTES = [
   {
     path: '/legal',
     Component: LegalPage,
-    label: { fr: 'Mentions légales', en: 'Legal notice' },
+    label: LIBELLES_DES_ROUTES['/legal'],
   },
   {
     path: '/changelog',
     Component: ChangelogPage,
-    label: { fr: 'Journal des versions', en: 'Changelog' },
+    label: LIBELLES_DES_ROUTES['/changelog'],
   },
   // ── Pages de contenu public : FAQ et guide d'utilisation.
   //
@@ -91,12 +92,12 @@ export const ROUTES = [
   {
     path: '/faq',
     Component: FaqPage,
-    label: { fr: 'Questions fréquentes', en: 'FAQ' },
+    label: LIBELLES_DES_ROUTES['/faq'],
   },
   {
     path: '/guide',
     Component: GuidePage,
-    label: { fr: 'Comment ça marche', en: 'How it works' },
+    label: LIBELLES_DES_ROUTES['/guide'],
   },
   // ⚠️ Publique, et SANS `Guard` — c'est la propriété qui compte, pas un oubli.
   // Google exige une URL de suppression de compte accessible SANS connexion :
@@ -107,22 +108,22 @@ export const ROUTES = [
   {
     path: '/suppression-compte',
     Component: AccountDeletionPage,
-    label: { fr: 'Supprimer mon compte', en: 'Delete my account' },
+    label: LIBELLES_DES_ROUTES['/suppression-compte'],
   },
   {
     path: '/profile',
     Component: ProfilePage,
     Guard: AuthGuard,
-    label: { fr: 'Mon profil', en: 'My profile' },
+    label: LIBELLES_DES_ROUTES['/profile'],
     children: [
       // Index : /profile → /profile/identite
       { path: '',         Redirect: '/profile/identite' },
-      { path: 'identite',    Component: ProfileIdentityPage,    label: { fr: 'Profil',      en: 'Profile' } },
-      { path: 'preferences', Component: ProfilePreferencesPage, label: { fr: 'Préférences', en: 'Preferences' } },
-      { path: 'activite',    Component: ProfileActivityPage,    label: { fr: 'Activité',    en: 'Activity' } },
-      { path: 'recompenses', Component: ProfileRewardsPage,     label: { fr: 'Récompenses', en: 'Rewards' } },
-      { path: 'depenses',    Component: ProfileSpendingPage,    label: { fr: 'Mes dépenses', en: 'My spending' } },
-      { path: 'compte',      Component: ProfileAccountPage,     label: { fr: 'Compte & sécurité', en: 'Account & security' } },
+      { path: 'identite',    Component: ProfileIdentityPage,    label: LIBELLES_DES_ROUTES['/profile/identite'] },
+      { path: 'preferences', Component: ProfilePreferencesPage, label: LIBELLES_DES_ROUTES['/profile/preferences'] },
+      { path: 'activite',    Component: ProfileActivityPage,    label: LIBELLES_DES_ROUTES['/profile/activite'] },
+      { path: 'recompenses', Component: ProfileRewardsPage,     label: LIBELLES_DES_ROUTES['/profile/recompenses'] },
+      { path: 'depenses',    Component: ProfileSpendingPage,    label: LIBELLES_DES_ROUTES['/profile/depenses'] },
+      { path: 'compte',      Component: ProfileAccountPage,     label: LIBELLES_DES_ROUTES['/profile/compte'] },
 
       // v3.412 — alias EN backwards compat
       { path: 'spending',    Redirect: '/profile/depenses' },
@@ -145,13 +146,13 @@ export const ROUTES = [
     path: '/login',
     Component: LoginPage,
     Guard: RedirectIfAuthGuard,
-    label: { fr: 'Connexion', en: 'Sign in' },
+    label: LIBELLES_DES_ROUTES['/login'],
   },
   {
     path: '/signup',
     Component: SignupPage,
     Guard: RedirectIfAuthGuard,
-    label: { fr: 'Créer un compte', en: 'Create an account' },
+    label: LIBELLES_DES_ROUTES['/signup'],
   },
   {
     // Page atteinte via le lien email de reset password (Supabase émet
@@ -161,7 +162,7 @@ export const ROUTES = [
     path: '/auth/recovery',
     Component: RecoveryPage,
     Guard: RecoveryGuard,
-    label: { fr: 'Nouveau mot de passe', en: 'New password' },
+    label: LIBELLES_DES_ROUTES['/auth/recovery'],
   },
   // ── Sprint 11 S11.d — page Communauté. PAS de Guard : le feed est
   //    accessible aux invités (lecture seule). Les actions (poster,
@@ -170,7 +171,7 @@ export const ROUTES = [
   {
     path: '/community',
     Component: CommunityPageRoute,
-    label: { fr: 'Communauté', en: 'Community' },
+    label: LIBELLES_DES_ROUTES['/community'],
   },
   // ── Sprint 11 S11.c.1 — page recette (deep-linking). PAS de Guard :
   //    les recettes publiques doivent fonctionner pour les invités
@@ -181,7 +182,7 @@ export const ROUTES = [
   {
     path: '/recipe/:id',
     Component: RecipePage,
-    label: { fr: 'Recette', en: 'Recipe' },
+    label: LIBELLES_DES_ROUTES['/recipe/:id'],
   },
   // Chantier A — page panier /cart.
   // AuthGuard : unauthenticated → /login.
@@ -190,7 +191,7 @@ export const ROUTES = [
     path: '/cart',
     Component: CartPage,
     Guard: AuthGuard,
-    label: { fr: 'Mon panier', en: 'My cart' },
+    label: LIBELLES_DES_ROUTES['/cart'],
   },
   // Chantier D — mode cuisine vocal /cook/:recipeId.
   // AuthGuard : unauthenticated → /login.
@@ -199,11 +200,11 @@ export const ROUTES = [
     path: '/cook/:recipeId',
     Component: CookingModePage,
     Guard: AuthGuard,
-    label: { fr: 'Mode cuisine', en: 'Cooking mode' },
+    label: LIBELLES_DES_ROUTES['/cook/:recipeId'],
   },
   {
     path: '*',
     Component: NotFoundPage,
-    label: { fr: 'Page introuvable', en: 'Page not found' },
+    label: LIBELLES_DES_ROUTES['*'],
   },
 ]

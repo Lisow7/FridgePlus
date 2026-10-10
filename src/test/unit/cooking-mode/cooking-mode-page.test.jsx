@@ -47,7 +47,7 @@ vi.mock('../../../shared/hooks/use-save-error-toast', () => ({
 vi.mock('../../../shared/ui/upgrade-gate', () => ({
   UpgradeGate: ({ feature }) => <div data-testid="upgrade-gate">{feature}</div>,
 }))
-vi.mock('../../../routes/page-skeleton', () => ({
+vi.mock('../../../shared/ui/page-skeleton', () => ({
   default: () => <div data-testid="skeleton" />,
 }))
 vi.mock('../../../features/cooking-mode/hooks/use-cooking-mode', () => ({

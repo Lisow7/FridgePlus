@@ -19,8 +19,8 @@ import WhatsNextPhase from '@features/cart/components/whats-next-phase'
 import PricingSourcesModal from '@features/cart/components/pricing-sources-modal'
 import { detectCartPhase } from '@features/cart/lib/cart-helpers'
 import { useDocumentTitle } from '@shared/hooks/use-document-title'
-import { titreDeRoute } from '@routes/route-title'
-import PageSkeleton from '@routes/page-skeleton'
+import { titreDeRoute } from '@shared/lib/route-title'
+import PageSkeleton from '@shared/ui/page-skeleton'
 
 const I18N = {
   fr: { defaultListName: 'Courses' },

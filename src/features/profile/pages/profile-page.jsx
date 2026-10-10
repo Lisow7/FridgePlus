@@ -7,7 +7,7 @@ import { useWindowWidth } from '@shared/hooks/use-window-width'
 import ProfileSidebar from '@features/profile/components/profile-sidebar'
 import AvatarPickerModal from '@features/profile/components/avatar-picker-modal'
 import { useDocumentTitle } from '@shared/hooks/use-document-title'
-import { titreDeRoute } from '@routes/route-title'
+import { titreDeRoute } from '@shared/lib/route-title'
 
 // Sprint 11 — page Profile (ex-ProfileModal).
 //
