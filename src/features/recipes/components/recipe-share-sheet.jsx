@@ -1,8 +1,7 @@
-import { useState, useRef } from 'react'
+import { useState } from 'react'
 import { LuPrinter, LuLink, LuShare2, LuCheck } from 'react-icons/lu'
 import { useQrCode } from '@shared/hooks/use-qr-code'
 import { useCloseOnBackButton } from '@shared/hooks/use-close-on-back-button'
-import { useFocusTrap } from '@shared/hooks/use-focus-trap'
 import { printReactElement } from '@shared/lib/print/print-element'
 import BottomSheet from '@shared/ui/bottom-sheet'
 import RecipePrintSheet from './recipe-print-sheet'
@@ -35,11 +34,9 @@ export default function RecipeShareSheet({ open, lang = 'fr', darkMode = false, 
     light: darkMode ? '#131E2C' : '#FFFFFF',
   })
   useCloseOnBackButton(open, onClose)
-  // Piège de focus + Escape + restitution (audit clavier 2026-08-25) : cette
-  // feuille est aria-modal mais son voile n est qu un div cliquable — au
-  // clavier, elle était sans issue.
-  const sheetRef = useRef(null)
-  useFocusTrap(sheetRef, { active: open, onEscape: onClose })
+  // Le piège de focus, Échap et la restitution sont ceux de BottomSheet : un
+  // second `useFocusTrap(sheetRef)` vivait ici sans ref posée, donc sans effet
+  // (audit du 2026-10-04, A11Y-08).
   if (!open) return null
 
   const muted = darkMode ? '#7A90A8' : '#8A6A60'
