@@ -83,10 +83,10 @@ describe('NotificationsPanel — action refusée', () => {
     expect(etat.valeur.markAllRead).not.toHaveBeenCalled()
   })
 
-  it('« Effacer les notifications lues » refusé : « Pas enregistré »', async () => {
+  it('« Supprimer les notifications lues » refusé : « Pas enregistré »', async () => {
     etat.valeur = notifications({ notifications: [LUE], deleteAllRead: vi.fn().mockResolvedValue({ error: { message: 'Failed to fetch' } }) })
     monter()
-    fireEvent.click(screen.getByRole('button', { name: /effacer les notifications lues/i }))
+    fireEvent.click(screen.getByRole('button', { name: /supprimer les notifications lues/i }))
     await waitFor(() => expect(signaler).toHaveBeenCalledTimes(1))
   })
 

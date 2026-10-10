@@ -93,7 +93,7 @@ const I18N = {
     progress: (x, y) => `${x} / ${y} cochés`,
     done: 'Courses terminées !',
     share: 'Partager',
-    save: 'Sauvegarder',
+    save: 'Enregistrer',
     checkAll: 'Tout cocher',
     uncheckAll: 'Tout décocher',
     hideChecked: 'Cacher les cochés',
