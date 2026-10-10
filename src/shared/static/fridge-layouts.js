@@ -78,7 +78,7 @@ export const FRIDGE_LAYOUTS = {
     closeDoorLabel: 'Close door',
     closeDoorsLabel: 'Close doors',
     recipesLabel: 'Recipes',
-    resetLabel: 'Clear fridge & pantry',
+    resetLabel: 'Empty fridge & pantry',
     fridge: [
       {
         id: 'freezer', label: 'Freezer', emoji: '❄️', flex: 1,

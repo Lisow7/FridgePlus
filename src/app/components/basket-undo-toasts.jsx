@@ -13,7 +13,7 @@ import { Z_INDEX } from '@shared/lib/z-index'
 
 const CLEAR_BASKET_I18N = {
   fr: (n, s) => `Panier vidé (${n} ingrédient${s})`,
-  en: (n, s) => `Cart cleared (${n} item${s})`,
+  en: (n, s) => `Cart emptied (${n} item${s})`,
   es: (n, s) => `Cesta vaciada (${n} elemento${s})`,
   de: (n) => `Warenkorb geleert (${n} Artikel)`,
   ja: (n) => `カートを空にしました（${n} 件）`,
