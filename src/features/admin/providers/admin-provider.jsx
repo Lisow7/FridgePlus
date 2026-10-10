@@ -1,8 +1,6 @@
 import { createContext, useContext, useEffect, useMemo, useState, useCallback } from 'react'
 import { useAuth } from '@shared/contexts/auth-provider'
-import { adminGetStats, adminGetHealthChecks } from '@features/admin/api/admin'
-import { adminCountOpenTickets, adminCountUnreadTickets } from '@features/support/api/support'
-import { adminCountReports } from '@shared/api/reports'
+import { adminGetStats } from '@features/admin/api/admin'
 import { readStoredSection, storeSection } from '@features/admin/lib/admin-section-storage'
 import { versErreur } from '@shared/lib/supabase/lever-si-erreur'
 import { logError } from '@shared/lib/observability/sentry'
@@ -52,31 +50,27 @@ export function AdminProvider({ children }) {
   // la section, puis remis à null.
   const [focusEditId,   setFocusEditId]   = useState(null)
 
+  // Les neuf compteurs en UNE lecture (`admin_compteurs`, lot 12l de l'audit du
+  // 2026-10-04, ADM-12 (1, 2)). Avant : cinq comptages et les deux vues de santé
+  // téléchargées en entier pour un badge, à l'ouverture et après chaque
+  // enregistrement. La Qualité, qui affiche les problèmes, lit les vues elle-même.
   const refreshStats = useCallback(async () => {
     if (!isAdmin) return
     setStatsLoading(true)
     try {
-      const [global, ticketsOpen, ticketsUnread, healthData, reportsData] = await Promise.all([
-        adminGetStats(),
-        adminCountOpenTickets(),
-        adminCountUnreadTickets(),
-        adminGetHealthChecks(),
-        adminCountReports({ status: 'open' }),
-      ])
-      if (reportsData?.error) throw versErreur(reportsData.error)
-      if (healthData?.error) throw versErreur(healthData.error)
+      const c = await adminGetStats()
       setStats({
-        usersCount:       global.users ?? 0,
-        recipesPending:   global.pending ?? 0,
-        baseRecipesCount: global.baseRecipes ?? 0,
-        ingredientsCount: global.ingredients ?? 0,
-        ticketsOpen,
-        ticketsUnread,
+        usersCount:       c.users,
+        recipesPending:   c.pending,
+        baseRecipesCount: c.baseRecipes,
+        ingredientsCount: c.ingredients,
+        ticketsOpen:      c.ticketsOpen,
+        ticketsUnread:    c.ticketsUnread,
       })
-      setPendingCount(global.pending ?? 0)
-      setSupportBadge(ticketsUnread ?? 0)
-      setHealthCount((healthData?.recipes?.length ?? 0) + (healthData?.ingredients?.length ?? 0))
-      setReportsCount(reportsData?.count ?? 0)
+      setPendingCount(c.pending)
+      setSupportBadge(c.ticketsUnread)
+      setHealthCount(c.healthCount)
+      setReportsCount(c.reportsOpen)
       setStatsError(null)
     } catch (err) {
       logError(err, { tag: 'admin.refreshStats' })

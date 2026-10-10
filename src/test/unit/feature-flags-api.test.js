@@ -32,11 +32,13 @@ describe('feature-flags API', () => {
     expect(rows).toEqual([])
   })
 
-  it('setFeatureFlag update enabled + updated_by sur la bonne clé', async () => {
+  // Audit du 2026-10-04, ADM-28 : l'horodatage et l'auteur d'une bascule
+  // venaient du navigateur (`updated_at`, `updated_by`). La base les pose
+  // (déclencheur `trg_horodater_la_bascule`, lot 12l) : le client n'envoie que
+  // la bascule.
+  it('setFeatureFlag n’envoie que `enabled`, sur la bonne clé — l’heure et l’auteur sont posés par la base', async () => {
     await setFeatureFlag('scan_barcode', true)
-    expect(mockUpdate).toHaveBeenCalledWith(
-      expect.objectContaining({ enabled: true, updated_by: 'admin-123' }),
-    )
+    expect(mockUpdate).toHaveBeenCalledWith({ enabled: true })
     expect(mockEq).toHaveBeenCalledWith('key', 'scan_barcode')
     expect(mockSelectApresMaj).toHaveBeenCalledWith('key')
   })
