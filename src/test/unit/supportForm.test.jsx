@@ -73,10 +73,6 @@ describe('SupportPanel — formulaire nouveau ticket', () => {
     expect(screen.getByPlaceholderText('Détaille ta demande…')).toBeInTheDocument()
   })
 
-  // TODO v3.x — le sélecteur de type (Question/Signalement/Demande) est remplacé par
-  // un flux guidé par catégorie. L'étape "sélectionner un type" n'existe plus.
-  it.skip('erreur si type non sélectionné', async () => {})
-
   it('erreur si titre vide', async () => {
     const user = await openNewTicketForm()
     await user.click(screen.getByRole('button', { name: 'Continuer' }))

@@ -205,21 +205,14 @@ describe('AuthContext', () => {
 
   // ─── signInWithEmail ──────────────────────────────────────────────────────
   describe('signInWithEmail', () => {
-    // TODO v3.18.x — la signature passée à signInWithPassword n'inclut plus
-    // l'option { persistSession }. La gestion remember-me est faite ailleurs
-    // (cookie / storage). Réécrire l'assertion contre l'API actuelle.
-    it.skip('appelle signInWithPassword avec email trimmé + password', async () => {
+    it('appelle signInWithPassword avec l’e-mail sans ses espaces et le mot de passe', async () => {
       const { result } = renderHook(() => useAuth(), { wrapper })
       await waitFor(() => expect(authCallback).not.toBeNull())
       await act(async () => { await authCallback('INITIAL_SESSION', null) })
       await act(async () => {
-        await result.current.signInWithEmail('  alice@test.com  ', 'Pass1!', true)
+        await result.current.signInWithEmail('  alice@test.com  ', 'Pass1!')
       })
-      expect(mockSignInWithPassword).toHaveBeenCalledWith({
-        email: 'alice@test.com',
-        password: 'Pass1!',
-        options: { persistSession: true },
-      })
+      expect(mockSignInWithPassword).toHaveBeenCalledWith({ email: 'alice@test.com', password: 'Pass1!' })
     })
 
     it('retourne { error: null } en cas de succès', async () => {
@@ -245,19 +238,11 @@ describe('AuthContext', () => {
       expect(res.error).toBeDefined()
     })
 
-    // TODO v3.18.x — option { persistSession } n'est plus passée à
-    // signInWithPassword (cf. test précédent). Réécrire selon l'API actuelle.
-    it.skip('rememberMe=false passe persistSession=false', async () => {
-      const { result } = renderHook(() => useAuth(), { wrapper })
-      await waitFor(() => expect(authCallback).not.toBeNull())
-      await act(async () => { await authCallback('INITIAL_SESSION', null) })
-      await act(async () => {
-        await result.current.signInWithEmail('a@b.com', 'Pass1!', false)
-      })
-      expect(mockSignInWithPassword).toHaveBeenCalledWith(
-        expect.objectContaining({ options: { persistSession: false } })
-      )
-    })
+    // « Se souvenir de moi » : la case existe encore à l'écran mais rien ne la
+    // lit (`signInWithEmail` ne reçoit plus `rememberMe`). Un test ignoré
+    // promettait `persistSession: false` depuis la v3.18 ; retiré — la planche
+    // n° 5 (`se_souvenir`) tranche si la case agit de nouveau ou disparaît, et
+    // le lot qui en sortira écrira ses tests.
   })
 
   // ─── signUpWithEmail ──────────────────────────────────────────────────────

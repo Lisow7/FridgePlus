@@ -104,12 +104,6 @@ describe('RecipeFormModal', () => {
       expect(screen.getByPlaceholderText(/mon gratin/i)).toBeInTheDocument()
     })
 
-    // TODO v3.120.0 — champ description retiré du formulaire (t.placeholderDescription jamais rendu).
-    it.skip('affiche le champ description', () => {
-      render(<RecipeFormModal {...defaultProps} />)
-      expect(screen.getByPlaceholderText(/recette familiale/i)).toBeInTheDocument()
-    })
-
     it('affiche le titre "Modification" si initialRecipe fourni', () => {
       const recipe = {
         id: 'custom-1', name: 'Tarte', description: 'Bonne', emoji: '🥧',
@@ -129,16 +123,6 @@ describe('RecipeFormModal', () => {
       await user.click(screen.getByText('Enregistrer'))
       await waitFor(() =>
         expect(screen.getByText('Le nom est obligatoire')).toBeInTheDocument()
-      )
-    })
-
-    // TODO v3.120.0 — champ description retiré du formulaire, message d'erreur description jamais affiché.
-    it.skip('affiche l\'erreur description si champ vide', async () => {
-      const user = userEvent.setup()
-      render(<RecipeFormModal {...defaultProps} />)
-      await user.click(screen.getByText('Enregistrer'))
-      await waitFor(() =>
-        expect(screen.getByText('La description est obligatoire')).toBeInTheDocument()
       )
     })
 
