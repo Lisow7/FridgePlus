@@ -231,9 +231,10 @@ export function AuthProvider({ children }) {
     }
   }
 
-  // `lang` est stocké dans user_metadata (options.data.lang) → les templates
-  // d'emails Supabase Auth peuvent brancher dessus ({{ if eq .Data.lang "en" }})
-  // pour envoyer confirmation / reset dans la langue de l'utilisateur (#6).
+  // `lang` est stocké dans user_metadata (options.data.lang) : les modèles
+  // d'e-mails de Supabase Auth (supabase/email-templates/) branchent dessus
+  // pour écrire la confirmation et le lien « mot de passe oublié » dans la
+  // langue du compte — ensuite, `useAccountLanguageSync` l'y tient à jour.
   //
   // `consentAccepted` : la case « j'ai 16 ans et j'accepte… » du formulaire.
   // Transmise, elle est DATÉE par le déclencheur `handle_new_user`, à l'heure
