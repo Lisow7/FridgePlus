@@ -171,6 +171,13 @@ describe('/accessibilite — chaque promesse est tenue par quelque chose', () =>
     expect(existsSync('src/test/unit/etapes-sans-glisser.test.jsx')).toBe(true)
   })
 
+  it('« le titre annoncé, le focus au début du contenu » : la coquille monte AnnonceDePage', () => {
+    expect(fr).toMatch(/le titre de la nouvelle page est annoncé/)
+    expect(en).toMatch(/its title is announced to screen readers/)
+    expect(lire('src/app/layout/app-shell.jsx')).toMatch(/<AnnonceDePage \/>/)
+    expect(existsSync('src/test/unit/annonce-de-page.test.jsx')).toBe(true)
+  })
+
   it('ne se dit pas conforme : aucun audit indépendant n’a eu lieu', () => {
     expect(fr).toMatch(/n’est pas une déclaration de conformité/)
     expect(en).toMatch(/is not a statement of conformity/)

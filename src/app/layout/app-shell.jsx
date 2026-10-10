@@ -2,6 +2,7 @@ import Header from '@app/layout/header'
 import AppRoutes from '@routes/index'
 import FridgeHomeView from '@app/components/fridge-home-view'
 import ErrorBoundary from '@app/error/error-boundary'
+import AnnonceDePage from '@app/components/annonce-de-page'
 import FridgeFAB from '@features/fridge/components/fridge-fab'
 import { Z_INDEX } from '@shared/lib/z-index'
 import { SHELL_I18N } from '@shared/lib/i18n/app-shell-i18n'
@@ -165,6 +166,9 @@ export default function AppShell({
         onVoiceToggle={onVoiceToggle}
         onShowLeftovers={onShowLeftovers}
       />
+
+      {/* Au changement de page : le titre annoncé, le focus au début du contenu (A11Y-16). */}
+      <AnnonceDePage />
 
       <main
         id="contenu-principal"
