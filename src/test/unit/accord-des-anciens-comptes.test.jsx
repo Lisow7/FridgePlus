@@ -84,8 +84,10 @@ describe('fenêtre « Confirme ton accord » des comptes d’avant le 4 octobre'
     expect(screen.queryByRole('dialog', { name: 'Confirme ton accord' })).toBeNull()
   })
 
-  it('les pages légales et la page Compte restent lisibles : pas de fenêtre dessus', () => {
-    for (const chemin of ['/legal', '/profile/compte']) {
+  it('les pages légales, la page Compte et la page Accessibilité restent lisibles : pas de fenêtre dessus', () => {
+    // `/accessibilite` dit comment signaler un obstacle : une fenêtre bloquante
+    // ne doit pas se poser précisément sur elle.
+    for (const chemin of ['/legal', '/profile/compte', '/accessibilite']) {
       const { unmount } = rendre(chemin)
       expect(screen.queryByRole('dialog', { name: 'Confirme ton accord' }), chemin).toBeNull()
       unmount()

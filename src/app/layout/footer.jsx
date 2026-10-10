@@ -45,6 +45,7 @@ const FOOTER_I18N = {
  guideLabel: 'Bien démarrer',
  guideLink: 'Comment ça marche',
  faqLink: 'Questions fréquentes',
+ accessibiliteLink: 'Accessibilité',
  },
  en: {
  footerBtn: 'Legal',
@@ -52,6 +53,7 @@ const FOOTER_I18N = {
  guideLabel: 'Get started',
  guideLink: 'How it works',
  faqLink: 'FAQ',
+ accessibiliteLink: 'Accessibility',
  },
 }
 
@@ -289,6 +291,8 @@ export default function Footer({ darkMode = false, lang = 'fr', isHome = true })
  <div className="flex items-center flex-wrap justify-center gap-x-2.5 gap-y-1 text-[12px]" style={{ color: 'var(--color-muted)' }}>
  <FooterLink to="/legal">{tf.footerBtn}</FooterLink>
  <Separator />
+ <FooterLink to="/accessibilite">{tf.accessibiliteLink}</FooterLink>
+ <Separator />
  <FooterButton onClick={() => setShowCookies(true)}>{tc.footerBtn}</FooterButton>
  <Separator />
  <Link
@@ -325,6 +329,8 @@ export default function Footer({ darkMode = false, lang = 'fr', isHome = true })
  <FooterLink to="/faq" className="whitespace-nowrap">{tf.faqLink}</FooterLink>
  <Separator />
  <FooterLink to="/legal" className="whitespace-nowrap">{tf.footerBtn}</FooterLink>
+ <Separator />
+ <FooterLink to="/accessibilite" className="whitespace-nowrap">{tf.accessibiliteLink}</FooterLink>
  <Separator />
  <FooterButton onClick={() => setShowCookies(true)} className="whitespace-nowrap">{tc.footerBtn}</FooterButton>
  <Separator />
