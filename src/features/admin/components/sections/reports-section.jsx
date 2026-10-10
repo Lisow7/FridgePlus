@@ -24,10 +24,11 @@ import CaseDeSelection from '../shared/case-de-selection'
 import { appliquerEnLot, messageDeLot } from '@features/admin/lib/appliquer-en-lot'
 import { useSelection } from '@features/admin/hooks/use-selection'
 import Button from '@shared/ui/button'
-import { formatDateTime } from '@shared/lib/format-date'
+import { fmtDateTime } from '@features/admin/lib/dates'
 import { useReloader } from '@shared/hooks/use-reloader'
 import ReportThread from './report-thread'
 import { texteLisible, fondTeinte } from '@shared/lib/couleurs/texte-lisible'
+import { stylePastille } from '@features/admin/lib/pastille'
 
 const REASON_LABELS = {
   spam:           'Spam',
@@ -58,7 +59,6 @@ const TARGET_LABELS = {
 
 // Delegue au module partage (audit 2026-08-28) : les 17 occurrences codaient
 // 'fr-FR' en dur, un admin anglophone lisait des dates francaises.
-function fmtDate(str, lang = 'fr') { return str ? formatDateTime(str, lang) : '' }
 
 // ── Section principale ────────────────────────────────────────────────────────
 
@@ -82,16 +82,6 @@ export default function ReportsSection({ lang = 'fr', darkMode = false }) {
   const muted  = darkMode ? '#A0A8B8' : '#7A6A52'
   const border = darkMode ? 'var(--color-dark-border)' : 'var(--color-border-warm)'
   const rowBg  = darkMode ? '#1A2F48' : '#FFFFFF'
-
-  function pillStyle(active, accent = 'var(--color-brand-500)') {
-    return {
-      borderColor: active ? accent : border,
-      background: active ? fondTeinte(accent, 10) : 'transparent',
-      color: active ? texteLisible(accent) : muted,
-      fontWeight: active ? 700 : 500,
-      transition: 'all 0.12s',
-    }
-  }
 
   // `useReloader` garantit le `finally` (sans lui, une erreur réseau laissait
   // le voyant allumé pour toujours) et périme les réponses en retard : sans ça,
@@ -205,7 +195,7 @@ export default function ReportsSection({ lang = 'fr', darkMode = false }) {
           aria-pressed={statusFilter === ''}
           onClick={() => setStatusFilter('')}
           className="h-auto flex-shrink-0 rounded-lg border px-3 py-1.5 text-xs hover:bg-transparent"
-          style={pillStyle(statusFilter === '')}
+          style={stylePastille(statusFilter === '', { border, muted })}
         >
           Tous
         </Button>
@@ -216,7 +206,7 @@ export default function ReportsSection({ lang = 'fr', darkMode = false }) {
             aria-pressed={statusFilter === key}
             onClick={() => setStatusFilter(key)}
             className="h-auto flex-shrink-0 rounded-lg border px-3 py-1.5 text-xs hover:bg-transparent"
-            style={pillStyle(statusFilter === key, cfg.color)}
+            style={stylePastille(statusFilter === key, { accent: cfg.color, border, muted })}
           >
             {cfg.label}
             {counts[key] > 0 && (
@@ -236,7 +226,7 @@ export default function ReportsSection({ lang = 'fr', darkMode = false }) {
           onClick={reload}
           disabled={loading}
           className="ml-auto h-auto flex-shrink-0 rounded-lg border px-3 py-1.5 text-xs hover:bg-transparent"
-          style={{ ...pillStyle(false), gap: 5 }}
+          style={{ ...stylePastille(false, { border, muted }), gap: 5 }}
         >
           <LuRefreshCw size={12} className={loading ? 'animate-spin' : undefined} />
           Recharger
@@ -293,7 +283,7 @@ export default function ReportsSection({ lang = 'fr', darkMode = false }) {
                   <span style={{ flex: 1, fontSize: 13, fontWeight: 600, color: fg, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                     {r.target_label ? `— ${r.target_label}` : r.title}
                   </span>
-                  <span style={{ fontSize: 11, color: muted, flexShrink: 0, marginRight: 4 }}>{fmtDate(r.created_at)}</span>
+                  <span style={{ fontSize: 11, color: muted, flexShrink: 0, marginRight: 4 }}>{fmtDateTime(r.created_at)}</span>
                   {isOpen ? <LuChevronUp size={13} style={{ color: muted, flexShrink: 0 }} /> : <LuChevronDown size={13} style={{ color: muted, flexShrink: 0 }} />}
                 </Button>
                 </div>
@@ -329,7 +319,7 @@ export default function ReportsSection({ lang = 'fr', darkMode = false }) {
                           variant="ghost"
                           onClick={() => handleStatus(r, 'in_progress')}
                           className="h-auto flex-shrink-0 rounded-lg border px-3 py-1.5 text-xs hover:bg-transparent"
-                          style={{ ...pillStyle(true, 'var(--color-info)'), gap: 5 }}
+                          style={{ ...stylePastille(true, { accent: 'var(--color-info)', border, muted }), gap: 5 }}
                         >
                           <LuClock size={11} /> Prendre en charge
                         </Button>
@@ -339,7 +329,7 @@ export default function ReportsSection({ lang = 'fr', darkMode = false }) {
                           variant="ghost"
                           onClick={() => handleStatus(r, 'resolved')}
                           className="h-auto flex-shrink-0 rounded-lg border px-3 py-1.5 text-xs hover:bg-transparent"
-                          style={{ ...pillStyle(true, 'var(--color-success)'), gap: 5 }}
+                          style={{ ...stylePastille(true, { accent: 'var(--color-success)', border, muted }), gap: 5 }}
                         >
                           <LuCheck size={11} /> Résoudre
                         </Button>
@@ -349,7 +339,7 @@ export default function ReportsSection({ lang = 'fr', darkMode = false }) {
                           variant="ghost"
                           onClick={() => handleStatus(r, 'open')}
                           className="h-auto flex-shrink-0 rounded-lg border px-3 py-1.5 text-xs hover:bg-transparent"
-                          style={pillStyle(false)}
+                          style={stylePastille(false, { border, muted })}
                         >
                           Rouvrir
                         </Button>
@@ -360,7 +350,7 @@ export default function ReportsSection({ lang = 'fr', darkMode = false }) {
                           onClick={e => handleBanClick(r, e)}
                           disabled={!!banLoading[r.user_id]}
                           className="h-auto flex-shrink-0 rounded-lg border px-3 py-1.5 text-xs hover:bg-transparent"
-                          style={{ ...pillStyle(r.reporter_banned, 'var(--color-danger)'), gap: 5 }}
+                          style={{ ...stylePastille(r.reporter_banned, { accent: 'var(--color-danger)', border, muted }), gap: 5 }}
                         >
                           {/* Ce bouton agit sur l'auteur du SIGNALEMENT (`r.user_id`), pas sur
                               celui du contenu signalé : le libellé le dit (audit 2026-10-04,

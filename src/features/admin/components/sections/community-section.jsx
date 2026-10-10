@@ -8,6 +8,7 @@ import {
 } from '@features/admin/api/community-admin'
 import { ConfirmDeleteModal } from '@shared/ui/confirm-dialog/confirm-modals'
 import FeedbackBanner from '../shared/feedback-banner'
+import { useFeedback } from '@features/admin/hooks/use-feedback'
 import ChargementRate from '../shared/chargement-rate'
 import SearchInput from '../shared/search-input'
 import BulkActionBar from '../shared/bulk-action-bar'
@@ -49,7 +50,7 @@ export default function CommunitySection({ darkMode = false }) {
   const [reports,    setReports]    = useState([])
   const [status,     setStatus]     = useState('active')
   const [search,     setSearch]     = useState('')
-  const [feedback,   setFeedback]   = useState(null)
+  const [feedback, showFeedback] = useFeedback()
 
   // Modales
   const [actionPost,    setActionPost]    = useState(null)
@@ -88,15 +89,10 @@ export default function CommunitySection({ darkMode = false }) {
     return acc
   }, {}), [reports])
 
-  function showFeedback(text, type = 'success') {
-    setFeedback({ text, type })
-    setTimeout(() => setFeedback(null), 3500)
-  }
-
   async function handleSoft(post) {
     const result = await adminSoftDeletePost(post.id, reasonInput.trim() || 'admin_action', reportsByPost[post.id])
-    if (result?.error) { showFeedback(result.error, 'error') }
-    else { showFeedback('Post masqué.'); reload() }
+    if (result?.error) { showFeedback(false, result.error) }
+    else { showFeedback(true, 'Post masqué.'); reload() }
     setActionPost(null)
     setReasonInput('')
   }
@@ -107,18 +103,15 @@ export default function CommunitySection({ darkMode = false }) {
     if (!ids.length) return
     // Les resultats etaient jetes : un echec passait pour un succes.
     const bilan = await appliquerEnLot(ids, id => adminSoftDeletePost(id, 'admin_action', reportsByPost[id]))
-    showFeedback(
-      messageDeLot(bilan, n => `post${n > 1 ? 's' : ''} masqué${n > 1 ? 's' : ''}`),
-      bilan.toutReussi ? 'success' : 'error',
-    )
+    showFeedback(bilan.toutReussi, messageDeLot(bilan, n => `post${n > 1 ? 's' : ''} masqué${n > 1 ? 's' : ''}`))
     sel.clear()
     reload()
   }
 
   async function handleHard(post) {
     const result = await adminHardDeletePost(post.id, reasonInput.trim() || 'admin_action')
-    if (result?.error) { showFeedback(result.error, 'error') }
-    else { showFeedback('Post supprimé définitivement.'); reload() }
+    if (result?.error) { showFeedback(false, result.error) }
+    else { showFeedback(true, 'Post supprimé définitivement.'); reload() }
     setConfirmHard(null)
     setActionPost(null)
     setReasonInput('')
@@ -126,10 +119,10 @@ export default function CommunitySection({ darkMode = false }) {
 
   async function handleMute(post) {
     const result = await adminMuteUser(post.user_id, reasonInput.trim() || 'admin_action', muteDays)
-    if (result?.error) { showFeedback(result.error, 'error') }
+    if (result?.error) { showFeedback(false, result.error) }
     else {
       const label = muteDays === null ? 'Utilisateur mis en sourdine, sans fin.' : `Utilisateur mis en sourdine ${muteDays} jour${muteDays > 1 ? 's' : ''}.`
-      showFeedback(label)
+      showFeedback(true, label)
       reload()
     }
     setActionPost(null)
@@ -138,8 +131,8 @@ export default function CommunitySection({ darkMode = false }) {
 
   async function handleUnmute(post) {
     const result = await adminUnmuteUser(post.user_id, 'admin_unmute')
-    if (result?.error) { showFeedback(result.error, 'error') }
-    else { showFeedback('Sourdine levée.'); reload() }
+    if (result?.error) { showFeedback(false, result.error) }
+    else { showFeedback(true, 'Sourdine levée.'); reload() }
   }
 
   async function handleAction() {

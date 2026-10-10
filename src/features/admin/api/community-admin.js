@@ -6,20 +6,16 @@ import { OPEN_TICKET_STATUSES } from '@shared/lib/support/open-tickets-cap'
 
 // Modération admin de la communauté.
 //
-// Toutes les actions admin sont auditées via logAuditAction (vocabulaire
-// fermé + metadata whitelistée). RLS est appliquée via les policies
-// existantes : un admin authentifié passe les UPDATE/DELETE car les
-// policies user filtrent uniquement sur user_id, mais admin peut SET
-// deleted_by_admin via la policy autocrate (auth.uid() = user_id).
+// Toutes les actions passent par les RPC SECURITY DEFINER `admin_community_*`
+// (`admin_community_soft_delete_post`, `admin_community_hard_delete_post`,
+// `admin_community_set_mute`) : la base refuse l'appel si `public.is_admin()`
+// est faux (« forbidden: admin only », migration
+// 20260503_fix_admin_rpc_is_admin_check). Le navigateur ne modifie donc jamais
+// le post d'un autre membre en direct — la règle « Authors update own posts »
+// l'en empêcherait de toute façon.
 //
-// IMPORTANT : pour soft-delete un post **dont l'admin n'est pas l'auteur**,
-// la policy "Authors update own posts" empêche l'UPDATE. On utilise donc
-// un RPC SECURITY DEFINER qui bypass RLS et vérifie le rôle admin via
-// `is_admin = true` dans `profiles` (admins flagués).
-//
-// Faute de ce RPC, on doit faire les modérations via le service_role.
-// Au MVP, on assume que les admins ont le flag `is_admin = true` et on
-// utilise le RPC `admin_community_*` (à créer dans la migration).
+// Chaque action est ensuite écrite au journal par logAuditAction (vocabulaire
+// fermé, métadonnées filtrées).
 
 const POST_ADMIN_SELECT = 'id, user_id, category, title, body, likes_count, replies_count, created_at, updated_at, deleted_at, deleted_by_admin, profile:profiles!user_id(username, avatar_id, community_muted_until)'
 

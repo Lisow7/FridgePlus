@@ -12,7 +12,7 @@ import FilterPill from '@shared/ui/filter-pill'
 import EmptyState from '@shared/ui/empty-state'
 import { useConfirm } from '@shared/ui/confirm-dialog/confirm-provider'
 import ImportMetrics from './import-metrics'
-import { formatDate } from '@shared/lib/format-date'
+import { fmtDate } from '@features/admin/lib/dates'
 import { useReloader } from '@shared/hooks/use-reloader'
 import { leverSiErreur } from '@shared/lib/supabase/lever-si-erreur'
 import ChargementRate from '../shared/chargement-rate'
@@ -41,7 +41,6 @@ const STATUS_FILTERS = [
   { key: 'rejected',     label: 'Rejetées',   color: '#7A8298' },
 ]
 
-function fmtDate(str, lang = 'fr') { return str ? formatDate(str, lang) : '' }
 
 function recipeName(row) {
   return row.parsed_data?.name?.fr ?? row.parsed_data?.title?.fr ?? row.external_key ?? row.id

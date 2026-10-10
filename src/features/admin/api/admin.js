@@ -5,10 +5,7 @@ import { versErreur } from '@shared/lib/supabase/lever-si-erreur'
 import { motifContient, motifDansOu } from '@shared/lib/supabase/motif-de-recherche'
 import { slugify } from '@features/admin/lib/slug'
 import { choisirUnIdLibre } from '@features/admin/lib/id-libre'
-import {
-  publishStagingToRecipes,
-  rejectStaging,
-} from '../../../scripts/recipe-import/publishers/recipes-publisher.mjs'
+import { logAuditAction, AUDIT_ACTIONS, AUDIT_TARGET_TYPES } from '@features/admin/lib/audit'
 import {
   adminCountCommunityRecipesByStatus,
   adminFindCommunityRecipesByStatus,
@@ -30,16 +27,13 @@ export { countMissingImageBaseRecipes }
 
 const PER_PAGE = 50
 
-async function logAdminAction(action, targetId = null, targetType = null) {
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) return
-  await supabase.from('activity_logs').insert({
-    user_id: user.id,
-    action,
-    target_id: targetId,
-    target_type: targetType,
-  })
-}
+// Le journal (`activity_logs`) s'écrit par `logAuditAction` seul : vocabulaire
+// fermé, métadonnées filtrées. `admin.js` avait son propre écrivain, qui
+// ignorait l'erreur et ne filtrait rien (audit du 2026-10-04, ADM-27). La
+// trace s'écrit « au mieux », après l'écriture réussie : son échec ne défait
+// pas la modération.
+const { RECIPE, BASE_RECIPE, INGREDIENT, USER } = AUDIT_TARGET_TYPES
+const tracer = (action, targetId, targetType, metadata) => logAuditAction(action, { targetId, targetType, metadata })
 
 // Sprint 5f : ces fonctions orchestrent (repo BDD + activity_logs).
 // Le repo est responsable de la BDD pure, admin.js de l'audit.
@@ -75,7 +69,7 @@ export async function adminUpdateCommunityRecipe(id, recipe) {
     data: rest,
     admin_modified: true,
   })
-  if (!error) await logAdminAction('recipe_edited', id, 'recipe')
+  if (!error) await tracer(AUDIT_ACTIONS.RECIPE_EDITED, id, RECIPE)
   return { error }
 }
 
@@ -86,14 +80,14 @@ export async function adminSetRecipeStatus(id, status, reason = null) {
     moderation_reason: reason?.trim() || null,
   }
   const { error } = await repoAdminUpdateCommunityRecipe(id, patch)
-  const actionMap = { approved: 'recipe_approved', rejected: 'recipe_rejected', pending: 'recipe_pending' }
-  if (!error) await logAdminAction(actionMap[status] ?? 'recipe_approved', id, 'recipe')
+  const actionMap = { approved: AUDIT_ACTIONS.RECIPE_APPROVED, rejected: AUDIT_ACTIONS.RECIPE_REJECTED, pending: AUDIT_ACTIONS.RECIPE_PENDING }
+  if (!error) await tracer(actionMap[status] ?? AUDIT_ACTIONS.RECIPE_APPROVED, id, RECIPE, { reason: patch.moderation_reason })
   return { error }
 }
 
 export async function adminDeleteRecipe(id) {
   const { error } = await adminSoftDeleteCommunityRecipe(id)
-  if (!error) await logAdminAction('recipe_deleted', id, 'recipe')
+  if (!error) await tracer(AUDIT_ACTIONS.RECIPE_DELETED, id, RECIPE)
   return { error }
 }
 
@@ -226,7 +220,7 @@ export async function adminUpsertIngredient({ _isNew, ...row }) {
   // désormais le doublon (23505), que le formulaire dit en clair.
   const table = supabase.from('ingredients')
   const { error } = await (_isNew ? table.insert(row) : table.upsert(row, { onConflict: 'id' }))
-  if (!error) await logAdminAction(_isNew ? 'ingredient_added' : 'ingredient_updated', row.id, 'ingredient')
+  if (!error) await tracer(_isNew ? AUDIT_ACTIONS.INGREDIENT_ADDED : AUDIT_ACTIONS.INGREDIENT_UPDATED, row.id, INGREDIENT)
   return { error }
 }
 
@@ -245,7 +239,7 @@ export async function adminCountIngredientUsage(id) {
 
 export async function adminDeleteIngredient(id) {
   const { error } = auMoinsUneLigne(await supabase.from('ingredients').delete().eq('id', id).select('id'))
-  if (!error) await logAdminAction('ingredient_deleted', id, 'ingredient')
+  if (!error) await tracer(AUDIT_ACTIONS.INGREDIENT_DELETED, id, INGREDIENT)
   return { error }
 }
 
@@ -316,13 +310,13 @@ export async function adminUpsertBaseRecipe({ _isNew, ...row }) {
   }
   // Sprint 5f : délégué au repository.
   const { error } = await adminUpsertOfficialRecipe(ligne)
-  if (!error) await logAdminAction(_isNew ? 'base_recipe_added' : 'base_recipe_updated', ligne.id, 'base_recipe')
+  if (!error) await tracer(_isNew ? AUDIT_ACTIONS.BASE_RECIPE_ADDED : AUDIT_ACTIONS.BASE_RECIPE_UPDATED, ligne.id, BASE_RECIPE)
   return { error }
 }
 
 export async function adminDeleteBaseRecipe(id) {
   const { error } = await adminDeleteOfficialRecipe(id)
-  if (!error) await logAdminAction('base_recipe_deleted', id, 'base_recipe')
+  if (!error) await tracer(AUDIT_ACTIONS.BASE_RECIPE_DELETED, id, BASE_RECIPE)
   return { error }
 }
 
@@ -442,7 +436,7 @@ export async function adminGrantSpecialAccess(userId, role, note = null) {
     p_note:    note,
   })
   if (!error) {
-    await logAdminAction('special_access_granted', userId, 'user')
+    await tracer(AUDIT_ACTIONS.SPECIAL_ACCESS_GRANTED, userId, USER, { role })
   }
   return { error }
 }
@@ -452,7 +446,7 @@ export async function adminRevokeSpecialAccess(userId) {
     p_user_id: userId,
   })
   if (!error) {
-    await logAdminAction('special_access_revoked', userId, 'user')
+    await tracer(AUDIT_ACTIONS.SPECIAL_ACCESS_REVOKED, userId, USER)
   }
   return { error }
 }
@@ -467,184 +461,13 @@ export async function adminGetSpecialAccessNote(userId) {
   return { note: data?.note ?? null, error }
 }
 
-// ─── Refonte Recettes Phase 5a — Admin Import Queue ─────────────────────────
-// API pour réviser, corriger, publier ou rejeter les staging rows du pipeline.
-// RLS admin-only (policy recipe_imports_staging_admin via is_admin()).
-
-const IMPORT_QUEUE_PAGE_SIZE = 50
-
-/**
- * Liste paginée des staging rows avec filtres.
- *
- * @param {Object} [opts]
- * @param {string} [opts.status]    - pending|valid|invalid|admin_review|published|rejected|all
- * @param {string} [opts.batchId]
- * @param {string} [opts.search]
- * @param {number} [opts.page=0]
- * @param {number} [opts.pageSize=50]
- */
-export async function adminGetImportQueue({
-  status = 'all',
-  batchId = '',
-  search = '',
-  page = 0,
-  pageSize = IMPORT_QUEUE_PAGE_SIZE,
-} = {}) {
-  let query = supabase
-    .from('recipe_imports_staging')
-    .select('id, batch_id, source, external_key, status, errors, parsed_data, admin_notes, resolved_at, resolved_by, published_recipe_id, backfill_audit, created_at, updated_at', { count: 'exact' })
-    .order('created_at', { ascending: false })
-    .range(page * pageSize, (page + 1) * pageSize - 1)
-
-  if (status && status !== 'all') query = query.eq('status', status)
-  if (batchId)                    query = query.eq('batch_id', batchId)
-  if (search.trim()) {
-    const m = motifDansOu(search)
-    query = query.or(`external_key.ilike.${m},parsed_data->>name.ilike.${m}`)
-  }
-
-  const { data, count, error } = await query
-  return { data: data ?? [], count: count ?? 0, error }
-}
-
-/**
- * UPDATE errors persistantes + repasse status='pending' (admin corrige inline).
- */
-export async function adminUpdateStagingErrors(stagingId, newErrors) {
-  const { error } = auMoinsUneLigne(await supabase
-    .from('recipe_imports_staging')
-    .update({ errors: newErrors, status: 'pending' })
-    .eq('id', stagingId)
-    .select('id'))
-  return { error }
-}
-
-/**
- * MVP : re-validation complète se fait via CLI (catalogue ingrédients côté Node).
- * Côté admin UI on retourne un message indicatif.
- */
-
-export async function adminReRunValidators(stagingId) {
-  return {
-    error: null,
-    message: `Re-validation via CLI : \`npm run recipes:revalidate -- --staging=${stagingId}\``,
-  }
-}
-
-/**
- * Publie 1 staging row vers recipes_unified (délègue au publisher).
- */
-export async function adminPublishStaged(stagingId) {
-  const { data: { user } = {} } = await supabase.auth.getUser()
-  return publishStagingToRecipes(supabase, { stagingId, actorId: user?.id ?? null })
-}
-
-/**
- * Rejette 1 staging row.
- */
-export async function adminRejectStaged(stagingId, reason) {
-  const { data: { user } = {} } = await supabase.auth.getUser()
-  return rejectStaging(supabase, { stagingId, reason, actorId: user?.id ?? null })
-}
-
-/**
- * Métriques agrégées de la queue d'import recettes.
- * Refonte Recettes Phase 8 — observability admin.
- *
- * Retourne :
- *   - byStatus : { pending, valid, invalid, admin_review, published, rejected }
- *   - bySource : { themealdb, ia_batch, json_file, admin_ui, backfill_audit }
- *   - topErrorCodes : [{ code, count }] top 5 par fréquence
- *   - eventsLast7d : { imported, validated, invalidated, published, rejected, ... }
- *   - avgReviewMinutes : null (MVP — à implémenter via vue SQL si besoin)
- */
-export async function adminGetImportMetrics() {
-  // 1. Status counts
-  const { data: statusRows, error: statusErr } = await supabase
-    .from('recipe_imports_staging')
-    .select('status')
-  if (statusErr) return { error: statusErr }
-
-  const byStatus = { pending: 0, valid: 0, invalid: 0, admin_review: 0, published: 0, rejected: 0 }
-  for (const r of statusRows ?? []) {
-    if (byStatus[r.status] != null) byStatus[r.status]++
-  }
-
-  // 2. Source counts
-  const { data: sourceRows, error: sourceErr } = await supabase
-    .from('recipe_imports_staging')
-    .select('source')
-  if (sourceErr) return { error: sourceErr }
-
-  const bySource = {}
-  for (const r of sourceRows ?? []) {
-    if (!r.source) continue
-    bySource[r.source] = (bySource[r.source] ?? 0) + 1
-  }
-
-  // 3. Top error codes — aggregate côté JS depuis errors[] jsonb
-  const { data: errorRows, error: errErr } = await supabase
-    .from('recipe_imports_staging')
-    .select('errors')
-    .neq('status', 'published')
-  if (errErr) return { error: errErr }
-
-  const errorCounts = new Map()
-  for (const r of errorRows ?? []) {
-    for (const e of r.errors ?? []) {
-      if (!e?.code) continue
-      errorCounts.set(e.code, (errorCounts.get(e.code) ?? 0) + 1)
-    }
-  }
-  const topErrorCodes = Array.from(errorCounts.entries())
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, 5)
-    .map(([code, count]) => ({ code, count }))
-
-  // 4. Events last 7 days
-  const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString()
-  const { data: eventsRows, error: evErr } = await supabase
-    .from('recipe_import_events')
-    .select('event_type, created_at')
-    .gte('created_at', sevenDaysAgo)
-  if (evErr) return { error: evErr }
-
-  const eventsLast7d = {}
-  for (const e of eventsRows ?? []) {
-    eventsLast7d[e.event_type] = (eventsLast7d[e.event_type] ?? 0) + 1
-  }
-
-  // 5. Avg review time — MVP : null. À implémenter via vue SQL si besoin.
-  const avgReviewMinutes = null
-
-  return {
-    error: null,
-    metrics: { byStatus, bySource, topErrorCodes, eventsLast7d, avgReviewMinutes },
-  }
-}
-
-/**
- * Bulk publish : publie tous les rows status='valid' d'un batch.
- * Continue sur erreur partielle.
- */
-export async function adminBatchPublishValid(batchId) {
-  const { data: { user } = {} } = await supabase.auth.getUser()
-  const actorId = user?.id ?? null
-
-  const { data: candidates, error: fetchErr } = await supabase
-    .from('recipe_imports_staging')
-    .select('id')
-    .eq('batch_id', batchId)
-    .eq('status', 'valid')
-
-  if (fetchErr) return { error: fetchErr, published: 0, failed: [] }
-
-  const failed = []
-  let published = 0
-  for (const row of candidates ?? []) {
-    const { error } = await publishStagingToRecipes(supabase, { stagingId: row.id, actorId })
-    if (error) failed.push({ stagingId: row.id, error: error.message })
-    else published++
-  }
-  return { error: null, published, failed }
-}
+// La file d'import vit dans `./import-queue` ; ré-exportée ici pour les
+// écrans et les tests qui l'appellent par `@features/admin/api/admin`.
+export {
+  adminGetImportQueue,
+  adminReRunValidators,
+  adminPublishStaged,
+  adminRejectStaged,
+  adminGetImportMetrics,
+  adminBatchPublishValid,
+} from './import-queue'

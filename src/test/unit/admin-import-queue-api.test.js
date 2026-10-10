@@ -80,7 +80,6 @@ import {
   adminGetImportQueue,
   adminPublishStaged,
   adminRejectStaged,
-  adminUpdateStagingErrors,
   adminBatchPublishValid,
   adminReRunValidators,
   adminGetImportMetrics,
@@ -154,17 +153,6 @@ describe('adminRejectStaged', () => {
 
   it('retourne {error: null} sur succès', async () => {
     const result = await adminRejectStaged('staging-1', 'test')
-    expect(result.error).toBeNull()
-  })
-})
-
-// ─── adminUpdateStagingErrors ────────────────────────────────────────────────
-
-describe('adminUpdateStagingErrors', () => {
-  it('retourne {error: null}', async () => {
-    const result = await adminUpdateStagingErrors('staging-1', [{ code: 'ERR_MISSING_NAME' }])
-    expect(result).toHaveProperty('error')
-    // Le mock stagingBuilder.then() renvoie _defaultResult.error = null
     expect(result.error).toBeNull()
   })
 })

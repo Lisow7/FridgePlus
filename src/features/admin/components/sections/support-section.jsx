@@ -10,7 +10,8 @@ import {
 } from '@features/support/api/support'
 import { ConfirmDeleteModal } from '@shared/ui/confirm-dialog/confirm-modals'
 import Button from '@shared/ui/button'
-import { formatDate, formatDateTime } from '@shared/lib/format-date'
+import { formatDate } from '@shared/lib/format-date'
+import { fmtDateTime } from '@features/admin/lib/dates'
 import { useReloader } from '@shared/hooks/use-reloader'
 import FeedbackBanner from '../shared/feedback-banner'
 import ChargementRate from '../shared/chargement-rate'
@@ -18,7 +19,8 @@ import SupportTicketDetail from './support-ticket-detail'
 import SupportTicketRow from './support-ticket-row'
 import { useFeedback } from '@features/admin/hooks/use-feedback'
 import { supprimerAvecAnnulation, messageErreurAdmin } from '@features/admin/lib/ecritures-admin'
-import { texteLisible, fondTeinte } from '@shared/lib/couleurs/texte-lisible'
+import { fondTeinte } from '@shared/lib/couleurs/texte-lisible'
+import { stylePastille } from '@features/admin/lib/pastille'
 
 const STATUS_CFG = {
   open:        { label: 'Ouvert',   color: 'var(--color-warning)', bg: 'rgba(251,191,36,0.15)' },
@@ -35,7 +37,6 @@ const TYPE_CFG = {
 }
 
 // Delegue au module partage : 17 occurrences codaient 'fr-FR' en dur (audit 2026-08-28).
-function fmtDate(str, lang = 'fr') { return str ? formatDateTime(str, lang) : '' }
 function fmtShort(str, lang = 'fr') { return str ? formatDate(str, lang) : '' }
 
 export default function SupportSection({ lang = 'fr', darkMode = false }) {
@@ -203,16 +204,6 @@ export default function SupportSection({ lang = 'fr', darkMode = false }) {
   }
 
   // ── Helpers style ──────────────────────────────────────────────────────
-  function pillStyle(active, accent = 'var(--color-brand-500)') {
-    return {
-      borderColor: active ? accent : border,
-      background: active ? fondTeinte(accent, 10) : 'transparent',
-      color: active ? texteLisible(accent) : muted,
-      fontWeight: active ? 700 : 500,
-      transition: 'all 0.12s',
-    }
-  }
-
   // Dans les DEUX vues : rendue seulement dans la liste, « Supprimer le ticket » n'ouvrait rien en détail.
   const modaleSuppression = confirmDelete && createPortal(
     <ConfirmDeleteModal
@@ -229,7 +220,7 @@ export default function SupportSection({ lang = 'fr', darkMode = false }) {
   if (detail) {
     return (
       <SupportTicketDetail
-        detail={detail} statusCfg={STATUS_CFG} typeCfg={TYPE_CFG} fmtDate={fmtDate}
+        detail={detail} statusCfg={STATUS_CFG} typeCfg={TYPE_CFG} fmtDate={fmtDateTime}
         messages={visibleMessages} messagesError={messagesError} onRetryMessages={() => openTicket(detail)}
         bottomRef={bottomRef}
         reply={reply} setReply={setReply} sending={sending} replyError={replyError}
@@ -258,7 +249,7 @@ export default function SupportSection({ lang = 'fr', darkMode = false }) {
             aria-pressed={statusFilter === key}
             onClick={() => setStatusFilter(key)}
             className="h-auto rounded-md border px-2.5 py-1 text-xs hover:bg-transparent"
-            style={pillStyle(statusFilter === key, accent)}
+            style={stylePastille(statusFilter === key, { accent: accent, border, muted })}
           >
             {label}
             {counts[key] > 0 && (
@@ -274,7 +265,7 @@ export default function SupportSection({ lang = 'fr', darkMode = false }) {
             aria-pressed={unreadOnly}
             onClick={() => setUnreadOnly(v => !v)}
             className="h-auto rounded-md border px-2.5 py-1 text-xs hover:bg-transparent"
-            style={pillStyle(unreadOnly, '#E53535')}
+            style={stylePastille(unreadOnly, { accent: '#E53535', border, muted })}
           >
             🔴 {counts.unread} non lu{counts.unread > 1 ? 's' : ''}
           </Button>
@@ -284,7 +275,7 @@ export default function SupportSection({ lang = 'fr', darkMode = false }) {
           onClick={loadTickets}
           disabled={loading}
           className="ml-auto h-auto rounded-md border px-2.5 py-1 text-xs hover:bg-transparent"
-          style={{ ...pillStyle(false), gap: 4 }}
+          style={{ ...stylePastille(false, { border, muted }), gap: 4 }}
         >
           <LuRefreshCw size={12} className={loading ? 'animate-spin' : undefined} />
           Recharger
@@ -299,7 +290,7 @@ export default function SupportSection({ lang = 'fr', darkMode = false }) {
             aria-pressed={typeFilter === 'all'}
             onClick={() => setTypeFilter('all')}
             className="h-auto rounded-md border px-2.5 py-1 text-xs hover:bg-transparent"
-            style={pillStyle(typeFilter === 'all')}
+            style={stylePastille(typeFilter === 'all', { border, muted })}
           >
             Tous
           </Button>
@@ -310,7 +301,7 @@ export default function SupportSection({ lang = 'fr', darkMode = false }) {
               aria-pressed={typeFilter === key}
               onClick={() => setTypeFilter(key)}
               className="h-auto rounded-md border px-2.5 py-1 text-xs hover:bg-transparent"
-              style={pillStyle(typeFilter === key)}
+              style={stylePastille(typeFilter === key, { border, muted })}
             >
               {tc.icon} {tc.label}
             </Button>

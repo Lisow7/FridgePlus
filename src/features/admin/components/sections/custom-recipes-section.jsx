@@ -23,7 +23,7 @@ import CaseDeSelection from '../shared/case-de-selection'
 import { appliquerEnLot, messageDeLot } from '@features/admin/lib/appliquer-en-lot'
 import { useSelection } from '@features/admin/hooks/use-selection'
 import Button from '@shared/ui/button'
-import { formatDate } from '@shared/lib/format-date'
+import { fmtDate } from '@features/admin/lib/dates'
 import { useReloader } from '@shared/hooks/use-reloader'
 import { leverSiErreur } from '@shared/lib/supabase/lever-si-erreur'
 import { useFeedback } from '@features/admin/hooks/use-feedback'
@@ -37,7 +37,6 @@ const STATUS_COLORS = {
 }
 
 
-function fmtDate(str, lang = 'fr') { return str ? formatDate(str, lang) : '' }
 
 const I18N = {
   fr: {

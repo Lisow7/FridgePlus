@@ -8,7 +8,7 @@ import { ADMIN_I18N } from '../../i18n/admin-i18n'
 import FilterPill from '@shared/ui/filter-pill'
 import EmptyState from '@shared/ui/empty-state'
 import Pagination from '@shared/ui/pagination'
-import { formatDateTime } from '@shared/lib/format-date'
+import { fmtDateTime } from '@features/admin/lib/dates'
 import { useReloader } from '@shared/hooks/use-reloader'
 import { useDebouncedValue } from '@shared/hooks/use-debounced-value'
 import { leverSiErreur } from '@shared/lib/supabase/lever-si-erreur'
@@ -37,7 +37,6 @@ const STATUS_COLORS = {
 
 // Delegue au module partage (audit 2026-08-28) : les 17 occurrences codaient
 // 'fr-FR' en dur, un admin anglophone lisait des dates francaises.
-function fmtDate(str, lang = 'fr') { return str ? formatDateTime(str, lang) : '' }
 
 // Ce qu'une consultation de données sensibles a montré (`metadata.champs`,
 // écrit par `admin_reveler_compte`, audit ADM-05).
@@ -174,7 +173,7 @@ export default function JournalSection({ lang = 'fr', darkMode = false }) {
                       </span>
                       <span style={{ display:'flex', alignItems:'center', gap:8, flexShrink:0 }}>
                         {(detail || motif) && <span aria-hidden="true" style={{ fontSize:11, color:muted, opacity:0.5 }}>👁</span>}
-                        <span style={{ fontSize:12, color:muted }}>{fmtDate(log.created_at)}</span>
+                        <span style={{ fontSize:12, color:muted }}>{fmtDateTime(log.created_at)}</span>
                       </span>
                     </EnTeteDeLigne>
                     {isOpen && (detail || motif) && (

@@ -31,7 +31,7 @@ import {
   markTicketReadByAdmin, adminSetTicketStatus, adminDeleteMessage, adminDeleteAnyMessage,
   adminDeleteTicket, adminReplyTicket,
 } from '@features/support/api/support'
-import { adminDeleteIngredient, adminUpdateStagingErrors } from '@features/admin/api/admin'
+import { adminDeleteIngredient } from '@features/admin/api/admin'
 import {
   adminUpdateCommunityRecipe, adminSoftDeleteCommunityRecipe, adminDeleteOfficialRecipe,
 } from '@shared/lib/recipes/recipes-repository'
@@ -53,7 +53,6 @@ describe.each([
   ['adminDeleteAnyMessage', () => adminDeleteAnyMessage('m-1'), 'support_messages', 'delete'],
   ['adminDeleteTicket', () => adminDeleteTicket('t-1'), 'support_tickets', 'delete'],
   ['adminDeleteIngredient', () => adminDeleteIngredient('ing-1'), 'ingredients', 'delete'],
-  ['adminUpdateStagingErrors', () => adminUpdateStagingErrors('s-1', []), 'recipe_imports_staging', 'update'],
   ['adminUpdateCommunityRecipe (dépôt)', () => adminUpdateCommunityRecipe('r-1', { title: 'x' }), 'custom_recipes', 'update'],
   ['adminSoftDeleteCommunityRecipe', () => adminSoftDeleteCommunityRecipe('r-1'), 'custom_recipes', 'update'],
   ['adminDeleteOfficialRecipe', () => adminDeleteOfficialRecipe('r-1'), 'base_recipes', 'delete'],

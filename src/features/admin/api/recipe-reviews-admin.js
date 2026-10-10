@@ -6,9 +6,9 @@ import { OPEN_TICKET_STATUSES } from '@shared/lib/support/open-tickets-cap'
 
 // Modération admin des avis recettes.
 //
-// RPC SECURITY DEFINER (admin_review_*) côté BDD : la policy UPDATE
-// standard ne laisse passer que l'auteur ; pour soft-delete admin, on
-// passe par RPC qui vérifie is_admin = true sur profiles.
+// RPC SECURITY DEFINER `admin_review_soft_delete` / `admin_review_hard_delete`
+// côté base : la règle UPDATE ne laisse passer que l'auteur ; la RPC refuse
+// l'appel si `public.is_admin()` est faux (« forbidden: admin only »).
 //
 // Toutes les actions sont auditées via logAuditAction (vocabulaire
 // fermé + metadata whitelistée). Cohérent avec communityAdmin.
