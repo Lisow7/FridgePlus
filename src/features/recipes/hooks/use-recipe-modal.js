@@ -271,7 +271,7 @@ export default function useRecipeModal({ recipe, stock, onClose, lang, darkMode,
   const [stepTwoState, setStepTwoState] = useState({}) // { [ingIndex]: { resolved: id|'skip'|null, checked: bool, inStockOptions?: id[] } }
   const [withdrawFeedback, setWithdrawFeedback] = useState(null)
   const feedbackTimerRef                = useRef(null)
-  const { hasPremiumAccess } = useSubscription()
+  const { hasPremiumAccess, profileLoading } = useSubscription()
 
   // Mode cuisine plein écran
   const navigate = useNavigate()
@@ -510,7 +510,7 @@ export default function useRecipeModal({ recipe, stock, onClose, lang, darkMode,
     baseServings, canConfirm, canEditRecipe, cartHeaderNotice, cartHeaderNoticeRef, celebrate, closePeek, collapseStyle, concreteOptions, condensed, confirmWithdraw,
     cost, countries, countryCode, countryInfo, dialogRef, dietTypes, effectiveStock, enterWithdraw,
     feedbackTimerRef, flagHovered, flashAdded, groupMaps, handleBodyScroll, handleIngredientClick,
-    hasMissing, hasPremiumAccess, hasStockIngredients, headerBg, headerBorder, headerCondensed,
+    hasMissing, hasPremiumAccess, profileLoading, hasStockIngredients, headerBg, headerBorder, headerCondensed,
     headerText, INGREDIENT_LOOKUP, ingredients, ingredientsById, isAdmin, isApprovedCommunity,
     isCategoryParent, isInCart, isMobile, isPage, isPubliclyShareable, logCookedWithoutWithdraw,
     matchCount, minServings, mutedColor, navigate, pct, peekRecipeId, pickerIndex,

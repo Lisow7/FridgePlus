@@ -24,11 +24,17 @@ export function useMFA() {
   const [factors,           setFactors]           = useState([])
   const [aal,               setAAL]               = useState({ current: null, next: null })
   const [loading,           setLoading]           = useState(false)
+  // Compte dont les facteurs ont été lus (null : personne, rien à lire). Tant
+  // que ce n'est pas celui de la session, la carte 2FA disait « Inactive »
+  // à un compte protégé (audit du 2026-10-04, comptes et authentification).
+  const [pretPour,          setPretPour]          = useState(undefined)
 
+  const userId = user?.id ?? null
   const refresh = useCallback(async () => {
-    if (!user?.id) {
+    if (!userId) {
       setFactors([])
       setAAL({ current: null, next: null })
+      setPretPour(null)
       return
     }
     setLoading(true)
@@ -39,7 +45,8 @@ export function useMFA() {
     setFactors(totp)
     setAAL({ current: aalRes.current, next: aalRes.next })
     setLoading(false)
-  }, [user?.id])
+    setPretPour(userId)
+  }, [userId])
 
   useEffect(() => { refresh() }, [refresh])
 
@@ -68,6 +75,7 @@ export function useMFA() {
     isAAL2:            aal.current === 'aal2',
     needsAAL2:         aal.current === 'aal1' && aal.next === 'aal2',
     loading,
+    pret:              pretPour === userId,
     refresh,
     startEnroll,
     verify,

@@ -17,7 +17,7 @@ import { useConfirm } from '@shared/ui/confirm-dialog/confirm-provider'
 export default function MfaCard({ lang, darkMode, isMobile, border, textColor, mutedColor }) {
   const t = MFA_I18N[lang] ?? MFA_I18N.fr
   const confirm = useConfirm()
-  const { factors, hasVerifiedFactor, isAAL2, startEnroll, unenroll, refresh } = useMFA()
+  const { factors, hasVerifiedFactor, isAAL2, pret, startEnroll, unenroll, refresh } = useMFA()
   // factor pré-créé avec QR + secret. La modale ne fait QUE l'afficher
   // et déclencher verify. Plus de useEffect d'enroll dans la modale →
   // pas d'effet StrictMode double-mount qui annule des enrolls.
@@ -88,16 +88,18 @@ export default function MfaCard({ lang, darkMode, isMobile, border, textColor, m
       borderTop: `1px solid ${border}`,
     }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
-        <LuShieldCheck size={16} color={hasVerifiedFactor ? 'var(--color-success)' : 'var(--color-warm-500)'} />
+        {/* Tant que les facteurs ne sont pas lus, la carte ne dit ni « Active »
+            ni « Inactive » (audit du 2026-10-04, comptes et authentification). */}
+        <LuShieldCheck size={16} color={!pret ? mutedColor : hasVerifiedFactor ? 'var(--color-success)' : 'var(--color-warm-500)'} />
         <p style={{ fontSize: isMobile ? '13px' : '14px', fontWeight: 700, color: textColor, margin: 0, flex: 1 }}>
           {t.profileSection}
         </p>
         <span style={{
           fontSize: 11, fontWeight: 700, padding: '2px 8px', borderRadius: 12,
-          background: hasVerifiedFactor ? 'rgba(34,197,94,0.15)' : 'rgba(247,168,94,0.15)',
-          color: hasVerifiedFactor ? 'var(--color-success)' : 'var(--color-warm-text)',
+          background: !pret ? 'transparent' : hasVerifiedFactor ? 'rgba(34,197,94,0.15)' : 'rgba(247,168,94,0.15)',
+          color: !pret ? mutedColor : hasVerifiedFactor ? 'var(--color-success)' : 'var(--color-warm-text)',
         }}>
-          {hasVerifiedFactor ? t.activeBadge : t.inactiveBadge}
+          {!pret ? t.checkingBadge : hasVerifiedFactor ? t.activeBadge : t.inactiveBadge}
         </span>
       </div>
 
@@ -105,7 +107,7 @@ export default function MfaCard({ lang, darkMode, isMobile, border, textColor, m
         {t.profileIntro}
       </p>
 
-      {!hasVerifiedFactor ? (
+      {!pret ? null : !hasVerifiedFactor ? (
         <>
           <Button
             onClick={handleActivate}
