@@ -222,6 +222,22 @@ describe('RecipeFormModal', () => {
       await user.click(screen.getByText(/ajouter une étape/i))
       expect(screen.getByRole('textbox', { name: /étape 1/i })).toBeInTheDocument()
     })
+
+    // Décision du 2026-10-08 (WCAG 2.5.7) : réordonner sans glisser, et le focus
+    // suit l'étape déplacée — au bout de la liste, il passe à l'autre flèche.
+    it('↓ descend l’étape d’un rang, et le focus la suit', async () => {
+      const user = userEvent.setup()
+      render(<RecipeFormModal {...defaultProps} />)
+      await user.click(screen.getByText(/ajouter une étape/i))
+      await user.type(screen.getByRole('textbox', { name: /étape 1/i }), 'Laver le riz')
+      await user.click(screen.getByText(/ajouter une étape/i))
+      await user.type(screen.getByRole('textbox', { name: /étape 2/i }), 'Cuire le riz')
+      await user.click(screen.getByRole('button', { name: "Descendre l'étape 1" }))
+      expect(screen.getByRole('textbox', { name: /étape 1/i })).toHaveValue('Cuire le riz')
+      expect(screen.getByRole('textbox', { name: /étape 2/i })).toHaveValue('Laver le riz')
+      // Devenue la dernière, elle ne descend plus : le focus est sur « Monter ».
+      expect(screen.getByRole('button', { name: "Monter l'étape 2" })).toHaveFocus()
+    })
   })
 
   // ─── Enregistrement refusé ──────────────────────────────────────────────────

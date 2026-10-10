@@ -13,6 +13,7 @@
   "champsPlaceholderSeulPlafond": 0,
   "champsLibelleInvisiblePlafond": 0,
   "couleursEnDurPlafond": 2323,
+  "petitsTextesPlafond": 213,
   "knipPlafonds": { "files": 3, "exports": 81 },
   "scripts": {
     "dev": "vite",
