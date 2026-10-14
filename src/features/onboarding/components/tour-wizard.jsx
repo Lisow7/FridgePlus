@@ -27,7 +27,23 @@ const TOUR_CSS = `
      pour une carte qui s'arrete a 556). */
   .tw-flip-in  { position:relative; display:grid; grid-template-rows:minmax(0,1fr); transition:transform .6s cubic-bezier(.4,.2,.2,1); transform-style:preserve-3d; }
   .tw-flip-in.flipped { transform:rotateY(180deg); }
-  .tw-face     { backface-visibility:hidden; -webkit-backface-visibility:hidden; grid-area:1/1; min-height:0; display:flex; flex-direction:column; }
+  /* min-width:0 : un element de grille prend sinon la largeur MINIMALE de son
+     contenu. A l'etape finale, « ‹ Precedent » et le CTA du profil sur une
+     ligne reclamaient plus que la carte, et c'est la carte entiere qui
+     s'elargissait, hors de l'ecran (305 px pour une scene de 288 a 320 px,
+     mesure le 2026-10-15 ; les polices de Linux l'ont montre en CI). */
+  .tw-face     { backface-visibility:hidden; -webkit-backface-visibility:hidden; grid-area:1/1; min-height:0; min-width:0; display:flex; flex-direction:column; }
+  /* La rangee de navigation : une pile de grille, comme la zone. La rangee
+     reelle et le GABARIT invisible de la rangee finale (« ‹ Precedent » + le
+     CTA du profil) occupent la meme cellule : la rangee a, a CHAQUE etape, la
+     hauteur de la plus haute des deux. Si le CTA final ne tient pas a cote de
+     « ‹ Precedent », la rangee passe sur deux lignes des l'etape 1 — et la
+     commande ne saute pas a la derniere. Aucun nombre a tenir a jour. */
+  .tw-nav      { display:grid; margin-top:8px; }
+  .tw-nav > *  { grid-area:1/1; }
+  .tw-nav-rangee { display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; align-content:flex-end; gap:6px 10px; }
+  .tw-nav-rangee .tw-next { margin-left:auto; }
+  .tw-nav-gabarit { visibility:hidden; pointer-events:none; }
   .tw-face.back{ transform:rotateY(180deg); }
   .tw-card     { animation:tw-step .28s ease both; }
   /* La ZONE de contenu : une pile de grille. Le contenu reel de l'etape
@@ -81,6 +97,28 @@ const STEP_META = {
 // 4 étapes communes à tous + 1 étape finale adaptée au profil.
 const COMMON = ['fab', 'fridge', 'check', 'recipes']
 const FINAL_BY_PROFILE = { guest: 'final_guest', free: 'final_free', premium: 'final_premium' }
+
+// ── Styles de la rangée de navigation ─────────────────────────────────────────
+// Partagés entre la rangée réelle et son gabarit (cf. TOUR_CSS, `.tw-nav`) :
+// deux copies qui divergeraient mesureraient autre chose que ce qu'on affiche.
+function styleRetour(actif) {
+  return {
+    background: 'none', border: 'none', padding: '6px',
+    color: '#B9A88F', fontSize: '13px', fontWeight: 600,
+    whiteSpace: 'nowrap',
+    cursor: actif ? 'pointer' : 'default',
+    opacity: actif ? 1 : .3,
+    transition: 'color .15s',
+  }
+}
+const STYLE_SUIVANT = {
+  border: 'none', borderRadius: '11px', padding: '10px 20px',
+  fontSize: '14px', fontWeight: 800, color: '#fff', cursor: 'pointer',
+  background: '#B85000',
+  boxShadow: '0 6px 18px rgba(184,80,0,.45)',
+  transition: 'filter .15s, transform .1s',
+  whiteSpace: 'nowrap', flexShrink: 0,
+}
 
 // ── i18n libellés (navigation / verso) ─────────────────────────────────────────
 const I18N = {
@@ -326,42 +364,34 @@ export default function TourWizard({ lang = 'fr', user, isPremium, onClose, onBa
                   une commande qui saute. Invisible sur le poste du mainteneur,
                   reproduit trois fois de suite par la CI — les polices de Linux
                   ne mesurent pas comme celles de Windows.
-                  Remède STRUCTUREL, et non un nombre : aucun des deux libellés
-                  ne peut passer à la ligne, donc la rangée fait toujours
-                  exactement une ligne, quelle que soit la police et quelle que
-                  soit la longueur du libellé. */}
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '8px', gap: '10px' }}>
-                <button
-                  type="button"
-                  className="tw-nav-back"
-                  onClick={handleBack}
-                  disabled={idx === 0 && !onBack}
-                  style={{
-                    background: 'none', border: 'none', padding: '6px',
-                    color: '#B9A88F', fontSize: '13px', fontWeight: 600,
-                    whiteSpace: 'nowrap',
-                    cursor: (idx === 0 && !onBack) ? 'default' : 'pointer',
-                    opacity: (idx === 0 && !onBack) ? .3 : 1,
-                    transition: 'color .15s',
-                  }}
-                >
-                  {t.prev}
-                </button>
-                <button
-                  type="button"
-                  className="tw-next"
-                  onClick={handleNext}
-                  style={{
-                    border: 'none', borderRadius: '11px', padding: '10px 20px',
-                    fontSize: '14px', fontWeight: 800, color: '#fff', cursor: 'pointer',
-                    background: '#B85000',
-                    boxShadow: '0 6px 18px rgba(184,80,0,.45)',
-                    transition: 'filter .15s, transform .1s',
-                    whiteSpace: 'nowrap', flexShrink: 0,
-                  }}
-                >
-                  {isLast ? step.ctaLabel : t.next}
-                </button>
+                  Le remède d'alors — aucun libellé ne passe à la ligne — a
+                  déplacé le défaut : quand les deux ne tiennent pas côte à
+                  côte, c'est la CARTE qui s'élargissait, hors de l'écran
+                  (2026-10-10, en CI). Remède STRUCTUREL, et non un nombre : la
+                  face ne peut plus s'élargir (`min-width:0`), la rangée peut
+                  passer sur deux lignes, et un GABARIT de la rangée finale lui
+                  réserve cette hauteur à toutes les étapes (cf. TOUR_CSS). */}
+              <div className="tw-nav">
+                <div className="tw-nav-rangee">
+                  <button
+                    type="button"
+                    className="tw-nav-back"
+                    onClick={handleBack}
+                    disabled={idx === 0 && !onBack}
+                    style={styleRetour(!(idx === 0 && !onBack))}
+                  >
+                    {t.prev}
+                  </button>
+                  <button type="button" className="tw-next" onClick={handleNext} style={STYLE_SUIVANT}>
+                    {isLast ? step.ctaLabel : t.next}
+                  </button>
+                </div>
+                {/* Mêmes éléments, mêmes styles, le libellé de la rangée finale :
+                    c'est ce qu'on mesure. Invisible, inerte, sans rôle. */}
+                <div className="tw-nav-rangee tw-nav-gabarit" data-gabarit-nav aria-hidden="true" inert>
+                  <button type="button" className="tw-nav-back" tabIndex={-1} disabled style={styleRetour(true)}>{t.prev}</button>
+                  <button type="button" className="tw-next" tabIndex={-1} disabled style={STYLE_SUIVANT}>{steps[n - 1].ctaLabel}</button>
+                </div>
               </div>
             </div>
           </div>

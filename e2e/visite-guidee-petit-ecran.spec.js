@@ -142,10 +142,13 @@ for (const taille of [
           hautCommande: b ? b.offsetTop : null,
           // Un débordement de plus d'1 px signifie une barre de défilement.
           deborde: z ? z.scrollHeight - z.clientHeight : 0,
+          // La carte ne doit jamais être plus large que la scène qui la porte.
+          largeur: c.scrollWidth,
+          largeurScene: document.querySelector('.tw-stage').offsetWidth,
         }
       })
       expect(carte.hautCommande, `étape ${etape} : commande introuvable dans la carte`).not.toBeNull()
-      releves.push({ etape, hautCommande: carte.hautCommande, hauteurCarte: carte.hauteur, deborde: carte.deborde, ecran: Math.round(cadre.y + cadre.height) })
+      releves.push({ etape, hautCommande: carte.hautCommande, hauteurCarte: carte.hauteur, deborde: carte.deborde, ecran: Math.round(cadre.y + cadre.height), largeur: carte.largeur, largeurScene: carte.largeurScene })
 
       if (etape < 5) await commande.click()
     }
@@ -187,6 +190,19 @@ for (const taille of [
     // 4. Et elle reste dans l'écran — la garantie d'origine, qui ne bouge pas.
     for (const r of releves) {
       expect(r.ecran, `étape ${r.etape} : commande hors écran`).toBeLessThanOrEqual(taille.height)
+    }
+
+    // 5. La carte n'est JAMAIS plus large que sa scène. Trouvé en CI le
+    //    2026-10-10 : à l'étape finale, « ‹ Précédent » et « Créer un compte → »
+    //    sur une seule ligne réclamaient plus que la carte ; la face, élément de
+    //    grille, prenait cette largeur minimale et la carte entière s'élargissait
+    //    (305 px pour une scène de 288 à 320 px) — commande coupée par le bord de
+    //    l'écran, et un gabarit reflué dans une zone plus large, donc plus court
+    //    que sur les quatre autres étapes. Les polices de Linux, plus larges,
+    //    l'ont montré ; le poste du mainteneur le cachait.
+    for (const r of releves) {
+      expect(r.largeur, `étape ${r.etape} : la carte (${r.largeur} px) déborde de sa scène (${r.largeurScene} px)`)
+        .toBeLessThanOrEqual(r.largeurScene)
     }
   })
 }

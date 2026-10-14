@@ -325,10 +325,13 @@ export default function CustomRecipesSection({ lang = 'fr', darkMode = false }) 
                   )}
                   <span style={{ fontSize:22, flexShrink:0 }}>{recipe.data?.emoji ?? '🍽️'}</span>
                   {/* Le titre garde 160 px : sans ce plancher, pastilles et actions
-                      l'écrasaient à ZÉRO au téléphone (mesuré le 2026-10-08). */}
+                      l'écrasaient à ZÉRO au téléphone (mesuré le 2026-10-08).
+                      Et la pastille « Sans image » passe SOUS le titre quand la
+                      place manque (flexWrap) : sur une seule ligne, elle lui
+                      laissait ~100 px à 360 px — « Tarte aux … » (2026-10-10). */}
                   <div style={{ flex:'1 1 160px', minWidth:0 }}>
-                    <div style={{ fontSize:15, fontWeight:700, color:textColor, overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap', display:'flex', alignItems:'center', gap:6 }}>
-                      <span style={{ overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>{recipe.title}</span>
+                    <div style={{ fontSize:15, fontWeight:700, color:textColor, overflow:'hidden', display:'flex', flexWrap:'wrap', alignItems:'center', gap:'2px 6px' }}>
+                      <span style={{ minWidth:0, overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>{recipe.title}</span>
                       {hasNoImage(recipe) && <MissingImageBadge lang={lang} />}
                     </div>
                     <div style={{ fontSize:12, color:muted, marginTop:2 }}>{recipe.username ?? recipe.user_id?.slice(0,8)+'…'} · {fmtDate(recipe.created_at)}</div>

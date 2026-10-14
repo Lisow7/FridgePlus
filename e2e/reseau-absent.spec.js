@@ -13,7 +13,16 @@ test.beforeEach(async ({ page }) => {
   await installSupabaseMocks(page)
 })
 
-test('un invité : la voix et la photo du ticket attendront, et le bandeau part au retour du réseau', async ({ page, context }) => {
+// Le drapeau de la photo du ticket coupe vraiment (décision du 2026-10-08) : le
+// bandeau d'un invité ne promet la photo que si le drapeau est allumé. Le socle
+// sert une table `feature_flags` vide — drapeau absent, donc éteint.
+const photoDuTicketAllumee = (page) => page.route('**/rest/v1/feature_flags*', (route) => route.fulfill({
+  status: 200,
+  contentType: 'application/json',
+  body: JSON.stringify([{ key: 'receipt_scan', enabled: true, label: 'Scan de ticket de caisse', description: '' }]),
+}))
+
+async function accueilChargePuisHorsLigne(page, context) {
   await page.goto('/FridgePlus/')
   await expect(page.getByRole('button', { name: 'Ouvrir le frigo' })).toBeVisible()
   // L'app entièrement chargée (ses morceaux à la demande compris), comme après
@@ -24,12 +33,25 @@ test('un invité : la voix et la photo du ticket attendront, et le bandeau part 
   await expect(bandeau).toHaveCount(0)
 
   await context.setOffline(true)
-  await expect(bandeau).toContainText('La voix et la photo du ticket attendront son retour.')
+  return bandeau
+}
+
+test('un invité, photo du ticket éteinte : la voix attendra, et le bandeau part au retour du réseau', async ({ page, context }) => {
+  const bandeau = await accueilChargePuisHorsLigne(page, context)
+  await expect(bandeau).toContainText('La voix attendra son retour.')
+  await expect(bandeau).not.toContainText('photo')
 
   await context.setOffline(false)
   await expect(bandeau).toHaveCount(0)
   // … parce que le réseau est revenu, pas parce que l'app serait tombée.
   await expect(page.getByRole('button', { name: 'Ouvrir le frigo' })).toBeVisible()
+})
+
+test('un invité, photo du ticket allumée : la voix et la photo du ticket attendront', async ({ page, context }) => {
+  await photoDuTicketAllumee(page)
+  const bandeau = await accueilChargePuisHorsLigne(page, context)
+  await expect(bandeau).toContainText('La voix et la photo du ticket attendront son retour.')
+  await context.setOffline(false)
 })
 
 test('un compte : ce qu’il change ne sera pas enregistré tant que le réseau n’est pas revenu', async ({ page, context }) => {

@@ -62,11 +62,17 @@ test.describe('téléphone (360 × 640)', () => {
     await expect(panneau.getByRole('button', { name: 'Détails de marie_cuisine' })).toBeVisible()
   })
 
-  test('une recette à modérer montre son titre, et des actions qui disent ce qu’elles font', async ({ page }) => {
+  test('une recette à modérer montre son titre en entier, et des actions qui disent ce qu’elles font', async ({ page }) => {
     const panneau = await ouvrirLePanneauAdmin(page, { section: 'recipes' })
     const titre = panneau.getByText('Tarte aux poireaux', { exact: true })
     await expect(titre).toBeVisible()
-    expect(await titre.evaluate((e) => e.getBoundingClientRect().width), 'largeur du titre').toBeGreaterThan(100)
+    // Le titre n'est PAS tronqué. Avant, on mesurait « plus de 100 px » : la
+    // pastille « Sans image » partageait sa ligne, et ce qui restait au titre
+    // en CI valait 100,5 px — ou 96,5 selon l'essai (2026-10-10, test
+    // instable). Quand la place manque, la pastille passe dessous.
+    const tronque = await titre.evaluate((e) => e.scrollWidth > e.clientWidth)
+    expect(tronque, 'le titre est tronqué (points de suspension)').toBe(false)
+    await expect(panneau.getByText('Sans image', { exact: true })).toBeVisible()
     for (const action of ['Modifier', 'Approuver', 'Rejeter', 'Supprimer']) {
       const libelle = panneau.getByRole('button', { name: new RegExp(`^${action}`) }).last().getByText(action, { exact: true })
       await expect(libelle, `le libellé « ${action} » est visible au toucher`).toBeVisible()

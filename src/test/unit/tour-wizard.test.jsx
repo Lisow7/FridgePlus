@@ -27,6 +27,25 @@ describe('TourWizard — refonte visite courte (5 étapes constantes)', () => {
     expect(showRegister).toHaveBeenCalledTimes(1)
   })
 
+  // Trouvé en CI le 2026-10-10 : à l'étape finale, « ‹ Précédent » et le CTA du
+  // profil sur une seule ligne réclamaient plus que la carte, qui s'élargissait
+  // hors de l'écran (320 px). La rangée de navigation porte donc, dès la première
+  // étape, un GABARIT invisible de la rangée finale — même doctrine que le
+  // gabarit du contenu : la hauteur vient d'une mesure, pas d'un nombre.
+  it('la rangée de navigation réserve dès l’étape 1 la place de la rangée finale, sans lui prêter de rôle', () => {
+    render(<TourWizard lang="fr" user={null} onClose={() => {}} onAction={{}} />)
+    const gabarit = document.querySelector('[data-gabarit-nav]')
+    expect(gabarit).not.toBeNull()
+    expect(gabarit).toHaveAttribute('aria-hidden', 'true')
+    expect(gabarit).toHaveAttribute('inert')
+    expect(gabarit).toHaveTextContent('‹ Précédent')
+    expect(gabarit).toHaveTextContent('Créer un compte →')
+    // Les vrais boutons restent seuls dans l'arbre d'accessibilité.
+    expect(screen.getAllByRole('button', { name: /Suivant/ })).toHaveLength(1)
+    expect(screen.queryByRole('button', { name: /Créer un compte/ })).toBeNull()
+    expect(screen.getAllByRole('button', { name: /Précédent/ })).toHaveLength(1)
+  })
+
   // P4 (audit 2026-10-02) : la visite d'un invité finissait sur un seul
   // bouton, « Créer un compte » — rien pour continuer sans, sauf la croix.
   it('invité : « Continuer sans compte » ferme la visite sans rien créer', () => {
