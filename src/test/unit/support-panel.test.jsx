@@ -17,7 +17,7 @@ vi.mock('@features/support/api/support', () => ({
   searchIngredients: vi.fn(), searchUsersForReport: vi.fn(),
 }))
 vi.mock('@shared/api/reports', () => ({ createReport: vi.fn() }))
-vi.mock('@shared/hooks/use-moderation', () => ({ moderateContent: vi.fn() }))
+vi.mock('@shared/api/moderation-de-contenu', () => ({ moderateContent: vi.fn() }))
 vi.mock('@features/support/data/support-self-help', () => ({ getSelfHelp: () => [] }))
 
 import SupportPanel from '@features/support/components/support-panel'
@@ -38,7 +38,7 @@ describe('SupportPanel — suppressions', () => {
     render(<SupportPanel userId="u1" lang="fr" onClose={vi.fn()} />)
     await waitFor(() => screen.getByText('Mon ticket'))
     fireEvent.click(screen.getByTitle('Supprimer le ticket'))
-    expect(await screen.findByRole('alert')).toHaveTextContent('L\'opération a échoué. Rien n\'a été modifié.')
+    expect(await screen.findByRole('alert')).toHaveTextContent('L’opération a échoué. Rien n’a été modifié.')
     expect(screen.getByText('Mon ticket')).toBeInTheDocument()
   })
 
@@ -72,7 +72,7 @@ describe('SupportPanel — suppressions', () => {
     await waitFor(() => screen.getByText('Bonjour'))
     fireEvent.mouseEnter(screen.getByText('Bonjour').closest('div'))
     fireEvent.click(screen.getByTitle('Supprimer le message'))
-    expect(await screen.findByRole('alert')).toHaveTextContent('L\'opération a échoué. Rien n\'a été modifié.')
+    expect(await screen.findByRole('alert')).toHaveTextContent('L’opération a échoué. Rien n’a été modifié.')
     expect(screen.getByText('Bonjour')).toBeInTheDocument()
   })
 

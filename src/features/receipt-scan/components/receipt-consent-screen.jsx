@@ -11,7 +11,7 @@ const I18N = {
     eyebrow: 'AVANT DE PRENDRE LA PHOTO',
     title: 'On identifie tes ingrédients',
     body: "On lit les noms des produits de ton ticket pour te proposer de les ajouter à ton frigo — après relecture, jamais automatiquement.",
-    trust: "Aucune photo n'est conservée. Analysée par Google Cloud Vision puis immédiatement supprimée. Seuls les noms d'ingrédients que tu valides sont gardés.",
+    trust: "Aucune photo n’est conservée. Analysée par Google Cloud Vision puis immédiatement supprimée. Seuls les noms d’ingrédients que tu valides sont gardés.",
     tips: ['📄 À plat, sur une surface stable', '💡 Lumière naturelle, sans flash', '🧾 Ticket entier dans le cadre'],
     cancel: 'Annuler',
     continue: 'Continuer',

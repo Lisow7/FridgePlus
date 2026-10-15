@@ -2,7 +2,7 @@ import { LuStar, LuX } from 'react-icons/lu'
 import { CIBLE_MINIMALE } from '@shared/lib/cible-minimale'
 
 const I18N = {
-  fr: { title: 'Comment c\'était ?', close: 'Fermer' },
+  fr: { title: 'Comment c’était ?', close: 'Fermer' },
   en: { title: 'How was it?', close: 'Close' },
 }
 

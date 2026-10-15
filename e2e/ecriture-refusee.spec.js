@@ -58,7 +58,7 @@ test.describe('Une écriture refusée se voit et se lit', () => {
     await expect.poll(() => etat.ecritures).toBeGreaterThan(0)
     await expect(aliment).toHaveAttribute('aria-pressed', 'false')
     // …et c'est dit, dans une région annoncée aux lecteurs d'écran.
-    const message = page.getByText('Pas enregistré : ton frigo n\'a pas pu être mis à jour. Réessaie.')
+    const message = page.getByText('Pas enregistré : ton frigo n’a pas pu être mis à jour. Réessaie.')
     await expect(message).toBeVisible()
     expect(await message.evaluate((el) => !!el.closest('[aria-live="assertive"]'))).toBe(true)
   })
@@ -85,7 +85,7 @@ test.describe('Une écriture refusée se voit et se lit', () => {
     // les sert vides) : seul le frigo échoue.
     await page.goto('/FridgePlus/')
 
-    const message = page.getByText('Ton frigo n\'a pas pu être chargé.')
+    const message = page.getByText('Ton frigo n’a pas pu être chargé.')
     await expect(message).toBeVisible()
     // Il reste tant que la personne n'a rien fait.
     await page.waitForTimeout(7000)
@@ -115,7 +115,7 @@ test.describe('Sur téléphone, les messages ont toute la largeur utile', () => 
     await ouvrirLesViandes(page)
     await page.locator('button[aria-pressed]:visible').first().click()
 
-    const message = page.getByText('Pas enregistré : ton frigo n\'a pas pu être mis à jour. Réessaie.')
+    const message = page.getByText('Pas enregistré : ton frigo n’a pas pu être mis à jour. Réessaie.')
     await expect(message).toBeVisible()
     expect((await message.boundingBox()).width).toBeGreaterThan(250)
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true)
@@ -127,7 +127,7 @@ test.describe('Sur téléphone, les messages ont toute la largeur utile', () => 
     await frigoEnBase(page, etat)
     await page.goto('/FridgePlus/')
 
-    const message = page.getByText('Ton frigo n\'a pas pu être chargé.')
+    const message = page.getByText('Ton frigo n’a pas pu être chargé.')
     await expect(message).toBeVisible()
     // Le paragraphe (le message et sa précision), pas une colonne d'un mot.
     const paragraphe = await message.locator('xpath=..').boundingBox()

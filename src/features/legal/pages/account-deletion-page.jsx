@@ -7,6 +7,7 @@ import {
   EMAIL_SUPPRESSION,
   CHEMIN_DANS_APP,
   DONNEES,
+  APRES_LA_DEMANDE,
 } from '@features/legal/data/suppression-compte'
 
 // Page publique de suppression de compte — /suppression-compte
@@ -45,7 +46,6 @@ const I18N = {
     subtitle: `Tu peux supprimer ton compte et les données qui s’y rattachent à tout moment, toi-même et sans rien demander à personne. Voici comment, et ce qu’il advient exactement de chaque donnée.`,
     dansApp: 'Depuis l’application',
     dansAppIntro: 'C’est le chemin le plus rapide, et il ne demande aucune validation de notre part :',
-    dansAppApres: `Ton compte est désactivé tout de suite. Tes données sont gardées ${DELAI_EFFACEMENT_JOURS} jours, le temps de changer d’avis — en te reconnectant, ou par le lien de l’e-mail de confirmation —, puis anonymisées et définitivement effacées, sauvegardes comprises.`,
     parMail: 'Sans l’application',
     parMailIntro: `Si tu as désinstallé Fridge+ ou si tu n’arrives plus à te connecter, écris-nous depuis l’adresse e-mail de ton compte. Nous te répondons et procédons à la suppression sous ${DELAI_EFFACEMENT_JOURS} jours.`,
     parMailObjet: 'Suppression de mon compte Fridge+',
@@ -65,7 +65,6 @@ const I18N = {
     subtitle: 'You can delete your account and the data attached to it at any time, by yourself, without asking anyone. Here is how, and exactly what happens to each piece of data.',
     dansApp: 'From the app',
     dansAppIntro: 'This is the fastest route, and it needs no approval from us:',
-    dansAppApres: `Your account is deactivated straight away. Your data is kept for ${DELAI_EFFACEMENT_JOURS} days so you can change your mind — by signing back in, or with the link in the confirmation email — then anonymised and permanently erased, backups included.`,
     parMail: 'Without the app',
     parMailIntro: `If you have uninstalled Fridge+ or can no longer sign in, write to us from your account’s email address. We reply and carry out the deletion within ${DELAI_EFFACEMENT_JOURS} days.`,
     parMailObjet: 'Deletion of my Fridge+ account',
@@ -153,7 +152,7 @@ export default function AccountDeletionPage({ lang = 'fr', darkMode = false }) {
           background: cardBg, border: `1px solid ${cardBorder}`, boxShadow: cardShadow,
           fontSize: 14.5, fontWeight: 700, lineHeight: 1.5,
         }}>{chemin}</p>
-        <p style={{ margin: 0, fontSize: 14.5, lineHeight: 1.6, color: muted }}>{t.dansAppApres}</p>
+        <p style={{ margin: 0, fontSize: 14.5, lineHeight: 1.6, color: muted }}>{APRES_LA_DEMANDE[lang] ?? APRES_LA_DEMANDE.fr}</p>
       </section>
 
       <section aria-labelledby="sup-mail" style={{ marginBottom: 30 }}>

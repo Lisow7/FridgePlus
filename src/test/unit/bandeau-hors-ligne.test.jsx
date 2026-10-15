@@ -1,0 +1,69 @@
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
+import { render, screen, act } from '@testing-library/react'
+
+// Décision du 2026-10-08 (audit du 2026-10-04) : quand le réseau tombe, rien ne
+// le disait — un compte ne l'apprenait qu'en touchant à son frigo, un invité en
+// voyant la voix et la photo du ticket ne plus marcher. Un bandeau tant que le
+// réseau manque, qui part seul à son retour. Textes de la maquette validée.
+
+const etat = vi.hoisted(() => ({ user: null, lang: 'fr' }))
+vi.mock('@shared/contexts/auth-provider', () => ({ useAuth: () => ({ user: etat.user }) }))
+vi.mock('@shared/contexts/ui-provider', () => ({ useLang: () => ({ lang: etat.lang }) }))
+// Drapeau de la photo du ticket allumé : ces attentes la nomment (éteint : drapeau-du-ticket.test.jsx).
+vi.mock('@shared/contexts/feature-flags-provider', () => ({ useFeatureFlag: (cle, repli) => (cle === 'receipt_scan' ? true : repli) }))
+
+import BandeauHorsLigne from '@app/components/bandeau-hors-ligne'
+
+let enLigne = true
+beforeEach(() => {
+  etat.user = null
+  etat.lang = 'fr'
+  enLigne = true
+  vi.spyOn(navigator, 'onLine', 'get').mockImplementation(() => enLigne)
+})
+afterEach(() => { vi.restoreAllMocks() })
+
+function couperLeReseau() { act(() => { enLigne = false; window.dispatchEvent(new Event('offline')) }) }
+function rendreLeReseau() { act(() => { enLigne = true; window.dispatchEvent(new Event('online')) }) }
+
+describe('le bandeau « Pas de réseau »', () => {
+  it('réseau là : rien', () => {
+    render(<BandeauHorsLigne />)
+    expect(screen.queryByRole('status')).toBeNull()
+  })
+
+  it('pour un compte : les modifications ne peuvent pas être enregistrées pour l’instant', () => {
+    etat.user = { id: 'u1' }
+    render(<BandeauHorsLigne />)
+    couperLeReseau()
+    expect(screen.getByRole('status')).toHaveTextContent('Pas de réseau. Tes modifications ne peuvent pas être enregistrées pour l’instant.')
+  })
+
+  it('pour un invité : l’ajout à la voix et la photo du ticket reviendront avec la connexion', () => {
+    render(<BandeauHorsLigne />)
+    couperLeReseau()
+    expect(screen.getByRole('status')).toHaveTextContent('Pas de réseau. L’ajout à la voix et la photo du ticket reviendront avec la connexion.')
+  })
+
+  it('part seul quand le réseau revient', () => {
+    render(<BandeauHorsLigne />)
+    couperLeReseau()
+    expect(screen.getByRole('status')).toBeInTheDocument()
+    rendreLeReseau()
+    expect(screen.queryByRole('status')).toBeNull()
+  })
+
+  it('déjà hors ligne à l’ouverture : affiché d’emblée', () => {
+    enLigne = false
+    render(<BandeauHorsLigne />)
+    expect(screen.getByRole('status')).toHaveTextContent('Pas de réseau.')
+  })
+
+  it('en anglais aussi', () => {
+    etat.lang = 'en'
+    etat.user = { id: 'u1' }
+    render(<BandeauHorsLigne />)
+    couperLeReseau()
+    expect(screen.getByRole('status')).toHaveTextContent('No network. Your changes can’t be saved for now.')
+  })
+})

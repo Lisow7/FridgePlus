@@ -16,12 +16,12 @@ const courriel = readFileSync(resolve(process.cwd(), 'supabase/functions/notifie
 
 describe('l’empreinte gardée après un bannissement est dite', () => {
   it('politique de confidentialité, durées de conservation : en français et en anglais', () => {
-    expect(texte('fr', 'privacy')).toMatch(/Compte supprimé pendant une suspension : seule une empreinte de l'adresse e-mail/)
+    expect(texte('fr', 'privacy')).toMatch(/Compte supprimé pendant une suspension : seule une empreinte de l['’]adresse e-mail/)
     expect(texte('en', 'privacy')).toMatch(/Account deleted while suspended: only a fingerprint of the e-mail address/)
   })
 
   it('FAQ : « aucune donnée personnelle n’est conservée » a son exception', () => {
-    expect(texte('fr', 'faq')).toMatch(/Aucune donnée personnelle \(e-mail, pseudo, IP\) n'est conservée, sauf si le compte était suspendu/)
+    expect(texte('fr', 'faq')).toMatch(/Aucune donnée personnelle \(e-mail, pseudo, IP\) n['’]est conservée, sauf si le compte était suspendu/)
     expect(texte('en', 'faq')).toMatch(/No personal data \(email, username, IP\) is retained, except if the account was suspended/)
   })
 

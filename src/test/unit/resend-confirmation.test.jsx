@@ -24,14 +24,14 @@ describe('ResendConfirmation', () => {
   const avancer = async (secondes) => { await act(async () => { vi.advanceTimersByTime(secondes * 1000) }) }
   const cliquer = async () => { await act(async () => { fireEvent.click(bouton()) }) }
 
-  it('le service refuse plus d\'une demande par minute : le délai est de 60 s', () => {
+  it('le service refuse plus d’une demande par minute : le délai est de 60 s', () => {
     expect(RESEND_COOLDOWN_S).toBe(60)
   })
 
   it('sans délai de départ, le bouton est disponible tout de suite', () => {
     render(<ChampDeTest />)
     expect(bouton()).toBeEnabled()
-    expect(bouton()).toHaveTextContent(/renvoyer l'e-mail de confirmation/i)
+    expect(bouton()).toHaveTextContent(/renvoyer l['’]e-mail de confirmation/i)
   })
 
   it('avec un délai de départ (un e-mail vient de partir), il attend en comptant', async () => {
@@ -44,7 +44,7 @@ describe('ResendConfirmation', () => {
     expect(bouton()).toBeEnabled()
   })
 
-  it('au clic, redemande l\'e-mail pour cette adresse et le dit', async () => {
+  it('au clic, redemande l’e-mail pour cette adresse et le dit', async () => {
     render(<ChampDeTest />)
     await cliquer()
     expect(resendSignupEmail).toHaveBeenCalledWith('bob@test.com')
@@ -61,7 +61,7 @@ describe('ResendConfirmation', () => {
     expect(bouton()).toBeEnabled()
   })
 
-  it('si le service refuse, le dit sans prétendre que c\'est parti', async () => {
+  it('si le service refuse, le dit sans prétendre que c’est parti', async () => {
     resendSignupEmail.mockResolvedValue({ error: { status: 429, message: 'For security purposes, you can only request this after 60 seconds.' } })
     render(<ChampDeTest />)
     await cliquer()

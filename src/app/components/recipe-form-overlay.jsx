@@ -1,5 +1,6 @@
 import { Suspense, lazy } from 'react'
 import { useRecipeForm } from '@shared/contexts/recipe-form-context'
+import FiletDeLaFenetreRecette from '@app/components/filet-fenetre-recette'
 
 // RecipeFormOverlay — Sprint 11 S11.e.1.
 //
@@ -13,6 +14,9 @@ import { useRecipeForm } from '@shared/contexts/recipe-form-context'
 // Avant Sprint 11 S11.e.1 : RecipeFormModal était rendu localement dans
 // RecipePanel, donc inaccessible depuis les routes /profile, /recipe/:id
 // (overlay), /community, etc.
+//
+// Son propre filet (décision du 2026-10-08) : un plantage de la fenêtre ne fait
+// plus tomber toute l'application (cf. filet-fenetre-recette.jsx).
 
 const RecipeFormModal = lazy(() => import('@features/recipes/components/recipe-form-modal'))
 
@@ -22,14 +26,16 @@ export default function RecipeFormOverlay({ onSave, lang, darkMode }) {
   if (!showForm) return null
 
   return (
-    <Suspense fallback={null}>
-      <RecipeFormModal
-        initialRecipe={editRecipe}
-        onSave={onSave}
-        onClose={close}
-        lang={lang}
-        darkMode={darkMode}
-      />
-    </Suspense>
+    <FiletDeLaFenetreRecette lang={lang} darkMode={darkMode} enModification={!!editRecipe} onFermer={close}>
+      <Suspense fallback={null}>
+        <RecipeFormModal
+          initialRecipe={editRecipe}
+          onSave={onSave}
+          onClose={close}
+          lang={lang}
+          darkMode={darkMode}
+        />
+      </Suspense>
+    </FiletDeLaFenetreRecette>
   )
 }

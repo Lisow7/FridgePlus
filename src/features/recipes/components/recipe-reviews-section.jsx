@@ -12,7 +12,7 @@ import ReviewReportModal from './recipe-review-report-modal'
 import LoadErrorNotice from '@shared/ui/load-error-notice'
 import { useSaveErrorToast } from '@shared/hooks/use-save-error-toast'
 import { getCommunityTermsAcceptedAt } from '@shared/api/community'
-import { moderateContent, submitPhotoPost } from '@shared/hooks/use-moderation'
+import { moderateContent, submitPhotoPost } from '@shared/api/moderation-de-contenu'
 import { compressImageToBase64 } from '@shared/lib/media/compress-image'
 import { containsProfanity } from '@shared/lib/moderation'
 import { useConfirm } from '@shared/ui/confirm-dialog/confirm-provider'
@@ -153,7 +153,7 @@ const RecipeReviewsSection = forwardRef(function RecipeReviewsSection(
 
   const handleDelete = async () => {
     if (!myReview) return
-    if (!(await confirm({ title: t.deleteConfirm, danger: true }))) return
+    if (!(await confirm({ title: t.deleteConfirm, confirmLabel: t.deleteConfirmOk, danger: true }))) return
     // L'avis ne quitte l'écran que si la base l'a retiré : retiré sur un
     // refus, il serait revenu au rechargement.
     let refusee

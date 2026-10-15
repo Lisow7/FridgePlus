@@ -23,10 +23,10 @@ export const TOUR_STEPS_I18N = {
     fab: {
       title: 'Le bouton orange, Actions rapides',
       subtitle: 'EN HAUT À DROITE DE L’ACCUEIL',
-      desc: 'C\'est ton menu. Trois verbes, dans l\'ordre : Remplir, Vérifier, Cuisiner. Chaque entrée dit en une ligne ce qu\'elle fait.',
+      desc: 'C’est ton menu. Trois verbes, dans l’ordre : Remplir, Vérifier, Cuisiner. Chaque entrée dit en une ligne ce qu’elle fait.',
       tips: [
         { i: '📍', t: 'Perdu à un moment ? Touche le logo Fridge+ : il te ramène à l’accueil, et à ce bouton.' },
-        { icon: 'inventory', t: 'Pour vider ton frigo : ouvre l\'Inventaire, le bouton est en bas — avec 10 secondes pour tout annuler.' },
+        { icon: 'inventory', t: 'Pour vider ton frigo : ouvre l’Inventaire, le bouton est en bas — avec 10 secondes pour tout annuler.' },
       ],
     },
     fridge: {
@@ -40,7 +40,7 @@ export const TOUR_STEPS_I18N = {
       ],
       tips: [
         { i: '⚡', t: 'Le combo le plus rapide en rentrant des courses : la voix ou la photo, jamais les deux mains prises par le téléphone.' },
-        { i: '🔒', t: 'Micro et appareil photo restent désactivés tant que tu ne dis pas oui — et tu peux changer d\'avis à tout moment dans Confidentialité.' },
+        { i: '🔒', t: 'Micro et appareil photo restent désactivés tant que tu ne dis pas oui — et tu peux changer d’avis à tout moment dans Confidentialité.' },
       ],
     },
     check: {
@@ -51,28 +51,28 @@ export const TOUR_STEPS_I18N = {
         { icon: 'leftovers', t: 'Restes',     d: 'Tes plats cuisinés, avec le temps qui leur reste (vert, orange, rouge).' },
       ],
       tips: [
-        { i: '♻️', t: 'Un reste rouge, c\'est celui à finir ce soir — l\'app le met en avant dans les recettes.' },
+        { i: '♻️', t: 'Un reste rouge, c’est celui à finir ce soir — l’app le met en avant dans les recettes.' },
       ],
     },
     recipes: {
       title: 'Ce que tu peux cuisiner',
       subtitle: 'OUVRE LES RECETTES',
-      desc: 'L\'app te montre d\'abord les recettes que tu peux faire avec ce que tu as. Une petite jauge indique à quel point chacune est à ta portée.',
+      desc: 'L’app te montre d’abord les recettes que tu peux faire avec ce que tu as. Une petite jauge indique à quel point chacune est à ta portée.',
       tips: [
         { i: '✅', t: '« Prêt » = faisable tout de suite. « Presque » = tu as déjà au moins 60 % des ingrédients.' },
-        { icon: 'recipes', t: 'Une fois le plat fait, touche « J\'ai cuisiné » : les ingrédients utilisés sortent du frigo, et le plat entre dans tes restes.' },
+        { icon: 'recipes', t: 'Une fois le plat fait, touche « J’ai cuisiné » : les ingrédients utilisés sortent du frigo, et le plat entre dans tes restes.' },
         { i: '🔎', t: 'Tu peux aussi choisir par régime, temps ou type de plat.' },
       ],
     },
     final_guest: {
       title: 'Aller plus loin',
       subtitle: 'TU AS LES BASES',
-      desc: 'Un compte retrouve tes favoris sur tous tes appareils, ouvre la communauté et ton espace. Le premium ? Pas encore : aujourd\'hui, tout est gratuit.',
+      desc: 'Un compte retrouve tes favoris sur tous tes appareils, ouvre la communauté et ton espace. Le premium ? Pas encore : aujourd’hui, tout est gratuit.',
       ctaLabel: 'Créer un compte →',
       secondaryLabel: 'Continuer sans compte',
       tips: [
         { i: '💾', t: 'Même sans compte, ton frigo et tes favoris restent sur cet appareil.' },
-        { i: '❓', t: 'Besoin d\'aide plus tard ? Le bouton « ? » en haut regroupe l\'aide et toutes les fonctionnalités ; la visite se relance depuis « Comment ça marche ».' },
+        { i: '❓', t: 'Besoin d’aide plus tard ? Le bouton « ? » en haut regroupe l’aide et toutes les fonctionnalités ; la visite se relance depuis « Comment ça marche ».' },
       ],
     },
     final_free: {
@@ -82,17 +82,17 @@ export const TOUR_STEPS_I18N = {
       ctaLabel: 'Voir la communauté →',
       tips: [
         { i: '⚡', t: 'Tes favoris et ton profil te suivent maintenant sur tous tes appareils.' },
-        { i: '❓', t: 'Besoin d\'aide plus tard ? Le bouton « ? » en haut regroupe ce guide et toutes les fonctionnalités.' },
+        { i: '❓', t: 'Besoin d’aide plus tard ? Le bouton « ? » en haut regroupe ce guide et toutes les fonctionnalités.' },
       ],
     },
     final_premium: {
       title: 'Bonne cuisine !',
       subtitle: 'TU AS TOUT EN MAIN',
-      desc: 'Tu connais l\'essentiel. À toi de jouer, et régale-toi !',
+      desc: 'Tu connais l’essentiel. À toi de jouer, et régale-toi !',
       ctaLabel: 'Lancer Fridge+ →',
       tips: [
         { i: '✨', t: 'Un guide dédié te présentera le panier, les coûts et le mode cuisine.' },
-        { i: '❓', t: 'Le bouton « ? » en haut regroupe l\'aide et toutes les fonctionnalités.' },
+        { i: '❓', t: 'Le bouton « ? » en haut regroupe l’aide et toutes les fonctionnalités.' },
       ],
     },
   },
@@ -101,7 +101,7 @@ export const TOUR_STEPS_I18N = {
     fab: {
       title: 'The orange button, Quick actions',
       subtitle: 'TOP RIGHT OF THE HOME SCREEN',
-      desc: 'It\'s your menu. Three verbs, in order: Fill, Check, Cook. Each entry says in one line what it does.',
+      desc: 'It’s your menu. Three verbs, in order: Fill, Check, Cook. Each entry says in one line what it does.',
       tips: [
         { i: '📍', t: 'Lost at some point? Tap the Fridge+ logo: it takes you home, back to this button.' },
         { icon: 'inventory', t: 'To empty your fridge: open the Inventory, the button is at the bottom — with 10 seconds to undo.' },
@@ -144,7 +144,7 @@ export const TOUR_STEPS_I18N = {
     },
     final_guest: {
       title: 'Going further',
-      subtitle: 'YOU\'VE GOT THE BASICS',
+      subtitle: 'YOU’VE GOT THE BASICS',
       desc: 'An account brings your favorites to all your devices, opens the community and your space. Premium? Not yet: today, everything is free.',
       ctaLabel: 'Create an account →',
       secondaryLabel: 'Continue without an account',
@@ -155,7 +155,7 @@ export const TOUR_STEPS_I18N = {
     },
     final_free: {
       title: 'Going further',
-      subtitle: 'YOU\'VE GOT THE BASICS',
+      subtitle: 'YOU’VE GOT THE BASICS',
       desc: 'Check out the community, share your recipes and set your tastes in your space.',
       ctaLabel: 'See the community →',
       tips: [
@@ -165,7 +165,7 @@ export const TOUR_STEPS_I18N = {
     },
     final_premium: {
       title: 'Happy cooking!',
-      subtitle: 'YOU\'VE GOT IT ALL',
+      subtitle: 'YOU’VE GOT IT ALL',
       desc: 'You know the essentials. Over to you — enjoy!',
       ctaLabel: 'Launch Fridge+ →',
       tips: [

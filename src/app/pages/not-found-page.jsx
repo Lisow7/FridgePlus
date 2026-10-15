@@ -11,8 +11,8 @@ import { useNoIndex } from '@shared/hooks/use-no-index'
 // (« soft 404 », audit du 2026-10-04, SEO-03).
 
 const I18N = {
- fr: { title: 'Page introuvable', subtitle: "La page que tu cherches n'existe pas ou a été déplacée.", backHome: 'Retour à l\'accueil' },
- en: { title: 'Page not found', subtitle: "The page you're looking for doesn't exist or has been moved.", backHome: 'Back to home' },
+ fr: { title: 'Page introuvable', subtitle: "La page que tu cherches n’existe pas ou a été déplacée.", backHome: 'Retour à l’accueil' },
+ en: { title: 'Page not found', subtitle: "The page you’re looking for doesn’t exist or has been moved.", backHome: 'Back to home' },
 }
 
 export default function NotFoundPage({ lang = 'fr', darkMode = false }) {

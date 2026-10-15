@@ -283,7 +283,7 @@ function ComposeModal({ darkMode, onClose, onSent }) {
 }
 
 export default function NotificationsSection({ lang = 'fr', darkMode = false }) {
-  const t = NOTIF_I18N[lang] ?? NOTIF_I18N.fr
+  const t = NOTIF_I18N.fr
   const { setSection } = useAdmin()
 
   const [items,       setItems]       = useState([])

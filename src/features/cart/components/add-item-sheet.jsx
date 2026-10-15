@@ -29,11 +29,13 @@ const DUP_I18N = {
     confirm: (label, source) =>
       `${label} déjà dans ton panier via ${source}. Ajouter quand même ?`,
     manualSource: '(ajouté manuellement)',
+    ajouter: 'Ajouter quand même',
   },
   en: {
     confirm: (label, source) =>
       `${label} already in your cart via ${source}. Add anyway?`,
     manualSource: '(added manually)',
+    ajouter: 'Add anyway',
   },
 }
 
@@ -62,7 +64,7 @@ export default function AddItemSheet({
     const existing = basket?.find(b => b.ingredient_id === item.ingredient_id)
     if (existing) {
       const source = existing.recipe_name ?? tDup.manualSource
-      const ok = await confirm({ title: tDup.confirm(item.label, source) })
+      const ok = await confirm({ title: tDup.confirm(item.label, source), confirmLabel: tDup.ajouter })
       if (!ok) return
     }
     return onAddManualItem?.(item)

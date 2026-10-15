@@ -23,7 +23,7 @@ export const USERNAME_MESSAGES = {
   fr: {
     hint: '3 à 20 caractères : lettres sans accent, chiffres, _ et -.',
     invalid: 'Ce pseudo ne respecte pas la règle : 3 à 20 caractères, lettres sans accent, chiffres, _ et -.',
-    taken: 'Ce pseudo n\'est pas disponible. Essaies-en un autre.',
+    taken: 'Ce pseudo n’est pas disponible. Essaies-en un autre.',
   },
   en: {
     hint: '3 to 20 characters: unaccented letters, digits, _ and -.',

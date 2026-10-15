@@ -1,7 +1,8 @@
-import { useState, useEffect, useRef, useId } from 'react'
+import { useState, useEffect, useLayoutEffect, useRef, useId } from 'react'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
-import { LuGripVertical, LuMic, LuTrash2 } from 'react-icons/lu'
+import { LuGripVertical, LuMic, LuTrash2, LuArrowUp, LuArrowDown } from 'react-icons/lu'
+import { CIBLE_MINIMALE } from '@shared/lib/cible-minimale'
 import { LANG_TO_LOCALE } from '@shared/hooks/use-voice-recognition'
 import Button from '@shared/ui/button'
 
@@ -10,7 +11,39 @@ import Button from '@shared/ui/button'
 // du textarea + reconnaissance vocale (mic 5s silence). Pure presentational
 // + side-effect mic local.
 
-export default function RecipeFormSortableStep({ step, index, onChange, onDelete, darkMode, t, hasError, lang }) {
+// Deux flèches ↑ ↓ à côté de la poignée (décision du 2026-10-08 ; WCAG 2.5.7) :
+// réordonner sans glisser. Après un déplacement (l'index change), React a pu
+// déplacer le nœud et perdre le focus : il revient sur la flèche qui a servi, ou
+// sur l'autre si elle s'est éteinte (l'étape est arrivée au bout de la liste).
+function FlechesDeLEtape({ stepId, index, total, onMove, t }) {
+  const hautRef = useRef(null)
+  const basRef = useRef(null)
+  const focusApres = useRef(0) // la flèche qui a servi : -1 ↑, 1 ↓
+  useLayoutEffect(() => {
+    const sens = focusApres.current
+    if (!sens) return
+    focusApres.current = 0
+    const voulu = sens < 0 ? hautRef.current : basRef.current
+    const autre = sens < 0 ? basRef.current : hautRef.current
+    ;(voulu && !voulu.disabled ? voulu : autre)?.focus()
+  }, [index])
+  const deplacer = (sens) => { focusApres.current = sens; onMove(stepId, sens) }
+  const style = { ...CIBLE_MINIMALE, padding: '2px', color: 'var(--color-muted)' }
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', flexShrink: 0, marginTop: '4px' }}>
+      <Button ref={hautRef} variant="ghost" size="icon" onClick={() => deplacer(-1)} disabled={index === 0}
+        aria-label={`${t.moveStepUp} ${index + 1}`} className="h-auto w-auto rounded-md hover:bg-transparent" style={style}>
+        <LuArrowUp size={14} />
+      </Button>
+      <Button ref={basRef} variant="ghost" size="icon" onClick={() => deplacer(1)} disabled={index === total - 1}
+        aria-label={`${t.moveStepDown} ${index + 1}`} className="h-auto w-auto rounded-md hover:bg-transparent" style={style}>
+        <LuArrowDown size={14} />
+      </Button>
+    </div>
+  )
+}
+
+export default function RecipeFormSortableStep({ step, index, total, onChange, onDelete, onMove, darkMode, t, hasError, lang }) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: step.id })
   const [micListening, setMicListening] = useState(false)
   const recognitionRef = useRef(null)
@@ -67,6 +100,7 @@ export default function RecipeFormSortableStep({ step, index, onChange, onDelete
       >
         <LuGripVertical size={16} />
       </Button>
+      <FlechesDeLEtape stepId={step.id} index={index} total={total} onMove={onMove} t={t} />
       {/* Orange profond : le blanc sur l'orange vif plafonnait à 3,05:1 (décision du 2026-10-06). */}
       {/* Le libellé entendu (« Étape 3 ») ; la pastille visible en montre le
           numéro — il fait partie du nom (WCAG 2.5.3). */}

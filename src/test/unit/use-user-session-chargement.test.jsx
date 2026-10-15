@@ -34,7 +34,7 @@ function proprietes(user) {
   }
 }
 const monter = (props) => renderHook(({ p }) => useUserSession(p), { initialProps: { p: props }, wrapper: ToastProvider })
-const message = () => screen.queryByText(/n'(a|ont) pas pu être chargé/i)
+const message = () => screen.queryByText(/n['’](a|ont) pas pu être chargé/i)
 
 describe('useUserSession — chargement des données du compte', () => {
   beforeEach(() => {
@@ -88,7 +88,7 @@ describe('useUserSession — chargement des données du compte', () => {
     const p = proprietes(BOB)
     monter(p)
     await waitFor(() => expect(message()).not.toBeNull())
-    expect(message()).toHaveTextContent('Tes recettes n\'ont pas pu être chargées.')
+    expect(message()).toHaveTextContent('Tes recettes n’ont pas pu être chargées.')
     expect(p.setCustomRecipes).not.toHaveBeenCalled()
     // Le frigo, lui, est arrivé.
     expect(p.setStock).toHaveBeenCalledWith(FRIGO.stock)
@@ -99,7 +99,7 @@ describe('useUserSession — chargement des données du compte', () => {
     loadCustomRecipes.mockResolvedValue({ recipes: [], error: PANNE })
     monter(proprietes(BOB))
     await waitFor(() => expect(message()).not.toBeNull())
-    expect(message()).toHaveTextContent('Ton frigo et tes recettes n\'ont pas pu être chargés.')
+    expect(message()).toHaveTextContent('Ton frigo et tes recettes n’ont pas pu être chargés.')
   })
 
   it('tout en échec : le message nomme les trois', async () => {
@@ -108,7 +108,7 @@ describe('useUserSession — chargement des données du compte', () => {
     loadCustomRecipes.mockResolvedValue({ recipes: [], error: PANNE })
     monter(proprietes(BOB))
     await waitFor(() => expect(message()).not.toBeNull())
-    expect(message()).toHaveTextContent('Ton frigo, tes favoris et tes recettes n\'ont pas pu être chargés.')
+    expect(message()).toHaveTextContent('Ton frigo, tes favoris et tes recettes n’ont pas pu être chargés.')
   })
 
   it('« Réessayer » relance le chargement ; une fois réussi, le message disparaît', async () => {

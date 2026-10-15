@@ -9,6 +9,7 @@ const I18N = {
     collapse: 'Masquer les sources',
     remove: (label) => `Retirer ${label}`,
     confirmRemoveAll: 'Retirer toutes les occurrences de cet ingrédient ?',
+    removeAllOk: 'Tout retirer',
     sourcesLabel: (sources, _lang = 'fr') =>
       sources.map(s => s.manual
         ? `${s.amount} manuel`
@@ -20,6 +21,7 @@ const I18N = {
     collapse: 'Hide sources',
     remove: (label) => `Remove ${label}`,
     confirmRemoveAll: 'Remove all occurrences of this ingredient?',
+    removeAllOk: 'Remove all',
     sourcesLabel: (sources) =>
       sources.map(s => s.manual
         ? `${s.amount} manual`
@@ -47,7 +49,7 @@ export default function PrepareIngredientRow({
 
   const handleRemove = async () => {
     if (isMultiSource) {
-      if (await confirm({ title: t.confirmRemoveAll, danger: true })) onRemoveAllByIngredient?.(ingredient.ingredient_id)
+      if (await confirm({ title: t.confirmRemoveAll, confirmLabel: t.removeAllOk, danger: true })) onRemoveAllByIngredient?.(ingredient.ingredient_id)
     } else {
       onRemoveItem?.(ingredient.rowIds[0])
     }

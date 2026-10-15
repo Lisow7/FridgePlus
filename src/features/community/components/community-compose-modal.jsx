@@ -1,7 +1,7 @@
 import { useState, useCallback, useMemo, useId } from 'react'
 import { createPortal } from 'react-dom'
 import { LuX, LuFeather, LuUtensils } from 'react-icons/lu'
-import { moderateContent } from '@shared/hooks/use-moderation'
+import { moderateContent } from '@shared/api/moderation-de-contenu'
 import { CATEGORIES, categoryLabel } from '@shared/lib/i18n/community-i18n'
 import { canPost, createPost, updatePost } from '@shared/api/community'
 import { containsProfanity } from '@shared/lib/moderation'

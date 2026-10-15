@@ -11,6 +11,7 @@
 // Module sans import : lu tel quel par Node au build, et par l'app.
 import { getIngredientItemsFlat, ligneIngredient } from '../../src/shared/lib/recipes/recipe-ingredients.js'
 import { categorieSchemaOrg, cuisineSchemaOrg } from '../../src/shared/lib/recipes/balisage-recette.js'
+import { titreDeRecette } from '../../src/shared/lib/recipes/titre-de-recette.js'
 
 export const SITE = 'https://fridgeplus.app'
 
@@ -184,7 +185,8 @@ function appliquerMetadonnees(gabarit, { titre, description, urlPage, image, dim
 /** Construit le HTML d'une page recette. */
 export function construirePage(gabarit, { id, nom, description, image, largeur, hauteur }) {
   return appliquerMetadonnees(gabarit, {
-    titre: `${nom} — Fridge+`,
+    // « Risotto aux champignons : la recette — Fridge+ » (décision du 2026-10-08).
+    titre: titreDeRecette(nom, 'fr'),
     description: description
       || `Découvre la recette « ${nom} » sur Fridge+ : ingrédients, étapes et valeurs nutritionnelles.`,
     urlPage: `${SITE}/recipe/${id}`,
@@ -442,6 +444,17 @@ export const PAGES_STATIQUES = [
     titre: 'Mentions légales — Fridge+',
     description: 'Mentions légales, conditions d\'utilisation et politique de confidentialité de Fridge+.',
   },
+  {
+    chemin: '/accessibilite',
+    titre: 'Accessibilité — Fridge+',
+    description: 'Ce que Fridge+ fait pour s’utiliser au clavier, avec un lecteur d’écran ou des animations réduites, comment c’est vérifié, ce qui reste à faire, et comment signaler un problème.',
+  },
+  {
+    // Celle que désigne `public/.well-known/security.txt` (Policy, Acknowledgments).
+    chemin: '/securite',
+    titre: 'Sécurité — Fridge+',
+    description: 'Comment signaler une faille de sécurité dans Fridge+, ce que nous nous engageons à faire et dans quels délais, et ce qui entre ou non dans le périmètre.',
+  },
 ]
 
 /**
@@ -471,6 +484,8 @@ export const MORCEAUX_PAR_CHEMIN = {
   '/legal': ['legal-page'],
   '/changelog': ['changelog-page'],
   '/suppression-compte': ['account-deletion-page'],
+  '/accessibilite': ['accessibility-page'],
+  '/securite': ['security-page'],
   '/community': ['community-page-route'],
   // Les fiches : la page, et avec ses imports la modale qui affiche la recette.
   '/recipe': ['recipe-page'],

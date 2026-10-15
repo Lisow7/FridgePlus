@@ -24,11 +24,11 @@ test('un choix de l’ancien bandeau : la question revient, en deux cases sépar
   expect(await page.evaluate(() => localStorage.getItem('fridge-anon-id')), 'l’ancien accord ne vaut plus pour le suivi').toBeNull()
 
   await bandeau.getByRole('button', { name: 'Personnaliser' }).click()
-  const erreurs = page.getByRole('switch', { name: /Rapports d'erreurs/ })
-  const usage = page.getByRole('switch', { name: /Statistiques d'usage/ })
+  const erreurs = page.getByRole('switch', { name: /Rapports d['’]erreurs/ })
+  const usage = page.getByRole('switch', { name: /Statistiques d['’]usage/ })
   await expect(erreurs).toHaveAttribute('aria-checked', 'false')
   await expect(usage).toHaveAttribute('aria-checked', 'false')
-  await expect(page.getByText(/Fonctionnels|Mesure d'audience/)).toHaveCount(0)
+  await expect(page.getByText(/Fonctionnels|Mesure d['’]audience/)).toHaveCount(0)
 
   await erreurs.click()
   await page.getByRole('button', { name: 'Enregistrer mes choix' }).click()
@@ -54,6 +54,6 @@ test('le bouton « Cookies » du pied de page ouvre la fenêtre, avec ses deux c
   await installSupabaseMocks(page)
   await page.goto('/FridgePlus/faq')
   await page.getByRole('contentinfo').getByRole('button', { name: 'Cookies' }).first().click()
-  await expect(page.getByRole('switch', { name: /Rapports d'erreurs/ })).toBeVisible()
-  await expect(page.getByRole('switch', { name: /Statistiques d'usage/ })).toBeVisible()
+  await expect(page.getByRole('switch', { name: /Rapports d['’]erreurs/ })).toBeVisible()
+  await expect(page.getByRole('switch', { name: /Statistiques d['’]usage/ })).toBeVisible()
 })

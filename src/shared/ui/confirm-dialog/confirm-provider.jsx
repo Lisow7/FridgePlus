@@ -12,9 +12,12 @@ import { ConfirmDeleteModal, ConfirmActionModal } from './confirm-modals'
 // le même fichier). Ne redessine rien : pilote ConfirmDeleteModal (danger)
 // / ConfirmActionModal (neutre), déjà en prod côté admin.
 
+// Seul « Annuler » a un texte par défaut : le bouton qui confirme nomme
+// toujours l'action (« Vider la liste », « Supprimer la publication »…),
+// décision du 2026-10-08 — un garde-fou (confirmations-nommees) y veille.
 const DEFAULT_LABELS = {
-  fr: { confirm: 'Confirmer', cancel: 'Annuler' },
-  en: { confirm: 'Confirm',   cancel: 'Cancel' },
+  fr: { cancel: 'Annuler' },
+  en: { cancel: 'Cancel' },
 }
 
 const ConfirmContext = createContext(null)
@@ -25,6 +28,12 @@ export function ConfirmProvider({ children }) {
   const [request, setRequest] = useState(null)
 
   const confirm = useCallback((options) => {
+    // Sans nom d'action, rien ne s'ouvre et rien ne se fait (le geste est
+    // souvent sans retour) : le garde-fou l'empêche d'arriver jusqu'ici.
+    if (!options?.confirmLabel) {
+      console.error('[confirm] confirmLabel manquant :', options?.title)
+      return Promise.resolve(false)
+    }
     return new Promise((resolve) => {
       setRequest((prev) => {
         // Superposition : un appel confirm() avant résolution du précédent
@@ -35,7 +44,7 @@ export function ConfirmProvider({ children }) {
           title: options.title,
           body: options.body,
           danger: options.danger ?? false,
-          confirmLabel: options.confirmLabel ?? labels.confirm,
+          confirmLabel: options.confirmLabel,
           cancelLabel: options.cancelLabel ?? labels.cancel,
           resolve,
         }

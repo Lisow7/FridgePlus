@@ -16,12 +16,17 @@ function HomeStub() {
   return <div data-testid="home">Home</div>
 }
 
+function LoginStub() {
+  return <div data-testid="login">Login</div>
+}
+
 function setup({ user, recoveryMode = false }) {
   useAuth.mockReturnValue({ user, recoveryMode })
   return render(
     <MemoryRouter initialEntries={['/profile']}>
       <Routes>
         <Route path="/" element={<HomeStub />} />
+        <Route path="/login" element={<LoginStub />} />
         <Route
           path="/profile"
           element={
@@ -40,9 +45,10 @@ describe('AuthGuard on /profile (Sprint 11 S11.a.1)', () => {
     useAuth.mockReset()
   })
 
-  it('redirige vers / si !user (utilisateur non connecté)', () => {
+  // CPT-18 : la page de connexion, plus l'accueil.
+  it('invite à se connecter (/login) si !user (utilisateur non connecté)', () => {
     setup({ user: null })
-    expect(screen.getByTestId('home')).toBeInTheDocument()
+    expect(screen.getByTestId('login')).toBeInTheDocument()
     expect(screen.queryByTestId('content')).not.toBeInTheDocument()
   })
 

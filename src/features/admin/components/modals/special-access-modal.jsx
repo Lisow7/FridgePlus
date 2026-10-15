@@ -7,10 +7,10 @@ import { messageErreurAdmin } from '@features/admin/lib/ecritures-admin'
 import Button from '@shared/ui/button'
 
 const ROLES = [
-  { value: 'tester',     Icon: LuFlaskConical, fr: 'Bêta-testeur',       en: 'Beta tester',      color: '#6B7280' },
-  { value: 'support',    Icon: LuHeadphones,   fr: 'Équipe support',      en: 'Support team',     color: '#3B82F6' },
-  { value: 'influencer', Icon: LuStar,         fr: 'Créateur partenaire', en: 'Partner creator',  color: '#8B5CF6' },
-  { value: 'partner',    Icon: LuHandshake,    fr: 'Partenaire Fridge+',  en: 'Fridge+ Partner',  color: '#D46A10' },
+  { value: 'tester',     Icon: LuFlaskConical, fr: 'Bêta-testeur',      color: '#6B7280' },
+  { value: 'support',    Icon: LuHeadphones,   fr: 'Équipe support',     color: '#3B82F6' },
+  { value: 'influencer', Icon: LuStar,         fr: 'Créateur partenaire',  color: '#8B5CF6' },
+  { value: 'partner',    Icon: LuHandshake,    fr: 'Partenaire Fridge+',  color: '#D46A10' },
 ]
 
 // Trois modes (audit du 2026-10-04, ADM-13) : accorder (aucun rôle), retirer

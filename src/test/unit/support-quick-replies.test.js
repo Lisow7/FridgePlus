@@ -2,13 +2,13 @@ import { describe, it, expect } from 'vitest'
 import { SUPPORT_QUICK_REPLIES, quickReplyText } from '@features/admin/data/support-quick-replies'
 
 describe('support-quick-replies', () => {
-  it('ids uniques + label/text fr+en présents', () => {
+  it('ids uniques, un libellé (français : panneau admin) et un texte fr+en', () => {
     const ids = SUPPORT_QUICK_REPLIES.map((q) => q.id)
     expect(new Set(ids).size).toBe(ids.length)
     expect(SUPPORT_QUICK_REPLIES.length).toBeGreaterThanOrEqual(4)
     for (const q of SUPPORT_QUICK_REPLIES) {
-      expect(q.label.fr).toBeTruthy()
-      expect(q.label.en).toBeTruthy()
+      expect(typeof q.label).toBe('string')
+      expect(q.label).toBeTruthy()
       expect(q.text.fr).toBeTruthy()
       expect(q.text.en).toBeTruthy()
     }

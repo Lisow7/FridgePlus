@@ -1,25 +1,30 @@
-import { useState } from 'react'
-import { LuChefHat, LuX, LuPlus, LuRotateCcw, LuShuffle } from 'react-icons/lu'
+import { useRef } from 'react'
+import { LuChefHat, LuX, LuPlus, LuRotateCcw, LuShuffle, LuEllipsis } from 'react-icons/lu'
 import Button from '@shared/ui/button'
+import MenuShell from '@shared/ui/menu-shell'
+import { useDropdownMenu } from '@shared/hooks/use-dropdown-menu'
 
 /**
- * En-tête du panneau Recettes : titre, compteur d'ingrédients et les quatre
- * actions (hasard, créer, vider, fermer).
+ * En-tête du panneau Recettes : le titre, le compteur d'ingrédients, un menu
+ * « Plus d'actions » et la fermeture.
  *
- * `hoverBtn` descend ici : il ne pilote que l'expansion au survol de ces
- * boutons et n'était lu nulle part ailleurs dans le panneau.
+ * Décision du 2026-10-08 : environ 9 commandes au lieu de 14 dans le panneau.
+ * Créer, Au hasard (avec un compte) et Vider (frigo non vide) quittent l'en-tête
+ * pour ce menu, où chacune porte son texte entier — plus de libellé qui ne se
+ * déplie qu'au survol. Le menu (`useDropdownMenu` + `MenuShell`) a son propre
+ * piège de focus, au-dessus de celui du panneau : Échap ferme le menu seul et
+ * rend le focus au bouton « ⋯ ».
  */
 export default function RecipePanelHeader({ t, stock, user, borderPanel, bgPanel, actions }) {
   const { onClose, pickRandomRecipe, openCreateForm, setShowResetConfirm } = actions
-  const [hoverBtn, setHoverBtn] = useState(null)
-  // Écran tactile (pas de survol) : le texte de Créer, révélé au survol sur
-  // ordinateur, n'apparaissait jamais — il ne restait que « + » (audit
-  // 2026-10-02, P6). On l'affiche d'emblée. « Vider » reste une icône : à
-  // 360 px, ses deux libellés tronquaient le titre (« Reci… ») ; l'action est
-  // secondaire, nommée pour les lecteurs d'écran et confirmée par une modale.
-  const [noHover] = useState(() => typeof window !== 'undefined' && !!window.matchMedia?.('(hover: none)')?.matches)
-  const showCreate = noHover || hoverBtn === 'create'
-  const showReset = hoverBtn === 'reset'
+  const declencheur = useRef(null)
+  const { open, setOpen, menuRef, dropPos } = useDropdownMenu(declencheur)
+
+  const entrees = [
+    { cle: 'creer', Icone: LuPlus, libelle: t.createRecipe, agir: openCreateForm },
+    user?.id && { cle: 'hasard', Icone: LuShuffle, libelle: t.rouletteLabel, agir: pickRandomRecipe },
+    stock.size > 0 && { cle: 'vider', Icone: LuRotateCcw, libelle: t.resetTitle, agir: () => setShowResetConfirm(true) },
+  ].filter(Boolean)
 
   return (
   <div
@@ -31,7 +36,7 @@ export default function RecipePanelHeader({ t, stock, user, borderPanel, bgPanel
       {/* Un titre, rien d'autre : il fut un `<p onClick>` qui remettait les
           filtres à zéro sous l'infobulle « Vider le frigo » — hors clavier,
           et faux (audit du 2026-10-04). Les filtres se remettent à zéro dans
-          le tiroir, le frigo se vide par le bouton « Vider ». */}
+          le tiroir, le frigo se vide par le menu « Plus d'actions ». */}
       <h2
         className="flex-1 min-w-0 font-extrabold overflow-hidden text-ellipsis whitespace-nowrap"
         style={{ fontSize: '24px', color: 'var(--color-charcoal)', margin: 0 }}
@@ -40,76 +45,19 @@ export default function RecipePanelHeader({ t, stock, user, borderPanel, bgPanel
       </h2>
 
       <div className="flex items-center gap-2 shrink-0">
-        {/* Hasard — expand au survol */}
-        {user?.id && (
-          <Button
-            onClick={pickRandomRecipe}
-            title={t.rouletteLabel}
-            aria-label={t.rouletteLabel}
-            onMouseEnter={() => setHoverBtn('shuffle')}
-            onMouseLeave={() => setHoverBtn(null)}
-            className="h-9 rounded-lg text-sm font-bold"
-            style={{
-              background: `rgba(224,120,32,${hoverBtn === 'shuffle' ? '0.18' : '0.11'})`,
-              color: 'var(--color-brand-500)',
-              padding: hoverBtn === 'shuffle' ? '0 10px' : '0 9px',
-              gap: hoverBtn === 'shuffle' ? '6px' : '0px',
-              transition: 'all 0.2s ease',
-            }}
-          >
-            <LuShuffle size={15} style={{ flexShrink: 0 }} />
-            <span style={{ maxWidth: hoverBtn === 'shuffle' ? '90px' : '0px', opacity: hoverBtn === 'shuffle' ? 1 : 0, overflow: 'hidden', transition: 'max-width 0.2s ease, opacity 0.15s ease', whiteSpace: 'nowrap', lineHeight: 1 }}>
-              {t.rouletteShort}
-            </span>
-          </Button>
-        )}
-
-        {/* Créer — expand au survol, un peu plus large au repos */}
         <Button
-          onClick={openCreateForm}
-          title={t.createRecipe}
-          onMouseEnter={() => setHoverBtn('create')}
-          onMouseLeave={() => setHoverBtn(null)}
-          className="h-9 rounded-lg bg-none bg-[#B85000] text-sm font-bold text-white hover:opacity-100"
-          style={{
-            boxShadow: hoverBtn === 'create' ? '0 3px 16px rgba(184,80,0,0.44)' : '0 2px 10px rgba(184,80,0,0.28)',
-            filter: hoverBtn === 'create' ? 'brightness(1.09)' : 'none',
-            padding: showCreate ? '0 14px' : '0 13px',
-            gap: showCreate ? '6px' : '0px',
-            transition: 'all 0.2s ease',
-          }}
+          ref={declencheur}
+          variant="ghost"
+          size="icon"
+          onClick={() => setOpen((v) => !v)}
+          aria-label={t.moreActions}
+          aria-haspopup="menu"
+          aria-expanded={open}
+          className="h-9 w-9 rounded-lg border-[1.5px] hover:bg-transparent"
+          style={{ borderColor: 'rgba(122,95,86,0.30)', background: open ? 'rgba(224,120,32,0.11)' : 'transparent', color: 'var(--color-muted)' }}
         >
-          <LuPlus size={15} style={{ flexShrink: 0 }} />
-          <span style={{ maxWidth: showCreate ? '90px' : '0px', opacity: showCreate ? 1 : 0, overflow: 'hidden', transition: 'max-width 0.2s ease, opacity 0.15s ease', whiteSpace: 'nowrap', lineHeight: 1 }}>
-            {t.createShort}
-          </span>
+          <LuEllipsis size={18} strokeWidth={2.5} aria-hidden="true" />
         </Button>
-
-        {/* Vider — expand au survol */}
-        {stock.size > 0 && (
-          <Button
-            variant="ghost"
-            onClick={() => setShowResetConfirm(true)}
-            title={t.resetTitle}
-            onMouseEnter={() => setHoverBtn('reset')}
-            onMouseLeave={() => setHoverBtn(null)}
-            className="h-9 rounded-lg border-[1.5px] text-sm font-bold hover:bg-transparent"
-            style={{
-              borderColor: hoverBtn === 'reset' ? 'rgba(208,80,80,0.40)' : 'transparent',
-              background: hoverBtn === 'reset' ? 'rgba(208,80,80,0.07)' : 'transparent',
-              color: hoverBtn === 'reset' ? '#C05050' : 'var(--color-muted)',
-              opacity: showReset ? 1 : 0.4,
-              padding: showReset ? '0 10px' : '0 9px',
-              gap: showReset ? '6px' : '0px',
-              transition: 'all 0.2s ease',
-            }}
-          >
-            <LuRotateCcw size={14} style={{ flexShrink: 0 }} />
-            <span style={{ maxWidth: showReset ? '60px' : '0px', opacity: showReset ? 1 : 0, overflow: 'hidden', transition: 'max-width 0.2s ease, opacity 0.15s ease', whiteSpace: 'nowrap', lineHeight: 1 }}>
-              {t.resetLabel}
-            </span>
-          </Button>
-        )}
 
         {/* Fermer */}
         <Button
@@ -127,6 +75,24 @@ export default function RecipePanelHeader({ t, stock, user, borderPanel, bgPanel
         </Button>
       </div>
     </div>
+
+    <MenuShell ref={menuRef} open={open} onClose={() => setOpen(false)} ariaLabel={t.moreActions} dropPos={dropPos}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', padding: '8px' }}>
+        {entrees.map(({ cle, Icone, libelle, agir }) => (
+          <button
+            key={cle}
+            type="button"
+            role="menuitem"
+            onClick={() => { setOpen(false); agir() }}
+            className="flex items-center gap-2.5 rounded-lg text-left text-sm font-bold hover:bg-[rgba(224,120,32,0.08)]"
+            style={{ padding: '10px 12px', minHeight: '44px', border: 'none', background: 'transparent', color: 'var(--color-charcoal)', cursor: 'pointer', fontFamily: 'inherit' }}
+          >
+            <Icone size={16} aria-hidden="true" style={{ flexShrink: 0, color: 'var(--color-brand-500)' }} />
+            {libelle}
+          </button>
+        ))}
+      </div>
+    </MenuShell>
 
     {/* Compteur ingrédients */}
     {stock.size > 0 && (

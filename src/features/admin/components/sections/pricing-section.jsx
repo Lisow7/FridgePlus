@@ -63,36 +63,6 @@ const I18N = {
     srReset: 'Toutes les modifications ont été annulées.',
     srDownloaded: 'Fichier {{filename}} téléchargé.',
   },
-  en: {
-    searchLabel: 'Search an ingredient',
-    allSubcats: 'All subcategories',
-    metaYear: 'Year',
-    metaUpdated: 'Last updated',
-    metaSource: 'Source',
-    columnId: 'ID',
-    columnLabel: 'Name',
-    columnSubcat: 'Subcategory',
-    columnCoverage: 'Language coverage',
-    columnPacks: 'Packs (FR)',
-    noResults: 'No matching ingredient.',
-    counter: '{{n}} ingredient(s) shown',
-    coverageHelp: 'One check per offered language (FR/EN) if the ingredient has at least one pack defined in that language.',
-    coverageYes: '{{lang}}: prices set',
-    coverageNo: '{{lang}}: no specific prices',
-    packsFromSubcat: 'subcategory prices',
-    edited: 'edited',
-    edit: 'Edit',
-    columnActions: 'Actions',
-    pendingChanges: '{{n}} unsaved change(s)',
-    download: 'Download pricing.json',
-    reset: 'Reset',
-    cancel: 'Cancel',
-    confirmReset: 'Discard all unsaved changes?',
-    workflowHint: 'After download, replace `src/shared/static/pricing/2026.json` in the repo and commit to apply changes.',
-    srSaved: 'Changes saved for {{label}}.',
-    srReset: 'All changes have been reset.',
-    srDownloaded: 'File {{filename}} downloaded.',
-  },
 }
 
 // Les pastilles de couverture suivent les langues PROPOSÉES (FR/EN), pas les
@@ -105,7 +75,7 @@ const LANGS = [...SUPPORTED_LANGS]
 const PAGE_SIZE = 100
 
 export default function PricingSection({ lang = 'fr', darkMode = false }) {
-  const t = I18N[lang] ?? I18N.fr
+  const t = I18N.fr
   const ingredientsByCat = useIngredients()
 
   const [query, setQuery] = useState('')

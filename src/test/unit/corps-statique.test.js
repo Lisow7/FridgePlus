@@ -173,7 +173,7 @@ describe('périmètre des pages traitées', () => {
     //
     // Inscrire un chemin ici sans écrire son générateur ferait échouer le
     // build : c'est le bon sens de l'erreur.
-    expect(Object.keys(CORPS_PAR_CHEMIN).sort()).toEqual(['/changelog', '/faq', '/guide', '/legal', '/suppression-compte'])
+    expect(Object.keys(CORPS_PAR_CHEMIN).sort()).toEqual(['/accessibilite', '/changelog', '/faq', '/guide', '/legal', '/securite', '/suppression-compte'])
     for (const gen of Object.values(CORPS_PAR_CHEMIN)) {
       expect(typeof gen.corps).toBe('function')
     }

@@ -48,8 +48,8 @@ import { getContentCta } from '@shared/lib/i18n/content-cta-i18n'
 const I18N = {
   fr: {
     title: 'Questions fréquentes',
-    subtitle: 'Les réponses aux questions qu\'on nous pose le plus souvent sur Fridge+.',
-    backHome: 'Retour à l\'accueil',
+    subtitle: 'Les réponses aux questions qu’on nous pose le plus souvent sur Fridge+.',
+    backHome: 'Retour à l’accueil',
     citationLabel: 'Référence',
     basicsTitle: 'Prise en main',
     serviceTitle: 'Le service',

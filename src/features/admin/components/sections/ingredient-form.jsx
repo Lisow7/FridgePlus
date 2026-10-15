@@ -167,6 +167,7 @@ export default function IngredientForm({ item, onSave, onBack, darkMode, border,
     if (missingFields.length > 0) {
       const ok = await confirm({
         title: `Données incomplètes (${missingFields.join(', ')}). Cet ingrédient risque d'être mal connecté à certaines fonctionnalités. Enregistrer quand même ?`,
+        confirmLabel: 'Enregistrer quand même',
       })
       if (!ok) return
     }
@@ -176,6 +177,7 @@ export default function IngredientForm({ item, onSave, onBack, darkMode, border,
         const ok = await confirm({
           title: `Un ingrédient nommé « ${dup.labels?.fr} » (${dup.id}) existe déjà. `
             + `Créer un doublon quand même ?`,
+          confirmLabel: 'Créer quand même',
         })
         if (!ok) return
       }

@@ -21,3 +21,5 @@
 
 - [Mentions légales](https://fridgeplus.app/legal): éditeur, hébergeurs, conditions d'utilisation et politique de confidentialité.
 - [Supprimer mon compte](https://fridgeplus.app/suppression-compte): la marche à suivre pour supprimer son compte et ses données, depuis l'application ou par e-mail, avec le détail de ce qui est effacé, anonymisé ou conservé.
+- [Accessibilité](https://fridgeplus.app/accessibilite): ce qui est fait pour le clavier, les lecteurs d’écran et les animations réduites, comment c’est vérifié, ce qui reste à faire et comment signaler un problème.
+- [Sécurité](https://fridgeplus.app/securite): comment signaler une faille, les délais de réponse et de correction, le périmètre et le cadre de la recherche de bonne foi.

@@ -90,6 +90,8 @@ const PAGES = [
   '/FridgePlus/guide',
   '/FridgePlus/legal',
   '/FridgePlus/suppression-compte',
+  '/FridgePlus/accessibilite',
+  '/FridgePlus/securite',
   '/FridgePlus/changelog',
   '/FridgePlus/community',
   // Ajoutées le 2026-08-25, une fois leurs défauts corrigés.

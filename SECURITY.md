@@ -2,6 +2,7 @@
 
 > **Public vulnerability disclosure policy for Fridge+.**
 > Internal incident-response procedures are kept in private operational documentation.
+> The same policy is published on the site, in French and English: https://fridgeplus.app/securite (the page `security.txt` points to).
 > Dernière mise à jour : 2026-10-10 (v0.145 — ouverture du dépôt public : l'avis privé GitHub ci-dessous est désormais joignable).
 
 ## Supported versions

@@ -29,13 +29,13 @@ describe('interrupteurs des cookies', () => {
     for (const inter of interrupteurs) {
       expect(inter).toHaveAccessibleName(/\S{3,}/)
     }
-    expect(screen.getByRole('switch', { name: /statistiques d'usage/i })).toBeInTheDocument()
+    expect(screen.getByRole('switch', { name: /statistiques d['’]usage/i })).toBeInTheDocument()
   })
 
   it('Espace sur un interrupteur change le consentement, sans replier ni déplier la catégorie', async () => {
     const user = userEvent.setup()
     render(<CookieModal lang="fr" onClose={vi.fn()} />)
-    const audience = screen.getByRole('switch', { name: /statistiques d'usage/i })
+    const audience = screen.getByRole('switch', { name: /statistiques d['’]usage/i })
     const avant = audience.getAttribute('aria-checked')
     const deplieurs = screen.getAllByRole('button', { expanded: false }).length
 

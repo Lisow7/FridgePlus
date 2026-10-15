@@ -33,7 +33,9 @@
 import { getFaqBasics, getFaqBasicsMeta } from '@shared/lib/i18n/faq-basics-i18n'
 import { getContentCta } from '@shared/lib/i18n/content-cta-i18n'
 import { getLegalSection } from '@features/legal/data/legal-content'
-import { DELAI_EFFACEMENT_JOURS, EMAIL_SUPPRESSION, CHEMIN_DANS_APP, DONNEES } from '@features/legal/data/suppression-compte'
+import { DELAI_EFFACEMENT_JOURS, EMAIL_SUPPRESSION, CHEMIN_DANS_APP, DONNEES, APRES_LA_DEMANDE } from '@features/legal/data/suppression-compte'
+import { PAGE_ACCESSIBILITE } from '@features/legal/data/page-accessibilite'
+import { PAGE_SECURITE } from '@features/legal/data/page-securite'
 import { TOUR_STEPS_I18N } from '@features/onboarding/i18n/tour-steps-i18n'
 
 import { CHANGELOG } from '@features/changelog/data/changelog'
@@ -66,7 +68,6 @@ const TITRES = {
       h1: 'Supprimer mon compte Fridge+',
       intro: 'Tu peux supprimer ton compte et les données associées à tout moment, toi-même. Voici comment, et ce qu’il advient de chaque donnée.',
       dansApp: 'Depuis l’application',
-      delai: `Les données personnelles sont anonymisées immédiatement, puis définitivement effacées sous ${DELAI_EFFACEMENT_JOURS} jours, sauvegardes comprises.`,
       parMail: 'Sans l’application',
       parMailIntro: `Si tu as désinstallé Fridge+ ou si tu n’arrives plus à te connecter, écris-nous depuis l’adresse e-mail de ton compte : la suppression est faite sous ${DELAI_EFFACEMENT_JOURS} jours.`,
       effacees: 'Ce qui est effacé',
@@ -78,7 +79,6 @@ const TITRES = {
       h1: 'Delete my Fridge+ account',
       intro: 'You can delete your account and the associated data at any time, by yourself. Here is how, and what happens to each piece of data.',
       dansApp: 'From the app',
-      delai: `Personal data is anonymised immediately, then permanently erased within ${DELAI_EFFACEMENT_JOURS} days, backups included.`,
       parMail: 'Without the app',
       parMailIntro: `If you have uninstalled Fridge+ or can no longer sign in, write to us from your account’s email address: deletion is carried out within ${DELAI_EFFACEMENT_JOURS} days.`,
       effacees: 'What is erased',
@@ -231,7 +231,7 @@ export function corpsSuppressionCompte(lang = 'fr') {
   return [
     `<h1>${echapper(t.h1)}</h1>`,
     `<p>${echapper(t.intro)}</p>`,
-    `<section><h2>${echapper(t.dansApp)}</h2><p>${echapper(chemin)}</p><p>${echapper(t.delai)}</p></section>`,
+    `<section><h2>${echapper(t.dansApp)}</h2><p>${echapper(chemin)}</p><p>${echapper(APRES_LA_DEMANDE[lang] ?? APRES_LA_DEMANDE.fr)}</p></section>`,
     `<section><h2>${echapper(t.parMail)}</h2><p>${echapper(t.parMailIntro)}</p>`,
     `<p><a href="mailto:${echapper(EMAIL_SUPPRESSION)}">${echapper(EMAIL_SUPPRESSION)}</a></p></section>`,
     `<section><h2>${echapper(t.effacees)}</h2>${liste(d.effacees)}</section>`,
@@ -299,6 +299,22 @@ export function corpsAccueilSansJavaScript(lang) {
     + `<p>${echapper(s.besoin)} ${s.liens.map(([href, libelle]) => `<a href="${href}">${echapper(libelle)}</a>`).join(' · ')}</p>`
 }
 
+/**
+ * Le corps lisible d'une page publique de texte (`/accessibilite`, `/securite`) :
+ * le contenu de son module de `data/`, celui que lit la page vivante
+ * (`components/page-publique-de-texte.jsx`). Même ordre : titre, chapeau,
+ * sections (paragraphes, liste, lien), date de mise à jour.
+ */
+function corpsDePageDeTexte(contenu, lang) {
+  const c = contenu[lang] ?? contenu.fr
+  const sections = c.sections.map((s) => `<section id="${echapper(s.id)}"><h2>${echapper(s.titre)}</h2>`
+    + (s.paragraphes ?? []).map((p) => `<p>${echapper(p)}</p>`).join('')
+    + (s.liste ? `<ul>${s.liste.map((x) => `<li>${echapper(x)}</li>`).join('')}</ul>` : '')
+    + (s.lien ? `<p><a href="${echapper(s.lien.href)}">${echapper(s.lien.texte)}</a></p>` : '')
+    + '</section>').join('')
+  return `<h1>${echapper(c.titre)}</h1><p>${echapper(c.intro)}</p>${sections}<p><small>${echapper(c.miseAJour)}</small></p>`
+}
+
 export const CORPS_PAR_CHEMIN = {
   // `jsonLdId` doit être L'IDENTIFIANT QU'UTILISE LE COMPOSANT côté client
   // (`<JsonLd id="faq-jsonld" />` dans `faq-page.jsx`). Sans lui, le composant
@@ -309,6 +325,8 @@ export const CORPS_PAR_CHEMIN = {
   '/legal': { corps: corpsLegal },
   '/changelog': { corps: corpsChangelog },
   '/suppression-compte': { corps: corpsSuppressionCompte },
+  '/accessibilite': { corps: (lang = 'fr') => corpsDePageDeTexte(PAGE_ACCESSIBILITE, lang) },
+  '/securite': { corps: (lang = 'fr') => corpsDePageDeTexte(PAGE_SECURITE, lang) },
 }// ── /legal ─────────────────────────────────────────────────────────────────
 //
 // Les titres de section sont RECOPIÉS de `legal-page.jsx` (son `I18N.sections`),

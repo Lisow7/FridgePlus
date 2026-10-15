@@ -13,7 +13,7 @@ const FEATURE_DATA = {
     emoji: '🛒',
     fr: {
       title: 'Panier',
-      accroche: 'Tout ce qu\'il te faut pour faire tes courses sereinement :',
+      accroche: 'Tout ce qu’il te faut pour faire tes courses sereinement :',
       bullets: [
         'Ingrédients regroupés, quantités calculées automatiquement',
         'Coûts estimés par ingrédient et en total',
@@ -38,7 +38,7 @@ const FEATURE_DATA = {
       title: 'Analyse des dépenses',
       accroche: 'Tes courses mois par mois, pour mieux tenir ton budget :',
       bullets: [
-        'Chaque « J\'ai fait mes courses » compté dans ton suivi',
+        'Chaque « J’ai fait mes courses » compté dans ton suivi',
         'Tes dépenses sur 12 mois, en un graphique',
         'Des recommandations selon tes habitudes',
       ],
@@ -47,7 +47,7 @@ const FEATURE_DATA = {
       title: 'Spending analysis',
       accroche: 'Your shopping month by month, to stay on budget:',
       bullets: [
-        'Every « I\'m done shopping » counted in your tracking',
+        'Every « I’m done shopping » counted in your tracking',
         'Your spending over 12 months, in one chart',
         'Recommendations based on your habits',
       ],
@@ -82,7 +82,7 @@ const FEATURE_DATA = {
 }
 
 const CTA_I18N = {
-  fr: { cta: 'Commencer l\'essai gratuit 7 jours', noCommitment: 'Sans engagement · Annule quand tu veux' },
+  fr: { cta: 'Commencer l’essai gratuit 7 jours', noCommitment: 'Sans engagement · Annule quand tu veux' },
   en: { cta: 'Start 7-day free trial',            noCommitment: 'No commitment · Cancel anytime' },
 }
 

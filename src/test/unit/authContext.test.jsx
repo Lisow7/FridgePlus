@@ -123,13 +123,15 @@ describe('AuthContext', () => {
 
   // ─── signInWithGoogle (OAuth) ──────────────────────────────────────────────
   describe('signInWithGoogle', () => {
-    it('appelle signInWithOAuth avec provider google + scopes minimaux', async () => {
+    it('appelle signInWithOAuth avec provider google + scopes minimaux, et fait choisir le compte', async () => {
       const { result } = renderHook(() => useAuth(), { wrapper })
       await waitFor(() => expect(authCallback).not.toBeNull())
       await act(async () => { await result.current.signInWithGoogle() })
+      // CPT-18 : sur un poste partagé, le compte Google resté ouvert dans le
+      // navigateur était repris sans que personne le choisisse.
       expect(mockSignInWithOAuth).toHaveBeenCalledWith({
         provider: 'google',
-        options: { redirectTo: window.location.origin, scopes: 'email profile' },
+        options: { redirectTo: window.location.origin, scopes: 'email profile', queryParams: { prompt: 'select_account' } },
       })
     })
   })
@@ -238,11 +240,9 @@ describe('AuthContext', () => {
       expect(res.error).toBeDefined()
     })
 
-    // « Se souvenir de moi » : la case existe encore à l'écran mais rien ne la
-    // lit (`signInWithEmail` ne reçoit plus `rememberMe`). Un test ignoré
-    // promettait `persistSession: false` depuis la v3.18 ; retiré — la planche
-    // n° 5 (`se_souvenir`) tranche si la case agit de nouveau ou disparaît, et
-    // le lot qui en sortira écrira ses tests.
+    // « Se souvenir de moi » : retirée (décision du 2026-10-08) — elle ne
+    // gardait que l'adresse, en clair ; la session reste
+    // ouverte comme avant. Ses tests : login-page.test.jsx, cles-abandonnees.test.js.
   })
 
   // ─── signUpWithEmail ──────────────────────────────────────────────────────
@@ -573,6 +573,28 @@ describe('AuthContext', () => {
     })
   })
 
+  // ─── aEuUneSession (CPT-18) ───────────────────────────────────────────────
+  // AuthGuard y lit la différence entre un visiteur arrivé sans session (→ la
+  // page de connexion) et une session qui se ferme dans l'onglet (→ l'accueil).
+  describe('aEuUneSession', () => {
+    it('faux tant qu’aucune session n’a existé dans l’onglet', async () => {
+      const { result } = renderHook(() => useAuth(), { wrapper })
+      await waitFor(() => expect(authCallback).not.toBeNull())
+      await act(async () => { await authCallback('INITIAL_SESSION', null) })
+      expect(result.current.aEuUneSession).toBe(false)
+    })
+
+    it('vrai dès la connexion, et le reste après la déconnexion', async () => {
+      const { result } = renderHook(() => useAuth(), { wrapper })
+      await waitFor(() => expect(authCallback).not.toBeNull())
+      await signInAs('u-1', { id: 'u-1' })
+      expect(result.current.aEuUneSession).toBe(true)
+      await act(async () => { await result.current.signOut() })
+      expect(result.current.user).toBeNull()
+      expect(result.current.aEuUneSession).toBe(true)
+    })
+  })
+
   // ─── resetPassword ────────────────────────────────────────────────────────
   describe('resetPassword', () => {
     it('appelle resetPasswordForEmail avec email trimmé', async () => {
@@ -656,7 +678,9 @@ describe('AuthContext', () => {
       await act(async () => {
         await result.current.updateEmail('new@test.com')
       })
-      expect(mockUpdateUser).toHaveBeenCalledWith({ email: 'new@test.com' })
+      // Le lien de confirmation ramène sur l'app d'où la demande est partie
+      // (sans lui : l'adresse du site configurée, même depuis un aperçu).
+      expect(mockUpdateUser).toHaveBeenCalledWith({ email: 'new@test.com' }, { emailRedirectTo: window.location.origin })
     })
   })
 
@@ -673,14 +697,14 @@ describe('AuthContext', () => {
       expect(result.current.recoveryMode).toBe(false)
     })
 
-    it('appelle supabase.auth.signOut après le reset', async () => {
+    it('appelle supabase.auth.signOut après le reset — sur tous les appareils', async () => {
       const { result } = renderHook(() => useAuth(), { wrapper })
       await waitFor(() => expect(authCallback).not.toBeNull())
       await act(async () => { await authCallback('PASSWORD_RECOVERY', null) })
       await act(async () => {
         await result.current.completePasswordReset('NewPass1!')
       })
-      expect(mockAuthSignOut).toHaveBeenCalled()
+      expect(mockAuthSignOut).toHaveBeenCalledWith({ scope: 'global' })
     })
 
     it('ne désactive pas recoveryMode en cas d\'erreur', async () => {
@@ -730,6 +754,8 @@ describe('AuthContext', () => {
         expect.stringContaining('delete-account'),
         expect.objectContaining({ method: 'POST' })
       )
+      // Supprimer son compte déconnecte toujours partout (décision du 2026-10-08).
+      expect(mockAuthSignOut).toHaveBeenCalledWith({ scope: 'global' })
       vi.unstubAllGlobals()
     })
   })

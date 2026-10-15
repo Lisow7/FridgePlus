@@ -17,7 +17,7 @@ const I18N = {
     sources: [
       {
         name: 'Eurostat HICP (Indices des prix à la consommation harmonisés)',
-        desc: 'Indices d\'inflation alimentaire par catégorie, moyennes annuelles pour la France.',
+        desc: 'Indices d’inflation alimentaire par catégorie, moyennes annuelles pour la France.',
         license: 'CC-BY 4.0',
         url: 'https://ec.europa.eu/eurostat/web/hicp/data/database',
       },

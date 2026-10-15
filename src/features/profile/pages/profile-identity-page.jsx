@@ -6,7 +6,7 @@ import { useAuth } from '@shared/contexts/auth-provider'
 import AvatarImg from '@shared/ui/avatar-img'
 import Button from '@shared/ui/button'
 import { containsProfanity } from '@shared/lib/moderation'
-import { moderateContent } from '@shared/hooks/use-moderation'
+import { moderateContent } from '@shared/api/moderation-de-contenu'
 import { acceptCommunityTerms, revokeCommunityTerms, updateCommunityBio } from '@shared/api/community'
 import { useConfirm } from '@shared/ui/confirm-dialog/confirm-provider'
 import { useProfileState } from '@features/profile/hooks/use-profile-state'
@@ -28,37 +28,38 @@ const I18N = {
     avatarDesc:  'Ton image de profil, visible partout dans la communauté.',
     avatarBtn:   'Changer mon avatar',
     bannerTitle: 'Bannière',
-    bannerDesc:  'L\'image d\'en-tête de ton profil public.',
+    bannerDesc:  'L’image d’en-tête de ton profil public.',
     bannerBtn:   'Changer ma bannière',
     pseudoTitle: 'Pseudo',
     pseudoDesc:  'Ton nom dans Fridge+. Il doit être unique.',
     pseudoLabel: 'Pseudo',
     pseudoSave:  'Enregistrer',
-    pseudoError: 'Le pseudo n\'a pas pu être enregistré. Réessaie.',
+    pseudoError: 'Le pseudo n’a pas pu être enregistré. Réessaie.',
     pseudoProfanity: 'Ce pseudo contient des termes inappropriés.',
     bioTitle:    'Ma bio',
-    bioDesc:     'Une courte présentation visible quand quelqu\'un consulte ton profil dans la communauté.',
+    bioDesc:     'Une courte présentation visible quand quelqu’un consulte ton profil dans la communauté.',
     bioLabel: 'Ce que les autres membres liront (facultatif)',
     bioPlaceholder: 'ex. : Fan de cuisine italienne, je cuisine pour quatre.',
     bioSave:     'Enregistrer la bio',
     bioMaxHint:  (n, max) => `${n} / ${max} caractères`,
     bioProfanity: 'Ta bio contient des termes inappropriés.',
     bioSaved:    'Bio enregistrée.',
-    bioError:    'Erreur lors de la sauvegarde.',
+    bioError:    'Erreur lors de l’enregistrement.',
     charterTitle: 'Charte communauté',
     charterDesc:  'Les règles de bonne conduite pour interagir sur le forum.',
     charterTagAccepted:    'Acceptée',
     charterTagNotSigned:   'À signer',
     charterTagDismissed:   'Auto-affichage désactivé',
     charterStatusAccepted:    (d) => `Tu as accepté la charte le ${d}.`,
-    charterStatusNotSigned:   'Tu n\'as pas encore signé la charte — tu ne peux pas poster ni commenter dans la communauté.',
-    charterStatusDismissed:   'Tu as cliqué « Ne plus afficher ». La modale ne s\'affichera plus automatiquement, mais elle reste accessible via le bouton 📜 dans le header Communauté.',
+    charterStatusNotSigned:   'Tu n’as pas encore signé la charte — tu ne peux pas poster ni commenter dans la communauté.',
+    charterStatusDismissed:   'Tu as cliqué « Ne plus afficher ». La modale ne s’affichera plus automatiquement, mais elle reste accessible via le bouton 📜 dans le header Communauté.',
     charterAccept: 'Accepter la charte',
     charterRevoke: 'Révoquer ma signature',
     charterRevokeConfirm: 'Confirmer la révocation ? Tu ne pourras plus publier dans la communauté.',
+    charterRevokeOk: 'Retirer mon accord',
     charterRevoked:   'Signature révoquée. Tu pourras re-signer quand tu veux.',
-    charterReenable:  'Réactiver l\'affichage automatique',
-    charterReenabled: 'Réactivé. La modale s\'affichera à ta prochaine visite Communauté.',
+    charterReenable:  'Réactiver l’affichage automatique',
+    charterReenabled: 'Réactivé. La modale s’affichera à ta prochaine visite Communauté.',
   },
   en: {
     pageTitle: 'Profile',
@@ -90,11 +91,12 @@ const I18N = {
     charterTagNotSigned:   'To be signed',
     charterTagDismissed:   'Auto-show disabled',
     charterStatusAccepted:    (d) => `You accepted the charter on ${d}.`,
-    charterStatusNotSigned:   'You haven\'t signed the charter yet — you can\'t post or comment in the community.',
-    charterStatusDismissed:   'You\'ve clicked "Don\'t show again". The modal won\'t auto-show anymore, but it stays accessible via the 📜 button in the Community header.',
+    charterStatusNotSigned:   'You haven’t signed the charter yet — you can’t post or comment in the community.',
+    charterStatusDismissed:   'You’ve clicked "Don’t show again". The modal won’t auto-show anymore, but it stays accessible via the 📜 button in the Community header.',
     charterAccept: 'Accept the charter',
     charterRevoke: 'Revoke my signature',
     charterRevokeConfirm: 'Confirm revocation? You will no longer be able to publish in the community.',
+    charterRevokeOk: 'Withdraw my agreement',
     charterRevoked:   'Signature revoked. You can re-sign whenever you want.',
     charterReenable:  'Re-enable auto-show',
     charterReenabled: 'Re-enabled. The modal will show on your next Community visit.',
@@ -229,7 +231,7 @@ export default function ProfileIdentityPage() {
 
   async function handleRevokeCharter() {
     if (!profile?.id) return
-    if (!(await confirm({ title: t.charterRevokeConfirm }))) return
+    if (!(await confirm({ title: t.charterRevokeConfirm, confirmLabel: t.charterRevokeOk }))) return
     setCharterBusy(true)
     const result = await revokeCommunityTerms(profile.id)
     setCharterBusy(false)

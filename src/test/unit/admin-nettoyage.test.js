@@ -77,7 +77,8 @@ describe('admin — le dictionnaire et le README disent vrai', () => {
     }
     const mortes = Object.keys(ADMIN_I18N.fr).filter((cle) => !lues.has(cle))
     expect(mortes).toEqual([])
-    expect(Object.keys(ADMIN_I18N.en)).toEqual(Object.keys(ADMIN_I18N.fr))
+    // Français seul (décision du 2026-10-08) : plus de branche anglaise à tenir alignée.
+    expect(ADMIN_I18N.en).toBeUndefined()
   })
 
   it('le README cite chaque fichier de la feature, et ne décrit plus un i18n « × 5 langues »', () => {

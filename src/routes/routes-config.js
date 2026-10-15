@@ -64,6 +64,8 @@ const CookingModePage        = lazy(() => import('@features/cooking-mode/compone
 const FaqPage                = lazyPrechargeable(() => import('@features/legal/pages/faq-page'))
 const GuidePage              = lazyPrechargeable(() => import('@features/onboarding/pages/guide-page'))
 const AccountDeletionPage    = lazyPrechargeable(() => import('@features/legal/pages/account-deletion-page'))
+const AccessibilityPage      = lazyPrechargeable(() => import('@features/legal/pages/accessibility-page'))
+const SecurityPage           = lazyPrechargeable(() => import('@features/legal/pages/security-page'))
 
 export const ROUTES = [
   {
@@ -109,6 +111,19 @@ export const ROUTES = [
     path: '/suppression-compte',
     Component: AccountDeletionPage,
     label: LIBELLES_DES_ROUTES['/suppression-compte'],
+  },
+  // Décisions du 2026-10-08 : « Accessibilité » (liée au pied de page) et
+  // « Sécurité » (désignée par security.txt). Publiques, SANS `Guard`, pour la
+  // même raison que `/faq` : du texte du bundle, aucune donnée de compte.
+  {
+    path: '/accessibilite',
+    Component: AccessibilityPage,
+    label: LIBELLES_DES_ROUTES['/accessibilite'],
+  },
+  {
+    path: '/securite',
+    Component: SecurityPage,
+    label: LIBELLES_DES_ROUTES['/securite'],
   },
   {
     path: '/profile',

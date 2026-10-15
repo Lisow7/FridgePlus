@@ -57,7 +57,7 @@ function EnTeteDeLigne({ depliable, deplie, onBasculer, children }) {
 }
 
 export default function JournalSection({ lang = 'fr', darkMode = false }) {
-  const t = ADMIN_I18N[lang] ?? ADMIN_I18N.fr
+  const t = ADMIN_I18N.fr
 
   const [logs,        setLogs]        = useState([])
   const [logDetails,  setLogDetails]  = useState({})

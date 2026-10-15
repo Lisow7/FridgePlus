@@ -10,7 +10,7 @@
 export const LEFTOVERS_I18N = {
   fr: {
     inFridgeTag: '✓ frigo',
-    today:             "Restes d'aujourd'hui",
+    today:             "Restes d’aujourd’hui",
     thisweek:          'Restes de la semaine',
     add:               'Ajouter un reste',
     fromIngredients:   'Mes ingrédients',
@@ -26,8 +26,8 @@ export const LEFTOVERS_I18N = {
     expiredSince:      (n) => n === 1 ? 'Expiré depuis hier' : `Expiré depuis ${n}j`,
     daysLeft:          (n) => `J-${n}`,
     dayShort:          (n) => `${n}j`,
-    daysLeftToday:     "Expire aujourd'hui",
-    noLeftovers:       "Aucun reste pour l'instant.",
+    daysLeftToday:     "Expire aujourd’hui",
+    noLeftovers:       "Aucun reste pour l’instant.",
     noLeftoversWeek:   'Aucun reste cette semaine.',
     hygieneGuide:      'Guide conservation',
     namePlaceholder:   'ex. : gratin de lundi',
@@ -54,7 +54,7 @@ export const LEFTOVERS_I18N = {
   },
   en: {
     inFridgeTag: '✓ in fridge',
-    today:             "Today's leftovers",
+    today:             "Today’s leftovers",
     thisweek:          'This week leftovers',
     add:               'Add a leftover',
     fromIngredients:   'My ingredients',
@@ -74,7 +74,7 @@ export const LEFTOVERS_I18N = {
     noLeftovers:       'No leftovers yet.',
     noLeftoversWeek:   'No leftovers this week.',
     hygieneGuide:      'Storage guide',
-    namePlaceholder:   'e.g. Monday\'s gratin',
+    namePlaceholder:   'e.g. Monday’s gratin',
     nameAria:          'Leftover name',
     loginRequired:     'Sign in to track your leftovers.',
     login:             'Sign in',

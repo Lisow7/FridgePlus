@@ -36,23 +36,33 @@ vi.mock('@shared/contexts/feature-flags-provider', () => ({ useFeatureFlag: () =
 
 import { unsubscribeFromPush } from '@features/push-notifications/api/push-subscriptions'
 import { usePushSubscription } from '@features/push-notifications/lib/use-push-subscription'
+import { abonnementDeCetAppareil } from '@shared/lib/push/cet-appareil'
 
 const ENDPOINT = 'https://push.exemple/abc'
 
-function navigateurAbonne(abonnement = { endpoint: ENDPOINT, unsubscribe: vi.fn().mockResolvedValue(true) }) {
+// Un service worker enregistré et actif (`getRegistration` et `ready` rendent le même).
+function navigateurAvecServiceWorker(registration) {
   Object.defineProperty(navigator, 'serviceWorker', {
     configurable: true,
-    value: { ready: Promise.resolve({ pushManager: {
-      getSubscription: vi.fn().mockResolvedValue(abonnement),
-      subscribe: vi.fn().mockResolvedValue(abonnement),
-    } }) },
+    value: { getRegistration: () => Promise.resolve(registration), ready: Promise.resolve(registration) },
   })
+}
+function navigateurAbonne(abonnement = { endpoint: ENDPOINT, unsubscribe: vi.fn().mockResolvedValue(true) }) {
+  navigateurAvecServiceWorker({ pushManager: {
+    getSubscription: vi.fn().mockResolvedValue(abonnement),
+    subscribe: vi.fn().mockResolvedValue(abonnement),
+  } })
   return abonnement
 }
 function navigateurSansAbonnement() {
+  navigateurAvecServiceWorker({ pushManager: { getSubscription: vi.fn().mockResolvedValue(null) } })
+}
+// Aucun service worker enregistré (dev : `devOptions.enabled: false`) : `ready` ne se
+// résout jamais — ce qui doit rester sans effet sur la lecture.
+function navigateurSansServiceWorker() {
   Object.defineProperty(navigator, 'serviceWorker', {
     configurable: true,
-    value: { ready: Promise.resolve({ pushManager: { getSubscription: vi.fn().mockResolvedValue(null) } }) },
+    value: { getRegistration: () => Promise.resolve(undefined), ready: new Promise(() => {}) },
   })
 }
 const TROIS_A_FAUX = { inactivity_reminder: false, announcements: false, stock_expiry: false }
@@ -71,6 +81,7 @@ beforeEach(() => {
 afterEach(() => {
   delete navigator.serviceWorker
   vi.unstubAllGlobals()
+  vi.unstubAllEnvs()
 })
 
 describe('unsubscribeFromPush — désactiver sur CET appareil', () => {
@@ -131,6 +142,41 @@ describe('usePushSubscription — l’état de CET appareil', () => {
     const { result } = renderHook(() => usePushSubscription())
     await act(async () => { await new Promise((r) => setTimeout(r, 0)) })
     expect(result.current.enabled).toBe(false)
+  })
+
+  // Vu le 2026-10-15 sur localhost (pas de service worker en dev) : `ready` ne se
+  // résout jamais — la lecture de l'état pendait, et « Activer » restait « en cours »
+  // pour toujours, après avoir demandé la permission pour rien.
+  it('aucun service worker enregistré (dev, navigateur restreint) : désactivé, sans erreur, sans attendre `ready`', async () => {
+    navigateurSansServiceWorker()
+    await expect(abonnementDeCetAppareil()).resolves.toBeNull()
+    const { result } = renderHook(() => usePushSubscription())
+    await act(async () => { await new Promise((r) => setTimeout(r, 0)) })
+    expect(result.current.enabled).toBe(false)
+    expect(result.current.error).toBeNull()
+  })
+
+  it('basculer sans service worker enregistré, sous `npm run dev` : error = dev_sans_sw, sans demander la permission', async () => {
+    navigateurSansServiceWorker()
+    const requestPermission = vi.fn().mockResolvedValue('granted')
+    vi.stubGlobal('Notification', { requestPermission })
+    const { result } = renderHook(() => usePushSubscription())
+    await act(async () => { await result.current.toggle() })
+    expect(result.current.error).toBe('dev_sans_sw')
+    expect(result.current.loading).toBe(false)
+    expect(result.current.enabled).toBe(false)
+    expect(requestPermission).not.toHaveBeenCalled()
+  })
+
+  it('basculer sans service worker enregistré, en production (navigateur restreint) : error = unsupported', async () => {
+    vi.stubEnv('DEV', false)
+    navigateurSansServiceWorker()
+    const requestPermission = vi.fn().mockResolvedValue('granted')
+    vi.stubGlobal('Notification', { requestPermission })
+    const { result } = renderHook(() => usePushSubscription())
+    await act(async () => { await result.current.toggle() })
+    expect(result.current.error).toBe('unsupported')
+    expect(requestPermission).not.toHaveBeenCalled()
   })
 
   it('une lecture de l’état qui échoue se dit : error = read_failed', async () => {

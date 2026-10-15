@@ -287,6 +287,7 @@ export function fakeJwt(sub, email, aal) {
  * renvoie la session, quelle que soit la ref du projet.
  */
 const profileWriteLog = new Map()
+const metadataWriteLog = new Map()
 
 export async function signedInAs(page, {
   id = '00000000-0000-0000-0000-000000000002',
@@ -346,24 +347,53 @@ export async function signedInAs(page, {
   }
 
   profileWriteLog.set(page, [])
+  // Le profil servi suit ses écritures, comme la vraie base : relu après un
+  // PATCH, il rend la valeur écrite. Servi figé, une relecture — celle qui suit
+  // la recopie de la langue dans user_metadata (USER_UPDATED) — ramenait une
+  // langue vide, et le crochet de langue réécrivait : test instable en CI.
+  let profilServi = { id, username, ...profile }
   await page.route('**/rest/v1/profiles**', (route) => {
     const req = route.request()
     // Les ecritures (PATCH) sont gardees pour `profileWrites()` : horodatage
     // de connexion, choix du pseudo…
     if (req.method() === 'PATCH') {
-      try { profileWriteLog.get(page)?.push(JSON.parse(req.postData() ?? '{}')) } catch { /* corps illisible */ }
+      try {
+        const corps = JSON.parse(req.postData() ?? '{}')
+        profileWriteLog.get(page)?.push(corps)
+        profilServi = { ...profilServi, ...corps }
+      } catch { /* corps illisible */ }
     }
     return route.fulfill({
       status: 200,
       contentType: 'application/json',
-      body: JSON.stringify({ id, username, ...profile }),
+      body: JSON.stringify(profilServi),
     })
+  })
+
+  // `useAccountLanguageSync` recopie la langue du compte dans user_metadata, où
+  // la lisent les e-mails de Supabase Auth (audit du 2026-10-04, CPT-18) :
+  // PUT auth/v1/user, servi comme GoTrue le sert — l'utilisateur, métadonnées
+  // fusionnées. Les autres méthodes retombent sur l'attrape-tout du socle.
+  metadataWriteLog.set(page, [])
+  await page.route('**/auth/v1/user**', (route) => {
+    const req = route.request()
+    if (req.method() !== 'PUT') return route.fallback()
+    let data = {}
+    try { data = JSON.parse(req.postData() ?? '{}').data ?? {} } catch { /* corps illisible */ }
+    metadataWriteLog.get(page)?.push(data)
+    const user = { ...session.user, user_metadata: { ...session.user.user_metadata, ...data } }
+    return route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(user) })
   })
 }
 
 /** Corps des ecritures (PATCH) vers `profiles` depuis signedInAs(), dans l'ordre. */
 export function profileWrites(page) {
   return profileWriteLog.get(page) ?? []
+}
+
+/** Métadonnées écrites dans user_metadata (PUT auth/v1/user) depuis signedInAs(), dans l'ordre. */
+export function metadataWrites(page) {
+  return metadataWriteLog.get(page) ?? []
 }
 
 /** Capture les upserts vers user_stock sans jamais les envoyer. */

@@ -20,7 +20,7 @@ vi.mock('@shared/contexts/data-provider', () => ({
   useIngredientsById: () => new Map(),
 }))
 vi.mock('@shared/contexts/auth-provider', () => ({ useAuth: () => ({ user: null }) }))
-vi.mock('@shared/hooks/use-moderation', () => ({ moderateContent: vi.fn(() => Promise.resolve({ flagged: false })) }))
+vi.mock('@shared/api/moderation-de-contenu', () => ({ moderateContent: vi.fn(() => Promise.resolve({ flagged: false })) }))
 vi.mock('@features/recipes/hooks/use-similar-recipes', () => ({ useSimilarRecipes: () => [] }))
 
 import useRecipeFormModal from '@features/recipes/hooks/use-recipe-form-modal'

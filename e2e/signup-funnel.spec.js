@@ -27,7 +27,7 @@ async function fillSignupForm(page, { username, email, password = VALID_PWD }) {
   await page.locator('input[autocomplete="new-password"]').fill(password)
 }
 
-test.describe('Funnel d\'activation', () => {
+test.describe('Funnel d’activation', () => {
   test.beforeEach(async ({ page }) => {
     // Langue forcee : les assertions portent sur des libelles FR, or la langue
     // est detectee depuis le navigateur puis persistee dans localStorage.
@@ -47,7 +47,7 @@ test.describe('Funnel d\'activation', () => {
     assertNoUnmockedCalls(page)
   })
 
-  test('sans acceptation des CGU, rien n\'est envoye', async ({ page }) => {
+  test('sans acceptation des CGU, rien n’est envoye', async ({ page }) => {
     await mockUsernameAvailable(page)
     await mockSignupSuccess(page)
     await page.goto('/FridgePlus/signup')
@@ -75,7 +75,7 @@ test.describe('Funnel d\'activation', () => {
     expect(rpcCalls(page, 'username_available').map((appel) => appel.args)).toEqual([{ p_username: 'Foodie_42' }])
   })
 
-  test('une inscription valide invite a confirmer l\'e-mail', async ({ page }) => {
+  test('une inscription valide invite a confirmer l’e-mail', async ({ page }) => {
     await mockUsernameAvailable(page)
     await mockSignupSuccess(page)
     await page.goto('/FridgePlus/signup')
@@ -88,7 +88,7 @@ test.describe('Funnel d\'activation', () => {
     // adresse deja inscrite : l'ecran ne dit donc plus « Compte cree ! », il
     // dit quoi faire dans les deux cas.
     const reponse = page.getByRole('status')
-    await expect(reponse).toContainText(/ouvre l'e-mail/i)
+    await expect(reponse).toContainText(/ouvre l['’]e-mail/i)
     await expect(reponse).not.toContainText(/compte cr[eé][eé]/i)
     await expect(reponse).toContainText(/d[eé]j[aà] un compte/i)
     // Un e-mail vient de partir : le renvoi attend une minute.

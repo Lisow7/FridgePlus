@@ -309,7 +309,7 @@ export default function CommunityPage({ onClose, lang = 'fr', darkMode = false, 
   }
 
   const handleDelete = async (postId) => {
-    if (!(await confirm({ title: t.deleteConfirmTitle, body: t.deleteConfirmBody, danger: true }))) return
+    if (!(await confirm({ title: t.deleteConfirmTitle, body: t.deleteConfirmBody, confirmLabel: t.deleteConfirmOk, danger: true }))) return
     // L'erreur etait jetee ET le post retire de la liste quand meme : un echec
     // le faisait disparaitre de l'ecran alors qu'il restait PUBLIE. On ne
     // retire donc que si la suppression a bien eu lieu ; sinon le post reste

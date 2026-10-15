@@ -14,6 +14,7 @@ import AllergenPicker from '@features/profile/components/allergen-picker'
 import AllergenConsent from '@shared/ui/allergen-consent'
 import ProfilePageIntro from '@features/profile/components/profile-page-intro'
 import ProfileSection  from '@features/profile/components/profile-section'
+import NotificationsSection from '@features/profile/components/notifications-section'
 import { useSaveErrorToast } from '@shared/hooks/use-save-error-toast'
 
 // Sprint 11 S11.a.3 — sous-page /profile/preferences.
@@ -24,7 +25,7 @@ const I18N = {
     pageTitle: 'Préférences',
     pageIntro: 'Comment tu utilises Fridge+ — langue, pays, allergènes, budget. Ces choix ne sont pas partagés.',
     langTitle: 'Langue & affichage',
-    langDesc:  'La langue de l\'app et le thème clair/sombre.',
+    langDesc:  'La langue de l’app et le thème clair/sombre.',
     langLabel: 'Langue',
     darkLabel: 'Mode sombre',
     countryTitle: 'Pays',
@@ -37,7 +38,7 @@ const I18N = {
     shapeDesc:  'La disposition de ton frigo virtuel. Celle que tu choisis ici te suit sur tous tes appareils.',
     shapeTopFreezer: 'Congélateur en haut',
     shapeSideBySide: 'Portes côte à côte',
-    shapeSaved: 'Forme enregistrée.',
+    enregistre: 'Enregistré',
     allergenTitle: 'Allergènes',
     allergenSub:   'Les recettes contenant ces allergènes seront signalées dans la communauté et le frigo.',
     allergenNone:  'Aucun allergène sélectionné.',
@@ -45,7 +46,7 @@ const I18N = {
     allergenSaveBtn: 'Enregistrer',
     allergenSaved: 'Préférences enregistrées.',
     budgetTitle: 'Budget courses',
-    budgetDesc:  'Une limite mensuelle optionnelle. Une barre de progression s\'affiche dans ton panier pour suivre tes dépenses.',
+    budgetDesc:  'Une limite mensuelle optionnelle. Une barre de progression s’affiche dans ton panier pour suivre tes dépenses.',
     budgetPlaceholder: 'ex. : 300',
     budgetLabel: 'Budget du mois (€)',
     perTripLabel: 'Plafond par course (€)',
@@ -75,7 +76,7 @@ const I18N = {
     shapeDesc:  'The layout of your virtual fridge. The one you pick here follows you on all your devices.',
     shapeTopFreezer: 'Freezer on top',
     shapeSideBySide: 'Side-by-side doors',
-    shapeSaved: 'Shape saved.',
+    enregistre: 'Saved',
     allergenTitle: 'Allergens',
     allergenSub:   'Recipes containing these allergens will be flagged in the community and the fridge.',
     allergenNone:  'No allergen selected.',
@@ -309,8 +310,8 @@ export default function ProfilePreferencesPage() {
               })}
             </select>
             {countrySaved && (
-              <span role="status" style={{ fontSize: '13px', fontWeight: 600, color: '#16A34A' }}>
-                ✓ {t.allergenSaved}
+              <span role="status" style={{ fontSize: '13px', fontWeight: 600, color: 'var(--color-success-text)' }}>
+                ✓ {t.enregistre}
               </span>
             )}
           </div>
@@ -366,8 +367,8 @@ export default function ProfilePreferencesPage() {
               })}
             </div>
             {shapeSaved && (
-              <span role="status" style={{ fontSize: '13px', fontWeight: 600, color: '#16A34A' }}>
-                ✓ {t.shapeSaved}
+              <span role="status" style={{ fontSize: '13px', fontWeight: 600, color: 'var(--color-success-text)' }}>
+                ✓ {t.enregistre}
               </span>
             )}
           </div>
@@ -402,6 +403,8 @@ export default function ProfilePreferencesPage() {
             mutedColor={mutedColor}
           />
         </ProfileSection>
+
+        <NotificationsSection lang={lang} darkMode={darkMode} />
 
         {/* Sprint 11 — Budget Premium-gated : la barre de progression
             dépend de l'analyse des dépenses (feature Premium). Masqué
@@ -491,9 +494,6 @@ export default function ProfilePreferencesPage() {
           </div>
         </ProfileSection>}
 
-        {/* v3.409 — Section Charte communauté DÉPLACÉE vers Profil > Profil
-            (identity page). Plus de duplication. Préférences reste pour les
-            préférences UX, Profil pour les engagements personnels (charte). */}
       </div>
     </>
   )

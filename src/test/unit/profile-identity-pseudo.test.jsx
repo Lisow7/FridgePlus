@@ -42,7 +42,7 @@ describe('Page Identité — changer de pseudo', () => {
     from.mockReset()
   })
 
-  it('demande à la base si le pseudo est libre, puis l\'enregistre', async () => {
+  it('demande à la base si le pseudo est libre, puis l’enregistre', async () => {
     render(<ProfileIdentityPage />)
     saisir('Alice_2')
     enregistrer()
@@ -51,7 +51,7 @@ describe('Page Identité — changer de pseudo', () => {
     expect(from).not.toHaveBeenCalled()
   })
 
-  it('pseudo pris ou réservé : le dit, et n\'écrit rien', async () => {
+  it('pseudo pris ou réservé : le dit, et n’écrit rien', async () => {
     rpc.mockResolvedValue({ data: false, error: null })
     render(<ProfileIdentityPage />)
     saisir('Admin')
@@ -60,7 +60,7 @@ describe('Page Identité — changer de pseudo', () => {
     expect(updateProfile).not.toHaveBeenCalled()
   })
 
-  it('pseudo pris entre le contrôle et l\'écriture : jamais le message SQL', async () => {
+  it('pseudo pris entre le contrôle et l’écriture : jamais le message SQL', async () => {
     updateProfile.mockResolvedValue({ error: { code: '23505', message: 'duplicate key value violates unique constraint "profiles_username_lower_idx"' } })
     render(<ProfileIdentityPage />)
     saisir('Alice_2')
@@ -74,7 +74,7 @@ describe('Page Identité — changer de pseudo', () => {
     render(<ProfileIdentityPage />)
     saisir('Alice_2')
     enregistrer()
-    await waitFor(() => expect(screen.getByRole('alert')).toHaveTextContent(/n'a pas pu être enregistré/i))
+    await waitFor(() => expect(screen.getByRole('alert')).toHaveTextContent(/n['’]a pas pu être enregistré/i))
     expect(screen.getByRole('alert')).not.toHaveTextContent(/row-level security|policy/i)
   })
 
@@ -94,7 +94,7 @@ describe('Page Identité — changer de pseudo', () => {
     await waitFor(() => expect(updateProfile).toHaveBeenCalledWith({ username: 'Alice_2' }))
   })
 
-  it('la règle est dite dans la description, avec les mêmes mots qu\'ailleurs', () => {
+  it('la règle est dite dans la description, avec les mêmes mots qu’ailleurs', () => {
     render(<ProfileIdentityPage />)
     expect(screen.getByText(/3 à 20 caractères : lettres sans accent/i)).toBeInTheDocument()
   })

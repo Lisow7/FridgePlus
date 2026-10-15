@@ -34,7 +34,7 @@ export const FRIDGE_LAYOUTS = {
       {
         id: 'leftovers', label: 'Restes', emoji: '🥡', flex: 2,
         subcategories: [
-          { id: 'today',    label: "Aujourd'hui",   emoji: '📅' },
+          { id: 'today',    label: "Aujourd’hui",   emoji: '📅' },
           { id: 'thisweek', label: 'Cette semaine', emoji: '🗓️' },
         ],
       },
@@ -78,7 +78,7 @@ export const FRIDGE_LAYOUTS = {
     closeDoorLabel: 'Close door',
     closeDoorsLabel: 'Close doors',
     recipesLabel: 'Recipes',
-    resetLabel: 'Clear fridge & pantry',
+    resetLabel: 'Empty fridge & pantry',
     fridge: [
       {
         id: 'freezer', label: 'Freezer', emoji: '❄️', flex: 1,

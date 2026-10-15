@@ -13,11 +13,11 @@ vi.mock('@features/admin/api/admin', () => ({
   adminPublishStaged: vi.fn().mockResolvedValue({ error: null }),
   adminRejectStaged: vi.fn(),
   adminBatchPublishValid: vi.fn().mockResolvedValue({ published: 1, failed: [], error: null }),
-  adminReRunValidators: vi.fn(),
 }))
 vi.mock('@features/admin/components/sections/import-metrics', () => ({ default: () => null }))
 
 import ImportQueueTab from '@features/admin/components/sections/import-queue-tab'
+import { adminGetImportQueue } from '@features/admin/api/admin'
 
 describe('ImportQueueTab — publication', () => {
   it('publier une recette appelle useConfirm() (neutre, pas danger)', async () => {
@@ -42,5 +42,20 @@ describe('ImportQueueTab — publication', () => {
     await waitFor(() => expect(confirmMock).toHaveBeenCalledWith(expect.objectContaining({
       title: 'Publier la recette valide du batch "lot-2026-07" ?',
     })))
+  })
+})
+
+// Décision du 2026-10-08 : « Re-valider (CLI) » ne faisait qu'afficher une
+// commande à lancer ailleurs. Le bouton part ; la validation reste en ligne de
+// commande, comme aujourd'hui.
+describe('ImportQueueTab — une recette invalide', () => {
+  it('n’a plus de bouton « Re-valider (CLI) »', async () => {
+    adminGetImportQueue.mockResolvedValueOnce({
+      data: [{ id: 'row2', status: 'invalid', batch_id: 'lot-2026-07', parsed_data: { name: { fr: 'Recette à revoir' } }, errors: ['temps manquant'] }],
+      count: 1, error: null,
+    })
+    render(<ImportQueueTab />)
+    await waitFor(() => screen.getByText('Recette à revoir'))
+    expect(screen.queryByText(/Re-valider/)).toBeNull()
   })
 })

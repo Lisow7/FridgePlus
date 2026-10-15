@@ -21,6 +21,16 @@ import { parse } from 'espree'
 const L = 'A-Za-zÀ-ÖØ-öø-ÿ'
 const mot = (m) => new RegExp(`(?<![${L}])(?:${m})(?![${L}])`, 'i')
 
+// Les apostrophes (décision du 2026-10-08) : typographiques partout — « l’app »,
+// « don’t ». Une apostrophe droite entre deux lettres est relevée, SAUF :
+//   - dans les données d'aliments et de recettes, qui ne bougent pas ;
+//   - dans ce que la voix doit reconnaître (la reconnaissance renvoie des
+//     apostrophes droites : « j'ai fini ») ;
+//   - dans un bloc CSS (`@keyframes`, `{ propriété: valeur; }`).
+const APOSTROPHE_DROITE = new RegExp(`(?<=[${L}])'(?=[${L}])`)
+const HORS_APOSTROPHE = /static\/(recipes|ingredients|recipe-names|ingredient-conservation)\.js$|cooking-mode\/lib\/intents\.js$|matching\/ingredient-text-matcher\.js$/
+const CSS = /@keyframes|\{[^{}]*:[^{}]*;[^{}]*\}/
+
 export const REGLES = [
   // ── Ce qu'on a chez soi : « Inventaire » (EN « Inventory »). Seul le NOM est
   // visé (menu, titre du panneau, aide) : « dans ton frigo », « Ouvrir mon
@@ -66,6 +76,22 @@ export const REGLES = [
   { notion: "j'aime", lang: 'fr', interdit: mot('likes?'), canon: "j'aime" },
   { notion: 'support', lang: 'fr', interdit: /^\s*Support\s*$/, canon: 'Écrire au support' },
   { notion: 'grandes quantités', lang: 'fr', interdit: mot('batch cooking'), canon: 'Grandes quantités', sure: true },
+  // ── « Enregistrer », pas « sauvegarder » (décision du 2026-10-08). « Sauvegardes » reste le
+  // NOM des copies de secours chiffrées (textes légaux) : seules les formes du verbe sont écartées.
+  { notion: 'enregistrer', lang: 'fr', interdit: mot('sauvegard(?:er|é|ée|és|ées|ez|ons)|tu sauvegardes|sauvegarde en cours|lors de la sauvegarde'), canon: 'Enregistrer (« sauvegardes » = les copies de secours)', sure: true },
+  // ── Un verbe par geste de retrait (décision du 2026-10-08) : Supprimer = pour de bon ;
+  // Retirer = d'une liste ; Vider = tout d'un coup ; Effacer = un texte. EN : Delete, Remove,
+  // Empty, Clear.
+  { notion: 'retirer', lang: 'fr', interdit: mot("supprimer (?:du frigo|des favoris|du panier|de la liste|l['’]étape|l['’]ingrédient)"), canon: "Retirer (d'une liste)", sure: true },
+  { notion: 'retirer', lang: 'en', interdit: mot('delete (?:from (?:the |your )?(?:fridge|favou?rites|cart|list)|step|ingredient)'), canon: 'Remove (from a list)' },
+  { notion: 'vider', lang: 'fr', interdit: mot('effacer (?:le panier|le frigo|la liste)'), canon: "Vider (tout d'un coup)", sure: true },
+  { notion: 'vider', lang: 'en', interdit: mot('clear (?:the |your )?(?:cart|list|fridge)|clear without transferring|cart cleared|clears the list|then cleared'), canon: 'Empty (all at once)' },
+  { notion: 'effacer', lang: 'fr', interdit: mot('vider (?:la recherche|le champ)'), canon: 'Effacer (un texte)', sure: true },
+  { notion: 'supprimer', lang: 'fr', interdit: mot("effacer (?:mon|ton) historique|effacer les notifications|effacer définitivement|confirmer l['’]effacement|échec de l['’]effacement"), canon: 'Supprimer (pour de bon) ; « Effacer » = un texte', sure: true },
+  { notion: 'supprimer', lang: 'en', interdit: mot('clear read notifications|erase (?:my|your) (?:spending )?history|erase permanently|confirm erasure|erasure failed'), canon: 'Delete (for good)' },
+  // ── Les apostrophes typographiques (voir plus haut ce qui en est exempté).
+  { notion: 'apostrophe', lang: 'fr', interdit: APOSTROPHE_DROITE, canon: 'l’apostrophe typographique (’)', sure: true, sauf: CSS, horsDe: HORS_APOSTROPHE },
+  { notion: 'apostrophe', lang: 'en', interdit: APOSTROPHE_DROITE, canon: 'typographic apostrophe (’)', sauf: CSS, horsDe: HORS_APOSTROPHE },
 ]
 
 const LANGUES = new Set(['fr', 'en', 'es', 'de', 'ja'])
@@ -76,11 +102,12 @@ const HORS_REGLE = /\/admin\/|\/test\/|[.]test[.]|\/changelog\/data\//
 const TECHNIQUE = /^[A-Za-z0-9]*[_./:@#-][A-Za-z0-9_./:@#-]*$|^[a-z][a-z0-9]*$/
 const ATTRIBUTS_TECHNIQUES = /^(className|class|id|key|href|to|src|type|name|role|htmlFor|rel|target|ref|style|data-[\w-]+|testId)$/
 
-export function synonymesEcartes(texte, lang) {
+export function synonymesEcartes(texte, lang, fichier = '') {
   if (lang && lang !== 'fr' && lang !== 'en') return []
   const trouves = []
   for (const r of REGLES) {
     if (lang ? r.lang !== lang : !r.sure) continue
+    if (r.horsDe && fichier && r.horsDe.test(fichier)) continue
     const m = texte.match(r.interdit)
     if (m && !(r.sauf && r.sauf.test(texte))) trouves.push({ notion: r.notion, mot: m[0], canon: r.canon })
   }
@@ -116,7 +143,9 @@ function languesDuTernaire(test) {
 }
 
 export function textesDuCode(code) {
-  const arbre = parse(code, { ecmaVersion: 'latest', sourceType: 'module', ecmaFeatures: { jsx: true }, loc: true })
+  // `range` : la position de chaque texte dans le source (`debut`, `fin`), pour qu'un
+  // script de correction vise exactement les textes que relève le détecteur.
+  const arbre = parse(code, { ecmaVersion: 'latest', sourceType: 'module', ecmaFeatures: { jsx: true }, loc: true, range: true })
   const textes = []
   const visiter = (noeud, lang) => {
     if (!noeud || typeof noeud.type !== 'string') return
@@ -137,9 +166,10 @@ export function textesDuCode(code) {
     if (noeud.type === 'JSXAttribute' && ATTRIBUTS_TECHNIQUES.test(noeud.name?.name ?? '')) return
     // Les journaux de développement (`console.error('[basket] …')`) non plus.
     if (noeud.type === 'CallExpression' && noeud.callee?.type === 'MemberExpression' && noeud.callee.object?.name === 'console') return
-    if (noeud.type === 'Literal' && typeof noeud.value === 'string') textes.push({ texte: noeud.value, ligne: noeud.loc.start.line, lang })
-    else if (noeud.type === 'TemplateElement') textes.push({ texte: noeud.value.cooked ?? noeud.value.raw, ligne: noeud.loc.start.line, lang })
-    else if (noeud.type === 'JSXText') textes.push({ texte: noeud.value, ligne: noeud.loc.start.line, lang })
+    const position = { ligne: noeud.loc?.start.line, debut: noeud.range?.[0], fin: noeud.range?.[1], lang }
+    if (noeud.type === 'Literal' && typeof noeud.value === 'string') textes.push({ texte: noeud.value, ...position })
+    else if (noeud.type === 'TemplateElement') textes.push({ texte: noeud.value.cooked ?? noeud.value.raw, ...position })
+    else if (noeud.type === 'JSXText') textes.push({ texte: noeud.value, ...position })
     for (const cle of Object.keys(noeud)) {
       if (cle === 'loc' || cle === 'parent') continue
       const v = noeud[cle]
@@ -163,7 +193,7 @@ export function recenserLeVocabulaire({ racine = process.cwd(), dossiers = ['src
       try {
         for (const { texte, ligne, lang } of textesDuCode(fs.readFileSync(p, 'utf8'))) {
           if (TECHNIQUE.test(texte.trim())) continue
-          for (const s of synonymesEcartes(texte, lang)) releves.push({ fichier, ligne, lang, ...s })
+          for (const s of synonymesEcartes(texte, lang, fichier)) releves.push({ fichier, ligne, lang, ...s })
         }
       } catch (e) {
         illisibles.push({ fichier, erreur: e.message })

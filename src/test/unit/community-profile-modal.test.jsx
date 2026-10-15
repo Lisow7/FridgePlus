@@ -42,7 +42,7 @@ describe('CommunityProfileModal — fiche pas chargée', () => {
   it('la lecture échoue : le dit et propose de réessayer — pas « Profil introuvable »', async () => {
     getCommunityProfile.mockResolvedValueOnce({ profile: null, error: { message: 'Failed to fetch' } })
     ouvrir()
-    expect(await screen.findByRole('alert')).toHaveTextContent("Le profil n'a pas pu être chargé.")
+    expect(await screen.findByRole('alert')).toHaveTextContent("Le profil n’a pas pu être chargé.")
     expect(screen.queryByText('Profil introuvable.')).toBeNull()
   })
 

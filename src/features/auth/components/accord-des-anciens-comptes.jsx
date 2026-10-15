@@ -24,7 +24,7 @@ const I18N = {
   fr: {
     titre: 'Confirme ton accord',
     texte: 'Ton compte a été créé avant que Fridge+ enregistre la date des accords aux conditions. Coche la case une fois pour continuer.',
-    avant: 'J\'ai au moins 16 ans et j\'accepte les ',
+    avant: 'J’ai au moins 16 ans et j’accepte les ',
     conditions: 'Conditions Générales d’Utilisation',
     milieu: ' et la ',
     politique: 'Politique de confidentialité',
@@ -51,9 +51,10 @@ const I18N = {
   },
 }
 
-// Là où la fenêtre ne s'ouvre pas : de quoi lire ce qu'on accepte, et de quoi
-// supprimer son compte sans l'accepter.
-const PAGES_LIBRES = ['/legal', '/profile/compte', '/suppression-compte']
+// Là où la fenêtre ne s'ouvre pas : de quoi lire ce qu'on accepte, de quoi
+// supprimer son compte sans l'accepter, et de quoi signaler un obstacle
+// (`/accessibilite` : une fenêtre bloquante ne doit pas se poser sur elle).
+const PAGES_LIBRES = ['/legal', '/profile/compte', '/suppression-compte', '/accessibilite']
 
 export default function AccordDesAnciensComptes({ lang = 'fr' }) {
   const t = I18N[lang] ?? I18N.fr

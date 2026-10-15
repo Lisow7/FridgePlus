@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test'
 import {
-  installSupabaseMocks, assertNoUnmockedCalls, signedInAs, profileWrites,
+  installSupabaseMocks, assertNoUnmockedCalls, signedInAs, profileWrites, metadataWrites,
 } from './support/supabase-mock.js'
 
 // Audit du 2026-10-04 (P-08), vu en direct : en se connectant dans un
@@ -63,6 +63,9 @@ test.describe('La langue suit le compte', () => {
     await expect(page.locator('html')).toHaveAttribute('lang', 'en')
     // Le compte faisait foi : rien n'est réécrit.
     expect(ecrituresDeLangue(page)).toEqual([])
+    // Les e-mails de connexion la lisent dans user_metadata (CPT-18) : elle y
+    // est recopiée, une fois (les effets sont joués deux fois en développement).
+    await expect.poll(() => metadataWrites(page)).toEqual([{ lang: 'en' }])
     assertNoUnmockedCalls(page)
   })
 
@@ -76,6 +79,7 @@ test.describe('La langue suit le compte', () => {
     // Une seule valeur écrite : celle de l'appareil. (En développement les
     // effets sont joués deux fois ; le crochet n'écrit pourtant qu'une fois.)
     expect(ecrituresDeLangue(page)).toEqual([{ language: 'fr' }])
+    await expect.poll(() => metadataWrites(page)).toEqual([{ lang: 'fr' }])
   })
 
   test('sans compte, rien n’est écrit', async ({ page }) => {
@@ -83,6 +87,7 @@ test.describe('La langue suit le compte', () => {
     await page.addInitScript(() => localStorage.setItem('fridge-welcome-seen-v1', '1'))
     await page.goto('/FridgePlus/')
     await expect(page.getByRole('button', { name: 'Ouvrir le frigo' })).toBeVisible()
+    expect(metadataWrites(page)).toEqual([])
     assertNoUnmockedCalls(page)
   })
 })

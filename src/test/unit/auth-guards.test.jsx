@@ -17,6 +17,9 @@ function Protected() {
 function HomeStub() {
   return <div data-testid="home">Home</div>
 }
+function LoginStub() {
+  return <div data-testid="login">Login</div>
+}
 
 function setupRedirect({ user, recoveryMode = false }) {
   useAuth.mockReturnValue({ user, recoveryMode })
@@ -68,6 +71,7 @@ function setupAuth({ user, loading = false, recoveryMode = false }) {
     <MemoryRouter initialEntries={['/cook/x']}>
       <Routes>
         <Route path="/" element={<HomeStub />} />
+        <Route path="/login" element={<LoginStub />} />
         <Route path="/cook/:recipeId" element={<AuthGuard><Protected /></AuthGuard>} />
       </Routes>
     </MemoryRouter>,
@@ -81,6 +85,7 @@ describe('AuthGuard — loading (fix accès URL directe)', () => {
     setupAuth({ user: null, loading: true })
     expect(screen.queryByTestId('protected')).not.toBeInTheDocument()
     expect(screen.queryByTestId('home')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('login')).not.toBeInTheDocument()
   })
 
   it('chargé + user connecté → rend les enfants', () => {
@@ -88,9 +93,11 @@ describe('AuthGuard — loading (fix accès URL directe)', () => {
     expect(screen.getByTestId('protected')).toBeInTheDocument()
   })
 
-  it('chargé + pas de user → redirige vers /', () => {
+  // CPT-18 : la page de connexion, plus l'accueil — la configuration des routes
+  // l'annonçait, et la page d'origine suit (`state.from`).
+  it('chargé + pas de user → invite à se connecter (/login)', () => {
     setupAuth({ user: null, loading: false })
-    expect(screen.getByTestId('home')).toBeInTheDocument()
+    expect(screen.getByTestId('login')).toBeInTheDocument()
     expect(screen.queryByTestId('protected')).not.toBeInTheDocument()
   })
 

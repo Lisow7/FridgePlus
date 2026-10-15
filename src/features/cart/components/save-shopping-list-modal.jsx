@@ -19,19 +19,19 @@ import { SHOPPING_LIST_NAME_MAX } from '@features/cart/api/shopping-lists'
 
 const I18N = {
   fr: {
-    title: 'Sauvegarder ma liste',
+    title: 'Enregistrer ma liste',
     titleCreate: 'Créer une nouvelle liste',
     nameLabel: 'Nom de la liste',
     placeholder: 'ex. : courses de la semaine',
     cancel: 'Annuler',
-    save: 'Sauvegarder',
+    save: 'Enregistrer',
     create: 'Créer la liste',
     nameTooLong: '80 caractères maximum.',
     nameRequired: 'Donne un nom à ta liste.',
     intro: 'Ton panier actuel ({{count}} éléments) sera rangé dans « Mes listes », puis vidé. Tu pourras le rouvrir à tout moment.',
     introCreate: 'Donne un nom à ta liste pour commencer à la remplir. Tu pourras y ajouter des recettes et des ingrédients.',
-    saving: 'Sauvegarde en cours…',
-    error: 'Erreur lors de la sauvegarde. Réessaie.',
+    saving: 'Enregistrement…',
+    error: 'La liste n’a pas pu être enregistrée. Réessaie.',
     errorLimit: 'Limite atteinte : 50 listes maximum. Supprime-en une pour en créer une nouvelle.',
   },
   en: {
@@ -44,7 +44,7 @@ const I18N = {
     create: 'Create list',
     nameTooLong: '80 characters maximum.',
     nameRequired: 'Give your list a name.',
-    intro: 'Your current cart ({{count}} items) will be saved to “My lists”, then cleared. You can reopen it anytime.',
+    intro: 'Your current cart ({{count}} items) will be saved to “My lists”, then emptied. You can reopen it anytime.',
     introCreate: 'Give your list a name to start filling it. You can then add recipes and ingredients.',
     saving: 'Saving…',
     error: 'Error while saving. Please retry.',

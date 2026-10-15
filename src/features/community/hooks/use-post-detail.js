@@ -87,7 +87,7 @@ export function usePostDetail({ postId, user, t, canInteract, reactionsMap, onRe
   }
 
   const handleDeleteReply = async (replyId) => {
-    if (!(await confirm({ title: t.deleteReplyConfirmTitle, danger: true }))) return
+    if (!(await confirm({ title: t.deleteReplyConfirmTitle, confirmLabel: t.deleteReplyConfirmOk, danger: true }))) return
     // Retirée de l'écran SEULEMENT si la suppression a eu lieu (même règle
     // que la suppression d'un post).
     const { error } = await deleteReply(replyId) ?? {}

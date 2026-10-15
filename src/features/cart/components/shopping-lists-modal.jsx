@@ -29,57 +29,7 @@ import {
   SHOPPING_LISTS_MAX_PER_USER,
   SHOPPING_LIST_NAME_MAX,
 } from '@features/cart/api/shopping-lists'
-
-const I18N = {
-  fr: {
-    title: 'Mes listes',
-    counter: '{{n}} / {{max}} listes',
-    empty: 'Tu n\'as pas encore sauvegardé de liste.',
-    emptyHint: 'Quand tu auras des éléments dans ton panier, clique sur « Sauvegarder ma liste ».',
-    close: 'Fermer',
-    loading: 'Chargement…',
-    items: '{{n}} élément(s)',
-    updated: 'Modifiée le {{date}}',
-    actionLoad: 'Charger',
-    actionRename: 'Renommer',
-    actionDelete: 'Supprimer',
-    confirmReplace: 'Ton panier actuel n\'est pas vide. Le remplacer par cette liste ?',
-    nameValid: 'OK',
-    nameCancel: 'Annuler',
-    nameTooLong: '80 caractères max.',
-    nameRequired: 'Nom requis.',
-    listLoaded: 'Liste chargée dans le panier.',
-    listRenamed: 'Liste renommée.',
-    listDeleted: 'Liste supprimée',  // pour le toast undo
-    deleteFailed: 'Erreur lors de la suppression. Réessaie.',
-    confirmDelete: 'Supprimer définitivement la liste « {{name}} » ?\n\nCette action est différente de « Fermer ma liste » dans le panier — ici tu supprimes la liste sauvegardée. Tu auras 10 secondes pour annuler.',
-    ctaStartList: 'Démarrer une nouvelle liste',
-  },
-  en: {
-    title: 'My lists',
-    counter: '{{n}} / {{max}} lists',
-    empty: 'You haven\'t saved any list yet.',
-    emptyHint: 'When you have items in your cart, click “Save my list”.',
-    close: 'Close',
-    loading: 'Loading…',
-    items: '{{n}} item(s)',
-    updated: 'Updated {{date}}',
-    actionLoad: 'Load',
-    actionRename: 'Rename',
-    actionDelete: 'Delete',
-    confirmReplace: 'Your current cart isn\'t empty. Replace it with this list?',
-    nameValid: 'OK',
-    nameCancel: 'Cancel',
-    nameTooLong: '80 chars max.',
-    nameRequired: 'Name required.',
-    listLoaded: 'List loaded into the cart.',
-    listRenamed: 'List renamed.',
-    listDeleted: 'List deleted',
-    deleteFailed: 'Error while deleting. Please retry.',
-    confirmDelete: 'Permanently delete the list "{{name}}"?\n\nThis is different from "Close my list" in the cart — here you\'re deleting the saved list. You will have 10 seconds to undo.',
-    ctaStartList: 'Start a new list',
-  },
-}
+import { SHOPPING_LISTS_I18N as I18N } from '@features/cart/i18n/shopping-lists-i18n'
 
 function formatDate(iso, lang) {
   if (!iso) return ''
@@ -151,7 +101,7 @@ export default function ShoppingListsModal({
 
   async function handleLoadList(list) {
     if (!onLoadList) return
-    if (basketHasItems && !(await confirm({ title: t.confirmReplace, danger: true }))) return
+    if (basketHasItems && !(await confirm({ title: t.confirmReplace, confirmLabel: t.confirmReplaceOk, danger: true }))) return
     setBusyId(list.id)
     try {
       const r = await onLoadList(list.items ?? [], { id: list.id, name: list.name })
@@ -211,7 +161,7 @@ export default function ShoppingListsModal({
     // au lieu de l'aplatir dans un seul champ.
     const [confirmTitle, ...confirmBodyParts] = t.confirmDelete.replace('{{name}}', list.name).split('\n\n')
     const confirmBody = confirmBodyParts.join('\n\n') || undefined
-    if (!(await confirm({ title: confirmTitle, body: confirmBody, danger: true }))) return
+    if (!(await confirm({ title: confirmTitle, body: confirmBody, confirmLabel: t.confirmDeleteOk, danger: true }))) return
 
     // Stratégie « delete immédiat + recreate à l'undo ».
     //

@@ -1,6 +1,8 @@
 import { describe, it, expect, vi } from 'vitest'
 import { render, screen, fireEvent, within } from '@testing-library/react'
 import TourWizard from '@features/onboarding/components/tour-wizard'
+// Drapeau de la photo du ticket allumé : ces attentes la nomment (éteint : drapeau-du-ticket.test.jsx).
+vi.mock('@shared/contexts/feature-flags-provider', () => ({ useFeatureFlag: (cle, repli) => (cle === 'receipt_scan' ? true : repli) }))
 
 // Refonte « visite courte » : 5 étapes CONSTANTES pour tous les profils
 // (4 communes + 1 finale adaptée). L'étape finale porte le CTA du profil.
@@ -23,6 +25,25 @@ describe('TourWizard — refonte visite courte (5 étapes constantes)', () => {
 
     fireEvent.click(screen.getByRole('button', { name: /Créer un compte/ }))
     expect(showRegister).toHaveBeenCalledTimes(1)
+  })
+
+  // Trouvé en CI le 2026-10-10 : à l'étape finale, « ‹ Précédent » et le CTA du
+  // profil sur une seule ligne réclamaient plus que la carte, qui s'élargissait
+  // hors de l'écran (320 px). La rangée de navigation porte donc, dès la première
+  // étape, un GABARIT invisible de la rangée finale — même doctrine que le
+  // gabarit du contenu : la hauteur vient d'une mesure, pas d'un nombre.
+  it('la rangée de navigation réserve dès l’étape 1 la place de la rangée finale, sans lui prêter de rôle', () => {
+    render(<TourWizard lang="fr" user={null} onClose={() => {}} onAction={{}} />)
+    const gabarit = document.querySelector('[data-gabarit-nav]')
+    expect(gabarit).not.toBeNull()
+    expect(gabarit).toHaveAttribute('aria-hidden', 'true')
+    expect(gabarit).toHaveAttribute('inert')
+    expect(gabarit).toHaveTextContent('‹ Précédent')
+    expect(gabarit).toHaveTextContent('Créer un compte →')
+    // Les vrais boutons restent seuls dans l'arbre d'accessibilité.
+    expect(screen.getAllByRole('button', { name: /Suivant/ })).toHaveLength(1)
+    expect(screen.queryByRole('button', { name: /Créer un compte/ })).toBeNull()
+    expect(screen.getAllByRole('button', { name: /Précédent/ })).toHaveLength(1)
   })
 
   // P4 (audit 2026-10-02) : la visite d'un invité finissait sur un seul

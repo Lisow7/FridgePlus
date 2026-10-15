@@ -16,8 +16,18 @@ import { iosPushBlocked } from './is-ios-standalone'
 // compte (CPT-15).
 //
 // `error` : null, 'permission_denied' (la personne a dit « Bloquer » — un réglage
-// du navigateur, pas une panne), 'unsupported', 'failed', 'read_failed'.
-const CODES = { permission_denied: 'permission_denied', push_unsupported: 'unsupported' }
+// du navigateur, pas une panne), 'unsupported', 'failed', 'read_failed', et
+// 'dev_sans_sw' sous `npm run dev` seulement.
+// `sw_missing` (aucun service worker enregistré) : en développement c'est l'état
+// normal (`devOptions.enabled: false`, vite.config.js) et on le dit tel quel — dit
+// « pas pris en charge », il accusait le navigateur à tort (vu le 2026-10-15) ; dans
+// un navigateur restreint, « pas pris en charge ». `sw_timeout` (il ne s'active pas)
+// se dit comme une panne.
+const CODES = { permission_denied: 'permission_denied', push_unsupported: 'unsupported', sw_missing: 'unsupported' }
+function codeDErreur(erreur) {
+  if (erreur.message === 'sw_missing' && import.meta.env.DEV) return 'dev_sans_sw'
+  return CODES[erreur.message] ?? 'failed'
+}
 
 export function usePushSubscription() {
   const pushEnabled = useFeatureFlag('push_notifications', false)
@@ -55,7 +65,7 @@ export function usePushSubscription() {
     try {
       const { error: erreur } = enabled ? await unsubscribeFromPush() : await subscribeToPush()
       if (!erreur) setAppareil({ pour: user?.id, enabled: !enabled })
-      else setError(CODES[erreur.message] ?? 'failed')
+      else setError(codeDErreur(erreur))
     } finally {
       setLoading(false)
     }

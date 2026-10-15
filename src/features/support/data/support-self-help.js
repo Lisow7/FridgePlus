@@ -10,9 +10,9 @@
 export const SUPPORT_SELF_HELP = {
   bug_voice: [
     {
-      q: { fr: 'Le micro ne réagit pas ?', en: 'The mic doesn\'t respond?' },
+      q: { fr: 'Le micro ne réagit pas ?', en: 'The mic doesn’t respond?' },
       a: {
-        fr: 'Vérifie que ton navigateur a l\'autorisation du micro (icône cadenas dans la barre d\'adresse) et que rien d\'autre ne l\'utilise. La reconnaissance vocale marche mieux sur Chrome.',
+        fr: 'Vérifie que ton navigateur a l’autorisation du micro (icône cadenas dans la barre d’adresse) et que rien d’autre ne l’utilise. La reconnaissance vocale marche mieux sur Chrome.',
         en: 'Check that your browser has microphone permission (lock icon in the address bar) and that nothing else is using it. Voice recognition works best on Chrome.',
       },
     },
@@ -26,7 +26,7 @@ export const SUPPORT_SELF_HELP = {
   ],
   bug_recipe_form: [
     {
-      q: { fr: 'Je n\'arrive pas à publier ma recette ?', en: 'Can\'t publish my recipe?' },
+      q: { fr: 'Je n’arrive pas à publier ma recette ?', en: 'Can’t publish my recipe?' },
       a: {
         fr: 'Une recette doit avoir un titre, au moins un ingrédient et une étape. Les champs manquants sont signalés en rouge. Ta recette est gardée en brouillon, tu ne perds rien.',
         en: 'A recipe needs a title, at least one ingredient and one step. Missing fields are flagged in red. Your recipe is kept as a draft, nothing is lost.',
@@ -36,7 +36,7 @@ export const SUPPORT_SELF_HELP = {
       q: { fr: 'Combien de temps avant validation ?', en: 'How long before approval?' },
       a: {
         fr: 'Les recettes de la communauté sont relues avant publication. En attendant, tu la retrouves dans le panneau Recettes, filtre « Mes recettes ».',
-        en: 'Community recipes are reviewed before going public. Meanwhile you\'ll find yours in the Recipes panel, "Mine" filter.',
+        en: 'Community recipes are reviewed before going public. Meanwhile you’ll find yours in the Recipes panel, "Mine" filter.',
       },
     },
   ],
@@ -44,8 +44,8 @@ export const SUPPORT_SELF_HELP = {
     {
       q: { fr: 'Mon frigo ou mes favoris semblent vides ?', en: 'My fridge or favorites look empty?' },
       a: {
-        fr: 'Assure-toi d\'être bien connecté au bon compte. Si le chargement a échoué, un message rouge te le dit en bas de l\'écran, avec un bouton « Réessayer » : rien n\'est perdu, c\'est seulement l\'affichage qui n\'est pas à jour.',
-        en: 'Make sure you\'re signed in to the right account. If loading failed, a red message says so at the bottom of the screen, with a "Try again" button: nothing is lost, only the display is out of date.',
+        fr: 'Assure-toi d’être bien connecté au bon compte. Si le chargement a échoué, un message rouge te le dit en bas de l’écran, avec un bouton « Réessayer » : rien n’est perdu, c’est seulement l’affichage qui n’est pas à jour.',
+        en: 'Make sure you’re signed in to the right account. If loading failed, a red message says so at the bottom of the screen, with a "Try again" button: nothing is lost, only the display is out of date.',
       },
     },
     {
@@ -60,7 +60,7 @@ export const SUPPORT_SELF_HELP = {
     {
       q: { fr: 'Un prix te semble faux ?', en: 'A price looks wrong?' },
       a: {
-        fr: 'Les prix sont des estimations moyennes et varient selon les enseignes et les saisons. Si l\'écart est important, signale-le ci-dessous avec le prix constaté — ça nous aide à corriger.',
+        fr: 'Les prix sont des estimations moyennes et varient selon les enseignes et les saisons. Si l’écart est important, signale-le ci-dessous avec le prix constaté — ça nous aide à corriger.',
         en: 'Prices are average estimates and vary by store and season. If the gap is large, report it below with the price you saw — it helps us fix it.',
       },
     },
@@ -70,7 +70,7 @@ export const SUPPORT_SELF_HELP = {
       q: { fr: 'Comment trouver des recettes avec mon frigo ?', en: 'How to find recipes with my fridge?' },
       a: {
         fr: 'Ajoute tes ingrédients dans le frigo, puis ouvre les recettes : elles sont classées par taux de correspondance avec ce que tu as.',
-        en: 'Add your ingredients to the fridge, then open recipes: they\'re ranked by how well they match what you have.',
+        en: 'Add your ingredients to the fridge, then open recipes: they’re ranked by how well they match what you have.',
       },
     },
     {

@@ -46,9 +46,9 @@ const I18N = {
   fr: {
     title: 'Comment ça marche',
     subtitle: 'Fridge+ en cinq étapes : ce que tu as dans ton frigo devient ce que tu vas cuisiner.',
-    backHome: 'Retour à l\'accueil',
-    launch: 'Lancer la visite guidée dans l\'app',
-    launchHint: '≈ 2 min · tu peux l\'arrêter à tout moment',
+    backHome: 'Retour à l’accueil',
+    launch: 'Lancer la visite guidée dans l’app',
+    launchHint: '≈ 2 min · tu peux l’arrêter à tout moment',
     stepLabel: (n) => `Étape ${n}`,
     tipsTitle: 'À retenir',
   },

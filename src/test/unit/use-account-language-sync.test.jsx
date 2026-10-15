@@ -5,6 +5,7 @@ import { StrictMode } from 'react'
 const etat = vi.hoisted(() => ({ user: null, profile: null, lang: 'fr' }))
 const updateProfile = vi.hoisted(() => vi.fn())
 const setLang = vi.hoisted(() => vi.fn())
+const retenir = vi.hoisted(() => vi.fn())
 
 vi.mock('@shared/contexts/auth-provider', () => ({
   useAuth: () => ({ user: etat.user, profile: etat.profile, updateProfile }),
@@ -12,6 +13,7 @@ vi.mock('@shared/contexts/auth-provider', () => ({
 vi.mock('@shared/contexts/ui-provider', () => ({
   useLang: () => ({ lang: etat.lang, setLang }),
 }))
+vi.mock('@shared/api/langue-du-compte', () => ({ retenirLaLangueDesEmails: retenir }))
 
 import { useAccountLanguageSync } from '@shared/hooks/use-account-language-sync'
 
@@ -34,6 +36,8 @@ describe('useAccountLanguageSync', () => {
     updateProfile.mockImplementation(async (champs) => { etat.profile = { ...etat.profile, ...champs }; return { error: null } })
     setLang.mockReset()
     setLang.mockImplementation((code) => { etat.lang = code })
+    retenir.mockReset()
+    retenir.mockResolvedValue({ error: null })
   })
 
   it('invité : rien n’est lu ni écrit', () => {
@@ -142,5 +146,89 @@ describe('useAccountLanguageSync', () => {
     renderHook(() => useAccountLanguageSync(), { wrapper: StrictMode })
     await act(async () => {})
     expect(updateProfile).toHaveBeenCalledTimes(1)
+  })
+})
+
+// Audit du 2026-10-04, CPT-18 : les e-mails de Supabase Auth (confirmation,
+// mot de passe oublié, changement d'adresse) lisent la langue dans
+// user_metadata (`{{ .Data.lang }}`), que seule l'inscription par e-mail
+// écrivait : un compte Google n'en avait pas, et un changement de langue n'y
+// arrivait jamais.
+describe('la langue des e-mails de connexion suit le compte', () => {
+  const avecLangue = (lang) => ({ id: 'u-bob', user_metadata: lang ? { lang } : { full_name: 'Bob' } })
+
+  beforeEach(() => {
+    etat.user = null
+    etat.profile = null
+    etat.lang = 'fr'
+    updateProfile.mockReset()
+    updateProfile.mockImplementation(async (champs) => { etat.profile = { ...etat.profile, ...champs }; return { error: null } })
+    setLang.mockReset()
+    setLang.mockImplementation((code) => { etat.lang = code })
+    retenir.mockReset()
+    retenir.mockResolvedValue({ error: null })
+  })
+
+  it('recopiée dans user_metadata quand elle en diffère', () => {
+    etat.user = avecLangue('fr')
+    etat.profile = compte('en')
+    renderHook(() => useAccountLanguageSync())
+    expect(retenir).toHaveBeenCalledTimes(1)
+    expect(retenir).toHaveBeenCalledWith('en')
+  })
+
+  it('déjà la même : rien ne part', () => {
+    etat.user = avecLangue('en')
+    etat.profile = compte('en')
+    etat.lang = 'en'
+    const { rerender } = renderHook(() => useAccountLanguageSync())
+    rerender()
+    expect(retenir).not.toHaveBeenCalled()
+  })
+
+  it('un compte sans langue (Google) la reçoit dès que le profil l’a', async () => {
+    etat.user = avecLangue(null)
+    etat.profile = compte(null)
+    etat.lang = 'en'
+    const { rerender } = renderHook(() => useAccountLanguageSync())
+    await act(async () => {})
+    rerender()
+    expect(retenir).toHaveBeenCalledTimes(1)
+    expect(retenir).toHaveBeenCalledWith('en')
+  })
+
+  it('une langue que l’application ne propose pas ne se recopie pas', () => {
+    setLang.mockImplementation(() => { /* l'interface refuse un code qu'elle ne propose pas */ })
+    etat.user = avecLangue('fr')
+    etat.profile = compte('ja')
+    renderHook(() => useAccountLanguageSync())
+    expect(retenir).not.toHaveBeenCalled()
+  })
+
+  it('en mode strict (effets joués deux fois), une seule recopie part', () => {
+    etat.user = avecLangue('fr')
+    etat.profile = compte('en')
+    renderHook(() => useAccountLanguageSync(), { wrapper: StrictMode })
+    expect(retenir).toHaveBeenCalledTimes(1)
+  })
+
+  it('une recopie qui échoue se retente à la prochaine occasion', async () => {
+    retenir.mockResolvedValueOnce({ error: { message: 'Failed to fetch' } })
+    etat.user = avecLangue('fr')
+    etat.profile = compte('en')
+    const { rerender } = renderHook(() => useAccountLanguageSync())
+    await act(async () => {})
+    etat.profile = compte('fr') // la langue du compte revient à celle des e-mails…
+    rerender()
+    etat.profile = compte('en') // … puis repart : l'échec n'a pas bloqué la clé
+    rerender()
+    await act(async () => {})
+    expect(retenir).toHaveBeenCalledTimes(2)
+    expect(retenir).toHaveBeenLastCalledWith('en')
+  })
+
+  it('invité : rien', () => {
+    renderHook(() => useAccountLanguageSync())
+    expect(retenir).not.toHaveBeenCalled()
   })
 })

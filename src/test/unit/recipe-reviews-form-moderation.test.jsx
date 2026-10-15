@@ -9,7 +9,7 @@ const { mockUpsert, mockModerate } = vi.hoisted(() => ({
 vi.mock('@features/recipes/api/recipe-reviews', () => ({
   upsertReview: (...args) => mockUpsert(...args),
 }))
-vi.mock('@shared/hooks/use-moderation', () => ({
+vi.mock('@shared/api/moderation-de-contenu', () => ({
   moderateContent: (...args) => mockModerate(...args),
 }))
 

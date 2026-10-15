@@ -6,7 +6,7 @@ const { mockUpsert, mockModerate, mockSubmitPhoto, mockCompress } = vi.hoisted((
   mockUpsert: vi.fn(), mockModerate: vi.fn(), mockSubmitPhoto: vi.fn(), mockCompress: vi.fn(),
 }))
 vi.mock('@features/recipes/api/recipe-reviews', () => ({ upsertReview: (...a) => mockUpsert(...a) }))
-vi.mock('@shared/hooks/use-moderation', () => ({
+vi.mock('@shared/api/moderation-de-contenu', () => ({
   moderateContent: (...a) => mockModerate(...a),
   submitPhotoPost: (...a) => mockSubmitPhoto(...a),
 }))

@@ -67,9 +67,9 @@ export function computeWeeklyStreak(logs, now = new Date()) {
 // la note interne sur l’ajout de quêtes et de cosmétiques. Émoji JAMAIS réutilisé entre paliers.
 export const BADGE_DEFINITIONS = [
   // 🔥 Régularité — metric: streakBest (semaines)
-  { id: 'streak-3',  theme: 'regularity', tier: 1, threshold: 3,  metric: 'streakBest', emoji: '🔥', label: { fr: "3 semaines d'affilée",  en: '3 weeks in a row' }, reward: { banner: 'ember' } },
-  { id: 'streak-8',  theme: 'regularity', tier: 2, threshold: 8,  metric: 'streakBest', emoji: '⚡', label: { fr: "8 semaines d'affilée",  en: '8 weeks in a row' }, reward: { banner: 'berry' } },
-  { id: 'streak-26', theme: 'regularity', tier: 3, threshold: 26, metric: 'streakBest', emoji: '🏆', label: { fr: "26 semaines d'affilée", en: '26 weeks in a row' }, reward: { banner: 'mint-fresh' } },
+  { id: 'streak-3',  theme: 'regularity', tier: 1, threshold: 3,  metric: 'streakBest', emoji: '🔥', label: { fr: "3 semaines d’affilée",  en: '3 weeks in a row' }, reward: { banner: 'ember' } },
+  { id: 'streak-8',  theme: 'regularity', tier: 2, threshold: 8,  metric: 'streakBest', emoji: '⚡', label: { fr: "8 semaines d’affilée",  en: '8 weeks in a row' }, reward: { banner: 'berry' } },
+  { id: 'streak-26', theme: 'regularity', tier: 3, threshold: 26, metric: 'streakBest', emoji: '🏆', label: { fr: "26 semaines d’affilée", en: '26 weeks in a row' }, reward: { banner: 'mint-fresh' } },
   // 🍳 Volume — metric: total
   { id: 'volume-1',   theme: 'volume', tier: 1, threshold: 1,   metric: 'total', emoji: '🍳',   label: { fr: 'Première recette cuisinée', en: 'First recipe cooked' }, reward: { banner: 'veggies' } },
   { id: 'volume-10',  theme: 'volume', tier: 2, threshold: 10,  metric: 'total', emoji: '👨‍🍳', label: { fr: '10 plats cuisinés',  en: '10 dishes cooked' }, reward: { banner: 'bakery' } },

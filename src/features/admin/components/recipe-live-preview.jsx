@@ -13,14 +13,14 @@ export default function RecipeLivePreview({ emoji, imageUrl, name = {}, timeMins
   const muted = darkMode ? '#9FB0C4' : '#7A6A52'
   const cardBg = darkMode ? '#111E2D' : '#FFF'
   const border = darkMode ? '#243450' : '#ECE3D5'
-  const title = name[lang] || name.fr || (lang === 'fr' ? '(sans nom)' : '(no name)')
+  const title = name[lang] || name.fr || ('(sans nom)')
   const ingLabel = (slot) => slot?.labels?.[lang] || slot?.labels?.fr || ''
   const stepList = steps?.[lang] ?? steps?.fr ?? []
 
   return (
     <div>
       <div style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', color: muted, marginBottom: 8 }}>
-        {lang === 'fr' ? 'Aperçu live (vue utilisateur)' : 'Live preview (user view)'}
+        {'Aperçu live (vue utilisateur)'}
       </div>
       <div style={{ background: cardBg, border: `1px solid ${border}`, borderRadius: 14, overflow: 'hidden' }}>
         <div style={{ height: 120, background: 'linear-gradient(135deg,#FAE3C8,#F3CBA0)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 52, overflow: 'hidden' }}>
@@ -33,14 +33,14 @@ export default function RecipeLivePreview({ emoji, imageUrl, name = {}, timeMins
           <div style={{ fontSize: 13, color: muted, margin: '6px 0 10px', display: 'flex', flexWrap: 'wrap', gap: 8 }}>
             <span>⏱ {timeMins || '—'} min</span>
             <span>·</span>
-            <span>👤 {servings || '—'} {lang === 'fr' ? 'pers' : 'servings'}</span>
+            <span>👤 {servings || '—'} {'pers'}</span>
             {(diet ?? []).map((d) => (
               <span key={d} style={{ fontSize: 12 }}>{DIET_LABELS[d]?.[lang] ?? DIET_LABELS[d]?.fr ?? d}</span>
             ))}
           </div>
 
           <div style={{ fontSize: 12, fontWeight: 700, color: muted, margin: '8px 0 4px' }}>
-            {lang === 'fr' ? 'Ingrédients' : 'Ingredients'} ({ingredients.length})
+            {'Ingrédients'} ({ingredients.length})
           </div>
           {ingredients.length === 0
             ? <div style={{ fontSize: 13, color: muted, fontStyle: 'italic' }}>—</div>
@@ -51,7 +51,7 @@ export default function RecipeLivePreview({ emoji, imageUrl, name = {}, timeMins
           {stepList.length > 0 && (
             <>
               <div style={{ fontSize: 12, fontWeight: 700, color: muted, margin: '12px 0 4px' }}>
-                {lang === 'fr' ? 'Étapes' : 'Steps'} ({stepList.length})
+                {'Étapes'} ({stepList.length})
               </div>
               {stepList.map((s, i) => (
                 <div key={i} style={{ fontSize: 13, color: fg, padding: '3px 0', display: 'flex', gap: 8 }}>

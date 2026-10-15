@@ -8,7 +8,7 @@ import { LuRotateCcw } from 'react-icons/lu'
 // (cf. UndoProvider qui flush l'ancien quand on en ajoute un 4e).
 
 const I18N = {
- fr: { undo: 'Annuler', undoAria: 'Annuler la suppression', regionAria: "Notifications d'annulation" },
+ fr: { undo: 'Annuler', undoAria: 'Annuler la suppression', regionAria: "Notifications d’annulation" },
  en: { undo: 'Undo', undoAria: 'Undo deletion', regionAria: 'Undo notifications' },
 }
 

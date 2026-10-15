@@ -41,7 +41,7 @@ describe('SignupPage', () => {
   })
 
   // ── CPT-06 : la preuve d'acceptation ───────────────────────────────────
-  it('transmet l\'acceptation des conditions avec l\'inscription', async () => {
+  it('transmet l’acceptation des conditions avec l’inscription', async () => {
     render(<SignupPage lang="fr" />)
     remplir()
     creer()
@@ -76,7 +76,7 @@ describe('SignupPage', () => {
     expect(signUpWithEmail).not.toHaveBeenCalled()
   })
 
-  it('contrôle indisponible (réseau) : l\'inscription part quand même, la base tranchera', async () => {
+  it('contrôle indisponible (réseau) : l’inscription part quand même, la base tranchera', async () => {
     rpc.mockResolvedValue({ data: null, error: { message: 'Failed to fetch' } })
     render(<SignupPage lang="fr" />)
     remplir()
@@ -99,19 +99,19 @@ describe('SignupPage', () => {
   })
 
   // ── CPT-13 : ce qui est dit après l'inscription ────────────────────────
-  it('après l\'inscription, ne prétend pas « compte créé » : une adresse déjà inscrite reçoit la même réponse du service', async () => {
+  it('après l’inscription, ne prétend pas « compte créé » : une adresse déjà inscrite reçoit la même réponse du service', async () => {
     render(<SignupPage lang="fr" />)
     remplir()
     creer()
     const message = await screen.findByRole('status')
     expect(message).not.toHaveTextContent(/compte créé/i)
-    expect(message).toHaveTextContent(/ouvre l'e-mail/i)
+    expect(message).toHaveTextContent(/ouvre l['’]e-mail/i)
     // La personne qui a déjà un compte doit pouvoir le comprendre, et quoi faire.
     expect(message).toHaveTextContent(/déjà un compte/i)
     expect(screen.getByRole('link', { name: /connecte-toi/i })).toHaveAttribute('href', '/login')
   })
 
-  it('après l\'inscription, propose de renvoyer l\'e-mail — après le délai d\'une minute', async () => {
+  it('après l’inscription, propose de renvoyer l’e-mail — après le délai d’une minute', async () => {
     render(<SignupPage lang="fr" />)
     remplir()
     creer()

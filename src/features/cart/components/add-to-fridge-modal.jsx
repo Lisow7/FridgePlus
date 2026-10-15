@@ -13,7 +13,7 @@ import { createShoppingList } from '@features/cart/api/shopping-lists'
 
 const I18N = {
   fr: {
-    title: "J'ai fait mes courses",
+    title: "J’ai fait mes courses",
     subtitle: 'Sélectionne les ingrédients à ajouter au frigo',
     confirm: (n) => `Ajouter au frigo (${n})`,
     confirmNone: 'Aucun ingrédient sélectionné',
@@ -25,7 +25,7 @@ const I18N = {
     savePromptHint: 'Tu pourras la retrouver dans Mes listes pour la réutiliser.',
     saveListLabel: 'Nom de la liste',
     saveListExample: 'ex. : courses du samedi',
-    saveAndAdd: 'Sauvegarder et ajouter',
+    saveAndAdd: 'Enregistrer et ajouter',
     justAdd: 'Juste ajouter',
     defaultListName: () => {
       const d = new Date()
@@ -33,7 +33,7 @@ const I18N = {
     },
   },
   en: {
-    title: "I've done my shopping",
+    title: "I’ve done my shopping",
     subtitle: 'Pick the ingredients to add to the fridge',
     confirm: (n) => `Add to fridge (${n})`,
     confirmNone: 'No ingredient selected',

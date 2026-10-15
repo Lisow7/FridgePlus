@@ -75,7 +75,7 @@ export default function SubscriptionTab({ lang, darkMode }) {
   // ── État : admin ──────────────────────────────────────────────────────────
   if (isAdmin) {
     const ADMIN_I18N = {
-      fr: { desc: "En tant qu'administrateur Fridge+, tu bénéficies d'un accès complet à toutes les fonctionnalités de l'application." },
+      fr: { desc: "En tant qu’administrateur Fridge+, tu bénéficies d’un accès complet à toutes les fonctionnalités de l’application." },
       en: { desc: 'As a Fridge+ administrator, you have full access to all application features.' },
     }
     const adm = ADMIN_I18N[lang] ?? ADMIN_I18N.fr
@@ -100,7 +100,7 @@ export default function SubscriptionTab({ lang, darkMode }) {
   if (isSpecialAccess) {
     const SA_I18N = {
       fr: {
-        desc: "Ton accès Fridge+ est offert par l'équipe Fridge+. Il est géré directement par l'administration — tu n'as rien à faire.",
+        desc: "Ton accès Fridge+ est offert par l’équipe Fridge+. Il est géré directement par l’administration — tu n’as rien à faire.",
       },
       en: {
         desc: 'Your Fridge+ access is provided by the Fridge+ team. It is managed directly by the administration — no action is required on your part.',
@@ -212,7 +212,7 @@ export default function SubscriptionTab({ lang, darkMode }) {
   if (!PREMIUM_ENABLED) {
     const CS_I18N = {
       fr: { title: 'Premium', desc: 'Les fonctionnalités Premium arrivent bientôt. Tu pourras débloquer le panier, la voix dans le mode cuisine, les coûts et bien plus.', badge: 'Bientôt' },
-      en: { title: 'Premium', desc: 'Premium features are coming soon. You\'ll soon be able to unlock the cart, voice in cooking mode, costs and much more.', badge: 'Coming soon' },
+      en: { title: 'Premium', desc: 'Premium features are coming soon. You’ll soon be able to unlock the cart, voice in cooking mode, costs and much more.', badge: 'Coming soon' },
     }
     const cs = CS_I18N[lang] ?? CS_I18N.fr
     return (

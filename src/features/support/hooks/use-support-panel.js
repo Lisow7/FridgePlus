@@ -95,7 +95,7 @@ export default function useSupportPanel({ userId, lang = 'fr', onUnreadChange })
   }
 
   async function handleDeleteMessage(msgId) {
-    if (!(await confirm({ title: t.confirmDeleteMessage, danger: true }))) return
+    if (!(await confirm({ title: t.confirmDeleteMessage, confirmLabel: t.confirmDeleteMessageOk, danger: true }))) return
     // L'erreur etait jetee ET l'etat local modifie quand meme : un echec
     // faisait disparaitre de l'ecran un message toujours present en base.
     const { error } = await deleteUserMessage(msgId, userId) ?? {}
@@ -104,7 +104,7 @@ export default function useSupportPanel({ userId, lang = 'fr', onUnreadChange })
   }
 
   async function handleDeleteTicket(ticketId) {
-    if (!(await confirm({ title: t.confirmDeleteTicket, danger: true }))) return
+    if (!(await confirm({ title: t.confirmDeleteTicket, confirmLabel: t.confirmDeleteTicketOk, danger: true }))) return
     const { error } = await deleteUserTicket(ticketId, userId) ?? {}
     if (error) { setError(t.errorAction); return }
     setTickets(prev => prev.filter(tk => tk.id !== ticketId))

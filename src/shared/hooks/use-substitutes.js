@@ -1,8 +1,9 @@
-// Hook React pour récupérer des suggestions de substituts d'ingrédient.
-// Wraps l'appel à l'Edge Function `suggest-substitutes`.
+// Hook React pour récupérer des suggestions de substituts d'ingrédient : l'état
+// d'écran (chargement, erreur, résultats). L'appel à la fonction edge
+// `suggest-substitutes` vit dans `@shared/api/substituts`.
 
 import { useState } from 'react'
-import { supabase } from '@shared/lib/supabase/client'
+import { fetchSubstitutes } from '@shared/api/substituts'
 
 /**
  * @returns {{
@@ -25,15 +26,12 @@ export function useSubstitutes() {
     setError(null)
     setSubstitutes(null)
     try {
-      const { data, error: invokeErr } = await supabase.functions.invoke('suggest-substitutes', {
-        body: { ingredient_label, recipe_context, lang },
-      })
-      if (invokeErr) {
-        setError(invokeErr.message)
-        throw invokeErr
-      }
+      const data = await fetchSubstitutes({ ingredient_label, recipe_context, lang })
       setSubstitutes(data?.substitutes ?? [])
       return data
+    } catch (err) {
+      setError(err?.message ?? 'error')
+      throw err
     } finally {
       setLoading(false)
     }
@@ -45,15 +43,4 @@ export function useSubstitutes() {
   }
 
   return { suggest, substitutes, loading, error, reset }
-}
-
-/**
- * Helper pur (non-hook) pour caller depuis du code non-React.
- */
-export async function fetchSubstitutes({ ingredient_label, recipe_context, lang = 'fr' }) {
-  const { data, error } = await supabase.functions.invoke('suggest-substitutes', {
-    body: { ingredient_label, recipe_context, lang },
-  })
-  if (error) throw error
-  return data
 }

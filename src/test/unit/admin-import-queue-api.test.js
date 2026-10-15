@@ -36,7 +36,7 @@ vi.mock('@shared/lib/supabase/client', () => {
 })
 
 import {
-  adminGetImportQueue, adminPublishStaged, adminRejectStaged, adminBatchPublishValid, adminReRunValidators, adminGetImportMetrics,
+  adminGetImportQueue, adminPublishStaged, adminRejectStaged, adminBatchPublishValid, adminGetImportMetrics,
 } from '@features/admin/api/admin'
 import { supabase } from '@shared/lib/supabase/client'
 
@@ -101,14 +101,6 @@ describe('le paquet du navigateur ne contient plus le publisher du pipeline (ARC
   it('import-queue.js n’importe rien de src/scripts/', () => {
     const source = readFileSync(resolve(process.cwd(), 'src/features/admin/api/import-queue.js'), 'utf8')
     expect(source).not.toMatch(/scripts\/recipe-import/)
-  })
-})
-
-describe('adminReRunValidators', () => {
-  it('retourne {error: null, message: string mentionnant CLI}', async () => {
-    const result = await adminReRunValidators('staging-1')
-    expect(result.error).toBeNull()
-    expect(result.message.toLowerCase()).toMatch(/cli|npm|revalidate/)
   })
 })
 

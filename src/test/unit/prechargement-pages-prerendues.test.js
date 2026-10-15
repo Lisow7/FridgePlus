@@ -44,7 +44,7 @@ describe('préchargement des pages pré-rendues', () => {
   })
 
   it('chaque page statique pré-rendue a son fichier', () => {
-    for (const chemin of ['/faq', '/guide', '/legal', '/changelog', '/suppression-compte', '/community']) {
+    for (const chemin of ['/faq', '/guide', '/legal', '/changelog', '/suppression-compte', '/community', '/accessibilite', '/securite']) {
       expect(MORCEAUX_PAR_CHEMIN[chemin], chemin).toBeTruthy()
     }
   })

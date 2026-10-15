@@ -19,7 +19,19 @@
 /** Le délai d'effacement définitif, en jours, sauvegardes comprises.
  *  Il vit dans `shared/` (l'écran de suppression en cours le lit aussi) :
  *  réexporté ici, la source reste unique. */
-export { DELAI_EFFACEMENT_JOURS } from '@shared/lib/compte/delai-d-effacement'
+import { DELAI_EFFACEMENT_JOURS } from '@shared/lib/compte/delai-d-effacement'
+export { DELAI_EFFACEMENT_JOURS }
+
+/**
+ * Ce qui suit la demande faite dans l'app. Le HTML servi a dit « anonymisées
+ * immédiatement » jusqu'au 2026-10-10 pendant que la page disait l'inverse :
+ * c'est la page qui dit vrai (fonction `delete-account` : suppression douce,
+ * 30 jours, annulable). Une seule phrase désormais, lue des deux côtés.
+ */
+export const APRES_LA_DEMANDE = {
+  fr: `Ton compte est désactivé tout de suite. Tes données sont gardées ${DELAI_EFFACEMENT_JOURS} jours, le temps de changer d’avis — en te reconnectant, ou par le lien de l’e-mail de confirmation —, puis anonymisées et définitivement effacées, sauvegardes comprises.`,
+  en: `Your account is deactivated straight away. Your data is kept for ${DELAI_EFFACEMENT_JOURS} days so you can change your mind — by signing back in, or with the link in the confirmation email — then anonymised and permanently erased, backups included.`,
+}
 
 /** L'adresse de recours, pour qui n'a plus l'application installée. */
 export const EMAIL_SUPPRESSION = 'support@fridgeplus.app'

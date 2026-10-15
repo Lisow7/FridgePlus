@@ -33,7 +33,7 @@ const I18N = {
     title: (n) => `Inventaire — ${n} aliment${n > 1 ? 's' : ''}`,
     searchLabel: 'Rechercher un aliment',
     search: 'ex. : yaourt',
-    empty: 'Ton frigo est vide. Cherche un aliment ci-dessus pour l\'ajouter.',
+    empty: 'Ton frigo est vide. Cherche un aliment ci-dessus pour l’ajouter.',
     noMatch: (q) => `Aucun aliment ne correspond à « ${q} ».`,
     resultsCount: (n) => (n === 0 ? 'Aucun résultat' : n === 1 ? '1 résultat' : `${n} résultats`),
     close: 'Fermer',

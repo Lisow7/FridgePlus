@@ -11,6 +11,8 @@ export const LIBELLES_DES_ROUTES = {
   '/faq':                 { fr: 'Questions fréquentes',  en: 'FAQ' },
   '/guide':               { fr: 'Comment ça marche',     en: 'How it works' },
   '/suppression-compte':  { fr: 'Supprimer mon compte',  en: 'Delete my account' },
+  '/accessibilite':       { fr: 'Accessibilité',         en: 'Accessibility' },
+  '/securite':            { fr: 'Sécurité',              en: 'Security' },
   '/profile':             { fr: 'Mon profil',            en: 'My profile' },
   '/profile/identite':    { fr: 'Profil',                en: 'Profile' },
   '/profile/preferences': { fr: 'Préférences',           en: 'Preferences' },

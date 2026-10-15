@@ -11,7 +11,7 @@ import { useSaveErrorToast } from '@shared/hooks/use-save-error-toast'
 
 const I18N = {
   fr: {
-    accord: "J'accepte que Fridge+ enregistre mes allergènes pour filtrer les recettes. Ce sont des données de santé ; je peux les effacer à tout moment.",
+    accord: "J’accepte que Fridge+ enregistre mes allergènes pour filtrer les recettes. Ce sont des données de santé ; je peux les effacer à tout moment.",
     retraitTitre: 'Retirer ton accord ?',
     retraitTexte: 'Tes allergènes enregistrés seront effacés. Tu pourras les choisir de nouveau en redonnant ton accord.',
     retraitOk: 'Retirer et effacer',

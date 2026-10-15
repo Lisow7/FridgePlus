@@ -136,9 +136,9 @@ describe('PreparePhase — callbacks baseline (anti-regression)', () => {
     expect(cb.onClearBasket).not.toHaveBeenCalled()
   })
 
-  it('onSaveList: bouton Sauvegarder ouvre la modale (pas encore appelé)', () => {
+  it('onSaveList: bouton Enregistrer ouvre la modale (pas encore appelé)', () => {
     const cb = renderPhase()
-    fireEvent.click(screen.getByRole('button', { name: /sauvegarder/i }))
+    fireEvent.click(screen.getByRole('button', { name: /enregistrer/i }))
     // onSaveList is called only when the modal is submitted, not on open.
     expect(cb.onSaveList).not.toHaveBeenCalled()
   })

@@ -346,7 +346,7 @@ export default function NotificationsPanel({ lang = 'fr', darkMode = false, onCl
               variant="secondary"
               size="sm"
               className="mt-3"
-              onClick={() => { navigate('/profile/compte#confidentialite'); onClose?.() }}
+              onClick={() => { navigate('/profile/preferences#notifications'); onClose?.() }}
             >
               {t.emptySettings}
             </Button>

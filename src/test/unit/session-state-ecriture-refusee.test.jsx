@@ -11,7 +11,7 @@ vi.mock('@features/fridge/api/stock', () => ({
 }))
 vi.mock('@features/recipes/api/favorites', () => ({ addFavorite, removeFavorite: vi.fn(), loadFavoritesFromDB: vi.fn() }))
 vi.mock('@features/cart/api/basket', () => ({
-  loadBasketFromDB: vi.fn().mockResolvedValue([]), addBasketItems: vi.fn(), updateBasketItem: vi.fn(),
+  loadBasketFromDB: vi.fn().mockResolvedValue({ data: [], error: null }), addBasketItems: vi.fn(), updateBasketItem: vi.fn(),
   removeBasketItem: vi.fn(), removeBasketByRecipe: vi.fn(), clearBasket: vi.fn(),
 }))
 vi.mock('@shared/lib/observability/track', () => ({ track: vi.fn() }))

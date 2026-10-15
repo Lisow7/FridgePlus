@@ -56,7 +56,7 @@ describe('statistiques d’usage : la durée dite est celle que la base applique
   })
 
   it('la politique le dit, et dit la vraie durée de l’identifiant anonyme (6 mois, comme le choix des cookies)', () => {
-    expect(politique('fr')).toMatch(/Statistiques d'usage \(si tu y consens\) : effacées 13 mois après leur enregistrement ; l'identifiant anonyme qui les relie s'efface quand tu retires ton accord, ou au bout de 6 mois/)
+    expect(politique('fr')).toMatch(/Statistiques d['’]usage \(si tu y consens\) : effacées 13 mois après leur enregistrement ; l['’]identifiant anonyme qui les relie s['’]efface quand tu retires ton accord, ou au bout de 6 mois/)
     expect(politique('en')).toMatch(/Usage statistics \(if you consent\): deleted 13 months after they are recorded; the anonymous identifier linking them is erased when you withdraw consent, or after 6 months/)
     expect(politique('fr')).not.toMatch(/Cookies analytiques/)
     expect(politique('en')).not.toMatch(/Analytics cookies/)

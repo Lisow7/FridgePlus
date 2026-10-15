@@ -10,7 +10,7 @@ vi.mock('@shared/lib/supabase/client', () => ({
   },
 }))
 
-const { moderateContent } = await import('../../shared/hooks/use-moderation.js')
+const { moderateContent } = await import('../../shared/api/moderation-de-contenu.js')
 
 describe('moderateContent helper', () => {
   beforeEach(() => {
@@ -64,7 +64,7 @@ describe('submitPhotoPost helper', () => {
 
   it('envoie content + feature + image_base64 + recipe_id + title', async () => {
     invokeMock.mockResolvedValueOnce({ data: { flagged: false, post: { id: 'p1' } }, error: null })
-    const { submitPhotoPost } = await import('../../shared/hooks/use-moderation.js')
+    const { submitPhotoPost } = await import('../../shared/api/moderation-de-contenu.js')
     const result = await submitPhotoPost({ content: 'Super plat', imageBase64: 'abc123', recipeId: 'r1', title: 'J\'ai testé cette recette !' })
     expect(invokeMock).toHaveBeenCalledWith('moderate-content', {
       body: { content: 'Super plat', feature: 'community-post', image_base64: 'abc123', recipe_id: 'r1', title: 'J\'ai testé cette recette !' },
@@ -74,7 +74,7 @@ describe('submitPhotoPost helper', () => {
 
   it('throw si Edge Function retourne une erreur', async () => {
     invokeMock.mockResolvedValueOnce({ data: null, error: { message: 'image_too_large' } })
-    const { submitPhotoPost } = await import('../../shared/hooks/use-moderation.js')
+    const { submitPhotoPost } = await import('../../shared/api/moderation-de-contenu.js')
     await expect(submitPhotoPost({ content: '', imageBase64: 'abc', recipeId: 'r1', title: 't' })).rejects.toMatchObject({ message: 'image_too_large' })
   })
 })

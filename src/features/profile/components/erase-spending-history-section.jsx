@@ -3,7 +3,7 @@ import { LuTrash2, LuCheck, LuTriangleAlert, LuChevronDown } from 'react-icons/l
 import Button from '@shared/ui/button'
 import { useCloseOnBackButton } from '@shared/hooks/use-close-on-back-button'
 import { useDialogue } from '@shared/hooks/use-dialogue'
-import { supabase } from '@shared/lib/supabase/client'
+import { compterLesDepenses } from '@shared/api/spending'
 
 // Section « Effacer mon historique de dépenses » — Sprint 10 S10.c.5.
 // Implémente RGPD Article 17 (droit à l'effacement) ciblé : permet
@@ -18,28 +18,30 @@ import { supabase } from '@shared/lib/supabase/client'
 
 const I18N = {
   fr: {
-    title: 'Effacer mon historique de dépenses',
-    description: 'Tu peux effacer définitivement toutes les dépenses enregistrées par « J\'ai fait mes courses » (c\'est ton droit à l\'effacement). Le graphique « Analyse des dépenses » Premium repartira à zéro. Cette action est irréversible.',
-    btn: 'Effacer mon historique',
-    confirmTitle: 'Confirmer l\'effacement',
+    title: 'Supprimer mon historique de dépenses',
+    description: 'Tu peux supprimer définitivement toutes les dépenses enregistrées par « J’ai fait mes courses » (c’est ton droit à l’effacement). Le graphique « Analyse des dépenses » Premium repartira à zéro. Cette action est irréversible.',
+    btn: 'Supprimer mon historique',
+    confirmTitle: 'Supprimer ton historique de dépenses ?',
     confirmText: 'Toutes tes dépenses enregistrées ({count}) seront supprimées définitivement. Cette action ne peut pas être annulée.',
-    confirmEmpty: 'Tu n\'as encore aucune dépense enregistrée à effacer.',
-    confirmBtn: 'Effacer définitivement',
+    confirmEmpty: 'Tu n’as encore aucune dépense enregistrée à supprimer.',
+    confirmTextSansNombre: 'Toutes tes dépenses enregistrées seront supprimées définitivement. Cette action ne peut pas être annulée.',
+    confirmBtn: 'Supprimer définitivement',
     cancelBtn: 'Annuler',
-    successLabel: '{count} dépense(s) effacée(s)',
-    errorLabel: 'Échec de l\'effacement. Réessaie.',
+    successLabel: '{count} dépense(s) supprimée(s)',
+    errorLabel: 'La suppression a échoué. Réessaie.',
   },
   en: {
-    title: 'Erase my spending history',
-    description: 'You can permanently erase all the spending recorded by "I\'m done shopping" (your right to erasure). The Premium "Spending analysis" chart will restart from zero. This action is irreversible.',
-    btn: 'Erase my history',
-    confirmTitle: 'Confirm erasure',
+    title: 'Delete my spending history',
+    description: 'You can permanently delete all the spending recorded by "I’m done shopping" (your right to erasure). The Premium "Spending analysis" chart will restart from zero. This action is irreversible.',
+    btn: 'Delete my history',
+    confirmTitle: 'Delete your spending history?',
     confirmText: 'All your recorded spending ({count}) will be deleted permanently. This action cannot be undone.',
-    confirmEmpty: 'You don\'t have any recorded spending to erase yet.',
-    confirmBtn: 'Erase permanently',
+    confirmEmpty: 'You don’t have any recorded spending to delete yet.',
+    confirmTextSansNombre: 'All your recorded spending will be deleted permanently. This action cannot be undone.',
+    confirmBtn: 'Delete permanently',
     cancelBtn: 'Cancel',
-    successLabel: '{count} record(s) erased',
-    errorLabel: 'Erasure failed. Retry.',
+    successLabel: '{count} record(s) deleted',
+    errorLabel: 'Deletion failed. Try again.',
   },
 }
 
@@ -60,7 +62,9 @@ export default function EraseSpendingHistorySection({
   const [dialogOpen, setDialogOpen] = useState(false)
   const [status, setStatus] = useState(null) // null | 'loading' | 'success' | 'error'
   const [erasedCount, setErasedCount] = useState(0)
-  const [count, setCount] = useState(0)
+  // `null` = pas (encore) compté, ou comptage raté : la confirmation ne dit
+  // alors ni un nombre ni « rien à effacer ».
+  const [count, setCount] = useState(null)
   const [open, setOpen] = useState(defaultOpen)
 
   // Même garde que le clic sur le backdrop : pas de fermeture pendant l'appel
@@ -79,13 +83,9 @@ export default function EraseSpendingHistorySection({
   useEffect(() => {
     if (!userId || !open) return
     let cancelled = false
-    supabase
-      .from('spending_events')
-      .select('id', { count: 'exact', head: true })
-      .eq('user_id', userId)
-      .then(({ count: c }) => {
-        if (!cancelled) setCount(c ?? 0)
-      })
+    compterLesDepenses(userId).then(({ count: c }) => {
+      if (!cancelled) setCount(c)
+    })
     return () => { cancelled = true }
   }, [userId, status, open])
 
@@ -216,7 +216,7 @@ export default function EraseSpendingHistorySection({
             }}>
               {count > 0
                 ? t.confirmText.replace('{count}', String(count))
-                : t.confirmEmpty}
+                : count === 0 ? t.confirmEmpty : t.confirmTextSansNombre}
             </p>
             <div style={{ display: 'flex', gap: '10px' }}>
               <Button

@@ -72,6 +72,17 @@ export async function recordSpendingEvent(userId, { total_eur, items_count, item
  *
  * @returns {Promise<{ok:true,count:number}|{error:string}>}
  */
+// Le nombre de dépenses enregistrées : `{ count, error }`. Un comptage raté
+// n'est pas un zéro (audit ADM-08) — la section d'effacement affirmait sinon
+// « aucune dépense enregistrée à effacer ».
+export async function compterLesDepenses(userId) {
+  const { count, error } = await supabase
+    .from('spending_events')
+    .select('id', { count: 'exact', head: true })
+    .eq('user_id', userId)
+  return { count: error ? null : (count ?? 0), error: error ?? null }
+}
+
 export async function eraseSpendingHistory(userId) {
   if (!userId) return { error: 'invalid' }
   // Compte avant pour pouvoir afficher un feedback précis ("X événements effacés")

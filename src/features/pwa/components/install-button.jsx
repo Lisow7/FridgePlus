@@ -12,10 +12,10 @@ import { useCloseOnBackButton } from '@shared/hooks/use-close-on-back-button'
 
 const I18N = {
   fr: {
-    install:    'Installer l\'app',
+    install:    'Installer l’app',
     iosTitle:   'Installer Fridge+ sur iPhone',
     iosStep1:   'Touche le bouton Partager (carré avec flèche).',
-    iosStep2:   'Choisis « Sur l\'écran d\'accueil ».',
+    iosStep2:   'Choisis « Sur l’écran d’accueil ».',
     iosStep3:   'Touche « Ajouter ».',
     iosClose:   'Fermer',
   },

@@ -46,8 +46,10 @@ async function ouvrirLeFormulaireAvecSonBrouillon(page, etat) {
     return route.fulfill({ status: 201, contentType: 'application/json', body: '[]' })
   })
   await page.goto('/FridgePlus/?recettes=1')
-  // Le bouton « + » de l'en-tête du panneau : son libellé visible est replié, son titre le nomme.
-  await page.getByTitle('Créer une recette').click()
+  // « Créer une recette » vit dans le menu « Plus d’actions » de l’en-tête du panneau
+  // (décision du 2026-10-08).
+  await page.getByRole('button', { name: /Plus d.actions/ }).click()
+  await page.getByRole('menuitem', { name: 'Créer une recette' }).click()
   await expect(page.getByRole('dialog').getByText('Brouillon restauré')).toBeVisible()
 }
 

@@ -19,6 +19,17 @@ vi.mock('@shared/lib/observability/sentry', () => ({ logError: mockLogError }))
 
 import { subscribeToPush, unsubscribeFromPush } from '@features/push-notifications/api/push-subscriptions'
 
+// Un `navigator.serviceWorker` avec un service worker enregistré ET actif.
+const navigateurAvecServiceWorker = (registration) => ({
+  getRegistration: () => Promise.resolve(registration),
+  ready: Promise.resolve(registration),
+})
+// Aucun service worker enregistré : `ready` ne se résout jamais.
+const navigateurSansServiceWorker = () => ({
+  getRegistration: () => Promise.resolve(undefined),
+  ready: new Promise(() => {}),
+})
+
 describe('subscribeToPush — gestion d\'erreur', () => {
   beforeEach(() => {
     vi.clearAllMocks()
@@ -33,18 +44,15 @@ describe('subscribeToPush — gestion d\'erreur', () => {
   afterEach(() => {
     vi.unstubAllGlobals()
     vi.unstubAllEnvs()
+    vi.restoreAllMocks()
   })
 
   it('retourne { error } au lieu de throw quand pushManager.subscribe() échoue', async () => {
     const subscribeError = new Error('AbortError: push service unreachable')
     vi.stubGlobal('Notification', { requestPermission: vi.fn().mockResolvedValue('granted') })
-    vi.stubGlobal('navigator', {
-      serviceWorker: {
-        ready: Promise.resolve({
-          pushManager: { subscribe: vi.fn().mockRejectedValue(subscribeError) },
-        }),
-      },
-    })
+    vi.stubGlobal('navigator', { serviceWorker: navigateurAvecServiceWorker({
+      pushManager: { subscribe: vi.fn().mockRejectedValue(subscribeError) },
+    }) })
 
     const result = await subscribeToPush()
 
@@ -53,15 +61,62 @@ describe('subscribeToPush — gestion d\'erreur', () => {
     expect(mockLogError).toHaveBeenCalledWith(subscribeError, { tag: 'push.subscribe' })
   })
 
+  // Vu le 2026-10-15 sur localhost (pas de service worker en dev, `devOptions.enabled:
+  // false`) : `navigator.serviceWorker.ready` ne se résout jamais, l'interrupteur
+  // restait « en cours » pour toujours — et la permission avait été demandée pour rien.
+  // Sous `npm run dev`, c'est l'état normal : un avertissement, pas une erreur rapportée.
+  it('sans service worker enregistré : { error: sw_missing } tout de suite, sans demander la permission', async () => {
+    const requestPermission = vi.fn().mockResolvedValue('granted')
+    const avertir = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    vi.stubGlobal('Notification', { requestPermission })
+    vi.stubGlobal('navigator', { serviceWorker: navigateurSansServiceWorker() })
+
+    const result = await subscribeToPush()
+
+    expect(result.error.message).toBe('sw_missing')
+    expect(requestPermission).not.toHaveBeenCalled()
+    expect(mockRpc).not.toHaveBeenCalled()
+    expect(mockLogError).not.toHaveBeenCalled()
+    expect(avertir).toHaveBeenCalledWith(expect.stringContaining('npm run preview'))
+  })
+
+  it('sans service worker enregistré, en production (navigateur restreint) : l’erreur est rapportée', async () => {
+    vi.stubEnv('DEV', false)
+    vi.stubGlobal('Notification', { requestPermission: vi.fn().mockResolvedValue('granted') })
+    vi.stubGlobal('navigator', { serviceWorker: navigateurSansServiceWorker() })
+
+    const result = await subscribeToPush()
+
+    expect(result.error.message).toBe('sw_missing')
+    expect(mockLogError).toHaveBeenCalledWith(result.error, { tag: 'push.subscribe' })
+  })
+
+  it('un service worker qui ne s’active jamais : { error: sw_timeout } après le délai, au lieu d’attendre pour toujours', async () => {
+    vi.useFakeTimers()
+    try {
+      vi.stubGlobal('Notification', { requestPermission: vi.fn().mockResolvedValue('granted') })
+      vi.stubGlobal('navigator', { serviceWorker: {
+        getRegistration: () => Promise.resolve({ installing: {} }),
+        ready: new Promise(() => {}),
+      } })
+
+      const promesse = subscribeToPush()
+      await vi.advanceTimersByTimeAsync(8000)
+      const result = await promesse
+
+      expect(result.error.message).toBe('sw_timeout')
+      expect(mockRpc).not.toHaveBeenCalled()
+      expect(mockLogError).toHaveBeenCalledWith(result.error, { tag: 'push.subscribe' })
+    } finally {
+      vi.useRealTimers()
+    }
+  })
+
   it('retourne { error: vapid_key_missing } sans planter si VITE_VAPID_PUBLIC_KEY est absente (ex: mauvais env Vercel)', async () => {
     vi.stubEnv('VITE_VAPID_PUBLIC_KEY', '')
     const subscribeMock = vi.fn()
     vi.stubGlobal('Notification', { requestPermission: vi.fn().mockResolvedValue('granted') })
-    vi.stubGlobal('navigator', {
-      serviceWorker: {
-        ready: Promise.resolve({ pushManager: { subscribe: subscribeMock } }),
-      },
-    })
+    vi.stubGlobal('navigator', { serviceWorker: navigateurAvecServiceWorker({ pushManager: { subscribe: subscribeMock } }) })
 
     const result = await subscribeToPush()
 
@@ -83,13 +138,9 @@ describe('unsubscribeFromPush — gestion d\'erreur', () => {
 
   it('retourne { error } au lieu de throw quand getSubscription() échoue', async () => {
     const unsubscribeError = new Error('service worker registration lost')
-    vi.stubGlobal('navigator', {
-      serviceWorker: {
-        ready: Promise.resolve({
-          pushManager: { getSubscription: vi.fn().mockRejectedValue(unsubscribeError) },
-        }),
-      },
-    })
+    vi.stubGlobal('navigator', { serviceWorker: navigateurAvecServiceWorker({
+      pushManager: { getSubscription: vi.fn().mockRejectedValue(unsubscribeError) },
+    }) })
 
     const result = await unsubscribeFromPush()
 

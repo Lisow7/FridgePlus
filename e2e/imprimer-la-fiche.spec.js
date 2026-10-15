@@ -26,11 +26,12 @@ test('« Imprimer la fiche » imprime la recette affichée, sans ouvrir de fenê
   await page.waitForLoadState('networkidle')
   await page.locator('[data-recipe-id]').first().click()
   await page.waitForURL(/\/recipe\//)
-  // Le nom affiché, lu dans le titre de l'onglet (« Pasta Carbonara — Fridge+ »).
+  // Le nom affiché, lu dans le titre de l'onglet (« Pasta Carbonara : la recette —
+  // Fridge+ », décision du 2026-10-08 ; espace insécable avant le deux-points).
   // Pas dans le premier <h1> : l'accueil reste monté sous la fiche et porte le
   // sien (« Frigo & Garde-manger »), que `.first()` attrape selon le moment.
-  await expect(page).toHaveTitle(/.+ — Fridge\+$/)
-  const nom = (await page.title()).replace(/ — Fridge\+$/, '')
+  await expect(page).toHaveTitle(/.+\u00A0: la recette — Fridge\+$/)
+  const nom = (await page.title()).replace(/\u00A0: la recette — Fridge\+$/, '')
 
   await page.getByRole('button', { name: 'Partager la recette' }).click()
   await page.getByRole('button', { name: 'Imprimer la fiche' }).click()

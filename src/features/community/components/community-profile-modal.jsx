@@ -68,7 +68,7 @@ export default function CommunityProfileModal({ userId, currentUserId, lang = 'f
     if (!currentUserId || isSelf || blockBusy) return
     if (!blocked) {
       const name = profile?.username ?? ''
-      if (!(await confirm({ title: t.profileBlockConfirm(name) }))) return
+      if (!(await confirm({ title: t.profileBlockConfirm(name), confirmLabel: t.profileBlockOk }))) return
     }
     setBlockBusy(true)
     const result = blocked

@@ -3,13 +3,12 @@ import { texteLisible } from '@shared/lib/couleurs/texte-lisible'
 
 const I18N = {
   fr: { count: (n) => `${n} sans image`, toggle: 'Sans image uniquement', badge: 'Sans image' },
-  en: { count: (n) => `${n} without image`, toggle: 'Without image only', badge: 'No image' },
 }
 
 // Compteur + bascule de filtre « recettes sans image », réutilisé par les
 // sections admin base & communauté. Sobre, tokens de marque.
-export function MissingImageControls({ count = 0, active = false, onToggle, lang = 'fr' }) {
-  const t = I18N[lang] ?? I18N.fr
+export function MissingImageControls({ count = 0, active = false, onToggle }) {
+  const t = I18N.fr
   if (!count) return null
   return (
     <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
@@ -35,8 +34,8 @@ export function MissingImageControls({ count = 0, active = false, onToggle, lang
   )
 }
 
-export function MissingImageBadge({ lang = 'fr' }) {
-  const t = I18N[lang] ?? I18N.fr
+export function MissingImageBadge() {
+  const t = I18N.fr
   return (
     <span style={{
       display: 'inline-flex', alignItems: 'center', gap: 4,

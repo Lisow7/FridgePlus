@@ -1,4 +1,5 @@
 import { Suspense, lazy, useEffect } from 'react'
+import SiIndisponibleRien from '@app/error/si-indisponible-rien'
 import { welcomeAudience, markWelcomeSeen } from '@features/onboarding/lib/welcome-storage'
 import CookieBanner from '@features/legal/components/cookie-banner'
 import { useConsent } from '@shared/hooks/use-consent'
@@ -70,9 +71,12 @@ export default function GlobalOverlays({
 
   return (
     <>
-      <Suspense fallback={null}>
-        <UpdatePrompt lang={lang} darkMode={darkMode} />
-      </Suspense>
+      {/* Facultatif : son morceau absent (réseau coupé) n'emporte pas l'app. */}
+      <SiIndisponibleRien nom="update-prompt">
+        <Suspense fallback={null}>
+          <UpdatePrompt lang={lang} darkMode={darkMode} />
+        </Suspense>
+      </SiIndisponibleRien>
       <CookieBanner lang={lang} darkMode={darkMode} />
 
       {welcomeOpen && hasDecided && audience === 'show' && (

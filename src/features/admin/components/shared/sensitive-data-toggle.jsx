@@ -36,18 +36,6 @@ const I18N = {
     accessed:     'Accédé',
     logFailed:    "La consultation n'a pas pu être enregistrée au journal : la donnée reste masquée. Réessaie.",
   },
-  en: {
-    hidden:       'Hidden',
-    revealBtn:    'Reveal',
-    hideBtn:      'Hide',
-    modalTitle:   'Sensitive data access',
-    modalIntro:   "This action will be logged in the audit journal with the reason you provide. As per GDPR, access to personal data must be justified.",
-    cancel:       'Cancel',
-    confirm:      'Reveal',
-    submitting:   'Saving…',
-    accessed:     'Accessed',
-    logFailed:    'The access could not be recorded in the audit log: the data stays hidden. Try again.',
-  },
 }
 
 export default function SensitiveDataToggle({
@@ -56,7 +44,7 @@ export default function SensitiveDataToggle({
   lang = 'fr',
   darkMode = false,
 }) {
-  const t = I18N[lang] ?? I18N.fr
+  const t = I18N.fr
   // La donnée rendue par la base ; `null` tant qu'elle n'a pas été demandée.
   const [donnee,     setDonnee]     = useState(null)
   const [modalOpen,  setModalOpen]  = useState(false)
@@ -80,7 +68,7 @@ export default function SensitiveDataToggle({
     if (!isReasonValid({ value: reason, details, required: true })) return
     setSubmitting(true)
     setLogError(false)
-    const formatted = formatReason({ value: reason, details, lang })
+    const formatted = formatReason({ value: reason, details })
     let resultat
     try {
       resultat = await charger(formatted)

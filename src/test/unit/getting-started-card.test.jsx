@@ -1,6 +1,8 @@
 import { describe, it, expect, vi } from 'vitest'
 import { render, screen, fireEvent } from '@testing-library/react'
 import GettingStartedCard from '@features/onboarding/components/getting-started-card'
+// Drapeau de la photo du ticket allumé : ces attentes la nomment (éteint : drapeau-du-ticket.test.jsx).
+vi.mock('@shared/contexts/feature-flags-provider', () => ({ useFeatureFlag: (cle, repli) => (cle === 'receipt_scan' ? true : repli) }))
 
 const base = { lang: 'fr', isGuest: true, stepsTotal: 2, stepsDone: 0, onCollapse: () => {} }
 
@@ -36,9 +38,9 @@ describe('GettingStartedCard (coach)', () => {
     fireEvent.click(addAllBtn)
     expect(onQuickAdd).toHaveBeenCalled()
   })
-  it('s3 (connecté) : Plus qu\'à cuisiner', () => {
+  it('s3 (connecté) : Plus qu’à cuisiner', () => {
     render(<GettingStartedCard {...base} isGuest={false} stepsTotal={3} stepsDone={2} state="s3" onSeeRecipes={() => {}} />)
-    expect(screen.getByText('Plus qu\'à cuisiner !')).toBeInTheDocument()
+    expect(screen.getByText('Plus qu’à cuisiner !')).toBeInTheDocument()
   })
   it('fin invité : bloc inscription, CTA onSignUp', () => {
     const onSignUp = vi.fn()
@@ -54,7 +56,7 @@ describe('GettingStartedCard (coach)', () => {
     fireEvent.click(screen.getByRole('button', { name: /Voir mes récompenses/ }))
     expect(onOpenRewards).toHaveBeenCalledOnce()
   })
-  it('réduite (masquée) : ne rend rien — le point d\'entrée vit dans le footer', () => {
+  it('réduite (masquée) : ne rend rien — le point d’entrée vit dans le footer', () => {
     render(<GettingStartedCard {...base} state="s1" collapsed />)
     expect(screen.queryByText('On cuisine ?')).not.toBeInTheDocument()
     expect(screen.queryByRole('button')).toBeNull()

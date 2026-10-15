@@ -54,7 +54,7 @@ describe('slogan de l’en-tête', () => {
     const vus = new Set()
     for (let ms = 0; ms < 120_000; ms += 250) {
       await act(async () => { await vi.advanceTimersByTimeAsync(250) })
-      for (const s of ['Ton assistant cuisine personnel.', "Ouvre ton frigo. Trouve l'inspiration.", 'Des recettes sur mesure, chaque soir.']) {
+      for (const s of ['Ton assistant cuisine personnel.', "Ouvre ton frigo. Trouve l’inspiration.", 'Des recettes sur mesure, chaque soir.']) {
         if (screen.queryByText(s)) vus.add(s)
       }
     }

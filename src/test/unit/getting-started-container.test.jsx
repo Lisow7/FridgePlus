@@ -84,11 +84,11 @@ describe('GettingStartedContainer (coach)', () => {
     expect(trackOnce).not.toHaveBeenCalled()
   })
 
-  it('CONNECTÉ étapes 1+2, pas cuisiné → s3 « Plus qu\'à cuisiner ! »', () => {
+  it('CONNECTÉ étapes 1+2, pas cuisiné → s3 « Plus qu’à cuisiner ! »', () => {
     mockState.stock = new Set(['fr-oeuf'])
     markSuggestionOpened('u1')
     render(<GettingStartedContainer lang="fr" user={{ id: 'u1' }} onOpenRecipes={() => {}} />)
-    expect(screen.getByText('Plus qu\'à cuisiner !')).toBeInTheDocument()
+    expect(screen.getByText('Plus qu’à cuisiner !')).toBeInTheDocument()
   })
 
   it('CONNECTÉ a cuisiné → fin « Bravo » (latch persiste au re-render ambiant)', () => {
@@ -102,7 +102,7 @@ describe('GettingStartedContainer (coach)', () => {
     expect(screen.getByText('🎉 Bravo !')).toBeInTheDocument()
   })
 
-  it('CONNECTÉ a cuisiné → fin « Bravo » survit à StrictMode (double-invoke de l\'effet de complétion)', () => {
+  it('CONNECTÉ a cuisiné → fin « Bravo » survit à StrictMode (double-invoke de l’effet de complétion)', () => {
     mockState.stock = new Set(['fr-oeuf'])
     markSuggestionOpened('u1')
     mockHasCooked.value = true
@@ -123,7 +123,7 @@ describe('GettingStartedContainer (coach)', () => {
       </StrictMode>,
     )
     expect(screen.queryByText('🎉 Bravo !')).not.toBeInTheDocument()
-    expect(screen.getByText('Plus qu\'à cuisiner !')).toBeInTheDocument()
+    expect(screen.getByText('Plus qu’à cuisiner !')).toBeInTheDocument()
   })
 
   // Audit du 2026-10-04, P-08 : un compte ancien retrouvait la carte du
@@ -142,7 +142,7 @@ describe('GettingStartedContainer (coach)', () => {
     expect(isCompleted('u1')).toBe(true)
   })
 
-  it('CONNECTÉ, on ne sait pas encore s\'il a déjà cuisiné → la carte attend, puis apparaît s\'il n\'a jamais cuisiné', () => {
+  it('CONNECTÉ, on ne sait pas encore s’il a déjà cuisiné → la carte attend, puis apparaît s’il n’a jamais cuisiné', () => {
     mockState.stock = new Set(['fr-oeuf'])
     mockPick.value = { recipe: { id: 'x', labels: { fr: 'X' } }, status: 'ALMOST' }
     const props = { lang: 'fr', user: { id: 'u1' }, onOpenRecipes: () => {}, stapleIds: new Set() }
@@ -156,7 +156,7 @@ describe('GettingStartedContainer (coach)', () => {
     expect(carte()).toHaveTextContent('Presque !')
   })
 
-  it('INVITÉ : la carte n\'attend aucune réponse du serveur', () => {
+  it('INVITÉ : la carte n’attend aucune réponse du serveur', () => {
     mockHasCooked.value = null
     render(<GettingStartedContainer lang="fr" user={null} onOpenRecipes={() => {}} />)
     expect(screen.getByText('On cuisine ?')).toBeInTheDocument()
@@ -186,7 +186,7 @@ describe('GettingStartedContainer (coach)', () => {
     expect(carte()).toBeNull()
   })
 
-  it('réduite (dismissed) → guide masqué (le point d\'entrée vit dans le footer)', () => {
+  it('réduite (dismissed) → guide masqué (le point d’entrée vit dans le footer)', () => {
     markDismissed('u1')
     render(<GettingStartedContainer lang="fr" user={{ id: 'u1' }} />)
     expect(carte()).toBeNull()

@@ -16,7 +16,7 @@ vi.mock('@features/recipes/api/recipe-reviews', () => ({
   upsertReview: (...args) => mockUpsert(...args),
 }))
 
-import { useQuickRatePrompt, QUICK_RATE_MS } from '@features/recipes/hooks/use-quick-rate-prompt'
+import { useQuickRatePrompt } from '@features/recipes/hooks/use-quick-rate-prompt'
 
 beforeEach(() => {
   show.mockReset(); dismiss.mockReset()
@@ -30,9 +30,10 @@ describe('useQuickRatePrompt', () => {
     const { result } = renderHook(() => useQuickRatePrompt())
     await result.current('u1', { recipeId: 'r1', recipeSource: 'base', lang: 'fr' })
     expect(show).toHaveBeenCalledTimes(1)
-    // Retour d'Antoine (2026-10-04) : il ne reste plus collé, 3 s puis s'en va.
-    expect(QUICK_RATE_MS).toBe(3000)
-    expect(show.mock.calls[0][1]).toMatchObject({ id: 'quick-rate-r1', duration: QUICK_RATE_MS })
+    // Décision du 2026-10-08 : plus de minuteur (3 s ne laissaient pas le temps
+    // de lire et de choisir, WCAG 2.2.1). Il part quand on note, quand on le
+    // ferme, ou quand on quitte la fiche (tests plus bas).
+    expect(show.mock.calls[0][1]).toEqual({ id: 'quick-rate-r1', duration: 0 })
   })
 
   it('utilisateur ayant déjà un avis : n\'affiche rien (pas de sursollicitation)', async () => {

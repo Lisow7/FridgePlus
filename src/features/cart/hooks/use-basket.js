@@ -38,9 +38,20 @@ import { logError } from '@shared/lib/observability/sentry'
 //   - `handleClearBasket` (orchestration snapshot + spending event +
 //     toast undo) : appelle `basket.clear()` pour la partie BDD.
 
+// Applique une lecture du panier : ratée, on garde ce qui est affiché et on le
+// dit (`basketLoadError`) ; réussie, elle remplace le panier et efface l'erreur.
+function appliquerLaLecture({ data, error }, setBasket, setBasketLoadError) {
+  setBasketLoadError(error ?? null)
+  if (!error) setBasket(data)
+}
+
 export function useBasket(user) {
   const [basket, setBasket] = useState([])
   const [basketLoading, setBasketLoading] = useState(false)
+  // Le dernier chargement a échoué : le panier affiché n'est pas une image de
+  // la base. Tant qu'elle n'a pas été lue, rien ne se vide (`clear`, et
+  // « Reprendre une liste » côté actions) — audit du 2026-10-04.
+  const [basketLoadError, setBasketLoadError] = useState(null)
   // Compteur de version pour les fetches : permet d'ignorer une
   // réponse en retard si une mutation plus récente a déjà résolu.
   // Pattern « stale-fetch ignored ». Référence stable, ne déclenche
@@ -56,22 +67,23 @@ export function useBasket(user) {
   const refresh = useCallback(async () => {
     if (!user?.id) return
     const token = newFetchToken()
-    const data = await loadBasketFromDB(user.id)
-    if (isLatestToken(token)) setBasket(data)
+    const lecture = await loadBasketFromDB(user.id)
+    if (isLatestToken(token)) appliquerLaLecture(lecture, setBasket, setBasketLoadError)
   }, [user?.id, newFetchToken, isLatestToken])
 
   // Load initial au mount + sur changement user. Reset si pas de user.
   useEffect(() => {
     if (!user?.id) {
       setBasket([])
+      setBasketLoadError(null)
       return
     }
     const token = newFetchToken()
     setBasketLoading(true)
     loadBasketFromDB(user.id)
-      .then(data => {
+      .then((lecture) => {
         if (!isLatestToken(token)) return
-        setBasket(data)
+        appliquerLaLecture(lecture, setBasket, setBasketLoadError)
         setBasketLoading(false)
       })
       .catch(err => {
@@ -143,11 +155,15 @@ export function useBasket(user) {
 
   // Vide complètement le basket. Utilisé par handleClearBasket dans
   // App.jsx (qui orchestre aussi le toast undo + snapshot).
+  // `clearBasket` supprime par `user_id` : jamais sur un panier qui n'a pas
+  // pu être lu et PARAÎT vide (des lignes que personne n'a vues). Un panier
+  // ancien encore affiché se vide : l'utilisateur voit ce qu'il vide.
   const clear = useCallback(async () => {
     if (!user?.id) return
+    if (basketLoadError && basket.length === 0) return { error: { message: 'panier_non_charge' } }
     const { error } = await clearBasket(user.id)
     if (!error) await refresh()
-  }, [user?.id, refresh])
+  }, [user?.id, refresh, basketLoadError, basket.length])
 
   // Memo : Set des recipe_ids présents dans le basket. Utilisé par
   // RecipePanel et RecipeCard pour afficher le badge « dans le panier ».
@@ -159,6 +175,7 @@ export function useBasket(user) {
   return {
     basket, setBasket,
     basketLoading, setBasketLoading,
+    basketLoadError,
     basketRecipeIds,
     refresh,
     toggleItem,

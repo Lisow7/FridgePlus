@@ -5,7 +5,7 @@
  * tactile, le texte « au survol » de Créer/Vider n'apparaissait jamais.
  */
 import { describe, it, expect, vi, afterEach } from 'vitest'
-import { render, screen } from '@testing-library/react'
+import { render, screen, fireEvent } from '@testing-library/react'
 import RecipeFiltersBar from '@features/recipes/components/recipe-filters-bar'
 import RecipePanelHeader from '@features/recipes/components/recipe-panel-header'
 import { PANEL_I18N } from '@shared/static/recipe-panel-i18n'
@@ -28,25 +28,53 @@ afterEach(() => { delete window.matchMedia })
 
 describe('panneau Recettes — chaque commande dit ce qu’elle fait, aussi sur mobile', () => {
   it('les puces Favoris et Mes recettes gardent leur texte, même inactives', () => {
-    barre()
+    barre({ customCount: 2 })
     const favoris = screen.getByRole('button', { name: /Favoris/ })
     expect(favoris).toHaveTextContent('Favoris')
     expect(screen.getByRole('button', { name: /Mes recettes/ })).toHaveTextContent('Mes recettes')
   })
 
-  it('le tri a un nom qui dit le tri en cours, et une cible d’au moins 32 px', () => {
-    barre()
-    const tri = screen.getByRole('button', { name: /Tri/ })
-    expect(tri).toHaveAccessibleName(/correspondance/)
-    expect(parseInt(tri.style.minHeight, 10)).toBeGreaterThanOrEqual(32)
+})
+
+// Décision du 2026-10-08 : environ 9 commandes au lieu de 14. Créer, Au hasard et
+// Vider passent dans un menu « ⋯ » ; « Mes recettes » n’apparaît que si tu en as
+// créé ; le tri ne reste que dans le tiroir des filtres.
+describe('panneau Recettes — moins de commandes', () => {
+  const actions = () => ({ onClose: vi.fn(), pickRandomRecipe: vi.fn(), openCreateForm: vi.fn(), setShowResetConfirm: vi.fn() })
+  const entete = ({ user = { id: 'u-1' }, stock = new Set(['fr-beurre']), a = actions() } = {}) => {
+    render(<RecipePanelHeader t={t} stock={stock} user={user} borderPanel="#eee" bgPanel="#fff" actions={a} />)
+    return a
+  }
+
+  it('« Mes recettes » n’apparaît que si tu en as créé — ou si ce filtre est actif', () => {
+    const { unmount } = barre({ customCount: 0 })
+    expect(screen.queryByRole('button', { name: /Mes recettes/ })).toBeNull()
+    unmount()
+    barre({ customCount: 0, filter: 'custom' })
+    expect(screen.getByRole('button', { name: /Mes recettes/ })).toBeInTheDocument()
   })
 
-  it('sur un écran sans survol, « Créer » montre son texte', () => {
-    window.matchMedia = (q) => ({ matches: q.includes('hover: none'), media: q, addEventListener() {}, removeEventListener() {} })
-    render(<RecipePanelHeader t={t} stock={new Set(['fr-beurre'])} user={null} borderPanel="#eee" bgPanel="#fff"
-      actions={{ onClose: vi.fn(), pickRandomRecipe: vi.fn(), handleResetPanel: vi.fn(), openCreateForm: vi.fn(), setShowResetConfirm: vi.fn() }} />)
-    const libelle = screen.getByText(t.createShort)
-    expect(libelle.style.opacity).toBe('1')
+  it('le tri n’est plus dans la barre : il vit dans le tiroir des filtres', () => {
+    barre()
+    expect(screen.queryByRole('button', { name: /Tri/ })).toBeNull()
+  })
+
+  it('un menu « Plus d’actions » porte Créer, Au hasard et Vider, chacun avec son texte', () => {
+    const a = entete()
+    expect(screen.queryByRole('button', { name: t.createRecipe })).toBeNull()
+    const plus = screen.getByRole('button', { name: t.moreActions })
+    expect(plus).toHaveAttribute('aria-haspopup', 'menu')
+    fireEvent.click(plus)
+    expect(screen.getAllByRole('menuitem').map((e) => e.textContent)).toEqual([t.createRecipe, t.rouletteLabel, t.resetTitle])
+    fireEvent.click(screen.getByRole('menuitem', { name: t.resetTitle }))
+    expect(a.setShowResetConfirm).toHaveBeenCalledWith(true)
+    expect(screen.queryByRole('menuitem')).toBeNull()
+  })
+
+  it('sans compte, pas d’« Au hasard » ; frigo vide, pas de « Vider »', () => {
+    entete({ user: null, stock: new Set() })
+    fireEvent.click(screen.getByRole('button', { name: t.moreActions }))
+    expect(screen.getAllByRole('menuitem').map((e) => e.textContent)).toEqual([t.createRecipe])
   })
 })
 

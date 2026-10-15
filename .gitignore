@@ -116,3 +116,7 @@ tmp-*
 /*.png
 /*.jpg
 /*.jpeg
+
+# Copies locales de la base, faites par les scripts de maintenance : elles
+# restent sur le disque, jamais dans le dépôt (décision du 2026-10-08).
+backups/

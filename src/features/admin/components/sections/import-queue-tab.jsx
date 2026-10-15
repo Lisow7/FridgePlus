@@ -5,7 +5,6 @@ import {
   adminPublishStaged,
   adminRejectStaged,
   adminBatchPublishValid,
-  adminReRunValidators,
 } from '@features/admin/api/admin'
 import Button from '@shared/ui/button'
 import FilterPill from '@shared/ui/filter-pill'
@@ -111,7 +110,7 @@ export default function ImportQueueTab({ darkMode = false }) {
   }, [rows])
 
   async function handlePublish(row) {
-    if (!(await confirm({ title: `Publier la recette "${recipeName(row)}" ?` }))) return
+    if (!(await confirm({ title: `Publier la recette "${recipeName(row)}" ?`, confirmLabel: 'Publier' }))) return
     setBusyId(row.id)
     const { error } = await adminPublishStaged(row.id)
     if (error) showToast('error', `Erreur publication : ${error.message}`)
@@ -131,13 +130,6 @@ export default function ImportQueueTab({ darkMode = false }) {
     reload()
   }
 
-  async function handleRevalidate(row) {
-    setBusyId(row.id)
-    const { message } = await adminReRunValidators(row.id)
-    showToast('info', message)
-    setBusyId(null)
-  }
-
   // La confirmation dit combien de recettes partent, le résultat nomme les échecs (ADM-17 (4)).
   async function handleBatchPublish() {
     if (!batchFilter) return
@@ -148,7 +140,7 @@ export default function ImportQueueTab({ darkMode = false }) {
       : n === 1
         ? `Publier la recette valide du batch "${batchFilter}" ?`
         : `Publier les ${n} recettes valides du batch "${batchFilter}" ?`
-    if (!(await confirm({ title: titre }))) return
+    if (!(await confirm({ title: titre, confirmLabel: 'Publier' }))) return
     setBatchBusy(true)
     const { published, failed, error } = await adminBatchPublishValid(batchFilter)
     if (error) showToast('error', `Erreur batch : ${error.message}`)
@@ -323,7 +315,6 @@ export default function ImportQueueTab({ darkMode = false }) {
             const isRowBusy = busyId === row.id
             const canPublish = row.status === 'pending' || row.status === 'valid'
             const canReject  = row.status === 'pending' || row.status === 'valid' || row.status === 'invalid' || row.status === 'admin_review'
-            const canRevalidate = row.status === 'invalid'
 
             return (
               <div
@@ -423,19 +414,6 @@ export default function ImportQueueTab({ darkMode = false }) {
                     >
                       <LuX size={12} />
                       Rejeter
-                    </Button>
-                  )}
-                  {canRevalidate && (
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => handleRevalidate(row)}
-                      disabled={isRowBusy}
-                      className="h-auto rounded-md border bg-transparent px-2.5 py-1 text-xs hover:bg-transparent"
-                      style={{ gap: 4, borderColor: border, color: muted }}
-                    >
-                      <LuPlay size={12} />
-                      Re-valider (CLI)
                     </Button>
                   )}
                   {row.admin_notes && (

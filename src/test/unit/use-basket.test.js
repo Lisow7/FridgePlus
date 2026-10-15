@@ -41,7 +41,7 @@ describe('useBasket (v3.234.0)', () => {
     })
 
     it('charge depuis DB au mount si user présent', async () => {
-      mockLoadBasketFromDB.mockResolvedValueOnce([FAKE_ITEM])
+      mockLoadBasketFromDB.mockResolvedValueOnce({ data: [FAKE_ITEM], error: null })
       const { result } = renderHook(() => useBasket({ id: 'u' }))
       await waitFor(() => expect(result.current.basket.length).toBe(1))
       expect(mockLoadBasketFromDB).toHaveBeenCalledWith('u')
@@ -49,7 +49,7 @@ describe('useBasket (v3.234.0)', () => {
     })
 
     it('basket reset à [] si user passe à null', async () => {
-      mockLoadBasketFromDB.mockResolvedValueOnce([FAKE_ITEM])
+      mockLoadBasketFromDB.mockResolvedValueOnce({ data: [FAKE_ITEM], error: null })
       const { result, rerender } = renderHook(({ user }) => useBasket(user), {
         initialProps: { user: { id: 'u' } },
       })
@@ -61,11 +61,11 @@ describe('useBasket (v3.234.0)', () => {
 
   describe('basketRecipeIds memo', () => {
     it('retourne Set des recipe_id non-null', async () => {
-      mockLoadBasketFromDB.mockResolvedValueOnce([
+      mockLoadBasketFromDB.mockResolvedValueOnce({ data: [
         { id: 'b1', recipe_id: 'r1' },
         { id: 'b2', recipe_id: 'r2' },
         { id: 'b3', recipe_id: null }, // manual item, ignoré
-      ])
+      ], error: null })
       const { result } = renderHook(() => useBasket({ id: 'u' }))
       await waitFor(() => expect(result.current.basket.length).toBe(3))
       expect(result.current.basketRecipeIds.has('r1')).toBe(true)
@@ -76,7 +76,7 @@ describe('useBasket (v3.234.0)', () => {
 
   describe('toggleItem', () => {
     it('update local optimistic + appel DB', async () => {
-      mockLoadBasketFromDB.mockResolvedValueOnce([{ ...FAKE_ITEM, checked: false }])
+      mockLoadBasketFromDB.mockResolvedValueOnce({ data: [{ ...FAKE_ITEM, checked: false }], error: null })
       const { result } = renderHook(() => useBasket({ id: 'u' }))
       await waitFor(() => expect(result.current.basket.length).toBe(1))
       await act(async () => { await result.current.toggleItem('b1', true) })
@@ -87,7 +87,7 @@ describe('useBasket (v3.234.0)', () => {
 
   describe('changeItemPack', () => {
     it('update amount/unit/price + appel DB', async () => {
-      mockLoadBasketFromDB.mockResolvedValueOnce([FAKE_ITEM])
+      mockLoadBasketFromDB.mockResolvedValueOnce({ data: [FAKE_ITEM], error: null })
       const { result } = renderHook(() => useBasket({ id: 'u' }))
       await waitFor(() => expect(result.current.basket.length).toBe(1))
       await act(async () => {
@@ -97,7 +97,7 @@ describe('useBasket (v3.234.0)', () => {
     })
 
     it('no-op si params invalides', async () => {
-      mockLoadBasketFromDB.mockResolvedValueOnce([FAKE_ITEM])
+      mockLoadBasketFromDB.mockResolvedValueOnce({ data: [FAKE_ITEM], error: null })
       const { result } = renderHook(() => useBasket({ id: 'u' }))
       await waitFor(() => expect(result.current.basket.length).toBe(1))
       await act(async () => { await result.current.changeItemPack('b1', { size: null, unit: 'g' }) })
@@ -108,8 +108,8 @@ describe('useBasket (v3.234.0)', () => {
   describe('addBatch', () => {
     it('appelle addBasketItems puis refresh', async () => {
       mockLoadBasketFromDB
-        .mockResolvedValueOnce([])
-        .mockResolvedValueOnce([FAKE_ITEM])
+        .mockResolvedValueOnce({ data: [], error: null })
+        .mockResolvedValueOnce({ data: [FAKE_ITEM], error: null })
       const { result } = renderHook(() => useBasket({ id: 'u' }))
       await waitFor(() => expect(mockLoadBasketFromDB).toHaveBeenCalledTimes(1))
       await act(async () => { await result.current.addBatch([FAKE_ITEM]) })
@@ -124,7 +124,7 @@ describe('useBasket (v3.234.0)', () => {
     })
 
     it('no-op si items vide', async () => {
-      mockLoadBasketFromDB.mockResolvedValueOnce([])
+      mockLoadBasketFromDB.mockResolvedValueOnce({ data: [], error: null })
       const { result } = renderHook(() => useBasket({ id: 'u' }))
       await waitFor(() => expect(mockLoadBasketFromDB).toHaveBeenCalledTimes(1))
       await act(async () => { await result.current.addBatch([]) })
@@ -135,8 +135,8 @@ describe('useBasket (v3.234.0)', () => {
   describe('removeItem / removeRecipe / clear', () => {
     it('removeItem appelle removeBasketItem + refresh', async () => {
       mockLoadBasketFromDB
-        .mockResolvedValueOnce([FAKE_ITEM])
-        .mockResolvedValueOnce([])
+        .mockResolvedValueOnce({ data: [FAKE_ITEM], error: null })
+        .mockResolvedValueOnce({ data: [], error: null })
       const { result } = renderHook(() => useBasket({ id: 'u' }))
       await waitFor(() => expect(result.current.basket.length).toBe(1))
       await act(async () => { await result.current.removeItem('b1') })
@@ -146,8 +146,8 @@ describe('useBasket (v3.234.0)', () => {
 
     it('removeRecipe appelle removeBasketByRecipe + refresh', async () => {
       mockLoadBasketFromDB
-        .mockResolvedValueOnce([FAKE_ITEM])
-        .mockResolvedValueOnce([])
+        .mockResolvedValueOnce({ data: [FAKE_ITEM], error: null })
+        .mockResolvedValueOnce({ data: [], error: null })
       const { result } = renderHook(() => useBasket({ id: 'u' }))
       await waitFor(() => expect(result.current.basket.length).toBe(1))
       await act(async () => { await result.current.removeRecipe('r1') })
@@ -156,8 +156,8 @@ describe('useBasket (v3.234.0)', () => {
 
     it('clear appelle clearBasket + refresh', async () => {
       mockLoadBasketFromDB
-        .mockResolvedValueOnce([FAKE_ITEM])
-        .mockResolvedValueOnce([])
+        .mockResolvedValueOnce({ data: [FAKE_ITEM], error: null })
+        .mockResolvedValueOnce({ data: [], error: null })
       const { result } = renderHook(() => useBasket({ id: 'u' }))
       await waitFor(() => expect(result.current.basket.length).toBe(1))
       await act(async () => { await result.current.clear() })
@@ -166,9 +166,67 @@ describe('useBasket (v3.234.0)', () => {
     })
   })
 
+  // Audit du 2026-10-04, lot « le panier dit son échec » : un chargement raté
+  // rendait une liste vide — le même piège que le frigo avant le 28/08. Depuis
+  // un panier qui paraît vide, « Reprendre une liste » ne demande rien et
+  // vidait en base un panier que personne n'avait vu.
+  describe('chargement raté', () => {
+    it('au montage : le panier reste vide, et basketLoadError le dit', async () => {
+      mockLoadBasketFromDB.mockResolvedValueOnce({ data: [], error: { message: 'réseau' } })
+      const { result } = renderHook(() => useBasket({ id: 'u' }))
+      await waitFor(() => expect(result.current.basketLoadError).toEqual({ message: 'réseau' }))
+      expect(result.current.basket).toEqual([])
+    })
+
+    it('un rafraîchissement raté garde le panier affiché, et le dit', async () => {
+      mockLoadBasketFromDB
+        .mockResolvedValueOnce({ data: [FAKE_ITEM], error: null })
+        .mockResolvedValueOnce({ data: [], error: { message: 'réseau' } })
+      const { result } = renderHook(() => useBasket({ id: 'u' }))
+      await waitFor(() => expect(result.current.basket.length).toBe(1))
+      await act(async () => { await result.current.refresh() })
+      expect(result.current.basket).toEqual([FAKE_ITEM])
+      expect(result.current.basketLoadError).toEqual({ message: 'réseau' })
+    })
+
+    it('une relecture réussie efface l’erreur', async () => {
+      mockLoadBasketFromDB
+        .mockResolvedValueOnce({ data: [], error: { message: 'réseau' } })
+        .mockResolvedValueOnce({ data: [FAKE_ITEM], error: null })
+      const { result } = renderHook(() => useBasket({ id: 'u' }))
+      await waitFor(() => expect(result.current.basketLoadError).not.toBeNull())
+      await act(async () => { await result.current.refresh() })
+      expect(result.current.basketLoadError).toBeNull()
+      expect(result.current.basket).toEqual([FAKE_ITEM])
+    })
+
+    it('« vider » refuse tant que le panier n’a pas été lu', async () => {
+      mockLoadBasketFromDB.mockResolvedValueOnce({ data: [], error: { message: 'réseau' } })
+      const { result } = renderHook(() => useBasket({ id: 'u' }))
+      await waitFor(() => expect(result.current.basketLoadError).not.toBeNull())
+      let res
+      await act(async () => { res = await result.current.clear() })
+      expect(mockClearBasket).not.toHaveBeenCalled()
+      expect(res).toEqual({ error: { message: 'panier_non_charge' } })
+    })
+
+    it('un panier ancien encore affiché se vide : l’utilisateur voit ce qu’il vide', async () => {
+      mockLoadBasketFromDB
+        .mockResolvedValueOnce({ data: [FAKE_ITEM], error: null })
+        .mockResolvedValueOnce({ data: [], error: { message: 'réseau' } })
+        .mockResolvedValueOnce({ data: [], error: null })
+      const { result } = renderHook(() => useBasket({ id: 'u' }))
+      await waitFor(() => expect(result.current.basket.length).toBe(1))
+      await act(async () => { await result.current.refresh() })
+      expect(result.current.basketLoadError).not.toBeNull()
+      await act(async () => { await result.current.clear() })
+      expect(mockClearBasket).toHaveBeenCalledWith('u')
+    })
+  })
+
   describe('setBasket raw setter', () => {
     it('expose setBasket pour orchestration externe', async () => {
-      mockLoadBasketFromDB.mockResolvedValueOnce([])
+      mockLoadBasketFromDB.mockResolvedValueOnce({ data: [], error: null })
       const { result } = renderHook(() => useBasket({ id: 'u' }))
       await waitFor(() => expect(mockLoadBasketFromDB).toHaveBeenCalledTimes(1))
       act(() => { result.current.setBasket([FAKE_ITEM]) })

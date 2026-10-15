@@ -3,11 +3,11 @@ import { LuX, LuChevronDown } from 'react-icons/lu'
 import { useConsent } from '@shared/hooks/use-consent'
 import { useFocusTrap } from '@shared/hooks/use-focus-trap'
 import { useCloseOnBackButton } from '@shared/hooks/use-close-on-back-button'
-import { usePushSubscription } from '@features/push-notifications'
 import { useFeatureFlag } from '@shared/contexts/feature-flags-provider'
 import { I18N } from '../i18n/consent-i18n'
 import { CATEGORIES } from '../i18n/consent-categories-i18n'
 import Button from '@shared/ui/button'
+import Interrupteur from '@shared/ui/interrupteur'
 
 // Modale détaillée pour le consentement granulaire.
 // Ouverte depuis le bouton « Personnaliser » du bandeau ou depuis le panel
@@ -15,12 +15,15 @@ import Button from '@shared/ui/button'
 //
 // Essentiels (toujours actifs), puis deux cases séparées (consentement v2,
 // décision du 2026-10-06) : Rapports d'erreurs (Sentry) et Statistiques
-// d'usage. Puis les accords d'usage (micro, photo, push). Chaque section : titre + badge, description,
+// d'usage. Puis les accords d'usage (micro, photo). Chaque section : titre + badge, description,
 // avantages/inconvénients, durée de conservation, vendeurs (si pertinent).
+// Les notifications n'y sont plus (décision du 2026-10-08) : un interrupteur
+// qui agissait tout de suite, au milieu de choix qui attendent « Enregistrer
+// mes choix ». Elles se règlent dans Profil → Préférences.
 
 // Texte des badges de catégorie : la teinte pleine plafonnait sous 4,5:1 sur
-// son propre fond teinté (3,3 à 4,3 en clair, 2,2 à 2,9 en sombre) — planche
-// n° 2 du 2026-10-06, « couleurs = profond ». [clair, sombre].
+// son propre fond teinté (3,3 à 4,3 en clair, 2,2 à 2,9 en sombre) — décision
+// du 2026-10-06, « couleurs = profond ». [clair, sombre].
 const TEXTE_BADGE = {
   '#5A8A4A': ['#49703C', '#8AAC7E'],
   '#5A7AAA': ['#4C668F', '#8FA5C5'],
@@ -31,7 +34,6 @@ const TEXTE_BADGE = {
 export default function CookieModal({ lang = 'fr', darkMode = false, onClose, onShowLegal }) {
   const t = { ...(I18N[lang] ?? I18N.fr), ...(CATEGORIES[lang] ?? CATEGORIES.fr) }
   const { consent, save } = useConsent()
-  const push = usePushSubscription()
   const receiptScanEnabled = useFeatureFlag('receipt_scan', false)
   const [draft, setDraft] = useState({
     errors:      consent.errors,
@@ -184,26 +186,6 @@ export default function CookieModal({ lang = 'fr', darkMode = false, onClose, on
               card={card} fg={fg} muted={muted} border={border}
             />
           )}
-          {push.available && (
-            <Category
-              title={t.catPushTitle}
-              badge={t.catPushBadge}
-              badgeColor="#C05A10"
-
-              badgeText={TEXTE_BADGE['#C05A10']?.[darkMode ? 1 : 0]}
-              description={t.catPushDesc}
-              benefit={!push.blocked ? t.catPushBenefit : undefined}
-              drawback={!push.blocked ? t.catPushDrawback : undefined}
-              retention={t.catPushRetention}
-              vendors={t.catPushVendors}
-              blockedNote={push.blocked ? t.catPushBlocked : noteDErreurPush(push.error, t)}
-              forceExpanded={push.error}
-              checked={push.enabled}
-              disabled={push.blocked || push.loading}
-              onToggle={push.toggle}
-              card={card} fg={fg} muted={muted} border={border}
-            />
-          )}
 
           {onShowLegal && (
             <Button
@@ -247,13 +229,6 @@ export default function CookieModal({ lang = 'fr', darkMode = false, onClose, on
 // masqué par défaut — épure la liste, l'info reste à un clic pour qui veut.
 // Le refus du navigateur (« Bloquer ») est un réglage à changer, pas une panne ; une
 // lecture de l'état qui échoue n'accuse pas le navigateur (CPT-15 (4)).
-function noteDErreurPush(code, t) {
-  if (!code) return undefined
-  if (code === 'permission_denied') return t.catPushDenied
-  if (code === 'read_failed') return t.catPushReadError
-  return t.catPushError
-}
-
 function Category({ title, badge, badgeColor, badgeText, description, benefit, drawback, retention, vendors, blockedNote, forceExpanded, checked, disabled, onToggle, card, fg, muted, border }) {
   const [expandedState, setExpanded] = useState(false)
   // Une erreur d'activation (ex: push) doit être visible sans action de
@@ -298,7 +273,7 @@ function Category({ title, badge, badgeColor, badgeText, description, benefit, d
           padding: '2px 8px', borderRadius: 12,
           background: `${badgeColor}22`, color: badgeText ?? badgeColor,
         }}>{badge}</span>
-        <ToggleSwitch checked={checked} disabled={disabled} onChange={onToggle} labelledBy={idTitre} />
+        <Interrupteur checked={checked} disabled={disabled} onChange={onToggle} labelledBy={idTitre} />
       </div>
 
       {expanded && (
@@ -329,27 +304,3 @@ function Category({ title, badge, badgeColor, badgeText, description, benefit, d
   )
 }
 
-function ToggleSwitch({ checked, disabled, onChange, labelledBy }) {
-  return (
-    <Button
-      role="switch"
-      aria-checked={checked}
-      aria-labelledby={labelledBy}
-      disabled={disabled}
-      onClick={onChange}
-      className="relative h-6 w-11 shrink-0 rounded-xl p-0 disabled:opacity-60"
-      style={{
-        background: checked ? 'var(--color-brand-500)' : '#888',
-        transition: 'background 0.2s',
-      }}
-    >
-      <span style={{
-        position: 'absolute', top: 2, left: checked ? 22 : 2,
-        width: 20, height: 20, borderRadius: '50%',
-        background: 'white',
-        transition: 'left 0.2s',
-        boxShadow: '0 1px 3px rgba(0,0,0,0.3)',
-      }} />
-    </Button>
-  )
-}

@@ -17,7 +17,7 @@ test('un compte d’avant le 4 octobre : la case, une fois, puis l’app', async
 
   const fenetre = page.getByRole('dialog', { name: 'Confirme ton accord' })
   await expect(fenetre).toBeVisible()
-  await fenetre.getByRole('checkbox', { name: /J'ai au moins 16 ans et j'accepte/ }).check()
+  await fenetre.getByRole('checkbox', { name: /J['’]ai au moins 16 ans et j['’]accepte/ }).check()
   await fenetre.getByRole('button', { name: 'Continuer' }).click()
 
   await expect(fenetre).toHaveCount(0)

@@ -63,7 +63,7 @@ export default function RecipeFormModal({ initialRecipe = null, onSave, onClose,
     countryOptions, sensors, submitting, ALLERGEN_KEYS,
     update, handleResetDraft, handleClose,
     addIngredient, updateIngredient, deleteIngredient,
-    addStep, updateStep, deleteStep, handleStepDragEnd,
+    addStep, updateStep, deleteStep, moveStep, handleStepDragEnd,
     toggleDiet, handleSubmit, handleConfirmPublish,
   } = useRecipeFormModal({ initialRecipe, onSave, onClose, lang })
 
@@ -306,8 +306,10 @@ export default function RecipeFormModal({ initialRecipe = null, onSave, onClose,
                     key={step.id}
                     step={step}
                     index={idx}
+                    total={form.steps.length}
                     onChange={updateStep}
                     onDelete={deleteStep}
+                    onMove={moveStep}
                     darkMode={dm}
                     t={t}
                     hasError={!!errors.steps && !step.text.trim()}

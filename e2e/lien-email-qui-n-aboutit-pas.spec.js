@@ -40,7 +40,7 @@ test.describe('Lien e-mail qui n’aboutit pas', () => {
     await preparer(page)
     await page.goto('/FridgePlus/?code=6f1c2b7e-0000-4000-8000-000000000000')
 
-    const bandeau = page.getByRole('alert').filter({ hasText: 'Ce lien n\'a pas pu te connecter dans ce navigateur' })
+    const bandeau = page.getByRole('alert').filter({ hasText: 'Ce lien n’a pas pu te connecter dans ce navigateur' })
     await expect(bandeau).toBeVisible()
     await expect(bandeau).toContainText('Connecte-toi avec ton mot de passe')
     await expect(bandeau).toContainText('refais la demande depuis cet appareil')
@@ -62,7 +62,7 @@ test.describe('Lien e-mail qui n’aboutit pas', () => {
       await preparer(page, { sansAccueil: false })
       await page.goto('/FridgePlus/?code=6f1c2b7e-0000-4000-8000-000000000000')
 
-      const bandeau = page.getByRole('alert').filter({ hasText: 'Ce lien n\'a pas pu te connecter dans ce navigateur' })
+      const bandeau = page.getByRole('alert').filter({ hasText: 'Ce lien n’a pas pu te connecter dans ce navigateur' })
       await expect(bandeau).toBeVisible()
       const etat = await bandeau.evaluate((el) => {
         const r = el.getBoundingClientRect()

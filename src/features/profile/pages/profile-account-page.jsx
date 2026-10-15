@@ -12,6 +12,8 @@ import { logAuditAction, AUDIT_ACTIONS } from '@features/admin/lib/audit'
 // eslint-disable-next-line import/no-restricted-paths -- legal RGPD intégré au profil
 import { ConfidentialityPanel } from '@features/legal'
 import MfaCard from '@features/profile/components/mfa-card'
+import AppareilsSection from '@features/profile/components/appareils-section'
+import ChangerDAdresse from '@features/profile/components/changer-d-adresse'
 import DangerZone from '@features/profile/components/danger-zone'
 import ProfilingOptOutSection from '@features/profile/components/profiling-opt-out-section'
 import EraseSpendingHistorySection from '@features/profile/components/erase-spending-history-section'
@@ -42,7 +44,7 @@ const I18N = {
     idEmailHidden: 'Masqué pour ta protection.',
     idResetBtn:   'Changer mon mot de passe',
     idResetSent:  '✓ E-mail envoyé. Vérifie ta boîte de réception.',
-    idResetError: 'Impossible d\'envoyer l\'e-mail. Réessaie plus tard.',
+    idResetError: 'Impossible d’envoyer l’e-mail. Réessaie plus tard.',
     privTitle:    'Confidentialité & cookies',
     privDesc:     'Tes choix de cookies, et ton droit de refuser le profilage.',
     dataTitle:    'Télécharger mes données',
@@ -51,7 +53,7 @@ const I18N = {
     exportBtn:    'Télécharger',
     exportLoad:   'Préparation…',
     exportOk:     'Téléchargement démarré.',
-    exportErr:    'Export incomplet : rien n\'a été téléchargé. Réessaie.',
+    exportErr:    'Export incomplet : rien n’a été téléchargé. Réessaie.',
     dangerTitle:  'Zone de danger',
     dangerDesc:   'Supprimer ton compte.',
     dangerText:   'Tes données sont conservées 30 jours. Tu peux annuler la suppression à tout moment en te reconnectant. Passé ce délai, tout est effacé définitivement.',
@@ -290,6 +292,7 @@ export default function ProfileAccountPage() {
                 {t.idEmailHidden}
               </p>
             )}
+            <ChangerDAdresse lang={lang} />
             <Button
               onClick={handleSendReset}
               loading={resetLoading}
@@ -328,6 +331,9 @@ export default function ProfileAccountPage() {
             />
           </div>
         </ProfileSection>
+
+        {/* ─── 2 bis. Appareils : « Déconnecter tous mes appareils » ──────────── */}
+        <AppareilsSection lang={lang} darkMode={darkMode} />
 
         {/* ─── 3. Confidentialité & cookies (replié par défaut) ─────── */}
         {/* Dépliée d'office quand on arrive par #confidentialite : c'est là

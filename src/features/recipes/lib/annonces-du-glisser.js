@@ -15,7 +15,7 @@ const TEXTES = {
     hors:    (n) => `Étape ${n} hors de la liste.`,
     deposee: (n, m) => `Étape ${n} déposée en position ${m}.`,
     reposee: (n) => `Étape ${n} reposée à sa place.`,
-    annule:  (n) => `Déplacement annulé : l'étape ${n} reste à sa place.`,
+    annule:  (n) => `Déplacement annulé : l’étape ${n} reste à sa place.`,
   },
   en: {
     saisie:  (n) => `Step ${n} picked up.`,

@@ -30,6 +30,7 @@ const FEATURES = [
 const PONTS = {
   admin: ['support', 'community', 'notifications', 'recipes'],
   legal: ['push-notifications'],
+  profile: ['push-notifications'],
   'cooking-mode': ['recipes'],
 }
 

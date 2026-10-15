@@ -1,0 +1,52 @@
+import { useAuth } from '@shared/contexts/auth-provider'
+import { useLang } from '@shared/contexts/ui-provider'
+import { useEnLigne } from '@shared/hooks/use-en-ligne'
+import { useFeatureFlag } from '@shared/contexts/feature-flags-provider'
+import { CENTRE_EN_HAUT } from '@app/components/bandeau-du-haut'
+import { Z_INDEX } from '@shared/lib/z-index'
+
+// Quand le réseau tombe (décision du 2026-10-08) : un bandeau tant qu'il
+// manque, qui part seul à son retour. Rien ne le disait — un compte ne
+// l'apprenait qu'en touchant à son frigo (« Pas enregistré… »), un invité en
+// voyant la voix et la photo du ticket ne plus marcher. Textes de la maquette.
+const I18N = {
+  // Textes revus le 2026-10-15 (porteur) : « tant qu’il n’est pas revenu » et
+  // « attendront son retour » renvoyaient à un « réseau » déjà loin ; on nomme
+  // la connexion, et l’ajout à la voix comme le FAB le nomme.
+  fr: {
+    titre: 'Pas de réseau.',
+    compte: 'Tes modifications ne peuvent pas être enregistrées pour l’instant.',
+    invite: 'L’ajout à la voix et la photo du ticket reviendront avec la connexion.',
+    // Le drapeau de la photo du ticket éteint (décision du 2026-10-08) : on ne la promet plus.
+    inviteSansPhoto: 'L’ajout à la voix reviendra avec la connexion.',
+  },
+  en: {
+    titre: 'No network.',
+    compte: 'Your changes can’t be saved for now.',
+    invite: 'Voice input and the receipt photo will work again once you’re back online.',
+    inviteSansPhoto: 'Voice input will work again once you’re back online.',
+  },
+}
+
+export default function BandeauHorsLigne() {
+  const enLigne = useEnLigne()
+  const { user } = useAuth()
+  const { lang } = useLang()
+  const photoDuTicket = useFeatureFlag('receipt_scan', false)
+  if (enLigne) return null
+  const t = I18N[lang] ?? I18N.fr
+
+  return (
+    <div role="status" style={{
+      ...CENTRE_EN_HAUT,
+      zIndex: Z_INDEX.TOAST,
+      padding: '10px 16px', borderRadius: '12px',
+      background: 'var(--color-dark-surface)', color: 'white',
+      fontSize: '14px', lineHeight: 1.45,
+      boxShadow: '0 6px 18px rgba(0,0,0,0.18)',
+      animation: 'menu-slide-down 0.25s ease both',
+    }}>
+      <strong>{t.titre}</strong> {user ? t.compte : photoDuTicket ? t.invite : t.inviteSansPhoto}
+    </div>
+  )
+}

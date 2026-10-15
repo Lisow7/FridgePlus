@@ -10,7 +10,7 @@ vi.mock('@shared/lib/supabase/client', () => ({
   },
 }))
 
-const { fetchSubstitutes } = await import('../../shared/hooks/use-substitutes.js')
+const { fetchSubstitutes } = await import('../../shared/api/substituts.js')
 
 describe('fetchSubstitutes helper', () => {
   beforeEach(() => {

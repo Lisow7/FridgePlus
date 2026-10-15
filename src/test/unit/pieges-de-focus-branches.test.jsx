@@ -79,12 +79,12 @@ import EraseSpendingHistorySection from '@features/profile/components/erase-spen
 import AddItemSheet from '@features/cart/components/add-item-sheet'
 import InstallButton from '@features/pwa/components/install-button'
 
-describe('effacer l’historique de dépenses : un vrai dialogue', () => {
+describe('supprimer l’historique de dépenses : un vrai dialogue', () => {
   async function ouvrir() {
     render(<EraseSpendingHistorySection userId="u1" onErase={vi.fn()} lang="fr" defaultOpen />)
     await act(async () => { await Promise.resolve() })
-    fireEvent.click(await screen.findByRole('button', { name: 'Effacer mon historique' }))
-    return screen.getByRole('dialog', { name: "Confirmer l'effacement" })
+    fireEvent.click(await screen.findByRole('button', { name: 'Supprimer mon historique' }))
+    return screen.getByRole('dialog', { name: 'Supprimer ton historique de dépenses ?' })
   }
 
   it('a un nom, et le focus y entre à l’ouverture', async () => {
@@ -113,7 +113,7 @@ describe('ajouter un article au panier : le piège a son conteneur', () => {
 describe('installer sur iPhone : le dialogue a un nom', () => {
   it('s’ouvre nommé par son titre, Échap le ferme', () => {
     render(<InstallButton lang="fr" />)
-    fireEvent.click(screen.getByRole('button', { name: "Installer l'app" }))
+    fireEvent.click(screen.getByRole('button', { name: "Installer l’app" }))
     const dialogue = screen.getByRole('dialog', { name: 'Installer Fridge+ sur iPhone' })
     expect(dialogue.contains(document.activeElement)).toBe(true)
     fireEvent.keyDown(document, { key: 'Escape' })

@@ -2,6 +2,7 @@ import Header from '@app/layout/header'
 import AppRoutes from '@routes/index'
 import FridgeHomeView from '@app/components/fridge-home-view'
 import ErrorBoundary from '@app/error/error-boundary'
+import AnnonceDePage from '@app/components/annonce-de-page'
 import FridgeFAB from '@features/fridge/components/fridge-fab'
 import { Z_INDEX } from '@shared/lib/z-index'
 import { SHELL_I18N } from '@shared/lib/i18n/app-shell-i18n'
@@ -105,9 +106,9 @@ export default function AppShell({
           position: fixed;
           top: 8px;
           left: -9999px;
-          /* Au-dessus de l'en-tête collant (60) pour être visible au focus,
+          /* Au-dessus de l’en-tête collant (60) pour être visible au focus,
              mais SOUS les modales (1000) : quand une modale est ouverte le
-             focus y est piégé, ce lien n'a rien à y faire. */
+             focus y est piégé, ce lien n’a rien à y faire. */
           z-index: ${Z_INDEX.BANNER};
           padding: 10px 18px;
           border-radius: 10px;
@@ -165,6 +166,9 @@ export default function AppShell({
         onVoiceToggle={onVoiceToggle}
         onShowLeftovers={onShowLeftovers}
       />
+
+      {/* Au changement de page : le titre annoncé, le focus au début du contenu (A11Y-16). */}
+      <AnnonceDePage />
 
       <main
         id="contenu-principal"

@@ -10,9 +10,13 @@ import { logError } from '@shared/lib/observability/sentry'
 // `src/features`. La feature réutilise ces briques pour l'interrupteur.
 
 // L'abonnement que tient le navigateur, ou null (pas de service worker, pas d'abonnement).
+// `getRegistration()` et non `ready` : sans service worker enregistré (dev,
+// `devOptions.enabled: false` ; navigateur qui n'en active jamais), `ready` ne se
+// résout JAMAIS, et l'état de l'appareil restait à lire pour toujours (2026-10-15).
 export async function abonnementDeCetAppareil() {
   if (typeof navigator === 'undefined' || !navigator.serviceWorker) return null
-  const registration = await navigator.serviceWorker.ready
+  const registration = await navigator.serviceWorker.getRegistration()
+  if (!registration) return null
   return (await registration.pushManager.getSubscription()) ?? null
 }
 
@@ -43,6 +47,28 @@ export async function detacherCetAppareil() {
   } catch (err) {
     return { detache: false, error: err ?? new Error('unknown') }
   }
+}
+
+// « Déconnecter tous mes appareils », suppression du compte : les lignes de TOUS les appareils
+// du compte (RLS `push_subscriptions_delete_own`) — un téléphone perdu ne reçoit plus les
+// notifications du compte. Au mieux et borné, comme pour cet appareil.
+export async function detacherTousLesAppareilsAvantDePartir(userId, { delaiMs = 3000 } = {}) {
+  let minuteur
+  const tropLong = new Promise((resolve) => {
+    minuteur = setTimeout(() => resolve({ detache: false, error: new Error('push_detach_all_timeout') }), delaiMs)
+  })
+  const effacer = (async () => {
+    try {
+      const { error } = await supabase.from('push_subscriptions').delete().eq('user_id', userId)
+      return { detache: !error, error: error ?? null }
+    } catch (err) {
+      return { detache: false, error: err ?? new Error('unknown') }
+    }
+  })()
+  const resultat = await Promise.race([effacer, tropLong])
+  clearTimeout(minuteur)
+  if (resultat.error) logError(resultat.error, { tag: 'push.detach_all_on_signout' })
+  return resultat
 }
 
 // À la déconnexion : au mieux, et borné — une requête qui pend ne doit jamais retenir la

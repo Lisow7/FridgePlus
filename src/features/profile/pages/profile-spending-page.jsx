@@ -24,13 +24,13 @@ import SpendingDashboard   from '@features/profile/components/spending-dashboard
 const I18N = {
   fr: {
     pageTitle: 'Mes dépenses',
-    pageIntro: 'Suivi mensuel de tes courses avec recommandations personnalisées. Capture à chaque clic « J\'ai fait mes courses ».',
+    pageIntro: 'Suivi mensuel de tes courses avec recommandations personnalisées. Capture à chaque clic « J’ai fait mes courses ».',
     sectionTitle: 'Analyse Premium',
     sectionDesc:  'Tes dépenses courses sur 12 mois, avec recos pour optimiser ton budget.',
   },
   en: {
     pageTitle: 'My spending',
-    pageIntro: 'Monthly tracking of your shopping with personalized recommendations. Captured on every "I\'m done shopping" tap.',
+    pageIntro: 'Monthly tracking of your shopping with personalized recommendations. Captured on every "I’m done shopping" tap.',
     sectionTitle: 'Premium analysis',
     sectionDesc:  'Your shopping spending over 12 months, with recommendations to optimize your budget.',
   },

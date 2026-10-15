@@ -84,39 +84,12 @@ const REASON_LABELS = {
     'support-investigation':    'Investigation support',
     'other':                    'Autre (préciser)',
   },
-  en: {
-    'spam':                     'Spam',
-    'inappropriate':            'Inappropriate content',
-    'duplicate':                'Duplicate',
-    'low-quality':              'Insufficient quality',
-    'plagiarism':               'Plagiarism',
-    'misleading':               'Misleading info',
-    'harassment':               'Harassment',
-    'inappropriate-content':    'Inappropriate content',
-    'multiple-violations':      'Repeated violations',
-    'cgu-breach':               'Terms breach',
-    'security-concern':         'Security concern',
-    'support-ticket':           'Support ticket follow-up',
-    'security-investigation':   'Security investigation',
-    'rgpd-request':             'GDPR request',
-    'legal-request':            'Legal request',
-    'rgpd-art17-request':       'GDPR art.17 request (erasure)',
-    'rgpd-art15-request':       'GDPR art.15 request (access)',
-    'rgpd-art20-request':       'GDPR art.20 request (portability)',
-    'self-deletion':            'User self-deletion',
-    'cgu-breach-deletion':      'Terms-breach deletion',
-    'duplicate-account':        'Duplicate account',
-    'support-investigation':    'Support investigation',
-    'other':                    'Other (specify)',
-  },
-  // ES, DE, JA partagent les clés FR par défaut — un admin parle au moins
-  // une de ces deux langues. À enrichir plus tard si l'équipe s'élargit.
 }
 
-function getLabel(key, lang) {
-  return REASON_LABELS[lang]?.[key]
-      ?? REASON_LABELS.fr[key]
-      ?? key
+// Français seul : le panneau admin a un seul utilisateur, francophone (décision
+// du 2026-10-08). Le libellé est aussi celui qu'écrit le journal d'audit.
+function getLabel(key) {
+  return REASON_LABELS.fr[key] ?? key
 }
 
 export default function ReasonSelector({
@@ -125,7 +98,6 @@ export default function ReasonSelector({
   details = '',
   onChange,
   onDetailsChange,
-  lang = 'fr',
   required = true,
   darkMode = false,
 }) {
@@ -139,7 +111,7 @@ export default function ReasonSelector({
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-      <Field label={<>{lang === 'fr' ? 'Raison' : 'Reason'} {required && '*'}</>} labelStyle={libelle}>
+      <Field label={<>{'Raison'} {required && '*'}</>} labelStyle={libelle}>
         <select
           value={value ?? ''}
           onChange={e => onChange?.(e.target.value)}
@@ -149,20 +121,20 @@ export default function ReasonSelector({
             fontSize: 13, fontFamily: 'inherit', cursor: 'pointer',
           }}
         >
-          <option value="">{lang === 'fr' ? '— Choisir une raison —' : '— Choose a reason —'}</option>
+          <option value="">{'— Choisir une raison —'}</option>
           {reasons.map(key => (
-            <option key={key} value={key}>{getLabel(key, lang)}</option>
+            <option key={key} value={key}>{getLabel(key)}</option>
           ))}
         </select>
       </Field>
 
       {/* Champ détails — apparaît si raison choisie ou « Autre » sélectionné */}
       {value && (
-        <Field label={<>{lang === 'fr' ? 'Détails' : 'Details'} {value === 'other' && '*'}</>} labelStyle={libelle}>
+        <Field label={<>{'Détails'} {value === 'other' && '*'}</>} labelStyle={libelle}>
           <textarea
             value={details}
             onChange={e => onDetailsChange?.(e.target.value)}
-            placeholder={lang === 'fr' ? 'Précisions (optionnel sauf si « Autre »)' : 'Details (optional unless « Other »)'}
+            placeholder={'Précisions (optionnel sauf si « Autre »)'}
             rows={2}
             maxLength={RAISON_DETAILS_MAX}
             style={{
@@ -187,8 +159,8 @@ export function isReasonValid({ value, details, required = true }) {
 }
 
 // Helper exporté pour formater raison+détails en string lisible (audit log).
-export function formatReason({ value, details, lang = 'fr' }) {
+export function formatReason({ value, details }) {
   if (!value) return null
-  const label = getLabel(value, lang)
+  const label = getLabel(value)
   return details && details.trim() ? `${label} — ${details.trim()}` : label
 }
