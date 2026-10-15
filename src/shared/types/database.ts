@@ -10,7 +10,7 @@ export type Database = {
   // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
-    PostgrestVersion: "14.17"
+    PostgrestVersion: "14.5"
   }
   public: {
     Tables: {
@@ -1228,7 +1228,7 @@ export type Database = {
       special_access: {
         Row: {
           granted_at: string
-          granted_by: string
+          granted_by: string | null
           id: string
           note: string | null
           previous_ends_at: string | null
@@ -1241,7 +1241,7 @@ export type Database = {
         }
         Insert: {
           granted_at?: string
-          granted_by: string
+          granted_by?: string | null
           id?: string
           note?: string | null
           previous_ends_at?: string | null
@@ -1254,7 +1254,7 @@ export type Database = {
         }
         Update: {
           granted_at?: string
-          granted_by?: string
+          granted_by?: string | null
           id?: string
           note?: string | null
           previous_ends_at?: string | null
@@ -1814,6 +1814,15 @@ export type Database = {
         Returns: undefined
       }
       accepter_l_enregistrement_des_allergenes: { Args: never; Returns: string }
+      admin_activite_par_jour: {
+        Args: { p_depuis: string }
+        Returns: {
+          actions: number
+          inscriptions: number
+          jour: string
+          recettes: number
+        }[]
+      }
       admin_bannir: {
         Args: { p_jours?: number; p_motif: string; p_user_id: string }
         Returns: string
@@ -1834,6 +1843,7 @@ export type Database = {
         Args: { p_reply_id: string }
         Returns: undefined
       }
+      admin_compteurs: { Args: never; Returns: Json }
       admin_debannir: { Args: { p_user_id: string }; Returns: undefined }
       admin_delete_notification_batch: {
         Args: { p_notification_id: string }
@@ -1846,6 +1856,12 @@ export type Database = {
           id: string
           last_sign_in_at: string
         }[]
+      }
+      admin_publier_import: { Args: { p_staging_id: string }; Returns: string }
+      admin_publier_lot_import: { Args: { p_batch_id: string }; Returns: Json }
+      admin_rejeter_import: {
+        Args: { p_motif: string; p_staging_id: string }
+        Returns: undefined
       }
       admin_reveler_compte: {
         Args: { p_motif: string; p_user_id: string }
@@ -1920,6 +1936,7 @@ export type Database = {
           username: string
         }[]
       }
+      get_shared_basket: { Args: { p_id: string }; Returns: Json }
       get_weekly_metrics_digest: {
         Args: never
         Returns: {
@@ -2005,12 +2022,12 @@ export type Tables<
   DefaultSchemaTableNameOrOptions extends
     | keyof (DefaultSchema["Tables"] & DefaultSchema["Views"])
     | { schema: keyof DatabaseWithoutInternals },
-  TableName extends DefaultSchemaTableNameOrOptions extends {
+  TableName extends (DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
         DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])
-    : never = never,
+    : never) = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
@@ -2034,11 +2051,11 @@ export type TablesInsert<
   DefaultSchemaTableNameOrOptions extends
     | keyof DefaultSchema["Tables"]
     | { schema: keyof DatabaseWithoutInternals },
-  TableName extends DefaultSchemaTableNameOrOptions extends {
+  TableName extends (DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
-    : never = never,
+    : never) = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
@@ -2059,11 +2076,11 @@ export type TablesUpdate<
   DefaultSchemaTableNameOrOptions extends
     | keyof DefaultSchema["Tables"]
     | { schema: keyof DatabaseWithoutInternals },
-  TableName extends DefaultSchemaTableNameOrOptions extends {
+  TableName extends (DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
-    : never = never,
+    : never) = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
@@ -2084,11 +2101,11 @@ export type Enums<
   DefaultSchemaEnumNameOrOptions extends
     | keyof DefaultSchema["Enums"]
     | { schema: keyof DatabaseWithoutInternals },
-  EnumName extends DefaultSchemaEnumNameOrOptions extends {
+  EnumName extends (DefaultSchemaEnumNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"]
-    : never = never,
+    : never) = never,
 > = DefaultSchemaEnumNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
@@ -2101,11 +2118,11 @@ export type CompositeTypes<
   PublicCompositeTypeNameOrOptions extends
     | keyof DefaultSchema["CompositeTypes"]
     | { schema: keyof DatabaseWithoutInternals },
-  CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
+  CompositeTypeName extends (PublicCompositeTypeNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
-    : never = never,
+    : never) = never,
 > = PublicCompositeTypeNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }

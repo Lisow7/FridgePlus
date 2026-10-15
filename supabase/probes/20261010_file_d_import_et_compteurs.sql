@@ -1,4 +1,4 @@
--- Sonde de la migration 20261010120000_file_d_import_et_compteurs_en_base.sql :
+-- Sonde de la migration 20261015104234_file_d_import_et_compteurs_en_base.sql :
 -- la file d'import se publie et se rejette en une transaction côté base, le
 -- lot rend son bilan, les compteurs et l'activité du panneau se lisent en une
 -- fonction, l'horodatage d'une bascule vient de la base, les suppressions du
