@@ -157,15 +157,6 @@ export async function adminGetReports({ status = null, targetType = null, reason
   }
 }
 
-export async function adminCountReports({ status = 'open' } = {}) {
-  const { count, error } = await supabase
-    .from('support_tickets')
-    .select('id', { count: 'exact', head: true })
-    .eq('type', 'report')
-    .eq('status', status)
-  return { count: count ?? 0, error }
-}
-
 // Wrapper d'écriture status — délègue à support.adminSetTicketStatus
 // pour garder le workflow de notifications/audit cohérent avec les tickets.
 // Note (Sprint 9 S9.a.6) : les fonctions de gestion de cycle de vie

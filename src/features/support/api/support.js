@@ -156,15 +156,6 @@ export async function adminCountOpenTickets() {
   return count ?? 0
 }
 
-export async function adminCountUnreadTickets() {
-  const { count, error } = await supabase
-    .from('support_tickets')
-    .select('id', { count: 'exact', head: true })
-    .eq('has_unread_admin', true)
-  if (error) throw versErreur(error)
-  return count ?? 0
-}
-
 // Rend `{ error }` : la pastille de l'admin ne doit baisser que si la base a
 // bien marqué le ticket (audit ADM-02).
 export async function markTicketReadByAdmin(ticketId) {

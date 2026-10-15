@@ -25,8 +25,8 @@ vi.mock('@shared/lib/supabase/client', () => {
 
 import { useDebouncedValue } from '@shared/hooks/use-debounced-value'
 import { adminGetAnalyticsData, adminGetStats } from '@features/admin/api/admin'
-import { countOfficialRecipes, adminCountCommunityRecipesByStatus, countAllRecipes } from '@shared/lib/recipes/recipes-repository'
-import { adminCountOpenTickets, adminCountUnreadTickets } from '@features/support/api/support'
+import { adminCountCommunityRecipesByStatus, countAllRecipes } from '@shared/lib/recipes/recipes-repository'
+import { adminCountOpenTickets } from '@features/support/api/support'
 import { loadFeatureFlags, fetchFeatureFlags } from '@shared/api/feature-flags'
 
 const PANNE = { data: null, count: null, error: { message: 'permission denied', code: '42501' } }
@@ -53,11 +53,9 @@ describe('useDebouncedValue — une valeur qui a cessé de changer', () => {
 // Audit du 2026-10-04, ADM-08 : ces lectures changeaient une erreur en 0, {} ou
 // [] — un compteur à 0 cache le badge, et se lit « rien à modérer ».
 describe.each([
-  ['countOfficialRecipes', () => countOfficialRecipes()],
   ['adminCountCommunityRecipesByStatus', () => adminCountCommunityRecipesByStatus('pending')],
   ['countAllRecipes', () => countAllRecipes()],
   ['adminCountOpenTickets', () => adminCountOpenTickets()],
-  ['adminCountUnreadTickets', () => adminCountUnreadTickets()],
 ])('%s — un comptage raté n’est pas un zéro', (_, appel) => {
   it('la base refuse : l’appel lève, avec le code', async () => {
     etat.resultats = [PANNE]
@@ -70,18 +68,19 @@ describe.each([
   })
 })
 
+// Depuis le lot 12l, les compteurs et l'activité du tableau de bord sont UNE
+// fonction de la base chacun (`admin_compteurs`, `admin_activite_par_jour`) :
+// un refus doit toujours faire lever (détail dans `admin-compteurs-api.test.js`).
 describe('adminGetStats', () => {
-  it.each([0, 1, 2, 3])('un des quatre comptages refusé (n° %i) : lève', async (n) => {
-    etat.resultats = [0, 1, 2, 3].map((i) => (i === n ? PANNE : { data: null, count: 1, error: null }))
+  it('la base refuse les compteurs : lève, avec le code', async () => {
+    etat.rpc = PANNE
     await expect(adminGetStats()).rejects.toMatchObject({ code: '42501' })
   })
 })
 
 describe('adminGetAnalyticsData — le graphique du tableau de bord', () => {
-  // Trois lectures (journal, inscriptions, recettes) ; l'ordre de consommation des
-  // réponses importe peu : n'importe laquelle refusée doit faire lever.
-  it.each([0, 1, 2])('une des lectures refusée (n° %i) : lève — le graphique dit « échec », pas « aucune donnée »', async (n) => {
-    etat.resultats = [0, 1, 2].map((i) => (i === n ? PANNE : { data: [], error: null }))
+  it('la base refuse l’activité : lève — le graphique dit « échec », pas « aucune donnée »', async () => {
+    etat.rpc = PANNE
     await expect(adminGetAnalyticsData()).rejects.toMatchObject({ code: '42501' })
   })
 })

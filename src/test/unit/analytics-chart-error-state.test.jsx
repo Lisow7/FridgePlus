@@ -53,11 +53,12 @@ describe('AnalyticsChart — échec de chargement', () => {
   })
 
   it('affiche les données quand la requête réussit', async () => {
-    // ⚠️ Forme réelle de `adminGetAnalyticsData` (admin.js:368) : un objet à
-    // trois listes, PAS un tableau. Un mock au mauvais format faisait planter
-    // `aggregate()` dans un `useMemo` — le test restait vert tout en levant une
-    // exception non gérée, que seul le code de sortie de Vitest signalait.
-    mockGetAnalyticsData.mockResolvedValue({ logs: [], users: [], recipes: [] })
+    // ⚠️ Forme réelle de `adminGetAnalyticsData` depuis le lot 12l : `{ jours }`,
+    // une ligne par jour rendue par `admin_activite_par_jour` (avant : trois
+    // listes brutes). Un mock au mauvais format faisait planter l'agrégation
+    // dans un `useMemo` — le test restait vert tout en levant une exception non
+    // gérée, que seul le code de sortie de Vitest signalait.
+    mockGetAnalyticsData.mockResolvedValue({ jours: [{ jour: '2026-10-09', actions: 2, inscriptions: 1, recettes: 0 }] })
 
     render(<AnalyticsChart />)
 

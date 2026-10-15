@@ -35,6 +35,8 @@ export const LIBELLES_DU_JOURNAL = {
   user_unbanned:               { label: 'Utilisateur débanni',               color: 'var(--color-success)', group: 'Utilisateurs' },
   special_access_granted:      { label: 'Accès spécial accordé',             color: 'var(--color-success)', group: 'Utilisateurs' },
   special_access_revoked:      { label: 'Accès spécial retiré',              color: 'var(--color-warning)', group: 'Utilisateurs' },
+  // Écrit par la base à l'effacement d'un compte (purge, jamais confirmé) : pas d'acteur.
+  account_deleted:             { label: 'Compte effacé définitivement',      color: '#7F1D1D',              group: 'Utilisateurs' },
   // Catalogue
   ingredient_added:            { label: 'Ingrédient ajouté',                 color: 'var(--color-success)', group: 'Données' },
   ingredient_updated:          { label: 'Ingrédient modifié',                color: 'var(--color-info)',    group: 'Données' },
@@ -42,6 +44,9 @@ export const LIBELLES_DU_JOURNAL = {
   base_recipe_added:           { label: 'Recette catalogue ajoutée',         color: 'var(--color-success)', group: 'Données' },
   base_recipe_updated:         { label: 'Recette catalogue modifiée',        color: 'var(--color-info)',    group: 'Données' },
   base_recipe_deleted:         { label: 'Recette catalogue supprimée',       color: 'var(--color-danger)',  group: 'Données' },
+  // La file d'import (écrit par la base, lot 12l)
+  recipe_import_published:     { label: 'Recette importée publiée',          color: 'var(--color-success)', group: 'Données' },
+  recipe_import_rejected:      { label: 'Recette importée rejetée',          color: 'var(--color-danger)',  group: 'Données' },
   i18n_auto_translated:        { label: 'Traduction automatique',            color: 'var(--color-info)',    group: 'Données' },
   // Communauté et avis (« masqué » réversible, « supprimé définitivement » non)
   community_post_deleted:      { label: 'Post communauté masqué',            color: 'var(--color-danger)',  group: 'Communauté' },
@@ -52,6 +57,10 @@ export const LIBELLES_DU_JOURNAL = {
   community_user_unmuted:      { label: 'Sourdine levée',                    color: 'var(--color-success)', group: 'Communauté' },
   recipe_review_deleted:       { label: 'Avis masqué',                       color: 'var(--color-danger)',  group: 'Modération' },
   recipe_review_purged:        { label: 'Avis supprimé définitivement',      color: '#7F1D1D',              group: 'Modération' },
+  // Support (écrit par la base à la suppression, lot 12l)
+  ticket_deleted:              { label: 'Ticket supprimé',                   color: 'var(--color-danger)',  group: 'Modération' },
+  report_deleted:              { label: 'Signalement supprimé',              color: 'var(--color-danger)',  group: 'Modération' },
+  support_message_deleted:     { label: 'Message de support supprimé',       color: 'var(--color-danger)',  group: 'Modération' },
   // RGPD
   sensitive_data_accessed:     { label: 'Données sensibles consultées',      color: '#7C5CAF',              group: 'RGPD' },
   profile_data_viewed:         { label: 'Données du profil consultées',      color: '#7C5CAF',              group: 'RGPD' },

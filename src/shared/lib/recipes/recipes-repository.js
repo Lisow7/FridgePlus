@@ -275,15 +275,6 @@ export async function countAllRecipes() {
   return count ?? 0
 }
 
-// Count officials uniquement (admin stats dashboard).
-export async function countOfficialRecipes() {
-  const { count, error } = await supabase
-    .from('base_recipes')
-    .select('id', { count: 'exact', head: true })
-  if (error) throw versErreur(error)
-  return count ?? 0
-}
-
 // Count officials sans image (admin curation — badge manquant).
 export async function countMissingImageBaseRecipes() {
   const { count } = await supabase
@@ -434,20 +425,6 @@ export async function adminFindRecentCommunityRecipesByUser(userId, limit = 20) 
     .is('deleted_at', null)
     .order('created_at', { ascending: false })
     .limit(limit)
-  return data ?? []
-}
-
-// Créations community depuis date (analytics dashboard).
-// Lève sur erreur : le graphique du tableau de bord compterait sinon 0 recette
-// sans rien dire (audit ADM-08).
-export async function adminFindCommunityRecipeCreationsSince(sinceIso) {
-  const { data, error } = await supabase
-    .from('custom_recipes')
-    .select('created_at')
-    .gte('created_at', sinceIso)
-    .is('deleted_at', null)
-    .order('created_at')
-  if (error) throw versErreur(error)
   return data ?? []
 }
 

@@ -7,18 +7,15 @@ import { slugify } from '@features/admin/lib/slug'
 import { choisirUnIdLibre } from '@features/admin/lib/id-libre'
 import { logAuditAction, AUDIT_ACTIONS, AUDIT_TARGET_TYPES } from '@features/admin/lib/audit'
 import {
-  adminCountCommunityRecipesByStatus,
   adminFindCommunityRecipesByStatus,
   adminFindCommunityRecipesByIds,
   adminFindRecentCommunityRecipesByUser,
-  adminFindCommunityRecipeCreationsSince,
   adminUpdateCommunityRecipe as repoAdminUpdateCommunityRecipe,
   adminSoftDeleteCommunityRecipe,
   adminFindOfficialRecipesPaginated,
   adminUpsertOfficialRecipe,
   adminDeleteOfficialRecipe,
   adminPromoteCommunityRecipeToOfficial,
-  countOfficialRecipes,
   countAllRecipes,
   countMissingImageBaseRecipes,
 } from '@shared/lib/recipes/recipes-repository'
@@ -37,10 +34,6 @@ const tracer = (action, targetId, targetType, metadata) => logAuditAction(action
 
 // Sprint 5f : ces fonctions orchestrent (repo BDD + activity_logs).
 // Le repo est responsable de la BDD pure, admin.js de l'audit.
-
-async function adminCountRecipesByStatus(status) {
-  return adminCountCommunityRecipesByStatus(status)
-}
 
 export async function adminGetRecipesByStatus(status) {
   const { data, error } = await adminFindCommunityRecipesByStatus(status)
@@ -170,18 +163,25 @@ export async function adminGetUserCounts() {
 
 const ITEMS_PER_PAGE = 50
 
-// Lève si un comptage échoue : le fournisseur admin dit alors « les compteurs
+// Les neuf compteurs du panneau en UNE lecture (`admin_compteurs`, lot 12l de
+// l'audit du 2026-10-04, ADM-12 (1, 2)). Avant : cinq comptages et deux vues de
+// santé téléchargées en entier, à l'ouverture et après chaque enregistrement.
+// Lève si la lecture échoue : le fournisseur admin dit alors « les compteurs
 // n'ont pas pu être lus » au lieu d'afficher des zéros (audit ADM-08).
 export async function adminGetStats() {
-  const [{ count: ingCount, error: ingErr }, recCount, { count: usersCount, error: usersErr }, pending] =
-    await Promise.all([
-      supabase.from('ingredients').select('id', { count: 'exact', head: true }),
-      countOfficialRecipes(),  // Sprint 5f : délégué au repository
-      supabase.from('profiles').select('id', { count: 'exact', head: true }),
-      adminCountRecipesByStatus('pending'),
-    ])
-  if (ingErr || usersErr) throw versErreur(ingErr ?? usersErr)
-  return { ingredients: ingCount ?? 0, baseRecipes: recCount, users: usersCount ?? 0, pending }
+  const { data, error } = await supabase.rpc('admin_compteurs')
+  if (error) throw versErreur(error)
+  const c = data ?? {}
+  return {
+    ingredients:   c.ingredients ?? 0,
+    baseRecipes:   c.base_recipes ?? 0,
+    users:         c.users ?? 0,
+    pending:       c.pending ?? 0,
+    ticketsOpen:   c.tickets_open ?? 0,
+    ticketsUnread: c.tickets_unread ?? 0,
+    reportsOpen:   c.reports_open ?? 0,
+    healthCount:   (c.health_recipes ?? 0) + (c.health_ingredients ?? 0),
+  }
 }
 
 // Le tri se fait ICI, sur tout le catalogue : à l'écran, il ne rangeait que les
@@ -407,26 +407,19 @@ export async function adminGetLogs(page = 0, { actions, saufActions, auteur, lim
 }
 
 // ── Analytics ─────────────────────────────────────────────────────────────────
-// Retourne les 3 datasets bruts (dates uniquement) pour le graphique du Dashboard.
-// On fetch 2 ans max pour couvrir vue "Tout", agrégation côté client.
+// Le graphique du tableau de bord : actions du journal, inscriptions et recettes
+// créées, comptées PAR JOUR (UTC) dans la base sur deux ans
+// (`admin_activite_par_jour`, lot 12l de l'audit du 2026-10-04, ADM-11). Avant :
+// trois tables lues en entier, bornées à 1 000 lignes chacune par PostgREST —
+// des mois manquaient sans que rien le dise. L'agrégation par période se fait
+// dans `lib/activite-par-periode.js`.
 export async function adminGetAnalyticsData() {
-  const twoYearsAgo = new Date(Date.now() - 2 * 365 * 24 * 3600 * 1000).toISOString()
+  const deuxAnsAvant = new Date(Date.now() - 2 * 365 * 24 * 3600 * 1000).toISOString()
   // Lève sur erreur : le graphique (qui l'attrape) dit « échec » au lieu
   // d'« Aucune donnée sur cette période » (audit ADM-08).
-  const [{ data: logs, error: logsErr }, { data: users, error: usersErr }, recipes] = await Promise.all([
-    supabase.from('activity_logs')
-      .select('created_at')
-      .gte('created_at', twoYearsAgo)
-      .order('created_at'),
-    supabase.from('profiles')
-      .select('created_at')
-      .gte('created_at', twoYearsAgo)
-      .order('created_at'),
-    // Sprint 5f : délégué au repository
-    adminFindCommunityRecipeCreationsSince(twoYearsAgo),
-  ])
-  if (logsErr || usersErr) throw versErreur(logsErr ?? usersErr)
-  return { logs: logs ?? [], users: users ?? [], recipes }
+  const { data, error } = await supabase.rpc('admin_activite_par_jour', { p_depuis: deuxAnsAvant })
+  if (error) throw versErreur(error)
+  return { jours: data ?? [] }
 }
 
 export async function adminGrantSpecialAccess(userId, role, note = null) {

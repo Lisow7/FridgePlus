@@ -33,7 +33,7 @@ plusieurs **flux** choisis via une grille de `CATEGORIES`, chacune ayant un `flo
   le contrôle client seul se contournait par un appel PostgREST direct. Les deux
   nombres doivent rester égaux — garde-fou : `src/test/unit/plafond-tickets-coherence.test.js`.
 - **Admin** : `adminGetAllTickets` (joint le `username` des profils), `adminReplyTicket`,
-  `adminSetTicketStatus`, `adminCountOpenTickets`, `adminCountUnreadTickets`, `markTicketReadByAdmin`,
+  `adminSetTicketStatus`, `adminCountOpenTickets` (badge de l'en-tête), `markTicketReadByAdmin`,
   `adminDeleteMessage` / `adminDeleteAnyMessage` / `adminDeleteTicket`.
 - **Helpers de recherche** réutilisés par le flux signalement (s'appuient sur
   `@shared/lib/recipes/recipes-repository`).

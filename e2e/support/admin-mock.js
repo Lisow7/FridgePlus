@@ -61,7 +61,8 @@ export async function ouvrirLePanneauAdmin(page, { theme = 'light', section, uti
       ? route.fulfill({ status: 200, headers: { 'content-range': '*/10' }, body: '' })
       : route.fallback()))
   }
-  for (const [table, lignes] of Object.entries({ ...LIGNES_ADMIN, ...autres })) {
+  const toutes = { ...LIGNES_ADMIN, ...autres }
+  for (const [table, lignes] of Object.entries(toutes)) {
     await page.route(`**/rest/v1/${table}**`, (route) => {
       const methode = route.request().method()
       if (methode === 'GET') return route.fulfill({ status: 200, contentType: 'application/json', headers: { 'content-range': `0-${lignes.length - 1}/${lignes.length}` }, body: JSON.stringify(lignes) })
@@ -69,6 +70,23 @@ export async function ouvrirLePanneauAdmin(page, { theme = 'light', section, uti
       return route.fallback()
     })
   }
+  // Les compteurs et l'activité du tableau de bord sont deux fonctions de la base
+  // depuis le lot 12l (`admin_compteurs`, `admin_activite_par_jour`) ; le socle
+  // les couperait, et le tableau de bord afficherait son bandeau d'échec. Posées
+  // en dernier : elles passent avant le gestionnaire générique.
+  const tickets = toutes.support_tickets ?? []
+  const compteurs = {
+    ingredients: 10, base_recipes: 10, users: utilisateurs.length,
+    pending: (toutes.custom_recipes ?? []).filter((r) => r.moderation_status === 'pending').length,
+    tickets_open: tickets.filter((t) => ['open', 'in_progress'].includes(t.status)).length,
+    tickets_unread: tickets.filter((t) => t.has_unread_admin).length,
+    reports_open: tickets.filter((t) => t.type === 'report' && t.status === 'open').length,
+    health_recipes: (toutes.recipe_health_check ?? []).length,
+    health_ingredients: (toutes.ingredient_health_check ?? []).length,
+  }
+  await page.route('**/rest/v1/rpc/admin_compteurs**', (route) => route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(compteurs) }))
+  const jours = (toutes.activity_logs ?? []).map((l) => ({ jour: l.created_at.slice(0, 10), actions: 1, inscriptions: 0, recettes: 0 }))
+  await page.route('**/rest/v1/rpc/admin_activite_par_jour**', (route) => route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(jours) }))
   await page.goto('/FridgePlus/')
   await page.getByRole('button', { name: 'Menu utilisateur' }).click()
   await page.getByText('Panneau admin').click()

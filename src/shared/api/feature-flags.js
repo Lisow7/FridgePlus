@@ -21,14 +21,15 @@ export async function fetchFeatureFlags() {
   return data
 }
 
-// Bascule un flag (admin seul — garanti côté RLS).
+// Bascule un flag (admin seul — garanti côté RLS). L'heure et l'auteur de la
+// bascule sont posés par la base (déclencheur `trg_horodater_la_bascule`, lot
+// 12l de l'audit du 2026-10-04, ADM-28) : le navigateur les fournissait.
 export async function setFeatureFlag(key, enabled) {
-  const { data: { user } } = await supabase.auth.getUser()
   // Les lignes touchées (clé `key` : la table n'a pas d'`id`) — 0 ligne est un
   // échec, pas « fonctionnalité basculée » (audit ADM-26).
   const { error } = auMoinsUneLigne(await supabase
     .from('feature_flags')
-    .update({ enabled, updated_at: new Date().toISOString(), updated_by: user?.id ?? null })
+    .update({ enabled })
     .eq('key', key)
     .select('key'))
   if (error) console.error('[feature-flags] setFeatureFlag:', error.message)
