@@ -11,12 +11,40 @@ function urlBase64ToUint8Array(base64String) {
   return Uint8Array.from([...rawData].map((char) => char.charCodeAt(0)))
 }
 
+// Le service worker ACTIF (`pushManager.subscribe` l'exige), ou une erreur après
+// DELAI_SW_MS : `navigator.serviceWorker.ready` peut ne jamais se résoudre — un
+// service worker qui n'arrive pas à s'activer — et l'interrupteur restait alors
+// « en cours » pour toujours (vu le 2026-10-15).
+const DELAI_SW_MS = 8000
+async function serviceWorkerActif() {
+  let minuteur
+  const tropLong = new Promise((_, rejeter) => {
+    minuteur = setTimeout(() => rejeter(new Error('sw_timeout')), DELAI_SW_MS)
+  })
+  try {
+    return await Promise.race([navigator.serviceWorker.ready, tropLong])
+  } finally {
+    clearTimeout(minuteur)
+  }
+}
+
 // Demande la permission navigateur puis crée l'abonnement PushManager.
 // Ne PAS appeler sans un geste utilisateur explicite préalable (carte de
 // priming) — jamais au chargement de page.
 export async function subscribeToPush() {
   if (typeof Notification === 'undefined' || !navigator.serviceWorker) {
     return { error: new Error('push_unsupported') }
+  }
+
+  // Aucun service worker enregistré — en dev (`devOptions.enabled: false`,
+  // vite.config.js) ou dans un navigateur qui n'en active jamais : on le dit
+  // AVANT de demander la permission, et sans attendre `ready`, qui ne se
+  // résoudrait jamais.
+  if (!(await navigator.serviceWorker.getRegistration())) {
+    const err = new Error('sw_missing')
+    if (import.meta.env.DEV) console.warn('[push] pas de service worker en dev (devOptions.enabled: false) : tester avec `npm run build && npm run preview`')
+    logError(err, { tag: 'push.subscribe' })
+    return { error: err }
   }
 
   const permission = await Notification.requestPermission()
@@ -39,7 +67,7 @@ export async function subscribeToPush() {
       return { error: err }
     }
 
-    const registration = await navigator.serviceWorker.ready
+    const registration = await serviceWorkerActif()
     const subscription = await registration.pushManager.subscribe({
       userVisibleOnly: true,
       applicationServerKey: urlBase64ToUint8Array(vapidPublicKey),

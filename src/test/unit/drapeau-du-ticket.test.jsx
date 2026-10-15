@@ -41,8 +41,8 @@ describe.each([
     render(<BandeauHorsLigne />)
     act(() => { enLigne = false; window.dispatchEvent(new Event('offline')) })
     expect(screen.getByRole('status')).toHaveTextContent(photo
-      ? 'Pas de réseau. La voix et la photo du ticket attendront son retour.'
-      : 'Pas de réseau. La voix attendra son retour.')
+      ? 'Pas de réseau. L’ajout à la voix et la photo du ticket reviendront avec la connexion.'
+      : 'Pas de réseau. L’ajout à la voix reviendra avec la connexion.')
   })
 
   it('la carte « Bien démarrer »', () => {

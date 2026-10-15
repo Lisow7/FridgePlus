@@ -60,9 +60,10 @@ let authCallback = null
 // Le navigateur tient un abonnement push (comme après « Activer » dans Cookies et données).
 function appareilAbonne(endpoint = 'https://push.exemple/abc') {
   const subscription = { endpoint, unsubscribe: vi.fn().mockResolvedValue(true) }
+  const registration = { pushManager: { getSubscription: vi.fn().mockResolvedValue(subscription) } }
   Object.defineProperty(navigator, 'serviceWorker', {
     configurable: true,
-    value: { ready: Promise.resolve({ pushManager: { getSubscription: vi.fn().mockResolvedValue(subscription) } }) },
+    value: { getRegistration: () => Promise.resolve(registration), ready: Promise.resolve(registration) },
   })
   return subscription
 }
