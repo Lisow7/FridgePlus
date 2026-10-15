@@ -81,6 +81,7 @@ beforeEach(() => {
 afterEach(() => {
   delete navigator.serviceWorker
   vi.unstubAllGlobals()
+  vi.unstubAllEnvs()
 })
 
 describe('unsubscribeFromPush — désactiver sur CET appareil', () => {
@@ -155,15 +156,26 @@ describe('usePushSubscription — l’état de CET appareil', () => {
     expect(result.current.error).toBeNull()
   })
 
-  it('basculer sans service worker enregistré : error = unsupported, sans demander la permission', async () => {
+  it('basculer sans service worker enregistré, sous `npm run dev` : error = dev_sans_sw, sans demander la permission', async () => {
+    navigateurSansServiceWorker()
+    const requestPermission = vi.fn().mockResolvedValue('granted')
+    vi.stubGlobal('Notification', { requestPermission })
+    const { result } = renderHook(() => usePushSubscription())
+    await act(async () => { await result.current.toggle() })
+    expect(result.current.error).toBe('dev_sans_sw')
+    expect(result.current.loading).toBe(false)
+    expect(result.current.enabled).toBe(false)
+    expect(requestPermission).not.toHaveBeenCalled()
+  })
+
+  it('basculer sans service worker enregistré, en production (navigateur restreint) : error = unsupported', async () => {
+    vi.stubEnv('DEV', false)
     navigateurSansServiceWorker()
     const requestPermission = vi.fn().mockResolvedValue('granted')
     vi.stubGlobal('Notification', { requestPermission })
     const { result } = renderHook(() => usePushSubscription())
     await act(async () => { await result.current.toggle() })
     expect(result.current.error).toBe('unsupported')
-    expect(result.current.loading).toBe(false)
-    expect(result.current.enabled).toBe(false)
     expect(requestPermission).not.toHaveBeenCalled()
   })
 

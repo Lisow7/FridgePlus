@@ -48,10 +48,20 @@ const I18N = {
   },
 }
 
-function noteDErreur(push, t) {
+// Sous `npm run dev`, aucun service worker n'est servi (vite.config.js,
+// `devOptions.enabled: false`) : les notifications ne peuvent pas s'activer sur
+// localhost:5173, et la note accusait le « navigateur intégré » (vu le 2026-10-15).
+// Ce texte n'existe que dans le bundle de développement.
+const TEXTE_DEV = import.meta.env.DEV ? {
+  fr: 'Mode développement (npm run dev) : le service worker n’est pas chargé, donc les notifications ne peuvent pas s’activer ici. Pour les tester en local : npm run build, puis npm run preview (localhost:4173).',
+  en: 'Development mode (npm run dev): the service worker isn’t loaded, so notifications can’t be enabled here. To test them locally: npm run build, then npm run preview (localhost:4173).',
+} : null
+
+function noteDErreur(push, t, lang) {
   if (push.blocked) return t.bloque
   if (push.error === 'permission_denied') return t.refuse
   if (push.error === 'read_failed') return t.lecture
+  if (push.error === 'dev_sans_sw' && TEXTE_DEV) return TEXTE_DEV[lang] ?? TEXTE_DEV.fr
   return push.error ? t.echec : null
 }
 
@@ -80,7 +90,7 @@ export default function NotificationsSection({ lang = 'fr', darkMode = false }) 
 
   if (!push.available) return null
   const preferences = { ...(profile?.push_preferences ?? {}), ...(choix ?? {}) }
-  const note = noteDErreur(push, t)
+  const note = noteDErreur(push, t, lang)
 
   async function basculer(envoi) {
     const valeur = !preferences[envoi]
