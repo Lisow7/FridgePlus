@@ -17,7 +17,9 @@ import { iosPushBlocked } from './is-ios-standalone'
 //
 // `error` : null, 'permission_denied' (la personne a dit « Bloquer » — un réglage
 // du navigateur, pas une panne), 'unsupported', 'failed', 'read_failed'.
-const CODES = { permission_denied: 'permission_denied', push_unsupported: 'unsupported' }
+// `sw_missing` (aucun service worker enregistré : dev, navigateur restreint) se dit
+// comme « pas pris en charge » ; `sw_timeout` (il ne s'active pas) comme une panne.
+const CODES = { permission_denied: 'permission_denied', push_unsupported: 'unsupported', sw_missing: 'unsupported' }
 
 export function usePushSubscription() {
   const pushEnabled = useFeatureFlag('push_notifications', false)

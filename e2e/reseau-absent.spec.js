@@ -36,9 +36,9 @@ async function accueilChargePuisHorsLigne(page, context) {
   return bandeau
 }
 
-test('un invité, photo du ticket éteinte : la voix attendra, et le bandeau part au retour du réseau', async ({ page, context }) => {
+test('un invité, photo du ticket éteinte : l’ajout à la voix reviendra, et le bandeau part au retour du réseau', async ({ page, context }) => {
   const bandeau = await accueilChargePuisHorsLigne(page, context)
-  await expect(bandeau).toContainText('La voix attendra son retour.')
+  await expect(bandeau).toContainText('L’ajout à la voix reviendra avec la connexion.')
   await expect(bandeau).not.toContainText('photo')
 
   await context.setOffline(false)
@@ -47,14 +47,14 @@ test('un invité, photo du ticket éteinte : la voix attendra, et le bandeau par
   await expect(page.getByRole('button', { name: 'Ouvrir le frigo' })).toBeVisible()
 })
 
-test('un invité, photo du ticket allumée : la voix et la photo du ticket attendront', async ({ page, context }) => {
+test('un invité, photo du ticket allumée : l’ajout à la voix et la photo reviendront', async ({ page, context }) => {
   await photoDuTicketAllumee(page)
   const bandeau = await accueilChargePuisHorsLigne(page, context)
-  await expect(bandeau).toContainText('La voix et la photo du ticket attendront son retour.')
+  await expect(bandeau).toContainText('L’ajout à la voix et la photo du ticket reviendront avec la connexion.')
   await context.setOffline(false)
 })
 
-test('un compte : ce qu’il change ne sera pas enregistré tant que le réseau n’est pas revenu', async ({ page, context }) => {
+test('un compte : ses modifications ne peuvent pas être enregistrées pour l’instant', async ({ page, context }) => {
   await signedInAs(page, { profile: { language: 'fr' } })
   await page.goto('/FridgePlus/')
   await expect(page.getByRole('button', { name: 'Ouvrir le frigo' })).toBeVisible()
@@ -65,6 +65,6 @@ test('un compte : ce qu’il change ne sera pas enregistré tant que le réseau 
 
   await context.setOffline(true)
   await expect(page.getByRole('status').filter({ hasText: 'Pas de réseau.' }))
-    .toContainText('Ce que tu changes ne sera pas enregistré tant qu’il n’est pas revenu.')
+    .toContainText('Tes modifications ne peuvent pas être enregistrées pour l’instant.')
   await context.setOffline(false)
 })

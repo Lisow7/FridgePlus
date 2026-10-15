@@ -10,9 +10,13 @@ import { logError } from '@shared/lib/observability/sentry'
 // `src/features`. La feature réutilise ces briques pour l'interrupteur.
 
 // L'abonnement que tient le navigateur, ou null (pas de service worker, pas d'abonnement).
+// `getRegistration()` et non `ready` : sans service worker enregistré (dev,
+// `devOptions.enabled: false` ; navigateur qui n'en active jamais), `ready` ne se
+// résout JAMAIS, et l'état de l'appareil restait à lire pour toujours (2026-10-15).
 export async function abonnementDeCetAppareil() {
   if (typeof navigator === 'undefined' || !navigator.serviceWorker) return null
-  const registration = await navigator.serviceWorker.ready
+  const registration = await navigator.serviceWorker.getRegistration()
+  if (!registration) return null
   return (await registration.pushManager.getSubscription()) ?? null
 }
 

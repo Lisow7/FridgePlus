@@ -32,17 +32,17 @@ describe('le bandeau « Pas de réseau »', () => {
     expect(screen.queryByRole('status')).toBeNull()
   })
 
-  it('pour un compte : ce qu’on change ne sera pas enregistré', () => {
+  it('pour un compte : les modifications ne peuvent pas être enregistrées pour l’instant', () => {
     etat.user = { id: 'u1' }
     render(<BandeauHorsLigne />)
     couperLeReseau()
-    expect(screen.getByRole('status')).toHaveTextContent('Pas de réseau. Ce que tu changes ne sera pas enregistré tant qu’il n’est pas revenu.')
+    expect(screen.getByRole('status')).toHaveTextContent('Pas de réseau. Tes modifications ne peuvent pas être enregistrées pour l’instant.')
   })
 
-  it('pour un invité : la voix et la photo du ticket attendront', () => {
+  it('pour un invité : l’ajout à la voix et la photo du ticket reviendront avec la connexion', () => {
     render(<BandeauHorsLigne />)
     couperLeReseau()
-    expect(screen.getByRole('status')).toHaveTextContent('Pas de réseau. La voix et la photo du ticket attendront son retour.')
+    expect(screen.getByRole('status')).toHaveTextContent('Pas de réseau. L’ajout à la voix et la photo du ticket reviendront avec la connexion.')
   })
 
   it('part seul quand le réseau revient', () => {
@@ -64,6 +64,6 @@ describe('le bandeau « Pas de réseau »', () => {
     etat.user = { id: 'u1' }
     render(<BandeauHorsLigne />)
     couperLeReseau()
-    expect(screen.getByRole('status')).toHaveTextContent('No network. What you change won’t be saved until it’s back.')
+    expect(screen.getByRole('status')).toHaveTextContent('No network. Your changes can’t be saved for now.')
   })
 })

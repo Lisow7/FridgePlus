@@ -10,18 +10,21 @@ import { Z_INDEX } from '@shared/lib/z-index'
 // l'apprenait qu'en touchant à son frigo (« Pas enregistré… »), un invité en
 // voyant la voix et la photo du ticket ne plus marcher. Textes de la maquette.
 const I18N = {
+  // Textes revus le 2026-10-15 (porteur) : « tant qu’il n’est pas revenu » et
+  // « attendront son retour » renvoyaient à un « réseau » déjà loin ; on nomme
+  // la connexion, et l’ajout à la voix comme le FAB le nomme.
   fr: {
     titre: 'Pas de réseau.',
-    compte: 'Ce que tu changes ne sera pas enregistré tant qu’il n’est pas revenu.',
-    invite: 'La voix et la photo du ticket attendront son retour.',
+    compte: 'Tes modifications ne peuvent pas être enregistrées pour l’instant.',
+    invite: 'L’ajout à la voix et la photo du ticket reviendront avec la connexion.',
     // Le drapeau de la photo du ticket éteint (décision du 2026-10-08) : on ne la promet plus.
-    inviteSansPhoto: 'La voix attendra son retour.',
+    inviteSansPhoto: 'L’ajout à la voix reviendra avec la connexion.',
   },
   en: {
     titre: 'No network.',
-    compte: 'What you change won’t be saved until it’s back.',
-    invite: 'Voice and the receipt photo will wait until it’s back.',
-    inviteSansPhoto: 'Voice will wait until it’s back.',
+    compte: 'Your changes can’t be saved for now.',
+    invite: 'Voice input and the receipt photo will work again once you’re back online.',
+    inviteSansPhoto: 'Voice input will work again once you’re back online.',
   },
 }
 
