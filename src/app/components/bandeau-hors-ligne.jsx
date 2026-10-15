@@ -1,6 +1,7 @@
 import { useAuth } from '@shared/contexts/auth-provider'
 import { useLang } from '@shared/contexts/ui-provider'
 import { useEnLigne } from '@shared/hooks/use-en-ligne'
+import { useFeatureFlag } from '@shared/contexts/feature-flags-provider'
 import { CENTRE_EN_HAUT } from '@app/components/bandeau-du-haut'
 import { Z_INDEX } from '@shared/lib/z-index'
 
@@ -13,11 +14,14 @@ const I18N = {
     titre: 'Pas de réseau.',
     compte: 'Ce que tu changes ne sera pas enregistré tant qu’il n’est pas revenu.',
     invite: 'La voix et la photo du ticket attendront son retour.',
+    // Le drapeau de la photo du ticket éteint (décision du 2026-10-08) : on ne la promet plus.
+    inviteSansPhoto: 'La voix attendra son retour.',
   },
   en: {
     titre: 'No network.',
     compte: 'What you change won’t be saved until it’s back.',
     invite: 'Voice and the receipt photo will wait until it’s back.',
+    inviteSansPhoto: 'Voice will wait until it’s back.',
   },
 }
 
@@ -25,6 +29,7 @@ export default function BandeauHorsLigne() {
   const enLigne = useEnLigne()
   const { user } = useAuth()
   const { lang } = useLang()
+  const photoDuTicket = useFeatureFlag('receipt_scan', false)
   if (enLigne) return null
   const t = I18N[lang] ?? I18N.fr
 
@@ -38,7 +43,7 @@ export default function BandeauHorsLigne() {
       boxShadow: '0 6px 18px rgba(0,0,0,0.18)',
       animation: 'menu-slide-down 0.25s ease both',
     }}>
-      <strong>{t.titre}</strong> {user ? t.compte : t.invite}
+      <strong>{t.titre}</strong> {user ? t.compte : photoDuTicket ? t.invite : t.inviteSansPhoto}
     </div>
   )
 }

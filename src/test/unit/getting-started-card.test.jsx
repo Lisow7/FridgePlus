@@ -1,6 +1,8 @@
 import { describe, it, expect, vi } from 'vitest'
 import { render, screen, fireEvent } from '@testing-library/react'
 import GettingStartedCard from '@features/onboarding/components/getting-started-card'
+// Drapeau de la photo du ticket allumé : ces attentes la nomment (éteint : drapeau-du-ticket.test.jsx).
+vi.mock('@shared/contexts/feature-flags-provider', () => ({ useFeatureFlag: (cle, repli) => (cle === 'receipt_scan' ? true : repli) }))
 
 const base = { lang: 'fr', isGuest: true, stepsTotal: 2, stepsDone: 0, onCollapse: () => {} }
 

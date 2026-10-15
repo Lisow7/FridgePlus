@@ -24,7 +24,9 @@ const ERROR_I18N = {
   image_too_large: { fr: 'Photo trop volumineuse, réessaie avec une autre.', en: 'Photo too large, try another one.' },
   vision_unreachable: { fr: 'Problème de connexion, réessaie dans un instant.', en: 'Connection problem, try again in a moment.' },
   scan_failed:    { fr: 'Une erreur est survenue, réessaie.', en: 'Something went wrong, please try again.' },
-  // vision_key_missing, image_base64_required, quota_check_failed,
+  // Le drapeau a été éteint pendant que l’app restait ouverte (décision du 2026-10-08).
+  feature_disabled: { fr: 'La photo du ticket est momentanément indisponible. Ajoute tes courses à la voix ou au clavier.', en: 'Receipt photos are unavailable for now. Add your groceries by voice or by typing.' },
+  // vision_key_missing, image_base64_required, quota_check_failed, flag_unavailable,
   // invalid_json, method_not_allowed : bugs internes non actionnables par
   // l'utilisateur, pas de message dédié — retombent sur scan_failed (cf.
   // fallback ci-dessous), mais restent un code distinct côté Sentry.

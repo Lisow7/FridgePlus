@@ -9,6 +9,8 @@ import { render, screen, act } from '@testing-library/react'
 const etat = vi.hoisted(() => ({ user: null, lang: 'fr' }))
 vi.mock('@shared/contexts/auth-provider', () => ({ useAuth: () => ({ user: etat.user }) }))
 vi.mock('@shared/contexts/ui-provider', () => ({ useLang: () => ({ lang: etat.lang }) }))
+// Drapeau de la photo du ticket allumé : ces attentes la nomment (éteint : drapeau-du-ticket.test.jsx).
+vi.mock('@shared/contexts/feature-flags-provider', () => ({ useFeatureFlag: (cle, repli) => (cle === 'receipt_scan' ? true : repli) }))
 
 import BandeauHorsLigne from '@app/components/bandeau-hors-ligne'
 
