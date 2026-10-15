@@ -24,6 +24,11 @@ const navigateurAvecServiceWorker = (registration) => ({
   getRegistration: () => Promise.resolve(registration),
   ready: Promise.resolve(registration),
 })
+// Aucun service worker enregistré : `ready` ne se résout jamais.
+const navigateurSansServiceWorker = () => ({
+  getRegistration: () => Promise.resolve(undefined),
+  ready: new Promise(() => {}),
+})
 
 describe('subscribeToPush — gestion d\'erreur', () => {
   beforeEach(() => {
@@ -39,6 +44,7 @@ describe('subscribeToPush — gestion d\'erreur', () => {
   afterEach(() => {
     vi.unstubAllGlobals()
     vi.unstubAllEnvs()
+    vi.restoreAllMocks()
   })
 
   it('retourne { error } au lieu de throw quand pushManager.subscribe() échoue', async () => {
@@ -58,19 +64,30 @@ describe('subscribeToPush — gestion d\'erreur', () => {
   // Vu le 2026-10-15 sur localhost (pas de service worker en dev, `devOptions.enabled:
   // false`) : `navigator.serviceWorker.ready` ne se résout jamais, l'interrupteur
   // restait « en cours » pour toujours — et la permission avait été demandée pour rien.
+  // Sous `npm run dev`, c'est l'état normal : un avertissement, pas une erreur rapportée.
   it('sans service worker enregistré : { error: sw_missing } tout de suite, sans demander la permission', async () => {
     const requestPermission = vi.fn().mockResolvedValue('granted')
+    const avertir = vi.spyOn(console, 'warn').mockImplementation(() => {})
     vi.stubGlobal('Notification', { requestPermission })
-    vi.stubGlobal('navigator', { serviceWorker: {
-      getRegistration: () => Promise.resolve(undefined),
-      ready: new Promise(() => {}),
-    } })
+    vi.stubGlobal('navigator', { serviceWorker: navigateurSansServiceWorker() })
 
     const result = await subscribeToPush()
 
     expect(result.error.message).toBe('sw_missing')
     expect(requestPermission).not.toHaveBeenCalled()
     expect(mockRpc).not.toHaveBeenCalled()
+    expect(mockLogError).not.toHaveBeenCalled()
+    expect(avertir).toHaveBeenCalledWith(expect.stringContaining('npm run preview'))
+  })
+
+  it('sans service worker enregistré, en production (navigateur restreint) : l’erreur est rapportée', async () => {
+    vi.stubEnv('DEV', false)
+    vi.stubGlobal('Notification', { requestPermission: vi.fn().mockResolvedValue('granted') })
+    vi.stubGlobal('navigator', { serviceWorker: navigateurSansServiceWorker() })
+
+    const result = await subscribeToPush()
+
+    expect(result.error.message).toBe('sw_missing')
     expect(mockLogError).toHaveBeenCalledWith(result.error, { tag: 'push.subscribe' })
   })
 

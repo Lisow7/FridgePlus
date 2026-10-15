@@ -38,3 +38,16 @@ test('la fenêtre des cookies ne parle plus des notifications', async ({ page })
   await expect(page.getByRole('dialog', { name: '🍪 Cookies et données' })).toBeVisible()
   await expect(page.getByText(/Notifications push/)).toHaveCount(0)
 })
+
+// Vu le 2026-10-15 sur localhost:5173 : « Activer » demandait la permission puis restait
+// « en cours » pour toujours — sous `npm run dev` (ce serveur-ci), il n'y a pas de service
+// worker. L'interrupteur répond tout de suite, et la note dit comment tester.
+test('sur le serveur de développement, « Activer » répond tout de suite et dit comment tester', async ({ page }) => {
+  await page.goto('/FridgePlus/profile/preferences#notifications')
+  const appareil = page.getByRole('switch', { name: 'Activer sur cet appareil' })
+  await appareil.click()
+  await expect(page.getByRole('alert').filter({ hasText: 'npm run build, puis npm run preview' })).toBeVisible()
+  await expect(appareil).toHaveAttribute('aria-checked', 'false')
+  await expect(appareil).toBeEnabled()
+  assertNoUnmockedCalls(page)
+})

@@ -36,14 +36,14 @@ export async function subscribeToPush() {
     return { error: new Error('push_unsupported') }
   }
 
-  // Aucun service worker enregistré — en dev (`devOptions.enabled: false`,
-  // vite.config.js) ou dans un navigateur qui n'en active jamais : on le dit
-  // AVANT de demander la permission, et sans attendre `ready`, qui ne se
-  // résoudrait jamais.
+  // Aucun service worker enregistré — sous `npm run dev` (`devOptions.enabled:
+  // false`, vite.config.js : l'état normal, un avertissement suffit) ou dans un
+  // navigateur qui n'en active jamais : on le dit AVANT de demander la
+  // permission, et sans attendre `ready`, qui ne se résoudrait jamais.
   if (!(await navigator.serviceWorker.getRegistration())) {
     const err = new Error('sw_missing')
-    if (import.meta.env.DEV) console.warn('[push] pas de service worker en dev (devOptions.enabled: false) : tester avec `npm run build && npm run preview`')
-    logError(err, { tag: 'push.subscribe' })
+    if (import.meta.env.DEV) console.warn('[push] pas de service worker sous `npm run dev` (devOptions.enabled: false) : tester avec `npm run build && npm run preview`')
+    else logError(err, { tag: 'push.subscribe' })
     return { error: err }
   }
 

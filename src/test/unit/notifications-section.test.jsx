@@ -92,6 +92,21 @@ describe('le bloc « Notifications » des Préférences', () => {
     expect(screen.getByRole('alert')).toHaveTextContent('navigateur intégré')
   })
 
+  // Vu le 2026-10-15 sur localhost:5173 : sans service worker (`npm run dev`), la note
+  // accusait le « navigateur intégré ». En développement, elle dit comment tester.
+  it('en développement, sans service worker : comment tester, sans accuser le navigateur', () => {
+    m.push.error = 'dev_sans_sw'
+    monter()
+    expect(screen.getByRole('alert')).toHaveTextContent('npm run build, puis npm run preview')
+    expect(screen.getByRole('alert')).not.toHaveTextContent('navigateur intégré')
+  })
+
+  it('en développement, sans service worker, en anglais', () => {
+    m.push.error = 'dev_sans_sw'
+    monter('en')
+    expect(screen.getByRole('alert')).toHaveTextContent('npm run build, then npm run preview')
+  })
+
   it('lecture de l’état impossible : le dire, sans accuser le navigateur', () => {
     m.push.error = 'read_failed'
     monter()
