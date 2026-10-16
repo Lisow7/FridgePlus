@@ -36,7 +36,10 @@ concurrency:
 env:
   DEPOT_PRIVE: git@github.com:Lisow7/FridgePlus-prive.git
   BRANCHE: sauvegardes
-  A_GARDER: 26 # sauvegardes hebdomadaires conservées (six mois)
+  # La politique de confidentialité promet « Sauvegardes chiffrées : 30 jours ».
+  # L'élagage ne passe qu'une fois par semaine : un fichier vit au plus
+  # JOURS_GARDES + 7 jours, d'où 23 pour ne jamais dépasser 30.
+  JOURS_GARDES: 23
 
 jobs:
   backup:
@@ -149,25 +152,29 @@ jobs:
           git push --quiet origin "HEAD:${BRANCHE}"
           echo "✓ ${BACKUP_FILE}.gpg déposé sur la branche ${BRANCHE} de FridgePlus-prive"
 
-      - name: Keep only the last backups
+      - name: Drop backups older than the promised retention
         run: |
           set -euo pipefail
           cd depot
           # Un dépôt git ne maigrit pas quand on supprime un fichier : la branche est
-          # recréée sans histoire avec les A_GARDER derniers fichiers. Un échec ici est
-          # toléré, la sauvegarde du jour est déjà poussée.
-          mapfile -t fichiers < <(ls -1 fridge-backup-*.dump.gpg | sort)
-          n=${#fichiers[@]}
-          if [ "$n" -le "$A_GARDER" ]; then
-            echo "✓ $n sauvegarde(s) conservée(s), rien à élaguer"
+          # recréée sans histoire, sans les fichiers de plus de JOURS_GARDES jours (la
+          # date est dans le nom). Celle du jour n'est jamais concernée. Un échec ici
+          # est toléré, la sauvegarde du jour est déjà poussée.
+          LIMITE=$(date -u -d "-${JOURS_GARDES} days" +%Y%m%d)
+          perimes=0
+          for f in fridge-backup-*.dump.gpg; do
+            jour=${f#fridge-backup-}; jour=${jour%%_*}
+            if [ "$jour" -lt "$LIMITE" ]; then rm -f "$f"; perimes=$((perimes + 1)); fi
+          done
+          if [ "$perimes" -eq 0 ]; then
+            echo "✓ Aucune sauvegarde de plus de ${JOURS_GARDES} jours, rien à élaguer"
             exit 0
           fi
-          for f in "${fichiers[@]:0:$((n - A_GARDER))}"; do rm -f "$f"; done
           git checkout --quiet --orphan elagage
           git add -A
-          git commit --quiet -m "Sauvegardes conservées : les $A_GARDER dernières ($(date -u +%Y-%m-%d))"
+          git commit --quiet -m "Sauvegardes de moins de ${JOURS_GARDES} jours ($(date -u +%Y-%m-%d))"
           if git push --quiet --force origin "HEAD:${BRANCHE}"; then
-            echo "✓ Branche ramenée aux $A_GARDER dernières sauvegardes"
+            echo "✓ ${perimes} sauvegarde(s) de plus de ${JOURS_GARDES} jours retirée(s)"
           else
             echo "⚠ Élagage non poussé (la sauvegarde du jour l'est)"
           fi
@@ -176,5 +183,5 @@ jobs:
         run: |
           echo "## ✅ Sauvegarde déposée" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "Fichier : \`${BACKUP_FILE}.gpg\` → FridgePlus-prive, branche \`${BRANCHE}\` (les ${A_GARDER} dernières conservées)" >> $GITHUB_STEP_SUMMARY
+          echo "Fichier : \`${BACKUP_FILE}.gpg\` → FridgePlus-prive, branche \`${BRANCHE}\` (celles de plus de ${JOURS_GARDES} jours retirées)" >> $GITHUB_STEP_SUMMARY
           echo "Procédure de restauration : la procédure interne de sauvegarde" >> $GITHUB_STEP_SUMMARY
