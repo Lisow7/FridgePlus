@@ -90,7 +90,11 @@ describe('le navigateur appelle Open Food Facts : c’est dit', () => {
 
 describe('les sauvegardes : ce qui est promis est ce qui est fait', () => {
   it('le flux garde les sauvegardes 30 jours — la durée annoncée par la politique et la page de suppression', () => {
-    expect(sauvegarde).toMatch(/retention-days: 30\b/)
+    // L'élagage passe une fois par semaine : un fichier vit au plus JOURS_GARDES + 7 jours.
+    const jours = Number(sauvegarde.match(/^\s*JOURS_GARDES:\s*(\d+)\s*$/m)?.[1])
+    expect(jours + 7).toBeLessThanOrEqual(30)
+    expect(sauvegarde).toMatch(/cron: '\S+ \S+ \* \* \d'/) // hebdomadaire, sinon le + 7 ne tient plus
+    expect(sauvegarde).not.toMatch(/upload-artifact/) // l'artifact d'un dépôt public se télécharge par n'importe qui
     expect(politique('fr')).toMatch(/Sauvegardes chiffrées : 30 jours/)
     expect(politique('en')).toMatch(/Encrypted backups: 30 days/)
   })
